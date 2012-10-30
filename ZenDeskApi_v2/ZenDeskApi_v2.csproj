@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Models\Tickets\IndividualTicketResponse.cs" />
     <Compile Include="Models\Tickets\TicketResponse.cs" />
     <Compile Include="Models\Tickets\CustomField.cs" />

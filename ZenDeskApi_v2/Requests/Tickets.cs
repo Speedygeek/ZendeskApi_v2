@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using RestSharp;
+using ZenDeskApi_v2.Extensions;
 using ZenDeskApi_v2.Models;
 using ZenDeskApi_v2.Models.Tickets;
 
@@ -37,8 +40,77 @@ namespace ZenDeskApi_v2.Requests
             return Execute<IndividualTicketResponse>(request).Ticket;
         }
 
+        public TicketResponse GetMultiple(List<int> ids)
+        {            
+            var request = new RestRequest
+            {
+                Method = Method.GET,
+                Resource = string.Format("{0}/show_many?ids={{{1}}}.json", _tickets, string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()))
+            };
 
+            return Execute<TicketResponse>(request);
+        }
 
+        public Ticket CreateTicket(Ticket ticket)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                Resource = _tickets + ".json",
+                RequestFormat = DataFormat.Json
+                
+            };
+
+            var body = new IndividualTicketResponse()
+                           {
+                               Ticket = ticket
+                           };
+            request.AddAndSerializeParam(body, ParameterType.RequestBody);            
+
+            var res = Execute<IndividualTicketResponse>(request).Ticket;
+            return res;
+        }
+
+        ///// <summary>
+        ///// Creates a new ticket AND creates a new user as the tickets requester, IF the user does not already exist (based on the requester email). 
+        ///// If the requester exists, no user is created and the ticket is created with the existing user as requester
+        ///// </summary>
+        ///// <param name="description"></param>
+        ///// <param name="priority"></param>
+        ///// <param name="requesterName"></param>
+        ///// <param name="requesterEmail"></param>
+        ///// <returns></returns>
+        //public int CreateTicketWithRequester(string description, TicketPriorities priority, string requesterName, string requesterEmail)
+        //{
+        //    return
+        //        CreateTicketWithRequester(new Ticket
+        //        {
+        //            Description = description,
+        //            PriorityId = (int)priority,
+        //            RequesterName = requesterName,
+        //            RequesterEmail = requesterEmail
+        //        });
+        //}
+
+        ///// <summary>
+        ///// Creates a new ticket AND creates a new user as the tickets requester, IF the user does not already exist (based on the requester email). 
+        ///// If the requester exists, no user is created and the ticket is created with the existing user as requester
+        ///// </summary>
+        ///// <param name="ticket"></param>
+        ///// <returns></returns>
+        //public int CreateTicketWithRequester(Ticket ticket)
+        //{
+        //    var request = new RestRequest
+        //    {
+        //        Method = Method.POST,
+        //        Resource = Tickets + ".xml"
+        //    };
+
+        //    request.AddBody(ticket);
+
+        //    var res = Execute(request);
+        //    return GetIdFromLocationHeader(res);
+        //}
 
 
 
