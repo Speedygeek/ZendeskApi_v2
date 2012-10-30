@@ -4,6 +4,7 @@ using System.Linq;
 using RestSharp;
 using ZenDeskApi_v2.Extensions;
 using ZenDeskApi_v2.Models;
+using ZenDeskApi_v2.Models.Shared;
 using ZenDeskApi_v2.Models.Tickets;
 
 namespace ZenDeskApi_v2.Requests
@@ -29,7 +30,7 @@ namespace ZenDeskApi_v2.Requests
             return Execute<GroupTicketResponse>(request);
         }
 
-        public Ticket Get(int id)
+        public IndividualTicketResponse Get(int id)
         {
             var request = new RestRequest
             {
@@ -37,7 +38,7 @@ namespace ZenDeskApi_v2.Requests
                 Resource = string.Format("{0}/{1}.json", _tickets, id)
             };
 
-            return Execute<IndividualTicketResponse>(request).Ticket;
+            return Execute<IndividualTicketResponse>(request);
         }
 
         public GroupTicketResponse GetMultiple(List<int> ids)
@@ -45,13 +46,13 @@ namespace ZenDeskApi_v2.Requests
             var request = new RestRequest
             {
                 Method = Method.GET,
-                Resource = string.Format("{0}/show_many?ids={{{1}}}.json", _tickets, string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()))
+                Resource = string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv())
             };
 
             return Execute<GroupTicketResponse>(request);
         }
 
-        public Ticket CreateTicket(Ticket ticket)
+        public IndividualTicketResponse CreateTicket(Ticket ticket)
         {
             var request = new RestRequest
             {
@@ -67,7 +68,7 @@ namespace ZenDeskApi_v2.Requests
                            };
             request.AddAndSerializeParam(body, ParameterType.RequestBody);            
 
-            var res = Execute<IndividualTicketResponse>(request).Ticket;
+            var res = Execute<IndividualTicketResponse>(request);
             return res;
         }
 
@@ -94,6 +95,23 @@ namespace ZenDeskApi_v2.Requests
             request.AddAndSerializeParam(body, ParameterType.RequestBody);
 
             var res = Execute<IndividualTicketResponse>(request);
+            return res;
+        }
+
+        public JobStatusResult BulkUpdate(List<int> ids, BulkUpdate info)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                Resource = string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()),
+                RequestFormat = DataFormat.Json
+
+            };
+            
+            var body = new { ticket = info };
+            request.AddAndSerializeParam(body, ParameterType.RequestBody);
+
+            var res = Execute<JobStatusResult>(request);
             return res;
         }
 

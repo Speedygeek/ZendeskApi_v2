@@ -48,8 +48,18 @@ namespace ZenDeskApi_v2.Models.Tickets
         [JsonProperty("group_id")]
         public int GroupId { get; set; }
 
+        /// <summary>
+        /// This is for getting the Ids only
+        /// </summary>
         [JsonProperty("collaborator_ids")]
-        public IList<int> CollaboratorIds { get; set; }
+        public IList<int> CollaboratorIds { get; internal set; }
+
+        /// <summary>
+        /// This is used only to update tickets and will not be returned.
+        /// NOTE that setting collaborators this way will completely ignore what's already set, so make sure to include existing collaborators in the array if you wish to retain these on the ticket.        
+        /// </summary>
+        [JsonProperty("collaborators")]
+        public IList<string> CollaboratorEmails { get; set; }
 
         [JsonProperty("forum_topic_id")]
         public object ForumTopicId { get; set; }
@@ -89,5 +99,6 @@ namespace ZenDeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("comment")]
         public Comment Comment { get; set; }
-    } 
+        
+    }
 }

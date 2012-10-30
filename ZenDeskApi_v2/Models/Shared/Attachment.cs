@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using ZenDeskApi_v2.Models.Tickets;
 
@@ -21,6 +22,6 @@ namespace ZenDeskApi_v2.Models.Shared
         public int Size { get; set; }
 
         [JsonProperty("thumbnails")]
-        public Thumbnail Thumbnails { get; set; }
+        public IList<Thumbnail> Thumbnails { get; set; }
     }
 }

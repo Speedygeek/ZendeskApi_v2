@@ -51,6 +51,11 @@
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Models\Shared\Attachment.cs" />
     <Compile Include="Models\Shared\Audit.cs" />
+    <Compile Include="Models\Shared\JobStatus.cs" />
+    <Compile Include="Models\Shared\Result.cs" />
+    <Compile Include="Models\Shared\Upload.cs" />
+    <Compile Include="Models\Shared\ZenFile.cs" />
+    <Compile Include="Models\Tickets\BulkUpdate.cs" />
     <Compile Include="Models\Tickets\Comment.cs" />
     <Compile Include="Models\Shared\Event.cs" />
     <Compile Include="Models\Tickets\Custom.cs" />
@@ -67,6 +72,7 @@
     <Compile Include="Models\Tickets\Ticket.cs" />
     <Compile Include="Models\Tickets\To.cs" />
     <Compile Include="Models\Shared\Via.cs" />
+    <Compile Include="Requests\Attachments.cs" />
     <Compile Include="ZenDeskApi.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Models\Constants\TicketPriorities.cs" />

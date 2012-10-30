@@ -12,10 +12,12 @@ namespace ZenDeskApi_v2
     public class ZenDeskApi
     {
         public Tickets Tickets { get; set; }
+        public Attachments Attachments { get; set; }
 
         public ZenDeskApi(string yourZenDeskUrl, string user, string password)
         {
             Tickets = new Tickets(yourZenDeskUrl, user, password);
+            Attachments = new Attachments(yourZenDeskUrl, user, password);
         }
     }
 }
