@@ -6,7 +6,7 @@ namespace ZenDeskApi_v2.Models.Shared
     public class Event
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }

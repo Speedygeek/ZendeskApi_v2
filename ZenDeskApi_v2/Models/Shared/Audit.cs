@@ -6,7 +6,7 @@ namespace ZenDeskApi_v2.Models.Shared
     public  class Audit
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("ticket_id")]
         public string TicketId { get; set; }
