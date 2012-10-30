@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using ZenDeskApi_v2.Models.Shared;
 
 namespace ZenDeskApi_v2.Models.Tickets
 {

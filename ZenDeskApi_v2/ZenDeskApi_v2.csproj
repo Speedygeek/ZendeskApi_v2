@@ -49,7 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RequestExtensions.cs" />
+    <Compile Include="Models\Shared\Attachment.cs" />
+    <Compile Include="Models\Shared\Audit.cs" />
+    <Compile Include="Models\Tickets\Comment.cs" />
+    <Compile Include="Models\Shared\Event.cs" />
+    <Compile Include="Models\Tickets\Custom.cs" />
     <Compile Include="Models\Tickets\IndividualTicketResponse.cs" />
+    <Compile Include="Models\Shared\Thumbnail.cs" />
+    <Compile Include="Models\Shared\MetaData.cs" />
+    <Compile Include="Models\Shared\System.cs" />
     <Compile Include="Models\Tickets\TicketResponse.cs" />
     <Compile Include="Models\Tickets\CustomField.cs" />
     <Compile Include="Models\Tickets\Field.cs" />
@@ -58,7 +66,7 @@
     <Compile Include="Models\Tickets\Source.cs" />
     <Compile Include="Models\Tickets\Ticket.cs" />
     <Compile Include="Models\Tickets\To.cs" />
-    <Compile Include="Models\Tickets\Via.cs" />
+    <Compile Include="Models\Shared\Via.cs" />
     <Compile Include="ZenDeskApi.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Models\Constants\TicketPriorities.cs" />

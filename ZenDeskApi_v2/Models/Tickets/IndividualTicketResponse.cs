@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using ZenDeskApi_v2.Models.Shared;
 
 namespace ZenDeskApi_v2.Models.Tickets
 {
@@ -7,5 +7,8 @@ namespace ZenDeskApi_v2.Models.Tickets
     {
         [JsonProperty("ticket")]
         public Ticket Ticket { get; set; }
+
+        [JsonProperty("audit")]
+        public Audit Audit { get; set; }
     }
 }

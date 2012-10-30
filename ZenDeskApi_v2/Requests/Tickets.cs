@@ -71,6 +71,8 @@ namespace ZenDeskApi_v2.Requests
             return res;
         }
 
+
+
         ///// <summary>
         ///// Creates a new ticket AND creates a new user as the tickets requester, IF the user does not already exist (based on the requester email). 
         ///// If the requester exists, no user is created and the ticket is created with the existing user as requester
@@ -119,23 +121,6 @@ namespace ZenDeskApi_v2.Requests
 
 
 
-
-        ///// <summary>
-        ///// The first comment for a ticket is always equivalent to the ticket description.
-        ///// If you have any custom fields in your zendesk, they will show up in the <ticket-field-entries> part of the document.
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public Ticket GetTicketById(int id)
-        //{
-        //    var request = new RestRequest
-        //    {
-        //        Method = Method.GET,
-        //        Resource = string.Format("{0}/{1}.xml", Tickets, id)
-        //    };
-            
-        //    return Execute<Ticket>(request);
-        //}
 
         //public List<Ticket> GetAllTicketsForUser(string email, int maxPages = 25)
         //{
