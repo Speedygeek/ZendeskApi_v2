@@ -18,7 +18,7 @@ namespace ZenDeskApi_v2.Requests
         {
         }
 
-        public TicketResponse GetAll()
+        public GroupTicketResponse GetAll()
         {
             var request = new RestRequest
             {
@@ -26,7 +26,7 @@ namespace ZenDeskApi_v2.Requests
                 Resource = _tickets + ".json"
             };
 
-            return Execute<TicketResponse>(request);
+            return Execute<GroupTicketResponse>(request);
         }
 
         public Ticket Get(int id)
@@ -40,7 +40,7 @@ namespace ZenDeskApi_v2.Requests
             return Execute<IndividualTicketResponse>(request).Ticket;
         }
 
-        public TicketResponse GetMultiple(List<int> ids)
+        public GroupTicketResponse GetMultiple(List<int> ids)
         {            
             var request = new RestRequest
             {
@@ -48,7 +48,7 @@ namespace ZenDeskApi_v2.Requests
                 Resource = string.Format("{0}/show_many?ids={{{1}}}.json", _tickets, string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray()))
             };
 
-            return Execute<TicketResponse>(request);
+            return Execute<GroupTicketResponse>(request);
         }
 
         public Ticket CreateTicket(Ticket ticket)
@@ -68,6 +68,32 @@ namespace ZenDeskApi_v2.Requests
             request.AddAndSerializeParam(body, ParameterType.RequestBody);            
 
             var res = Execute<IndividualTicketResponse>(request).Ticket;
+            return res;
+        }
+
+        /// <summary>
+        /// Update a ticket or add comments to it. Keep in mind that somethings like the description can't be updated.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
+        public IndividualTicketResponse UpdateTicket(Ticket ticket, Comment comment=null)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                Resource = string.Format("{0}/{1}.json", _tickets, ticket.Id),
+                RequestFormat = DataFormat.Json
+
+            };
+
+            if (comment != null)
+                ticket.Comment = comment;
+
+            var body = new { ticket };
+            request.AddAndSerializeParam(body, ParameterType.RequestBody);
+
+            var res = Execute<IndividualTicketResponse>(request);
             return res;
         }
 

@@ -47,7 +47,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanCreateTicket()
+        public void CanCreateAndUpdateTicket()
         {
             var ticket = new Ticket()
                              {
@@ -57,8 +57,15 @@ namespace Tests
                              };
 
             var res = api.Tickets.CreateTicket(ticket);
+
             Assert.NotNull(res);
             Assert.Greater(res.Id, 0);
+
+            res.Status = TicketStatus.Solved;
+            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() {Body = "got it thanks", Public = true});
+
+            Assert.NotNull(updateResponse);
+            Assert.Greater(updateResponse.Audit.Events.Count, 0);
         }
     }
 }

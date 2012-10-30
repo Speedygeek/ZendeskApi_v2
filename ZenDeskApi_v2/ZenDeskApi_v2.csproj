@@ -58,7 +58,7 @@
     <Compile Include="Models\Shared\Thumbnail.cs" />
     <Compile Include="Models\Shared\MetaData.cs" />
     <Compile Include="Models\Shared\System.cs" />
-    <Compile Include="Models\Tickets\TicketResponse.cs" />
+    <Compile Include="Models\Tickets\GroupTicketResponse.cs" />
     <Compile Include="Models\Tickets\CustomField.cs" />
     <Compile Include="Models\Tickets\Field.cs" />
     <Compile Include="Models\Tickets\From.cs" />
