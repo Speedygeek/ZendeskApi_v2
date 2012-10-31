@@ -72,6 +72,8 @@
     <Compile Include="Models\Tickets\Ticket.cs" />
     <Compile Include="Models\Tickets\To.cs" />
     <Compile Include="Models\Shared\Via.cs" />
+    <Compile Include="Models\Users\Photo.cs" />
+    <Compile Include="Models\Users\User.cs" />
     <Compile Include="Requests\Attachments.cs" />
     <Compile Include="ZenDeskApi.cs" />
     <Compile Include="Core.cs" />

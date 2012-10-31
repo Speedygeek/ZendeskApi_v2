@@ -35,15 +35,26 @@ namespace ZenDeskApi_v2
             _client.Authenticator = new HttpBasicAuthenticator(user, password);
         }
 
+        protected T Get<T>(string resource)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.GET,
+                Resource = resource,
+                RequestFormat = DataFormat.Json
+            };
 
-        public T Execute<T>(RestRequest request) where T : new()
+            return Execute<T>(request);
+        }
+
+        protected T Execute<T>(RestRequest request)
         {            
             var response = _client.Execute(request);
             var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(response.Content);            
             return obj;
         }
 
-        public IRestResponse Execute(RestRequest request)
+        protected IRestResponse Execute(RestRequest request)
         {
             var res = _client.Execute(request);
             return res;

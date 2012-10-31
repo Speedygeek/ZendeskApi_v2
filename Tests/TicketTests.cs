@@ -33,12 +33,7 @@ namespace Tests
             Assert.NotNull(ticket);
             Assert.AreEqual(ticket.Id, id);
         }
-
-        /// <summary>
-        /// This test fails because the problem is with ZenDesk.
-        /// https://{subdomain}.zendesk.com/api/v2/tickets/show_many?ids={id,id,id}.json 
-        /// This only returns the 2nd for some reason.        
-        /// </summary>
+        
         [Test]
         public void CanGetMultipleTickets()
         {
@@ -49,7 +44,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanCreateAndUpdateTicket()
+        public void CanCreateUpdateAndDeleteTicket()
         {
             var ticket = new Ticket()
                              {
@@ -58,7 +53,7 @@ namespace Tests
                                  Priority = TicketPriorities.Urgent
                              };
 
-            var res = api.Tickets.CreateTicket(ticket).Ticket;
+            var res = api.Tickets.Create(ticket).Ticket;
 
             Assert.NotNull(res);
             Assert.Greater(res.Id, 0);
@@ -67,22 +62,43 @@ namespace Tests
             res.AssigneeId = Settings.UserId;
 
             res.CollaboratorEmails = new List<string>(){ Settings.ColloboratorEmail};
-            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() {Body = "got it thanks", Public = true});
+            var updateResponse = api.Tickets.Update(res, new Comment() {Body = "got it thanks", Public = true});
 
             Assert.NotNull(updateResponse);
             Assert.Greater(updateResponse.Audit.Events.Count, 0);
+
+            Assert.True(api.Tickets.Delete(res.Id));
+        }
+
+        [Test]
+        public void CanCreateTicketWithRequester()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "ticket with requester",
+                Description = "testing requester",
+                Priority = TicketPriorities.Normal,
+                Requester = new Requester(){Email = Settings.ColloboratorEmail}
+            };
+
+            var res = api.Tickets.Create(ticket).Ticket;
+
+            Assert.NotNull(res);
+            Assert.AreEqual(res.RequesterId, Settings.CollaboratorId);
+
+            Assert.True(api.Tickets.Delete(res.Id));
         }
 
         [Test]
         public void CanBulkUpdateTickets()
         { 
-            var t1 = api.Tickets.CreateTicket(new Ticket()
+            var t1 = api.Tickets.Create(new Ticket()
             {
                 Subject = "testing bulk update",
                 Description = "HELP",
-                Priority = TicketPriorities.Normal
+                Priority = TicketPriorities.Normal 
             }).Ticket;
-            var t2 = api.Tickets.CreateTicket(new Ticket()
+            var t2 = api.Tickets.Create(new Ticket()
             {
                 Subject = "more testing for bulk update",
                 Description = "Bulk Update testing",
@@ -99,6 +115,8 @@ namespace Tests
 
             
             Assert.AreEqual(res.JobStatus.Status, "queued");
+
+            Assert.True(api.Tickets.DeleteMultiple(new List<int>(){ t1.Id, t2.Id}));
         }
 
         [Test]
@@ -108,8 +126,7 @@ namespace Tests
             {
                 ContentType = "text/plain",
                 FileName = "testupload.txt",
-                FileData =
-                    File.ReadAllBytes(Environment.CurrentDirectory + "\\testupload.txt")
+                FileData = File.ReadAllBytes(Environment.CurrentDirectory + "\\testupload.txt")
             });
 
             var ticket = new Ticket()
@@ -124,8 +141,79 @@ namespace Tests
                 },
             };
 
-            var t1 = api.Tickets.CreateTicket(ticket);
+            var t1 = api.Tickets.Create(ticket);
             Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
+
+            Assert.True(api.Tickets.Delete(t1.Ticket.Id));
+        }
+
+        [Test]
+        public void CanGetCollaborators()
+        {
+            var res = api.Tickets.GetCollaborators(1);
+            Assert.Greater(res.Users.Count, 0);
+        }
+
+        [Test]
+        public void CanGetIncidents()
+        {
+            var t1 = api.Tickets.Create(new Ticket()
+            {
+                Subject = "test problem",
+                Description = "testing incidents with problems",
+                Priority = TicketPriorities.Normal,
+                Type = TicketTypes.Problem
+            }).Ticket;
+
+            var t2 = api.Tickets.Create(new Ticket()
+            {
+                Subject = "incident",
+                Description = "testing incidents",
+                Priority = TicketPriorities.Normal,
+                Type = TicketTypes.Incident,
+                ProblemId = t1.Id
+            }).Ticket;
+
+            var res = api.Tickets.GetIncidents(t1.Id);
+            Assert.Greater(res.Tickets.Count, 0);
+
+            Assert.True(api.Tickets.DeleteMultiple(new List<int>(){ t1.Id, t2.Id}));
+        }
+
+        [Test]
+        public void CanGetProblems()
+        {
+            var t1 = api.Tickets.Create(new Ticket()
+            {
+                Subject = "test problem",
+                Description = "testing incidents with problems",
+                Priority = TicketPriorities.Normal,
+                Type = TicketTypes.Problem
+            }).Ticket;           
+
+            var res = api.Tickets.GetProblems();
+            Assert.Greater(res.Tickets.Count, 0);
+
+            Assert.True(api.Tickets.Delete(t1.Id));
+        }
+
+        /// <summary>
+        /// Can't find out what Autocomplete does, so I'm not sure how to test it
+        /// </summary>
+        [Test]
+        public void CanAutocompleteProblems()
+        {
+            var t1 = api.Tickets.Create(new Ticket()
+            {
+                Subject = "test problem",
+                Description = "testing incidents with problems",
+                Priority = TicketPriorities.Normal,
+                Type = TicketTypes.Problem
+            }).Ticket;
+
+            var res = api.Tickets.AutoCompleteProblems("att");
+
+            Assert.Inconclusive();
         }
     }
 }

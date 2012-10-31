@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using RestSharp;
 using ZenDeskApi_v2.Extensions;
 using ZenDeskApi_v2.Models;
 using ZenDeskApi_v2.Models.Shared;
 using ZenDeskApi_v2.Models.Tickets;
+using ZenDeskApi_v2.Models.Users;
 
 namespace ZenDeskApi_v2.Requests
 {
@@ -20,39 +22,21 @@ namespace ZenDeskApi_v2.Requests
         }
 
         public GroupTicketResponse GetAll()
-        {
-            var request = new RestRequest
-            {
-                Method = Method.GET,
-                Resource = _tickets + ".json"
-            };
-
-            return Execute<GroupTicketResponse>(request);
+        {            
+            return Get<GroupTicketResponse>(_tickets + ".json");
         }
 
         public IndividualTicketResponse Get(int id)
-        {
-            var request = new RestRequest
-            {
-                Method = Method.GET,
-                Resource = string.Format("{0}/{1}.json", _tickets, id)
-            };
-
-            return Execute<IndividualTicketResponse>(request);
+        {            
+            return Get<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
         }
 
         public GroupTicketResponse GetMultiple(List<int> ids)
-        {            
-            var request = new RestRequest
-            {
-                Method = Method.GET,
-                Resource = string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv())
-            };
-
-            return Execute<GroupTicketResponse>(request);
+        {                        
+            return Get<GroupTicketResponse>(string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv()));
         }
 
-        public IndividualTicketResponse CreateTicket(Ticket ticket)
+        public IndividualTicketResponse Create(Ticket ticket)
         {
             var request = new RestRequest
             {
@@ -78,7 +62,7 @@ namespace ZenDeskApi_v2.Requests
         /// <param name="ticket"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public IndividualTicketResponse UpdateTicket(Ticket ticket, Comment comment=null)
+        public IndividualTicketResponse Update(Ticket ticket, Comment comment=null)
         {
             var request = new RestRequest
             {
@@ -105,7 +89,6 @@ namespace ZenDeskApi_v2.Requests
                 Method = Method.PUT,
                 Resource = string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()),
                 RequestFormat = DataFormat.Json
-
             };
             
             var body = new { ticket = info };
@@ -115,6 +98,57 @@ namespace ZenDeskApi_v2.Requests
             return res;
         }
 
+        public bool Delete(int id)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.DELETE,
+                Resource = string.Format("{0}/{1}.json", _tickets, id),                
+            };
+
+            var res = Execute(request);
+            return res.StatusCode == HttpStatusCode.OK;
+        }
+
+        public bool DeleteMultiple(List<int> ids)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.DELETE,
+                Resource = string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()),
+            };
+
+            var res = Execute(request);
+            return res.StatusCode == HttpStatusCode.OK;
+        }
+
+        public UserResponse GetCollaborators(int id)
+        {
+            return Get<UserResponse>(string.Format("{0}/{1}/collaborators.json", _tickets, id));
+        }
+
+        public GroupTicketResponse GetIncidents(int id)
+        {
+            return Get<GroupTicketResponse>(string.Format("{0}/{1}/incidents.json", _tickets, id));
+        }
+
+        public GroupTicketResponse GetProblems()
+        {
+            return Get<GroupTicketResponse>("problems.json");
+        }
+
+        public GroupTicketResponse AutoCompleteProblems(string text)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                Resource = "problems/autocomplete.json?text=" + text,
+                RequestFormat = DataFormat.Json
+            };            
+
+            var res = Execute<GroupTicketResponse>(request);
+            return res;
+        }
 
 
         ///// <summary>
@@ -252,10 +286,10 @@ namespace ZenDeskApi_v2.Requests
         //    return tickets;
         //}
 
-        //public int CreateTicket(string description, int requesterId, TicketPriorities priority, string setTags, List<TicketFieldEntry> ticketFields = null)
+        //public int Create(string description, int requesterId, TicketPriorities priority, string setTags, List<TicketFieldEntry> ticketFields = null)
         //{
         //    return
-        //        CreateTicket(new Ticket
+        //        Create(new Ticket
         //        {
         //            Description = description,
         //            RequesterId = requesterId,
@@ -266,7 +300,7 @@ namespace ZenDeskApi_v2.Requests
         //        });
         //}
 
-        //public int CreateTicket(Ticket ticket)
+        //public int Create(Ticket ticket)
         //{
         //    var request = new RestRequest
         //    {
@@ -377,7 +411,7 @@ namespace ZenDeskApi_v2.Requests
         ///// </summary>
         ///// <param name="ticket"></param>
         ///// <returns></returns>
-        //public bool UpdateTicket(Ticket ticket)
+        //public bool Update(Ticket ticket)
         //{
         //    ticket.Comments.Clear();
         //    var request = new RestRequest

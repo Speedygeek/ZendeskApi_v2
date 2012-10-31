@@ -99,6 +99,34 @@ namespace ZenDeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("comment")]
         public Comment Comment { get; set; }
+
+        /// <summary>
+        /// This is used for updates only
+        /// </summary>
+        [JsonProperty("requester")]
+        public Requester Requester { get; set; }
         
+    }
+
+    public class Requester
+    {
+        /// <summary>
+        /// Optional
+        /// See ZenDeskApi.Locale for more info
+        /// </summary>
+        [JsonProperty("locale_id")]
+        public int LocaleId { get; set; }
+
+        /// <summary>
+        /// If the email already exists in the system this is optional
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [JsonProperty("email")]
+        public string Email { get; set; }
     }
 }
