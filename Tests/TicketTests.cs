@@ -21,15 +21,15 @@ namespace Tests
         [Test]
         public void CanGetTickets()
         {
-            var tickets = api.Tickets.GetAll();
+            var tickets = api.Tickets.GetAllTickets();
             Assert.True(tickets.Count > 0);
         }
 
         [Test]
         public  void CanGetTicketById()
         {
-            var id = 1;
-            var ticket = api.Tickets.Get(id).Ticket;
+            var id = Settings.SampleTicketId;
+            var ticket = api.Tickets.GetTicket(id).Ticket;
             Assert.NotNull(ticket);
             Assert.AreEqual(ticket.Id, id);
         }
@@ -37,8 +37,8 @@ namespace Tests
         [Test]
         public void CanGetMultipleTickets()
         {
-            var ids = new List<int>() {1, 2};
-            var tickets = api.Tickets.GetMultiple(ids);
+            var ids = new List<int>() {Settings.SampleTicketId, Settings.SampleTicketId2};
+            var tickets = api.Tickets.GetMultipleTickets(ids);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);            
         }
@@ -53,7 +53,7 @@ namespace Tests
                                  Priority = TicketPriorities.Urgent
                              };
 
-            var res = api.Tickets.Create(ticket).Ticket;
+            var res = api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.NotNull(res);
             Assert.Greater(res.Id, 0);
@@ -62,10 +62,11 @@ namespace Tests
             res.AssigneeId = Settings.UserId;
 
             res.CollaboratorEmails = new List<string>(){ Settings.ColloboratorEmail};
-            var updateResponse = api.Tickets.Update(res, new Comment() {Body = "got it thanks", Public = true});
+            var body = "got it thanks";
+            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() {Body = body, Public = true});
 
             Assert.NotNull(updateResponse);
-            Assert.Greater(updateResponse.Audit.Events.Count, 0);
+            Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
 
             Assert.True(api.Tickets.Delete(res.Id));
         }
@@ -81,7 +82,7 @@ namespace Tests
                 Requester = new Requester(){Email = Settings.ColloboratorEmail}
             };
 
-            var res = api.Tickets.Create(ticket).Ticket;
+            var res = api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.NotNull(res);
             Assert.AreEqual(res.RequesterId, Settings.CollaboratorId);
@@ -92,16 +93,16 @@ namespace Tests
         [Test]
         public void CanBulkUpdateTickets()
         { 
-            var t1 = api.Tickets.Create(new Ticket()
+            var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "testing bulk update",
                 Description = "HELP",
                 Priority = TicketPriorities.Normal 
             }).Ticket;
-            var t2 = api.Tickets.Create(new Ticket()
+            var t2 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "more testing for bulk update",
-                Description = "Bulk Update testing",
+                Description = "Bulk UpdateTicket testing",
                 Priority = TicketPriorities.Normal
             }).Ticket;
 
@@ -141,7 +142,7 @@ namespace Tests
                 },
             };
 
-            var t1 = api.Tickets.Create(ticket);
+            var t1 = api.Tickets.CreateTicket(ticket);
             Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
 
             Assert.True(api.Tickets.Delete(t1.Ticket.Id));
@@ -150,14 +151,14 @@ namespace Tests
         [Test]
         public void CanGetCollaborators()
         {
-            var res = api.Tickets.GetCollaborators(1);
+            var res = api.Tickets.GetCollaborators(Settings.SampleTicketId);
             Assert.Greater(res.Users.Count, 0);
         }
 
         [Test]
         public void CanGetIncidents()
         {
-            var t1 = api.Tickets.Create(new Ticket()
+            var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "test problem",
                 Description = "testing incidents with problems",
@@ -165,7 +166,7 @@ namespace Tests
                 Type = TicketTypes.Problem
             }).Ticket;
 
-            var t2 = api.Tickets.Create(new Ticket()
+            var t2 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "incident",
                 Description = "testing incidents",
@@ -183,7 +184,7 @@ namespace Tests
         [Test]
         public void CanGetProblems()
         {
-            var t1 = api.Tickets.Create(new Ticket()
+            var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "test problem",
                 Description = "testing incidents with problems",
@@ -203,7 +204,7 @@ namespace Tests
         [Test]
         public void CanAutocompleteProblems()
         {
-            var t1 = api.Tickets.Create(new Ticket()
+            var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "test problem",
                 Description = "testing incidents with problems",
@@ -213,7 +214,59 @@ namespace Tests
 
             var res = api.Tickets.AutoCompleteProblems("att");
 
+            api.Tickets.Delete(t1.Id);
+
             Assert.Inconclusive();
+        }
+
+        [Test]
+        public  void CanGetAuditsAndMarkAsTrusted()
+        {
+            var audits = api.Tickets.GetAudits(Settings.SampleTicketId);
+            Assert.Greater(audits.Audits.Count, 0);
+
+            var aud = api.Tickets.GetAuditById(Settings.SampleTicketId, audits.Audits.First().Id);
+            Assert.NotNull(aud.Audit);
+
+            Assert.True(api.Tickets.MarkAuditAsTrusted(Settings.SampleTicketId, audits.Audits.First().Id));
+        }        
+
+        [Test]
+        public  void CanGetInrementalTicketExport()
+        {
+            var res = api.Tickets.__TestOnly__GetInrementalTicketExport(DateTime.Now.AddDays(-1));
+            Assert.True(res.Results.Count > 0);
+        }
+
+        [Test]
+        public void CanGetTicketFields()
+        {
+            var res = api.Tickets.GetTicketFields();
+            Assert.True(res.TicketFields.Count > 0);
+        }
+
+        /// <summary>
+        /// Something seems wrong with the api itself.
+        /// </summary>
+        [Test]
+        public void CanCreateUpdateAndDeleteTicketFields()
+        {
+            var tField = new TicketField()
+                             {
+                                 Type = TicketFieldTypes.Text,
+                                 Title = "MyField",
+                             };
+
+            var res = api.Tickets.CreateTicketField(tField);
+            Assert.NotNull(res.TicketField);
+
+            var updatedTF = res.TicketField;
+            updatedTF.Title = "My Custom Field";
+
+            var updatedRes = api.Tickets.UpdateTicketField(updatedTF);
+            Assert.AreEqual(updatedRes.TicketField.Title, updatedTF.Title);
+
+            Assert.True(api.Tickets.DeleteTicketField(updatedTF.Id.Value));
         }
     }
 }

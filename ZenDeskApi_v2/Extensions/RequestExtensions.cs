@@ -26,5 +26,11 @@ namespace ZenDeskApi_v2.Extensions
             var obj = JsonConvert.DeserializeObject<T>(json);
             return obj;
         }
+
+        public static int GetEpoch(this DateTime date)
+        {
+            var t = date - new DateTime(1970, 1, 1);
+            return (int)t.TotalSeconds;
+        }        
     }
 }

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenDeskApi_v2", "ZenDeskApi_v2\ZenDeskApi_v2.csproj", "{D17BCC22-9561-4FC4-9C52-975808641ECE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A80DB5E8-5D98-4256-9513-34E13A82D5EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D17BCC22-9561-4FC4-9C52-975808641ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17BCC22-9561-4FC4-9C52-975808641ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17BCC22-9561-4FC4-9C52-975808641ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17BCC22-9561-4FC4-9C52-975808641ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80DB5E8-5D98-4256-9513-34E13A82D5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80DB5E8-5D98-4256-9513-34E13A82D5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80DB5E8-5D98-4256-9513-34E13A82D5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80DB5E8-5D98-4256-9513-34E13A82D5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using JsonFx.Json;
@@ -8,6 +9,8 @@ using JsonFx.Serialization;
 using JsonFx.Serialization.Resolvers;
 using RestSharp;
 using RestSharp.Contrib;
+using ZenDeskApi_v2.Extensions;
+using ZenDeskApi_v2.Models.Tickets;
 
 namespace ZenDeskApi_v2
 {
@@ -35,7 +38,7 @@ namespace ZenDeskApi_v2
             _client.Authenticator = new HttpBasicAuthenticator(user, password);
         }
 
-        protected T Get<T>(string resource)
+        protected T GenericGet<T>(string resource)
         {
             var request = new RestRequest
             {
@@ -57,6 +60,74 @@ namespace ZenDeskApi_v2
         protected IRestResponse Execute(RestRequest request)
         {
             var res = _client.Execute(request);
+            return res;
+        }
+
+        protected bool GenericDelete(string resource)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.DELETE,
+                Resource = resource,
+            };
+
+            var res = Execute(request);
+            return res.StatusCode == HttpStatusCode.OK;
+        }
+
+        protected T GenericPost<T>(string resource)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                Resource = resource,
+                RequestFormat = DataFormat.Json
+            };            
+
+            var res = Execute<T>(request);
+            return res;
+        }
+
+        protected T GenericPost<T, P>(string resource, P obj)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                Resource = resource,
+                RequestFormat = DataFormat.Json
+            };
+
+            request.AddAndSerializeParam(obj, ParameterType.RequestBody);
+
+            var res = Execute<T>(request);
+            return res;
+        }
+
+        protected T GenericPut<T>(string resource)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                Resource = resource,
+                RequestFormat = DataFormat.Json
+            };            
+
+            var res = Execute<T>(request);
+            return res;
+        }
+
+        protected T GenericPut<T, P>(string resource, P obj)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                Resource = resource,
+                RequestFormat = DataFormat.Json
+            };
+
+            request.AddAndSerializeParam(obj, ParameterType.RequestBody);
+
+            var res = Execute<T>(request);
             return res;
         }
 
