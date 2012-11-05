@@ -20,7 +20,7 @@ namespace ZenDeskApi_v2.Models.Views.Executed
         public View View { get; set; }
 
         [JsonProperty("users")]
-        public IList<User> Users { get; set; }
+        public IList<ExecutedUser> Users { get; set; }
 
         [JsonProperty("next_page")]
         public string NextPage { get; set; }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachmentTests.cs" />
+    <Compile Include="UserTests.cs" />
     <Compile Include="ViewTests.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TicketTests.cs" />

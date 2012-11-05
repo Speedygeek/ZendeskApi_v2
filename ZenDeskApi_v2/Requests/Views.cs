@@ -13,9 +13,7 @@ namespace ZenDeskApi_v2.Requests
 {
     public class Views : Core
     {
-        private const string _tickets = "tickets";
-
-
+        
         public Views(string yourZenDeskUrl, string user, string password)
             : base(yourZenDeskUrl, user, password)
         {

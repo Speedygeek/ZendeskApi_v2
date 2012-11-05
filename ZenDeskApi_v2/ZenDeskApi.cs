@@ -14,12 +14,14 @@ namespace ZenDeskApi_v2
         public Tickets Tickets { get; set; }
         public Attachments Attachments { get; set; }
         public Views Views { get; set; }
+        public Users Users { get; set; }
 
         public ZenDeskApi(string yourZenDeskUrl, string user, string password)
         {
             Tickets = new Tickets(yourZenDeskUrl, user, password);
             Attachments = new Attachments(yourZenDeskUrl, user, password);
             Views = new Views(yourZenDeskUrl, user, password);
+            Users = new Users(yourZenDeskUrl, user, password);
         }
     }
 }

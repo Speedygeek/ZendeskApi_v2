@@ -70,9 +70,9 @@ namespace ZenDeskApi_v2.Requests
             return GenericDelete(string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
 
-        public UserResponse GetCollaborators(int id)
+        public GroupUserResponse GetCollaborators(int id)
         {
-            return GenericGet<UserResponse>(string.Format("{0}/{1}/collaborators.json", _tickets, id));
+            return GenericGet<GroupUserResponse>(string.Format("{0}/{1}/collaborators.json", _tickets, id));
         }
 
         public GroupTicketResponse GetIncidents(int id)

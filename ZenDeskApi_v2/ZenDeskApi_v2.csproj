@@ -86,6 +86,8 @@
     <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />
     <Compile Include="Models\Tickets\To.cs" />
     <Compile Include="Models\Shared\Via.cs" />
+    <Compile Include="Models\Users\GroupUserResponse.cs" />
+    <Compile Include="Models\Users\IndividualUserResponse.cs" />
     <Compile Include="Models\Users\Photo.cs" />
     <Compile Include="Models\Users\User.cs" />
     <Compile Include="Models\Views\All.cs" />
@@ -98,7 +100,7 @@
     <Compile Include="Models\Views\Executed\PreviewViewRequest.cs" />
     <Compile Include="Models\Views\Executed\Row.cs" />
     <Compile Include="Models\Views\Executed\Ticket.cs" />
-    <Compile Include="Models\Views\Executed\User.cs" />
+    <Compile Include="Models\Views\Executed\ExecutedUser.cs" />
     <Compile Include="Models\Views\Executed\View.cs" />
     <Compile Include="Models\Views\Execution.cs" />
     <Compile Include="Models\Views\Field.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="Requests\Attachments.cs" />
+    <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />
     <Compile Include="ZenDeskApi.cs" />
     <Compile Include="Core.cs" />

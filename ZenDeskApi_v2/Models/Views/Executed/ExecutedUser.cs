@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace ZenDeskApi_v2.Models.Views.Executed
 {
 
-    public class User
+    public class ExecutedUser
     {
 
         [JsonProperty("id")]

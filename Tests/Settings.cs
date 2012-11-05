@@ -18,7 +18,9 @@ namespace Tests
         public const string ColloboratorEmail = "eneif123@yahoo.com";
         public const int CollaboratorId = 282136547;
 
-        
+        public const int GroupId = 20402842;
+        public const int OrganizationId = 22560572;
+
         public const string ViewName = "My unsolved tickets";        
     }
 }

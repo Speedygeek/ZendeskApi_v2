@@ -89,10 +89,4 @@ namespace ZenDeskApi_v2.Models.Users
         [JsonProperty("photo")]
         public Photo Photo { get; set; }
     }
-
-    public class UserResponse
-    {
-        [JsonProperty("users")]
-        public IList<User> Users { get; set; }
-    }
 }
