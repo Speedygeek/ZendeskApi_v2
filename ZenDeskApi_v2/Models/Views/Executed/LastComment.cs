@@ -16,6 +16,6 @@ namespace ZenDeskApi_v2.Models.Views.Executed
         public string CreatedAt { get; set; }
 
         [JsonProperty("author_id")]
-        public int AuthorId { get; set; }
+        public long AuthorId { get; set; }
     }
 }

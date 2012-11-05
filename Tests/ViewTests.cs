@@ -83,7 +83,7 @@ namespace Tests
         public void CanGetViewCounts()
         {
             var views = api.Views.GetAllViews();
-            var res = api.Views.GetViewCounts(new List<int>() {views.Views[0].Id});
+            var res = api.Views.GetViewCounts(new List<long>() { views.Views[0].Id });
             Assert.Greater(res.ViewCounts.Count, 0);
 
             Assert.True(views.Count > 0);

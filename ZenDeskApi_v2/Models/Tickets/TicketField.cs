@@ -56,7 +56,7 @@ namespace ZenDeskApi_v2.Models.Tickets
     public class TicketField : TicketFieldBase
     {
         [JsonProperty("id")]
-        public int? Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }

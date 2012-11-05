@@ -5,6 +5,9 @@ namespace ZenDeskApi_v2.Models.Tickets
 {
     public class Comment
     {
+        [JsonProperty("id")]
+        public long? Id { get; set; }
+
         [JsonProperty("public")]
         public bool Public { get; set; }
 

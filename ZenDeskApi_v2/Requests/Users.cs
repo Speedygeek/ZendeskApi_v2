@@ -29,7 +29,7 @@ namespace ZenDeskApi_v2.Requests
             return GenericGet<GroupUserResponse>("users.json");
         }
 
-        public IndividualUserResponse GetUser(int id)
+        public IndividualUserResponse GetUser(long id)
         {
             return GenericGet<IndividualUserResponse>(string.Format("users/{0}.json", id));
         }
@@ -39,12 +39,12 @@ namespace ZenDeskApi_v2.Requests
             return GenericGet<GroupUserResponse>(string.Format("users/search.json?query={0}", email));
         }
 
-        public GroupUserResponse GetUsersInGroup(int id)
+        public GroupUserResponse GetUsersInGroup(long id)
         {
             return GenericGet<GroupUserResponse>(string.Format("groups/{0}/users.json", id));
         }
 
-        public GroupUserResponse GetUsersInOrganization(int id)
+        public GroupUserResponse GetUsersInOrganization(long id)
         {
             return GenericGet<GroupUserResponse>(string.Format("organizations/{0}/users.json", id));
         }
@@ -61,7 +61,7 @@ namespace ZenDeskApi_v2.Requests
             return GenericPost<JobStatusResult, object>("users/create_many.json", body);
         }
 
-        public IndividualUserResponse SuspendUser(int id)
+        public IndividualUserResponse SuspendUser(long id)
         {
             var body = new {user = new {suspended = true}};
             return GenericPut<IndividualUserResponse, object>(string.Format("users/{0}.json", id), body);
@@ -73,7 +73,7 @@ namespace ZenDeskApi_v2.Requests
             return GenericPut<IndividualUserResponse, object>(string.Format("users/{0}.json", user.Id), body);
         }
 
-        public bool DeleteUser(int id)
+        public bool DeleteUser(long id)
         {
             return GenericDelete(string.Format("users/{0}.json", id));
         }

@@ -16,7 +16,7 @@ namespace ZenDeskApi_v2.Models.Tickets
         public Options Options { get; set; }
 
         [JsonProperty("end_time")]
-        public int EndTime { get; set; }
+        public long EndTime { get; set; }
 
         [JsonProperty("next_page")]
         public string NextPage { get; set; }

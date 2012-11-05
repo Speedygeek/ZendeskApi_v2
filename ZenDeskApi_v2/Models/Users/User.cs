@@ -9,7 +9,7 @@ namespace ZenDeskApi_v2.Models.Users
     public class User
     {
         [JsonProperty("id")]
-        public int? Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
@@ -39,7 +39,7 @@ namespace ZenDeskApi_v2.Models.Users
         public bool Shared { get; set; }
 
         [JsonProperty("locale_id")]
-        public int? LocaleId { get; set; }
+        public long? LocaleId { get; set; }
 
         [JsonProperty("time_zone")]
         public string TimeZone { get; set; }
@@ -63,13 +63,13 @@ namespace ZenDeskApi_v2.Models.Users
         public string Notes { get; set; }
 
         [JsonProperty("organization_id")]
-        public int? OrganizationId { get; set; }
+        public long? OrganizationId { get; set; }
 
         [JsonProperty("role")]
         public string Role { get; set; }
 
         [JsonProperty("custom_role_id")]
-        public int? CustomRoleId { get; set; }
+        public long? CustomRoleId { get; set; }
 
         [JsonProperty("moderator")]
         public bool Moderator { get; set; }

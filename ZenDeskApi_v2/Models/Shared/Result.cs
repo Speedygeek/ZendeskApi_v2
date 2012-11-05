@@ -15,7 +15,7 @@ namespace ZenDeskApi_v2.Models.Shared
         public string Errors { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("success")]
         public bool Success { get; set; }

@@ -15,7 +15,7 @@ namespace ZenDeskApi_v2.Models.Shared
         public string CreatedAt { get; set; }
 
         [JsonProperty("author_id")]
-        public int AuthorId { get; set; }
+        public long AuthorId { get; set; }
 
         [JsonProperty("metadata")]
         public MetaData MetaData { get; set; }

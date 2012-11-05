@@ -24,12 +24,12 @@ namespace ZenDeskApi_v2.Requests
             return GenericGet<GroupTicketResponse>(_tickets + ".json");
         }
 
-        public IndividualTicketResponse GetTicket(int id)
+        public IndividualTicketResponse GetTicket(long id)
         {            
             return GenericGet<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
         }
 
-        public GroupTicketResponse GetMultipleTickets(List<int> ids)
+        public GroupTicketResponse GetMultipleTickets(List<long> ids)
         {                        
             return GenericGet<GroupTicketResponse>(string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv()));
         }
@@ -54,28 +54,28 @@ namespace ZenDeskApi_v2.Requests
             return GenericPut<IndividualTicketResponse, object>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);    
         }
 
-        public JobStatusResult BulkUpdate(List<int> ids, BulkUpdate info)
+        public JobStatusResult BulkUpdate(List<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
             return GenericPut<JobStatusResult, object>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
         }
 
-        public bool Delete(int id)
+        public bool Delete(long id)
         {
             return GenericDelete(string.Format("{0}/{1}.json", _tickets, id));
         }
 
-        public bool DeleteMultiple(List<int> ids)
+        public bool DeleteMultiple(List<long> ids)
         {
             return GenericDelete(string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
 
-        public GroupUserResponse GetCollaborators(int id)
+        public GroupUserResponse GetCollaborators(long id)
         {
             return GenericGet<GroupUserResponse>(string.Format("{0}/{1}/collaborators.json", _tickets, id));
         }
 
-        public GroupTicketResponse GetIncidents(int id)
+        public GroupTicketResponse GetIncidents(long id)
         {
             return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/incidents.json", _tickets, id));
         }
@@ -90,17 +90,17 @@ namespace ZenDeskApi_v2.Requests
             return GenericPost<GroupTicketResponse>("problems/autocomplete.json?text=" + text);
         }
 
-        public  GroupAuditResponse GetAudits(int ticketId)
+        public  GroupAuditResponse GetAudits(long ticketId)
         {
             return GenericGet<GroupAuditResponse>(string.Format("tickets/{0}/audits.json", ticketId));
         }
 
-        public IndividualAuditResponse GetAuditById(int ticketId, long auditId)
+        public IndividualAuditResponse GetAuditById(long ticketId, long auditId)
         {
             return GenericGet<IndividualAuditResponse>(string.Format("tickets/{0}/audits/{1}.json", ticketId, auditId));
         }
 
-        public bool MarkAuditAsTrusted(int ticketId, long auditId)
+        public bool MarkAuditAsTrusted(long ticketId, long auditId)
         {                        
             var request = new RestRequest
             {
@@ -160,7 +160,7 @@ namespace ZenDeskApi_v2.Requests
             return GenericPut<IndividualTicketFieldResponse, TicketField>(string.Format("ticket_fields/{0}.json", ticketField.Id), ticketField);            
         }
 
-        public bool DeleteTicketField(int id)
+        public bool DeleteTicketField(long id)
         {
             return GenericDelete(string.Format("ticket_fields/{0}.json", id));            
         }

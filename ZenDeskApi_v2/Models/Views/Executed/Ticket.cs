@@ -10,7 +10,7 @@ namespace ZenDeskApi_v2.Models.Views.Executed
     {
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("subject")]
         public string Subject { get; set; }

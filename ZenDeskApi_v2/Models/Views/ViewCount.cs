@@ -6,13 +6,13 @@ namespace ZenDeskApi_v2.Models.Views
     {
 
         [JsonProperty("view_id")]
-        public int ViewId { get; set; }
+        public long ViewId { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
 
         [JsonProperty("value")]
-        public int? Value { get; set; }
+        public long? Value { get; set; }
 
         [JsonProperty("pretty")]
         public string Pretty { get; set; }

@@ -16,7 +16,7 @@ namespace ZenDeskApi_v2.Extensions
             request.AddParameter("application/json", json, parameterType);
         }
 
-        public static string ToCsv(this List<int> ids )
+        public static string ToCsv(this List<long> ids )
         {
             return string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray());
         }

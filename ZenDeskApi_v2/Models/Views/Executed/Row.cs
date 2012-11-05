@@ -20,7 +20,7 @@ namespace ZenDeskApi_v2.Models.Views.Executed
         public string Subject { get; set; }
 
         [JsonProperty("requester_id")]
-        public int RequesterId { get; set; }
+        public long RequesterId { get; set; }
 
         [JsonProperty("created")]
         public string Created { get; set; }
@@ -32,7 +32,7 @@ namespace ZenDeskApi_v2.Models.Views.Executed
         public string Updated { get; set; }
 
         [JsonProperty("assignee_id")]
-        public int AssigneeId { get; set; }
+        public long AssigneeId { get; set; }
 
         [JsonProperty("fields")]
         public IList<Field> Fields { get; set; }

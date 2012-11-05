@@ -24,7 +24,7 @@ namespace ZenDeskApi_v2.Models.Shared
         /// Used when event is Comment
         /// </summary>
         [JsonProperty("author_id")]
-        public int? AuthorId { get; set; }
+        public long? AuthorId { get; set; }
 
         /// <summary>
         /// Used when event is Comment
@@ -60,7 +60,7 @@ namespace ZenDeskApi_v2.Models.Shared
         /// Used when event is CommentPrivacyChange
         /// </summary>
         [JsonProperty("comment_id")]
-        public int? CommentId { get; set; }
+        public long? CommentId { get; set; }
 
         /// <summary>
         /// Used when event is CreateTicket or Change

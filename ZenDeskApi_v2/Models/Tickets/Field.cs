@@ -7,7 +7,7 @@ namespace ZenDeskApi_v2.Models.Tickets
     {
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("value")]
         public string Value { get; set; }

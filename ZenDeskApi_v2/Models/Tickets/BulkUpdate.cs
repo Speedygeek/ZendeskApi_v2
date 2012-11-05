@@ -21,7 +21,7 @@ namespace ZenDeskApi_v2.Models.Tickets
         public Comment Comment { get; set; }
 
         [JsonProperty("assignee_id")]
-        public int? AssigneeId { get; set; }
+        public long? AssigneeId { get; set; }
 
         /// <summary>
         /// This is used only to update tickets and will not be returned.

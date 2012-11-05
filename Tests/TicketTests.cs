@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public void CanGetMultipleTickets()
         {
-            var ids = new List<int>() {Settings.SampleTicketId, Settings.SampleTicketId2};
+            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
             var tickets = api.Tickets.GetMultipleTickets(ids);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);            
@@ -106,7 +106,7 @@ namespace Tests
                 Priority = TicketPriorities.Normal
             }).Ticket;
 
-            var res = api.Tickets.BulkUpdate(new List<int>() {t1.Id, t2.Id}, new BulkUpdate()
+            var res = api.Tickets.BulkUpdate(new List<long>() { t1.Id, t2.Id }, new BulkUpdate()
                                                                        {
                                                                           Status = TicketStatus.Solved,
                                                                           Comment = new Comment(){Public = true, Body = "check your email"},
@@ -117,7 +117,7 @@ namespace Tests
             
             Assert.AreEqual(res.JobStatus.Status, "queued");
 
-            Assert.True(api.Tickets.DeleteMultiple(new List<int>(){ t1.Id, t2.Id}));
+            Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id, t2.Id }));
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace Tests
             var res = api.Tickets.GetIncidents(t1.Id);
             Assert.Greater(res.Tickets.Count, 0);
 
-            Assert.True(api.Tickets.DeleteMultiple(new List<int>(){ t1.Id, t2.Id}));
+            Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id, t2.Id }));
         }
 
         [Test]

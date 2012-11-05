@@ -7,7 +7,7 @@ namespace ZenDeskApi_v2.Models.Shared
     public class Attachment
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("file_name")]
         public string FileName { get; set; }

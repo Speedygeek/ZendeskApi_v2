@@ -6,7 +6,7 @@ namespace ZenDeskApi_v2.Models.Tickets
     {
 
         [JsonProperty("generated_timestamp")]
-        public int GeneratedTimestamp { get; set; }
+        public long GeneratedTimestamp { get; set; }
 
         [JsonProperty("req_name")]
         public string ReqName { get; set; }
@@ -126,7 +126,7 @@ namespace ZenDeskApi_v2.Models.Tickets
         public string OnHoldTimeInMinutesWithinBusinessHours { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }

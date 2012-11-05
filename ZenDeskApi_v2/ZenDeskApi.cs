@@ -15,6 +15,7 @@ namespace ZenDeskApi_v2
         public Attachments Attachments { get; set; }
         public Views Views { get; set; }
         public Users Users { get; set; }
+        public Requests.Requests Requests { get; set; }
 
         public ZenDeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -22,6 +23,7 @@ namespace ZenDeskApi_v2
             Attachments = new Attachments(yourZenDeskUrl, user, password);
             Views = new Views(yourZenDeskUrl, user, password);
             Users = new Users(yourZenDeskUrl, user, password);
+            Requests = new Requests.Requests(yourZenDeskUrl, user, password);
         }
     }
 }

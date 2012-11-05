@@ -34,12 +34,12 @@ namespace ZenDeskApi_v2.Requests
             return GenericGet<GroupViewResponse>("views/compact.json");
         }
 
-        public IndividualViewResponse GetView(int id)
+        public IndividualViewResponse GetView(long id)
         {
             return GenericGet<IndividualViewResponse>(string.Format("views/{0}.json", id));
         }
 
-        public ExecutedViewResponse ExecuteView(int id, string sortCol = "", bool ascending = true)
+        public ExecutedViewResponse ExecuteView(long id, string sortCol = "", bool ascending = true)
         {
             var resource = string.Format("views/{0}/execute.json", id);
             if (!string.IsNullOrEmpty(sortCol))
@@ -53,12 +53,12 @@ namespace ZenDeskApi_v2.Requests
             return GenericPost<ExecutedViewResponse, PreviewViewRequest>("views/preview.json", preview);
         }
 
-        public GroupViewCountResponse GetViewCounts(List<int> viewIds)
+        public GroupViewCountResponse GetViewCounts(List<long> viewIds)
         {
             return GenericGet<GroupViewCountResponse>(string.Format("views/count_many.json?ids={0}", viewIds.ToCsv()));
         }
 
-        public IndividualViewCountResponse GetViewCount(int viewId)
+        public IndividualViewCountResponse GetViewCount(long viewId)
         {
             return GenericGet<IndividualViewCountResponse>(string.Format("views/{0}/count.json", viewId));
         }

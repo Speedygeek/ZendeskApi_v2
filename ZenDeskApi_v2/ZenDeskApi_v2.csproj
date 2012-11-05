@@ -52,6 +52,11 @@
     <Compile Include="Models\Constants\AuditTypes.cs" />
     <Compile Include="Models\Constants\TicketFieldTypes.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
+    <Compile Include="Models\Requests\GroupCommentResponse.cs" />
+    <Compile Include="Models\Requests\GroupRequestResponse.cs" />
+    <Compile Include="Models\Requests\IndividualCommentResponse.cs" />
+    <Compile Include="Models\Requests\IndividualRequestResponse.cs" />
+    <Compile Include="Models\Requests\Request.cs" />
     <Compile Include="Models\Shared\Attachment.cs" />
     <Compile Include="Models\Shared\Audit.cs" />
     <Compile Include="Models\Shared\FaceBookPage.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="Requests\Attachments.cs" />
+    <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />
     <Compile Include="ZenDeskApi.cs" />
@@ -124,6 +130,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -10,7 +10,7 @@ namespace ZenDeskApi_v2.Models.Tickets
         public string Url { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("external_id")]
         public object ExternalId { get; set; }             
@@ -34,25 +34,25 @@ namespace ZenDeskApi_v2.Models.Tickets
         public string Recipient { get; set; }
 
         [JsonProperty("requester_id")]
-        public int RequesterId { get; set; }
+        public long RequesterId { get; set; }
 
         [JsonProperty("submitter_id")]
-        public int SubmitterId { get; set; }
+        public long SubmitterId { get; set; }
 
         [JsonProperty("assignee_id")]
-        public int? AssigneeId { get; set; }
+        public long? AssigneeId { get; set; }
 
         [JsonProperty("organization_id")]
-        public int? OrganizationId { get; set; }
+        public long? OrganizationId { get; set; }
 
         [JsonProperty("group_id")]
-        public int GroupId { get; set; }
+        public long GroupId { get; set; }
 
         /// <summary>
         /// This is for getting the Ids only
         /// </summary>
         [JsonProperty("collaborator_ids")]
-        public IList<int> CollaboratorIds { get; internal set; }
+        public IList<long> CollaboratorIds { get; internal set; }
 
         /// <summary>
         /// This is used only to update tickets and will not be returned.

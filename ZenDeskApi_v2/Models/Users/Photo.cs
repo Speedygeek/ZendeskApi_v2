@@ -7,7 +7,7 @@ namespace ZenDeskApi_v2.Models.Users
     public class Photo
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
