@@ -1,4 +1,4 @@
-ZenDesk Api V2
+Zendesk Api V2
 ==============
 
 This is a full c# wrapper for ZenDesk's api v2. http://developer.zendesk.com/documentation/rest_api/introduction.html
@@ -7,7 +7,7 @@ Here are some examples of things you might want to do, but for even more example
 
 Creating a ticket:
 --------------
-	ZenDeskApi api = new ZenDeskApi(https://{yoursite}.zendesk.com/api/v2, "apiadmin@youremail.com", "password"); 
+	ZenDeskApi api = new ZenDeskApi(https://{yoursite}.zendesk.com/api/v2, "your@email.com", "password"); 
 	var res = api.Tickets.CreateTicket(new Ticket()
                              {
                                  Subject = "my printer is on fire",
