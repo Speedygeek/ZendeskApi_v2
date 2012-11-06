@@ -3,7 +3,7 @@ ZenDesk Api V2
 
 This is a full c# wrapper for ZenDesk's api v2. http://developer.zendesk.com/documentation/rest_api/introduction.html
 
-Here are some examples of things you might want to do:
+Here are some examples of things you might want to do, but for even more examples check out the "Tests" folder above. Everything is tested so so there are plenty of examples!
 
 Creating a ticket:
 --------------
