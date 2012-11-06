@@ -6,7 +6,7 @@ namespace ZenDeskApi_v2.Models.Tickets
     {
         /// <summary>
         /// Optional
-        /// See ZenDeskApi.Locale for more info
+        /// See ZendeskApi.Locale for more info
         /// </summary>
         [JsonProperty("locale_id")]
         public long LocaleId { get; set; }

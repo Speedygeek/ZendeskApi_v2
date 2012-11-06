@@ -54,9 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZenDeskApi_v2\ZenDeskApi_v2.csproj">
+    <ProjectReference Include="..\ZenDeskApi_v2\ZendeskApi_v2.csproj">
       <Project>{D17BCC22-9561-4FC4-9C52-975808641ECE}</Project>
-      <Name>ZenDeskApi_v2</Name>
+      <Name>ZendeskApi_v2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
