@@ -50,7 +50,7 @@ namespace ZenDeskApi_v2.Requests
 
         public ExecutedViewResponse PreviewView(PreviewViewRequest preview)
         {
-            return GenericPost<ExecutedViewResponse, PreviewViewRequest>("views/preview.json", preview);
+            return GenericPost<ExecutedViewResponse>("views/preview.json", preview);
         }
 
         public GroupViewCountResponse GetViewCounts(List<long> viewIds)

@@ -48,13 +48,13 @@ namespace ZenDeskApi_v2.Requests
         public IndividualRequestResponse CreateRequest(Request request)
         {
             var body = new {request};
-            return GenericPost<IndividualRequestResponse, object>("requests.json", body);
+            return GenericPost<IndividualRequestResponse>("requests.json", body);
         }
 
         public IndividualRequestResponse UpdateRequest(long id, Comment comment)
         {
             var body = new { request = new { comment} };
-            return GenericPut<IndividualRequestResponse, object>(string.Format("requests/{0}.json", id), body);
+            return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
         }
     }
 }

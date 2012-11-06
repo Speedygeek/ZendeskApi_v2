@@ -113,5 +113,47 @@ namespace Tests
             var res1 = api.Users.GetCurrentUser();
             Assert.True(res1.User.Id > 0);
         } 
+
+        [Test]
+        public void CanGetUserIdentities()
+        {
+            var res = api.Users.GetCurrentUser();
+
+            var res1 = api.Users.GetUserIdentities(res.User.Id.Value);
+            Assert.Greater(res1.Identities[0].Id, 0);
+
+            var res2 = api.Users.GetSpecificUserIdentity(res.User.Id.Value, res1.Identities[0].Id.Value);
+            Assert.Greater(res2.Identity.Id, 0);
+        }
+
+        [Test]
+        public void CanCreateUpdateAndDeleteIdentities()
+        {
+            var user = new User()
+            {
+                Name = "test user10",
+                Email = "test10@test.com",
+            };
+
+            var res1 = api.Users.CreateUser(user);
+            var userId = res1.User.Id.Value;
+
+            var res2 = api.Users.AddUserIdentity(userId, new UserIdentity()
+                                                              {
+                                                                  Type = UserIdentityTypes.Email,
+                                                                  Value = "moretest@test.com"
+                                                              });
+            var identityId = res2.Identity.Id.Value;
+            Assert.Greater(identityId, 0);
+
+            var verfified = api.Users.SetUserIdentityAsVerified(userId, identityId);
+            Assert.AreEqual(identityId, verfified.Identity.Id);
+
+            var primaries = api.Users.SetUserIdentityAsPrimary(userId, identityId);
+            Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);
+
+            Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
+            Assert.True(api.Users.DeleteUser(userId));
+        }
     }
 }

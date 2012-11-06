@@ -36,7 +36,8 @@ namespace ZenDeskApi_v2.Requests
 
         public IndividualTicketResponse CreateTicket(Ticket ticket)
         {
-            return GenericPost<IndividualTicketResponse, IndividualTicketResponse>(_tickets + ".json", new IndividualTicketResponse() { Ticket = ticket });
+            var body = new {ticket};
+            return GenericPost<IndividualTicketResponse>(_tickets + ".json", body);
         }
 
         /// <summary>
@@ -51,13 +52,13 @@ namespace ZenDeskApi_v2.Requests
                 ticket.Comment = comment;
             var body = new { ticket };
 
-            return GenericPut<IndividualTicketResponse, object>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);    
+            return GenericPut<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);    
         }
 
         public JobStatusResult BulkUpdate(List<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
-            return GenericPut<JobStatusResult, object>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
+            return GenericPut<JobStatusResult>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
         }
 
         public bool Delete(long id)
@@ -157,7 +158,7 @@ namespace ZenDeskApi_v2.Requests
 
         public IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField)
         {
-            return GenericPut<IndividualTicketFieldResponse, TicketField>(string.Format("ticket_fields/{0}.json", ticketField.Id), ticketField);            
+            return GenericPut<IndividualTicketFieldResponse>(string.Format("ticket_fields/{0}.json", ticketField.Id), ticketField);            
         }
 
         public bool DeleteTicketField(long id)

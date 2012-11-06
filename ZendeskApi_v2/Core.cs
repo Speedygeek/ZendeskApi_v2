@@ -74,21 +74,8 @@ namespace ZenDeskApi_v2
             var res = Execute(request);
             return res.StatusCode == HttpStatusCode.OK;
         }
-
-        protected T GenericPost<T>(string resource)
-        {
-            var request = new RestRequest
-            {
-                Method = Method.POST,
-                Resource = resource,
-                RequestFormat = DataFormat.Json
-            };            
-
-            var res = Execute<T>(request);
-            return res;
-        }
-
-        protected T GenericPost<T, P>(string resource, P obj)
+        
+        protected T GenericPost<T>(string resource, object body=null)
         {
             var request = new RestRequest
             {
@@ -97,26 +84,14 @@ namespace ZenDeskApi_v2
                 RequestFormat = DataFormat.Json
             };
 
-            request.AddAndSerializeParam(obj, ParameterType.RequestBody);
+            if(body != null)
+                request.AddAndSerializeParam(body, ParameterType.RequestBody);
 
             var res = Execute<T>(request);
             return res;
         }
-
-        protected T GenericPut<T>(string resource)
-        {
-            var request = new RestRequest
-            {
-                Method = Method.PUT,
-                Resource = resource,
-                RequestFormat = DataFormat.Json
-            };            
-
-            var res = Execute<T>(request);
-            return res;
-        }
-
-        protected T GenericPut<T, P>(string resource, P obj)
+        
+        protected T GenericPut<T>(string resource, object body=null)
         {
             var request = new RestRequest
             {
@@ -125,7 +100,8 @@ namespace ZenDeskApi_v2
                 RequestFormat = DataFormat.Json
             };
 
-            request.AddAndSerializeParam(obj, ParameterType.RequestBody);
+            if (body != null)
+                request.AddAndSerializeParam(body, ParameterType.RequestBody);
 
             var res = Execute<T>(request);
             return res;
