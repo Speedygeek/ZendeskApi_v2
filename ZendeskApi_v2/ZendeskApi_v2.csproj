@@ -51,9 +51,14 @@
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Models\Constants\AuditTypes.cs" />
     <Compile Include="Models\Constants\TicketFieldTypes.cs" />
+    <Compile Include="Models\Constants\UserIdentityTypes.cs" />
+    <Compile Include="Models\Constants\UserRoles.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
     <Compile Include="Models\Groups\Group.cs" />
+    <Compile Include="Models\Groups\GroupMembership.cs" />
+    <Compile Include="Models\Groups\IndividualGroupMembershipResponse.cs" />
     <Compile Include="Models\Groups\IndividualGroupResponse.cs" />
+    <Compile Include="Models\Groups\MultipleGroupMembershipResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupResponse.cs" />
     <Compile Include="Models\Requests\GroupCommentResponse.cs" />
     <Compile Include="Models\Requests\GroupRequestResponse.cs" />

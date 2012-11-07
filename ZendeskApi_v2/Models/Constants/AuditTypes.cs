@@ -19,12 +19,4 @@ namespace ZenDeskApi_v2.Models.Constants
         public const string SMS = "SMS";
         public const string TicketSharingEvent = "TicketSharingEvent";
     }
-
-    public static class UserIdentityTypes
-    {
-        public const string Email = "email";
-        public const string Twitter = "twitter";
-        public const string Facebook = "facebook";
-        public const string Google = "google";
-    }
 }
