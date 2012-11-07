@@ -52,6 +52,9 @@
     <Compile Include="Models\Constants\AuditTypes.cs" />
     <Compile Include="Models\Constants\TicketFieldTypes.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
+    <Compile Include="Models\Groups\Group.cs" />
+    <Compile Include="Models\Groups\IndividualGroupResponse.cs" />
+    <Compile Include="Models\Groups\MultipleGroupResponse.cs" />
     <Compile Include="Models\Requests\GroupCommentResponse.cs" />
     <Compile Include="Models\Requests\GroupRequestResponse.cs" />
     <Compile Include="Models\Requests\IndividualCommentResponse.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="Requests\Attachments.cs" />
+    <Compile Include="Requests\Groups.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />

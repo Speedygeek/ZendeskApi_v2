@@ -96,7 +96,6 @@ namespace ZenDeskApi_v2.Requests
 
         public IndividualUserIdentityResponse SetUserIdentityAsVerified(long userId, long identityId)
         {
-//            var body = new { identity = new { verified = true } };
             return GenericPut<IndividualUserIdentityResponse>(string.Format("users/{0}/identities/{1}/verify.json", userId, identityId));
         }
 

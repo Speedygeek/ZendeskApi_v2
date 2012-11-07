@@ -16,6 +16,7 @@ namespace ZenDeskApi_v2
         public Views Views { get; set; }
         public Users Users { get; set; }
         public Requests.Requests Requests { get; set; }
+        public Groups Groups { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -24,6 +25,7 @@ namespace ZenDeskApi_v2
             Views = new Views(yourZenDeskUrl, user, password);
             Users = new Users(yourZenDeskUrl, user, password);
             Requests = new Requests.Requests(yourZenDeskUrl, user, password);
+            Groups = new Groups(yourZenDeskUrl, user, password);
         }
     }
 }
