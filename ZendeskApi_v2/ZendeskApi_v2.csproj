@@ -127,6 +127,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="Requests\Attachments.cs" />
+    <Compile Include="Requests\CustomAgentRoles.cs" />
     <Compile Include="Requests\Groups.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Users.cs" />
