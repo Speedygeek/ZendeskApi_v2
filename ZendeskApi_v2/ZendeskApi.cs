@@ -18,6 +18,7 @@ namespace ZenDeskApi_v2
         public Requests.Requests Requests { get; set; }
         public Groups Groups { get; set; }
         public CustomAgentRoles CustomAgentRoles { get; set; }
+        public Organizations Organizations { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -28,6 +29,7 @@ namespace ZenDeskApi_v2
             Requests = new Requests.Requests(yourZenDeskUrl, user, password);
             Groups = new Groups(yourZenDeskUrl, user, password);
             CustomAgentRoles = new CustomAgentRoles(yourZenDeskUrl, user, password);
+            Organizations = new Organizations(yourZenDeskUrl, user, password);
         }
     }
 }

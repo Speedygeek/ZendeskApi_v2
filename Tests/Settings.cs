@@ -7,7 +7,9 @@ namespace Tests
 {
     public class Settings
     {        
+
         public const string Site = "https://csharpapi.zendesk.com/api/v2";
+        public const string DefaultOrg = "CsharpAPI";
         public const string Email = "eric.neifert@gmail.com";
         public const string Password = "pa55word";
 
