@@ -19,6 +19,7 @@ namespace ZenDeskApi_v2
         public Groups Groups { get; set; }
         public CustomAgentRoles CustomAgentRoles { get; set; }
         public Organizations Organizations { get; set; }
+        public Search Search { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -30,6 +31,7 @@ namespace ZenDeskApi_v2
             Groups = new Groups(yourZenDeskUrl, user, password);
             CustomAgentRoles = new CustomAgentRoles(yourZenDeskUrl, user, password);
             Organizations = new Organizations(yourZenDeskUrl, user, password);
+            Search = new Search(yourZenDeskUrl, user, password);
         }
     }
 }

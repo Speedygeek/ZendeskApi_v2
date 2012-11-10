@@ -47,6 +47,7 @@
     <Compile Include="GroupTests.cs" />
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />
+    <Compile Include="SearchTests.cs" />
     <Compile Include="UserTests.cs" />
     <Compile Include="ViewTests.cs" />
     <Compile Include="Settings.cs" />
