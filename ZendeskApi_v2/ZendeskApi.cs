@@ -20,6 +20,7 @@ namespace ZenDeskApi_v2
         public CustomAgentRoles CustomAgentRoles { get; set; }
         public Organizations Organizations { get; set; }
         public Search Search { get; set; }
+        public Tags Tags { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -32,6 +33,7 @@ namespace ZenDeskApi_v2
             CustomAgentRoles = new CustomAgentRoles(yourZenDeskUrl, user, password);
             Organizations = new Organizations(yourZenDeskUrl, user, password);
             Search = new Search(yourZenDeskUrl, user, password);
+            Tags = new Tags(yourZenDeskUrl, user, password);
         }
     }
 }

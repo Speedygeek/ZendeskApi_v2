@@ -82,6 +82,8 @@
     <Compile Include="Models\Shared\Result.cs" />
     <Compile Include="Models\Shared\Upload.cs" />
     <Compile Include="Models\Shared\ZenFile.cs" />
+    <Compile Include="Models\Tags\GroupTagResult.cs" />
+    <Compile Include="Models\Tags\Tag.cs" />
     <Compile Include="Models\Tickets\BulkUpdate.cs" />
     <Compile Include="Models\Tickets\Comment.cs" />
     <Compile Include="Models\Shared\Event.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />
+    <Compile Include="Requests\Tags.cs" />
     <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />
     <Compile Include="ZendeskApi.cs" />
