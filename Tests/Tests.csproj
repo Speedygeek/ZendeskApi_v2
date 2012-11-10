@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AttachmentTests.cs" />
     <Compile Include="CustomRolesTests.cs" />
+    <Compile Include="ForumTests.cs" />
     <Compile Include="GroupTests.cs" />
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />

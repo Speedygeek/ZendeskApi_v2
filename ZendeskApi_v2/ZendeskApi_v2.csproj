@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Models\Constants\AuditTypes.cs" />
+    <Compile Include="Models\Constants\ForumAccessTypes.cs" />
+    <Compile Include="Models\Constants\ForumTypes.cs" />
     <Compile Include="Models\Constants\TicketFieldTypes.cs" />
     <Compile Include="Models\Constants\UserIdentityTypes.cs" />
     <Compile Include="Models\Constants\UserRoles.cs" />
@@ -57,6 +59,9 @@
     <Compile Include="Models\CustomRoles\Configuration.cs" />
     <Compile Include="Models\CustomRoles\CustomRole.cs" />
     <Compile Include="Models\CustomRoles\CustomRoles.cs" />
+    <Compile Include="Models\Forums\Forum.cs" />
+    <Compile Include="Models\Forums\GroupForumResponse.cs" />
+    <Compile Include="Models\Forums\IndividualForumResponse.cs" />
     <Compile Include="Models\Groups\Group.cs" />
     <Compile Include="Models\Groups\GroupMembership.cs" />
     <Compile Include="Models\Groups\IndividualGroupMembershipResponse.cs" />
@@ -138,6 +143,7 @@
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="Requests\Attachments.cs" />
     <Compile Include="Requests\CustomAgentRoles.cs" />
+    <Compile Include="Requests\Forums.cs" />
     <Compile Include="Requests\Groups.cs" />
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
