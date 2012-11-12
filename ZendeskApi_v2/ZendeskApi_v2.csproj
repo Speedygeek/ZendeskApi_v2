@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RequestExtensions.cs" />
+    <Compile Include="Models\Categories\Category.cs" />
+    <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
+    <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
     <Compile Include="Models\Constants\AuditTypes.cs" />
     <Compile Include="Models\Constants\ForumAccessTypes.cs" />
     <Compile Include="Models\Constants\ForumTypes.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="Requests\Attachments.cs" />
+    <Compile Include="Requests\Categories.cs" />
     <Compile Include="Requests\CustomAgentRoles.cs" />
     <Compile Include="Requests\Forums.cs" />
     <Compile Include="Requests\Groups.cs" />

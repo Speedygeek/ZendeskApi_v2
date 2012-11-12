@@ -22,6 +22,7 @@ namespace ZenDeskApi_v2
         public Search Search { get; set; }
         public Tags Tags { get; set; }
         public Forums Forums { get; set; }
+        public Categories Categories { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -36,6 +37,7 @@ namespace ZenDeskApi_v2
             Search = new Search(yourZenDeskUrl, user, password);
             Tags = new Tags(yourZenDeskUrl, user, password);
             Forums = new Forums(yourZenDeskUrl, user, password);
+            Categories = new Categories(yourZenDeskUrl, user, password);
         }
     }
 }

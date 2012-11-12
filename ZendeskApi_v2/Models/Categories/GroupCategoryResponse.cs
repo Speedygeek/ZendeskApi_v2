@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ZenDeskApi_v2.Models.Forums
+namespace ZenDeskApi_v2.Models.Categories
 {
 
-    public class GroupForumResponse
+    public class GroupCategoryResponse
     {
-        [JsonProperty("forums")]
-        public IList<Forum> Forums { get; set; }
+
+        [JsonProperty("categories")]
+        public IList<Category> Categories { get; set; }
 
         [JsonProperty("next_page")]
         public object NextPage { get; set; }
