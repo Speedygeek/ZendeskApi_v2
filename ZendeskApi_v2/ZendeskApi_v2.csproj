@@ -60,8 +60,11 @@
     <Compile Include="Models\CustomRoles\CustomRole.cs" />
     <Compile Include="Models\CustomRoles\CustomRoles.cs" />
     <Compile Include="Models\Forums\Forum.cs" />
+    <Compile Include="Models\Forums\ForumSubscription.cs" />
     <Compile Include="Models\Forums\GroupForumResponse.cs" />
+    <Compile Include="Models\Forums\GroupForumSubcriptionResponse.cs" />
     <Compile Include="Models\Forums\IndividualForumResponse.cs" />
+    <Compile Include="Models\Forums\IndividualForumSubcriptionResponse.cs" />
     <Compile Include="Models\Groups\Group.cs" />
     <Compile Include="Models\Groups\GroupMembership.cs" />
     <Compile Include="Models\Groups\IndividualGroupMembershipResponse.cs" />
