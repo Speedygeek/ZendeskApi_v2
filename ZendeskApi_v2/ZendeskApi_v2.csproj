@@ -120,6 +120,9 @@
     <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />
     <Compile Include="Models\Tickets\To.cs" />
     <Compile Include="Models\Shared\Via.cs" />
+    <Compile Include="Models\Topics\GroupTopicResponse.cs" />
+    <Compile Include="Models\Topics\IndividualTopicResponse.cs" />
+    <Compile Include="Models\Topics\Topic.cs" />
     <Compile Include="Models\Users\GroupUserIdentityResponse.cs" />
     <Compile Include="Models\Users\GroupUserResponse.cs" />
     <Compile Include="Models\Users\IndividualUserIdentityResponse.cs" />
@@ -156,6 +159,7 @@
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />
     <Compile Include="Requests\Tags.cs" />
+    <Compile Include="Requests\Topics.cs" />
     <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />
     <Compile Include="ZendeskApi.cs" />

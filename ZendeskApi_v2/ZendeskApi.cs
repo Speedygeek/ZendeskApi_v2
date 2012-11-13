@@ -23,6 +23,7 @@ namespace ZenDeskApi_v2
         public Tags Tags { get; set; }
         public Forums Forums { get; set; }
         public Categories Categories { get; set; }
+        public Topics Topics { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -38,6 +39,7 @@ namespace ZenDeskApi_v2
             Tags = new Tags(yourZenDeskUrl, user, password);
             Forums = new Forums(yourZenDeskUrl, user, password);
             Categories = new Categories(yourZenDeskUrl, user, password);
+            Topics = new Topics(yourZenDeskUrl, user, password);
         }
     }
 }
