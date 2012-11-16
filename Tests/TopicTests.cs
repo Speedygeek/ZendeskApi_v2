@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using ZenDeskApi_v2;
@@ -61,7 +62,7 @@ namespace Tests
                 Body = "testing5"
             });
 
-            var get = api.Topics.GetTopics();
+            var get = api.Topics.GetTopics(); 
 
             var showMany = api.Topics.GetMultipleTopicsById(get.Topics.Select(x => x.Id.Value).ToList());
             Assert.AreEqual(showMany.Count, get.Count);
@@ -69,5 +70,37 @@ namespace Tests
 
             Assert.True(api.Topics.DeleteTopic(create.Topic.Id.Value));
         }
+
+        [Test]
+        public void CanGetCreateUpdateAndDeleteTopicComments()
+        {
+            var topicId = api.Topics.GetTopics().Topics[0].Id.Value;
+            var create = api.Topics.CreateTopicComment(topicId, new TopicComment()
+                                                                    {
+                                                                        Body = "testing topic comments!"
+                                                                    });
+
+            Assert.Greater(create.TopicComment.Id.Value, 0);
+
+            create.TopicComment.Body = "even more testing for topic comments!";
+            var update = api.Topics.UpdateTopicComment(create.TopicComment);
+            Assert.AreEqual(update.TopicComment.Body, create.TopicComment.Body);
+
+            var getComents = api.Topics.GetTopicCommentsByTopicId(topicId);
+            Assert.Greater(getComents.Count, 0);
+
+            var getByUser = api.Topics.GetTopicCommentsByUserId(Settings.UserId);
+            Assert.Greater(getByUser.Count, 0);
+
+            var getSpecific = api.Topics.GetSpecificTopicCommentByTopic(topicId, update.TopicComment.Id.Value);
+            Assert.AreEqual(getSpecific.TopicComment.Id, update.TopicComment.Id);
+
+            //This test doesn't seem to work, looks like a problem on Zendesk's side.
+            //var getSpecificByUser = api.Topics.GetSpecificTopicCommentByUser(Settings.UserId, update.TopicComment.Id.Value);
+            //Assert.AreEqual(getSpecificByUser.TopicComment.Id, update.TopicComment.Id);
+
+            Assert.True(api.Topics.DeleteTopicComment(update.TopicComment.TopicId.Value, update.TopicComment.Id.Value));
+        }
+
     }
 }

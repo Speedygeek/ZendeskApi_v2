@@ -52,5 +52,42 @@ namespace ZenDeskApi_v2.Requests
         {
             return GenericDelete(string.Format("topics/{0}.json", topicId));
         }
+
+        public GroupTopicCommentResponse GetTopicCommentsByTopicId(long topicId)
+        {
+            return GenericGet<GroupTopicCommentResponse>(string.Format("topics/{0}/comments.json", topicId));
+        }
+
+        public GroupTopicCommentResponse GetTopicCommentsByUserId(long userId)
+        {
+            return GenericGet<GroupTopicCommentResponse>(string.Format("users/{0}/topic_comments.json", userId));
+        }
+
+        public IndividualTopicCommentResponse GetSpecificTopicCommentByTopic(long topicId, long commentId)
+        {
+            return GenericGet<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
+        }
+
+        public IndividualTopicCommentResponse GetSpecificTopicCommentByUser(long userId, long commentId)
+        {
+            return GenericGet<IndividualTopicCommentResponse>(string.Format("users/{0}/topic_comments/{1}.json", userId, commentId));
+        }
+
+        public IndividualTopicCommentResponse CreateTopicComment(long topicId, TopicComment topicComment)
+        {
+            var body = new { topic_comment = topicComment };
+            return GenericPost<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments.json", topicId), body);
+        }
+
+        public IndividualTopicCommentResponse UpdateTopicComment(TopicComment topicComment)
+        {
+            var body = new { topic_comment = topicComment};
+            return GenericPut<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments/{1}.json", topicComment.TopicId, topicComment.Id), body);
+        }
+
+        public bool DeleteTopicComment(long topicId, long commentId)
+        {
+            return GenericDelete(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
+        }
     }
 }
