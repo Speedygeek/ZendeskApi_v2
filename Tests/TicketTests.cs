@@ -272,5 +272,17 @@ namespace Tests
 
             Assert.True(api.Tickets.DeleteTicketField(updatedTF.Id.Value));
         }
+
+        [Test]
+        public void CanGetSuspendedTickets()
+        {
+            var all = api.Tickets.GetSuspendedTickets();
+            Assert.Greater(all.Count, 0);
+
+            var ind = api.Tickets.GetSuspendedTicketById(all.SuspendedTickets[0].Id);
+            Assert.AreEqual(ind.SuspendedTicket.Id, all.SuspendedTickets[0].Id);
+
+            //There is no way to suspend a ticket so I can run a tests for recovering and deleteing them
+        }
     }
 }

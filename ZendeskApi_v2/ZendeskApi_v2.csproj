@@ -146,6 +146,14 @@
     <Compile Include="Models\Tickets\Requester.cs" />
     <Compile Include="Models\Tickets\SatisfactionRating.cs" />
     <Compile Include="Models\Tickets\Source.cs" />
+    <Compile Include="Models\Tickets\Suspended\Author.cs" />
+    <Compile Include="Models\Tickets\Suspended\From.cs" />
+    <Compile Include="Models\Tickets\Suspended\GroupSuspendedTicketResponse.cs" />
+    <Compile Include="Models\Tickets\Suspended\IndividualSuspendedTicketResponse.cs" />
+    <Compile Include="Models\Tickets\Suspended\Source.cs" />
+    <Compile Include="Models\Tickets\Suspended\SuspendedTicket.cs" />
+    <Compile Include="Models\Tickets\Suspended\To.cs" />
+    <Compile Include="Models\Tickets\Suspended\Via.cs" />
     <Compile Include="Models\Tickets\Ticket.cs" />
     <Compile Include="Models\Tickets\TicketExportResponse.cs" />
     <Compile Include="Models\Tickets\TicketExportResult.cs" />

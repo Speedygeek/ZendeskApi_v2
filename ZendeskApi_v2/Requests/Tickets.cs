@@ -5,6 +5,7 @@ using RestSharp;
 using ZenDeskApi_v2.Extensions;
 using ZenDeskApi_v2.Models.Shared;
 using ZenDeskApi_v2.Models.Tickets;
+using ZenDeskApi_v2.Models.Tickets.Suspended;
 using ZenDeskApi_v2.Models.Users;
 
 namespace ZenDeskApi_v2.Requests
@@ -164,6 +165,52 @@ namespace ZenDeskApi_v2.Requests
         public bool DeleteTicketField(long id)
         {
             return GenericDelete(string.Format("ticket_fields/{0}.json", id));            
+        }
+
+        public GroupSuspendedTicketResponse GetSuspendedTickets()
+        {
+            return GenericGet<GroupSuspendedTicketResponse>(string.Format("suspended_tickets.json"));
+        }
+
+        public IndividualSuspendedTicketResponse GetSuspendedTicketById(long id)
+        {
+            return GenericGet<IndividualSuspendedTicketResponse>(string.Format("suspended_tickets/{0}.json", id));
+        }
+
+        public bool RecoverSuspendedTicket(long id)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                Resource = string.Format("suspended_tickets/{0}/recover.json", id),
+                RequestFormat = DataFormat.Json
+            };            
+
+            var res = Execute(request);
+            return res.StatusCode == HttpStatusCode.OK;
+        }
+
+        public bool RecoverManySuspendedTickets(List<long> ids)
+        {
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                Resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv()),
+                RequestFormat = DataFormat.Json
+            };            
+
+            var res = Execute(request);
+            return res.StatusCode == HttpStatusCode.OK;            
+        }
+
+        public bool DeleteSuspendedTickets(long id)
+        {
+            return GenericDelete(string.Format("suspended_tickets/{0}.json", id));
+        }
+
+        public bool DeleteManySuspendedTickets(List<long> ids)
+        {
+            return GenericDelete(string.Format("suspended_tickets/destroy_many.json?ids={0}", ids.ToCsv()));
         }
     }
 }
