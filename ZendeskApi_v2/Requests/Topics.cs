@@ -89,5 +89,31 @@ namespace ZenDeskApi_v2.Requests
         {
             return GenericDelete(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
         }
+
+        public GroupTopicSubscriptionResponse GetTopicSubscriptionsByTopic(long topicId)
+        {
+            return GenericGet<GroupTopicSubscriptionResponse>(string.Format("topic/{0}/subscriptions.json", topicId));
+        }
+
+        public GroupTopicSubscriptionResponse GetAllTopicSubscriptions()
+        {
+            return GenericGet<GroupTopicSubscriptionResponse>(string.Format("topic_subscriptions.json"));
+        }
+
+        public IndividualTopicSubscriptionResponse GetTopicSubscriptionById(long topicSubscriptionId)
+        {
+            return GenericGet<IndividualTopicSubscriptionResponse>(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
+        }
+
+        public IndividualTopicSubscriptionResponse CreateTopicSubscription(long userId, long topicId)
+        {
+            var body = new { user_id = userId, topic_id = topicId };
+            return GenericPost<IndividualTopicSubscriptionResponse>(string.Format("topic_subscriptions.json"), body);
+        }
+
+        public bool DeleteTopicSubscription(long topicSubscriptionId)
+        {
+            return GenericDelete(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
+        }
     }
 }

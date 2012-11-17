@@ -102,5 +102,25 @@ namespace Tests
             Assert.True(api.Topics.DeleteTopicComment(update.TopicComment.TopicId.Value, update.TopicComment.Id.Value));
         }
 
+        [Test]
+        public void CanGetCreateAndDeleteTopicSubscriptions()
+        {
+            var topicId = api.Topics.GetTopics().Topics[0].Id.Value;
+
+            var create = api.Topics.CreateTopicSubscription(Settings.EndUserId, topicId);
+            Assert.Greater(create.TopicSubscription.Id.Value, 0);
+
+            var getAll = api.Topics.GetAllTopicSubscriptions();
+            Assert.Greater(getAll.Count, 0);
+
+            //doesn't work
+            var getByTopic = api.Topics.GetTopicSubscriptionsByTopic(topicId);
+            Assert.Greater(getByTopic.Count, 0);
+
+            var getById = api.Topics.GetTopicSubscriptionById(create.TopicSubscription.Id.Value);
+            Assert.AreEqual(getById.TopicSubscription.Id, create.TopicSubscription.Id);
+
+            Assert.True(api.Topics.DeleteTopicSubscription(create.TopicSubscription.Id.Value));
+        }
     }
 }
