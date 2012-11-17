@@ -78,6 +78,9 @@
     <Compile Include="Models\Groups\IndividualGroupResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupMembershipResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupResponse.cs" />
+    <Compile Include="Models\Locales\GroupLocaleResponse.cs" />
+    <Compile Include="Models\Locales\IndividualLocaleResponse.cs" />
+    <Compile Include="Models\Locales\Locale.cs" />
     <Compile Include="Models\Organizations\GroupOrganizationResponse.cs" />
     <Compile Include="Models\Organizations\IndividualOrganizationResponse.cs" />
     <Compile Include="Models\Organizations\Organization.cs" />
@@ -183,6 +186,7 @@
     <Compile Include="Requests\Forums.cs" />
     <Compile Include="Requests\Groups.cs" />
     <Compile Include="Requests\JobStatuses.cs" />
+    <Compile Include="Requests\Locales.cs" />
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />

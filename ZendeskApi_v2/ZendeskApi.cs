@@ -26,6 +26,7 @@ namespace ZenDeskApi_v2
         public Topics Topics { get; set; }
         public AccountsAndActivity AccountsAndActivity { get; set; }
         public JobStatuses JobStatuses { get; set; }
+        public Locales Locales { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -44,6 +45,7 @@ namespace ZenDeskApi_v2
             Topics = new Topics(yourZenDeskUrl, user, password);
             AccountsAndActivity = new AccountsAndActivity(yourZenDeskUrl, user, password);
             JobStatuses = new JobStatuses(yourZenDeskUrl, user, password);
+            Locales = new Locales(yourZenDeskUrl, user, password);
         }
     }
 }
