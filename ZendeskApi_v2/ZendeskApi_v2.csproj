@@ -123,6 +123,8 @@
     <Compile Include="Models\Shared\Result.cs" />
     <Compile Include="Models\Shared\Upload.cs" />
     <Compile Include="Models\Shared\ZenFile.cs" />
+    <Compile Include="Models\SharingAgreements\GroupSharingAgreementResponse.cs" />
+    <Compile Include="Models\SharingAgreements\SharingAgreement.cs" />
     <Compile Include="Models\Tags\GroupTagResult.cs" />
     <Compile Include="Models\Tags\Tag.cs" />
     <Compile Include="Models\Tags\TagAutocompleteResponse.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Requests\SatisfactionRatings.cs" />
     <Compile Include="Requests\Search.cs" />
     <Compile Include="Requests\AccountsAndActivity.cs" />
+    <Compile Include="Requests\SharingAgreements.cs" />
     <Compile Include="Requests\Tags.cs" />
     <Compile Include="Requests\Topics.cs" />
     <Compile Include="Requests\Users.cs" />
