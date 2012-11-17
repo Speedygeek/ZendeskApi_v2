@@ -111,6 +111,7 @@
     <Compile Include="Models\Shared\ZenFile.cs" />
     <Compile Include="Models\Tags\GroupTagResult.cs" />
     <Compile Include="Models\Tags\Tag.cs" />
+    <Compile Include="Models\Tags\TagAutocompleteResponse.cs" />
     <Compile Include="Models\Tickets\BulkUpdate.cs" />
     <Compile Include="Models\Tickets\Comment.cs" />
     <Compile Include="Models\Shared\Event.cs" />
