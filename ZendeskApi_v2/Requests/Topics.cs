@@ -115,5 +115,35 @@ namespace ZenDeskApi_v2.Requests
         {
             return GenericDelete(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
         }
+
+        public GroupTopicVoteResponse GetTopicVotes(long topicId)
+        {
+            return GenericGet<GroupTopicVoteResponse>(string.Format("topics/{0}/votes.json", topicId));
+        }
+
+        public GroupTopicVoteResponse GetTopicVotesByUser(long userId)
+        {
+            return GenericGet<GroupTopicVoteResponse>(string.Format("users/{0}/topic_votes.json", userId));
+        }
+
+        /// <summary>
+        /// Checks to see if the current user has cast a vote in this topic. Returns null if not
+        /// </summary>
+        /// <param name="topicId"></param>
+        /// <returns></returns>
+        public IndividualTopicVoteResponse CheckForVote(long topicId)
+        {
+            return GenericGet<IndividualTopicVoteResponse>(string.Format("topics/{0}/vote.json", topicId));
+        }
+
+        public IndividualTopicVoteResponse CreateVote(long topicId)
+        {
+            return GenericPost<IndividualTopicVoteResponse>(string.Format("topics/{0}/vote.json", topicId));
+        }
+
+        public bool DeleteVote(long topicId)
+        {
+            return GenericDelete(string.Format("topics/{0}/vote.json", topicId));
+        }
     }
 }

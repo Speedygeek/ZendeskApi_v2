@@ -121,5 +121,25 @@ namespace Tests
 
             Assert.True(api.Topics.DeleteTopicSubscription(create.TopicSubscription.Id.Value));
         }
+
+        [Test]
+        public void CanGetCreateAndDeleteTopicVotes()
+        {
+            var topicId = api.Topics.GetTopics().Topics[0].Id.Value;
+
+            var create = api.Topics.CreateVote(topicId);
+            Assert.Greater(create.TopicVote.Id.Value, 0);
+
+            var topicVotes = api.Topics.GetTopicVotes(topicId);
+            Assert.Greater(topicVotes.Count, 0);
+
+            var userVotes = api.Topics.GetTopicVotesByUser(Settings.UserId);
+            Assert.Greater(userVotes.Count, 0);
+
+            var checkVote = api.Topics.CheckForVote(topicId);
+            Assert.Greater(checkVote.TopicVote.Id.Value, 0);
+
+            Assert.True(api.Topics.DeleteVote(topicId));
+        }
     }
 }

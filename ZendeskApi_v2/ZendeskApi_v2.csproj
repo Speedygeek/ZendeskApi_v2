@@ -123,12 +123,15 @@
     <Compile Include="Models\Topics\GroupTopicCommentResponse.cs" />
     <Compile Include="Models\Topics\GroupTopicResponse.cs" />
     <Compile Include="Models\Topics\GroupTopicSubscriptionResponse.cs" />
+    <Compile Include="Models\Topics\GroupTopicVoteResponse.cs" />
     <Compile Include="Models\Topics\IndividualTopicCommentResponse.cs" />
     <Compile Include="Models\Topics\IndividualTopicResponse.cs" />
     <Compile Include="Models\Topics\IndividualTopicSubscriptionResponse.cs" />
+    <Compile Include="Models\Topics\IndividualTopicVoteResponse.cs" />
     <Compile Include="Models\Topics\Topic.cs" />
     <Compile Include="Models\Topics\TopicComment.cs" />
     <Compile Include="Models\Topics\TopicSubscription.cs" />
+    <Compile Include="Models\Topics\TopicVote.cs" />
     <Compile Include="Models\Users\GroupUserIdentityResponse.cs" />
     <Compile Include="Models\Users\GroupUserResponse.cs" />
     <Compile Include="Models\Users\IndividualUserIdentityResponse.cs" />
