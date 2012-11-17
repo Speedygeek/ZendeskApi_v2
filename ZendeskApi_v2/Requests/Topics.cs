@@ -92,7 +92,7 @@ namespace ZenDeskApi_v2.Requests
 
         public GroupTopicSubscriptionResponse GetTopicSubscriptionsByTopic(long topicId)
         {
-            return GenericGet<GroupTopicSubscriptionResponse>(string.Format("topic/{0}/subscriptions.json", topicId));
+            return GenericGet<GroupTopicSubscriptionResponse>(string.Format("topics/{0}/subscriptions.json", topicId));
         }
 
         public GroupTopicSubscriptionResponse GetAllTopicSubscriptions()

@@ -96,8 +96,8 @@ namespace Tests
             Assert.AreEqual(getSpecific.TopicComment.Id, update.TopicComment.Id);
 
             //This test doesn't seem to work, looks like a problem on Zendesk's side.
-            //var getSpecificByUser = api.Topics.GetSpecificTopicCommentByUser(Settings.UserId, update.TopicComment.Id.Value);
-            //Assert.AreEqual(getSpecificByUser.TopicComment.Id, update.TopicComment.Id);
+            var getSpecificByUser = api.Topics.GetSpecificTopicCommentByUser(Settings.UserId, update.TopicComment.Id.Value);
+            Assert.AreEqual(getSpecificByUser.TopicComment.Id, update.TopicComment.Id);
 
             Assert.True(api.Topics.DeleteTopicComment(update.TopicComment.TopicId.Value, update.TopicComment.Id.Value));
         }
@@ -112,8 +112,7 @@ namespace Tests
 
             var getAll = api.Topics.GetAllTopicSubscriptions();
             Assert.Greater(getAll.Count, 0);
-
-            //doesn't work
+            
             var getByTopic = api.Topics.GetTopicSubscriptionsByTopic(topicId);
             Assert.Greater(getByTopic.Count, 0);
 
