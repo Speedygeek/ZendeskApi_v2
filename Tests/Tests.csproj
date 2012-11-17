@@ -49,6 +49,7 @@
     <Compile Include="GroupTests.cs" />
     <Compile Include="JobStatusTests.cs" />
     <Compile Include="LocaleTests.cs" />
+    <Compile Include="MacroTests.cs" />
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />
     <Compile Include="SearchTests.cs" />

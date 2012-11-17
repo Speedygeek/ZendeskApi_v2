@@ -9,7 +9,7 @@ namespace Tests
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
         [Test]
-        public void CanLocales()
+        public void CanGetLocales()
         {
             var all = api.Locales.GetAllLocales();
             Assert.Greater(all.Count, 0);

@@ -81,6 +81,13 @@
     <Compile Include="Models\Locales\GroupLocaleResponse.cs" />
     <Compile Include="Models\Locales\IndividualLocaleResponse.cs" />
     <Compile Include="Models\Locales\Locale.cs" />
+    <Compile Include="Models\Macros\Action.cs" />
+    <Compile Include="Models\Macros\ApplyMacroResponse.cs" />
+    <Compile Include="Models\Macros\GroupMacroResponse.cs" />
+    <Compile Include="Models\Macros\IndividualMacroResponse.cs" />
+    <Compile Include="Models\Macros\Macro.cs" />
+    <Compile Include="Models\Macros\Restriction.cs" />
+    <Compile Include="Models\Macros\Result.cs" />
     <Compile Include="Models\Organizations\GroupOrganizationResponse.cs" />
     <Compile Include="Models\Organizations\IndividualOrganizationResponse.cs" />
     <Compile Include="Models\Organizations\Organization.cs" />
@@ -187,6 +194,7 @@
     <Compile Include="Requests\Groups.cs" />
     <Compile Include="Requests\JobStatuses.cs" />
     <Compile Include="Requests\Locales.cs" />
+    <Compile Include="Requests\Macros.cs" />
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />
