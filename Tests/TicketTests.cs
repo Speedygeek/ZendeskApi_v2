@@ -117,6 +117,10 @@ namespace Tests
             
             Assert.AreEqual(res.JobStatus.Status, "queued");
 
+            //also test JobStatuses while we have a job here
+            var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
+            Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
+
             Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id, t2.Id }));
         }
 

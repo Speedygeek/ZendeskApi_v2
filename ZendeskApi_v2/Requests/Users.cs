@@ -55,10 +55,10 @@ namespace ZenDeskApi_v2.Requests
             return GenericPost<IndividualUserResponse>("users.json", body);
         }
 
-        public JobStatusResult BulkCreateUsers(List<User> users)
+        public JobStatusResponse BulkCreateUsers(List<User> users)
         {
             var body = new {users = users};
-            return GenericPost<JobStatusResult>("users/create_many.json", body);
+            return GenericPost<JobStatusResponse>("users/create_many.json", body);
         }
 
         public IndividualUserResponse SuspendUser(long id)

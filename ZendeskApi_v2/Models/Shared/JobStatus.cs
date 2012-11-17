@@ -26,10 +26,4 @@ namespace ZenDeskApi_v2.Models.Shared
         [JsonProperty("results")]
         public IList<Result> Results { get; set; }
     }
-
-    public  class JobStatusResult
-    {
-        [JsonProperty("job_status")]
-        public JobStatus JobStatus { get; set; }
-    }
 }

@@ -55,10 +55,10 @@ namespace ZenDeskApi_v2.Requests
             return GenericPut<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);    
         }
 
-        public JobStatusResult BulkUpdate(List<long> ids, BulkUpdate info)
+        public JobStatusResponse BulkUpdate(List<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
-            return GenericPut<JobStatusResult>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
+            return GenericPut<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
         }
 
         public bool Delete(long id)

@@ -106,6 +106,7 @@
     <Compile Include="Models\Shared\GroupAuditResponse.cs" />
     <Compile Include="Models\Shared\IndividualAuditResponse.cs" />
     <Compile Include="Models\Shared\JobStatus.cs" />
+    <Compile Include="Models\Shared\JobStatusResponse.cs" />
     <Compile Include="Models\Shared\Result.cs" />
     <Compile Include="Models\Shared\Upload.cs" />
     <Compile Include="Models\Shared\ZenFile.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Requests\CustomAgentRoles.cs" />
     <Compile Include="Requests\Forums.cs" />
     <Compile Include="Requests\Groups.cs" />
+    <Compile Include="Requests\JobStatuses.cs" />
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />
