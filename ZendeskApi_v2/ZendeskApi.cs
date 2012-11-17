@@ -24,6 +24,7 @@ namespace ZenDeskApi_v2
         public Forums Forums { get; set; }
         public Categories Categories { get; set; }
         public Topics Topics { get; set; }
+        public Settings Settings { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -40,6 +41,7 @@ namespace ZenDeskApi_v2
             Forums = new Forums(yourZenDeskUrl, user, password);
             Categories = new Categories(yourZenDeskUrl, user, password);
             Topics = new Topics(yourZenDeskUrl, user, password);
+            Settings = new Settings(yourZenDeskUrl, user, password);
         }
     }
 }

@@ -84,6 +84,18 @@
     <Compile Include="Models\Requests\Request.cs" />
     <Compile Include="Models\Search\Result.cs" />
     <Compile Include="Models\Search\SearchResults.cs" />
+    <Compile Include="Models\Settings\Apps.cs" />
+    <Compile Include="Models\Settings\Branding.cs" />
+    <Compile Include="Models\Settings\Chat.cs" />
+    <Compile Include="Models\Settings\GooddataIntegration.cs" />
+    <Compile Include="Models\Settings\Lotus.cs" />
+    <Compile Include="Models\Settings\Screencast.cs" />
+    <Compile Include="Models\Settings\Settings.cs" />
+    <Compile Include="Models\Settings\SettingsResponse.cs" />
+    <Compile Include="Models\Settings\Tickets.cs" />
+    <Compile Include="Models\Settings\Twitter.cs" />
+    <Compile Include="Models\Settings\User.cs" />
+    <Compile Include="Models\Settings\Voice.cs" />
     <Compile Include="Models\Shared\Attachment.cs" />
     <Compile Include="Models\Shared\Audit.cs" />
     <Compile Include="Models\Shared\FaceBookPage.cs" />
@@ -167,6 +179,7 @@
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />
+    <Compile Include="Requests\Settings.cs" />
     <Compile Include="Requests\Tags.cs" />
     <Compile Include="Requests\Topics.cs" />
     <Compile Include="Requests\Users.cs" />

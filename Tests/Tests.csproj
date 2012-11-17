@@ -50,6 +50,7 @@
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />
     <Compile Include="SearchTests.cs" />
+    <Compile Include="SettingTests.cs" />
     <Compile Include="TagTests.cs" />
     <Compile Include="TopicTests.cs" />
     <Compile Include="UserTests.cs" />
