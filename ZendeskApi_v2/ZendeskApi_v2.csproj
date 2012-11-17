@@ -49,6 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RequestExtensions.cs" />
+    <Compile Include="Models\AccountsAndActivities\Activity.cs" />
+    <Compile Include="Models\AccountsAndActivities\Actor.cs" />
+    <Compile Include="Models\AccountsAndActivities\GroupActivityResponse.cs" />
+    <Compile Include="Models\AccountsAndActivities\IndividualActivityResponse.cs" />
     <Compile Include="Models\Categories\Category.cs" />
     <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
@@ -84,18 +88,18 @@
     <Compile Include="Models\Requests\Request.cs" />
     <Compile Include="Models\Search\Result.cs" />
     <Compile Include="Models\Search\SearchResults.cs" />
-    <Compile Include="Models\Settings\Apps.cs" />
-    <Compile Include="Models\Settings\Branding.cs" />
-    <Compile Include="Models\Settings\Chat.cs" />
-    <Compile Include="Models\Settings\GooddataIntegration.cs" />
-    <Compile Include="Models\Settings\Lotus.cs" />
-    <Compile Include="Models\Settings\Screencast.cs" />
-    <Compile Include="Models\Settings\Settings.cs" />
-    <Compile Include="Models\Settings\SettingsResponse.cs" />
-    <Compile Include="Models\Settings\Tickets.cs" />
-    <Compile Include="Models\Settings\Twitter.cs" />
-    <Compile Include="Models\Settings\User.cs" />
-    <Compile Include="Models\Settings\Voice.cs" />
+    <Compile Include="Models\AccountsAndActivities\Apps.cs" />
+    <Compile Include="Models\AccountsAndActivities\Branding.cs" />
+    <Compile Include="Models\AccountsAndActivities\Chat.cs" />
+    <Compile Include="Models\AccountsAndActivities\GooddataIntegration.cs" />
+    <Compile Include="Models\AccountsAndActivities\Lotus.cs" />
+    <Compile Include="Models\AccountsAndActivities\Screencast.cs" />
+    <Compile Include="Models\AccountsAndActivities\Settings.cs" />
+    <Compile Include="Models\AccountsAndActivities\SettingsResponse.cs" />
+    <Compile Include="Models\AccountsAndActivities\Tickets.cs" />
+    <Compile Include="Models\AccountsAndActivities\Twitter.cs" />
+    <Compile Include="Models\AccountsAndActivities\User.cs" />
+    <Compile Include="Models\AccountsAndActivities\Voice.cs" />
     <Compile Include="Models\Shared\Attachment.cs" />
     <Compile Include="Models\Shared\Audit.cs" />
     <Compile Include="Models\Shared\FaceBookPage.cs" />
@@ -179,7 +183,7 @@
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\Search.cs" />
-    <Compile Include="Requests\Settings.cs" />
+    <Compile Include="Requests\AccountsAndActivity.cs" />
     <Compile Include="Requests\Tags.cs" />
     <Compile Include="Requests\Topics.cs" />
     <Compile Include="Requests\Users.cs" />

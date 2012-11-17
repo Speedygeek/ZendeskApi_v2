@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ZenDeskApi_v2.Models.Settings
+namespace ZenDeskApi_v2.Models.AccountsAndActivities
 {
 
-    public class Twitter
+    public class GooddataIntegration
     {
 
-        [JsonProperty("shorten_url")]
-        public string ShortenUrl { get; set; }
+        [JsonProperty("enabled")]
+        public bool Enabled { get; set; }
     }
 }

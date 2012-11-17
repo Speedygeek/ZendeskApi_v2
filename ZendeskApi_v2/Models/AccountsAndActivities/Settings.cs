@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ZendeskApi_v2.Models.AccountsAndActivities;
 
-namespace ZenDeskApi_v2.Models.Settings
+namespace ZenDeskApi_v2.Models.AccountsAndActivities
 {
 
     public class Settings
