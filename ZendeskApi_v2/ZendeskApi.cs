@@ -28,6 +28,7 @@ namespace ZenDeskApi_v2
         public JobStatuses JobStatuses { get; set; }
         public Locales Locales { get; set; }
         public Macros Macros { get; set; }
+        public SatisfactionRatings SatisfactionRatings { get; set; }
 
         public ZendeskApi(string yourZenDeskUrl, string user, string password)
         {
@@ -48,6 +49,7 @@ namespace ZenDeskApi_v2
             JobStatuses = new JobStatuses(yourZenDeskUrl, user, password);
             Locales = new Locales(yourZenDeskUrl, user, password);
             Macros = new Macros(yourZenDeskUrl, user, password);
+            SatisfactionRatings = new SatisfactionRatings(yourZenDeskUrl, user, password);
         }
     }
 }

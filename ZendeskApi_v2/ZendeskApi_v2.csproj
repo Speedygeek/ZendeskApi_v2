@@ -96,6 +96,9 @@
     <Compile Include="Models\Requests\IndividualCommentResponse.cs" />
     <Compile Include="Models\Requests\IndividualRequestResponse.cs" />
     <Compile Include="Models\Requests\Request.cs" />
+    <Compile Include="Models\SatisfactionRatings\GroupSatisfactionResponse.cs" />
+    <Compile Include="Models\SatisfactionRatings\IndividualSatisfactionResponse.cs" />
+    <Compile Include="Models\SatisfactionRatings\SatisfactionRating.cs" />
     <Compile Include="Models\Search\Result.cs" />
     <Compile Include="Models\Search\SearchResults.cs" />
     <Compile Include="Models\AccountsAndActivities\Apps.cs" />
@@ -197,6 +200,7 @@
     <Compile Include="Requests\Macros.cs" />
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
+    <Compile Include="Requests\SatisfactionRatings.cs" />
     <Compile Include="Requests\Search.cs" />
     <Compile Include="Requests\AccountsAndActivity.cs" />
     <Compile Include="Requests\Tags.cs" />

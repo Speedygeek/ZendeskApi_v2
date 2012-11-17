@@ -52,6 +52,7 @@
     <Compile Include="MacroTests.cs" />
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />
+    <Compile Include="SatisfactionRatingTests.cs" />
     <Compile Include="SearchTests.cs" />
     <Compile Include="AccountsAndActivityTests.cs" />
     <Compile Include="TagTests.cs" />
