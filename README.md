@@ -73,3 +73,11 @@ All of the api calls are under the following properties. And these properties pr
 - SatisfactionRatings
 - SharingAgreements
 - Triggers
+
+Remote Authentication
+--------------
+As an added bonus if you are using single sign on you can also generate a link to log a user in. As per the [docs](http://www.zendesk.com/support/api/remote-authentication) you should be able to use this without sso, but since the authentication token is under Settings -> Security -> Single Sign-On, I'm not sure how else you can get the token. Here is an example though.
+
+	var loginUrl = api.GetLoginUrl("Name", "Email", "Your Auth Token", "optional forward to url");
+	
+A good example of how to use this would be, say you want a user to be able to see their tickets on your business's website. Using this you could link directly to the ticket from your site and with one click the user could be logged into Zendesk and seeing their ticket. Kind of nice :)

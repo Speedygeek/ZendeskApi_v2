@@ -579,12 +579,10 @@
     <Compile Include="..\ZendeskApi_v2\Requests\Views.cs">
       <Link>Requests\Views.cs</Link>
     </Compile>
-    <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
-      <Link>ZendeskApi.cs</Link>
-    </Compile>
     <Compile Include="Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\Attachments.cs" />
+    <Compile Include="ZendeskApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
