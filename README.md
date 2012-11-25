@@ -65,7 +65,7 @@ By default Zendesk will only return you 100 items at a time. But when there are 
 	
 Remote Authentication
 --------------
-As an added bonus if you are using single sign on you can also generate a link to log a user in. As per the [docs](http://www.zendesk.com/support/api/remote-authentication) you should be able to use this without sso, but since the authentication token is under Settings -> Security -> Single Sign-On, I'm not sure how else you can get the token. Here is an example though.
+As an added bonus you can also generate a link to log a user in. Make sure you have "Token Access" enabled at Settings -> Channels -> Api.
 
 	var loginUrl = api.GetLoginUrl("Name", "Email", "Your Auth Token", "optional forward to url");
 	
