@@ -135,6 +135,10 @@ namespace Tests
                 Email = "test10@test.com",
             };
 
+            var existingUser = api.Users.SearchByEmail(user.Email);
+            if (existingUser.Count > 0)
+                api.Users.DeleteUser(existingUser.Users[0].Id.Value);
+
             var res1 = api.Users.CreateUser(user);
             var userId = res1.User.Id.Value;
 

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using RestSharp;
+﻿using System.Collections.Generic;
 using ZenDeskApi_v2.Extensions;
-using ZenDeskApi_v2.Models.Shared;
-using ZenDeskApi_v2.Models.Tickets;
-using ZenDeskApi_v2.Models.Users;
 using ZenDeskApi_v2.Models.Views;
 using ZenDeskApi_v2.Models.Views.Executed;
 
@@ -20,7 +14,7 @@ namespace ZenDeskApi_v2.Requests
         }
 
         public GroupViewResponse GetAllViews()
-        {
+        {            
             return GenericGet<GroupViewResponse>("views.json");
         }
 

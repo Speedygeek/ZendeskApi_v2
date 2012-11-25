@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using RestSharp;
 using ZenDeskApi_v2.Extensions;
 using ZenDeskApi_v2.Models.Shared;
 using ZenDeskApi_v2.Models.Tickets;
@@ -103,16 +102,10 @@ namespace ZenDeskApi_v2.Requests
         }
 
         public bool MarkAuditAsTrusted(long ticketId, long auditId)
-        {                        
-            var request = new RestRequest
-            {
-                Method = Method.PUT,
-                Resource = string.Format("tickets/{0}/audits/{1}/trust.json", ticketId, auditId),
-                RequestFormat = DataFormat.Json
-            };
-
-            var res = Execute(request);
-            return res.StatusCode == HttpStatusCode.OK;
+        {
+            var resource = string.Format("tickets/{0}/audits/{1}/trust.json", ticketId, auditId);
+            var res = RunRequest(resource, "PUT");            
+            return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public TicketExportResponse GetInrementalTicketExport(DateTime startTime)
@@ -136,25 +129,18 @@ namespace ZenDeskApi_v2.Requests
         }
         
         public IndividualTicketFieldResponse CreateTicketField(TicketField ticketField)
-        {
-            var request = new RestRequest
-            {
-                Method = Method.POST,
-                Resource = "ticket_fields.json",
-                RequestFormat = DataFormat.Json
-            };
+        {                        
+            var body = new
+                           {
+                               ticket_field = new
+                                                  {
+                                                      type = ticketField.Type,
+                                                      title = ticketField.Title
+                                                  }
+                           };
 
-            var tmp = new
-                          {
-                              type = ticketField.Type,
-                              title = ticketField.Title,                                                            
-                          };
-            request.AddAndSerializeParam(new { ticket_field = tmp }, ParameterType.RequestBody);
-
-            var res = Execute<IndividualTicketFieldResponse>(request);
-            return res;
-            
-            //return GenericPost<IndividualTicketFieldResponse, object>("ticket_fields.json", new { ticket_field = tmp });            
+            var res = GenericPost<IndividualTicketFieldResponse>("ticket_fields.json", body);            
+            return res;                        
         }
 
         public IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField)
@@ -179,28 +165,16 @@ namespace ZenDeskApi_v2.Requests
 
         public bool RecoverSuspendedTicket(long id)
         {
-            var request = new RestRequest
-            {
-                Method = Method.PUT,
-                Resource = string.Format("suspended_tickets/{0}/recover.json", id),
-                RequestFormat = DataFormat.Json
-            };            
-
-            var res = Execute(request);
-            return res.StatusCode == HttpStatusCode.OK;
+            var resource = string.Format("suspended_tickets/{0}/recover.json", id);
+            var res = RunRequest(resource, "PUT");
+            return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public bool RecoverManySuspendedTickets(List<long> ids)
         {
-            var request = new RestRequest
-            {
-                Method = Method.PUT,
-                Resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv()),
-                RequestFormat = DataFormat.Json
-            };            
-
-            var res = Execute(request);
-            return res.StatusCode == HttpStatusCode.OK;            
+            var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
+            var res = RunRequest(resource, "PUT");            
+            return res.HttpStatusCode == HttpStatusCode.OK;            
         }
 
         public bool DeleteSuspendedTickets(long id)

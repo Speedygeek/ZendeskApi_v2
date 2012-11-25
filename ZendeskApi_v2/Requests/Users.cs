@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using RestSharp;
-using ZenDeskApi_v2.Extensions;
+﻿using System.Collections.Generic;
 using ZenDeskApi_v2.Models.Shared;
-using ZenDeskApi_v2.Models.Tickets;
 using ZenDeskApi_v2.Models.Users;
-using ZenDeskApi_v2.Models.Views;
-using ZenDeskApi_v2.Models.Views.Executed;
 using User = ZenDeskApi_v2.Models.Users.User;
 
 namespace ZenDeskApi_v2.Requests

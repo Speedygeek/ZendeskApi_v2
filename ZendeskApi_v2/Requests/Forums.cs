@@ -49,7 +49,7 @@ namespace ZenDeskApi_v2.Requests
 
         public GroupForumSubcriptionResponse GetForumSubscriptionsByForumId(long forumId)
         {
-            return GenericGet<GroupForumSubcriptionResponse>(string.Format("forum/{0}/subscriptions.json", forumId));
+            return GenericGet<GroupForumSubcriptionResponse>(string.Format("forums/{0}/subscriptions.json", forumId));
         }
 
         public IndividualForumSubcriptionResponse GetForumSubscriptionsById(long subscriptionId)

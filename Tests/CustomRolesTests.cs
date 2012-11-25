@@ -11,7 +11,7 @@ namespace Tests
         [Test]
         public void CanGetCustomRoles()
         {
-            var res = api.CustomAgentRoles.GetCustomRoles();
+            //var res = api.CustomAgentRoles.GetCustomRoles();
             
             //Apparently you have to pay more to get this feature so the test will fail
             //Assert.Greater(res.CustomRoleCollection.Count, 0);
