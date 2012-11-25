@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using Newtonsoft.Json;
+using ZendeskApi_v2.Models;
 
 namespace ZendeskApi_v2
 {
@@ -14,7 +17,7 @@ namespace ZendeskApi_v2
         protected string User;
         protected string Password;
         protected string ZendeskUrl;        
-       
+
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
@@ -26,6 +29,15 @@ namespace ZendeskApi_v2
             User = user;
             Password = password;
             ZendeskUrl = zendeskApiUrl;            
+        }
+
+        public T GetByPageUrl<T>(string pageUrl)
+        {            
+            if(string.IsNullOrEmpty(pageUrl))
+                return JsonConvert.DeserializeObject<T>("");
+
+            var resource = Regex.Split(pageUrl, "api/v2/").Last();
+            return RunRequest<T>(resource, "GET");
         }
 
         public T RunRequest<T>(string resource, string requestMethod, object body = null)

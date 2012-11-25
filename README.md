@@ -8,7 +8,7 @@ Here are some examples of things you might want to do, but for even more example
 Creating a ticket:
 --------------
 	ZendeskApi api = new ZendeskApi(https://{yoursite}.zendesk.com/api/v2, "your@email.com", "password"); 
-	var res = api.Tickets.CreateTicket(new Ticket()
+	var ticket = api.Tickets.CreateTicket(new Ticket()
                              {
                                  Subject = "my printer is on fire",
                                  Description = "HELP",
@@ -18,7 +18,7 @@ Creating a ticket:
 Getting all the tickets in a view
 --------------
 	var myViewId = 1; //ex Id for the All unsolved tickets view
-	var res = api.Views.ExecuteView(myViewId);
+	var tickets = api.Views.ExecuteView(myViewId);
 	
 
 Uploading an attachment to a ticket
@@ -50,6 +50,27 @@ Now we add the attachment token to a ticket.
 	
 Updating a ticket works the same way, just create a new comment and set the Uploads token. Note you can add more than one attachment to a comment.
 
+Paging
+--------------
+By default Zendesk will only return you 100 items at a time. But when there are more than that you can use the "NextPage" and "PreviousPage" urls to get more. For example lets say we call GetAllTickets and want to get the second page as well, here's how you would do it.
+	
+	ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+	var tickets = api.Tickets.GetAllTickets();
+	if(!string.IsNullOrEmpty(tickets.NextPage))
+    {
+        var page2 = api.Tickets.GetByPageUrl<GroupTicketResponse>(tickets.NextPage);
+    }
+	
+*Note that the type in GetByPageUrl<T> must be the same type as returned by the original collection. So in this case api.Tickets.GetAllTickets() returns a GroupTicketResponse, so that is the type we want to use.
+	
+Remote Authentication
+--------------
+As an added bonus if you are using single sign on you can also generate a link to log a user in. As per the [docs](http://www.zendesk.com/support/api/remote-authentication) you should be able to use this without sso, but since the authentication token is under Settings -> Security -> Single Sign-On, I'm not sure how else you can get the token. Here is an example though.
+
+	var loginUrl = api.GetLoginUrl("Name", "Email", "Your Auth Token", "optional forward to url");
+	
+A good example of how to use this would be, say you want a user to be able to see their tickets on your business's website. Using this you could link directly to the ticket from your site and with one click the user could be logged into Zendesk and seeing their ticket. Kind of nice :)
+
 Summary
 --------------
 All of the api calls are under the following properties. And these properties pretty much correspond to the [Zendesk docs](http://developer.zendesk.com/documentation/rest_api/tickets.html) except for things like "Ticket Audits" which are grouped with all of the other ticket methods.
@@ -73,11 +94,3 @@ All of the api calls are under the following properties. And these properties pr
 - SatisfactionRatings
 - SharingAgreements
 - Triggers
-
-Remote Authentication
---------------
-As an added bonus if you are using single sign on you can also generate a link to log a user in. As per the [docs](http://www.zendesk.com/support/api/remote-authentication) you should be able to use this without sso, but since the authentication token is under Settings -> Security -> Single Sign-On, I'm not sure how else you can get the token. Here is an example though.
-
-	var loginUrl = api.GetLoginUrl("Name", "Email", "Your Auth Token", "optional forward to url");
-	
-A good example of how to use this would be, say you want a user to be able to see their tickets on your business's website. Using this you could link directly to the ticket from your site and with one click the user could be logged into Zendesk and seeing their ticket. Kind of nice :)

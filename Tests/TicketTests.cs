@@ -21,7 +21,7 @@ namespace Tests
         [Test]
         public void CanGetTickets()
         {
-            var tickets = api.Tickets.GetAllTickets();
+            var tickets = api.Tickets.GetAllTickets();            
             Assert.True(tickets.Count > 0);
         }
 

@@ -11,10 +11,10 @@ namespace ZendeskApi_v2.Models
     public class GroupResponseBase
     {        
         [JsonProperty("next_page")]
-        public object NextPage { get; set; }
+        public string NextPage { get; set; }
 
         [JsonProperty("previous_page")]
-        public object PreviousPage { get; set; }
+        public string PreviousPage { get; set; }
 
         [JsonProperty("count")]
         public int Count { get; set; }
