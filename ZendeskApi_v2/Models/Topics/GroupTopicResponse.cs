@@ -9,19 +9,10 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Topics
 {
 
-    public class GroupTopicResponse
+    public class GroupTopicResponse : GroupResponseBase
     {
 
         [JsonProperty("topics")]
-        public IList<Topic> Topics { get; set; }
-
-        [JsonProperty("next_page")]
-        public object NextPage { get; set; }
-
-        [JsonProperty("previous_page")]
-        public object PreviousPage { get; set; }
-
-        [JsonProperty("count")]
-        public int Count { get; set; }
+        public IList<Topic> Topics { get; set; }    
     }
 }

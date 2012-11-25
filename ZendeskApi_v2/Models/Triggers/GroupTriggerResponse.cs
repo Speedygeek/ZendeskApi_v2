@@ -9,19 +9,10 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Triggers
 {
 
-    public class GroupTriggerResponse
+    public class GroupTriggerResponse : GroupResponseBase
     {
 
         [JsonProperty("triggers")]
         public IList<Trigger> Triggers { get; set; }
-
-        [JsonProperty("next_page")]
-        public object NextPage { get; set; }
-
-        [JsonProperty("previous_page")]
-        public object PreviousPage { get; set; }
-
-        [JsonProperty("count")]
-        public int Count { get; set; }
     }
 }

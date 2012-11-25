@@ -10,19 +10,9 @@ using ZendeskApi_v2.Models.Views;
 namespace ZendeskApi_v2.Models.Views
 {
 
-    public class GroupViewResponse
+    public class GroupViewResponse : GroupResponseBase
     {
-
         [JsonProperty("views")]
         public IList<View> Views { get; set; }
-
-        [JsonProperty("next_page")]
-        public object NextPage { get; set; }
-
-        [JsonProperty("previous_page")]
-        public object PreviousPage { get; set; }
-
-        [JsonProperty("count")]
-        public int Count { get; set; }
     }
 }

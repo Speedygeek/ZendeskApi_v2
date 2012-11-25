@@ -64,6 +64,7 @@
     <Compile Include="Models\Forums\GroupForumSubcriptionResponse.cs" />
     <Compile Include="Models\Forums\IndividualForumResponse.cs" />
     <Compile Include="Models\Forums\IndividualForumSubcriptionResponse.cs" />
+    <Compile Include="Models\GroupResponseBase.cs" />
     <Compile Include="Models\Groups\Group.cs" />
     <Compile Include="Models\Groups\GroupMembership.cs" />
     <Compile Include="Models\Groups\IndividualGroupMembershipResponse.cs" />

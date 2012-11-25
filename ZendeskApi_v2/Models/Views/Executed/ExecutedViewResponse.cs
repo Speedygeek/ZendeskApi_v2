@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace ZendeskApi_v2.Models.Views.Executed
 {
 
-    public class ExecutedViewResponse
+    public class ExecutedViewResponse : GroupResponseBase
     {
 
         [JsonProperty("rows")]
@@ -20,15 +20,6 @@ namespace ZendeskApi_v2.Models.Views.Executed
         public View View { get; set; }
 
         [JsonProperty("users")]
-        public IList<ExecutedUser> Users { get; set; }
-
-        [JsonProperty("next_page")]
-        public string NextPage { get; set; }
-
-        [JsonProperty("previous_page")]
-        public object PreviousPage { get; set; }
-
-        [JsonProperty("count")]
-        public int Count { get; set; }
+        public IList<ExecutedUser> Users { get; set; }    
     }
 }

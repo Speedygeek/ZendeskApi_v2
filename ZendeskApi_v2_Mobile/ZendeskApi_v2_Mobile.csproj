@@ -150,6 +150,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Forums\IndividualForumSubcriptionResponse.cs">
       <Link>Models\Forums\IndividualForumSubcriptionResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\GroupResponseBase.cs">
+      <Link>Models\GroupResponseBase.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Groups\Group.cs">
       <Link>Models\Groups\Group.cs</Link>
     </Compile>

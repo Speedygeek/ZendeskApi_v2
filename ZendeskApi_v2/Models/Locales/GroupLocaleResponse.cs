@@ -9,19 +9,10 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Locales
 {
 
-    public class GroupLocaleResponse
+    public class GroupLocaleResponse : GroupResponseBase
     {
 
         [JsonProperty("locales")]
         public IList<Locale> Locales { get; set; }
-
-        [JsonProperty("next_page")]
-        public object NextPage { get; set; }
-
-        [JsonProperty("previous_page")]
-        public object PreviousPage { get; set; }
-
-        [JsonProperty("count")]
-        public int Count { get; set; }
     }
 }

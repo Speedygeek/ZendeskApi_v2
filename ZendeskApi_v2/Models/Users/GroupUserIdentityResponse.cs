@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Users
 {
 
-    public class GroupUserIdentityResponse
+    public class GroupUserIdentityResponse : GroupResponseBase
     {
 
         [JsonProperty("identities")]
