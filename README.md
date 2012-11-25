@@ -21,4 +21,55 @@ Getting all the tickets in a view
 	var res = api.Views.ExecuteView(myViewId);
 	
 
-More to come!
+Uploading an attachment to a ticket
+--------------
+1st we need to upload the attachment.
+
+	var attachment = api.Attachments.UploadAttachment(new ZenFile()
+            {
+                ContentType = "text/plain",
+                FileName = "testupload.txt",
+                FileData = File.ReadAllBytes("testupload.txt")
+            });
+
+Now we add the attachment token to a ticket. 
+			
+	var ticket = new Ticket()
+            {
+                Subject = "testing attachments",
+                Description = "test attachment",
+                Priority = TicketPriorities.Normal,
+                Comment = new Comment() { 
+                    Body = "comments are required for attachments", 
+                    Public = true, 
+                    Uploads = new List<string>() { attachment.Token } \\Add the attachment token here
+                },
+            };
+
+    var t1 = api.Tickets.CreateTicket(ticket);
+	
+Updating a ticket works the same way, just create a new comment and set the Uploads token. Note you can add more than one attachment to a comment.
+
+Summary
+--------------
+All of the api calls are under the following properties. And these properties pretty much correspond to the [Zendesk docs](http://developer.zendesk.com/documentation/rest_api/tickets.html) except for things like "Ticket Audits" which are grouped with all of the other ticket methods.
+- Tickets
+- Attachments
+- Views
+- Users
+- Requests
+- Groups
+- CustomAgentRoles
+- Organizations
+- Search
+- Tags
+- Forums
+- Categories
+- Topics
+- AccountsAndActivity
+- JobStatuses
+- Locales
+- Macros
+- SatisfactionRatings
+- SharingAgreements
+- Triggers
