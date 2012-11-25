@@ -7,7 +7,7 @@ using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Extensions
+namespace ZendeskApi_v2.Extensions
 {
     public static class RequestExtensions
     {

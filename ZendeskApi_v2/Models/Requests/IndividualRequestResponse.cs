@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Requests
+namespace ZendeskApi_v2.Models.Requests
 {
     public class IndividualRequestResponse
     {

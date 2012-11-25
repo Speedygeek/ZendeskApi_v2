@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ZenDeskApi_v2.Models.Macros
+namespace ZendeskApi_v2.Models.Macros
 {
 
     public class GroupMacroResponse

@@ -1,12 +1,12 @@
-using ZenDeskApi_v2.Models.Locales;
+using ZendeskApi_v2.Models.Locales;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Locales : Core
     {
 
-        public Locales(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Locales(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
         /// <summary>

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Satisfaction
+namespace ZendeskApi_v2.Models.Satisfaction
 {
     public class IndividualSatisfactionResponse
     {

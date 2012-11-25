@@ -1,11 +1,11 @@
-using ZenDeskApi_v2.Models.Macros;
+using ZendeskApi_v2.Models.Macros;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Macros : Core
     {
-        public Macros(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Macros(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

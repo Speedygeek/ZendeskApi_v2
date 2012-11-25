@@ -1,6 +1,6 @@
-﻿using ZenDeskApi_v2.Requests;
+﻿using ZendeskApi_v2.Requests;
 
-namespace ZenDeskApi_v2
+namespace ZendeskApi_v2
 {
     public class ZendeskApi
     {
@@ -25,28 +25,28 @@ namespace ZenDeskApi_v2
         public SharingAgreements SharingAgreements { get; set; }
         public Triggers Triggers { get; set; }
 
-        public ZendeskApi(string yourZenDeskUrl, string user, string password)
+        public ZendeskApi(string yourZendeskUrl, string user, string password)
         {
-            Tickets = new Tickets(yourZenDeskUrl, user, password);
-            Attachments = new Attachments(yourZenDeskUrl, user, password);
-            Views = new Views(yourZenDeskUrl, user, password);
-            Users = new Users(yourZenDeskUrl, user, password);
-            Requests = new Requests.Requests(yourZenDeskUrl, user, password);
-            Groups = new Groups(yourZenDeskUrl, user, password);
-            CustomAgentRoles = new CustomAgentRoles(yourZenDeskUrl, user, password);
-            Organizations = new Organizations(yourZenDeskUrl, user, password);
-            Search = new Search(yourZenDeskUrl, user, password);
-            Tags = new Tags(yourZenDeskUrl, user, password);
-            Forums = new Forums(yourZenDeskUrl, user, password);
-            Categories = new Categories(yourZenDeskUrl, user, password);
-            Topics = new Topics(yourZenDeskUrl, user, password);
-            AccountsAndActivity = new AccountsAndActivity(yourZenDeskUrl, user, password);
-            JobStatuses = new JobStatuses(yourZenDeskUrl, user, password);
-            Locales = new Locales(yourZenDeskUrl, user, password);
-            Macros = new Macros(yourZenDeskUrl, user, password);
-            SatisfactionRatings = new SatisfactionRatings(yourZenDeskUrl, user, password);
-            SharingAgreements = new SharingAgreements(yourZenDeskUrl, user, password);
-            Triggers = new Triggers(yourZenDeskUrl, user, password);
+            Tickets = new Tickets(yourZendeskUrl, user, password);
+            Attachments = new Attachments(yourZendeskUrl, user, password);
+            Views = new Views(yourZendeskUrl, user, password);
+            Users = new Users(yourZendeskUrl, user, password);
+            Requests = new Requests.Requests(yourZendeskUrl, user, password);
+            Groups = new Groups(yourZendeskUrl, user, password);
+            CustomAgentRoles = new CustomAgentRoles(yourZendeskUrl, user, password);
+            Organizations = new Organizations(yourZendeskUrl, user, password);
+            Search = new Search(yourZendeskUrl, user, password);
+            Tags = new Tags(yourZendeskUrl, user, password);
+            Forums = new Forums(yourZendeskUrl, user, password);
+            Categories = new Categories(yourZendeskUrl, user, password);
+            Topics = new Topics(yourZendeskUrl, user, password);
+            AccountsAndActivity = new AccountsAndActivity(yourZendeskUrl, user, password);
+            JobStatuses = new JobStatuses(yourZendeskUrl, user, password);
+            Locales = new Locales(yourZendeskUrl, user, password);
+            Macros = new Macros(yourZendeskUrl, user, password);
+            SatisfactionRatings = new SatisfactionRatings(yourZendeskUrl, user, password);
+            SharingAgreements = new SharingAgreements(yourZendeskUrl, user, password);
+            Triggers = new Triggers(yourZendeskUrl, user, password);
         }
     }
 }

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Organizations
+namespace ZendeskApi_v2.Models.Organizations
 {
     public class IndividualOrganizationResponse
     {

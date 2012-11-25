@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using ZenDeskApi_v2.Models.SharingAgreements;
+using ZendeskApi_v2.Models.SharingAgreements;
 
 namespace ZendeskApi_v2.Models.SharingAgreements
 {

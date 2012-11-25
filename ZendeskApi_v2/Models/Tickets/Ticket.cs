@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using ZenDeskApi_v2.Models.Shared;
+using ZendeskApi_v2.Models.Shared;
 
-namespace ZenDeskApi_v2.Models.Tickets
+namespace ZendeskApi_v2.Models.Tickets
 {    
     public class Ticket
     {

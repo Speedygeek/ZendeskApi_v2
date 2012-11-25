@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Users
+namespace ZendeskApi_v2.Models.Users
 {
     public class IndividualUserIdentityResponse
     {

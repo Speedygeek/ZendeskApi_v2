@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ZenDeskApi_v2.Models.Views;
+using ZendeskApi_v2.Models.Views;
 
-namespace ZenDeskApi_v2.Models.Views
+namespace ZendeskApi_v2.Models.Views
 {
 
     public class GroupViewResponse

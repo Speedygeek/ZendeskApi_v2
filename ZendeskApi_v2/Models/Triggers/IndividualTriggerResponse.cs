@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Triggers
+namespace ZendeskApi_v2.Models.Triggers
 {
     public class IndividualTriggerResponse
     {

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ZendeskApi_v2.Models.AccountsAndActivities;
 
-namespace ZenDeskApi_v2.Models.AccountsAndActivities
+namespace ZendeskApi_v2.Models.AccountsAndActivities
 {
 
     public class Settings

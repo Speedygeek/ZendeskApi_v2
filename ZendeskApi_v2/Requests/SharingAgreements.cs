@@ -1,12 +1,12 @@
 using ZendeskApi_v2.Models.SharingAgreements;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class SharingAgreements : Core
     {
 
-        public SharingAgreements(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public SharingAgreements(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

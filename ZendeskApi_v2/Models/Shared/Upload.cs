@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Shared
+namespace ZendeskApi_v2.Models.Shared
 {
     public class Upload
     {

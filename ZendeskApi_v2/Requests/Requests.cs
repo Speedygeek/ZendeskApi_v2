@@ -1,12 +1,12 @@
-using ZenDeskApi_v2.Models.Requests;
-using ZenDeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Models.Requests;
+using ZendeskApi_v2.Models.Tickets;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Requests : Core
     {
-        public Requests(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Requests(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

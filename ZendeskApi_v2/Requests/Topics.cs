@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using ZenDeskApi_v2.Extensions;
-using ZenDeskApi_v2.Models.Topics;
+using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.Topics;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Topics : Core
     {
-        public Topics(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Topics(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

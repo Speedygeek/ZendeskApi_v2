@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using ZenDeskApi_v2.Models.Shared;
-using ZenDeskApi_v2.Models.Users;
-using User = ZenDeskApi_v2.Models.Users.User;
+using ZendeskApi_v2.Models.Shared;
+using ZendeskApi_v2.Models.Users;
+using User = ZendeskApi_v2.Models.Users.User;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Users : Core
     {        
-        public Users(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Users(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

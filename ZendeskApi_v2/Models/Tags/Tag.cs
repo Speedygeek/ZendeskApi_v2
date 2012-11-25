@@ -5,7 +5,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ZenDeskApi_v2.Models.Tags
+namespace ZendeskApi_v2.Models.Tags
 {
 
     public class Tag

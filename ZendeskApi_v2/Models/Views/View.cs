@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Views
+namespace ZendeskApi_v2.Models.Views
 {
 
     public class View

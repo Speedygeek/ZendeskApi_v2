@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using ZenDeskApi_v2;
-using ZenDeskApi_v2.Models.Constants;
-using ZenDeskApi_v2.Models.Macros;
-using ZenDeskApi_v2.Models.Tickets;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.Constants;
+using ZendeskApi_v2.Models.Macros;
+using ZendeskApi_v2.Models.Tickets;
 
 namespace Tests
 {

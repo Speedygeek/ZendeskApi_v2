@@ -3,28 +3,28 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
-using ZenDeskApi_v2.Extensions;
+using ZendeskApi_v2.Extensions;
 
-namespace ZenDeskApi_v2
+namespace ZendeskApi_v2
 {
     public class Core
     {
         private const string XOnBehalfOfEmail = "X-On-Behalf-Of";
         protected string User;
         protected string Password;
-        protected string ZenDeskUrl;
+        protected string ZendeskUrl;
 
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
-        /// <param name="zenDeskApiUrl"></param>
+        /// <param name="zendeskApiUrl"></param>
         /// <param name="user"></param>
         /// <param name="password"></param>
-        public Core(string zenDeskApiUrl, string user, string password)
+        public Core(string zendeskApiUrl, string user, string password)
         {
             User = user;
             Password = password;
-            ZenDeskUrl = zenDeskApiUrl;
+            ZendeskUrl = zendeskApiUrl;
         }
 
         public T RunRequest<T>(string resource, string requestMethod, object body = null)
@@ -42,7 +42,7 @@ namespace ZenDeskApi_v2
 
         public RequestResult RunRequest(string resource, string requestMethod, object body = null)
         {
-            var requestUrl = ZenDeskUrl;
+            var requestUrl = ZendeskUrl;
             if (!requestUrl.EndsWith("/"))
                 requestUrl += "/";
 

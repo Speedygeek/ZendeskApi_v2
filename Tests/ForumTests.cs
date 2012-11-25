@@ -1,8 +1,8 @@
 using System.Linq;
 using NUnit.Framework;
-using ZenDeskApi_v2;
-using ZenDeskApi_v2.Models.Constants;
-using ZenDeskApi_v2.Models.Forums;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.Constants;
+using ZendeskApi_v2.Models.Forums;
 
 namespace Tests
 {

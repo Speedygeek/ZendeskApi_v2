@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Locales
+namespace ZendeskApi_v2.Models.Locales
 {
     public class IndividualLocaleResponse
     {

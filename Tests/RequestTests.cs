@@ -1,8 +1,8 @@
 using System.Linq;
 using NUnit.Framework;
-using ZenDeskApi_v2;
-using ZenDeskApi_v2.Models.Requests;
-using ZenDeskApi_v2.Models.Tickets;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.Requests;
+using ZendeskApi_v2.Models.Tickets;
 
 namespace Tests
 {

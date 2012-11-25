@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ZenDeskApi_v2.Models.Tickets.Suspended
+namespace ZendeskApi_v2.Models.Tickets.Suspended
 {
 
     public class GroupSuspendedTicketResponse

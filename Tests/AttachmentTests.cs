@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
-using ZenDeskApi_v2;
-using ZenDeskApi_v2.Models.Shared;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.Shared;
 
 
 namespace Tests

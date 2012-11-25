@@ -4,15 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using ZenDeskApi_v2.Extensions;
-using ZenDeskApi_v2.Models.Shared;
+using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.Shared;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Attachments : Core
     {
-        public Attachments(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Attachments(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         { }
 
         public Upload UploadAttachment(ZenFile file)
@@ -46,7 +46,7 @@ namespace ZenDeskApi_v2.Requests
         /// <returns></returns>       
         Upload UploadAttachment(ZenFile file, string token = "")
         {
-            var requestUrl = ZenDeskUrl;
+            var requestUrl = ZendeskUrl;
             if (!requestUrl.EndsWith("/"))
                 requestUrl += "/";
 

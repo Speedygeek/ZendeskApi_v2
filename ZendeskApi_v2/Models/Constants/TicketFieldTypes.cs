@@ -1,4 +1,4 @@
-namespace ZenDeskApi_v2.Models.Constants
+namespace ZendeskApi_v2.Models.Constants
 {
     public static class TicketFieldTypes
     {

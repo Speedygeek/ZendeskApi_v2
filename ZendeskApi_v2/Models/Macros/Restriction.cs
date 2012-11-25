@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Macros
+namespace ZendeskApi_v2.Models.Macros
 {
     public class Restriction
     {

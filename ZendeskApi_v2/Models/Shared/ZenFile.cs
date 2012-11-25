@@ -1,4 +1,4 @@
-namespace ZenDeskApi_v2.Models.Shared
+namespace ZendeskApi_v2.Models.Shared
 {
     public class ZenFile
     {        

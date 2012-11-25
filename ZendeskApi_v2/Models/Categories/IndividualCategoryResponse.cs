@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Categories
+namespace ZendeskApi_v2.Models.Categories
 {
     public class IndividualCategoryResponse
     {

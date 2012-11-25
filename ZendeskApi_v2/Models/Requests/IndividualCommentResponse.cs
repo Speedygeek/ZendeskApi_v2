@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using ZenDeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Models.Tickets;
 
-namespace ZenDeskApi_v2.Models.Requests
+namespace ZendeskApi_v2.Models.Requests
 {
     public class IndividualCommentResponse
     {

@@ -5,10 +5,10 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ZenDeskApi_v2.Models.Shared;
-using ZenDeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Models.Shared;
+using ZendeskApi_v2.Models.Tickets;
 
-namespace ZenDeskApi_v2.Models.Requests
+namespace ZendeskApi_v2.Models.Requests
 {
 
     public class Request

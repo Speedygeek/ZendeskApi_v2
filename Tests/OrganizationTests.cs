@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using ZenDeskApi_v2;
-using ZenDeskApi_v2.Models.Organizations;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.Organizations;
 
 namespace Tests
 {

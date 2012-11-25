@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Tickets
+namespace ZendeskApi_v2.Models.Tickets
 {
     public class BulkUpdate
     {

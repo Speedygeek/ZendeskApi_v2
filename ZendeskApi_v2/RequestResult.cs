@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace ZenDeskApi_v2
+namespace ZendeskApi_v2
 {
     public class RequestResult
     {

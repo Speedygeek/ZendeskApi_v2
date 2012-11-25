@@ -1,12 +1,12 @@
-using ZenDeskApi_v2.Models.Forums;
-using ZenDeskApi_v2.Models.Tags;
+using ZendeskApi_v2.Models.Forums;
+using ZendeskApi_v2.Models.Tags;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Forums : Core
     {
-        public Forums(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Forums(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

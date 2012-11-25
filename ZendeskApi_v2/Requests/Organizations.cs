@@ -1,11 +1,11 @@
-using ZenDeskApi_v2.Models.Organizations;
+using ZendeskApi_v2.Models.Organizations;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Organizations : Core
     {
-        public Organizations(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Organizations(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

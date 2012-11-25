@@ -1,6 +1,6 @@
-using ZenDeskApi_v2.Models.Search;
+using ZendeskApi_v2.Models.Search;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     /// <summary>
     /// The search API is a unified search API that returns tickets, users, organizations, and forum topics. 
@@ -8,8 +8,8 @@ namespace ZenDeskApi_v2.Requests
     /// </summary>
     public class Search : Core
     {
-        public Search(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Search(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

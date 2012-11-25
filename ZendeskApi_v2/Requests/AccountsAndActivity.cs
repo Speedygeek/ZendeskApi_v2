@@ -1,13 +1,13 @@
-using ZenDeskApi_v2.Models.AccountsAndActivities;
+using ZendeskApi_v2.Models.AccountsAndActivities;
 
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class AccountsAndActivity : Core
     {
 
-        public AccountsAndActivity(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public AccountsAndActivity(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

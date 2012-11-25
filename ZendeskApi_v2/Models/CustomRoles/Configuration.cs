@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ZenDeskApi_v2.Models.CustomRoles
+namespace ZendeskApi_v2.Models.CustomRoles
 {
 
     public class Configuration

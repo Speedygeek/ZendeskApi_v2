@@ -4,7 +4,7 @@
 using Newtonsoft.Json;
 
 
-namespace ZenDeskApi_v2.Models.AccountsAndActivities
+namespace ZendeskApi_v2.Models.AccountsAndActivities
 {
 
     public class Activity
@@ -23,10 +23,10 @@ namespace ZenDeskApi_v2.Models.AccountsAndActivities
         public string Title { get; set; }
 
         [JsonProperty("user")]
-        public ZenDeskApi_v2.Models.Users.User User { get; set; }
+        public ZendeskApi_v2.Models.Users.User User { get; set; }
 
         [JsonProperty("actor")]
-        public ZenDeskApi_v2.Models.Users.User Actor { get; set; }
+        public ZendeskApi_v2.Models.Users.User Actor { get; set; }
 
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }

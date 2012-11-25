@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using ZenDeskApi_v2;
+using ZendeskApi_v2;
 
 namespace Tests
 {

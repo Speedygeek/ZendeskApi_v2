@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using NUnit.Framework;
-using ZenDeskApi_v2;
-using ZenDeskApi_v2.Models.Constants;
-using ZenDeskApi_v2.Models.Shared;
-using ZenDeskApi_v2.Models.Tickets;
-using ZenDeskApi_v2.Models.Users;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.Constants;
+using ZendeskApi_v2.Models.Shared;
+using ZendeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Models.Users;
 
 
 namespace Tests

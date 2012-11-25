@@ -1,11 +1,11 @@
-using ZenDeskApi_v2.Models.Satisfaction;
+using ZendeskApi_v2.Models.Satisfaction;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class SatisfactionRatings : Core
     {
-        public SatisfactionRatings(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public SatisfactionRatings(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

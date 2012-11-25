@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace ZenDeskApi_v2.Models.Users
+namespace ZendeskApi_v2.Models.Users
 {
     public class User
     {

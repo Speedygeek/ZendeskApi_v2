@@ -1,11 +1,11 @@
-using ZenDeskApi_v2.Models.CustomRoles;
+using ZendeskApi_v2.Models.CustomRoles;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class CustomAgentRoles : Core
     {
-        public CustomAgentRoles(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public CustomAgentRoles(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 

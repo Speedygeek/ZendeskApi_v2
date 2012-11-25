@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using ZenDeskApi_v2.Extensions;
-using ZenDeskApi_v2.Models.Views;
-using ZenDeskApi_v2.Models.Views.Executed;
+using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.Views;
+using ZendeskApi_v2.Models.Views.Executed;
 
-namespace ZenDeskApi_v2.Requests
+namespace ZendeskApi_v2.Requests
 {
     public class Views : Core
     {
         
-        public Views(string yourZenDeskUrl, string user, string password)
-            : base(yourZenDeskUrl, user, password)
+        public Views(string yourZendeskUrl, string user, string password)
+            : base(yourZendeskUrl, user, password)
         {
         }
 
