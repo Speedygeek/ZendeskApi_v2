@@ -6,11 +6,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A80DB5E8-5D98-4256-9513-34E13A82D5EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CFE6722-BBAA-4BE6-A634-C5039D9B91C6}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZendeskApi_v2_Mobile", "ZendeskApi_v2_Mobile\ZendeskApi_v2_Mobile.csproj", "{E7EABB17-E3EE-4509-B1FE-8AB87BA3C76E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CA0A343F-FD43-43D5-ACE1-FC6BEFA2C7E2}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
