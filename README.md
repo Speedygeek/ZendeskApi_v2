@@ -7,6 +7,8 @@ Here are some examples of things you might want to do, but for even more example
 
 Creating a ticket:
 --------------
+
+```C#
 	ZendeskApi api = new ZendeskApi(https://{yoursite}.zendesk.com/api/v2, "your@email.com", "password"); 
 	var ticket = api.Tickets.CreateTicket(new Ticket()
                              {
@@ -14,26 +16,33 @@ Creating a ticket:
                                  Description = "HELP",
                                  Priority = TicketPriorities.Urgent
                              });
+```							 
 							 
 Getting all the tickets in a view
 --------------
+
+```C#
 	var myViewId = 1; //ex Id for the All unsolved tickets view
 	var tickets = api.Views.ExecuteView(myViewId);
+```
 	
 
 Uploading an attachment to a ticket
 --------------
 1st we need to upload the attachment.
 
+```C#
 	var attachment = api.Attachments.UploadAttachment(new ZenFile()
             {
                 ContentType = "text/plain",
                 FileName = "testupload.txt",
                 FileData = File.ReadAllBytes("testupload.txt")
             });
-
-Now we add the attachment token to a ticket. 
+```
 			
+Now we add the attachment token to a ticket. 
+	
+```C#	
 	var ticket = new Ticket()
             {
                 Subject = "testing attachments",
@@ -47,6 +56,7 @@ Now we add the attachment token to a ticket.
             };
 
     var t1 = api.Tickets.CreateTicket(ticket);
+```	
 	
 Updating a ticket works the same way, just create a new comment and set the Uploads token. Note you can add more than one attachment to a comment.
 
@@ -54,12 +64,14 @@ Paging
 --------------
 By default Zendesk will only return you 100 items at a time. But when there are more than that you can use the "NextPage" and "PreviousPage" urls to get more. For example lets say we call GetAllTickets and want to get the second page as well, here's how you would do it.
 	
+```C#	
 	ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 	var tickets = api.Tickets.GetAllTickets();
 	if(!string.IsNullOrEmpty(tickets.NextPage))
     {
         var page2 = api.Tickets.GetByPageUrl<GroupTicketResponse>(tickets.NextPage);
     }
+```	
 	
 *Note that the type in GetByPageUrl<T> must be the same type as returned by the original collection. So in this case api.Tickets.GetAllTickets() returns a GroupTicketResponse, so that is the type we want to use.
 	
@@ -67,7 +79,9 @@ Remote Authentication
 --------------
 As an added bonus you can also generate a link to log a user in. Make sure you have "Token Access" enabled at Settings -> Channels -> Api.
 
+```C#
 	var loginUrl = api.GetLoginUrl("Name", "Email", "Your Auth Token", "optional forward to url");
+```	
 	
 A good example of how to use this would be, say you want a user to be able to see their tickets on your business's website. Using this you could link directly to the ticket from your site and with one click the user could be logged into Zendesk and seeing their ticket. Kind of nice :)
 
@@ -94,3 +108,5 @@ All of the api calls are under the following properties. And these properties pr
 - SatisfactionRatings
 - SharingAgreements
 - Triggers
+
+For any API related questions please email api@zendesk.com, thanks!
