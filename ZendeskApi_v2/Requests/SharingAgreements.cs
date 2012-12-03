@@ -14,5 +14,12 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupSharingAgreementResponse>("sharing_agreements.json");
         }
+
+#if NotNet35
+        public async Task<GroupSharingAgreementResponse> GetSharingAgreementsAsync()
+        {
+            return await GenericGetAsync<GroupSharingAgreementResponse>("sharing_agreements.json");
+        }
+#endif
     }
 }

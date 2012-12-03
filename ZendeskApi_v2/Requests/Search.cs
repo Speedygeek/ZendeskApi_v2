@@ -52,5 +52,47 @@ namespace ZendeskApi_v2.Requests
 
             return GenericGet<SearchResults>(resource);
         }
+
+#if NotNet35
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <param name="sortBy">Possible values are 'updated_at', 'created_at', 'priority', 'status', and 'ticket_type</param>
+        /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
+        /// <returns></returns>
+        public async Task<SearchResults> SearchForAsync(string searchTerm, string sortBy="", string sortOrder="")
+        {
+            var resource = string.Format("search.json?query={0}", searchTerm);
+            
+            if (!string.IsNullOrEmpty(sortBy))
+                resource += "&sort_by=" + sortBy;
+
+            if (!string.IsNullOrEmpty(sortOrder))
+                resource += "&sort_order=" + sortOrder;
+
+            return await GenericGetAsync<SearchResults>(resource);
+        }
+
+        /// <summary>
+        /// This resource behaves the same as SearchFor, but allows anonymous users to search public forums
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <param name="sortBy">Possible values are 'updated_at', 'created_at', 'priority', 'status', and 'ticket_type</param>
+        /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
+        /// <returns></returns>
+        public async Task<SearchResults> AnonymousSearchForAsync(string searchTerm, string sortBy = "", string sortOrder = "")
+        {
+            var resource = string.Format("portal/search.json?query={0}", searchTerm);
+
+            if (!string.IsNullOrEmpty(sortBy))
+                resource += "&sort_by=" + sortBy;
+
+            if (!string.IsNullOrEmpty(sortOrder))
+                resource += "&sort_order=" + sortOrder;
+
+            return await GenericGetAsync<SearchResults>(resource);
+        }
+#endif
     }
 }

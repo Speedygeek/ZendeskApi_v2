@@ -56,5 +56,51 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualViewCountResponse>(string.Format("views/{0}/count.json", viewId));
         }
+
+#if NotNet35
+        public async Task<GroupViewResponse> GetAllViews()
+        {            
+            return await GenericGet<GroupViewResponse>("views.json");
+        }
+
+        public async Task<GroupViewResponse> GetActiveViews()
+        {
+            return await GenericGet<GroupViewResponse>("views/active.json");
+        }
+
+        public async Task<GroupViewResponse> GetCompactViews()
+        {
+            return await GenericGet<GroupViewResponse>("views/compact.json");
+        }
+
+        public async Task<IndividualViewResponse> GetView(long id)
+        {
+            return await GenericGet<IndividualViewResponse>(string.Format("views/{0}.json", id));
+        }
+
+        public async Task<ExecutedViewResponse> ExecuteView(long id, string sortCol = "", bool ascending = true)
+        {
+            var resource = string.Format("views/{0}/execute.json", id);
+            if (!string.IsNullOrEmpty(sortCol))
+                resource += string.Format("?sort_by={0}&sort_order={1}", sortCol, ascending ? "" : "desc");
+
+            return await GenericGet<ExecutedViewResponse>(resource);
+        }
+
+        public async Task<ExecutedViewResponse> PreviewView(PreviewViewRequest preview)
+        {
+            return await GenericPost<ExecutedViewResponse>("views/preview.json", preview);
+        }
+
+        public async Task<GroupViewCountResponse> GetViewCounts(List<long> viewIds)
+        {
+            return await GenericGet<GroupViewCountResponse>(string.Format("views/count_many.json?ids={0}", viewIds.ToCsv()));
+        }
+
+        public async Task<IndividualViewCountResponse> GetViewCount(long viewId)
+        {
+            return await GenericGet<IndividualViewCountResponse>(string.Format("views/{0}/count.json", viewId));
+        }
+#endif
     }
 }

@@ -25,5 +25,21 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
         }
+
+#if NotNet35
+        public aysnc Task<SettingsResponse> GetSettingsAsync()
+        {
+            return await GenericGetAync<SettingsResponse>("account/settings.json");
+        }        
+        public aysnc Task<GroupActivityResponse> GetActivitiesAync()
+        {
+            return await GenericGetAync<GroupActivityResponse>("activities.json");
+        }
+
+        public aysnc Task<IndividualActivityResponse> GetActivityByIdAync(long activityId)
+        {
+            return await GenericGetAync<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
+        }
+#endif
     }
 }

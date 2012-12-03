@@ -112,5 +112,108 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("users/{0}/identities/{1}.json", userId, identityId));
         }
+
+#if NotNet35
+        public async Task<IndividualUserResponse> GetCurrentUserAsync()
+        {
+            return await GenericGetAsync<IndividualUserResponse>("users/me.json");
+        }
+
+        public async Task<GroupUserResponse> GetAllUsersAsync()
+        {
+            return await GenericGetAsync<GroupUserResponse>("users.json");
+        }
+
+        public async Task<IndividualUserResponse> GetUserAsync(long id)
+        {
+            return await GenericGetAsync<IndividualUserResponse>(string.Format("users/{0}.json", id));
+        }
+
+        public async Task<GroupUserResponse> SearchByEmailAsync(string email)
+        {
+            return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query={0}", email));
+        }
+
+        public async Task<GroupUserResponse> GetUsersInGroupAsync(long id)
+        {
+            return await GenericGetAsync<GroupUserResponse>(string.Format("groups/{0}/users.json", id));
+        }
+
+        public async Task<GroupUserResponse> GetUsersInOrganizationAsync(long id)
+        {
+            return await GenericGetAsync<GroupUserResponse>(string.Format("organizations/{0}/users.json", id));
+        }
+
+        public async Task<IndividualUserResponse> CreateUserAsync(User user)
+        {
+            var body = new { user = user };
+            return await GenericPostAsync<IndividualUserResponse>("users.json", body);
+        }
+
+        public async Task<JobStatusResponse> BulkCreateUsersAsync(List<User> users)
+        {
+            var body = new {users = users};
+            return await GenericPostAsync<JobStatusResponse>("users/create_many.json", body);
+        }
+
+        public async Task<IndividualUserResponse> SuspendUserAsync(long id)
+        {
+            var body = new {user = new {suspended = true}};
+            return await GenericPutAsync<IndividualUserResponse>(string.Format("users/{0}.json", id), body);
+        }
+
+        public async Task<IndividualUserResponse> UpdateUserAsync(User user)
+        {
+            var body = new { user = user };
+            return await GenericPutAsync<IndividualUserResponse>(string.Format("users/{0}.json", user.Id), body);
+        }
+
+        public async Task<bool> DeleteUserAsync(long id)
+        {
+            return await GenericDeleteAsync(string.Format("users/{0}.json", id));
+        }
+
+        public async Task<GroupUserIdentityResponse> GetUserIdentitiesAsync(long userId)
+        {
+            return await GenericGetAsync<GroupUserIdentityResponse>(string.Format("users/{0}/identities.json", userId));
+        }
+
+        public async Task<IndividualUserIdentityResponse> GetSpecificUserIdentityAsync(long userId, long identityId)
+        {
+            return await GenericGetAsync<IndividualUserIdentityResponse>(string.Format("users/{0}/identities/{1}.json", userId, identityId));
+        }
+
+        public async Task<IndividualUserIdentityResponse> AddUserIdentityAsync(long userId, UserIdentity identity)
+        {
+            var body = new { identity };
+            return await GenericPostAsync<IndividualUserIdentityResponse>(string.Format("users/{0}/identities.json", userId), body);
+        }        
+
+        public async Task<IndividualUserIdentityResponse> SetUserIdentityAsVerifiedAsync(long userId, long identityId)
+        {
+            return await GenericPutAsync<IndividualUserIdentityResponse>(string.Format("users/{0}/identities/{1}/verify.json", userId, identityId));
+        }
+
+        public async Task<GroupUserIdentityResponse> SetUserIdentityAsPrimaryAsync(long userId, long identityId)
+        {
+            return await GenericPutAsync<GroupUserIdentityResponse>(string.Format("users/{0}/identities/{1}/make_primary.json", userId, identityId));
+        }
+
+        /// <summary>
+        /// This sends a verification email to the user, asking him to click a link in order to verify ownership of the email address
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="identityId"></param>
+        /// <returns></returns>
+        public async Task<IndividualUserIdentityResponse> SendUserVerificationRequestAsync(long userId, long identityId)
+        {            
+            return await GenericPutAsync<IndividualUserIdentityResponse>(string.Format("users/{0}/identities/{1}/request_verification.json", userId, identityId));
+        }
+
+        public async Task<bool> DeleteUserIdentityAsync(long userId, long identityId)
+        {
+            return await GenericDeleteAsync(string.Format("users/{0}/identities/{1}.json", userId, identityId));
+        }
+#endif
     }
 }

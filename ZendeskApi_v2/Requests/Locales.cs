@@ -44,5 +44,43 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json"));
         }
+
+#if NotNet35
+        /// <summary>
+        /// This lists the translation locales that are available for the account.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GroupLocaleResponse> GetAllLocalesAsync()
+        {
+            return await GenericGetAsync<GroupLocaleResponse>(string.Format("locales.json"));
+        }
+
+        /// <summary>
+        /// This lists the translation locales that have been localized for agents.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GroupLocaleResponse> GetLocalesForAgentsAsync()
+        {
+            return await GenericGetAsync<GroupLocaleResponse>(string.Format("locales/agent.json"));
+        }
+
+        /// <summary>
+        /// This lists the translation locales that have been localized for agents.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/{0}.json", id));
+        }
+
+        /// <summary>
+        /// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IndividualLocaleResponse> GetCurrentLocaleAsync()
+        {
+            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/current.json"));
+        }
+#endif
     }
 }

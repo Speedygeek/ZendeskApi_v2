@@ -56,5 +56,54 @@ namespace ZendeskApi_v2.Requests
             var body = new { request = new { comment} };
             return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
         }
+
+#if NotNet35
+        public async Task<GroupRequestResponse> GetAllRequestsAsync()
+        {
+            return await GenericGetAsync<GroupRequestResponse>("requests.json");
+        }
+
+        public async Task<GroupRequestResponse> GetAllSolvedRequestsAsync()
+        {
+            return await GenericGetAsync<GroupRequestResponse>("requests/solved.json");
+        }
+
+        public async Task<GroupRequestResponse> GetAllCcdRequestsAsync()
+        {
+            return await GenericGetAsync<GroupRequestResponse>("requests/ccd.json");
+        }
+
+        public async Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id)
+        {
+            return await GenericGetAsync<GroupRequestResponse>(string.Format("users/{0}/requests.json", id));
+        }
+
+        public async Task<IndividualRequestResponse> GetRequestByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualRequestResponse>(string.Format("requests/{0}.json", id));
+        }
+
+        public async Task<GroupCommentResponse> GetRequestCommentsByIdAsync(long id)
+        {
+            return await GenericGetAsync<GroupCommentResponse>(string.Format("requests/{0}/comments.json", id));
+        }
+
+        public async Task<IndividualCommentResponse> GetSpecificRequestCommentAsync(long requestId, long commentId)
+        {
+            return await GenericGetAsync<IndividualCommentResponse>(string.Format("requests/{0}/comments/{1}.json", requestId, commentId));
+        }
+
+        public async Task<IndividualRequestResponse> CreateRequestAsync(Request request)
+        {
+            var body = new {request};
+            return await GenericPostAsync<IndividualRequestResponse>("requests.json", body);
+        }
+
+        public async Task<IndividualRequestResponse> UpdateRequestAsync(long id, Comment comment)
+        {
+            var body = new { request = new { comment} };
+            return await GenericPutAsync<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
+        }
+#endif
     }
 }

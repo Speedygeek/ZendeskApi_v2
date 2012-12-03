@@ -13,5 +13,12 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<CustomRoles>("custom_roles.json");
         }
+
+#if NotNet35
+        public async Task<CustomRoles> GetCustomRolesAsync()
+        {
+            return await GenericGetAsync<CustomRoles>("custom_roles.json");
+        }
+#endif
     }
 }

@@ -103,5 +103,100 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
         }
+
+#if NotNet35
+        public async Task<MultipleGroupResponse> GetGroupsAsync()
+        {
+            return await GenericGetAsync<MultipleGroupResponse>("groups.json");
+        }
+
+        public async Task<MultipleGroupResponse> GetAssignableGroupsAsync()
+        {
+            return await GenericGetAsync<MultipleGroupResponse>("groups/assignable.json");
+        }
+
+        public async Task<IndividualGroupResponse> GetGroupByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualGroupResponse>(string.Format("groups/{0}.json", id));
+        }
+
+        public async Task<IndividualGroupResponse> CreateGroupAsync(string groupName)
+        {
+            var body = new { group = new { name = groupName } };
+            return await GenericPostAsync<IndividualGroupResponse>("groups.json", body);
+        }
+
+        public async Task<IndividualGroupResponse> UpdateGroupAsync(Group group)
+        {
+            var body = new { group };
+            return await GenericPutAsync<IndividualGroupResponse>(string.Format("groups/{0}.json", group.Id), body);
+        }
+
+        public async Task<bool> DeleteGroupAsync(long id)
+        {
+            return await GenericDeleteAsync(string.Format("groups/{0}.json", id));
+        }
+
+        public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsAsync()
+        {
+            return await GenericGetAsync<MultipleGroupMembershipResponse>("group_memberships.json");
+        }
+
+        public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId)
+        {
+            return await GenericGetAsync<MultipleGroupMembershipResponse>(string.Format("users/{0}/group_memberships.json", userId));
+        }
+
+        public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId)
+        {
+            return await GenericGetAsync<MultipleGroupMembershipResponse>(string.Format("groups/{0}/memberships.json", groupId));
+        }
+
+        public async Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync()
+        {
+            return await GenericGetAsync<MultipleGroupMembershipResponse>("group_memberships/assignable.json");
+        }
+
+        public async Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsByGroupAsync(long groupId)
+        {
+            return await GenericGetAsync<MultipleGroupMembershipResponse>(string.Format("groups/{0}/memberships/assignable.json", groupId));
+        }
+
+        public async Task<IndividualGroupMembershipResponse> GetGroupMembershipsByMembershipIdAsync(long groupMembershipId)
+        {
+            return await GenericGetAsync<IndividualGroupMembershipResponse>(string.Format("group_memberships/{0}.json", groupMembershipId));
+        }
+
+        public async Task<IndividualGroupMembershipResponse> GetGroupMembershipsByUserAndMembershipIdAsync(long userId, long groupMembershipId)
+        {
+            return await GenericGetAsync<IndividualGroupMembershipResponse>(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
+        }
+
+        /// <summary>
+        /// Creating a membership means assigning an agent to a given group
+        /// </summary>
+        /// <param name="groupMembership"></param>
+        /// <returns></returns>
+        public async Task<IndividualGroupMembershipResponse> CreateGroupMembershipAsync(GroupMembership groupMembership)
+        {
+            var body = new { group_membership = groupMembership };
+            return await GenericPostAsync<IndividualGroupMembershipResponse>(string.Format("group_memberships.json"), body);
+        }
+
+        public async Task<MultipleGroupMembershipResponse> SetGroupMembershipAsDefaultAsync(long userId, long groupMembershipId)
+        {
+            return await GenericPutAsync<MultipleGroupMembershipResponse>(string.Format("users/{0}/group_memberships/{1}/make_default.json", userId, groupMembershipId));
+        }
+
+        public async Task<bool> DeleteGroupMembershipAsync(long groupMembershipId)
+        {
+            return await GenericDeleteAsync(string.Format("group_memberships/{0}.json", groupMembershipId));
+        }
+
+        public async Task<bool> DeleteUserGroupMembershipAsync(long userId, long groupMembershipId)
+        {
+            return await GenericDeleteAsync(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
+        }
+#endif
     }
 }

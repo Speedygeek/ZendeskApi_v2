@@ -15,5 +15,11 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<JobStatusResponse>(string.Format("job_statuses/{0}.json", id));
         }
 
+#if NotNet35
+        public async Task<JobStatusResponse> GetJobStatusAsync(string id)
+        {
+            return await GenericGetAsync<JobStatusResponse>(string.Format("job_statuses/{0}.json", id));
+        }
+#endif
     }
 }

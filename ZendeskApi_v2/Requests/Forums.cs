@@ -66,5 +66,64 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("forum_subscriptions/{0}.json", subscriptionId));
         }
+
+#if NotNet35
+        public async Task<GroupForumResponse> GetForumsAsync()
+        {
+            return await GenericGetAsync<GroupForumResponse>("forums.json");
+        }
+
+        public async Task<IndividualForumResponse> GetForumByIdAsync(long forumId)
+        {
+            return await GenericGetAsync<IndividualForumResponse>(string.Format("forums/{0}.json", forumId));
+        }
+
+        public async Task<GroupForumResponse> GetForumsByCategoryAsync(long categoryId)
+        {
+            return await GenericGetAsync<GroupForumResponse>(string.Format("categories/{0}/forums.json", categoryId));
+        }
+
+        public async Task<IndividualForumResponse> CreateForumAsync(Forum forum)
+        {
+            var body = new { forum };
+            return await GenericPostAsync<IndividualForumResponse>("forums.json", body);
+        }
+
+        public async Task<IndividualForumResponse> UpdateForumAsync(Forum forum)
+        {
+            var body = new { forum };
+            return await GenericPutAsync<IndividualForumResponse>(string.Format("forums/{0}.json", forum.Id), body);
+        }
+
+        public async Task<bool> DeleteForumAsync(long id)
+        {
+            return await GenericDeleteAsync(string.Format("forums/{0}.json", id));
+        }
+
+        public async Task<GroupForumSubcriptionResponse> GetForumSubscriptionsAsync()
+        {
+            return await GenericGetAsync<GroupForumSubcriptionResponse>("forum_subscriptions.json");
+        }
+
+        public async Task<GroupForumSubcriptionResponse> GetForumSubscriptionsByForumIdAsync(long forumId)
+        {
+            return await GenericGetAsync<GroupForumSubcriptionResponse>(string.Format("forums/{0}/subscriptions.json", forumId));
+        }
+
+        public async Task<IndividualForumSubcriptionResponse> GetForumSubscriptionsByIdAsync(long subscriptionId)
+        {
+            return await GenericGetAsync<IndividualForumSubcriptionResponse>(string.Format("forum_subscriptions/{0}.json", subscriptionId));
+        }
+
+        public async Task<IndividualForumSubcriptionResponse> CreateForumSubscriptionAsync(ForumSubscription forumSubscription)
+        {
+            return await GenericPostAsync<IndividualForumSubcriptionResponse>(string.Format("forum_subscriptions.json"), forumSubscription);
+        }
+
+        public async Task<bool> DeleteForumSubscriptionAsync(long subscriptionId)
+        {
+            return await GenericDeleteAsync(string.Format("forum_subscriptions/{0}.json", subscriptionId));
+        }
+#endif
     }
 }

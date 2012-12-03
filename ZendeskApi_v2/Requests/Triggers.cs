@@ -23,5 +23,22 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupTriggerResponse>(string.Format("triggers/active.json"));
         }
+
+#if NotNet35    
+        public async Task<GroupTriggerResponse> GetTriggersAsync()
+        {
+            return await GenericGetAsync<GroupTriggerResponse>(string.Format("triggers.json"));
+        }
+
+        public async Task<IndividualTriggerResponse> GetTriggerByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualTriggerResponse>(string.Format("triggers/{0}.json", id));
+        }
+
+        public async Task<GroupTriggerResponse> GetActiveTriggersAsync()
+        {
+            return await GenericGetAsync<GroupTriggerResponse>(string.Format("triggers/active.json"));
+        }
+#endif
     }
 }

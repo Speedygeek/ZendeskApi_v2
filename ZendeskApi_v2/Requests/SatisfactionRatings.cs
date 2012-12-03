@@ -31,5 +31,30 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
         }
+
+#if NotNet35
+        /// <summary>
+        /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GroupSatisfactionResponse> GetSatisfactionRatingsAsync()
+        {
+            return await GenericGetAsync<GroupSatisfactionResponse>(string.Format("satisfaction_ratings.json"));
+        }
+
+        /// <summary>
+        /// Lists ratings provided by customers.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GroupSatisfactionResponse> GetReceivedSatisfactionRatingsAsync()
+        {
+            return await GenericGetAsync<GroupSatisfactionResponse>(string.Format("satisfaction_ratings/received.json"));
+        }
+
+        public async Task<IndividualSatisfactionResponse> GetSatisfactionRatingByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
+        }
+#endif
     }
 }
