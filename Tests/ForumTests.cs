@@ -40,20 +40,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanGetForumSubscriptions()
-        {
-            var res = api.Forums.GetForumSubscriptions();
-            Assert.Greater(res.Count, 0);
-
-            var res1 = api.Forums.GetForumSubscriptionsByForumId(res.ForumSubscriptions[0].ForumId.Value);
-            Assert.Greater(res.Count, 0);
-
-            var res2 = api.Forums.GetForumSubscriptionsById(res.ForumSubscriptions[0].Id.Value);
-            Assert.AreEqual(res2.ForumSubscription.Id, res.ForumSubscriptions[0].Id); 
-        }
-
-        [Test]
-        public void CanCreateAndDeleteForumDescription()
+        public void CanCreateGetAndDeleteForumSubscriptions()
         {
             var forum = api.Forums.GetForums().Forums.First();
 
@@ -63,6 +50,16 @@ namespace Tests
                                                                  UserId = Settings.EndUserId,
                                                              });
             Assert.Greater(res.ForumSubscription.Id, 0);
+
+            var forumSubs = api.Forums.GetForumSubscriptions();
+            Assert.Greater(forumSubs.Count, 0);
+
+            var forumSubsById = api.Forums.GetForumSubscriptionsByForumId(forumSubs.ForumSubscriptions[0].ForumId.Value);
+            Assert.Greater(forumSubsById.Count, 0);
+
+            var forumSubId = api.Forums.GetForumSubscriptionsById(forumSubs.ForumSubscriptions[0].Id.Value);
+            Assert.AreEqual(forumSubId.ForumSubscription.Id, forumSubs.ForumSubscriptions[0].Id); 
+
             Assert.True(api.Forums.DeleteForumSubscription(res.ForumSubscription.Id.Value));
 
         }
