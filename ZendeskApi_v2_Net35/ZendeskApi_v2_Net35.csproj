@@ -487,6 +487,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Views\Executed\CustomField.cs">
       <Link>Models\Views\Executed\CustomField.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Views\Executed\ExecutedTicket.cs">
+      <Link>Models\Views\Executed\ExecutedTicket.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Views\Executed\ExecutedUser.cs">
       <Link>Models\Views\Executed\ExecutedUser.cs</Link>
     </Compile>
@@ -504,9 +507,6 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Views\Executed\Row.cs">
       <Link>Models\Views\Executed\Row.cs</Link>
-    </Compile>
-    <Compile Include="..\ZendeskApi_v2\Models\Views\Executed\Ticket.cs">
-      <Link>Models\Views\Executed\Ticket.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Views\Executed\View.cs">
       <Link>Models\Views\Executed\View.cs</Link>

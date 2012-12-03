@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace ZendeskApi_v2.Models.Views.Executed
 {
 
-    public class Ticket
+    public class ExecutedTicket
     {
 
         [JsonProperty("id")]

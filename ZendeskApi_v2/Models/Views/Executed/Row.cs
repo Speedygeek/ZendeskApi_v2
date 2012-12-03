@@ -38,6 +38,6 @@ namespace ZendeskApi_v2.Models.Views.Executed
         public IList<Field> Fields { get; set; }
 
         [JsonProperty("ticket")]
-        public Ticket Ticket { get; set; }
+        public ExecutedTicket ExecutedTicket { get; set; }
     }
 }

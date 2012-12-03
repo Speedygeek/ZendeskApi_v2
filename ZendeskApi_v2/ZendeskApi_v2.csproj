@@ -197,7 +197,7 @@
     <Compile Include="Models\Views\Executed\LastComment.cs" />
     <Compile Include="Models\Views\Executed\PreviewViewRequest.cs" />
     <Compile Include="Models\Views\Executed\Row.cs" />
-    <Compile Include="Models\Views\Executed\Ticket.cs" />
+    <Compile Include="Models\Views\Executed\ExecutedTicket.cs" />
     <Compile Include="Models\Views\Executed\ExecutedUser.cs" />
     <Compile Include="Models\Views\Executed\View.cs" />
     <Compile Include="Models\Views\Execution.cs" />
