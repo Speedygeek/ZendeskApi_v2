@@ -1,4 +1,8 @@
 using ZendeskApi_v2.Models.Categories;
+#if ASYNC
+using System.Threading.Tasks;
+#endif
+using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Requests
 {
@@ -9,6 +13,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupCategoryResponse GetCategories()
         {
             return GenericGet<GroupCategoryResponse>("categories.json");
@@ -35,31 +40,32 @@ namespace ZendeskApi_v2.Requests
         {            
             return GenericDelete(string.Format("categories/{0}.json", id));
         }
+#endif
 
-#if NotNet35        
-        public aysnc Task<GroupCategoryResponse> GetCategoriesAsync()
+#if ASYNC                
+        public async Task<GroupCategoryResponse> GetCategoriesAsync()
         {
             return await GenericGetAsync<GroupCategoryResponse>("categories.json");
         }
 
-        public aysnc Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id)
+        public async Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id)
         {
             return await GenericGetAsync<IndividualCategoryResponse>(string.Format("categories/{0}.json", id));
         }
 
-        public aysnc Task<IndividualCategoryResponse> CreateCategoryAsync(Category category)
+        public async Task<IndividualCategoryResponse> CreateCategoryAsync(Category category)
         {
             var body = new { category };
             return await GenericPostAsync<IndividualCategoryResponse>(string.Format("categories.json"), body);
         }
 
-        public aysnc Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category)
+        public async Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category)
         {
             var body = new { category };
             return await GenericPutAsync<IndividualCategoryResponse>(string.Format("categories/{0}.json", category.Id), body);
         }
 
-        public aysnc Task<bool> DeleteCategoryAsync(long id)
+        public async Task<bool> DeleteCategoryAsync(long id)
         {
             return await GenericDeleteAsync(string.Format("categories/{0}.json", id));
         }

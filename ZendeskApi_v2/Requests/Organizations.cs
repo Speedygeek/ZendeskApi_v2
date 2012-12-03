@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Organizations;
 
 namespace ZendeskApi_v2.Requests
@@ -9,6 +12,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupOrganizationResponse GetOrganizations()
         {
             return GenericGet<GroupOrganizationResponse>("organizations.json");
@@ -51,7 +55,9 @@ namespace ZendeskApi_v2.Requests
             return GenericDelete(string.Format("organizations/{0}.json", id));
         }
 
-#if NotNet35
+#endif
+
+#if ASYNC
 
         public async Task<GroupOrganizationResponse> GetOrganizationsAsync()
         {

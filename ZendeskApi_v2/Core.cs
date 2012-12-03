@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using Newtonsoft.Json;
-using ZendeskApi_v2.Models;
 
 namespace ZendeskApi_v2
 {
@@ -31,6 +31,7 @@ namespace ZendeskApi_v2
             ZendeskUrl = zendeskApiUrl;            
         }
 
+#if SYNC
         public T GetByPageUrl<T>(string pageUrl)
         {            
             if(string.IsNullOrEmpty(pageUrl))
@@ -45,13 +46,7 @@ namespace ZendeskApi_v2
             var response = RunRequest(resource, requestMethod, body);
             var obj = JsonConvert.DeserializeObject<T>(response.Content);
             return obj;
-        }
-
-        protected string GetAuthHeader(string userName, string password)
-        {
-            string auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", userName, password)));            
-            return string.Format("Basic {0}", auth);
-        }
+        }        
 
         public RequestResult RunRequest(string resource, string requestMethod, object body = null)
         {
@@ -123,8 +118,15 @@ namespace ZendeskApi_v2
             var res = RunRequest<T>(resource, "PUT", body);
             return res;
         }
+#endif
 
-#if NotNet35
+        protected string GetAuthHeader(string userName, string password)
+        {
+            string auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", userName, password)));
+            return string.Format("Basic {0}", auth);
+        }
+
+#if ASYNC
         public async Task<T> GetByPageUrlAsync<T>(string pageUrl)
         {
             if (string.IsNullOrEmpty(pageUrl))
@@ -189,6 +191,17 @@ namespace ZendeskApi_v2
                 };
 
             });
+        }
+
+        private static string ReadStreamFromResponse(WebResponse response)
+        {
+            using (Stream responseStream = response.GetResponseStream())
+            using (StreamReader sr = new StreamReader(responseStream))
+            {
+                //Need to return this response 
+                string strContent = sr.ReadToEnd();
+                return strContent;
+            }
         }
 
         protected async Task<T> GenericGetAsync<T>(string resource)

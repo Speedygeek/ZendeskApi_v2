@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Satisfaction;
 
 namespace ZendeskApi_v2.Requests
@@ -9,6 +12,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         /// <summary>
         /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
         /// </summary>
@@ -31,8 +35,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         /// <summary>
         /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
         /// </summary>

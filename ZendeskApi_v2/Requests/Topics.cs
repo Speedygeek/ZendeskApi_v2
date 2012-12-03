@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Topics;
 
@@ -11,6 +14,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupTopicResponse GetTopics()
         {
             return GenericGet<GroupTopicResponse>("topics.json");
@@ -145,9 +149,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("topics/{0}/vote.json", topicId));
         }
+#endif
 
-
-#if NotNet35
+#if ASYNC
         public async Task<GroupTopicResponse> GetTopicsAsync()
         {
             return await GenericGetAsync<GroupTopicResponse>("topics.json");

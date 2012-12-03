@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AsyncCTP</id>
+    <version>0.3</version>
+    <title>Visual Studio Async CTP (Version 3, Unofficial)</title>
+    <authors>Artem Tikhomirov</authors>
+    <owners>Artem Tikhomirov</owners>
+    <projectUrl>http://msdn.microsoft.com/en-us/vstudio/gg316360.aspx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>AsyncCtpLibrary.dll from Visual Studio Async CTP Samples folder</description>
+    <summary>AsyncCtpLibrary.dll from Visual Studio Async CTP Samples folder</summary>
+  </metadata>
+</package>

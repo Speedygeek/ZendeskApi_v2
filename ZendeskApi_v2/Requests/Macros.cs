@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Macros;
 
 namespace ZendeskApi_v2.Requests
@@ -9,6 +12,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         /// <summary>
         /// Lists all shared and personal macros available to the current user
         /// </summary>
@@ -69,9 +73,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
         }
+#endif
 
-
-#if NotNet35
+#if ASYNC
         /// <summary>
         /// Lists all shared and personal macros available to the current user
         /// </summary>
@@ -131,67 +135,7 @@ namespace ZendeskApi_v2.Requests
         public async Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId)
         {
             return await GenericGetAsync<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
-        }
-        /// <summary>
-        /// Lists all shared and personal macros available to the current user
-        /// </summary>
-        /// <returns></returns>
-        public async Task<GroupMacroResponse> GetAllMacrosAsync()
-        {
-            return await GenericGetAsync<GroupMacroResponse>(string.Format("macros.json"));
-        }
-
-        public async Task<IndividualMacroResponse> GetMacroByIdAsync(long id)
-        {
-            return await GenericGetAsync<IndividualMacroResponse>(string.Format("macros/{0}.json", id));
-        }
-
-        /// <summary>
-        /// Lists all active shared and personal macros available to the current user
-        /// </summary>
-        /// <returns></returns>
-        public async Task<GroupMacroResponse> GetActiveMacrosAsync()
-        {
-            return await GenericGetAsync<GroupMacroResponse>(string.Format("macros/active.json"));
-        }
-
-        public async Task<IndividualMacroResponse> CreateMacroAsync(Macro macro)
-        {
-            var body = new { macro };
-            return await GenericPostAsync<IndividualMacroResponse>("macros.json", body);
-        }
-
-        public async Task<IndividualMacroResponse> UpdateMacroAsync(Macro macro)
-        {
-            var body = new { macro };
-            return await GenericPutAsync<IndividualMacroResponse>(string.Format("macros/{0}.json", macro.Id), body);
-        }
-
-        public async Task<bool> DeleteMacroAsync(long id)
-        {
-            return await GenericDeleteAsync(string.Format("macros/{0}.json", id));
-        }
-
-        /// <summary>
-        /// Applies a macro to all applicable tickets.
-        /// </summary>
-        /// <param name="macroId"></param>
-        /// <returns></returns>
-        public async Task<ApplyMacroResponse> ApplyMacroAsync(long macroId)
-        {
-            return await GenericGetAsync<ApplyMacroResponse>(string.Format("macros/{0}/apply.json", macroId));
-        }
-
-        /// <summary>
-        /// Applies a macro to a specific ticket
-        /// </summary>
-        /// <param name="ticketId"></param>
-        /// <param name="macroId"></param>
-        /// <returns></returns>
-        public async Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId)
-        {
-            return await GenericGetAsync<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
-        }
+        }                        
 #endif
     }
 }

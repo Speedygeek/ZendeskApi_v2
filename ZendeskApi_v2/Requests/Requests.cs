@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
 
@@ -10,6 +13,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupRequestResponse GetAllRequests()
         {
             return GenericGet<GroupRequestResponse>("requests.json");
@@ -56,8 +60,9 @@ namespace ZendeskApi_v2.Requests
             var body = new { request = new { comment} };
             return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         public async Task<GroupRequestResponse> GetAllRequestsAsync()
         {
             return await GenericGetAsync<GroupRequestResponse>("requests.json");

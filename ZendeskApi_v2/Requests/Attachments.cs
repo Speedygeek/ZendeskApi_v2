@@ -13,7 +13,7 @@ namespace ZendeskApi_v2.Requests
     {
         public Attachments(string yourZendeskUrl, string user, string password) : base(yourZendeskUrl, user, password)
         { }
-
+#if SYNC
         public Upload UploadAttachment(ZenFile file)
         {
             return UploadAttachment(file, "");
@@ -78,6 +78,7 @@ namespace ZendeskApi_v2.Requests
             string responseFromServer = reader.ReadToEnd();
 
             return responseFromServer.ConvertToObject<UploadResult>().Upload;
-        }        
+        }     
+#endif
     }
 }

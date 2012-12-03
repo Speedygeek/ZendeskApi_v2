@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.AccountsAndActivities;
 
 
@@ -10,7 +13,7 @@ namespace ZendeskApi_v2.Requests
             : base(yourZendeskUrl, user, password)
         {
         }
-
+#if SYNC
         public SettingsResponse GetSettings()
         {
             return GenericGet<SettingsResponse>("account/settings.json");
@@ -25,20 +28,21 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
         }
+#endif
 
-#if NotNet35
-        public aysnc Task<SettingsResponse> GetSettingsAsync()
+#if ASYNC
+        public async Task<SettingsResponse> GetSettingsAsync()
         {
-            return await GenericGetAync<SettingsResponse>("account/settings.json");
+            return await GenericGetAsync<SettingsResponse>("account/settings.json");
         }        
-        public aysnc Task<GroupActivityResponse> GetActivitiesAync()
+        public async Task<GroupActivityResponse> GetActivitiesAync()
         {
-            return await GenericGetAync<GroupActivityResponse>("activities.json");
+            return await GenericGetAsync<GroupActivityResponse>("activities.json");
         }
 
-        public aysnc Task<IndividualActivityResponse> GetActivityByIdAync(long activityId)
+        public async Task<IndividualActivityResponse> GetActivityByIdAync(long activityId)
         {
-            return await GenericGetAync<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
+            return await GenericGetAsync<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
         }
 #endif
     }

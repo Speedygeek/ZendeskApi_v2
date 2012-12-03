@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.CustomRoles;
 
 namespace ZendeskApi_v2.Requests
@@ -9,12 +12,14 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public CustomRoles GetCustomRoles()
         {
             return GenericGet<CustomRoles>("custom_roles.json");
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         public async Task<CustomRoles> GetCustomRolesAsync()
         {
             return await GenericGetAsync<CustomRoles>("custom_roles.json");

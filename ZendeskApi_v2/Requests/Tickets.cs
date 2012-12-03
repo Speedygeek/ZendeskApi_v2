@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
@@ -19,6 +22,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupTicketResponse GetAllTickets()
         {            
             return GenericGet<GroupTicketResponse>(_tickets + ".json");
@@ -186,10 +190,10 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("suspended_tickets/destroy_many.json?ids={0}", ids.ToCsv()));
         }
+#endif
 
 
-
-#if NotNet35
+#if ASYNC
         public async Task<GroupTicketResponse> GetAllTicketsAsync()
         {            
             return await GenericGetAsync<GroupTicketResponse>(_tickets + ".json");
@@ -276,7 +280,7 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = string.Format("tickets/{0}/audits/{1}/trust.json", ticketId, auditId);
             var res = RunRequestAsync(resource, "PUT");            
-            return await res.HttpStatusCode == HttpStatusCode.OK;
+            return res.Result.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<TicketExportResponse> GetInrementalTicketExportAsync(DateTime startTime)
@@ -338,14 +342,14 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = string.Format("suspended_tickets/{0}/recover.json", id);
             var res = RunRequestAsync(resource, "PUT");
-            return await res.HttpStatusCode == HttpStatusCode.OK;
+            return res.Result.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<bool> RecoverManySuspendedTicketsAsync(List<long> ids)
         {
             var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
             var res = RunRequestAsync(resource, "PUT");            
-            return await res.HttpStatusCode == HttpStatusCode.OK;            
+            return res.Result.HttpStatusCode == HttpStatusCode.OK;            
         }
 
         public async Task<bool> DeleteSuspendedTicketsAsync(long id)

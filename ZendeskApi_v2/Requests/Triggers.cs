@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Triggers;
 
 namespace ZendeskApi_v2.Requests
@@ -9,6 +12,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupTriggerResponse GetTriggers()
         {
             return GenericGet<GroupTriggerResponse>(string.Format("triggers.json"));
@@ -23,8 +27,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupTriggerResponse>(string.Format("triggers/active.json"));
         }
+#endif
 
-#if NotNet35    
+#if ASYNC    
         public async Task<GroupTriggerResponse> GetTriggersAsync()
         {
             return await GenericGetAsync<GroupTriggerResponse>(string.Format("triggers.json"));

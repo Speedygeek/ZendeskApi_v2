@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Users;
 using User = ZendeskApi_v2.Models.Users.User;
@@ -12,6 +15,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public IndividualUserResponse GetCurrentUser()
         {
             return GenericGet<IndividualUserResponse>("users/me.json");
@@ -112,8 +116,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("users/{0}/identities/{1}.json", userId, identityId));
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         public async Task<IndividualUserResponse> GetCurrentUserAsync()
         {
             return await GenericGetAsync<IndividualUserResponse>("users/me.json");

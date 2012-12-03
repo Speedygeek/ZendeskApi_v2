@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Search;
 
 namespace ZendeskApi_v2.Requests
@@ -13,6 +16,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         /// <summary>
         /// 
         /// </summary>
@@ -52,8 +56,9 @@ namespace ZendeskApi_v2.Requests
 
             return GenericGet<SearchResults>(resource);
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         /// <summary>
         /// 
         /// </summary>

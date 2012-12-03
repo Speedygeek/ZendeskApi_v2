@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Forums;
 using ZendeskApi_v2.Models.Tags;
 
@@ -9,7 +12,7 @@ namespace ZendeskApi_v2.Requests
             : base(yourZendeskUrl, user, password)
         {
         }
-
+#if SYNC
         public GroupForumResponse GetForums()
         {
             return GenericGet<GroupForumResponse>("forums.json");
@@ -67,7 +70,8 @@ namespace ZendeskApi_v2.Requests
             return GenericDelete(string.Format("forum_subscriptions/{0}.json", subscriptionId));
         }
 
-#if NotNet35
+#endif
+#if ASYNC
         public async Task<GroupForumResponse> GetForumsAsync()
         {
             return await GenericGetAsync<GroupForumResponse>("forums.json");

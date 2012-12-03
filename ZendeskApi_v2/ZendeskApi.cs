@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Text;
-using ZendeskApi_v2.Requests;
+using ZendeskApi_v2.Requests; 
+
+#if Net35 
 using System.Web;
 using System.Security.Cryptography;
+#endif
 
 namespace ZendeskApi_v2
 {
@@ -57,6 +60,7 @@ namespace ZendeskApi_v2
             ZendeskUrl = yourZendeskUrl;
         }
 
+#if Net35 
         public string GetLoginUrl(string name, string email, string authenticationToken, string returnToUrl = "")
         {
             string url = string.Format("{0}/access/remoteauth/", ZendeskUrl);
@@ -115,5 +119,7 @@ namespace ZendeskApi_v2
 
             return Result.ToString();
         }
+#endif
+
     }
 }

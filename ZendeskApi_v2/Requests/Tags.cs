@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Tags;
 
 namespace ZendeskApi_v2.Requests
@@ -10,6 +13,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public GroupTagResult GetTags()
         {
             return GenericGet<GroupTagResult>("tags.json");
@@ -24,8 +28,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericPost<TagAutocompleteResponse>(string.Format("autocomplete/tags.json?name={0}", name));
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         public async Task<GroupTagResult> GetTagsAsync()
         {
             return await GenericGetAsync<GroupTagResult>("tags.json");

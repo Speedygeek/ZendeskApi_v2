@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Requests
@@ -9,6 +12,7 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
+#if SYNC
         public MultipleGroupResponse GetGroups()
         {
             return GenericGet<MultipleGroupResponse>("groups.json");
@@ -103,8 +107,9 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
         }
+#endif
 
-#if NotNet35
+#if ASYNC
         public async Task<MultipleGroupResponse> GetGroupsAsync()
         {
             return await GenericGetAsync<MultipleGroupResponse>("groups.json");

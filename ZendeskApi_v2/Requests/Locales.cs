@@ -1,3 +1,6 @@
+#if ASYNC
+using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Locales;
 
 namespace ZendeskApi_v2.Requests
@@ -9,6 +12,8 @@ namespace ZendeskApi_v2.Requests
             : base(yourZendeskUrl, user, password)
         {
         }
+
+#if SYNC
         /// <summary>
         /// This lists the translation locales that are available for the account.
         /// </summary>
@@ -45,7 +50,9 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json"));
         }
 
-#if NotNet35
+#endif
+
+#if ASYNC
         /// <summary>
         /// This lists the translation locales that are available for the account.
         /// </summary>
