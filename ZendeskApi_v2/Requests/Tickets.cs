@@ -279,8 +279,8 @@ namespace ZendeskApi_v2.Requests
         public async Task<bool> MarkAuditAsTrustedAsync(long ticketId, long auditId)
         {
             var resource = string.Format("tickets/{0}/audits/{1}/trust.json", ticketId, auditId);
-            var res = RunRequestAsync(resource, "PUT");            
-            return res.Result.HttpStatusCode == HttpStatusCode.OK;
+            var res = RunRequestAsync(resource, "PUT");
+            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);            
         }
 
         public async Task<TicketExportResponse> GetInrementalTicketExportAsync(DateTime startTime)
@@ -342,14 +342,14 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = string.Format("suspended_tickets/{0}/recover.json", id);
             var res = RunRequestAsync(resource, "PUT");
-            return res.Result.HttpStatusCode == HttpStatusCode.OK;
+            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);            
         }
 
         public async Task<bool> RecoverManySuspendedTicketsAsync(List<long> ids)
         {
             var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
-            var res = RunRequestAsync(resource, "PUT");            
-            return res.Result.HttpStatusCode == HttpStatusCode.OK;            
+            var res = RunRequestAsync(resource, "PUT");
+            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);            
         }
 
         public async Task<bool> DeleteSuspendedTicketsAsync(long id)
