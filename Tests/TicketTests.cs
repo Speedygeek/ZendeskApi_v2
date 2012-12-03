@@ -161,6 +161,35 @@ namespace Tests
         }
 
         [Test]
+        public void CanAddAttachmentToTicketAsync()
+        {
+            var res = api.Attachments.UploadAttachmentAsync(new ZenFile()
+            {
+                ContentType = "text/plain",
+                FileName = "testupload.txt",
+                FileData = File.ReadAllBytes(Environment.CurrentDirectory + "\\testupload.txt")
+            }).Result;
+
+            var ticket = new Ticket()
+            {
+                Subject = "testing attachments",
+                Description = "test attachment",
+                Priority = TicketPriorities.Normal,
+                Comment = new Comment()
+                {
+                    Body = "comments are required for attachments",
+                    Public = true,
+                    Uploads = new List<string>() { res.Token }
+                },
+            };
+
+            var t1 = api.Tickets.CreateTicketAsync(ticket).Result;
+            Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
+
+            Assert.True(api.Tickets.DeleteAsync(t1.Ticket.Id).Result);
+        }
+
+        [Test]
         public void CanAddAttachmentToTicket()
         {
             var res = api.Attachments.UploadAttachment(new ZenFile()
