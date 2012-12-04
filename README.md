@@ -109,4 +109,8 @@ All of the api calls are under the following properties. And these properties pr
 - SharingAgreements
 - Triggers
 
+ASYNC Support
+--------------
+As of 12/4/2012 the project now has complete async support for net4.0 + and for Portable Class Libraries. The PCL syncrounous support was removed since windows phone is not meant to have syncrounous tasks like this. 
+
 For any API related questions please email api@zendesk.com, thanks!
