@@ -111,6 +111,7 @@ All of the api calls are under the following properties. And these properties pr
 
 ASYNC Support
 --------------
-As of 12/4/2012 the project now has complete async support for net4.0 + and for Portable Class Libraries. The PCL synchronous support was removed since windows phone is not meant to have synchronous tasks like this. 
+As of 12/4/2012 the project now has complete async support for net4.0 + and for Portable Class Libraries. The PCL synchronous support was removed since windows phone is not meant to have synchronous tasks like this. Also note that you must have nuget 2.1+ to get the portable class library version!
+
 
 For any API related questions please email api@zendesk.com, thanks!
