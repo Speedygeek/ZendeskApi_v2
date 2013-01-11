@@ -10,7 +10,7 @@ namespace ZendeskApi_v2.Models.Views.Executed
     {
 
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }

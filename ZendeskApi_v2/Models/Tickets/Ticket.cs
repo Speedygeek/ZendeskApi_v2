@@ -10,7 +10,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public string Url { get; set; }
 
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("external_id")]
         public object ExternalId { get; set; }             
@@ -34,10 +34,10 @@ namespace ZendeskApi_v2.Models.Tickets
         public string Recipient { get; set; }
 
         [JsonProperty("requester_id")]
-        public long RequesterId { get; set; }
+        public long? RequesterId { get; set; }
 
         [JsonProperty("submitter_id")]
-        public long SubmitterId { get; set; }
+        public long? SubmitterId { get; set; }
 
         [JsonProperty("assignee_id")]
         public long? AssigneeId { get; set; }
@@ -46,7 +46,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public long? OrganizationId { get; set; }
 
         [JsonProperty("group_id")]
-        public long GroupId { get; set; }
+        public long? GroupId { get; set; }
 
         /// <summary>
         /// This is for getting the Ids only

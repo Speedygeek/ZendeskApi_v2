@@ -103,7 +103,8 @@ namespace Tests
         [Test]
         public void CanFindUser()
         {            
-            var res1 = api.Users.SearchByEmail(Settings.Email);
+            //var res1 = api.Users.SearchByEmail(Settings.Email);
+            var res1 = api.Users.SearchByEmail(Settings.ColloboratorEmail);
             Assert.True(res1.Users.Count > 0);            
         }
 

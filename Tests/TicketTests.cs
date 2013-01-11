@@ -39,7 +39,7 @@ namespace Tests
             var res = api.Tickets.CreateTicketAsync(ticket).Result.Ticket;
 
             Assert.NotNull(res);
-            Assert.Greater(res.Id, 0);
+            Assert.Greater(res.Id.Value, 0);
 
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Settings.UserId;
@@ -51,7 +51,7 @@ namespace Tests
             Assert.NotNull(updateResponse.Result);
             Assert.AreEqual(updateResponse.Result.Audit.Events.First().Body, body);
 
-            Assert.True(api.Tickets.DeleteAsync(res.Id).Result);
+            Assert.True(api.Tickets.DeleteAsync(res.Id.Value).Result);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace Tests
             Assert.NotNull(updateResponse);
             Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
 
-            Assert.True(api.Tickets.Delete(res.Id));
+            Assert.True(api.Tickets.Delete(res.Id.Value));
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace Tests
             Assert.NotNull(res);
             Assert.AreEqual(res.RequesterId, Settings.CollaboratorId);
 
-            Assert.True(api.Tickets.Delete(res.Id));
+            Assert.True(api.Tickets.Delete(res.Id.Value));
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace Tests
                 Priority = TicketPriorities.Normal
             }).Ticket;
 
-            var res = api.Tickets.BulkUpdate(new List<long>() { t1.Id, t2.Id }, new BulkUpdate()
+            var res = api.Tickets.BulkUpdate(new List<long>() { t1.Id.Value, t2.Id.Value }, new BulkUpdate()
                                                                        {
                                                                           Status = TicketStatus.Solved,
                                                                           Comment = new Comment(){Public = true, Body = "check your email"},
@@ -157,7 +157,7 @@ namespace Tests
             var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
             Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
 
-            Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id, t2.Id }));
+            Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace Tests
             var t1 = api.Tickets.CreateTicketAsync(ticket).Result;
             Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
 
-            Assert.True(api.Tickets.DeleteAsync(t1.Ticket.Id).Result);
+            Assert.True(api.Tickets.DeleteAsync(t1.Ticket.Id.Value).Result);
         }
 
         [Test]
@@ -214,7 +214,7 @@ namespace Tests
             var t1 = api.Tickets.CreateTicket(ticket);
             Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
 
-            Assert.True(api.Tickets.Delete(t1.Ticket.Id));
+            Assert.True(api.Tickets.Delete(t1.Ticket.Id.Value));
         }
 
         [Test]
@@ -244,10 +244,10 @@ namespace Tests
                 ProblemId = t1.Id
             }).Ticket;
 
-            var res = api.Tickets.GetIncidents(t1.Id);
+            var res = api.Tickets.GetIncidents(t1.Id.Value);
             Assert.Greater(res.Tickets.Count, 0);
 
-            Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id, t2.Id }));
+            Assert.True(api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }));
         }
 
         [Test]
@@ -264,7 +264,7 @@ namespace Tests
             var res = api.Tickets.GetProblems();
             Assert.Greater(res.Tickets.Count, 0);
 
-            Assert.True(api.Tickets.Delete(t1.Id));
+            Assert.True(api.Tickets.Delete(t1.Id.Value));
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Tests
 
             var res = api.Tickets.AutoCompleteProblems("att");
 
-            api.Tickets.Delete(t1.Id);
+            api.Tickets.Delete(t1.Id.Value);
 
             Assert.Inconclusive();
         }

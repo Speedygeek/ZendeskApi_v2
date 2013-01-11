@@ -55,10 +55,10 @@ namespace Tests
                                                        Priority = TicketPriorities.Normal
                                                    }).Ticket;            
             
-            var applyToTicket = api.Macros.ApplyMacroToTicket(ticket.Id, create.Macro.Id.Value);
+            var applyToTicket = api.Macros.ApplyMacroToTicket(ticket.Id.Value, create.Macro.Id.Value);
             Assert.AreEqual(applyToTicket.Result.Ticket.Id, ticket.Id);
 
-            Assert.True(api.Tickets.Delete(ticket.Id));
+            Assert.True(api.Tickets.Delete(ticket.Id.Value));
 
             Assert.True(api.Macros.DeleteMacro(create.Macro.Id.Value));
         }

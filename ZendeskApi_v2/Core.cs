@@ -44,7 +44,10 @@ namespace ZendeskApi_v2
         public T RunRequest<T>(string resource, string requestMethod, object body = null)
         {
             var response = RunRequest(resource, requestMethod, body);
-            var obj = JsonConvert.DeserializeObject<T>(response.Content);
+            var obj = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
             return obj;
         }        
 
