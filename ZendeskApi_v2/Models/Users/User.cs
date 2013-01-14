@@ -88,5 +88,8 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("photo")]
         public Photo Photo { get; set; }
+
+        [JsonProperty("remote_photo_url")]
+        public string RemotePhotoUrl { get; set; }
     }
 }

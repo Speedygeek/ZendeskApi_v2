@@ -36,6 +36,15 @@ namespace Tests
                 Priority = TicketPriorities.Urgent
             };
 
+            ticket.CustomFields = new List<CustomField>()
+                {
+                    new CustomField()
+                        {
+                            Id = Settings.CustomFieldId,
+                            Value = "Doing fine!"
+                        }
+                };            
+
             var res = api.Tickets.CreateTicketAsync(ticket).Result.Ticket;
 
             Assert.NotNull(res);

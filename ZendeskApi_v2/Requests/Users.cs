@@ -36,6 +36,11 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupUserResponse>(string.Format("users/search.json?query={0}", email));
         }
 
+        public GroupUserResponse SearchByExternalId(string externalId)
+        {
+            return GenericGet<GroupUserResponse>(string.Format("users/search.json?external_id={0}", externalId));
+        }
+
         public GroupUserResponse GetUsersInGroup(long id)
         {
             return GenericGet<GroupUserResponse>(string.Format("groups/{0}/users.json", id));
@@ -137,6 +142,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupUserResponse> SearchByEmailAsync(string email)
         {
             return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query={0}", email));
+        }
+
+        public async Task<GroupUserResponse> SearchByExternalIdAsync(string externalId)
+        {
+            return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?external_id={0}", externalId));
         }
 
         public async Task<GroupUserResponse> GetUsersInGroupAsync(long id)

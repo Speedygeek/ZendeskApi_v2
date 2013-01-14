@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>ZendeskApi_v2</id>
-        <version>2.3.3</version>
+        <version>2.3.6</version>
         <title>ZendeskApi_v2</title>
         <authors>Eric</authors>
         <owners />

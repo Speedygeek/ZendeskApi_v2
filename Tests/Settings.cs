@@ -22,6 +22,8 @@ namespace Tests
         public const string ColloboratorEmail = "eneif123@yahoo.com";
         public const long CollaboratorId = 282136547;
 
+        public const long CustomFieldId = 22117646;
+
         public const long GroupId = 20402842;
         public const long OrganizationId = 22560572;
 

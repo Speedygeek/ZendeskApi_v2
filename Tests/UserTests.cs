@@ -61,7 +61,9 @@ namespace Tests
             Assert.IsTrue(res1.User.Id > 0);
 
             res1.User.Phone = "555-555-5555";
-            var res2 = api.Users.UpdateUser(res1.User);
+            res1.User.RemotePhotoUrl = "http://i.imgur.com/b2gxj.jpg";
+
+            var res2 = api.Users.UpdateUser(res1.User);            
             Assert.AreEqual(res1.User.Phone, res2.User.Phone);
 
             var res3 = api.Users.SuspendUser(res2.User.Id.Value);
