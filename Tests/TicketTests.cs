@@ -28,7 +28,7 @@ namespace Tests
 
         [Test]
         public void CanCreateUpdateAndDeleteTicketAsync()
-        {
+        {            
             var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
@@ -117,6 +117,9 @@ namespace Tests
 
             res.CollaboratorEmails = new List<string>(){ Settings.ColloboratorEmail};
             var body = "got it thanks";
+
+            res.CustomFields[0].Value = "updated";
+
             var updateResponse = api.Tickets.UpdateTicket(res, new Comment() {Body = body, Public = true});
 
             Assert.NotNull(updateResponse);

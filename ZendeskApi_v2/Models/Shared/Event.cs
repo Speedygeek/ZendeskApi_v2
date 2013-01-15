@@ -78,7 +78,7 @@ namespace ZendeskApi_v2.Models.Shared
         /// Used when event is Change
         /// </summary>
         [JsonProperty("previous_value")]
-        public string PreviousValue { get; set; }
+        public object PreviousValue { get; set; }
 
         /// <summary>
         /// Used when event is Notification
