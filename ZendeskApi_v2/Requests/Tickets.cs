@@ -15,6 +15,7 @@ namespace ZendeskApi_v2.Requests
     public class Tickets : Core
     {
         private const string _tickets = "tickets";
+        private const string _views = "views";
 
 
         public Tickets(string yourZendeskUrl, string user, string password)
@@ -26,6 +27,11 @@ namespace ZendeskApi_v2.Requests
         public GroupTicketResponse GetAllTickets()
         {            
             return GenericGet<GroupTicketResponse>(_tickets + ".json");
+        }
+
+        public GroupTicketResponse GetTicketsByViewID(int id)
+        {
+            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets));
         }
 
         public IndividualTicketResponse GetTicket(long id)
@@ -197,6 +203,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupTicketResponse> GetAllTicketsAsync()
         {            
             return await GenericGetAsync<GroupTicketResponse>(_tickets + ".json");
+        }
+
+        public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id)
+        {
+            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets));
         }
 
         public async Task<IndividualTicketResponse> GetTicketAsync(long id)
