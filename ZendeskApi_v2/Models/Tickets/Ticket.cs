@@ -76,9 +76,6 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
 
-        [JsonProperty("fields")]
-        public IList<Field> Fields { get; set; }
-
         [JsonProperty("custom_fields")]
         public IList<CustomField> CustomFields { get; set; }
 
