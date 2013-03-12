@@ -16,6 +16,7 @@ namespace ZendeskApi_v2.Requests
     {
         private const string _tickets = "tickets";
         private const string _views = "views";
+        private const string _organizations = "organizations";
 
 
         public Tickets(string yourZendeskUrl, string user, string password)
@@ -32,6 +33,11 @@ namespace ZendeskApi_v2.Requests
         public GroupTicketResponse GetTicketsByViewID(int id)
         {
             return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets));
+        }
+
+        public GroupTicketResponse GetTicketsByOrganizationID(long id)
+        {
+            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
         }
 
         public IndividualTicketResponse GetTicket(long id)
@@ -208,6 +214,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id)
         {
             return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets));
+        }
+
+        public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id)
+        {
+            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
         }
 
         public async Task<IndividualTicketResponse> GetTicketAsync(long id)
