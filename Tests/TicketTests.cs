@@ -27,6 +27,14 @@ namespace Tests
         }
 
         [Test]
+        public void CanCanGetTicketsByOrganizationIDAsync()
+        {
+            var id = Settings.OrganizationId;
+            var tickets = api.Tickets.GetTicketsByOrganizationIDAsync(id);
+            Assert.True(tickets.Result.Count > 0);
+        }
+
+        [Test]
         public void CanCreateUpdateAndDeleteTicketAsync()
         {            
             var ticket = new Ticket()
@@ -77,6 +85,14 @@ namespace Tests
             var ticket = api.Tickets.GetTicket(id).Ticket;
             Assert.NotNull(ticket);
             Assert.AreEqual(ticket.Id, id);
+        }
+
+        [Test]
+        public void CanGetTicketsByOrganizationId()
+        {
+            var id = Settings.OrganizationId;
+            var tickets = api.Tickets.GetTicketsByOrganizationID(id);
+            Assert.True(tickets.Count > 0);
         }
         
         [Test]
