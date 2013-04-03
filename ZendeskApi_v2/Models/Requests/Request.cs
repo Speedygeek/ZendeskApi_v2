@@ -35,8 +35,8 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("via")]
         public Via Via { get; set; }        
 
-        [JsonProperty("fields")]
-        public IList<Field> Fields { get; set; }
+        [JsonProperty("custom_fields")]
+        public IList<CustomField> CustomFields { get; set; }
 
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
