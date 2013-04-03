@@ -1,6 +1,8 @@
 Zendesk Api V2
 ==============
 
+*NOTE: My family and I have been traveling the world since January and have now moved to Asia. Since life is so crazy right now I won't be able to get to support tickets for a while. My apologies for any inconvience this may cause.
+
 This is a full c# wrapper for Zendesk's api v2. http://developer.zendesk.com/documentation/rest_api/introduction.html
 
 Here are some examples of things you might want to do, but for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
