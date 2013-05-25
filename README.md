@@ -81,7 +81,7 @@ By default Zendesk will only return you 100 items at a time. But when there are 
 	
 Remote Authentication
 --------------
-As an added bonus you can also generate a link to log a user in. Make sure you have "Token Access" enabled at Settings -> Channels -> Api.
+As an added bonus you can also generate a link to log a user in. Make sure you have "Token Access" enabled at Settings -> Channels -> Api. *Note if you are ussing Single Sign On the token would be in Admin -> Settings -> Security -> Single Sign-On.
 
 ```C#
 	var loginUrl = api.GetLoginUrl("Name", "Email", "Your Auth Token", "optional forward to url");
