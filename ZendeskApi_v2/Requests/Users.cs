@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 #if ASYNC
+using System.Net;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.Shared;
@@ -80,6 +81,22 @@ namespace ZendeskApi_v2.Requests
             return GenericDelete(string.Format("users/{0}.json", id));
         }
 
+        public bool SetUsersPassword(long userId, string newPassword)
+        {
+            var body = new {password = newPassword};
+            return GenericBoolPost(string.Format("users/{0}/password.json", userId), body);           
+        }
+
+        public bool ChangeUsersPassword(long userId, string oldPassword, string newPassword)
+        {
+            var body = new
+                {
+                    previous_password = oldPassword,
+                    password = newPassword
+                };
+            return GenericBoolPost(string.Format("users/{0}/password.json", userId), body);
+        }
+
         public GroupUserIdentityResponse GetUserIdentities(long userId)
         {
             return GenericGet<GroupUserIdentityResponse>(string.Format("users/{0}/identities.json", userId));
@@ -120,7 +137,8 @@ namespace ZendeskApi_v2.Requests
         public bool DeleteUserIdentity(long userId, long identityId)
         {
             return GenericDelete(string.Format("users/{0}/identities/{1}.json", userId, identityId));
-        }
+        }       
+
 #endif
 
 #if ASYNC
@@ -186,6 +204,22 @@ namespace ZendeskApi_v2.Requests
         public async Task<bool> DeleteUserAsync(long id)
         {
             return await GenericDeleteAsync(string.Format("users/{0}.json", id));
+        }
+
+        public async Task<bool> SetUsersPasswordAsync(long userId, string newPassword)
+        {
+            var body = new { password = newPassword };
+            return await GenericBoolPostAsync(string.Format("users/{0}/password.json", userId), body);
+        }
+
+        public async Task<bool> ChangeUsersPasswordAsync(long userId, string oldPassword, string newPassword)
+        {
+            var body = new
+            {
+                previous_password = oldPassword,
+                password = newPassword
+            };
+            return await GenericBoolPostAsync(string.Format("users/{0}/password.json", userId), body);
         }
 
         public async Task<GroupUserIdentityResponse> GetUserIdentitiesAsync(long userId)

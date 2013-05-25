@@ -115,11 +115,23 @@ namespace ZendeskApi_v2
             var res = RunRequest<T>(resource, "POST", body);            
             return res;
         }
-        
+
+        protected bool GenericBoolPost(string resource, object body = null)
+        {
+            var res = RunRequest(resource, "POST", body);
+            return res.HttpStatusCode == HttpStatusCode.OK;
+        }
+
         protected T GenericPut<T>(string resource, object body=null)
         {
             var res = RunRequest<T>(resource, "PUT", body);
             return res;
+        }
+
+        protected bool GenericBoolPut(string resource, object body = null)
+        {
+            var res = RunRequest(resource, "PUT", body);
+            return res.HttpStatusCode == HttpStatusCode.OK;
         }
 #endif
 
@@ -224,10 +236,22 @@ namespace ZendeskApi_v2
             return await res;
         }
 
+        protected async Task<bool> GenericBoolPostAsync(string resource, object body = null)
+        {
+            var res = RunRequestAsync(resource, "POST", body);
+            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
+        }
+
         protected async Task<T> GenericPutAsync<T>(string resource, object body = null)
         {
             var res = RunRequestAsync<T>(resource, "PUT", body);
             return await res;
+        }
+
+        protected async Task<bool> GenericBoolPutAsync(string resource, object body = null)
+        {
+            var res = RunRequestAsync(resource, "PUT", body);
+            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 #endif
     }

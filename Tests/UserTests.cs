@@ -58,7 +58,11 @@ namespace Tests
                            };
 
             var res1 = api.Users.CreateUser(user);
+            var userId = res1.User.Id ?? 0;
             Assert.IsTrue(res1.User.Id > 0);
+
+            Assert.True(api.Users.SetUsersPassword(userId, "t34sssting"));
+            Assert.True(api.Users.ChangeUsersPassword(userId, "t34sssting", "newpassw33rd"));
 
             res1.User.Phone = "555-555-5555";
             res1.User.RemotePhotoUrl = "http://i.imgur.com/b2gxj.jpg";
@@ -157,7 +161,7 @@ namespace Tests
             Assert.AreEqual(identityId, verfified.Identity.Id);
 
             var primaries = api.Users.SetUserIdentityAsPrimary(userId, identityId);
-            Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);
+            Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);            
 
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
