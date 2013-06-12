@@ -40,6 +40,21 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
         }
 
+        public GroupTicketResponse GetRecentTickets()
+        {
+            return GenericGet<GroupTicketResponse>("tickets/recent.json");
+        }
+
+        public GroupTicketResponse GetTicketsByUserID(long userId)
+        {
+            return GenericGet<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId));
+        }
+
+        public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId)
+        {
+            return GenericGet<GroupTicketResponse>(string.Format("users/{0}/tickets/ccd.json", userId));
+        }
+
         public IndividualTicketResponse GetTicket(long id)
         {            
             return GenericGet<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
@@ -219,6 +234,21 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id)
         {
             return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
+        }
+
+        public async Task<GroupTicketResponse> GetRecentTicketsAsync()
+        {
+            return await GenericGetAsync<GroupTicketResponse>("tickets/recent.json");
+        }
+
+        public async Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId)
+        {
+            return await GenericGetAsync<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId));
+        }
+
+        public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId)
+        {
+            return await GenericGetAsync<GroupTicketResponse>(string.Format("users/{0}/tickets/ccd.json", userId));
         }
 
         public async Task<IndividualTicketResponse> GetTicketAsync(long id)

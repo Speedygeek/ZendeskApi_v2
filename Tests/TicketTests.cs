@@ -76,6 +76,9 @@ namespace Tests
         {
             var tickets = api.Tickets.GetAllTickets();            
             Assert.True(tickets.Count > 0);
+
+            var ticketsByUser = api.Tickets.GetTicketsByUserID(tickets.Tickets[0].RequesterId.Value);
+            Assert.True(ticketsByUser.Count > 0);
         }
 
         [Test]
