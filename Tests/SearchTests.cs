@@ -13,7 +13,7 @@ namespace Tests
         {
             var res = api.Search.SearchFor(Settings.Email);
 
-            Assert.AreEqual(res.Results[0].ResultType, "user");
+            Assert.AreEqual(res.Results[0].ResultType, "user");            
         }
     }
 }

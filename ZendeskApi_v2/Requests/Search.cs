@@ -35,7 +35,7 @@ namespace ZendeskApi_v2.Requests
                 resource += "&sort_order=" + sortOrder;
 
             return GenericGet<SearchResults>(resource);
-        }
+        }        
 
         /// <summary>
         /// This resource behaves the same as SearchFor, but allows anonymous users to search public forums
