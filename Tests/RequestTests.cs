@@ -34,7 +34,14 @@ namespace Tests
             var res1 = api.Requests.GetRequestById(res.Request.Id.Value);
             Assert.AreEqual(res1.Request.Id, res.Request.Id);
 
-            var res2 = api.Requests.UpdateRequest(res.Request.Id.Value, new Comment() {Body = "something more to say"});
+            res1.Request.Subject = "new subject";
+            res1.Request.Comment = new Comment()
+                {
+                    Body = "something more to say"
+                };
+
+            var res2 = api.Requests.UpdateRequest(res1.Request);
+            //var res2 = api.Requests.UpdateRequest(res.Request.Id.Value, new Comment() {Body = "something more to say"});
             var res3 = api.Requests.GetRequestCommentsById(res.Request.Id.Value);
 
             Assert.AreEqual(res3.Comments.Last().Body.Replace("\n", ""), "something more to say");

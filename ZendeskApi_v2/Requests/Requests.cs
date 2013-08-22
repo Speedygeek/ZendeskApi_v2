@@ -60,6 +60,15 @@ namespace ZendeskApi_v2.Requests
             var body = new { request = new { comment} };
             return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
         }
+
+        public IndividualRequestResponse UpdateRequest(Request request, Comment comment=null)
+        {
+            if (comment != null)
+                request.Comment = comment;
+            var body = new { request };
+            
+            return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", request.Id.Value), body);
+        }
 #endif
 
 #if ASYNC
