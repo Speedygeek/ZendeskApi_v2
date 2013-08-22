@@ -30,7 +30,7 @@ namespace ZendeskApi_v2.Requests
 
         public GroupOrganizationResponse SearchForOrganizations(string searchTerm)
         {
-            return GenericPost<GroupOrganizationResponse>(string.Format("organizations/autocomplete.json?external_id={0}", searchTerm));
+            return GenericGet<GroupOrganizationResponse>(string.Format("organizations/search.json?external_id={0}", searchTerm));
         }
 
         public IndividualOrganizationResponse GetOrganization(long id)
