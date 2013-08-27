@@ -8,8 +8,8 @@ namespace ZendeskApi_v2.Requests
     public class JobStatuses : Core
     {
 
-        public JobStatuses(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal JobStatuses(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

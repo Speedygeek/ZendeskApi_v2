@@ -7,8 +7,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class SatisfactionRatings : Core
     {
-        public SatisfactionRatings(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal SatisfactionRatings(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

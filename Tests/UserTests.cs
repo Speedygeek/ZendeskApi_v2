@@ -18,7 +18,7 @@ namespace Tests
     [TestFixture]
     public class UserTests
     {        
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Domain, Settings.Email, Settings.Password);
 
         [Test]
         public void CanGetUsers()

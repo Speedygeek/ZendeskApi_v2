@@ -9,7 +9,7 @@ namespace Tests
     [TestFixture]
     public class ForumTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Domain, Settings.Email, Settings.Password);
 
         [Test]
         public void CanGetForums()

@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 #if ASYNC
 using System.Threading.Tasks;
+using System.Net.Http;
 #endif
 using Newtonsoft.Json;
 
@@ -13,35 +14,29 @@ namespace ZendeskApi_v2
 {
     public class Core
     {
-        private const string XOnBehalfOfEmail = "X-On-Behalf-Of";        
-        protected string User;
-        protected string Password;
-        protected string ZendeskUrl;        
+        private const string XOnBehalfOfEmail = "X-On-Behalf-Of";
+        protected internal IZendeskConnectionSettings ConnectionSettings { get; private set; }
 
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
-        /// <param name="zendeskApiUrl"></param>
-        /// <param name="user"></param>
-        /// <param name="password"></param>
-        public Core(string zendeskApiUrl, string user, string password)
+        /// <param name="connectionSettings"></param>
+        internal Core(IZendeskConnectionSettings connectionSettings)
         {
-            User = user;
-            Password = password;
-            ZendeskUrl = zendeskApiUrl;            
+            ConnectionSettings = connectionSettings;
         }
 
 #if SYNC
         public T GetByPageUrl<T>(string pageUrl)
-        {            
-            if(string.IsNullOrEmpty(pageUrl))
+        {
+            if (string.IsNullOrEmpty(pageUrl))
                 return JsonConvert.DeserializeObject<T>("");
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last();
             return RunRequest<T>(resource, "GET");
         }
 
-        public T RunRequest<T>(string resource, string requestMethod, object body = null)
+        private T RunRequest<T>(string resource, string requestMethod, object body = null)
         {
             var response = RunRequest(resource, requestMethod, body);
             var obj = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings()
@@ -49,27 +44,17 @@ namespace ZendeskApi_v2
                     NullValueHandling = NullValueHandling.Ignore
                 });
             return obj;
-        }        
+        }
 
         public RequestResult RunRequest(string resource, string requestMethod, object body = null)
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
-
-            requestUrl += resource;                        
+            var requestUrl = String.Format("https://{0}.zendesk.com/api/v2/{1}", ConnectionSettings.Domain, resource);
 
             HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
             req.ContentType = "application/json";
-            
-            req.Credentials = new System.Net.CredentialCache
-                                  {
-                                      {
-                                          new System.Uri(ZendeskUrl), "Basic",
-                                          new System.Net.NetworkCredential(User, Password)
-                                          }
-                                  };
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
+
+            req.Credentials = ConnectionSettings.Credentials.CreateNetworkCredentials();
+            //req.Headers["Authorization"] = GetAuthHeader(User, Password);  //why?
             req.PreAuthenticate = true;
 
             req.Method = requestMethod; //GET POST PUT DELETE
@@ -99,20 +84,22 @@ namespace ZendeskApi_v2
             };
         }
 
+
+  
         protected T GenericGet<T>(string resource)
         {
-            return RunRequest<T>(resource, "GET");            
+            return RunRequest<T>(resource, "GET");
         }
-        
+
         protected bool GenericDelete(string resource)
         {
             var res = RunRequest(resource, "DELETE");
-            return res.HttpStatusCode == HttpStatusCode.OK;            
+            return res.HttpStatusCode == HttpStatusCode.OK;
         }
-        
-        protected T GenericPost<T>(string resource, object body=null)
+
+        protected T GenericPost<T>(string resource, object body = null)
         {
-            var res = RunRequest<T>(resource, "POST", body);            
+            var res = RunRequest<T>(resource, "POST", body);
             return res;
         }
 
@@ -122,7 +109,7 @@ namespace ZendeskApi_v2
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
-        protected T GenericPut<T>(string resource, object body=null)
+        protected T GenericPut<T>(string resource, object body = null)
         {
             var res = RunRequest<T>(resource, "PUT", body);
             return res;
@@ -151,71 +138,52 @@ namespace ZendeskApi_v2
             return await RunRequestAsync<T>(resource, "GET");
         }
 
-        public async Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null)
+
+        protected async Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null)
         {
             var response = await RunRequestAsync(resource, requestMethod, body);
             var obj = Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(response.Content));
             return await obj;
         }
 
-        public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null)
+        protected async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null)
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
+            var requestUrl = String.Format("https://{0}.zendesk.com/api/v2/{1}", ConnectionSettings.Domain, resource);
 
-            requestUrl += resource;
-
-            HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
-            req.ContentType = "application/json";
-
-            req.Credentials = new System.Net.NetworkCredential(User, Password);
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
-
-
-            req.Method = requestMethod; //GET POST PUT DELETE
-            req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-
-            if (body != null)
-            {
-                var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
-
-                var requestStream = Task.Factory.FromAsync(
-                    req.BeginGetRequestStream,
-                    asyncResult => req.EndGetRequestStream(asyncResult),
-                    (object)null);
-
-                var dataStream = await requestStream.ContinueWith(t => t.Result.WriteAsync(formData, 0, formData.Length));
-                Task.WaitAll(dataStream);
-            }
-            
-            Task<WebResponse> task = Task.Factory.FromAsync(
-            req.BeginGetResponse,
-            asyncResult => req.EndGetResponse(asyncResult),
-            (object)null);
-
-            return await task.ContinueWith(t =>
-            {
-                var httpWebResponse = t.Result as HttpWebResponse;
-
-                return new RequestResult
+            using (
+                var handler = new HttpClientHandler
                 {
-                    Content = ReadStreamFromResponse(httpWebResponse),
-                    HttpStatusCode = httpWebResponse.StatusCode
-                };
-
-            });
-        }
-
-        private static string ReadStreamFromResponse(WebResponse response)
-        {
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(responseStream))
+                    Credentials = ConnectionSettings.Credentials.CreateNetworkCredentials(),
+                    PreAuthenticate = true
+                })
             {
-                //Need to return this response 
-                string strContent = sr.ReadToEnd();
-                return strContent;
+                using (var client = new HttpClient(handler))
+                {
+                    var req = new HttpRequestMessage(new HttpMethod(requestMethod), requestUrl);
+                    req.Headers.Add("Accept", "application/json");
+
+                    if (body != null)
+                    {
+                        await Task.Factory.StartNew(() =>
+                            {
+                                req.Content = new StringContent(
+                                    JsonConvert.SerializeObject(body,
+                                                                new JsonSerializerSettings
+                                                                    {
+                                                                        NullValueHandling = NullValueHandling.Ignore
+                                                                    }),
+                                    Encoding.UTF8, "application/json");
+                            });
+                    }
+
+                    var response = await client.SendAsync(req);
+
+                    return new RequestResult
+                        {
+                        Content = await response.Content.ReadAsStringAsync(),
+                        HttpStatusCode = response.StatusCode
+                    };
+                }
             }
         }
 

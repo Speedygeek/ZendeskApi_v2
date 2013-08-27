@@ -7,8 +7,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Organizations : Core
     {
-        public Organizations(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Organizations(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

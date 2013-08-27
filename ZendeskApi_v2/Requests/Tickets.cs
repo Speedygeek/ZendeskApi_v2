@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 #if ASYNC
+using System.Net.Http;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Extensions;
@@ -19,8 +20,8 @@ namespace ZendeskApi_v2.Requests
         private const string _organizations = "organizations";
 
 
-        public Tickets(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Tickets(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

@@ -9,8 +9,8 @@ namespace ZendeskApi_v2.Requests
     public class AccountsAndActivity : Core
     {
 
-        public AccountsAndActivity(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal AccountsAndActivity(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 #if SYNC

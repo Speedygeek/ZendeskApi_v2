@@ -7,8 +7,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Groups : Core
     {
-        public Groups(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Groups(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

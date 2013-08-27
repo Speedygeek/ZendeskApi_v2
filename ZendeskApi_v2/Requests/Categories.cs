@@ -7,9 +7,9 @@ using ZendeskApi_v2.Models.Groups;
 namespace ZendeskApi_v2.Requests
 {
     public class Categories : Core
-    {
-        public Categories(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+    {    
+        internal Categories(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

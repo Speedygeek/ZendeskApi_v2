@@ -7,8 +7,9 @@ namespace ZendeskApi_v2.Requests
 {
     public class Triggers : Core
     {
-        public Triggers(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+
+        internal Triggers(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

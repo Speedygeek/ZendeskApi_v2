@@ -51,6 +51,12 @@
     <Compile Include="..\ZendeskApi_v2\Extensions\RequestExtensions.cs">
       <Link>Extensions\RequestExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\IZendeskConnectionSettings.cs">
+      <Link>IZendeskConnectionSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\IZendeskCredentials.cs">
+      <Link>IZendeskCredentials.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\AccountsAndActivities\Activity.cs">
       <Link>Models\AccountsAndActivities\Activity.cs</Link>
     </Compile>

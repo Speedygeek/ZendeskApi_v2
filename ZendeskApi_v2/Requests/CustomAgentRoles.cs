@@ -7,8 +7,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class CustomAgentRoles : Core
     {
-        public CustomAgentRoles(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal CustomAgentRoles(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

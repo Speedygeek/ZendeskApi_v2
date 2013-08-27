@@ -9,8 +9,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Topics : Core
     {
-        public Topics(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Topics(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

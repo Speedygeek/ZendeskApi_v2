@@ -11,8 +11,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Users : Core
     {        
-        public Users(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Users(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 
