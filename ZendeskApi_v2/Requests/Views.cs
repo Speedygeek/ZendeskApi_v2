@@ -10,9 +10,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Views : Core
     {
-        
-        public Views(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Views(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

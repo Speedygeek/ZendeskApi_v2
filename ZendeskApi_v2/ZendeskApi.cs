@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security;
 using System.Text;
 using ZendeskApi_v2.Requests; 
 
@@ -9,7 +10,7 @@ using System.Security.Cryptography;
 
 namespace ZendeskApi_v2
 {
-    public class ZendeskApi
+    public class ZendeskApi : IZendeskConnectionSettings
     {
         public Tickets Tickets { get; set; }
         public Attachments Attachments { get; set; }
@@ -32,32 +33,39 @@ namespace ZendeskApi_v2
         public SharingAgreements SharingAgreements { get; set; }
         public Triggers Triggers { get; set; }
 
-        public string ZendeskUrl { get; set; }        
 
-        public ZendeskApi(string yourZendeskUrl, string user, string password)
+        public ZendeskApi(string domain, string username, string password) : 
+            this(domain, new ZendeskUsernamePasswordCredentials() { Identity = username, Password = password})
         {
-            Tickets = new Tickets(yourZendeskUrl, user, password);
-            Attachments = new Attachments(yourZendeskUrl, user, password);
-            Views = new Views(yourZendeskUrl, user, password);
-            Users = new Users(yourZendeskUrl, user, password);
-            Requests = new Requests.Requests(yourZendeskUrl, user, password);
-            Groups = new Groups(yourZendeskUrl, user, password);
-            CustomAgentRoles = new CustomAgentRoles(yourZendeskUrl, user, password);
-            Organizations = new Organizations(yourZendeskUrl, user, password);
-            Search = new Search(yourZendeskUrl, user, password);
-            Tags = new Tags(yourZendeskUrl, user, password);
-            Forums = new Forums(yourZendeskUrl, user, password);
-            Categories = new Categories(yourZendeskUrl, user, password);
-            Topics = new Topics(yourZendeskUrl, user, password);
-            AccountsAndActivity = new AccountsAndActivity(yourZendeskUrl, user, password);
-            JobStatuses = new JobStatuses(yourZendeskUrl, user, password);
-            Locales = new Locales(yourZendeskUrl, user, password);
-            Macros = new Macros(yourZendeskUrl, user, password);
-            SatisfactionRatings = new SatisfactionRatings(yourZendeskUrl, user, password);
-            SharingAgreements = new SharingAgreements(yourZendeskUrl, user, password);
-            Triggers = new Triggers(yourZendeskUrl, user, password);
+            
+        }
 
-            ZendeskUrl = yourZendeskUrl;
+        public ZendeskApi(string domain, IZendeskCredentials credentials)
+        {
+            _domain = domain;
+            _credentials = credentials;
+
+            Tickets = new Tickets(this);
+            Attachments = new Attachments(this);
+            Views = new Views(this);
+            Users = new Users(this);
+            Requests = new Requests.Requests(this);
+            Groups = new Groups(this);
+            CustomAgentRoles = new CustomAgentRoles(this);
+            Organizations = new Organizations(this);
+            Search = new Search(this);
+            Tags = new Tags(this);
+            Forums = new Forums(this);
+            Categories = new Categories(this);
+            Topics = new Topics(this);
+            AccountsAndActivity = new AccountsAndActivity(this);
+            JobStatuses = new JobStatuses(this);
+            Locales = new Locales(this);
+            Macros = new Macros(this);
+            SatisfactionRatings = new SatisfactionRatings(this);
+            SharingAgreements = new SharingAgreements(this);
+            Triggers = new Triggers(this);
+
         }
 
 #if Net35 
@@ -121,5 +129,10 @@ namespace ZendeskApi_v2
         }
 #endif
 
+        private readonly string _domain;
+        private readonly IZendeskCredentials _credentials;
+
+        string IZendeskConnectionSettings.Domain { get { return _domain;  } }
+        IZendeskCredentials IZendeskConnectionSettings.Credentials{ get { return _credentials; } }
     }
 }

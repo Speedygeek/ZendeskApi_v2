@@ -8,8 +8,8 @@ namespace ZendeskApi_v2.Requests
     public class Locales : Core
     {
 
-        public Locales(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Locales(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 

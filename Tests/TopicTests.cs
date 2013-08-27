@@ -9,7 +9,7 @@ namespace Tests
     [TestFixture]
     public class TopicTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Domain, Settings.Email, Settings.Password);
         private long forumId;
 
         public TopicTests()

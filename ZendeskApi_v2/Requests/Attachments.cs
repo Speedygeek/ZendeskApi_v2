@@ -6,7 +6,9 @@ using System.Net;
 using System.Text;
 #if ASYNC
 using System.Threading.Tasks;
+using System.Net.Http;
 #endif
+using Newtonsoft.Json;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Shared;
 
@@ -14,8 +16,10 @@ namespace ZendeskApi_v2.Requests
 {
     public class Attachments : Core
     {
-        public Attachments(string yourZendeskUrl, string user, string password) : base(yourZendeskUrl, user, password)
+        internal Attachments(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         { }
+
 #if SYNC
         public Upload UploadAttachment(ZenFile file)
         {
@@ -48,11 +52,8 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>       
         Upload UploadAttachment(ZenFile file, string token = "")
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
+            var requestUrl = String.Format("https://{0}.zendesk.com/api/v2/uploads.json?filename={1}", ConnectionSettings.Domain, file.FileName);
 
-            requestUrl += string.Format("uploads.json?filename={0}", file.FileName);
             if (!string.IsNullOrEmpty(token))
                 requestUrl += string.Format("&token={0}", token);
 
@@ -60,15 +61,7 @@ namespace ZendeskApi_v2.Requests
             req.ContentType = file.ContentType;
             req.Method = "POST";
             req.ContentLength = file.FileData.Length;
-            var credentials = new System.Net.CredentialCache
-                                  {
-                                      {
-                                          new System.Uri(ZendeskUrl), "Basic",
-                                          new System.Net.NetworkCredential(User, Password)
-                                          }
-                                  };
-
-            req.Credentials = credentials;
+            req.Credentials = ConnectionSettings.Credentials.CreateNetworkCredentials();
             req.PreAuthenticate = true;
             //req.AuthenticationLevel = System.Net.Security.AuthenticationLevel.MutualAuthRequired;
             var dataStream = req.GetRequestStream();
@@ -81,7 +74,7 @@ namespace ZendeskApi_v2.Requests
             string responseFromServer = reader.ReadToEnd();
 
             return responseFromServer.ConvertToObject<UploadResult>().Upload;
-        }     
+        }
 #endif
 
 #if ASYNC
@@ -95,19 +88,16 @@ namespace ZendeskApi_v2.Requests
             if (files.Count < 1)
                 return null;
 
-            var res = UploadAttachmentAsync(files[0]);
+            var res = await UploadAttachmentAsync(files[0]);
 
             if (files.Count > 1)
             {
                 var otherFiles = files.Skip(1);
-                foreach (var curFile in otherFiles)
-                {
-                    res = await res.ContinueWith(x =>  UploadAttachmentAsync(curFile, x.Result.Token));                    
-                }
-                    
+                foreach (var file in otherFiles)
+                    res = await UploadAttachmentAsync(file, res.Token);
             }
 
-            return await res;
+            return res;
         }
 
         /// <summary>
@@ -119,54 +109,31 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>  
         public async Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "")
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
 
-            requestUrl += string.Format("uploads.json?filename={0}", file.FileName);
+            var requestUrl = String.Format("https://{0}.zendesk.com/api/v2/uploads.json?filename={1}", ConnectionSettings.Domain, file.FileName);
+
             if (!string.IsNullOrEmpty(token))
                 requestUrl += string.Format("&token={0}", token);
 
-
-            HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
-            req.ContentType = file.ContentType;
-            req.Credentials = new System.Net.NetworkCredential(User, Password);
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
-            req.Method = "POST"; //GET POST PUT DELETE
-
-            req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";                                        
-            
-            var requestStream = Task.Factory.FromAsync(
-                req.BeginGetRequestStream,
-                asyncResult => req.EndGetRequestStream(asyncResult),
-                (object)null);
-            
-            var dataStream = await requestStream.ContinueWith(t => t.Result.WriteAsync(file.FileData, 0, file.FileData.Length));
-            Task.WaitAll(dataStream);
-            
-
-            Task<WebResponse> task = Task.Factory.FromAsync(
-            req.BeginGetResponse,
-            asyncResult => req.EndGetResponse(asyncResult),
-            (object)null);
-
-            return await task.ContinueWith(t =>
+            using (
+                var handler = new HttpClientHandler
+                {
+                    Credentials = ConnectionSettings.Credentials.CreateNetworkCredentials(),
+                    PreAuthenticate = true
+                })
             {
-                var httpWebResponse = t.Result as HttpWebResponse;
-                return ReadStreamFromResponse(httpWebResponse).ConvertToObject<UploadResult>().Upload;
-            });
-        }
+                using (var client = new HttpClient(handler))
+                {
+                    var req = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    req.Headers.Add("Accept", "application/json");
 
-        private static string ReadStreamFromResponse(WebResponse response)
-        {
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(responseStream))
-            {
-                //Need to return this response 
-                string strContent = sr.ReadToEnd();
-                return strContent;
+                    req.Content = new ByteArrayContent(file.FileData);
+                    return (await (await client.SendAsync(req)).Content.ReadAsStringAsync()).ConvertToObject<UploadResult>().Upload;
+                
+                }
             }
         }
+
 #endif
     }
 }

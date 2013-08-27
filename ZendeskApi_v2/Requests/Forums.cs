@@ -8,8 +8,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Forums : Core
     {
-        public Forums(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        internal Forums(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
         {
         }
 #if SYNC

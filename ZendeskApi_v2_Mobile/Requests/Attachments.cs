@@ -11,9 +11,10 @@ namespace ZendeskApi_v2.Requests
 {
     public class Attachments : Core
     {
-        public Attachments(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
-        { }
+        internal Attachments(IZendeskConnectionSettings connectionSettings)
+            : base(connectionSettings)
+        {
+        }
 
         public Upload UploadAttachment(ZenFile file)
         {
@@ -46,24 +47,21 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>       
         Upload UploadAttachment(ZenFile file, string token = "")
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
+            var requestUrl = String.Format("https://{0}.zendesk.com/api/v2/uploads.json?filename={0}", ConnectionSettings.Domain, file.FileName);
 
-            requestUrl += string.Format("uploads.json?filename={0}", file.FileName);
             if (!string.IsNullOrEmpty(token))
                 requestUrl += string.Format("&token={0}", token);
 
             WebRequest req = WebRequest.Create(requestUrl);
             req.ContentType = file.ContentType;
             req.Method = "POST";
-                        
-            req.Credentials = new System.Net.NetworkCredential(User, Password);
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
-            
+
+            req.Credentials = ConnectionSettings.Credentials.CreateNetworkCredentials();
+            //req.Headers["Authorization"] = GetAuthHeader(User, Password); //why?
+
             var dataStream = req.GetWebRequestStream();
             dataStream.Write(file.FileData, 0, file.FileData.Length);
-            
+
             WebResponse response = req.GetWebResponse();
             dataStream = response.GetResponseStream();
             var reader = new StreamReader(dataStream);
