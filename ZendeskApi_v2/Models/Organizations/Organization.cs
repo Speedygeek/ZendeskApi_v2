@@ -50,5 +50,8 @@ namespace ZendeskApi_v2.Models.Organizations
 
         [JsonProperty("tags")]
         public IList<object> Tags { get; set; }
+
+        [JsonProperty("organization_fields")]
+        public IDictionary<string, string> OrganizationFields { get; set; }
     }
 }
