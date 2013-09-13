@@ -168,5 +168,10 @@ namespace ZendeskApi_v2.Requests
             }
         }
 #endif
+        public bool DeleteAttachment(long attachmentId)
+        {
+            return GenericDelete(string.Format("attachments/{0}.json", attachmentId));
+        }
+
     }
 }
