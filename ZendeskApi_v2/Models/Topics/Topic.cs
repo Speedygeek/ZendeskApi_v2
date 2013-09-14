@@ -64,5 +64,14 @@ namespace ZendeskApi_v2.Models.Topics
 
         [JsonProperty("updated_at")]
         public string UpdatedAt { get; set; }
+        
+        /// <summary>
+        /// Used for uploading Topics only
+        /// When creating and updating Topics you may attach files by passing in an array of the tokens received from uploading the files. 
+        /// Use Attachments.UploadAttachment to get the token first.
+        /// </summary>
+        [JsonProperty("uploads")]
+        public IList<string> Uploads { get; set; }
+
     }
 }
