@@ -143,8 +143,15 @@ namespace Tests
 
             Assert.NotNull(updateResponse);
             Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
-
+            
             Assert.True(api.Tickets.Delete(res.Id.Value));
+        }
+
+        [Test]
+        public void CanGetTicketComments()
+        {
+            var comments = api.Tickets.GetTicketComments(2);
+            Assert.IsNotEmpty(comments.Comments[1].Body);            
         }
 
         [Test]

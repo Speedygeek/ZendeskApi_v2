@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -21,6 +22,26 @@ namespace ZendeskApi_v2.Models.Tickets
         /// Use Attachments.UploadAttachment to get the token first.
         /// </summary>
         [JsonProperty("uploads")]
-        public IList<string> Uploads { get; set; }
+        public IList<string> Uploads { get; set; }        
+
+        /// <summary>
+        /// Used only for getting ticket comments
+        /// </summary>
+        [JsonProperty("author_id")]
+        public long? AuthorId { get; private set; }
+
+        [JsonProperty("html_body")]
+        public string HtmlBody { get; private set; }
+
+        [JsonProperty("attachments")]
+        public IList<Attachment> Attachments { get; private set; }
+
+        [JsonProperty("via")]
+        public Via Via { get; private set; }
+
+        [JsonProperty("metadata")]
+        public MetaData MetaData { get; private set; }
+
     }
+
 }

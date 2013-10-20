@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Tickets.Suspended;
@@ -58,6 +59,11 @@ namespace ZendeskApi_v2.Requests
         public IndividualTicketResponse GetTicket(long id)
         {            
             return GenericGet<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
+        }
+
+        public GroupCommentResponse GetTicketComments(long ticketId)
+        {
+            return GenericGet<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId));
         }
 
         public GroupTicketResponse GetMultipleTickets(List<long> ids)
@@ -254,6 +260,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTicketResponse> GetTicketAsync(long id)
         {            
             return await GenericGetAsync<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
+        }
+
+        public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId)
+        {
+            return await GenericGetAsync<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId));
         }
 
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(List<long> ids)
