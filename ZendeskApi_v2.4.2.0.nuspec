@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>ZendeskApi_v2</id>
+        <version>2.4.2</version>
+        <title>ZendeskApi_v2</title>
+        <authors>Eric</authors>
+        <projectUrl>https://github.com/eneifert/ZendeskApi_v2</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A full c# wrapper for Zendesk's api v2.</description>
+        <copyright>Copyright 2012</copyright>
+        <tags>zendesk api</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework3.5">
+                <dependency id="Newtonsoft.Json" />
+            </group>
+            <group targetFramework=".NETFramework4.0">
+                <dependency id="Newtonsoft.Json" />
+                <dependency id="AsyncCTP" />
+            </group>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="Newtonsoft.Json" />
+            </group>
+            <group targetFramework=".NETPortable0.0-net45+sl4+wp71+win8">
+                <dependency id="Newtonsoft.Json" />
+                <dependency id="Microsoft.Bcl.Async" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="ZendeskApi_v2_Net35\bin\Debug\ZendeskApi_v2_Net35.dll" target="lib\net35\ZendeskApi_v2_Net35.dll" />
+        <file src="ZendeskApi_v2_Net35\bin\Debug\ZendeskApi_v2_Net35.dll" target="lib\net40\ZendeskApi_v2_Net35.dll" />
+        <file src="ZendeskApi_v2\bin\Debug\ZendeskApi_v2.dll" target="lib\net45\ZendeskApi_v2.dll" />
+        <file src="ZendeskApi_v2_Mobile\bin\Debug\ZendeskApi_v2_Mobile.dll" target="lib\portable-net45+sl4+wp71+win8\ZendeskApi_v2_Mobile.dll" />
+    </files>
+</package>

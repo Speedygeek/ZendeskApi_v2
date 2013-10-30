@@ -139,7 +139,7 @@ namespace Tests
 
             res.CustomFields[0].Value = "updated";
 
-            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() {Body = body, Public = true});
+            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() {Body = body, Public = true, Uploads = new List<string>()});
 
             Assert.NotNull(updateResponse);
             Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
