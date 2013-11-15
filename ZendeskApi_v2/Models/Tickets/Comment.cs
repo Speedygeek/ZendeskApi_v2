@@ -42,6 +42,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("metadata")]
         public MetaData MetaData { get; private set; }
 
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
     }
 
 }
