@@ -34,30 +34,58 @@ namespace ZendeskApi_v2
 
         public string ZendeskUrl { get; set; }        
 
+        /// <summary>
+        /// Constructor that takes 3 params.
+        /// </summary>
+        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
         public ZendeskApi(string yourZendeskUrl, string user, string password)
         {
-            Tickets = new Tickets(yourZendeskUrl, user, password);
-            Attachments = new Attachments(yourZendeskUrl, user, password);
-            Views = new Views(yourZendeskUrl, user, password);
-            Users = new Users(yourZendeskUrl, user, password);
-            Requests = new Requests.Requests(yourZendeskUrl, user, password);
-            Groups = new Groups(yourZendeskUrl, user, password);
-            CustomAgentRoles = new CustomAgentRoles(yourZendeskUrl, user, password);
-            Organizations = new Organizations(yourZendeskUrl, user, password);
-            Search = new Search(yourZendeskUrl, user, password);
-            Tags = new Tags(yourZendeskUrl, user, password);
-            Forums = new Forums(yourZendeskUrl, user, password);
-            Categories = new Categories(yourZendeskUrl, user, password);
-            Topics = new Topics(yourZendeskUrl, user, password);
-            AccountsAndActivity = new AccountsAndActivity(yourZendeskUrl, user, password);
-            JobStatuses = new JobStatuses(yourZendeskUrl, user, password);
-            Locales = new Locales(yourZendeskUrl, user, password);
-            Macros = new Macros(yourZendeskUrl, user, password);
-            SatisfactionRatings = new SatisfactionRatings(yourZendeskUrl, user, password);
-            SharingAgreements = new SharingAgreements(yourZendeskUrl, user, password);
-            Triggers = new Triggers(yourZendeskUrl, user, password);
+            var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
 
-            ZendeskUrl = yourZendeskUrl;
+            Tickets = new Tickets(formattedUrl, user, password);
+            Attachments = new Attachments(formattedUrl, user, password);
+            Views = new Views(formattedUrl, user, password);
+            Users = new Users(formattedUrl, user, password);
+            Requests = new Requests.Requests(formattedUrl, user, password);
+            Groups = new Groups(formattedUrl, user, password);
+            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password);
+            Organizations = new Organizations(formattedUrl, user, password);
+            Search = new Search(formattedUrl, user, password);
+            Tags = new Tags(formattedUrl, user, password);
+            Forums = new Forums(formattedUrl, user, password);
+            Categories = new Categories(formattedUrl, user, password);
+            Topics = new Topics(formattedUrl, user, password);
+            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password);
+            JobStatuses = new JobStatuses(formattedUrl, user, password);
+            Locales = new Locales(formattedUrl, user, password);
+            Macros = new Macros(formattedUrl, user, password);
+            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password);
+            SharingAgreements = new SharingAgreements(formattedUrl, user, password);
+            Triggers = new Triggers(formattedUrl, user, password);
+
+            ZendeskUrl = formattedUrl;
+        }
+
+        Uri GetFormattedZendeskUrl(string yourZendeskUrl)
+        {                        
+            yourZendeskUrl = yourZendeskUrl.ToLower();
+
+            //Make sure the Authority is https://
+            if (yourZendeskUrl.StartsWith("http://"))
+                yourZendeskUrl = yourZendeskUrl.Replace("http://", "https://");            
+            
+            if (!yourZendeskUrl.StartsWith("https://"))
+                yourZendeskUrl = "https://" + yourZendeskUrl;
+                        
+            if (!yourZendeskUrl.EndsWith("/api/v2"))
+            {
+                //ensure that url ends with ".zendesk.com/api/v2"
+                yourZendeskUrl = yourZendeskUrl.Split(new[] { ".zendesk.com" }, StringSplitOptions.RemoveEmptyEntries)[0] + ".zendesk.com/api/v2";               
+            }
+                        
+            return new Uri(yourZendeskUrl);
         }
 
 #if Net35 

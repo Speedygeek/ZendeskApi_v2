@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="AttachmentTests.cs" />
     <Compile Include="CategoryTests.cs" />
+    <Compile Include="CoreTests.cs" />
     <Compile Include="CustomRolesTests.cs" />
     <Compile Include="ForumTests.cs" />
     <Compile Include="GroupTests.cs" />
