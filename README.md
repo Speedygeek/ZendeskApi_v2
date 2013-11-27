@@ -5,7 +5,17 @@ This is a full c# wrapper for Zendesk's api v2. http://developer.zendesk.com/doc
 
 Here are some examples of things you might want to do, but for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
 
+Setting Up:
+--------------
+You can instantiate the wrapper using the email and password or token. To set up using the password do it like this.
+```C#
+	ZendeskApi api = new ZendeskApi(https://{yoursite}.zendesk.com/api/v2, "your@email.com", "password"); 
+```
 
+To set up using the token, add the token as the fourth param. Note the third paramter (password) can be blank or not. Here is an example.
+```C#
+	ZendeskApi api = new ZendeskApi(https://{yoursite}.zendesk.com/api/v2, "your@email.com", "", "{your token here}"); 
+```
 
 Creating a ticket:
 --------------

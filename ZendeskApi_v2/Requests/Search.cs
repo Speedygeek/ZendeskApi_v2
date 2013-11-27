@@ -11,8 +11,8 @@ namespace ZendeskApi_v2.Requests
     /// </summary>
     public class Search : Core
     {
-        public Search(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        public Search(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         {
         }
 

@@ -14,7 +14,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Attachments : Core
     {
-        public Attachments(string yourZendeskUrl, string user, string password) : base(yourZendeskUrl, user, password)
+        public Attachments(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         { }
 #if SYNC
         public Upload UploadAttachment(ZenFile file)
@@ -60,15 +61,16 @@ namespace ZendeskApi_v2.Requests
             req.ContentType = file.ContentType;
             req.Method = "POST";
             req.ContentLength = file.FileData.Length;
-            var credentials = new System.Net.CredentialCache
-                                  {
-                                      {
-                                          new System.Uri(ZendeskUrl), "Basic",
-                                          new System.Net.NetworkCredential(User, Password)
-                                          }
-                                  };
+            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+            //var credentials = new System.Net.CredentialCache
+            //                      {
+            //                          {
+            //                              new System.Uri(ZendeskUrl), "Basic",
+            //                              new System.Net.NetworkCredential(User, Password)
+            //                              }
+            //                      };
 
-            req.Credentials = credentials;
+            //req.Credentials = credentials;
             req.PreAuthenticate = true;
             //req.AuthenticationLevel = System.Net.Security.AuthenticationLevel.MutualAuthRequired;
             var dataStream = req.GetRequestStream();
@@ -130,8 +132,8 @@ namespace ZendeskApi_v2.Requests
 
             HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
             req.ContentType = file.ContentType;
-            req.Credentials = new System.Net.NetworkCredential(User, Password);
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
+            //req.Credentials = new System.Net.NetworkCredential(User, Password);
+            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
             req.Method = "POST"; //GET POST PUT DELETE
 
             req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";                                        

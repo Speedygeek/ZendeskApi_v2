@@ -8,8 +8,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Categories : Core
     {
-        public Categories(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        public Categories(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         {
         }
 

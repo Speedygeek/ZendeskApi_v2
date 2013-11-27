@@ -10,9 +10,9 @@ using User = ZendeskApi_v2.Models.Users.User;
 namespace ZendeskApi_v2.Requests
 {
     public class Users : Core
-    {        
-        public Users(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+    {
+        public Users(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         {
         }
 

@@ -11,8 +11,8 @@ namespace ZendeskApi_v2.Requests
     public class Views : Core
     {
         
-        public Views(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        public Views(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         {
         }
 

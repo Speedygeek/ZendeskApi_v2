@@ -32,38 +32,39 @@ namespace ZendeskApi_v2
         public SharingAgreements SharingAgreements { get; set; }
         public Triggers Triggers { get; set; }
 
-        public string ZendeskUrl { get; set; }        
+        public string ZendeskUrl { get; set; }
 
         /// <summary>
         /// Constructor that takes 3 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
         /// <param name="user"></param>
-        /// <param name="password"></param>
-        public ZendeskApi(string yourZendeskUrl, string user, string password)
+        /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
+        /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
+        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="")
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
-
-            Tickets = new Tickets(formattedUrl, user, password);
-            Attachments = new Attachments(formattedUrl, user, password);
-            Views = new Views(formattedUrl, user, password);
-            Users = new Users(formattedUrl, user, password);
-            Requests = new Requests.Requests(formattedUrl, user, password);
-            Groups = new Groups(formattedUrl, user, password);
-            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password);
-            Organizations = new Organizations(formattedUrl, user, password);
-            Search = new Search(formattedUrl, user, password);
-            Tags = new Tags(formattedUrl, user, password);
-            Forums = new Forums(formattedUrl, user, password);
-            Categories = new Categories(formattedUrl, user, password);
-            Topics = new Topics(formattedUrl, user, password);
-            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password);
-            JobStatuses = new JobStatuses(formattedUrl, user, password);
-            Locales = new Locales(formattedUrl, user, password);
-            Macros = new Macros(formattedUrl, user, password);
-            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password);
-            SharingAgreements = new SharingAgreements(formattedUrl, user, password);
-            Triggers = new Triggers(formattedUrl, user, password);
+            
+            Tickets = new Tickets(formattedUrl, user, password, apiToken);
+            Attachments = new Attachments(formattedUrl, user, password, apiToken);
+            Views = new Views(formattedUrl, user, password, apiToken);
+            Users = new Users(formattedUrl, user, password, apiToken);
+            Requests = new Requests.Requests(formattedUrl, user, password, apiToken);
+            Groups = new Groups(formattedUrl, user, password, apiToken);
+            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken);
+            Organizations = new Organizations(formattedUrl, user, password, apiToken);
+            Search = new Search(formattedUrl, user, password, apiToken);
+            Tags = new Tags(formattedUrl, user, password, apiToken);
+            Forums = new Forums(formattedUrl, user, password, apiToken);
+            Categories = new Categories(formattedUrl, user, password, apiToken);
+            Topics = new Topics(formattedUrl, user, password, apiToken);
+            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken);
+            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken);
+            Locales = new Locales(formattedUrl, user, password, apiToken);
+            Macros = new Macros(formattedUrl, user, password, apiToken);
+            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken);
+            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken);
+            Triggers = new Triggers(formattedUrl, user, password, apiToken);
 
             ZendeskUrl = formattedUrl;
         }

@@ -20,8 +20,8 @@ namespace ZendeskApi_v2.Requests
         private const string _organizations = "organizations";
 
 
-        public Tickets(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        public Tickets(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         {
         }
 

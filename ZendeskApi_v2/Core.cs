@@ -16,19 +16,22 @@ namespace ZendeskApi_v2
         private const string XOnBehalfOfEmail = "X-On-Behalf-Of";        
         protected string User;
         protected string Password;
-        protected string ZendeskUrl;        
+        protected string ZendeskUrl;
+        protected string ApiToken;
 
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
         /// <param name="zendeskApiUrl"></param>
         /// <param name="user"></param>
-        /// <param name="password"></param>
-        public Core(string zendeskApiUrl, string user, string password)
+        /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
+        /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
+        public Core(string zendeskApiUrl, string user, string password, string apiToken)
         {
             User = user;
             Password = password;
-            ZendeskUrl = zendeskApiUrl;            
+            ZendeskUrl = zendeskApiUrl;
+            ApiToken = apiToken;
         }
 
 #if SYNC
@@ -61,15 +64,18 @@ namespace ZendeskApi_v2
 
             HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
             req.ContentType = "application/json";
-            
-            req.Credentials = new System.Net.CredentialCache
-                                  {
-                                      {
-                                          new System.Uri(ZendeskUrl), "Basic",
-                                          new System.Net.NetworkCredential(User, Password)
-                                          }
-                                  };
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
+
+
+            //req.Credentials = new NetworkCredential(User, Password);
+            //req.Credentials = new System.Net.CredentialCache
+            //                      {
+            //                          {
+            //                              new System.Uri(ZendeskUrl), "Basic",
+            //                              new System.Net.NetworkCredential(User, Password)
+            //                              }
+            //                      };
+
+            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
             req.PreAuthenticate = true;
 
             req.Method = requestMethod; //GET POST PUT DELETE
@@ -97,7 +103,7 @@ namespace ZendeskApi_v2
                 Content = responseFromServer,
                 HttpStatusCode = response.StatusCode
             };
-        }
+        }        
 
         protected T GenericGet<T>(string resource)
         {
@@ -134,6 +140,13 @@ namespace ZendeskApi_v2
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 #endif
+        protected string GetPasswordOrTokenAuthHeader()
+        {
+            if (String.IsNullOrEmpty(ApiToken) || ApiToken.Trim().Length == 0)
+                return GetAuthHeader(User + "/token", ApiToken);
+            
+            return GetAuthHeader(User, Password);
+        }
 
         protected string GetAuthHeader(string userName, string password)
         {
@@ -169,8 +182,8 @@ namespace ZendeskApi_v2
             HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
             req.ContentType = "application/json";
 
-            req.Credentials = new System.Net.NetworkCredential(User, Password);
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
+            //req.Credentials = new System.Net.NetworkCredential(User, Password);
+            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
 
 
             req.Method = requestMethod; //GET POST PUT DELETE

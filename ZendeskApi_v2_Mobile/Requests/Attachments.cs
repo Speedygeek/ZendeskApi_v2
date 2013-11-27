@@ -11,8 +11,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Attachments : Core
     {
-        public Attachments(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        public Attachments(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         { }
 
         public Upload UploadAttachment(ZenFile file)
@@ -59,7 +59,7 @@ namespace ZendeskApi_v2.Requests
             req.Method = "POST";
                         
             req.Credentials = new System.Net.NetworkCredential(User, Password);
-            req.Headers["Authorization"] = GetAuthHeader(User, Password);
+            req.Headers["Authorization"] =  GetPasswordOrTokenAuthHeader();
             
             var dataStream = req.GetWebRequestStream();
             dataStream.Write(file.FileData, 0, file.FileData.Length);

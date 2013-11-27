@@ -27,6 +27,17 @@ namespace Tests
 
             var api4 = new ZendeskApi_v2.ZendeskApi("http://csharpapi.zendesk.com/api/v2", Settings.Email, Settings.Password);
             Assert.AreEqual(Settings.Site, api4.ZendeskUrl);
-        }        
+        }
+
+        [Test]
+        public void CanUseTokenAccess()
+        {
+            var api = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Email, "", Settings.ApiToken);
+            var id = Settings.SampleTicketId;
+            var ticket = api.Tickets.GetTicket(id).Ticket;
+
+            Assert.NotNull(ticket);
+            Assert.AreEqual(ticket.Id, id);
+        }
     }
 }

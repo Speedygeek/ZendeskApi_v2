@@ -8,8 +8,8 @@ namespace ZendeskApi_v2.Requests
 {
     public class Tags : Core
     {
-        public Tags(string yourZendeskUrl, string user, string password)
-            : base(yourZendeskUrl, user, password)
+        public Tags(string yourZendeskUrl, string user, string password, string apiToken)
+            : base(yourZendeskUrl, user, password, apiToken)
         {
         }
 
