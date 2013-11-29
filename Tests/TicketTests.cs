@@ -174,6 +174,25 @@ namespace Tests
         }
 
         [Test]
+        public void CanCreateTicketWithTicketFormId()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "ticket with ticket form id",
+                Description = "testing requester",
+                Priority = TicketPriorities.Normal,
+                TicketFormId = Settings.TicketFormId
+            };
+
+            var res = api.Tickets.CreateTicket(ticket).Ticket;
+
+            Assert.NotNull(res);
+            Assert.AreEqual(Settings.TicketFormId, res.TicketFormId);
+
+            Assert.True(api.Tickets.Delete(res.Id.Value));
+        }
+
+        [Test]
         public void CanBulkUpdateTickets()
         { 
             var t1 = api.Tickets.CreateTicket(new Ticket()
