@@ -102,6 +102,12 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("requester")]
         public Requester Requester { get; set; }
+
+        /// <summary>
+        /// The id of the ticket form to render for this ticket - only applicable for enterprise accounts.
+        /// </summary>
+        [JsonProperty("ticket_form_id")]
+        public long? TicketFormId { get; set; }
         
     }
 }
