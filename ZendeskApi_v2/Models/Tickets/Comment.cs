@@ -28,7 +28,7 @@ namespace ZendeskApi_v2.Models.Tickets
         /// Used only for getting ticket comments
         /// </summary>
         [JsonProperty("author_id")]
-        public long? AuthorId { get; private set; }
+        public long? AuthorId { get; set; }
 
         [JsonProperty("html_body")]
         public string HtmlBody { get; private set; }
