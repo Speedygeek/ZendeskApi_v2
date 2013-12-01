@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>ZendeskApi_v2</id>
-        <version>2.4.2</version>
+        <version>2.4.8</version>
         <title>ZendeskApi_v2</title>
         <authors>Eric</authors>
         <projectUrl>https://github.com/eneifert/ZendeskApi_v2</projectUrl>
@@ -28,9 +28,9 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="ZendeskApi_v2_Net35\bin\Debug\ZendeskApi_v2_Net35.dll" target="lib\net35\ZendeskApi_v2_Net35.dll" />
-        <file src="ZendeskApi_v2_Net35\bin\Debug\ZendeskApi_v2_Net35.dll" target="lib\net40\ZendeskApi_v2_Net35.dll" />
-        <file src="ZendeskApi_v2\bin\Debug\ZendeskApi_v2.dll" target="lib\net45\ZendeskApi_v2.dll" />
-        <file src="ZendeskApi_v2_Mobile\bin\Debug\ZendeskApi_v2_Mobile.dll" target="lib\portable-net45+sl4+wp71+win8\ZendeskApi_v2_Mobile.dll" />
+        <file src="..\..\..\ZendeskApi_v2_Net35\bin\Debug\ZendeskApi_v2_Net35.dll" target="lib\net35\ZendeskApi_v2_Net35.dll" />
+        <file src="..\..\..\ZendeskApi_v2_Net35\bin\Debug\ZendeskApi_v2_Net35.dll" target="lib\net40\ZendeskApi_v2_Net35.dll" />
+        <file src="..\..\..\ZendeskApi_v2\bin\Debug\ZendeskApi_v2.dll" target="lib\net45\ZendeskApi_v2.dll" />
+        <file src="ZendeskApi_v2_Mobile.dll" target="lib\portable-net45+sl4+wp71+win8\ZendeskApi_v2_Mobile.dll" />
     </files>
 </package>
