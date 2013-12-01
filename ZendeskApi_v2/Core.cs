@@ -142,12 +142,7 @@ namespace ZendeskApi_v2
 #endif
         protected string GetPasswordOrTokenAuthHeader()
         {
-<<<<<<< HEAD
-
             if (!String.IsNullOrEmpty(ApiToken) && ApiToken.Trim().Length >= 0)
-=======
-            if (!String.IsNullOrEmpty(ApiToken) || ApiToken.Trim().Length > 0)
->>>>>>> 661888e209fbf7e423eb77bf338156fc42d51972
                 return GetAuthHeader(User + "/token", ApiToken);
             
             return GetAuthHeader(User, Password);
