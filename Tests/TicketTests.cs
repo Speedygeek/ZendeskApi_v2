@@ -379,7 +379,25 @@ namespace Tests
             var res = api.Tickets.GetTicketFields();
             Assert.True(res.TicketFields.Count > 0);
         }
-        
+
+        [Test]
+        public void CanGetTicketFieldById()
+        {
+            var id = Settings.CustomFieldId;
+            var ticketField = api.Tickets.GetTicketFieldById(id).TicketField;
+            Assert.NotNull(ticketField);
+            Assert.AreEqual(ticketField.Id, id);
+        }
+
+        [Test]
+        public void CanGetTicketFieldByIdAsync()
+        {
+            var id = Settings.CustomFieldId;
+            var ticketField = api.Tickets.GetTicketFieldByIdAsync(id).Result.TicketField;
+            Assert.NotNull(ticketField);
+            Assert.AreEqual(ticketField.Id, id);
+        }
+
         [Test]
         public void CanCreateUpdateAndDeleteTicketFields()
         {
