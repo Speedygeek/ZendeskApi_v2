@@ -30,6 +30,6 @@ namespace Tests
 
         public const string ViewName = "My unsolved tickets";    
     
-        public const long TicketFormId = 1;
+        public const long TicketFormId = 26227;
     }
 }
