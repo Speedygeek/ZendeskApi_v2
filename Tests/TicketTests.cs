@@ -40,7 +40,7 @@ namespace Tests
             var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
-                Description = "HELP",
+                Comment = new Comment() { Body = "HELP" },
                 Priority = TicketPriorities.Urgent
             };
 
@@ -113,7 +113,7 @@ namespace Tests
             var ticket = new Ticket()
                              {
                                  Subject = "my printer is on fire",
-                                 Description = "HELP",
+                                 Comment = new Comment() { Body = "HELP" },
                                  Priority = TicketPriorities.Urgent
                              };
 
@@ -160,9 +160,9 @@ namespace Tests
             var ticket = new Ticket()
             {
                 Subject = "ticket with requester",
-                Description = "testing requester",
+                Comment = new Comment() { Body = "testing requester" },
                 Priority = TicketPriorities.Normal,
-                Requester = new Requester(){Email = Settings.ColloboratorEmail}
+                Requester = new Requester() { Email = Settings.ColloboratorEmail }
             };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
@@ -179,7 +179,7 @@ namespace Tests
             var ticket = new Ticket()
             {
                 Subject = "ticket with ticket form id",
-                Description = "testing requester",
+                Comment = new Comment() { Body = "testing requester" },
                 Priority = TicketPriorities.Normal,
                 TicketFormId = Settings.TicketFormId
             };
@@ -194,17 +194,17 @@ namespace Tests
 
         [Test]
         public void CanBulkUpdateTickets()
-        { 
+        {
             var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "testing bulk update",
-                Description = "HELP",
-                Priority = TicketPriorities.Normal 
+                Comment = new Comment() { Body = "HELP" },
+                Priority = TicketPriorities.Normal
             }).Ticket;
             var t2 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "more testing for bulk update",
-                Description = "Bulk UpdateTicket testing",
+                Comment = new Comment() { Body = "Bulk UpdateTicket testing" },
                 Priority = TicketPriorities.Normal
             }).Ticket;
 
@@ -238,8 +238,7 @@ namespace Tests
 
             var ticket = new Ticket()
             {
-                Subject = "testing attachments",
-                Description = "test attachment",
+                Subject = "testing attachments",                
                 Priority = TicketPriorities.Normal,
                 Comment = new Comment()
                 {
@@ -267,13 +266,13 @@ namespace Tests
 
             var ticket = new Ticket()
             {
-                Subject = "testing attachments",
-                Description = "test attachment",
+                Subject = "testing attachments",                
                 Priority = TicketPriorities.Normal,
-                Comment = new Comment() { 
-                    Body = "comments are required for attachments", 
-                    Public = true, 
-                    Uploads = new List<string>() { res.Token } 
+                Comment = new Comment()
+                {
+                    Body = "comments are required for attachments",
+                    Public = true,
+                    Uploads = new List<string>() { res.Token }
                 },
             };
 
@@ -296,7 +295,7 @@ namespace Tests
             var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "test problem",
-                Description = "testing incidents with problems",
+                Comment = new Comment() { Body = "testing incidents with problems" },
                 Priority = TicketPriorities.Normal,
                 Type = TicketTypes.Problem
             }).Ticket;
@@ -304,7 +303,7 @@ namespace Tests
             var t2 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "incident",
-                Description = "testing incidents",
+                Comment = new Comment() { Body = "testing incidents" },
                 Priority = TicketPriorities.Normal,
                 Type = TicketTypes.Incident,
                 ProblemId = t1.Id
@@ -322,7 +321,7 @@ namespace Tests
             var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "test problem",
-                Description = "testing incidents with problems",
+                Comment = new Comment() { Body = "testing incidents with problems" },
                 Priority = TicketPriorities.Normal,
                 Type = TicketTypes.Problem
             }).Ticket;           
@@ -332,7 +331,7 @@ namespace Tests
 
             Assert.True(api.Tickets.Delete(t1.Id.Value));
         }
-
+        
         /// <summary>
         /// Can't find out what Autocomplete does, so I'm not sure how to test it
         /// </summary>
@@ -342,7 +341,7 @@ namespace Tests
             var t1 = api.Tickets.CreateTicket(new Ticket()
             {
                 Subject = "test problem",
-                Description = "testing incidents with problems",
+                Comment = new Comment() { Body = "testing incidents with problems" },
                 Priority = TicketPriorities.Normal,
                 Type = TicketTypes.Problem
             }).Ticket;

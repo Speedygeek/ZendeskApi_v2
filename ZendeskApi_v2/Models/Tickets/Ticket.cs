@@ -17,9 +17,12 @@ namespace ZendeskApi_v2.Models.Tickets
 
         [JsonProperty("type")]
         public string Type { get; set; }
-
+        
+        /// <summary>
+        /// This field can no longer be set. As of January 2013 use "Comment.Body" instead.
+        /// </summary>
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Description { get; internal set; }
 
         [JsonProperty("subject")]
         public string Subject { get; set; }        

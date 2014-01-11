@@ -5,6 +5,31 @@ This is a full c# wrapper for Zendesk's api v2. http://developer.zendesk.com/doc
 
 Here are some examples of things you might want to do, but for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
 
+BREAKING CHANGES COMING FEB 2014
+--------------
+As of Feb 2014 the Ticket.Description field goes from being mandatory to read only. So when you want to create a ticket you must now set the description by using the Comment.Body field instead. For example, from now on create tickets this way:
+
+```C#
+var ticket = api.Tickets.CreateTicket(new Ticket()
+                             {
+                                 Subject = "my printer is on fire",
+                                 Comment = new Comment(){Body = "HELP"},
+                                 Priority = TicketPriorities.Urgent
+                             });
+```
+
+NOT this way:
+```C#
+var ticket = api.Tickets.CreateTicket(new Ticket()
+                             {
+                                 Subject = "my printer is on fire",
+                                 Description = "HELP", //THIS WILL NOT WORK
+                                 Priority = TicketPriorities.Urgent
+                             });
+```
+
+See [here](http://developer.zendesk.com/documentation/rest_api/changes_roadmap.html#january-2,-2014) for more information. 
+
 Setting Up:
 --------------
 You can instantiate the wrapper using the email and password or token. To set up using the password do it like this.
@@ -25,7 +50,7 @@ Creating a ticket:
 	var ticket = api.Tickets.CreateTicket(new Ticket()
                              {
                                  Subject = "my printer is on fire",
-                                 Description = "HELP",
+                                 Comment = new Comment(){Body = "HELP"},
                                  Priority = TicketPriorities.Urgent
                              });
 ```							 
@@ -58,7 +83,6 @@ Now we add the attachment token to a ticket.
 	var ticket = new Ticket()
             {
                 Subject = "testing attachments",
-                Description = "test attachment",
                 Priority = TicketPriorities.Normal,
                 Comment = new Comment() { 
                     Body = "comments are required for attachments", 

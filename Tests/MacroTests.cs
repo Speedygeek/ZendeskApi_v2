@@ -51,7 +51,7 @@ namespace Tests
             var ticket = api.Tickets.CreateTicket(new Ticket()
                                                    {
                                                        Subject = "macro test ticket",
-                                                       Description = "Testing macros",
+                                                       Comment = new Comment() { Body = "Testing macros" },
                                                        Priority = TicketPriorities.Normal
                                                    }).Ticket;            
             
