@@ -164,6 +164,11 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupTicketFieldResponse>("ticket_fields.json");
         }
+
+        public IndividualTicketFieldResponse GetTicketFieldById(long id)
+        {
+            return GenericGet<IndividualTicketFieldResponse>(string.Format("ticket_fields/{0}.json", id));
+        }
         
         public IndividualTicketFieldResponse CreateTicketField(TicketField ticketField)
         {                        
@@ -364,6 +369,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupTicketFieldResponse> GetTicketFieldsAsync()
         {
             return await GenericGetAsync<GroupTicketFieldResponse>("ticket_fields.json");
+        }
+
+        public async Task<IndividualTicketFieldResponse> GetTicketFieldByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualTicketFieldResponse>(string.Format("ticket_fields/{0}.json", id));
         }
         
         public async Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField)
