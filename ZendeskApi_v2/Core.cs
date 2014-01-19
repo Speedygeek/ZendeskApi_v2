@@ -56,53 +56,60 @@ namespace ZendeskApi_v2
 
         public RequestResult RunRequest(string resource, string requestMethod, object body = null)
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
-
-            requestUrl += resource;                        
-
-            HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
-            req.ContentType = "application/json";
-
-
-            //req.Credentials = new NetworkCredential(User, Password);
-            //req.Credentials = new System.Net.CredentialCache
-            //                      {
-            //                          {
-            //                              new System.Uri(ZendeskUrl), "Basic",
-            //                              new System.Net.NetworkCredential(User, Password)
-            //                              }
-            //                      };
-
-            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-            req.PreAuthenticate = true;
-
-            req.Method = requestMethod; //GET POST PUT DELETE
-            req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-            req.ContentLength = 0;
-
-            if (body != null)
+            try
             {
-                var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
-                req.ContentLength = formData.Length;
+                var requestUrl = ZendeskUrl;
+                if (!requestUrl.EndsWith("/"))
+                    requestUrl += "/";
 
-                var dataStream = req.GetRequestStream();
-                dataStream.Write(formData, 0, formData.Length);
-                dataStream.Close();
+                requestUrl += resource;
+
+                HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
+                req.ContentType = "application/json";
+
+
+                //req.Credentials = new NetworkCredential(User, Password);
+                //req.Credentials = new System.Net.CredentialCache
+                //                      {
+                //                          {
+                //                              new System.Uri(ZendeskUrl), "Basic",
+                //                              new System.Net.NetworkCredential(User, Password)
+                //                              }
+                //                      };
+
+                req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+                req.PreAuthenticate = true;
+
+                req.Method = requestMethod; //GET POST PUT DELETE
+                req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
+                req.ContentLength = 0;
+
+                if (body != null)
+                {
+                    var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                    byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
+                    req.ContentLength = formData.Length;
+
+                    var dataStream = req.GetRequestStream();
+                    dataStream.Write(formData, 0, formData.Length);
+                    dataStream.Close();
+                }
+                var res = req.GetResponse();
+                HttpWebResponse response = res as HttpWebResponse;
+                var responseStream = response.GetResponseStream();
+                var reader = new StreamReader(responseStream);
+                string responseFromServer = reader.ReadToEnd();
+
+                return new RequestResult()
+                {
+                    Content = responseFromServer,
+                    HttpStatusCode = response.StatusCode
+                };
             }
-            var res = req.GetResponse();
-            HttpWebResponse response = res as HttpWebResponse;
-            var responseStream = response.GetResponseStream();
-            var reader = new StreamReader(responseStream);
-            string responseFromServer = reader.ReadToEnd();
-
-            return new RequestResult()
+            catch (WebException ex)
             {
-                Content = responseFromServer,
-                HttpStatusCode = response.StatusCode
-            };
+                throw new WebException(ex.Message + " " + ex.Response.Headers.ToString(), ex);
+            }            
         }        
 
         protected T GenericGet<T>(string resource)

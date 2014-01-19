@@ -108,6 +108,18 @@ namespace Tests
         }
 
         [Test]
+        public void CorrectErrorMessagesAreThrown()
+        {
+            //var t = api.Tickets.GetTicket(921);
+            //var res = api.Tickets.UpdateTicket(t.Ticket,
+            //                                   new Comment()
+            //                                       {
+            //                                           Body = "trying to cause an error by updating a closed ticket. Let's see how it responds :)"                                                           
+            //                                       });
+            
+        }
+
+        [Test]
         public void CanCreateUpdateAndDeleteTicket()
         {
             var ticket = new Ticket()
