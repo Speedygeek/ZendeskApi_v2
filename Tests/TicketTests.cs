@@ -116,7 +116,45 @@ namespace Tests
             //                                       {
             //                                           Body = "trying to cause an error by updating a closed ticket. Let's see how it responds :)"                                                           
             //                                       });
+                        
+        }
+
+        [Test]
+        public void BooleanCustomFieldValuesArePreservedOnUpdate()
+        {
+            var ticket = new Ticket()
+                             {
+                                 Subject = "my printer is on fire",
+                                 Comment = new Comment() { Body = "HELP" },
+                                 Priority = TicketPriorities.Urgent,
+                                 Status = TicketStatus.Closed
+                                
+                             };
+
+            ticket.CustomFields = new List<CustomField>()
+                {
+                    new CustomField()
+                        {
+                            Id = Settings.CustomFieldId,
+                            Value = "testing"
+                        },
+                    new CustomField()
+                        {
+                            Id = Settings.CustomBoolFieldId,
+                            Value = true.ToString().ToLower()
+                        }
+                };
+
+            var res = api.Tickets.CreateTicket(ticket).Ticket;
+            Assert.AreEqual(ticket.CustomFields[1].Value, res.CustomFields[1].Value);
+
+            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() { Body = "Just trying to update it!", Public = true});            
+
+            Assert.AreEqual(ticket.CustomFields[1].Value, updateResponse.Ticket.CustomFields[1].Value);
             
+            
+            Assert.True(api.Tickets.Delete(res.Id.Value));
+
         }
 
         [Test]

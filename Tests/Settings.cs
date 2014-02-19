@@ -24,6 +24,7 @@ namespace Tests
         public const long CollaboratorId = 282136547;
 
         public const long CustomFieldId = 22117646;
+        public const long CustomBoolFieldId = 23812686;
 
         public const long GroupId = 20402842;
         public const long OrganizationId = 22560572;
