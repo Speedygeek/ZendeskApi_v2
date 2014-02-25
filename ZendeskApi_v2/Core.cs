@@ -35,12 +35,12 @@ namespace ZendeskApi_v2
         }
 
 #if SYNC
-        public T GetByPageUrl<T>(string pageUrl)
+        public T GetByPageUrl<T>(string pageUrl, int perPage=100)
         {            
             if(string.IsNullOrEmpty(pageUrl))
                 return JsonConvert.DeserializeObject<T>("");
 
-            var resource = Regex.Split(pageUrl, "api/v2/").Last();
+            var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return RunRequest<T>(resource, "GET");
         }
 
@@ -162,12 +162,12 @@ namespace ZendeskApi_v2
         }
 
 #if ASYNC
-        public async Task<T> GetByPageUrlAsync<T>(string pageUrl)
+        public async Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
                 return JsonConvert.DeserializeObject<T>("");
 
-            var resource = Regex.Split(pageUrl, "api/v2/").Last();
+            var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage; ;
             return await RunRequestAsync<T>(resource, "GET");
         }
 
