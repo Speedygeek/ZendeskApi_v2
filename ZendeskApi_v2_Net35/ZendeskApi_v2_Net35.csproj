@@ -339,11 +339,17 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketFieldResponse.cs">
       <Link>Models\Tickets\GroupTicketFieldResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketFormResponse.cs">
+      <Link>Models\Tickets\GroupTicketFormResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketResponse.cs">
       <Link>Models\Tickets\GroupTicketResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\IndividualTicketFieldResponse.cs">
       <Link>Models\Tickets\IndividualTicketFieldResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\IndividualTicketFormResponse.cs">
+      <Link>Models\Tickets\IndividualTicketFormResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\IndividualTicketResponse.cs">
       <Link>Models\Tickets\IndividualTicketResponse.cs</Link>
@@ -395,6 +401,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketField.cs">
       <Link>Models\Tickets\TicketField.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketForm.cs">
+      <Link>Models\Tickets\TicketForm.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\To.cs">
       <Link>Models\Tickets\To.cs</Link>

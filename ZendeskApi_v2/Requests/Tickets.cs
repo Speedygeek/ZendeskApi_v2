@@ -16,6 +16,7 @@ namespace ZendeskApi_v2.Requests
     public class Tickets : Core
     {
         private const string _tickets = "tickets";
+        private const string _ticket_forms = "ticket_forms";
         private const string _views = "views";
         private const string _organizations = "organizations";
 
@@ -26,6 +27,47 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
+        public GroupTicketFormResponse GetTicketForms()
+        {
+            return GenericGet<GroupTicketFormResponse>(_ticket_forms + ".json");
+        }
+
+        public IndividualTicketFormResponse CreateTicketForm(TicketForm ticketForm)
+        {
+            var body = new { ticket_form = ticketForm };
+            return GenericPost<IndividualTicketFormResponse>(_ticket_forms + ".json", body);
+        }
+
+        public IndividualTicketFormResponse GetTicketFormById(long id)
+        {
+            return GenericGet<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, id));
+        }
+
+        public IndividualTicketFormResponse UpdateTicketForm(TicketForm ticketForm)
+        {
+            return GenericPut<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, ticketForm.Id), ticketForm);
+        }
+
+
+        public bool ReorderTicketForms(long[] orderedTicketFormIds)
+        {
+            var body = new { ticket_form_ids = orderedTicketFormIds };
+            return GenericPut<bool>(string.Format("{0}/reorder.json", _ticket_forms), body);
+        }        
+
+        public IndividualTicketFormResponse CloneTicketForm(long ticketFormId)
+        {
+            return GenericPost<IndividualTicketFormResponse>(string.Format("{0}/{1}/clone.json", _ticket_forms, ticketFormId));
+        }
+
+        public bool DeleteTicketForm(long id)
+        {
+            return GenericDelete(string.Format("{0}/{1}.json", _ticket_forms, id));
+        }
+        
+
+
         public GroupTicketResponse GetAllTickets()
         {            
             return GenericGet<GroupTicketResponse>(_tickets + ".json");
@@ -434,6 +476,45 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync(string.Format("suspended_tickets/destroy_many.json?ids={0}", ids.ToCsv()));
         }
+
+        public async Task<GroupTicketFormResponse> GetTicketFormsAsync()
+        {
+            return await GenericGetAsync<GroupTicketFormResponse>(_ticket_forms + ".json");
+        }
+
+        public async Task<IndividualTicketFormResponse> CreateTicketFormAsync(TicketForm ticketForm)
+        {
+            var body = new { ticket_form = ticketForm };
+            return await GenericPostAsync<IndividualTicketFormResponse>(_ticket_forms + ".json", body);
+        }
+
+        public async Task<IndividualTicketFormResponse> GetTicketFormByIdAsync(long id)
+        {
+            return await GenericGetAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, id));
+        }
+
+        public async Task<IndividualTicketFormResponse> UpdateTicketFormAsync(TicketForm ticketForm)
+        {
+            return await GenericPutAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, ticketForm.Id), ticketForm);
+        }
+
+
+        public async Task<bool> ReorderTicketFormsAsync(long[] orderedTicketFormIds)
+        {
+            var body = new { ticket_form_ids = orderedTicketFormIds };
+            return await GenericPutAsync<bool>(string.Format("{0}/reorder.json", _ticket_forms), body);
+        }
+
+        public async Task<IndividualTicketFormResponse> CloneTicketFormAsync(long ticketFormId)
+        {
+            return await GenericPostAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}/clone.json", _ticket_forms, ticketFormId));
+        }
+
+        public async Task<bool> DeleteTicketFormAsync(long id)
+        {
+            return await GenericDeleteAsync(string.Format("{0}/{1}.json", _ticket_forms, id));
+        }
+
 #endif
     }
 }

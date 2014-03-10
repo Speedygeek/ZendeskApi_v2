@@ -137,7 +137,9 @@
     <Compile Include="Models\Shared\Event.cs" />
     <Compile Include="Models\Tickets\Custom.cs" />
     <Compile Include="Models\Tickets\FieldHeaders.cs" />
+    <Compile Include="Models\Tickets\GroupTicketFormResponse.cs" />
     <Compile Include="Models\Tickets\IndividualTicketFieldResponse.cs" />
+    <Compile Include="Models\Tickets\IndividualTicketFormResponse.cs" />
     <Compile Include="Models\Tickets\IndividualTicketResponse.cs" />
     <Compile Include="Models\Shared\Thumbnail.cs" />
     <Compile Include="Models\Shared\MetaData.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Models\Tickets\TicketExportResult.cs" />
     <Compile Include="Models\Tickets\TicketField.cs" />
     <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />
+    <Compile Include="Models\Tickets\TicketForm.cs" />
     <Compile Include="Models\Tickets\To.cs" />
     <Compile Include="Models\Shared\Via.cs" />
     <Compile Include="Models\Topics\GroupTopicCommentResponse.cs" />

@@ -486,5 +486,52 @@ namespace Tests
 
             //There is no way to suspend a ticket so I can run a tests for recovering and deleteing them
         }
+
+        [Test]
+        public void CanGetTicketForms()
+        {
+            var res = api.Tickets.GetTicketForms();
+            Assert.Greater(res.Count, 0);
+        }
+
+        [Test]
+        public void CanCreateUpdateAndDeleteTicketForms()
+        {
+            api.Tickets.DeleteTicketForm(52523);
+            return;
+            
+            var res = api.Tickets.CreateTicketForm(new TicketForm()
+                {
+                    Name = "Snowboard Problem",
+                    EndUserVisible = true,
+                    DisplayName = "Snowboard Damage",
+                    Position = 2,
+                    Active = true,
+                    Default = false
+                });
+
+            Assert.NotNull(res);
+            Assert.Greater(res.TicketForm.Id, 0);
+
+            var get = api.Tickets.GetTicketFormById(res.TicketForm.Id.Value);
+            Assert.AreEqual(get.TicketForm.Id, res.TicketForm.Id);
+
+            res.TicketForm.Name = "Snowboard Fixed";
+            res.TicketForm.DisplayName = "Snowboard has been fixed";
+            var update = api.Tickets.UpdateTicketForm(res.TicketForm);
+            Assert.AreEqual(update.TicketForm.Name, res.TicketForm.Name);
+
+            Assert.True(api.Tickets.DeleteTicketForm(res.TicketForm.Id.Value));
+        }
+
+        [Test]
+        public void CanReorderTicketForms()
+        {
+        }
+
+        [Test]
+        public void CanCloneTicketForms()
+        {
+        }
     }
 }

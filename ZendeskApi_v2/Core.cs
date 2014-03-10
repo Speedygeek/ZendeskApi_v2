@@ -167,7 +167,7 @@ namespace ZendeskApi_v2
             if (string.IsNullOrEmpty(pageUrl))
                 return JsonConvert.DeserializeObject<T>("");
 
-            var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage; ;
+            var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return await RunRequestAsync<T>(resource, "GET");
         }
 
