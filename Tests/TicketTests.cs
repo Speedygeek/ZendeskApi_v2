@@ -125,14 +125,12 @@ namespace Tests
 
         [Test]
         public void BooleanCustomFieldValuesArePreservedOnUpdate()
-        {
+        {            
             var ticket = new Ticket()
                              {
                                  Subject = "my printer is on fire",
                                  Comment = new Comment() { Body = "HELP" },
-                                 Priority = TicketPriorities.Urgent,
-                                 Status = TicketStatus.Closed
-                                
+                                 Priority = TicketPriorities.Urgent,                                                                 
                              };
 
             ticket.CustomFields = new List<CustomField>()
@@ -145,13 +143,17 @@ namespace Tests
                     new CustomField()
                         {
                             Id = Settings.CustomBoolFieldId,
-                            Value = true.ToString().ToLower()
+                            Value = true
                         }
                 };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
             Assert.AreEqual(ticket.CustomFields[1].Value, res.CustomFields[1].Value);
 
+            //var updateResponse = api.Tickets.UpdateTicket(res, new Comment() { Body = "Just trying to update it!", Public = true});
+            //res.UpdatedAt = null;
+            //res.CreatedAt = null;
+            
             var updateResponse = api.Tickets.UpdateTicket(res, new Comment() { Body = "Just trying to update it!", Public = true});            
 
             Assert.AreEqual(ticket.CustomFields[1].Value, updateResponse.Ticket.CustomFields[1].Value);
@@ -497,8 +499,8 @@ namespace Tests
         [Test]
         public void CanCreateUpdateAndDeleteTicketForms()
         {
-            api.Tickets.DeleteTicketForm(52523);
-            return;
+            //api.Tickets.DeleteTicketForm(52523);
+            //return;
             
             var res = api.Tickets.CreateTicketForm(new TicketForm()
                 {
