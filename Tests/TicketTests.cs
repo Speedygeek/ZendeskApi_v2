@@ -520,6 +520,8 @@ namespace Tests
 
             res.TicketForm.Name = "Snowboard Fixed";
             res.TicketForm.DisplayName = "Snowboard has been fixed";
+            res.TicketForm.Active = false;
+
             var update = api.Tickets.UpdateTicketForm(res.TicketForm);
             Assert.AreEqual(update.TicketForm.Name, res.TicketForm.Name);
 

@@ -46,7 +46,8 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTicketFormResponse UpdateTicketForm(TicketForm ticketForm)
         {
-            return GenericPut<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, ticketForm.Id), ticketForm);
+            var body = new  { ticket_form = ticketForm};
+            return GenericPut<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, ticketForm.Id), body);
         }
 
 
