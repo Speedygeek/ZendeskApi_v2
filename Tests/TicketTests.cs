@@ -455,10 +455,7 @@ namespace Tests
 
         [Test]
         public void CanCreateUpdateAndDeleteTicketFields()
-        {
-            // Something seems wrong with the api itself.
-            Assert.Inconclusive();
-
+        {            
             var tField = new TicketField()
                              {
                                  Type = TicketFieldTypes.Text,
@@ -475,6 +472,30 @@ namespace Tests
             Assert.AreEqual(updatedRes.TicketField.Title, updatedTF.Title);
 
             Assert.True(api.Tickets.DeleteTicketField(updatedTF.Id.Value));
+        }
+
+        [Test]
+        public void CanCreateAndDeleteTaggerTicketField()
+        {
+            var tField = new TicketField()
+            {
+                Type = TicketFieldTypes.Tagger,
+                Title = "My Tagger",
+                Description = "test description",
+                TitleInPortal = "Test Tagger",
+                CustomFieldOptions = new List<CustomFieldOptions>()
+            };
+
+            tField.CustomFieldOptions.Add(new CustomFieldOptions()
+                {
+                    Name = "test entry",
+                    Value = "test value"
+                });
+
+            var res = api.Tickets.CreateTicketField(tField);
+            Assert.NotNull(res.TicketField);
+
+            Assert.True(api.Tickets.DeleteTicketField(res.TicketField.Id.Value));            
         }
 
         [Test]

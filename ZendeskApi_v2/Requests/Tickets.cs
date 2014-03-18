@@ -214,15 +214,20 @@ namespace ZendeskApi_v2.Requests
         }
         
         public IndividualTicketFieldResponse CreateTicketField(TicketField ticketField)
-        {                        
+        {
+            if (ticketField.CustomFieldOptions != null)
+            {
+                foreach (var custom in ticketField.CustomFieldOptions)
+                {
+                    custom.Name = custom.Name.Replace(' ', '_');
+                    custom.Value = custom.Value.Replace(' ', '_');
+                }
+            }
+
             var body = new
-                           {
-                               ticket_field = new
-                                                  {
-                                                      type = ticketField.Type,
-                                                      title = ticketField.Title
-                                                  }
-                           };
+                {
+                    ticket_field = ticketField
+                };
 
             var res = GenericPost<IndividualTicketFieldResponse>("ticket_fields.json", body);            
             return res;                        
@@ -230,7 +235,11 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField)
         {
-            return GenericPut<IndividualTicketFieldResponse>(string.Format("ticket_fields/{0}.json", ticketField.Id), ticketField);            
+            var body = new
+            {
+                ticket_field = ticketField
+            };
+            return GenericPut<IndividualTicketFieldResponse>(string.Format("ticket_fields/{0}.json", ticketField.Id), body);            
         }
 
         public bool DeleteTicketField(long id)

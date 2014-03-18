@@ -2,7 +2,7 @@ namespace ZendeskApi_v2.Models.Constants
 {
     public static class TicketFieldTypes
     {
-        public const string Text = "text ";
+        public const string Text = "text";
         public const string Textarea = "textarea";
         public const string Checkbox = "checkbox";
         public const string Date = "date";
