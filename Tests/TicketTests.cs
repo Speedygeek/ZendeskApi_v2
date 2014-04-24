@@ -112,6 +112,33 @@ namespace Tests
         }
 
         [Test]
+        public async Task CanGetMultipleTicketsAsync()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var tickets = await api.Tickets.GetMultipleTicketsAsync(ids);
+            Assert.NotNull(tickets);
+            Assert.AreEqual(tickets.Count, ids.Count);
+        }
+
+        [Test]
+        public void CanGetMultipleTicketsSingleTicket()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId };
+            var tickets = api.Tickets.GetMultipleTickets(ids);
+            Assert.NotNull(tickets);
+            Assert.AreEqual(tickets.Count, ids.Count);
+        }
+
+        [Test]
+        public async Task CanGetMultipleTicketsAsyncSingleTicket()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId };
+            var tickets = await api.Tickets.GetMultipleTicketsAsync(ids);
+            Assert.NotNull(tickets);
+            Assert.AreEqual(tickets.Count, ids.Count);
+        }
+
+        [Test]
         public void CorrectErrorMessagesAreThrown()
         {
             //var t = api.Tickets.GetTicket(921);

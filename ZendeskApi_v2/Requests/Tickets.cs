@@ -111,7 +111,7 @@ namespace ZendeskApi_v2.Requests
 
         public GroupTicketResponse GetMultipleTickets(List<long> ids)
         {                        
-            return GenericGet<GroupTicketResponse>(string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv()));
+            return GenericGet<GroupTicketResponse>(string.Format("{0}/show_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
 
         public IndividualTicketResponse CreateTicket(Ticket ticket)
@@ -326,7 +326,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(List<long> ids)
         {                        
-            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv()));
+            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/show_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
 
         public async Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket)
