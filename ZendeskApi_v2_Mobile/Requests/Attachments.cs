@@ -20,14 +20,14 @@ namespace ZendeskApi_v2.Requests
             return UploadAttachment(file, "");
         }
 
-        public Upload UploadAttachments(List<ZenFile> files)
+        public Upload UploadAttachments(IEnumerable<ZenFile> files)
         {
-            if (files.Count < 1)
+            if (!files.Any())
                 return null;
 
-            var res = UploadAttachment(files[0]);
+            var res = UploadAttachment(files.First());
 
-            if (files.Count > 1)
+            if (files.Count() > 1)
             {
                 var otherFiles = files.Skip(1);
                 foreach (var curFile in otherFiles)

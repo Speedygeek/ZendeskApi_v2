@@ -109,7 +109,7 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId));
         }
 
-        public GroupTicketResponse GetMultipleTickets(List<long> ids)
+        public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids)
         {                        
             return GenericGet<GroupTicketResponse>(string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv()));
         }
@@ -135,7 +135,7 @@ namespace ZendeskApi_v2.Requests
             return GenericPut<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);    
         }
 
-        public JobStatusResponse BulkUpdate(List<long> ids, BulkUpdate info)
+        public JobStatusResponse BulkUpdate(IEnumerable<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
             return GenericPut<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
@@ -146,7 +146,7 @@ namespace ZendeskApi_v2.Requests
             return GenericDelete(string.Format("{0}/{1}.json", _tickets, id));
         }
 
-        public bool DeleteMultiple(List<long> ids)
+        public bool DeleteMultiple(IEnumerable<long> ids)
         {
             return GenericDelete(string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
@@ -264,7 +264,7 @@ namespace ZendeskApi_v2.Requests
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
-        public bool RecoverManySuspendedTickets(List<long> ids)
+        public bool RecoverManySuspendedTickets(IEnumerable<long> ids)
         {
             var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
             var res = RunRequest(resource, "PUT");            
@@ -276,7 +276,7 @@ namespace ZendeskApi_v2.Requests
             return GenericDelete(string.Format("suspended_tickets/{0}.json", id));
         }
 
-        public bool DeleteManySuspendedTickets(List<long> ids)
+        public bool DeleteManySuspendedTickets(IEnumerable<long> ids)
         {
             return GenericDelete(string.Format("suspended_tickets/destroy_many.json?ids={0}", ids.ToCsv()));
         }
@@ -324,7 +324,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId));
         }
 
-        public async Task<GroupTicketResponse> GetMultipleTicketsAsync(List<long> ids)
+        public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids)
         {                        
             return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/show_many?ids={1}.json", _tickets, ids.ToCsv()));
         }
@@ -350,7 +350,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericPutAsync<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);    
         }
 
-        public async Task<JobStatusResponse> BulkUpdateAsync(List<long> ids, BulkUpdate info)
+        public async Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
             return await GenericPutAsync<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);            
@@ -361,7 +361,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericDeleteAsync(string.Format("{0}/{1}.json", _tickets, id));
         }
 
-        public async Task<bool> DeleteMultipleAsync(List<long> ids)
+        public async Task<bool> DeleteMultipleAsync(IEnumerable<long> ids)
         {
             return await GenericDeleteAsync(string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
@@ -470,7 +470,7 @@ namespace ZendeskApi_v2.Requests
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);            
         }
 
-        public async Task<bool> RecoverManySuspendedTicketsAsync(List<long> ids)
+        public async Task<bool> RecoverManySuspendedTicketsAsync(IEnumerable<long> ids)
         {
             var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
             var res = RunRequestAsync(resource, "PUT");
@@ -482,7 +482,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericDeleteAsync(string.Format("suspended_tickets/{0}.json", id));
         }
 
-        public async Task<bool> DeleteManySuspendedTicketsAsync(List<long> ids)
+        public async Task<bool> DeleteManySuspendedTicketsAsync(IEnumerable<long> ids)
         {
             return await GenericDeleteAsync(string.Format("suspended_tickets/destroy_many.json?ids={0}", ids.ToCsv()));
         }

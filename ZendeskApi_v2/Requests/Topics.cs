@@ -25,7 +25,7 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualTopicResponse>(string.Format("topics/{0}.json", topicId));
         }
 
-        public GroupTopicResponse GetMultipleTopicsById(List<long> topicIds)
+        public GroupTopicResponse GetMultipleTopicsById(IEnumerable<long> topicIds)
         {
             return GenericPost<GroupTopicResponse>(string.Format("topics/show_many?ids={0}.json", topicIds.ToCsv()));
         }
@@ -162,7 +162,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualTopicResponse>(string.Format("topics/{0}.json", topicId));
         }
 
-        public async Task<GroupTopicResponse> GetMultipleTopicsByIdAsync(List<long> topicIds)
+        public async Task<GroupTopicResponse> GetMultipleTopicsByIdAsync(IEnumerable<long> topicIds)
         {
             return await GenericPostAsync<GroupTopicResponse>(string.Format("topics/show_many?ids={0}.json", topicIds.ToCsv()));
         }
