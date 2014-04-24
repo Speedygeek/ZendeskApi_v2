@@ -41,7 +41,7 @@ namespace ZendeskApi_v2.Extensions
             return request.EndGetRequestStream(asyncResult);
         }
 
-        public static string ToCsv(this List<long> ids )
+        public static string ToCsv(this IEnumerable<long> ids)
         {
             return string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray());
         }

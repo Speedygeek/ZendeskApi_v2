@@ -51,7 +51,7 @@ namespace ZendeskApi_v2.Requests
             return GenericPost<ExecutedViewResponse>("views/preview.json", preview);
         }
 
-        public GroupViewCountResponse GetViewCounts(List<long> viewIds)
+        public GroupViewCountResponse GetViewCounts(IEnumerable<long> viewIds)
         {
             return GenericGet<GroupViewCountResponse>(string.Format("views/count_many.json?ids={0}", viewIds.ToCsv()));
         }
@@ -97,7 +97,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericPostAsync<ExecutedViewResponse>("views/preview.json", preview);
         }
 
-        public async Task<GroupViewCountResponse> GetViewCountsAsync(List<long> viewIds)
+        public async Task<GroupViewCountResponse> GetViewCountsAsync(IEnumerable<long> viewIds)
         {
             return await GenericGetAsync<GroupViewCountResponse>(string.Format("views/count_many.json?ids={0}", viewIds.ToCsv()));
         }
