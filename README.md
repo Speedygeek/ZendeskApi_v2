@@ -150,4 +150,8 @@ ASYNC Support
 As of 12/4/2012 the project now has complete async support for net4.0 + and for Portable Class Libraries. The PCL synchronous support was removed since windows phone is not meant to have synchronous tasks like this. Also note that you must have nuget 2.1+ to get the portable class library version!
 
 
+Ticket Exporting
+--------------
+There is a Windows console application for keeping a local copy of your Zendesk tickets updated in an application-managed SQLite database, with optional export to csv availible [here](https://github.com/insmarketingsys/zendesk-ticket-exporter). Thanks to Ken Dale!
+
 For any API related questions please email api@zendesk.com, thanks!
