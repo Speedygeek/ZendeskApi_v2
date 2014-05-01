@@ -18,7 +18,8 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-
+        internal IWebProxy Proxy;
+        
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
@@ -67,7 +68,9 @@ namespace ZendeskApi_v2
                 HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
                 req.ContentType = "application/json";
 
-
+            if (this.Proxy != null)
+                req.Proxy = this.Proxy;
+                
                 //req.Credentials = new NetworkCredential(User, Password);
                 //req.Credentials = new System.Net.CredentialCache
                 //                      {
