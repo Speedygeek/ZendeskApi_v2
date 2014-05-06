@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using ZendeskApi_v2.Requests; 
+using System.Net;
 
 #if Net35 
 using System.Web;
@@ -68,6 +69,41 @@ namespace ZendeskApi_v2
 
             ZendeskUrl = formattedUrl;
         }
+        
+                /// <summary>
+        /// Constructor that takes 3 params.
+        /// </summary>
+        /// <param name="proxy"></param>
+        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        public ZendeskApi(IWebProxy proxy, string yourZendeskUrl, string user, string password)
+            : this(yourZendeskUrl, user, password)
+        {
+            if (proxy == null) return;
+
+            Tickets.Proxy = proxy;
+            Attachments.Proxy = proxy;
+            Views.Proxy = proxy;
+            Users.Proxy = proxy;
+            Requests.Proxy = proxy;
+            Groups.Proxy = proxy;
+            CustomAgentRoles.Proxy = proxy;
+            Organizations.Proxy = proxy;
+            Search.Proxy = proxy;
+            Tags.Proxy = proxy;
+            Forums.Proxy = proxy;
+            Categories.Proxy = proxy;
+            Topics.Proxy = proxy;
+            AccountsAndActivity.Proxy = proxy;
+            JobStatuses.Proxy = proxy;
+            Locales.Proxy = proxy;
+            Macros.Proxy = proxy;
+            SatisfactionRatings.Proxy = proxy;
+            SharingAgreements.Proxy = proxy;
+            Triggers.Proxy = proxy;
+        }
+
 
         Uri GetFormattedZendeskUrl(string yourZendeskUrl)
         {                        
