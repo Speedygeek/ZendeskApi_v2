@@ -91,5 +91,8 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("remote_photo_url")]
         public string RemotePhotoUrl { get; set; }
+        
+        [JsonProperty("user_fields")]
+        public IDictionary<string, string> CustomFields { get; set; }
     }
 }
