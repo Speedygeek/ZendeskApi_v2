@@ -50,11 +50,17 @@ namespace Tests
 
         [Test]
         public void CanCreateUpdateSuspendAndDeleteUser()
-        {
+        {            
             var user = new User()
                            {
-                              Name = "test user3",
-                              Email = "test3@test.com",
+                              Name = "test user55",
+                              Email = "test55@test.com",
+                              Role = "agent",
+                              CustomRoleId = 1,
+                              CustomFields = new Dictionary<string, string>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
                            };
 
             var res1 = api.Users.CreateUser(user);

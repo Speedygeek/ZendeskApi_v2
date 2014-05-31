@@ -30,13 +30,13 @@ namespace ZendeskApi_v2.Models.Users
         public string UpdatedAt { get; set; }
 
         [JsonProperty("active")]
-        public bool Active { get; set; }
+        public bool? Active { get; set; }
 
         [JsonProperty("verified")]
         public bool Verified { get; set; }
 
         [JsonProperty("shared")]
-        public bool Shared { get; set; }
+        public bool? Shared { get; set; }
 
         [JsonProperty("locale_id")]
         public long? LocaleId { get; set; }
