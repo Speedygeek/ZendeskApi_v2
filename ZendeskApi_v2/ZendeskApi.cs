@@ -69,7 +69,8 @@ namespace ZendeskApi_v2
 
             ZendeskUrl = formattedUrl;
         }
-        
+
+#if SYNC
                 /// <summary>
         /// Constructor that takes 3 params.
         /// </summary>
@@ -104,7 +105,7 @@ namespace ZendeskApi_v2
             Triggers.Proxy = proxy;
         }
 
-
+#endif
         Uri GetFormattedZendeskUrl(string yourZendeskUrl)
         {                        
             yourZendeskUrl = yourZendeskUrl.ToLower();

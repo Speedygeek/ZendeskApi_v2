@@ -18,7 +18,7 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-        internal IWebProxy Proxy;
+        
         
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
@@ -36,6 +36,8 @@ namespace ZendeskApi_v2
         }
 
 #if SYNC
+        internal IWebProxy Proxy;
+
         public T GetByPageUrl<T>(string pageUrl, int perPage=100)
         {            
             if(string.IsNullOrEmpty(pageUrl))
