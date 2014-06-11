@@ -84,6 +84,11 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
         }
 
+        public GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage)
+        {
+            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json?page={3}&per_page={4}", _organizations, id, _tickets, pageNumber, itemsPerPage));
+        }
+
         public GroupTicketResponse GetRecentTickets()
         {
             return GenericGet<GroupTicketResponse>("tickets/recent.json");
@@ -113,6 +118,7 @@ namespace ZendeskApi_v2.Requests
         {                        
             return GenericGet<GroupTicketResponse>(string.Format("{0}/show_many.json?ids={1}", _tickets, ids.ToCsv()));
         }
+
 
         public IndividualTicketResponse CreateTicket(Ticket ticket)
         {

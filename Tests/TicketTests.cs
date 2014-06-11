@@ -98,6 +98,14 @@ namespace Tests
         public void CanGetTicketsByOrganizationId()
         {
             var id = Settings.OrganizationId;
+            var tickets = api.Tickets.GetTicketsByOrganizationID(id, 2, 3);
+            Assert.True(tickets.Count > 0);
+        }
+
+        [Test]
+        public void CanGetTicketsByOrganizationIdPaging()
+        {
+            var id = Settings.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationID(id);
             Assert.True(tickets.Count > 0);
         }
