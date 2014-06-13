@@ -25,12 +25,14 @@ namespace Tests
 
         public const long CustomFieldId = 22117646;
         public const long CustomBoolFieldId = 23812686;
-
+        
         public const long GroupId = 20402842;
         public const long OrganizationId = 22560572;
 
         public const string ViewName = "My unsolved tickets";    
     
         public const long TicketFormId = 26227;
+
+        public const long CustomFieldTypeOfFeedbackId = 23999346;
     }
 }
