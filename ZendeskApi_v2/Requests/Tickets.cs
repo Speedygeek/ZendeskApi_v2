@@ -19,6 +19,7 @@ namespace ZendeskApi_v2.Requests
         private const string _ticket_forms = "ticket_forms";
         private const string _views = "views";
         private const string _organizations = "organizations";
+        private const string _ticket_metrics = "ticket_metrics";
 
 
         public Tickets(string yourZendeskUrl, string user, string password, string apiToken)
@@ -286,6 +287,19 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("suspended_tickets/destroy_many.json?ids={0}", ids.ToCsv()));
         }
+
+        #region TicketMetrics
+        public GroupTicketMetricResponse GetAllTicketMetrics()
+        {
+            return GenericGet<GroupTicketMetricResponse>(_ticket_metrics+ ".json");
+        }
+
+        public IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id)
+        {
+            return GenericGet<IndividualTicketMetricResponse>(String.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
+        }
+
+        #endregion
 #endif
 
 
@@ -531,6 +545,19 @@ namespace ZendeskApi_v2.Requests
             return await GenericDeleteAsync(string.Format("{0}/{1}.json", _ticket_forms, id));
         }
 
+        #region TicketMetrics
+        public Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync()
+        {
+            return GenericGetAsync<GroupTicketMetricResponse>(_ticket_metrics + ".json");
+        }
+
+        public Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id)
+        {
+            return GenericGetAsync<IndividualTicketMetricResponse>(String.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
+        }
+
+
+        #endregion
 #endif
     }
 }

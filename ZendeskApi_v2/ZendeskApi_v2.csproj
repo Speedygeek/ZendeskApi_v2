@@ -92,6 +92,9 @@
     <Compile Include="Models\Macros\Macro.cs" />
     <Compile Include="Models\Macros\Restriction.cs" />
     <Compile Include="Models\Macros\Result.cs" />
+    <Compile Include="Models\Tickets\GroupTicketMetricResponse.cs" />
+    <Compile Include="Models\Tickets\IndividualTicketMetricResponse.cs" />
+    <Compile Include="Models\Tickets\TimeSpanMetric.cs" />
     <Compile Include="Models\Organizations\GroupOrganizationResponse.cs" />
     <Compile Include="Models\Organizations\IndividualOrganizationResponse.cs" />
     <Compile Include="Models\Organizations\Organization.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Models\Tags\GroupTagResult.cs" />
     <Compile Include="Models\Tags\Tag.cs" />
     <Compile Include="Models\Tags\TagAutocompleteResponse.cs" />
+    <Compile Include="Models\Tickets\BaseTicket.cs" />
     <Compile Include="Models\Tickets\BulkUpdate.cs" />
     <Compile Include="Models\Tickets\Comment.cs" />
     <Compile Include="Models\Shared\Event.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="Models\Tickets\TicketField.cs" />
     <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />
     <Compile Include="Models\Tickets\TicketForm.cs" />
+    <Compile Include="Models\Tickets\TicketMetric.cs" />
     <Compile Include="Models\Tickets\To.cs" />
     <Compile Include="Models\Shared\Via.cs" />
     <Compile Include="Models\Topics\GroupTopicCommentResponse.cs" />
