@@ -79,6 +79,12 @@ namespace Tests
         }
 
         [Test]
+        public void BackwardCompatibilitAfterAddingPagination()
+        {
+            var res = api.Search.SearchFor("Effective", "created_at","asc");
+            Assert.IsTrue(res.Count > 0);
+        }
+        [Test]
         public void TotalNumberOftickesShouldbeSameWhenReterivingNextPage()
         {
             var res = api.Search.SearchFor("Effective"); //search for a custom field - the results are more than one page
@@ -88,7 +94,7 @@ namespace Tests
             Assert.IsTrue(res.Count > res.Results.Count); //result has more than one page
             Assert.IsTrue(!string.IsNullOrEmpty(res.NextPage)); //It has next page
 
-            res = api.Search.SearchFor("Effective",2); //fetch next page
+            res = api.Search.SearchFor("Effective","","",2); //fetch next page
             Assert.IsTrue(res.Count > 0);
             Assert.IsTrue(res.Count==total); //number of results should be same as page 1
             
