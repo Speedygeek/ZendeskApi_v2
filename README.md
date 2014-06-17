@@ -5,6 +5,8 @@ This is a full c# wrapper for Zendesk's api v2. http://developer.zendesk.com/doc
 
 Here are some examples of things you might want to do, but for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
 
+This code is released under the [Apache Version 2 License](http://www.apache.org/licenses/LICENSE-2.0.html).
+
 BREAKING CHANGES COMING FEB 2014
 --------------
 As of Feb 2014 the Ticket.Description field goes from being mandatory to read only. So when you want to create a ticket you must now set the description by using the Comment.Body field instead. For example, from now on create tickets this way:
