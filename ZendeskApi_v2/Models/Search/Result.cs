@@ -10,7 +10,7 @@ using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Models.Search
 {
-
+    
     public class Result
     {
 
@@ -82,5 +82,24 @@ namespace ZendeskApi_v2.Models.Search
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("external_id")]
+        public string ExternalId { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
+        [JsonProperty("requester_id")]
+        public long? RequesterId { get; set; }
+
+        [JsonProperty("assignee_id")]
+        public long? AssigneeId { get; set; }
+
+
+
+
     }
 }
