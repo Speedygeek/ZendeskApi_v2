@@ -154,6 +154,6 @@ As of 12/4/2012 the project now has complete async support for net4.0 + and for 
 
 Ticket Exporting
 --------------
-There is a Windows console application for keeping a local copy of your Zendesk tickets updated in an application-managed SQLite database, with optional export to csv availible [here](https://github.com/insmarketingsys/zendesk-ticket-exporter). Thanks to Ken Dale!
+There is a Windows console application for keeping a local copy of your Zendesk tickets updated in an application-managed SQLite database, with optional export to csv availible [here](https://github.com/ritterim/zendesk-ticket-exporter). Thanks to Ken Dale!
 
 For any API related questions please email api@zendesk.com, thanks!
