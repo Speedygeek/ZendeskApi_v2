@@ -21,32 +21,47 @@ namespace ZendeskApi_v2.Requests
         /// 
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="page">Returns specified {page} - pagination</param>
         /// <param name="sortBy">Possible values are 'updated_at', 'created_at', 'priority', 'status', and 'ticket_type</param>
         /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
         /// <returns></returns>
-        public SearchResults SearchFor(string searchTerm, string sortBy="", string sortOrder="")
+        public SearchResults SearchFor(string searchTerm, int page=1, string sortBy = "", string sortOrder = "")
         {
             var resource = string.Format("search.json?query={0}", searchTerm);
-            
+
+
+            if (page > 1)
+            {
+                resource += "&page=" + page;
+            }
+
             if (!string.IsNullOrEmpty(sortBy))
                 resource += "&sort_by=" + sortBy;
 
             if (!string.IsNullOrEmpty(sortOrder))
                 resource += "&sort_order=" + sortOrder;
+           
 
             return GenericGet<SearchResults>(resource);
-        }        
+        }
 
         /// <summary>
         /// This resource behaves the same as SearchFor, but allows anonymous users to search public forums
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="page">Returns specified {page} - pagination</param>
         /// <param name="sortBy">Possible values are 'updated_at', 'created_at', 'priority', 'status', and 'ticket_type</param>
         /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
         /// <returns></returns>
-        public SearchResults AnonymousSearchFor(string searchTerm, string sortBy = "", string sortOrder = "")
+        public SearchResults AnonymousSearchFor(string searchTerm, int page = 1, string sortBy = "", string sortOrder = "")
         {
             var resource = string.Format("portal/search.json?query={0}", searchTerm);
+
+
+            if (page > 1)
+            {
+                resource += "&page=" + page;
+            }
 
             if (!string.IsNullOrEmpty(sortBy))
                 resource += "&sort_by=" + sortBy;
@@ -63,13 +78,19 @@ namespace ZendeskApi_v2.Requests
         /// 
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="page">Returns specified {page} - pagination</param>
         /// <param name="sortBy">Possible values are 'updated_at', 'created_at', 'priority', 'status', and 'ticket_type</param>
         /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
         /// <returns></returns>
-        public async Task<SearchResults> SearchForAsync(string searchTerm, string sortBy="", string sortOrder="")
+        public async Task<SearchResults> SearchForAsync(string searchTerm, int page = 1, string sortBy = "", string sortOrder = "")
         {
             var resource = string.Format("search.json?query={0}", searchTerm);
-            
+
+            if (page > 1)
+            {
+                resource += "&page=" + page;
+            }
+
             if (!string.IsNullOrEmpty(sortBy))
                 resource += "&sort_by=" + sortBy;
 
@@ -83,12 +104,18 @@ namespace ZendeskApi_v2.Requests
         /// This resource behaves the same as SearchFor, but allows anonymous users to search public forums
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="page">Returns specified {page} - pagination</param>
         /// <param name="sortBy">Possible values are 'updated_at', 'created_at', 'priority', 'status', and 'ticket_type</param>
         /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
         /// <returns></returns>
-        public async Task<SearchResults> AnonymousSearchForAsync(string searchTerm, string sortBy = "", string sortOrder = "")
+        public async Task<SearchResults> AnonymousSearchForAsync(string searchTerm, int page = 1, string sortBy = "", string sortOrder = "")
         {
             var resource = string.Format("portal/search.json?query={0}", searchTerm);
+
+            if (page > 1)
+            {
+                resource += "&page=" + page;
+            }
 
             if (!string.IsNullOrEmpty(sortBy))
                 resource += "&sort_by=" + sortBy;
