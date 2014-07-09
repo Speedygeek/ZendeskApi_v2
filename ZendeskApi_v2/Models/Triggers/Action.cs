@@ -16,6 +16,6 @@ namespace ZendeskApi_v2.Models.Triggers
         public string Field { get; set; }
 
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
     }
 }

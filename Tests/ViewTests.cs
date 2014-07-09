@@ -53,7 +53,10 @@ namespace Tests
         public void CanExecuteViews()
         {
             var views = api.Views.GetAllViews();
-            var res = api.Views.ExecuteView(views.Views.First().Id);
+            //var res = api.Views.ExecuteView(views.Views.First().Id);
+            
+            //id for all unsolved tickets
+            var res = api.Views.ExecuteView(31559032);            
 
             Assert.Greater(res.Rows.Count, 0);
             Assert.Greater(res.Columns.Count, 0);

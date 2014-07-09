@@ -42,6 +42,13 @@ namespace Tests
         [Test]
         public void CanCreateGetAndDeleteForumSubscriptions()
         {
+            var subs = api.Forums.GetForumSubscriptions().ForumSubscriptions;
+            foreach (var sub in subs)
+            {
+                api.Forums.DeleteForumSubscription(sub.Id.Value);
+            }
+            
+
             var forum = api.Forums.GetForums().Forums.First();
 
             var res = api.Forums.CreateForumSubscription(new ForumSubscription()

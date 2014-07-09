@@ -53,10 +53,10 @@ namespace Tests
         {            
             var user = new User()
                            {
-                              Name = "test user55",
-                              Email = "test55@test.com",
-                              Role = "agent",
-                              CustomRoleId = 1,
+                              Name = "test user66",
+                              Email = "test66@test.com",
+                              Role = "end-user",                              
+                              Verified = true,
                               CustomFields = new Dictionary<string, string>()
                                   {
                                       {"user_dropdown", "option_1"}

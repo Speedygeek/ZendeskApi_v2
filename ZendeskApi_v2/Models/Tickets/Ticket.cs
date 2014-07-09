@@ -67,7 +67,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public object ProblemId { get; set; }
 
         [JsonProperty("has_incidents")]
-        public bool HasIncidents { get; set; }
+        public bool? HasIncidents { get; set; }
 
         [JsonProperty("due_at")]
         public string DueAt { get; set; }
