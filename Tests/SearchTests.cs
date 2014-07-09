@@ -99,5 +99,14 @@ namespace Tests
             Assert.IsTrue(res.Count==total); //number of results should be same as page 1
             
         }
+        [Test]
+        public void TicketHasSubject()
+        {
+            var res = api.Search.SearchFor("my printer is on fire");
+
+            Assert.IsTrue(res!=null);
+            Assert.IsTrue(res.Results.Count>0);
+            Assert.IsTrue(!string.IsNullOrEmpty(res.Results[0].Subject));
+        }
     }
 }
