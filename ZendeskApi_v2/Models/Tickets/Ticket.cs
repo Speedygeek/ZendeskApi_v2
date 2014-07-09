@@ -4,13 +4,9 @@ using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Models.Tickets
 {    
-    public class Ticket
+    public class Ticket : BaseTicket
     {
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("id")]
-        public long? Id { get; set; }
+        
 
         [JsonProperty("external_id")]
         public object ExternalId { get; set; }             
@@ -85,12 +81,7 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("satisfaction_rating")]
         public SatisfactionRating SatisfactionRating { get; set; }            
         
-        [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
-
-        [JsonProperty("updated_at")]
-        public string UpdatedAt { get; set; }
-
+      
         [JsonProperty("via")]
         public Via Via { get; set; }
 

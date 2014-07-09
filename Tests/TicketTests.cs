@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
@@ -593,5 +591,42 @@ namespace Tests
         public void CanCloneTicketForms()
         {
         }
+
+        [Test]
+        public void CanGetAllTicketMetrics()
+        {
+            var metrics = api.Tickets.GetAllTicketMetrics();
+            Assert.True(metrics.Count >0);
+            var count = 50;
+            var nextPage = api.Tickets.GetByPageUrl<GroupTicketMetricResponse>(metrics.NextPage, count);
+            Assert.AreEqual(nextPage.TicketMetrics.Count, count);
+
+        }
+
+        [Test]
+        public void CanGetTicketMetricsAsync()
+        {
+            var tickets = api.Tickets.GetAllTicketMetricsAsync();
+            Assert.True(tickets.Result.Count > 0);
+        }
+
+        [Test]
+        public void CanGetTicketMetricByTicketId()
+        {
+            var id = Settings.SampleTicketId;
+            var metric = api.Tickets.GetTicketMetricsForTicket(id).TicketMetric;
+            Assert.NotNull(metric);
+            Assert.AreEqual(metric.TicketId, id);
+        }
+
+        [Test]
+        public void CanGetTicketMetricByTicketIdAsync()
+        {
+            var id = Settings.SampleTicketId;
+            var metric = api.Tickets.GetTicketMetricsForTicketAsync(id).Result.TicketMetric;
+            Assert.NotNull(metric);
+            Assert.AreEqual(metric.TicketId, id);
+        }
+
     }
 }

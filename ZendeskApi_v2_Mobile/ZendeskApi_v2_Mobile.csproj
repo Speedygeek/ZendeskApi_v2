@@ -305,6 +305,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tags\TagAutocompleteResponse.cs">
       <Link>Models\Tags\TagAutocompleteResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\BaseTicket.cs">
+      <Link>Models\Tickets\BaseTicket.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\BulkUpdate.cs">
       <Link>Models\Tickets\BulkUpdate.cs</Link>
     </Compile>
@@ -332,6 +335,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketFormResponse.cs">
       <Link>Models\Tickets\GroupTicketFormResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketMetricResponse.cs">
+      <Link>Models\Tickets\GroupTicketMetricResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketResponse.cs">
       <Link>Models\Tickets\GroupTicketResponse.cs</Link>
     </Compile>
@@ -340,6 +346,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\IndividualTicketFormResponse.cs">
       <Link>Models\Tickets\IndividualTicketFormResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\IndividualTicketMetricResponse.cs">
+      <Link>Models\Tickets\IndividualTicketMetricResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\IndividualTicketResponse.cs">
       <Link>Models\Tickets\IndividualTicketResponse.cs</Link>
@@ -373,6 +382,12 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\Suspended\SuspendedTicket.cs">
       <Link>Models\Tickets\Suspended\SuspendedTicket.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TimeSpanMetric.cs">
+      <Link>Models\Tickets\TimeSpanMetric.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketMetric.cs">
+      <Link>Models\Tickets\TicketMetric.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\Suspended\To.cs">
       <Link>Models\Tickets\Suspended\To.cs</Link>
