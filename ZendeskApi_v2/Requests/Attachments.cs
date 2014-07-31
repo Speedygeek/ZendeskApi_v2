@@ -12,8 +12,30 @@ using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Attachments : Core
-    {
+	public interface IAttachments : ICore
+	{
+#if SYNC
+		Upload UploadAttachment(ZenFile file);
+		Upload UploadAttachments(IEnumerable<ZenFile> files);
+#endif
+		
+#if ASYNC
+		Task<Upload> UploadAttachmentAsync(ZenFile file);
+		Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files);
+
+		/// <summary>
+		/// Uploads a file to zendesk and returns the corresponding token id.
+		/// To upload another file to an existing token just pass in the existing token.
+		/// </summary>
+		/// <param name="file"></param>
+		/// <param name="token"></param>
+		/// <returns></returns>  
+		Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "");
+#endif
+	}
+
+	public class Attachments : Core, IAttachments
+	{
         public Attachments(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         { }

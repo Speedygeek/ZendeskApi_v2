@@ -5,8 +5,45 @@ using ZendeskApi_v2.Models.Organizations;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Organizations : Core
-    {
+	public interface IOrganizations : ICore
+	{
+#if SYNC
+		GroupOrganizationResponse GetOrganizations();
+
+		/// <summary>
+		/// Returns an array of organizations whose name starts with the value specified in the name parameter. The name must be at least 2 characters in length.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		GroupOrganizationResponse GetOrganizationsStartingWith(string name);
+
+		GroupOrganizationResponse SearchForOrganizations(string searchTerm);
+		IndividualOrganizationResponse GetOrganization(long id);
+		IndividualOrganizationResponse CreateOrganization(Organization organization);
+		IndividualOrganizationResponse UpdateOrganization(Organization organization);
+		bool DeleteOrganization(long id);
+#endif
+		
+#if ASYNC
+		Task<GroupOrganizationResponse> GetOrganizationsAsync();
+
+		/// <summary>
+		/// Returns an array of organizations whose name starts with the value specified in the name parameter. The name must be at least 2 characters in length.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		Task<GroupOrganizationResponse> GetOrganizationsStartingWithAsync(string name);
+
+		Task<GroupOrganizationResponse> SearchForOrganizationsAsync(string searchTerm);
+		Task<IndividualOrganizationResponse> GetOrganizationAsync(long id);
+		Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
+		Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
+		Task<bool> DeleteOrganizationAsync(long id);
+#endif
+	}
+
+	public class Organizations : Core, IOrganizations
+	{
         public Organizations(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

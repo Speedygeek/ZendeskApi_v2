@@ -5,8 +5,23 @@ using ZendeskApi_v2.Models.Triggers;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Triggers : Core
-    {
+	public interface ITriggers : ICore
+	{
+#if SYNC
+		GroupTriggerResponse GetTriggers();
+		IndividualTriggerResponse GetTriggerById(long id);
+		GroupTriggerResponse GetActiveTriggers();
+#endif
+
+#if ASYNC
+		Task<GroupTriggerResponse> GetTriggersAsync();
+		Task<IndividualTriggerResponse> GetTriggerByIdAsync(long id);
+		Task<GroupTriggerResponse> GetActiveTriggersAsync();
+#endif
+	}
+
+	public class Triggers : Core, ITriggers
+	{
         public Triggers(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

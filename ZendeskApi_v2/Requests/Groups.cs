@@ -5,8 +5,65 @@ using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Groups : Core
-    {
+	public interface IGroups : ICore
+	{
+#if SYNC
+		MultipleGroupResponse GetGroups();
+		MultipleGroupResponse GetAssignableGroups();
+		IndividualGroupResponse GetGroupById(long id);
+		IndividualGroupResponse CreateGroup(string groupName);
+		IndividualGroupResponse UpdateGroup(Group group);
+		bool DeleteGroup(long id);
+		MultipleGroupMembershipResponse GetGroupMemberships();
+		MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId);
+		MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId);
+		MultipleGroupMembershipResponse GetAssignableGroupMemberships();
+		MultipleGroupMembershipResponse GetAssignableGroupMembershipsByGroup(long groupId);
+		IndividualGroupMembershipResponse GetGroupMembershipsByMembershipId(long groupMembershipId);
+		IndividualGroupMembershipResponse GetGroupMembershipsByUserAndMembershipId(long userId, long groupMembershipId);
+
+		/// <summary>
+		/// Creating a membership means assigning an agent to a given group
+		/// </summary>
+		/// <param name="groupMembership"></param>
+		/// <returns></returns>
+		IndividualGroupMembershipResponse CreateGroupMembership(GroupMembership groupMembership);
+
+		MultipleGroupMembershipResponse SetGroupMembershipAsDefault(long userId, long groupMembershipId);
+		bool DeleteGroupMembership(long groupMembershipId);
+		bool DeleteUserGroupMembership(long userId, long groupMembershipId);
+#endif
+
+#if ASYNC
+		Task<MultipleGroupResponse> GetGroupsAsync();
+		Task<MultipleGroupResponse> GetAssignableGroupsAsync();
+		Task<IndividualGroupResponse> GetGroupByIdAsync(long id);
+		Task<IndividualGroupResponse> CreateGroupAsync(string groupName);
+		Task<IndividualGroupResponse> UpdateGroupAsync(Group group);
+		Task<bool> DeleteGroupAsync(long id);
+		Task<MultipleGroupMembershipResponse> GetGroupMembershipsAsync();
+		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId);
+		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId);
+		Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync();
+		Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsByGroupAsync(long groupId);
+		Task<IndividualGroupMembershipResponse> GetGroupMembershipsByMembershipIdAsync(long groupMembershipId);
+		Task<IndividualGroupMembershipResponse> GetGroupMembershipsByUserAndMembershipIdAsync(long userId, long groupMembershipId);
+
+		/// <summary>
+		/// Creating a membership means assigning an agent to a given group
+		/// </summary>
+		/// <param name="groupMembership"></param>
+		/// <returns></returns>
+		Task<IndividualGroupMembershipResponse> CreateGroupMembershipAsync(GroupMembership groupMembership);
+
+		Task<MultipleGroupMembershipResponse> SetGroupMembershipAsDefaultAsync(long userId, long groupMembershipId);
+		Task<bool> DeleteGroupMembershipAsync(long groupMembershipId);
+		Task<bool> DeleteUserGroupMembershipAsync(long userId, long groupMembershipId);
+#endif
+	}
+
+	public class Groups : Core, IGroups
+	{
         public Groups(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

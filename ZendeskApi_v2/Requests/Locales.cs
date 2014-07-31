@@ -5,8 +5,63 @@ using ZendeskApi_v2.Models.Locales;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Locales : Core
-    {
+	public interface ILocales : ICore
+	{
+#if SYNC
+		/// <summary>
+		/// This lists the translation locales that are available for the account.
+		/// </summary>
+		/// <returns></returns>
+		GroupLocaleResponse GetAllLocales();
+
+		/// <summary>
+		/// This lists the translation locales that have been localized for agents.
+		/// </summary>
+		/// <returns></returns>
+		GroupLocaleResponse GetLocalesForAgents();
+
+		/// <summary>
+		/// This lists the translation locales that have been localized for agents.
+		/// </summary>
+		/// <returns></returns>
+		IndividualLocaleResponse GetLocaleById(long id);
+
+		/// <summary>
+		/// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
+		/// </summary>
+		/// <returns></returns>
+		IndividualLocaleResponse GetCurrentLocale();
+#endif
+
+#if ASYNC
+		/// <summary>
+		/// This lists the translation locales that are available for the account.
+		/// </summary>
+		/// <returns></returns>
+		Task<GroupLocaleResponse> GetAllLocalesAsync();
+
+		/// <summary>
+		/// This lists the translation locales that have been localized for agents.
+		/// </summary>
+		/// <returns></returns>
+		Task<GroupLocaleResponse> GetLocalesForAgentsAsync();
+
+		/// <summary>
+		/// This lists the translation locales that have been localized for agents.
+		/// </summary>
+		/// <returns></returns>
+		Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id);
+
+		/// <summary>
+		/// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
+		/// </summary>
+		/// <returns></returns>
+		Task<IndividualLocaleResponse> GetCurrentLocaleAsync();
+#endif
+	}
+
+	public class Locales : Core, ILocales
+	{
 
         public Locales(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)

@@ -5,8 +5,43 @@ using ZendeskApi_v2.Models.Satisfaction;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class SatisfactionRatings : Core
-    {
+	public interface ISatisfactionRatings : ICore
+	{
+#if SYNC
+		/// <summary>
+		/// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
+		/// </summary>
+		/// <returns></returns>
+		GroupSatisfactionResponse GetSatisfactionRatings();
+
+		/// <summary>
+		/// Lists ratings provided by customers.
+		/// </summary>
+		/// <returns></returns>
+		GroupSatisfactionResponse GetReceivedSatisfactionRatings();
+
+		IndividualSatisfactionResponse GetSatisfactionRatingById(long id);
+#endif
+
+#if ASYNC
+		/// <summary>
+		/// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
+		/// </summary>
+		/// <returns></returns>
+		Task<GroupSatisfactionResponse> GetSatisfactionRatingsAsync();
+
+		/// <summary>
+		/// Lists ratings provided by customers.
+		/// </summary>
+		/// <returns></returns>
+		Task<GroupSatisfactionResponse> GetReceivedSatisfactionRatingsAsync();
+
+		Task<IndividualSatisfactionResponse> GetSatisfactionRatingByIdAsync(long id);
+#endif
+	}
+
+	public class SatisfactionRatings : Core, ISatisfactionRatings
+	{
         public SatisfactionRatings(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

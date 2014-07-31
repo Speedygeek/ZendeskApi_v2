@@ -5,8 +5,81 @@ using ZendeskApi_v2.Models.Macros;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Macros : Core
-    {
+	public interface IMacros : ICore
+	{
+#if SYNC
+		/// <summary>
+		/// Lists all shared and personal macros available to the current user
+		/// </summary>
+		/// <returns></returns>
+		GroupMacroResponse GetAllMacros();
+
+		IndividualMacroResponse GetMacroById(long id);
+
+		/// <summary>
+		/// Lists all active shared and personal macros available to the current user
+		/// </summary>
+		/// <returns></returns>
+		GroupMacroResponse GetActiveMacros();
+
+		IndividualMacroResponse CreateMacro(Macro macro);
+		IndividualMacroResponse UpdateMacro(Macro macro);
+		bool DeleteMacro(long id);
+
+		/// <summary>
+		/// Applies a macro to all applicable tickets.
+		/// </summary>
+		/// <param name="macroId"></param>
+		/// <returns></returns>
+		ApplyMacroResponse ApplyMacro(long macroId);
+
+		/// <summary>
+		/// Applies a macro to a specific ticket
+		/// </summary>
+		/// <param name="ticketId"></param>
+		/// <param name="macroId"></param>
+		/// <returns></returns>
+		ApplyMacroResponse ApplyMacroToTicket(long ticketId, long macroId);
+#endif
+
+#if ASYNC
+		/// <summary>
+		/// Lists all shared and personal macros available to the current user
+		/// </summary>
+		/// <returns></returns>
+		Task<GroupMacroResponse> GetAllMacrosAsync();
+
+		Task<IndividualMacroResponse> GetMacroByIdAsync(long id);
+
+		/// <summary>
+		/// Lists all active shared and personal macros available to the current user
+		/// </summary>
+		/// <returns></returns>
+		Task<GroupMacroResponse> GetActiveMacrosAsync();
+
+		Task<IndividualMacroResponse> CreateMacroAsync(Macro macro);
+		Task<IndividualMacroResponse> UpdateMacroAsync(Macro macro);
+		Task<bool> DeleteMacroAsync(long id);
+
+		/// <summary>
+		/// Applies a macro to all applicable tickets.
+		/// </summary>
+		/// <param name="macroId"></param>
+		/// <returns></returns>
+		Task<ApplyMacroResponse> ApplyMacroAsync(long macroId);
+
+		/// <summary>
+		/// Applies a macro to a specific ticket
+		/// </summary>
+		/// <param name="ticketId"></param>
+		/// <param name="macroId"></param>
+		/// <returns></returns>
+		Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId);
+#endif
+	}
+
+	public class Macros : Core, IMacros
+	{
         public Macros(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {
