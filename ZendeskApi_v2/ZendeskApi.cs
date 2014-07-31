@@ -32,6 +32,8 @@ namespace ZendeskApi_v2
         public SatisfactionRatings SatisfactionRatings { get; set; }
         public SharingAgreements SharingAgreements { get; set; }
         public Triggers Triggers { get; set; }
+		public Sections Sections { get; set; }
+		public Articles Articles { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -66,6 +68,8 @@ namespace ZendeskApi_v2
             SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken);
             SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken);
             Triggers = new Triggers(formattedUrl, user, password, apiToken);
+			Sections = new Sections(formattedUrl, user, password, apiToken);
+			Articles = new Articles(formattedUrl, user, password, apiToken);
 
             ZendeskUrl = formattedUrl;
         }
