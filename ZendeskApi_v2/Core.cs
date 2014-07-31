@@ -11,8 +11,23 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2
 {
-    public class Core
-    {
+	public interface ICore
+	{
+#if SYNC
+		T GetByPageUrl<T>(string pageUrl, int perPage=100);
+		T RunRequest<T>(string resource, string requestMethod, object body = null);
+		RequestResult RunRequest(string resource, string requestMethod, object body = null);
+#endif
+		
+#if ASYNC
+		Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100);
+		Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null);
+		Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null);
+#endif
+	}
+
+	public class Core : ICore
+	{
         private const string XOnBehalfOfEmail = "X-On-Behalf-Of";        
         protected string User;
         protected string Password;

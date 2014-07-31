@@ -8,7 +8,19 @@ using ZendeskApi_v2.Models.Sections;
 
 namespace ZendeskApi_v2.Requests
 {
-	public class Sections : Core
+	public interface ISections : ICore
+	{
+#if SYNC
+		GroupSectionResponse GetSections();
+		GroupSectionResponse GetSectionsByCategoryId(long categoryId);
+		IndividualSectionResponse GetSectionById(long id);
+		IndividualSectionResponse CreateSection(Section section);
+		IndividualSectionResponse UpdateSection(Section section);
+		bool DeleteSection(long id);
+#endif
+	}
+
+	public class Sections : Core, ISections
 	{
 		public Sections(string zendeskApiUrl, string user, string password, string apiToken) : base(zendeskApiUrl, user, password, apiToken)
 		{

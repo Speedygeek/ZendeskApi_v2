@@ -5,8 +5,19 @@ using ZendeskApi_v2.Models.CustomRoles;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class CustomAgentRoles : Core
-    {
+	public interface ICustomAgentRoles : ICore
+	{
+#if SYNC
+		CustomRoles GetCustomRoles();
+#endif
+
+#if ASYNC
+		Task<CustomRoles> GetCustomRolesAsync();
+#endif
+	}
+
+	public class CustomAgentRoles : Core, ICustomAgentRoles
+	{
         public CustomAgentRoles(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

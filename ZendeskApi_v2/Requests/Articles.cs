@@ -9,7 +9,23 @@ using ZendeskApi_v2.Models.Articles;
 
 namespace ZendeskApi_v2.Requests
 {
-	public class Articles : Core
+	public interface IArticles : ICore
+	{
+#if SYNC
+
+		GroupArticleResponse GetArticles();
+		GroupArticleResponse GetArticlesByCategoryId(long categoryId);
+		GroupArticleResponse GetArticlesBySectionId(long sectionId);
+		GroupArticleResponse GetArticlesByUserId(long userId);
+		GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime);
+		IndividualArticleResponse CreateArticle(long sectionId, Article article);
+		IndividualArticleResponse UpdateArticle(Article article);
+		bool DeleteArticle(long id);
+
+#endif
+	}
+
+	public class Articles : Core, IArticles
 	{
 		public Articles(string zendeskApiUrl, string user, string password, string apiToken)
 			: base(zendeskApiUrl, user, password, apiToken)

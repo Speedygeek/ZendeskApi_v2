@@ -6,8 +6,39 @@ using ZendeskApi_v2.Models.Tags;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Forums : Core
-    {
+	public interface IForums : ICore
+	{
+#if SYNC
+		GroupForumResponse GetForums();
+		IndividualForumResponse GetForumById(long forumId);
+		GroupForumResponse GetForumsByCategory(long categoryId);
+		IndividualForumResponse CreateForum(Forum forum);
+		IndividualForumResponse UpdateForum(Forum forum);
+		bool DeleteForum(long id);
+		GroupForumSubcriptionResponse GetForumSubscriptions();
+		GroupForumSubcriptionResponse GetForumSubscriptionsByForumId(long forumId);
+		IndividualForumSubcriptionResponse GetForumSubscriptionsById(long subscriptionId);
+		IndividualForumSubcriptionResponse CreateForumSubscription(ForumSubscription forumSubscription);
+		bool DeleteForumSubscription(long subscriptionId);
+#endif
+
+#if ASYNC
+		Task<GroupForumResponse> GetForumsAsync();
+		Task<IndividualForumResponse> GetForumByIdAsync(long forumId);
+		Task<GroupForumResponse> GetForumsByCategoryAsync(long categoryId);
+		Task<IndividualForumResponse> CreateForumAsync(Forum forum);
+		Task<IndividualForumResponse> UpdateForumAsync(Forum forum);
+		Task<bool> DeleteForumAsync(long id);
+		Task<GroupForumSubcriptionResponse> GetForumSubscriptionsAsync();
+		Task<GroupForumSubcriptionResponse> GetForumSubscriptionsByForumIdAsync(long forumId);
+		Task<IndividualForumSubcriptionResponse> GetForumSubscriptionsByIdAsync(long subscriptionId);
+		Task<IndividualForumSubcriptionResponse> CreateForumSubscriptionAsync(ForumSubscription forumSubscription);
+		Task<bool> DeleteForumSubscriptionAsync(long subscriptionId);
+#endif
+	}
+
+	public class Forums : Core, IForums
+	{
         public Forums(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

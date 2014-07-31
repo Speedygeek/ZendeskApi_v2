@@ -6,8 +6,36 @@ using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Requests : Core
-    {
+	public interface IRequests : ICore
+	{
+#if SYNC
+		GroupRequestResponse GetAllRequests();
+		GroupRequestResponse GetAllSolvedRequests();
+		GroupRequestResponse GetAllCcdRequests();
+		GroupRequestResponse GetAllRequestsForUser(long id);
+		IndividualRequestResponse GetRequestById(long id);
+		GroupCommentResponse GetRequestCommentsById(long id);
+		IndividualCommentResponse GetSpecificRequestComment(long requestId, long commentId);
+		IndividualRequestResponse CreateRequest(Request request);
+		IndividualRequestResponse UpdateRequest(long id, Comment comment);
+		IndividualRequestResponse UpdateRequest(Request request, Comment comment = null);
+#endif
+
+#if ASYNC
+		Task<GroupRequestResponse> GetAllRequestsAsync();
+		Task<GroupRequestResponse> GetAllSolvedRequestsAsync();
+		Task<GroupRequestResponse> GetAllCcdRequestsAsync();
+		Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id);
+		Task<IndividualRequestResponse> GetRequestByIdAsync(long id);
+		Task<GroupCommentResponse> GetRequestCommentsByIdAsync(long id);
+		Task<IndividualCommentResponse> GetSpecificRequestCommentAsync(long requestId, long commentId);
+		Task<IndividualRequestResponse> CreateRequestAsync(Request request);
+		Task<IndividualRequestResponse> UpdateRequestAsync(long id, Comment comment);
+#endif
+	}
+
+	public class Requests : Core, IRequests
+	{
         public Requests(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

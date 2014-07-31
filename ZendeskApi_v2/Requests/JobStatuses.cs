@@ -5,8 +5,19 @@ using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class JobStatuses : Core
-    {
+	public interface IJobStatuses : ICore
+	{
+#if SYNC
+		JobStatusResponse GetJobStatus(string id);
+#endif
+
+#if ASYNC
+		Task<JobStatusResponse> GetJobStatusAsync(string id);
+#endif
+	}
+
+	public class JobStatuses : Core, IJobStatuses
+	{
 
         public JobStatuses(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)

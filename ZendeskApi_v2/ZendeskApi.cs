@@ -10,30 +10,58 @@ using System.Security.Cryptography;
 
 namespace ZendeskApi_v2
 {
-    public class ZendeskApi
+	public interface IZendeskApi
     {
-        public Tickets Tickets { get; set; }
-        public Attachments Attachments { get; set; }
-        public Views Views { get; set; }
-        public Users Users { get; set; }
-        public Requests.Requests Requests { get; set; }
-        public Groups Groups { get; set; }
-        public CustomAgentRoles CustomAgentRoles { get; set; }
-        public Organizations Organizations { get; set; }
-        public Search Search { get; set; }
-        public Tags Tags { get; set; }
-        public Forums Forums { get; set; }
-        public Categories Categories { get; set; }
-        public Topics Topics { get; set; }
-        public AccountsAndActivity AccountsAndActivity { get; set; }
-        public JobStatuses JobStatuses { get; set; }
-        public Locales Locales { get; set; }
-        public Macros Macros { get; set; }
-        public SatisfactionRatings SatisfactionRatings { get; set; }
-        public SharingAgreements SharingAgreements { get; set; }
-        public Triggers Triggers { get; set; }
-		public Sections Sections { get; set; }
-		public Articles Articles { get; set; }
+		ITickets Tickets { get; }
+		IAttachments Attachments { get; }
+		IViews Views { get; }
+		IUsers Users { get; }
+		IRequests Requests { get; }
+		IGroups Groups { get; }
+		ICustomAgentRoles CustomAgentRoles { get; }
+		IOrganizations Organizations { get; }
+		ISearch Search { get; }
+		ITags Tags { get; }
+		IForums Forums { get; }
+		ICategories Categories { get; }
+		ITopics Topics { get; }
+		IAccountsAndActivity AccountsAndActivity { get; }
+		IJobStatuses JobStatuses { get; }
+		ILocales Locales { get; }
+		IMacros Macros { get; }
+		ISatisfactionRatings SatisfactionRatings { get; }
+		ISharingAgreements SharingAgreements { get; }
+		ITriggers Triggers { get; }
+		ISections Sections { get; }
+		IArticles Articles { get; }
+
+		string ZendeskUrl { get; }
+	}
+
+	public class ZendeskApi : IZendeskApi
+    {
+		public ITickets Tickets { get; set; }
+		public IAttachments Attachments { get; set; }
+        public IViews Views { get; set; }
+		public IUsers Users { get; set; }
+        public IRequests Requests { get; set; }
+        public IGroups Groups { get; set; }
+		public ICustomAgentRoles CustomAgentRoles { get; set; }
+		public IOrganizations Organizations { get; set; }
+		public ISearch Search { get; set; }
+		public ITags Tags { get; set; }
+		public IForums Forums { get; set; }
+		public ICategories Categories { get; set; }
+		public ITopics Topics { get; set; }
+		public IAccountsAndActivity AccountsAndActivity { get; set; }
+		public IJobStatuses JobStatuses { get; set; }
+		public ILocales Locales { get; set; }
+		public IMacros Macros { get; set; }
+		public ISatisfactionRatings SatisfactionRatings { get; set; }
+		public ISharingAgreements SharingAgreements { get; set; }
+		public ITriggers Triggers { get; set; }
+		public ISections Sections { get; set; }
+		public IArticles Articles { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -87,26 +115,28 @@ namespace ZendeskApi_v2
         {
             if (proxy == null) return;
 
-            Tickets.Proxy = proxy;
-            Attachments.Proxy = proxy;
-            Views.Proxy = proxy;
-            Users.Proxy = proxy;
-            Requests.Proxy = proxy;
-            Groups.Proxy = proxy;
-            CustomAgentRoles.Proxy = proxy;
-            Organizations.Proxy = proxy;
-            Search.Proxy = proxy;
-            Tags.Proxy = proxy;
-            Forums.Proxy = proxy;
-            Categories.Proxy = proxy;
-            Topics.Proxy = proxy;
-            AccountsAndActivity.Proxy = proxy;
-            JobStatuses.Proxy = proxy;
-            Locales.Proxy = proxy;
-            Macros.Proxy = proxy;
-            SatisfactionRatings.Proxy = proxy;
-            SharingAgreements.Proxy = proxy;
-            Triggers.Proxy = proxy;
+            ((Tickets)Tickets).Proxy = proxy;
+			((Attachments)Attachments).Proxy = proxy;
+			((Views)Views).Proxy = proxy;
+			((Users)Users).Proxy = proxy;
+			((Requests.Requests)Requests).Proxy = proxy;
+			((Groups)Groups).Proxy = proxy;
+			((CustomAgentRoles)CustomAgentRoles).Proxy = proxy;
+			((Organizations)Organizations).Proxy = proxy;
+			((Search)Search).Proxy = proxy;
+			((Tags)Tags).Proxy = proxy;
+			((Forums)Forums).Proxy = proxy;
+			((Categories)Categories).Proxy = proxy;
+			((Topics)Topics).Proxy = proxy;
+			((AccountsAndActivity)AccountsAndActivity).Proxy = proxy;
+			((JobStatuses)JobStatuses).Proxy = proxy;
+			((Locales)Locales).Proxy = proxy;
+			((Macros)Macros).Proxy = proxy;
+			((SatisfactionRatings)SatisfactionRatings).Proxy = proxy;
+			((SharingAgreements)SharingAgreements).Proxy = proxy;
+			((Triggers)Triggers).Proxy = proxy;
+			((Sections)Sections).Proxy = proxy;
+			((Articles)Articles).Proxy = proxy;
         }
 
 #endif

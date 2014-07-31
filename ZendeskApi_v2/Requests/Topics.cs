@@ -7,8 +7,81 @@ using ZendeskApi_v2.Models.Topics;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Topics : Core
-    {
+	public interface ITopics : ICore
+	{
+#if SYNC
+		GroupTopicResponse GetTopics();
+		IndividualTopicResponse GetTopicById(long topicId);
+		GroupTopicResponse GetMultipleTopicsById(IEnumerable<long> topicIds);
+		GroupTopicResponse GetTopicsByForum(long forumId);
+		GroupTopicResponse GetTopicsByUser(long userId);
+		IndividualTopicResponse CreateTopic(Topic topic);
+		IndividualTopicResponse UpdateTopic(Topic topic);
+		bool DeleteTopic(long topicId);
+		GroupTopicCommentResponse GetTopicCommentsByTopicId(long topicId);
+		GroupTopicCommentResponse GetTopicCommentsByUserId(long userId);
+		IndividualTopicCommentResponse GetSpecificTopicCommentByTopic(long topicId, long commentId);
+		IndividualTopicCommentResponse GetSpecificTopicCommentByUser(long userId, long commentId);
+		IndividualTopicCommentResponse CreateTopicComment(long topicId, TopicComment topicComment);
+		IndividualTopicCommentResponse UpdateTopicComment(TopicComment topicComment);
+		bool DeleteTopicComment(long topicId, long commentId);
+		GroupTopicSubscriptionResponse GetTopicSubscriptionsByTopic(long topicId);
+		GroupTopicSubscriptionResponse GetAllTopicSubscriptions();
+		IndividualTopicSubscriptionResponse GetTopicSubscriptionById(long topicSubscriptionId);
+		IndividualTopicSubscriptionResponse CreateTopicSubscription(long userId, long topicId);
+		bool DeleteTopicSubscription(long topicSubscriptionId);
+		GroupTopicVoteResponse GetTopicVotes(long topicId);
+		GroupTopicVoteResponse GetTopicVotesByUser(long userId);
+
+		/// <summary>
+		/// Checks to see if the current user has cast a vote in this topic. Returns null if not
+		/// </summary>
+		/// <param name="topicId"></param>
+		/// <returns></returns>
+		IndividualTopicVoteResponse CheckForVote(long topicId);
+
+		IndividualTopicVoteResponse CreateVote(long topicId);
+		bool DeleteVote(long topicId);
+#endif
+		
+#if ASYNC
+		Task<GroupTopicResponse> GetTopicsAsync();
+		Task<IndividualTopicResponse> GetTopicByIdAsync(long topicId);
+		Task<GroupTopicResponse> GetMultipleTopicsByIdAsync(IEnumerable<long> topicIds);
+		Task<GroupTopicResponse> GetTopicsByForumAsync(long forumId);
+		Task<GroupTopicResponse> GetTopicsByUserAsync(long userId);
+		Task<IndividualTopicResponse> CreateTopicAsync(Topic topic);
+		Task<IndividualTopicResponse> UpdateTopicAsync(Topic topic);
+		Task<bool> DeleteTopicAsync(long topicId);
+		Task<GroupTopicCommentResponse> GetTopicCommentsByTopicIdAsync(long topicId);
+		Task<GroupTopicCommentResponse> GetTopicCommentsByUserIdAsync(long userId);
+		Task<IndividualTopicCommentResponse> GetSpecificTopicCommentByTopicAsync(long topicId, long commentId);
+		Task<IndividualTopicCommentResponse> GetSpecificTopicCommentByUserAsync(long userId, long commentId);
+		Task<IndividualTopicCommentResponse> CreateTopicCommentAsync(long topicId, TopicComment topicComment);
+		Task<IndividualTopicCommentResponse> UpdateTopicCommentAsync(TopicComment topicComment);
+		Task<bool> DeleteTopicCommentAsync(long topicId, long commentId);
+		Task<GroupTopicSubscriptionResponse> GetTopicSubscriptionsByTopicAsync(long topicId);
+		Task<GroupTopicSubscriptionResponse> GetAllTopicSubscriptionsAsync();
+		Task<IndividualTopicSubscriptionResponse> GetTopicSubscriptionByIdAsync(long topicSubscriptionId);
+		Task<IndividualTopicSubscriptionResponse> CreateTopicSubscriptionAsync(long userId, long topicId);
+		Task<bool> DeleteTopicSubscriptionAsync(long topicSubscriptionId);
+		Task<GroupTopicVoteResponse> GetTopicVotesAsync(long topicId);
+		Task<GroupTopicVoteResponse> GetTopicVotesByUserAsync(long userId);
+
+		/// <summary>
+		/// Checks to see if the current user has cast a vote in this topic. Returns null if not
+		/// </summary>
+		/// <param name="topicId"></param>
+		/// <returns></returns>
+		Task<IndividualTopicVoteResponse> CheckForVoteAsync(long topicId);
+
+		Task<IndividualTopicVoteResponse> CreateVoteAsync(long topicId);
+		Task<bool> DeleteVoteAsync(long topicId);
+#endif
+	}
+
+	public class Topics : Core, ITopics
+	{
         public Topics(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {
