@@ -6,8 +6,23 @@ using ZendeskApi_v2.Models.AccountsAndActivities;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class AccountsAndActivity : Core
-    {
+	public interface IAccountsAndActivity : ICore
+	{
+#if SYNC
+		SettingsResponse GetSettings();
+		GroupActivityResponse GetActivities();
+		IndividualActivityResponse GetActivityById(long activityId);
+#endif
+
+#if ASYNC
+		Task<SettingsResponse> GetSettingsAsync();
+		Task<GroupActivityResponse> GetActivitiesAync();
+		Task<IndividualActivityResponse> GetActivityByIdAync(long activityId);
+#endif
+	}
+
+	public class AccountsAndActivity : Core, IAccountsAndActivity
+	{
 
         public AccountsAndActivity(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)

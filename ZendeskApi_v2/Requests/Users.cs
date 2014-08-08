@@ -9,8 +9,75 @@ using User = ZendeskApi_v2.Models.Users.User;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Users : Core
-    {
+	public interface IUsers : ICore
+	{
+#if SYNC
+		IndividualUserResponse GetCurrentUser();
+		GroupUserResponse GetAllUsers();
+		IndividualUserResponse GetUser(long id);
+		GroupUserResponse SearchByEmail(string email);
+		GroupUserResponse SearchByExternalId(string externalId);
+		GroupUserResponse GetUsersInGroup(long id);
+		GroupUserResponse GetUsersInOrganization(long id);
+		IndividualUserResponse CreateUser(User user);
+		JobStatusResponse BulkCreateUsers(IEnumerable<User> users);
+		IndividualUserResponse SuspendUser(long id);
+		IndividualUserResponse UpdateUser(User user);
+		bool DeleteUser(long id);
+		bool SetUsersPassword(long userId, string newPassword);
+		bool ChangeUsersPassword(long userId, string oldPassword, string newPassword);
+		GroupUserIdentityResponse GetUserIdentities(long userId);
+		IndividualUserIdentityResponse GetSpecificUserIdentity(long userId, long identityId);
+		IndividualUserIdentityResponse AddUserIdentity(long userId, UserIdentity identity);
+		IndividualUserIdentityResponse SetUserIdentityAsVerified(long userId, long identityId);
+		GroupUserIdentityResponse SetUserIdentityAsPrimary(long userId, long identityId);
+
+		/// <summary>
+		/// This sends a verification email to the user, asking him to click a link in order to verify ownership of the email address
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="identityId"></param>
+		/// <returns></returns>
+		IndividualUserIdentityResponse SendUserVerificationRequest(long userId, long identityId);
+
+		bool DeleteUserIdentity(long userId, long identityId);
+#endif
+
+#if ASYNC
+		Task<IndividualUserResponse> GetCurrentUserAsync();
+		Task<GroupUserResponse> GetAllUsersAsync();
+		Task<IndividualUserResponse> GetUserAsync(long id);
+		Task<GroupUserResponse> SearchByEmailAsync(string email);
+		Task<GroupUserResponse> SearchByExternalIdAsync(string externalId);
+		Task<GroupUserResponse> GetUsersInGroupAsync(long id);
+		Task<GroupUserResponse> GetUsersInOrganizationAsync(long id);
+		Task<IndividualUserResponse> CreateUserAsync(User user);
+		Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users);
+		Task<IndividualUserResponse> SuspendUserAsync(long id);
+		Task<IndividualUserResponse> UpdateUserAsync(User user);
+		Task<bool> DeleteUserAsync(long id);
+		Task<bool> SetUsersPasswordAsync(long userId, string newPassword);
+		Task<bool> ChangeUsersPasswordAsync(long userId, string oldPassword, string newPassword);
+		Task<GroupUserIdentityResponse> GetUserIdentitiesAsync(long userId);
+		Task<IndividualUserIdentityResponse> GetSpecificUserIdentityAsync(long userId, long identityId);
+		Task<IndividualUserIdentityResponse> AddUserIdentityAsync(long userId, UserIdentity identity);
+		Task<IndividualUserIdentityResponse> SetUserIdentityAsVerifiedAsync(long userId, long identityId);
+		Task<GroupUserIdentityResponse> SetUserIdentityAsPrimaryAsync(long userId, long identityId);
+
+		/// <summary>
+		/// This sends a verification email to the user, asking him to click a link in order to verify ownership of the email address
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="identityId"></param>
+		/// <returns></returns>
+		Task<IndividualUserIdentityResponse> SendUserVerificationRequestAsync(long userId, long identityId);
+
+		Task<bool> DeleteUserIdentityAsync(long userId, long identityId);
+#endif
+	}
+
+	public class Users : Core, IUsers
+	{
         public Users(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
         {

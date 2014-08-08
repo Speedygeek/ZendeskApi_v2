@@ -13,8 +13,134 @@ using ZendeskApi_v2.Models.Users;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class Tickets : Core
-    {
+	public interface ITickets : ICore
+	{
+#if SYNC
+		GroupTicketFormResponse GetTicketForms();
+		IndividualTicketFormResponse CreateTicketForm(TicketForm ticketForm);
+		IndividualTicketFormResponse GetTicketFormById(long id);
+		IndividualTicketFormResponse UpdateTicketForm(TicketForm ticketForm);
+		bool ReorderTicketForms(long[] orderedTicketFormIds);
+		IndividualTicketFormResponse CloneTicketForm(long ticketFormId);
+		bool DeleteTicketForm(long id);
+		GroupTicketResponse GetAllTickets();
+		GroupTicketResponse GetTicketsByViewID(int id);
+		GroupTicketResponse GetTicketsByOrganizationID(long id);
+		GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage);
+		GroupTicketResponse GetRecentTickets();
+		GroupTicketResponse GetTicketsByUserID(long userId);
+		GroupTicketResponse GetTicketsWhereUserIsCopied(long userId);
+		IndividualTicketResponse GetTicket(long id);
+		GroupCommentResponse GetTicketComments(long ticketId);
+		GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids);
+		IndividualTicketResponse CreateTicket(Ticket ticket);
+
+		/// <summary>
+		/// UpdateTicket a ticket or add comments to it. Keep in mind that somethings like the description can't be updated.
+		/// </summary>
+		/// <param name="ticket"></param>
+		/// <param name="comment"></param>
+		/// <returns></returns>
+		IndividualTicketResponse UpdateTicket(Ticket ticket, Comment comment=null);
+
+		JobStatusResponse BulkUpdate(IEnumerable<long> ids, BulkUpdate info);
+		bool Delete(long id);
+		bool DeleteMultiple(IEnumerable<long> ids);
+		GroupUserResponse GetCollaborators(long id);
+		GroupTicketResponse GetIncidents(long id);
+		GroupTicketResponse GetProblems();
+		GroupTicketResponse AutoCompleteProblems(string text);
+		GroupAuditResponse GetAudits(long ticketId);
+		IndividualAuditResponse GetAuditById(long ticketId, long auditId);
+		bool MarkAuditAsTrusted(long ticketId, long auditId);
+		TicketExportResponse GetInrementalTicketExport(DateTime startTime);
+
+		/// <summary>
+		/// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
+		/// </summary>
+		/// <param name="startTime"></param>
+		/// <returns></returns>
+		TicketExportResponse __TestOnly__GetInrementalTicketExport(DateTime startTime);
+
+		GroupTicketFieldResponse GetTicketFields();
+		IndividualTicketFieldResponse GetTicketFieldById(long id);
+		IndividualTicketFieldResponse CreateTicketField(TicketField ticketField);
+		IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField);
+		bool DeleteTicketField(long id);
+		GroupSuspendedTicketResponse GetSuspendedTickets();
+		IndividualSuspendedTicketResponse GetSuspendedTicketById(long id);
+		bool RecoverSuspendedTicket(long id);
+		bool RecoverManySuspendedTickets(IEnumerable<long> ids);
+		bool DeleteSuspendedTickets(long id);
+		bool DeleteManySuspendedTickets(IEnumerable<long> ids);
+		GroupTicketMetricResponse GetAllTicketMetrics();
+		IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id);
+#endif
+
+#if ASYNC
+		Task<GroupTicketResponse> GetAllTicketsAsync();
+		Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id);
+		Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id);
+		Task<GroupTicketResponse> GetRecentTicketsAsync();
+		Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId);
+		Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId);
+		Task<IndividualTicketResponse> GetTicketAsync(long id);
+		Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId);
+		Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids);
+		Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket);
+
+		/// <summary>
+		/// UpdateTicket a ticket or add comments to it. Keep in mind that somethings like the description can't be updated.
+		/// </summary>
+		/// <param name="ticket"></param>
+		/// <param name="comment"></param>
+		/// <returns></returns>
+		Task<IndividualTicketResponse> UpdateTicketAsync(Ticket ticket, Comment comment=null);
+
+		Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, BulkUpdate info);
+		Task<bool> DeleteAsync(long id);
+		Task<bool> DeleteMultipleAsync(IEnumerable<long> ids);
+		Task<GroupUserResponse> GetCollaboratorsAsync(long id);
+		Task<GroupTicketResponse> GetIncidentsAsync(long id);
+		Task<GroupTicketResponse> GetProblemsAsync();
+		Task<GroupTicketResponse> AutoCompleteProblemsAsync(string text);
+		Task<GroupAuditResponse> GetAuditsAsync(long ticketId);
+		Task<IndividualAuditResponse> GetAuditByIdAsync(long ticketId, long auditId);
+		Task<bool> MarkAuditAsTrustedAsync(long ticketId, long auditId);
+		Task<TicketExportResponse> GetInrementalTicketExportAsync(DateTime startTime);
+
+		/// <summary>
+		/// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
+		/// </summary>
+		/// <param name="startTime"></param>
+		/// <returns></returns>
+		Task<TicketExportResponse> __TestOnly__GetInrementalTicketExportAsync(DateTime startTime);
+
+		Task<GroupTicketFieldResponse> GetTicketFieldsAsync();
+		Task<IndividualTicketFieldResponse> GetTicketFieldByIdAsync(long id);
+		Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField);
+		Task<IndividualTicketFieldResponse> UpdateTicketFieldAsync(TicketField ticketField);
+		Task<bool> DeleteTicketFieldAsync(long id);
+		Task<GroupSuspendedTicketResponse> GetSuspendedTicketsAsync();
+		Task<IndividualSuspendedTicketResponse> GetSuspendedTicketByIdAsync(long id);
+		Task<bool> RecoverSuspendedTicketAsync(long id);
+		Task<bool> RecoverManySuspendedTicketsAsync(IEnumerable<long> ids);
+		Task<bool> DeleteSuspendedTicketsAsync(long id);
+		Task<bool> DeleteManySuspendedTicketsAsync(IEnumerable<long> ids);
+		Task<GroupTicketFormResponse> GetTicketFormsAsync();
+		Task<IndividualTicketFormResponse> CreateTicketFormAsync(TicketForm ticketForm);
+		Task<IndividualTicketFormResponse> GetTicketFormByIdAsync(long id);
+		Task<IndividualTicketFormResponse> UpdateTicketFormAsync(TicketForm ticketForm);
+		Task<bool> ReorderTicketFormsAsync(long[] orderedTicketFormIds);
+		Task<IndividualTicketFormResponse> CloneTicketFormAsync(long ticketFormId);
+		Task<bool> DeleteTicketFormAsync(long id);
+		Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync();
+		Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id);
+#endif
+	}
+
+	public class Tickets : Core, ITickets
+	{
         private const string _tickets = "tickets";
         private const string _ticket_forms = "ticket_forms";
         private const string _views = "views";

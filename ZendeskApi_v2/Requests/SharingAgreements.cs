@@ -5,8 +5,19 @@ using ZendeskApi_v2.Models.SharingAgreements;
 
 namespace ZendeskApi_v2.Requests
 {
-    public class SharingAgreements : Core
-    {
+	public interface ISharingAgreements : ICore
+	{
+#if SYNC
+		GroupSharingAgreementResponse GetSharingAgreements();
+#endif
+
+#if ASYNC
+		Task<GroupSharingAgreementResponse> GetSharingAgreementsAsync();
+#endif
+	}
+
+	public class SharingAgreements : Core, ISharingAgreements
+	{
 
         public SharingAgreements(string yourZendeskUrl, string user, string password, string apiToken)
             : base(yourZendeskUrl, user, password, apiToken)
