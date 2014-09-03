@@ -9,7 +9,7 @@ namespace ZendeskApi_v2.Models.Tickets
         /// See ZendeskApi.LocaleValue for more info
         /// </summary>
         [JsonProperty("locale_id")]
-        public long LocaleId { get; set; }
+        public long? LocaleId { get; set; }
 
         /// <summary>
         /// If the email already exists in the system this is optional
