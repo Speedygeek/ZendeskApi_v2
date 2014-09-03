@@ -51,7 +51,7 @@ namespace ZendeskApi_v2.Models.Tickets
         /// This is for getting the Ids only
         /// </summary>
         [JsonProperty("collaborator_ids")]
-        public IList<long> CollaboratorIds { get; internal set; }
+        public IList<long> CollaboratorIds { get; set; }
 
         /// <summary>
         /// This is used only to update tickets and will not be returned.

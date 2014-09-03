@@ -223,7 +223,8 @@ namespace Tests
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Settings.UserId;
 
-            res.CollaboratorEmails = new List<string>(){ Settings.ColloboratorEmail};
+            //res.CollaboratorEmails = new List<string>(){ Settings.ColloboratorEmail};
+            res.CollaboratorIds.Add(Settings.CollaboratorId);
             var body = "got it thanks";
 
             res.CustomFields[0].Value = "updated";
@@ -232,6 +233,7 @@ namespace Tests
 
             Assert.NotNull(updateResponse);
             Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
+            Assert.Greater(updateResponse.Ticket.CollaboratorIds.Count, 0);
             
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }
@@ -377,7 +379,7 @@ namespace Tests
             var res = api.Tickets.GetCollaborators(Settings.SampleTicketId);
             Assert.Greater(res.Users.Count, 0);
         }
-
+       
         [Test]
         public void CanGetIncidents()
         {
