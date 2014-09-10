@@ -18,6 +18,15 @@ namespace ZendeskApi_v2.Requests
 		IndividualSectionResponse UpdateSection(Section section);
 		bool DeleteSection(long id);
 #endif
+
+#if ASYNC
+		Task<GroupSectionResponse> GetSectionsAsync();
+		Task<GroupSectionResponse> GetSectionsByCategoryIdAsync(long categoryId);
+		Task<IndividualSectionResponse> GetSectionByIdAsync(long id);
+		Task<IndividualSectionResponse> CreateSectionAsync(Section section);
+		Task<IndividualSectionResponse> UpdateSectionAsync(Section section);
+		Task<bool> DeleteSectionAsync(long id);
+#endif
 	}
 
 	public class Sections : Core, ISections
@@ -58,6 +67,42 @@ namespace ZendeskApi_v2.Requests
         {
 			return GenericDelete(string.Format("help_center/sections/{0}.json", id));
         }
+
+#endif
+
+#if ASYNC
+
+		public async Task<GroupSectionResponse> GetSectionsAsync()
+		{
+			return await GenericGetAsync<GroupSectionResponse>("help_center/sections.json");
+		}
+
+		public async Task<GroupSectionResponse> GetSectionsByCategoryIdAsync(long categoryId)
+		{
+			return await GenericGetAsync<GroupSectionResponse>(string.Format("help_center/categories/{0}/sections.json", categoryId));
+		}
+
+		public async Task<IndividualSectionResponse> GetSectionByIdAsync(long id)
+		{
+			return await GenericGetAsync<IndividualSectionResponse>(string.Format("help_center/sections/{0}.json", id));
+		}
+
+		public async Task<IndividualSectionResponse> CreateSectionAsync(Section section)
+		{
+			var body = new { section };
+			return await GenericPostAsync<IndividualSectionResponse>(string.Format("help_center/sections.json"), body);
+		}
+
+		public async Task<IndividualSectionResponse> UpdateSectionAsync(Section section)
+		{
+			var body = new { section };
+			return await GenericPutAsync<IndividualSectionResponse>(string.Format("help_center/sections/{0}.json", section.Id), body);
+		}
+
+		public async Task<bool> DeleteSectionAsync(long id)
+		{
+			return await GenericDeleteAsync(string.Format("help_center/sections/{0}.json", id));
+		}
 
 #endif
 	}
