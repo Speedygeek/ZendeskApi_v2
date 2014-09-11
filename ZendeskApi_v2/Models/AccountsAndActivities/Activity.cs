@@ -1,7 +1,9 @@
 ﻿// JSON C# Class Generator
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
+using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 namespace ZendeskApi_v2.Models.AccountsAndActivities
@@ -29,9 +31,11 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
         public ZendeskApi_v2.Models.Users.User Actor { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-        public string UpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Shared
 {
@@ -12,7 +14,8 @@ namespace ZendeskApi_v2.Models.Shared
         public string TicketId { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
 
         [JsonProperty("author_id")]
         public long AuthorId { get; set; }

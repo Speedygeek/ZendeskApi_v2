@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Models.Tickets
 {    
     public class Ticket : BaseTicket
     {
-        
-
         [JsonProperty("external_id")]
         public object ExternalId { get; set; }             
 
@@ -70,7 +70,8 @@ namespace ZendeskApi_v2.Models.Tickets
         public bool? HasIncidents { get; set; }
 
         [JsonProperty("due_at")]
-        public string? DueAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? DueAt { get; set; }
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
