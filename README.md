@@ -3,7 +3,7 @@ Zendesk Api V2
 
 This is a full c# wrapper for Zendesk's api v2. http://developer.zendesk.com/documentation/rest_api/introduction.html
 
-Here are some examples of things you might want to do, but for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
+I am sorry to say but I will no longer be able to support ths api but here are some examples of things you might want to do, for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
 
 This code is released under the [Apache Version 2 License](http://www.apache.org/licenses/LICENSE-2.0.html).
 
