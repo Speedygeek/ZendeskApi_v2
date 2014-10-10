@@ -82,6 +82,9 @@
     <Compile Include="Models\Groups\IndividualGroupResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupMembershipResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupResponse.cs" />
+    <Compile Include="Models\HelpCenter\Categories\Category.cs" />
+    <Compile Include="Models\HelpCenter\Categories\GroupCategoryResponse.cs" />
+    <Compile Include="Models\HelpCenter\Categories\IndividualCategoryResponse.cs" />
     <Compile Include="Models\Locales\GroupLocaleResponse.cs" />
     <Compile Include="Models\Locales\IndividualLocaleResponse.cs" />
     <Compile Include="Models\Locales\Locale.cs" />
@@ -224,6 +227,7 @@
     <Compile Include="Requests\CustomAgentRoles.cs" />
     <Compile Include="Requests\Forums.cs" />
     <Compile Include="Requests\Groups.cs" />
+    <Compile Include="Requests\HelpCenter\Categories.cs" />
     <Compile Include="Requests\JobStatuses.cs" />
     <Compile Include="Requests\Locales.cs" />
     <Compile Include="Requests\Macros.cs" />
@@ -249,6 +253,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
