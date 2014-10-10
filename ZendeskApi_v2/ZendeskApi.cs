@@ -23,7 +23,7 @@ namespace ZendeskApi_v2
 		ISearch Search { get; }
 		ITags Tags { get; }
 		IForums Forums { get; }
-		ZendeskApi_v2.Requests.ICategories Categories { get; }
+		ICategories Categories { get; }
 		ITopics Topics { get; }
 		IAccountsAndActivity AccountsAndActivity { get; }
 		IJobStatuses JobStatuses { get; }
@@ -50,7 +50,7 @@ namespace ZendeskApi_v2
 		public ISearch Search { get; set; }
 		public ITags Tags { get; set; }
 		public IForums Forums { get; set; }
-		public ZendeskApi_v2.Requests.ICategories Categories { get; set; }
+		public ICategories Categories { get; set; }
 		public ITopics Topics { get; set; }
 		public IAccountsAndActivity AccountsAndActivity { get; set; }
 		public IJobStatuses JobStatuses { get; set; }
@@ -101,7 +101,7 @@ namespace ZendeskApi_v2
         }
 
 #if SYNC
-                /// <summary>
+        /// <summary>
         /// Constructor that takes 3 params.
         /// </summary>
         /// <param name="proxy"></param>
