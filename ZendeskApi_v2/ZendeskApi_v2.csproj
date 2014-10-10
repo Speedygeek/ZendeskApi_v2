@@ -57,6 +57,9 @@
     <Compile Include="Models\AccountsAndActivities\Actor.cs" />
     <Compile Include="Models\AccountsAndActivities\GroupActivityResponse.cs" />
     <Compile Include="Models\AccountsAndActivities\IndividualActivityResponse.cs" />
+    <Compile Include="Models\Articles\Article.cs" />
+    <Compile Include="Models\Articles\GroupArticleResponse.cs" />
+    <Compile Include="Models\Articles\IndividualArticleResponse.cs" />
     <Compile Include="Models\Categories\Category.cs" />
     <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
@@ -67,6 +70,7 @@
     <Compile Include="Models\Constants\UserIdentityTypes.cs" />
     <Compile Include="Models\Constants\UserRoles.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
+    <Compile Include="Models\Constants\Visibility.cs" />
     <Compile Include="Models\CustomRoles\Configuration.cs" />
     <Compile Include="Models\CustomRoles\CustomRole.cs" />
     <Compile Include="Models\CustomRoles\CustomRoles.cs" />
@@ -96,6 +100,9 @@
     <Compile Include="Models\Macros\Macro.cs" />
     <Compile Include="Models\Macros\Restriction.cs" />
     <Compile Include="Models\Macros\Result.cs" />
+    <Compile Include="Models\Sections\GroupSectionResponse.cs" />
+    <Compile Include="Models\Sections\IndividualSectionResponse.cs" />
+    <Compile Include="Models\Sections\Section.cs" />
     <Compile Include="Models\Tickets\GroupTicketMetricResponse.cs" />
     <Compile Include="Models\Tickets\IndividualTicketMetricResponse.cs" />
     <Compile Include="Models\Tickets\TimeSpanMetric.cs" />
@@ -223,6 +230,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="RequestResult.cs" />
+    <Compile Include="Requests\HelpCenter\Articles.cs" />
     <Compile Include="Requests\Attachments.cs" />
     <Compile Include="Requests\Categories.cs" />
     <Compile Include="Requests\CustomAgentRoles.cs" />
@@ -237,6 +245,7 @@
     <Compile Include="Requests\SatisfactionRatings.cs" />
     <Compile Include="Requests\Search.cs" />
     <Compile Include="Requests\AccountsAndActivity.cs" />
+    <Compile Include="Requests\HelpCenter\Sections.cs" />
     <Compile Include="Requests\SharingAgreements.cs" />
     <Compile Include="Requests\Tags.cs" />
     <Compile Include="Requests\Topics.cs" />

@@ -1,5 +1,5 @@
 ﻿using System;
-using ZendeskApi_v2.Requests;
+using ZendeskApi_v2.Requests; 
 using System.Net;
 using ZendeskApi_v2.HelpCenter;
 
@@ -32,7 +32,7 @@ namespace ZendeskApi_v2
 		ISatisfactionRatings SatisfactionRatings { get; }
 		ISharingAgreements SharingAgreements { get; }
 		ITriggers Triggers { get; }
-      IHelpCenterApi HelpCenterApi { get; }
+        IHelpCenterApi HelpCenter { get; }
 
 		string ZendeskUrl { get; }
 	}
@@ -59,7 +59,7 @@ namespace ZendeskApi_v2
 		public ISatisfactionRatings SatisfactionRatings { get; set; }
 		public ISharingAgreements SharingAgreements { get; set; }
 		public ITriggers Triggers { get; set; }
-      public IHelpCenterApi HelpCenterApi { get; set; }
+        public IHelpCenterApi HelpCenter { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -86,7 +86,7 @@ namespace ZendeskApi_v2
             Search = new Search(formattedUrl, user, password, apiToken);
             Tags = new Tags(formattedUrl, user, password, apiToken);
             Forums = new Forums(formattedUrl, user, password, apiToken);
-            Categories = new ZendeskApi_v2.Requests.Categories(formattedUrl, user, password, apiToken);
+            Categories = new Categories(formattedUrl, user, password, apiToken);
             Topics = new Topics(formattedUrl, user, password, apiToken);
             AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken);
             JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken);
@@ -95,7 +95,7 @@ namespace ZendeskApi_v2
             SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken);
             SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken);
             Triggers = new Triggers(formattedUrl, user, password, apiToken);
-            HelpCenterApi = new HelpCenterApi(formattedUrl, user, password, apiToken, locale);
+            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale);
 
             ZendeskUrl = formattedUrl;
         }
