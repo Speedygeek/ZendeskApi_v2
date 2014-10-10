@@ -2,7 +2,7 @@
 #if ASYNC
 using System.Threading.Tasks;
 #endif
-using ZendeskApi_v2.Models.Groups;
+using System;
 
 namespace ZendeskApi_v2.Requests.HelpCenter
 {
@@ -27,9 +27,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
     public class Categories : Core, ICategories
     {
-        public Categories(string yourZendeskUrl, string user, string password, string apiToken)
+        private string Locale { get; set; }
+
+        public Categories(string yourZendeskUrl, string user, string password, string apiToken, string locale)
             : base(yourZendeskUrl, user, password, apiToken)
         {
+            Locale = locale;
         }
 
 #if SYNC
@@ -45,8 +48,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public IndividualCategoryResponse CreateCategory(Category category)
         {
+            if (String.IsNullOrEmpty(category.Locale))
+                category.Locale = Locale;
             var body = new { category };
-            return GenericPost<IndividualCategoryResponse>(string.Format("help_center/categories.json"), body);
+
+            return GenericPost<IndividualCategoryResponse>("help_center/categories.json", body);
         }
 
         public IndividualCategoryResponse UpdateCategory(Category category)

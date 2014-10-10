@@ -70,6 +70,7 @@
     <Compile Include="CustomRolesTests.cs" />
     <Compile Include="ForumTests.cs" />
     <Compile Include="GroupTests.cs" />
+    <Compile Include="HelpCenter\CategoryTests.cs" />
     <Compile Include="JobStatusTests.cs" />
     <Compile Include="LocaleTests.cs" />
     <Compile Include="MacroTests.cs" />

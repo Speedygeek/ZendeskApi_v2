@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Text;
-using ZendeskApi_v2.Requests; 
+using ZendeskApi_v2.Requests;
 using System.Net;
+using ZendeskApi_v2.HelpCenter;
 
 #if Net35 
 using System.Web;
@@ -23,7 +23,7 @@ namespace ZendeskApi_v2
 		ISearch Search { get; }
 		ITags Tags { get; }
 		IForums Forums { get; }
-		ICategories Categories { get; }
+		ZendeskApi_v2.Requests.ICategories Categories { get; }
 		ITopics Topics { get; }
 		IAccountsAndActivity AccountsAndActivity { get; }
 		IJobStatuses JobStatuses { get; }
@@ -32,6 +32,7 @@ namespace ZendeskApi_v2
 		ISatisfactionRatings SatisfactionRatings { get; }
 		ISharingAgreements SharingAgreements { get; }
 		ITriggers Triggers { get; }
+      IHelpCenterApi HelpCenterApi { get; }
 
 		string ZendeskUrl { get; }
 	}
@@ -49,7 +50,7 @@ namespace ZendeskApi_v2
 		public ISearch Search { get; set; }
 		public ITags Tags { get; set; }
 		public IForums Forums { get; set; }
-		public ICategories Categories { get; set; }
+		public ZendeskApi_v2.Requests.ICategories Categories { get; set; }
 		public ITopics Topics { get; set; }
 		public IAccountsAndActivity AccountsAndActivity { get; set; }
 		public IJobStatuses JobStatuses { get; set; }
@@ -58,6 +59,7 @@ namespace ZendeskApi_v2
 		public ISatisfactionRatings SatisfactionRatings { get; set; }
 		public ISharingAgreements SharingAgreements { get; set; }
 		public ITriggers Triggers { get; set; }
+      public IHelpCenterApi HelpCenterApi { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -68,7 +70,8 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="")
+        /// <param name="locale">Optional param which designates the locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
+        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="", string locale="en-us")
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
             
@@ -83,7 +86,7 @@ namespace ZendeskApi_v2
             Search = new Search(formattedUrl, user, password, apiToken);
             Tags = new Tags(formattedUrl, user, password, apiToken);
             Forums = new Forums(formattedUrl, user, password, apiToken);
-            Categories = new Categories(formattedUrl, user, password, apiToken);
+            Categories = new ZendeskApi_v2.Requests.Categories(formattedUrl, user, password, apiToken);
             Topics = new Topics(formattedUrl, user, password, apiToken);
             AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken);
             JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken);
@@ -92,6 +95,7 @@ namespace ZendeskApi_v2
             SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken);
             SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken);
             Triggers = new Triggers(formattedUrl, user, password, apiToken);
+            HelpCenterApi = new HelpCenterApi(formattedUrl, user, password, apiToken, locale);
 
             ZendeskUrl = formattedUrl;
         }
@@ -120,7 +124,7 @@ namespace ZendeskApi_v2
 			((Search)Search).Proxy = proxy;
 			((Tags)Tags).Proxy = proxy;
 			((Forums)Forums).Proxy = proxy;
-			((Categories)Categories).Proxy = proxy;
+			((ZendeskApi_v2.Requests.Categories)Categories).Proxy = proxy;
 			((Topics)Topics).Proxy = proxy;
 			((AccountsAndActivity)AccountsAndActivity).Proxy = proxy;
 			((JobStatuses)JobStatuses).Proxy = proxy;

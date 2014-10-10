@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RequestExtensions.cs" />
+    <Compile Include="HelpCenterApi.cs" />
     <Compile Include="Models\AccountsAndActivities\Activity.cs" />
     <Compile Include="Models\AccountsAndActivities\Actor.cs" />
     <Compile Include="Models\AccountsAndActivities\GroupActivityResponse.cs" />
