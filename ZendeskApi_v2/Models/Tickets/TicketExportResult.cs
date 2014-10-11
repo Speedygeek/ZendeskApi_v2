@@ -1,6 +1,4 @@
-using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -53,16 +51,13 @@ namespace ZendeskApi_v2.Models.Tickets
         public string TicketType { get; set; }
 
         [JsonProperty("created_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public string UpdatedAt { get; set; }
 
         [JsonProperty("assigned_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? AssignedAt { get; set; }
+        public string AssignedAt { get; set; }
 
         [JsonProperty("organization_name")]
         public string OrganizationName { get; set; }
@@ -71,12 +66,10 @@ namespace ZendeskApi_v2.Models.Tickets
         public object DueDate { get; set; }
 
         [JsonProperty("initially_assigned_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? InitiallyAssignedAt { get; set; }
+        public string InitiallyAssignedAt { get; set; }
 
         [JsonProperty("solved_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? SolvedAt { get; set; }
+        public string SolvedAt { get; set; }
 
         [JsonProperty("resolution_time")]
         public string ResolutionTime { get; set; }

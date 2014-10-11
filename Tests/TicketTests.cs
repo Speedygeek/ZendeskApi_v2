@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
@@ -484,7 +486,7 @@ namespace Tests
 
         [Test]
         public  void CanGetInrementalTicketExport()
-        {
+        {            
             var res = api.Tickets.__TestOnly__GetInrementalTicketExport(DateTime.Now.AddDays(-1));
             Assert.True(res.Results.Count > 0);
         }
