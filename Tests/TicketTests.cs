@@ -220,6 +220,9 @@ namespace Tests
             Assert.NotNull(res);
             Assert.Greater(res.Id, 0);
 
+            Assert.AreEqual(res.CreatedAt, res.UpdatedAt);
+            Assert.LessOrEqual(res.CreatedAt - DateTimeOffset.UtcNow, TimeSpan.FromMinutes (1.0));
+
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Settings.UserId;
 
@@ -234,6 +237,7 @@ namespace Tests
             Assert.NotNull(updateResponse);
             Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
             Assert.Greater(updateResponse.Ticket.CollaboratorIds.Count, 0);
+            Assert.GreaterOrEqual(updateResponse.Ticket.UpdatedAt, updateResponse.Ticket.CreatedAt);
             
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }
@@ -260,6 +264,28 @@ namespace Tests
 
             Assert.NotNull(res);
             Assert.AreEqual(res.RequesterId, Settings.CollaboratorId);
+
+            Assert.True(api.Tickets.Delete(res.Id.Value));
+        }
+
+        [Test]
+        public void CanCreateTicketWithDueDate()
+        {
+            var dueAt = DateTimeOffset.UtcNow;
+
+            var ticket = new Ticket()
+            {
+                Subject = "ticket with due date",
+                Comment = new Comment() { Body = "test comment" },
+                Type = "task",
+                Priority = TicketPriorities.Normal,
+                DueAt = DateTimeOffset.UtcNow
+            };
+
+            var res = api.Tickets.CreateTicket(ticket).Ticket;
+
+            Assert.NotNull(res);
+            Assert.AreEqual(dueAt.ToString(), res.DueAt.ToString());
 
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }

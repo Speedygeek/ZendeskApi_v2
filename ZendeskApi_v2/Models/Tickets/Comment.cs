@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Models.Tickets
@@ -43,7 +45,8 @@ namespace ZendeskApi_v2.Models.Tickets
         public MetaData MetaData { get; private set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
 
     }
 

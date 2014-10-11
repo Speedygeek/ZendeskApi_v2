@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using ZendeskApi_v2.Models.Shared;
 
@@ -60,10 +61,12 @@ namespace ZendeskApi_v2.Models.Topics
         public int CommentsCount { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-        public string UpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? UpdatedAt { get; set; }
         
         /// <summary>
         /// Used for uploading Topics only

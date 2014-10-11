@@ -1,4 +1,6 @@
+using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -42,25 +44,31 @@ namespace ZendeskApi_v2.Models.Tickets
         public string TicketType { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-        public string UpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("assigned_at")]
-        public string AssignedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? AssignedAt { get; set; }
 
         [JsonProperty("organization_name")]
         public string OrganizationName { get; set; }
 
         [JsonProperty("due_date")]
-        public string DueDate { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? DueDate { get; set; }
 
         [JsonProperty("initially_assigned_at")]
-        public string InitiallyAssignedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? InitiallyAssignedAt { get; set; }
 
         [JsonProperty("solved_at")]
-        public string SolvedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? SolvedAt { get; set; }
 
         [JsonProperty("resolution_time")]
         public string ResolutionTime { get; set; }

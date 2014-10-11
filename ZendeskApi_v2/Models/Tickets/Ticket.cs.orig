@@ -70,8 +70,12 @@ namespace ZendeskApi_v2.Models.Tickets
         public bool? HasIncidents { get; set; }
 
         [JsonProperty("due_at")]
+<<<<<<< HEAD
+        public string DueAt { get; set; }
+=======
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? DueAt { get; set; }
+>>>>>>> datetimeoffset/master
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }

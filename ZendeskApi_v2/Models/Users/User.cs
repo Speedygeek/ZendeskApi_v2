@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Users
 {
@@ -24,10 +25,12 @@ namespace ZendeskApi_v2.Models.Users
         public string Alias { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+		[JsonConverter(typeof(IsoDateTimeConverter))]
+                public DateTimeOffset? CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-        public string UpdatedAt { get; set; }
+		[JsonConverter(typeof(IsoDateTimeConverter))]
+                public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("active")]
         public bool? Active { get; set; }
@@ -45,7 +48,8 @@ namespace ZendeskApi_v2.Models.Users
         public string TimeZone { get; set; }
 
         [JsonProperty("last_login_at")]
-        public string LastLoginAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? LastLoginAt { get; set; }
 
         [JsonProperty("email")]
         public string Email { get; set; }
