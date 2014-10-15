@@ -140,7 +140,7 @@ namespace ZendeskApi_v2
         protected bool GenericDelete(string resource)
         {
             var res = RunRequest(resource, "DELETE");
-            return res.HttpStatusCode == HttpStatusCode.OK;            
+            return res.HttpStatusCode == HttpStatusCode.OK || res.HttpStatusCode == HttpStatusCode.NoContent;
         }
         
         protected T GenericPost<T>(string resource, object body=null)
@@ -267,7 +267,7 @@ namespace ZendeskApi_v2
         protected async Task<bool> GenericDeleteAsync(string resource)
         {
             var res = RunRequestAsync(resource, "DELETE");
-            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
+            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK || x.Result.HttpStatusCode == HttpStatusCode.NoContent);
         }
 
         protected async Task<T> GenericPostAsync<T>(string resource, object body = null)
