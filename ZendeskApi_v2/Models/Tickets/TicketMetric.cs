@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -20,25 +22,32 @@ namespace ZendeskApi_v2.Models.Tickets
         public long? Replies { get; set; }
 
         [JsonProperty("assignee_updated_at")]
-        public string AssigneeUpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? AssigneeUpdatedAt { get; set; }
 
         [JsonProperty("requester_updated_at")]
-        public string RequesterUpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? RequesterUpdatedAt { get; set; }
 
         [JsonProperty("status_updated_at")]
-        public string StatusUpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? StatusUpdatedAt { get; set; }
 
         [JsonProperty("initially_assigned_at")]
-        public string InitiallyAssignedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? InitiallyAssignedAt { get; set; }
 
         [JsonProperty("assigned_at")]
-        public string AssignedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? AssignedAt { get; set; }
 
         [JsonProperty("solved_at")]
-        public string SolvedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? SolvedAt { get; set; }
 
         [JsonProperty("latest_comment_added_at")]
-        public string LatestCommentAddedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? LatestCommentAddedAt { get; set; }
 
         [JsonProperty("first_resolution_time_in_minutes")]
         public TimeSpanMetric FirstResolutionTimeInMinutes { get; set; }
