@@ -534,6 +534,77 @@ namespace Tests
         }
 
         [Test]
+        public void CanCreateUpdateOptionsAndDeleteTaggerTicketField()
+        {
+            var tField = new TicketField()
+            {
+                Type = TicketFieldTypes.Tagger,
+                Title = "My Tagger 2",
+                Description = "test description",
+                TitleInPortal = "Test Tagger",
+                CustomFieldOptions = new List<CustomFieldOptions>()
+            };
+
+            tField.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryA",
+                Value = "test_valueA"
+            });
+
+            tField.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryB",
+                Value = "test_valueB"
+            });
+
+            var res = api.Tickets.CreateTicketField(tField);
+            Assert.NotNull(res.TicketField);
+            Assert.NotNull(res.TicketField.Id);
+            Assert.AreEqual(res.TicketField.CustomFieldOptions.Count, 2);
+            Assert.NotNull(res.TicketField.CustomFieldOptions[0].Id);
+            Assert.NotNull(res.TicketField.CustomFieldOptions[1].Id);
+
+            long id = res.TicketField.Id.Value;
+            long idCfoA = res.TicketField.CustomFieldOptions[0].Id.Value;
+            long idCfoB = res.TicketField.CustomFieldOptions[1].Id.Value;
+
+            /* https://developer.zendesk.com/rest_api/docs/core/ticket_fields#updating-a-dropdown-tagger-field
+             * All options must be passed on update. Options that are not passed will be removed; as a result, these values will be removed from any tickets or macros.
+             * To create a new option, pass a null id along with name and value.
+             * To update an existing option, pass its id along with name and value.
+             * To remove an option, omit it from the list of options upon update.
+             */
+            var tFieldU = new TicketField()
+            {
+                Id = id,
+                CustomFieldOptions = new List<CustomFieldOptions>()
+            };
+
+            //update CustomFieldOption A
+            tFieldU.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Id = idCfoA,
+                Name = "test entryA newTitle",
+                Value = "test_valueA_newTag"
+            });
+            //delete CustomFieldOption B
+            //add CustomFieldOption C
+            tFieldU.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryC",
+                Value = "test_valueC"
+            });
+
+            var resU = api.Tickets.UpdateTicketField(tFieldU);
+
+            Assert.AreEqual(resU.TicketField.CustomFieldOptions.Count, 2);
+            Assert.AreEqual(resU.TicketField.CustomFieldOptions[0].Id, idCfoA);
+            Assert.AreNotEqual(resU.TicketField.CustomFieldOptions[1].Id, idCfoB);
+
+            Assert.True(api.Tickets.DeleteTicketField(id));
+        }
+
+        [Test]
         public void CanGetSuspendedTickets()
         {
             var all = api.Tickets.GetSuspendedTickets();

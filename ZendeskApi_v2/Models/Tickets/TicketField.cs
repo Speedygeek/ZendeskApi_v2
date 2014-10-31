@@ -70,6 +70,9 @@ namespace ZendeskApi_v2.Models.Tickets
 
     public  class CustomFieldOptions
     {
+        [JsonProperty("id")]
+        public long? Id{ get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 
