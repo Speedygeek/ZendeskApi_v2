@@ -6,9 +6,9 @@ namespace ZendeskApi_v2.Models.Tickets
     {
 
         [JsonProperty("calendar")]
-        public int Calendar { get; set; }
+        public int? Calendar { get; set; }
 
         [JsonProperty("business")]
-        public int Business { get; set; }
+        public int? Business { get; set; }
     }
 }

@@ -104,7 +104,7 @@ namespace ZendeskApi_v2.Requests
             var reader = new StreamReader(dataStream);
             string responseFromServer = reader.ReadToEnd();
             dataStream.Dispose();
-            response.Dispose();
+            response.Close();
 
             return responseFromServer.ConvertToObject<UploadResult>().Upload;
         }     
