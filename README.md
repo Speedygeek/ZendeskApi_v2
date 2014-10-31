@@ -7,13 +7,13 @@ I am sorry to say but I will no longer be able to support ths api but here are s
 
 This code is released under the [Apache Version 2 License](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-Nov 2014 Help Center Api
---------------
-That to PeteAllen there is now HelpCenter Support for the Api! You can find out more [here](https://github.com/eneifert/ZendeskApi_v2/pull/107)
-
-Nov 2014 Dates now use DateTimeOffset
+Nov 2014 Possible Breaking Changes: Dates now use DateTimeOffset instead of string
 --------------
 Please look at [this pull request](https://github.com/eneifert/ZendeskApi_v2/pull/101) for more information.
+
+Nov 2014 Help Center Api
+--------------
+Thanks to [PeteAllen](https://github.com/peteallen) there is now HelpCenter Support for the Api! You can find out more [here](https://github.com/eneifert/ZendeskApi_v2/pull/107)
 
 FEB 2014 - Ticket Description Changes
 --------------
