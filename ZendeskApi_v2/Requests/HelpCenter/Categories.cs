@@ -1,4 +1,5 @@
-﻿using ZendeskApi_v2.Models.HelpCenter.Categories;
+﻿
+using ZendeskApi_v2.Models.HelpCenter.Categories;
 #if ASYNC
 using System.Threading.Tasks;
 #endif

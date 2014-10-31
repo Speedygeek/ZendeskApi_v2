@@ -1,5 +1,7 @@
 ﻿using System;
+#if ASYNC
 using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Articles;
 

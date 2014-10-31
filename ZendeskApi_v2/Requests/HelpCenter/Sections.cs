@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if ASYNC
 using System.Threading.Tasks;
+#endif
 using ZendeskApi_v2.Models.Sections;
 
 
