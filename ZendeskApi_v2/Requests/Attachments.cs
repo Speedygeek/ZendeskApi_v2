@@ -97,12 +97,14 @@ namespace ZendeskApi_v2.Requests
             //req.AuthenticationLevel = System.Net.Security.AuthenticationLevel.MutualAuthRequired;
             var dataStream = req.GetRequestStream();
             dataStream.Write(file.FileData, 0, file.FileData.Length);
-            dataStream.Close();
+            dataStream.Dispose();
 
             WebResponse response = req.GetResponse();
             dataStream = response.GetResponseStream();
             var reader = new StreamReader(dataStream);
             string responseFromServer = reader.ReadToEnd();
+            dataStream.Dispose();
+            response.Close();
 
             return responseFromServer.ConvertToObject<UploadResult>().Upload;
         }     
