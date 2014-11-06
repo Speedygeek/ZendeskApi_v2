@@ -15,7 +15,8 @@ namespace ZendeskApi_v2.Requests
 	public interface IAttachments : ICore
 	{
 #if SYNC
-		Upload UploadAttachment(ZenFile file);
+        Upload UploadAttachment(ZenFile file);
+        Upload UploadAttachment(ZenFile file, int? timeout);
 		Upload UploadAttachments(IEnumerable<ZenFile> files);
 #endif
 		
@@ -42,7 +43,12 @@ namespace ZendeskApi_v2.Requests
 #if SYNC
         public Upload UploadAttachment(ZenFile file)
         {
-            return UploadAttachment(file, "");
+            return UploadAttachment(file, "", null);
+        }
+
+        public Upload UploadAttachment(ZenFile file, int? timeout)
+        {
+            return UploadAttachment(file, "", timeout);
         }
 
         public Upload UploadAttachments(IEnumerable<ZenFile> files)
@@ -56,7 +62,7 @@ namespace ZendeskApi_v2.Requests
             {
                 var otherFiles = files.Skip(1);
                 foreach (var curFile in otherFiles)
-                    res = UploadAttachment(curFile, res.Token);
+                    res = UploadAttachment(curFile, res.Token, null);
             }
 
             return res;
@@ -68,8 +74,9 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="file"></param>
         /// <param name="token"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>       
-        Upload UploadAttachment(ZenFile file, string token = "")
+        Upload UploadAttachment(ZenFile file, string token, int? timeout)
         {
             var requestUrl = ZendeskUrl;
             if (!requestUrl.EndsWith("/"))
@@ -84,6 +91,11 @@ namespace ZendeskApi_v2.Requests
             req.Method = "POST";
             req.ContentLength = file.FileData.Length;
             req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+
+            //If timeout has value set a specific Timeout in the WebRequest
+            if (timeout.HasValue)
+                req.Timeout = timeout.Value;
+            
             //var credentials = new System.Net.CredentialCache
             //                      {
             //                          {
@@ -194,5 +206,7 @@ namespace ZendeskApi_v2.Requests
             }
         }
 #endif
+
+
     }
 }
