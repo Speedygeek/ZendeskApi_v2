@@ -52,7 +52,7 @@ namespace ZendeskApi_v2.Models.Organizations
         public bool SharedComments { get; set; }
 
         [JsonProperty("tags")]
-        public IList<object> Tags { get; set; }
+        public IList<string> Tags { get; set; }
 
         [JsonProperty("organization_fields")]
         public IDictionary<string, string> OrganizationFields { get; set; }
