@@ -44,6 +44,9 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("updated_at")]
         public string UpdatedAt { get; set; }
 
+        [JsonProperty("requester_id")]
+        public long? RequesterId { get; set; }
+
         /// <summary>
         /// This is used for updates only
         /// </summary>
