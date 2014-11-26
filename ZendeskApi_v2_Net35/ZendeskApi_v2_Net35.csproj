@@ -51,6 +51,9 @@
     <Compile Include="..\ZendeskApi_v2\Extensions\RequestExtensions.cs">
       <Link>Extensions\RequestExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\HelpCenterApi.cs">
+      <Link>HelpCenterApi.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\AccountsAndActivities\Activity.cs">
       <Link>Models\AccountsAndActivities\Activity.cs</Link>
     </Compile>
@@ -98,6 +101,15 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\AccountsAndActivities\Voice.cs">
       <Link>Models\AccountsAndActivities\Voice.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Articles\Article.cs">
+      <Link>Models\Articles\Article.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Articles\GroupArticleResponse.cs">
+      <Link>Models\Articles\GroupArticleResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Articles\IndividualArticleResponse.cs">
+      <Link>Models\Articles\IndividualArticleResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Categories\Category.cs">
       <Link>Models\Categories\Category.cs</Link>
@@ -186,6 +198,15 @@
     <Compile Include="..\ZendeskApi_v2\Models\Groups\MultipleGroupResponse.cs">
       <Link>Models\Groups\MultipleGroupResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Categories\Category.cs">
+      <Link>Models\HelpCenter\Categories\Category.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Categories\GroupCategoryResponse.cs">
+      <Link>Models\HelpCenter\Categories\GroupCategoryResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Categories\IndividualCategoryResponse.cs">
+      <Link>Models\HelpCenter\Categories\IndividualCategoryResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Locales\GroupLocaleResponse.cs">
       <Link>Models\Locales\GroupLocaleResponse.cs</Link>
     </Compile>
@@ -254,6 +275,15 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Search\SearchResults.cs">
       <Link>Models\Search\SearchResults.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Sections\GroupSectionResponse.cs">
+      <Link>Models\Sections\GroupSectionResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Sections\IndividualSectionResponse.cs">
+      <Link>Models\Sections\IndividualSectionResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Sections\Section.cs">
+      <Link>Models\Sections\Section.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Shared\Attachment.cs">
       <Link>Models\Shared\Attachment.cs</Link>
@@ -578,6 +608,15 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\Groups.cs">
       <Link>Requests\Groups.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Articles.cs">
+      <Link>Requests\HelpCenter\Articles.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Categories.cs">
+      <Link>Requests\HelpCenter\Categories.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Sections.cs">
+      <Link>Requests\HelpCenter\Sections.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\JobStatuses.cs">
       <Link>Requests\JobStatuses.cs</Link>

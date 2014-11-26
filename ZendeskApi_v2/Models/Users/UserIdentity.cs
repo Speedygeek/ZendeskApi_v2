@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.Users
@@ -31,9 +32,11 @@ namespace ZendeskApi_v2.Models.Users
         public bool Primary { get; set; }
 
         [JsonProperty("updated_at")]
-        public string UpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
     }
 }

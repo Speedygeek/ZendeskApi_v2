@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.SharingAgreements
@@ -27,6 +28,7 @@ namespace ZendeskApi_v2.Models.SharingAgreements
         public string Status { get; set; }
 
         [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
     }
 }

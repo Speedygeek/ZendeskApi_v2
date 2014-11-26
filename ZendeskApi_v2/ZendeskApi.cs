@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Text;
 using ZendeskApi_v2.Requests; 
 using System.Net;
+using ZendeskApi_v2.HelpCenter;
 
 #if Net35 
 using System.Web;
@@ -32,6 +32,7 @@ namespace ZendeskApi_v2
 		ISatisfactionRatings SatisfactionRatings { get; }
 		ISharingAgreements SharingAgreements { get; }
 		ITriggers Triggers { get; }
+        IHelpCenterApi HelpCenter { get; }
 
 		string ZendeskUrl { get; }
 	}
@@ -58,6 +59,7 @@ namespace ZendeskApi_v2
 		public ISatisfactionRatings SatisfactionRatings { get; set; }
 		public ISharingAgreements SharingAgreements { get; set; }
 		public ITriggers Triggers { get; set; }
+        public IHelpCenterApi HelpCenter { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -68,7 +70,8 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="")
+        /// <param name="locale">Optional param which designates the locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
+        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="", string locale="en-us")
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
             
@@ -92,12 +95,13 @@ namespace ZendeskApi_v2
             SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken);
             SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken);
             Triggers = new Triggers(formattedUrl, user, password, apiToken);
+            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale);
 
             ZendeskUrl = formattedUrl;
         }
 
 #if SYNC
-                /// <summary>
+        /// <summary>
         /// Constructor that takes 3 params.
         /// </summary>
         /// <param name="proxy"></param>
@@ -120,7 +124,7 @@ namespace ZendeskApi_v2
 			((Search)Search).Proxy = proxy;
 			((Tags)Tags).Proxy = proxy;
 			((Forums)Forums).Proxy = proxy;
-			((Categories)Categories).Proxy = proxy;
+			((ZendeskApi_v2.Requests.Categories)Categories).Proxy = proxy;
 			((Topics)Topics).Proxy = proxy;
 			((AccountsAndActivity)AccountsAndActivity).Proxy = proxy;
 			((JobStatuses)JobStatuses).Proxy = proxy;
