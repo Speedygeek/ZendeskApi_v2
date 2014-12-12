@@ -47,6 +47,9 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
 
+        [JsonProperty("requester_id")]
+        public long? RequesterId { get; set; }
+
         /// <summary>
         /// This is used for updates only
         /// </summary>
