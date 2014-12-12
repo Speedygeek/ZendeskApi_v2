@@ -34,7 +34,7 @@ namespace Tests
         {
             var res = api.Organizations.CreateOrganization(new Organization()
                                                                {
-                                                                   Name = "Test Org"
+                                                                   Name = "Test Org 2"
                                                                });
             Assert.Greater(res.Organization.Id, 0);
 

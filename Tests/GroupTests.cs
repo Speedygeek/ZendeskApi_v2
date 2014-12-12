@@ -88,11 +88,11 @@ namespace Tests
         [Test]
         public void CanCreateUpdateAndDeleteMembership()
         {
-            var group = api.Groups.CreateGroup("Test Group").Group;
+            var group = api.Groups.CreateGroup("Test Group 2").Group;
             var user = api.Users.CreateUser(new User()
                                                 {
-                                                    Name = "test user13",
-                                                    Email = "test13@test.com",
+                                                    Name = "test user133",
+                                                    Email = "test133@test.com",
                                                     Role = UserRoles.Agent
                                                 }).User;            
             
