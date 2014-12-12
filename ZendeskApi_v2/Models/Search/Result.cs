@@ -101,7 +101,8 @@ namespace ZendeskApi_v2.Models.Search
         [JsonProperty("assignee_id")]
         public long? AssigneeId { get; set; }
 
-
+        [JsonProperty("status")]
+        public string Status { get; set; }
 
 
     }
