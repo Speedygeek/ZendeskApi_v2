@@ -63,6 +63,23 @@ namespace Tests
         }
 
         [Test]
+        public void CanExecutePagedView()
+        {
+            var res = api.Views.ExecuteView(31559032, "", true, 25, 2);
+
+            Assert.AreEqual(res.Rows.Count, 25);
+
+            var nextPage  =  res.NextPage
+                .Split('?').Last()
+                .Split('&').Select(x => new KeyValuePair<string,string>(x.Split('=').First(), x.Split('=').Last()))
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.AreEqual(nextPage, "3");
+        }
+
+        [Test]
         public void CanPreviewViews()
         {            
             var preview = new PreviewViewRequest()
