@@ -56,6 +56,16 @@ namespace ZendeskApi_v2.Extensions
         {
             var t = date - new DateTime(1970, 1, 1);
             return (int)t.TotalSeconds;
-        }        
+        }
+
+        public static Dictionary<string, string> GetQueryStringDict(this string url)
+        {
+            var queryPart = !url.Contains("?") ? url : url.Split('?')[1];
+
+            return (from match in queryPart.Split('&')
+                    where match.Contains('=')
+                    select match.Split('='))
+                        .ToDictionary(x => x.First(), x => x.Last());
+        }
     }
 }

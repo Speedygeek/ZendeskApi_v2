@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using ZendeskApi_v2;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
@@ -84,6 +85,31 @@ namespace Tests
             var ticketsByUser = api.Tickets.GetTicketsByUserID(tickets.Tickets[0].RequesterId.Value);
             Assert.True(ticketsByUser.Count > 0);
         }
+
+        [Test]
+        public void CanGetTicketsPaged()
+        {
+            const int count = 50;
+            var tickets = api.Tickets.GetAllTickets(count);
+
+            Assert.AreEqual(count, tickets.Tickets.Count);  // 50
+            Assert.AreNotEqual(tickets.Count, tickets.Tickets.Count);   // 50 != total count of tickets (assumption)
+
+            const int page = 3;
+            var thirdPage = api.Tickets.GetAllTickets(count, page);
+
+            Assert.AreEqual(count, thirdPage.Tickets.Count);
+
+            var nextPage = thirdPage.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual(nextPage, (page + 1).ToString());
+        }
+
 
         [Test]
         public  void CanGetTicketById()
@@ -250,6 +276,30 @@ namespace Tests
             var comments = api.Tickets.GetTicketComments(2);
             Assert.IsNotEmpty(comments.Comments[1].Body);            
         }
+
+        [Test]
+        public void CanGetTicketCommentsPaged()
+        {
+            const int perPage = 5;
+            const int page = 2;
+            var commentsRes = api.Tickets.GetTicketComments(2, perPage, page);
+
+            Assert.AreEqual(commentsRes.Comments.Count, perPage);
+            Assert.AreEqual(commentsRes.PageSize, perPage);
+            Assert.AreEqual(commentsRes.Page, page);
+
+            Assert.IsNotEmpty(commentsRes.Comments[1].Body);
+
+            var nextPageValue = commentsRes.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPageValue);
+
+            Assert.AreEqual(nextPageValue, (page + 1).ToString());
+        }
+
 
         [Test]
         public void CanCreateTicketWithRequester()

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using ZendeskApi_v2;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
@@ -69,12 +70,12 @@ namespace Tests
 
             Assert.AreEqual(res.Rows.Count, 25);
 
-            var nextPage  =  res.NextPage
-                .Split('?').Last()
-                .Split('&').Select(x => new KeyValuePair<string,string>(x.Split('=').First(), x.Split('=').Last()))
+            var nextPage  =  res.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
                         .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
 
             Assert.AreEqual(nextPage, "3");
         }

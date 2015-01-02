@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 #if ASYNC
 using System.Threading.Tasks;
@@ -23,15 +25,15 @@ namespace ZendeskApi_v2.Requests
 		bool ReorderTicketForms(long[] orderedTicketFormIds);
 		IndividualTicketFormResponse CloneTicketForm(long ticketFormId);
 		bool DeleteTicketForm(long id);
-		GroupTicketResponse GetAllTickets();
-		GroupTicketResponse GetTicketsByViewID(int id);
-		GroupTicketResponse GetTicketsByOrganizationID(long id);
+        GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null);
+        GroupTicketResponse GetTicketsByViewID(int id, int? perPage = null, int? page = null);
+        GroupTicketResponse GetTicketsByOrganizationID(long id);
 		GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage);
-		GroupTicketResponse GetRecentTickets();
-		GroupTicketResponse GetTicketsByUserID(long userId);
-		GroupTicketResponse GetTicketsWhereUserIsCopied(long userId);
+        GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null);
+        GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null);
+        GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null);
 		IndividualTicketResponse GetTicket(long id);
-		GroupCommentResponse GetTicketComments(long ticketId);
+        GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null);
 		GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids);
 		IndividualTicketResponse CreateTicket(Ticket ticket);
 
@@ -78,14 +80,14 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-		Task<GroupTicketResponse> GetAllTicketsAsync();
-		Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id);
-		Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id);
-		Task<GroupTicketResponse> GetRecentTicketsAsync();
-		Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId);
-		Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId);
+        Task<GroupTicketResponse> GetAllTicketsAsync(int? perPage = null, int? page = null);
+        Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id, int? perPage = null, int? page = null);
+        Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null);
+        Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null);
+        Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null);
+        Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null);
 		Task<IndividualTicketResponse> GetTicketAsync(long id);
-		Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId);
+        Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null);
 		Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids);
 		Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket);
 
@@ -193,17 +195,19 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("{0}/{1}.json", _ticket_forms, id));
         }
-        
 
 
-        public GroupTicketResponse GetAllTickets()
-        {            
-            return GenericGet<GroupTicketResponse>(_tickets + ".json");
+
+        public GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null)
+        {
+
+            return GenericPagedGet<GroupTicketResponse>(_tickets + ".json", perPage, page);
         }
 
-        public GroupTicketResponse GetTicketsByViewID(int id)
+        public GroupTicketResponse GetTicketsByViewID(int id, int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets));
+
+            return GenericPagedGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets), perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id)
@@ -213,22 +217,22 @@ namespace ZendeskApi_v2.Requests
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage)
         {
-            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json?page={3}&per_page={4}", _organizations, id, _tickets, pageNumber, itemsPerPage));
+            return GenericPagedGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets), itemsPerPage, pageNumber);
         }
 
-        public GroupTicketResponse GetRecentTickets()
+        public GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupTicketResponse>("tickets/recent.json");
+            return GenericPagedGet<GroupTicketResponse>("tickets/recent.json", perPage, page);
         }
 
-        public GroupTicketResponse GetTicketsByUserID(long userId)
+        public GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId));
+            return GenericPagedGet<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId), perPage, page);
         }
 
-        public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId)
+        public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupTicketResponse>(string.Format("users/{0}/tickets/ccd.json", userId));
+            return GenericPagedGet<GroupTicketResponse>(string.Format("users/{0}/tickets/ccd.json", userId), perPage, page);
         }
 
         public IndividualTicketResponse GetTicket(long id)
@@ -236,9 +240,9 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
         }
 
-        public GroupCommentResponse GetTicketComments(long ticketId)
+        public GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId));
+            return GenericPagedGet<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId), perPage, page);
         }
 
         public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids)
@@ -430,34 +434,34 @@ namespace ZendeskApi_v2.Requests
 
 
 #if ASYNC
-        public async Task<GroupTicketResponse> GetAllTicketsAsync()
-        {            
-            return await GenericGetAsync<GroupTicketResponse>(_tickets + ".json");
+        public async Task<GroupTicketResponse> GetAllTicketsAsync(int? perPage = null, int? page = null)
+        {
+            return await GenericPagedGetAsync<GroupTicketResponse>(_tickets + ".json", perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id)
+        public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id, int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets));
+            return await GenericPagedGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets), perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id)
+        public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
+            return await GenericPagedGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets), perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetRecentTicketsAsync()
+        public async Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupTicketResponse>("tickets/recent.json");
+            return await GenericPagedGetAsync<GroupTicketResponse>("tickets/recent.json", perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId)
+        public async Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId));
+            return await GenericPagedGetAsync<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId), perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId)
+        public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupTicketResponse>(string.Format("users/{0}/tickets/ccd.json", userId));
+            return await GenericPagedGetAsync<GroupTicketResponse>(string.Format("users/{0}/tickets/ccd.json", userId), perPage, page);
         }
 
         public async Task<IndividualTicketResponse> GetTicketAsync(long id)
@@ -465,9 +469,9 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
         }
 
-        public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId)
+        public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId));
+            return await GenericPagedGetAsync<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId), perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids)
