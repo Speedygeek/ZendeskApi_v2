@@ -66,9 +66,9 @@ namespace Tests
         [Test]
         public void CanExecutePagedView()
         {
-            var res = api.Views.ExecuteView(31559032, "", true, 25, 2);
+            var res = api.Views.ExecuteView(Settings.ViewId, "", true, 25, 2);
 
-            Assert.AreEqual(res.Rows.Count, 25);
+            Assert.AreEqual(25, res.Rows.Count);
 
             var nextPage  =  res.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
@@ -77,7 +77,7 @@ namespace Tests
 
             Assert.NotNull(nextPage);
 
-            Assert.AreEqual(nextPage, "3");
+            Assert.AreEqual("3", nextPage);
         }
 
         [Test]

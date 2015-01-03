@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 #if ASYNC
 using System.Threading.Tasks;
@@ -26,7 +24,7 @@ namespace ZendeskApi_v2.Requests
 		IndividualTicketFormResponse CloneTicketForm(long ticketFormId);
 		bool DeleteTicketForm(long id);
         GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null);
-        GroupTicketResponse GetTicketsByViewID(int id, int? perPage = null, int? page = null);
+        GroupTicketResponse GetTicketsByViewID(long viewId, int? perPage = null, int? page = null);
         GroupTicketResponse GetTicketsByOrganizationID(long id);
 		GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage);
         GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null);
@@ -81,7 +79,7 @@ namespace ZendeskApi_v2.Requests
 
 #if ASYNC
         Task<GroupTicketResponse> GetAllTicketsAsync(int? perPage = null, int? page = null);
-        Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id, int? perPage = null, int? page = null);
+        Task<GroupTicketResponse> GetTicketsByViewIDAsync(long viewId, int? perPage = null, int? page = null);
         Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null);
         Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null);
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null);
@@ -204,10 +202,10 @@ namespace ZendeskApi_v2.Requests
             return GenericPagedGet<GroupTicketResponse>(_tickets + ".json", perPage, page);
         }
 
-        public GroupTicketResponse GetTicketsByViewID(int id, int? perPage = null, int? page = null)
+        public GroupTicketResponse GetTicketsByViewID(long viewId, int? perPage = null, int? page = null)
         {
 
-            return GenericPagedGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets), perPage, page);
+            return GenericPagedGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, viewId, _tickets), perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id)
@@ -439,9 +437,9 @@ namespace ZendeskApi_v2.Requests
             return await GenericPagedGetAsync<GroupTicketResponse>(_tickets + ".json", perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(int id, int? perPage = null, int? page = null)
+        public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(long viewId, int? perPage = null, int? page = null)
         {
-            return await GenericPagedGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, id, _tickets), perPage, page);
+            return await GenericPagedGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _views, viewId, _tickets), perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null)

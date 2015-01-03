@@ -29,7 +29,8 @@ namespace Tests
         public const long GroupId = 20402842;
         public const long OrganizationId = 22560572;
 
-        public const string ViewName = "My unsolved tickets";    
+        public const string ViewName = "My unsolved tickets";
+        public const int ViewId = 31559032;
     
         public const long TicketFormId = 26227;
 

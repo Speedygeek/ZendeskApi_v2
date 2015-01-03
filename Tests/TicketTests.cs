@@ -124,18 +124,91 @@ namespace Tests
         public void CanGetTicketsByOrganizationId()
         {
             var id = Settings.OrganizationId;
-            var tickets = api.Tickets.GetTicketsByOrganizationID(id, 2, 3);
-            Assert.True(tickets.Count > 0);
-        }
-
-        [Test]
-        public void CanGetTicketsByOrganizationIdPaging()
-        {
-            var id = Settings.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationID(id);
             Assert.True(tickets.Count > 0);
         }
         
+
+        [Test]
+        public void CanGetTicketsByOrganizationIdPaged()
+        {
+            var id = Settings.OrganizationId;
+            var ticketsRes = api.Tickets.GetTicketsByOrganizationID(id, 2, 3);
+
+            Assert.AreEqual(3, ticketsRes.PageSize);
+            Assert.AreEqual(3, ticketsRes.Tickets.Count);
+            Assert.Greater(ticketsRes.Count, 0);
+
+            var nextPage = ticketsRes.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("3", nextPage);
+        }
+
+        [Test]
+        public void CanGetTicketsByViewIdPaged()
+        {
+            var ticketsRes = api.Tickets.GetTicketsByViewID(Settings.ViewId, 10, 2);
+
+            Assert.AreEqual(10, ticketsRes.PageSize);
+            Assert.AreEqual(10, ticketsRes.Tickets.Count);
+            Assert.Greater(ticketsRes.Count, 0);
+
+            var nextPage = ticketsRes.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("3", nextPage);
+        }
+
+        [Test]
+        public void CanGetRecentTicketsPaged()
+        {
+            var ticketsRes = api.Tickets.GetRecentTickets(5, 2);
+
+            Assert.AreEqual(5, ticketsRes.PageSize);
+            Assert.AreEqual(5, ticketsRes.Tickets.Count);
+            Assert.Greater(ticketsRes.Count, 0);
+
+            var nextPage = ticketsRes.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("3", nextPage);
+        }
+
+        [Test]
+        public void CanTicketsByUserIdPaged()
+        {
+            var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.UserId, 5, 2);
+
+            Assert.AreEqual(5, ticketsRes.PageSize);
+            Assert.AreEqual(5, ticketsRes.Tickets.Count);
+            Assert.Greater(ticketsRes.Count, 0);
+
+            var nextPage = ticketsRes.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("3", nextPage);
+        }
+
+       
+
+ 
         [Test]
         public void CanGetMultipleTickets()
         {
@@ -284,9 +357,9 @@ namespace Tests
             const int page = 2;
             var commentsRes = api.Tickets.GetTicketComments(2, perPage, page);
 
-            Assert.AreEqual(commentsRes.Comments.Count, perPage);
-            Assert.AreEqual(commentsRes.PageSize, perPage);
-            Assert.AreEqual(commentsRes.Page, page);
+            Assert.AreEqual(perPage, commentsRes.Comments.Count);
+            Assert.AreEqual(page, commentsRes.PageSize);
+            Assert.AreEqual(page, commentsRes.Page);
 
             Assert.IsNotEmpty(commentsRes.Comments[1].Body);
 
@@ -297,7 +370,7 @@ namespace Tests
 
             Assert.NotNull(nextPageValue);
 
-            Assert.AreEqual(nextPageValue, (page + 1).ToString());
+            Assert.AreEqual((page + 1).ToString(), nextPageValue);
         }
 
 
