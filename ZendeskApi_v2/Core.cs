@@ -1,5 +1,7 @@
 ﻿ using System;
-using System.IO;
+ using System.Collections.Generic;
+ using System.Globalization;
+ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -134,8 +136,69 @@ namespace ZendeskApi_v2
 
         protected T GenericGet<T>(string resource)
         {
+            
             return RunRequest<T>(resource, "GET");            
         }
+
+        protected T GenericPagedGet<T>(string resource, int? perPage = null, int? page = null)
+        {
+            var parameters = new Dictionary<string, string>();
+
+            var paramString = "";
+            if (perPage.HasValue)
+            {
+                parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (page.HasValue)
+            {
+                parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (parameters.Any())
+            {
+                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+            }
+
+
+            return GenericGet<T>(resource + paramString);
+        }
+
+        protected T GenericPagedSortedGet<T>(string resource, int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null )
+        {
+            var parameters = new Dictionary<string, string>();
+
+            var paramString = "";
+            if (perPage.HasValue)
+            {
+                parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (page.HasValue)
+            {
+                parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (!string.IsNullOrEmpty(sortCol))
+            {
+                parameters.Add("sort_by", sortCol);
+            }
+
+            if (sortAscending.HasValue)
+            {
+                parameters.Add("sort_order", sortAscending.Value ? "" : "desc");
+            }
+
+            if (parameters.Any())
+            {
+                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+            }
+
+
+            return GenericGet<T>(resource + paramString);
+        }
+
+
         
         protected bool GenericDelete(string resource)
         {
@@ -263,6 +326,65 @@ namespace ZendeskApi_v2
         {
             return await RunRequestAsync<T>(resource, "GET");
         }
+
+        protected async Task<T> GenericPagedGetAsync<T>(string resource, int? perPage = null, int? page = null)
+        {
+            var parameters = new Dictionary<string, string>();
+
+            var paramString = "";
+            if (perPage.HasValue)
+            {
+                parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (page.HasValue)
+            {
+                parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (parameters.Any())
+            {
+                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+            }
+
+
+            return await GenericGetAsync<T>(resource + paramString);
+        }
+
+        protected async Task<T> GenericPagedSortedGetAsync<T>(string resource, int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
+        {
+            var parameters = new Dictionary<string, string>();
+
+            var paramString = "";
+            if (perPage.HasValue)
+            {
+                parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (page.HasValue)
+            {
+                parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (!string.IsNullOrEmpty(sortCol))
+            {
+                parameters.Add("sort_by", sortCol);
+            }
+
+            if (sortAscending.HasValue)
+            {
+                parameters.Add("sort_order", sortAscending.Value ? "" : "desc");
+            }
+
+            if (parameters.Any())
+            {
+                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+            }
+
+
+            return await GenericGetAsync<T>(resource + paramString);
+        }
+
 
         protected async Task<bool> GenericDeleteAsync(string resource)
         {

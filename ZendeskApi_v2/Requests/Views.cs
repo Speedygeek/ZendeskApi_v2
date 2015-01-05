@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 #if ASYNC
 using System.Threading.Tasks;
 #endif
@@ -15,7 +17,7 @@ namespace ZendeskApi_v2.Requests
 		GroupViewResponse GetActiveViews();
 		GroupViewResponse GetCompactViews();
 		IndividualViewResponse GetView(long id);
-		ExecutedViewResponse ExecuteView(long id, string sortCol = "", bool ascending = true);
+		ExecutedViewResponse ExecuteView(long id, string sortCol = "", bool ascending = true, int? perPage = null, int? page = null);
 		ExecutedViewResponse PreviewView(PreviewViewRequest preview);
 		GroupViewCountResponse GetViewCounts(IEnumerable<long> viewIds);
 		IndividualViewCountResponse GetViewCount(long viewId);
@@ -26,7 +28,7 @@ namespace ZendeskApi_v2.Requests
 		Task<GroupViewResponse> GetActiveViewsAsync();
 		Task<GroupViewResponse> GetCompactViewsAsync();
 		Task<IndividualViewResponse> GetViewAsync(long id);
-		Task<ExecutedViewResponse> ExecuteViewAsync(long id, string sortCol = "", bool ascending = true);
+        Task<ExecutedViewResponse> ExecuteViewAsync(long id, string sortCol = "", bool ascending = true, int? perPage = null, int? page = null);
 		Task<ExecutedViewResponse> PreviewViewAsync(PreviewViewRequest preview);
 		Task<GroupViewCountResponse> GetViewCountsAsync(IEnumerable<long> viewIds);
 		Task<IndividualViewCountResponse> GetViewCountAsync(long viewId);
@@ -62,13 +64,11 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualViewResponse>(string.Format("views/{0}.json", id));
         }
 
-        public ExecutedViewResponse ExecuteView(long id, string sortCol = "", bool ascending = true)
+        public ExecutedViewResponse ExecuteView(long id, string sortCol = "", bool ascending = true, int? perPage = null, int? page = null)
         {
             var resource = string.Format("views/{0}/execute.json", id);
-            if (!string.IsNullOrEmpty(sortCol))
-                resource += string.Format("?sort_by={0}&sort_order={1}", sortCol, ascending ? "" : "desc");
 
-            return GenericGet<ExecutedViewResponse>(resource);
+            return GenericPagedSortedGet<ExecutedViewResponse>(resource, perPage, page, sortCol, ascending);
         }
 
         public ExecutedViewResponse PreviewView(PreviewViewRequest preview)
@@ -108,13 +108,11 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualViewResponse>(string.Format("views/{0}.json", id));
         }
 
-        public async Task<ExecutedViewResponse> ExecuteViewAsync(long id, string sortCol = "", bool ascending = true)
+        public async Task<ExecutedViewResponse> ExecuteViewAsync(long id, string sortCol = "", bool ascending = true, int? perPage = null, int? page = null)
         {
             var resource = string.Format("views/{0}/execute.json", id);
-            if (!string.IsNullOrEmpty(sortCol))
-                resource += string.Format("?sort_by={0}&sort_order={1}", sortCol, ascending ? "" : "desc");
 
-            return await GenericGetAsync<ExecutedViewResponse>(resource);
+            return await GenericPagedSortedGetAsync<ExecutedViewResponse>(resource, page, perPage, sortCol, ascending);
         }
 
         public async Task<ExecutedViewResponse> PreviewViewAsync(PreviewViewRequest preview)

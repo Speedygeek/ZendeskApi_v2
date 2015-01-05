@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using ZendeskApi_v2;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
@@ -60,6 +61,23 @@ namespace Tests
 
             Assert.Greater(res.Rows.Count, 0);
             Assert.Greater(res.Columns.Count, 0);
+        }
+
+        [Test]
+        public void CanExecutePagedView()
+        {
+            var res = api.Views.ExecuteView(Settings.ViewId, "", true, 25, 2);
+
+            Assert.AreEqual(25, res.Rows.Count);
+
+            var nextPage  =  res.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("3", nextPage);
         }
 
         [Test]
