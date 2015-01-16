@@ -82,7 +82,6 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("satisfaction_rating")]
         public SatisfactionRating SatisfactionRating { get; set; }            
         
-      
         [JsonProperty("via")]
         public Via Via { get; set; }
 

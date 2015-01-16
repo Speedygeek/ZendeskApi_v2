@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using ZendeskApi_v2;
-using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Tickets;
 
 namespace Tests
 {
@@ -76,6 +73,13 @@ namespace Tests
         {
             var res = api.Search.SearchFor(Settings.Email);
             Assert.AreEqual(res.Results[0].ResultType, "user");
+        }
+
+        [Test]
+        public async void CanSearchAllTickets()
+        {
+            var res = await api.Search.SearchForAsync("type:ticket%20status>=closed");
+            Assert.AreEqual(res.Results.First().ResultType, "ticket");
         }
 
         [Test]
