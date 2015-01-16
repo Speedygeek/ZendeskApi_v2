@@ -11,7 +11,6 @@ using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Models.Search
 {
-    
     public class Result
     {
 
@@ -104,6 +103,35 @@ namespace ZendeskApi_v2.Models.Search
         [JsonProperty("status")]
         public string Status { get; set; }
 
+        [JsonProperty("brand_id")]
+        public long? BrandId { get; set; }
 
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        [JsonProperty("due_at")]
+        public DateTimeOffset? DueAt { get; set; }
+
+        [JsonProperty("followup_ids")]
+        public IList<long> FollowUpIds { get; set; }
+
+        [JsonProperty("forum_topic_id")]
+        public long? ForumTopicId { get; set; }
+
+        [JsonProperty("has_incidents")]
+        public bool HasIncidents { get; set; }
+
+        [JsonProperty("problem_id")]
+        public long? ProblemId { get; set; }
+
+        [JsonProperty("raw_subject")]
+        public string RawSubject { get; set; }
+
+        [JsonProperty("recipient")]
+        public string Recipient { get; set; }
+
+        [JsonProperty("satisfaction_rating")]
+        public SatisfactionRating SatisfactionRating { get; set; }
+
+        [JsonProperty("sharing_agreement_ids")]
+        public IList<long> SharingAgreementIds { get; set; }
     }
 }
