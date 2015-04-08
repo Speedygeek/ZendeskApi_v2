@@ -17,11 +17,29 @@ namespace ZendeskApi_v2.Models.Articles
 		[JsonProperty("locale")]
 		public string Locale { get; set; }
 
+        [JsonProperty("source_locale")]
+		public string SourceLocale { get; set; }
+
+        [JsonProperty("url")]
+		public string Url { get; set; }
+
+		[JsonProperty("html_url")]
+		public string HtmlUrl { get; set; }
+
 		[JsonProperty("author_id")]
 		public long? AuthorId { get; set; }
 
 		[JsonProperty("comments_disabled")]
 		public bool CommentsDisabled { get; set; }
+
+        [JsonProperty("outdated")]
+		public bool Outdated { get; set; }
+
+        [JsonProperty("draft")]
+		public bool Draft { get; set; }
+        
+        [JsonProperty("label_names")]
+		public string[] LabelNames { get; set; }
 
 		[JsonProperty("promoted")]
 		public bool Promoted { get; set; }
