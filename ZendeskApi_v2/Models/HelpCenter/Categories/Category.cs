@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ZendeskApi_v2.Models.HelpCenter.Translations;
 
 namespace ZendeskApi_v2.Models.HelpCenter.Categories
 {
@@ -44,6 +45,9 @@ namespace ZendeskApi_v2.Models.HelpCenter.Categories
 
         [JsonProperty("outdated")]
         public bool Outdated { get; set; }
+
+        [JsonProperty("translations")]
+        public IList<Translation> Translations { get; set; }
     }
 
 }
