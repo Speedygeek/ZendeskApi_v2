@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using ZendeskApi_v2.Models.HelpCenter.Translations;
 
 namespace ZendeskApi_v2.Models.Articles
 {
@@ -37,7 +39,7 @@ namespace ZendeskApi_v2.Models.Articles
 
         [JsonProperty("draft")]
 		public bool Draft { get; set; }
-        
+
         [JsonProperty("label_names")]
 		public string[] LabelNames { get; set; }
 
@@ -52,7 +54,7 @@ namespace ZendeskApi_v2.Models.Articles
 
 		[JsonProperty("vote_count")]
 		public int VoteCount { get; set; }
-	
+
 		[JsonProperty("section_id")]
 		public long? SectionId { get; set; }
 
@@ -61,5 +63,8 @@ namespace ZendeskApi_v2.Models.Articles
 
 		[JsonProperty("updated_at")]
 		public string UpdatedAt { get; set; }
+
+        [JsonProperty("translations")]
+        public IList<Translation> Translations { get; set; }
 	}
 }

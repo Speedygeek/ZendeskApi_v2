@@ -6,6 +6,8 @@ namespace ZendeskApi_v2.HelpCenter
         ICategories Categories { get; }
         ISections Sections { get; }
         IArticles Articles { get; }
+        IVotes Votes { get; }
+        IComments Comments { get; }
 
         string Locale { get; }
     }
@@ -15,6 +17,8 @@ namespace ZendeskApi_v2.HelpCenter
         public ICategories Categories { get; set; }
         public ISections Sections { get; set; }
         public IArticles Articles { get; set; }
+        public IVotes Votes { get; set; }
+        public IComments Comments { get; set; }
 
         public string Locale { get; set; }
 
@@ -23,6 +27,8 @@ namespace ZendeskApi_v2.HelpCenter
             Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale);
             Sections = new Sections(yourZendeskUrl, user, password, apiToken);
             Articles = new Articles(yourZendeskUrl, user, password, apiToken);
+            Votes = new Votes(yourZendeskUrl, user, password, apiToken);
+            Comments = new Comments(yourZendeskUrl, user, password, apiToken);
 
             Locale = locale;
         }
