@@ -33,7 +33,7 @@ namespace ZendeskApi_v2.Models
         [JsonProperty("total_pages")]
         public int TotalPages 
         {
-            get { return (int)Math.Ceiling(Count/(decimal)PageSize); }
+            get { return (int)Math.Ceiling(Count/(double)PageSize); }
         }
 
         private int GetPageFromParameter()

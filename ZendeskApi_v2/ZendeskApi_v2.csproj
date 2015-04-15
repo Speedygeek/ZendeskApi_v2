@@ -59,8 +59,10 @@
     <Compile Include="Models\AccountsAndActivities\GroupActivityResponse.cs" />
     <Compile Include="Models\AccountsAndActivities\IndividualActivityResponse.cs" />
     <Compile Include="Models\Articles\Article.cs" />
+    <Compile Include="Models\Articles\ArticleSearchResults.cs" />
     <Compile Include="Models\Articles\GroupArticleResponse.cs" />
     <Compile Include="Models\Articles\IndividualArticleResponse.cs" />
+    <Compile Include="Models\Articles\Result.cs" />
     <Compile Include="Models\Categories\Category.cs" />
     <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
@@ -244,7 +246,10 @@
     <Compile Include="Requests\CustomAgentRoles.cs" />
     <Compile Include="Requests\Forums.cs" />
     <Compile Include="Requests\Groups.cs" />
+    <Compile Include="Requests\HelpCenter\ArticleSortingOptions.cs" />
     <Compile Include="Requests\HelpCenter\Categories.cs" />
+    <Compile Include="Requests\HelpCenter\Comments.cs" />
+    <Compile Include="Requests\HelpCenter\Votes.cs" />
     <Compile Include="Requests\JobStatuses.cs" />
     <Compile Include="Requests\Locales.cs" />
     <Compile Include="Requests\Macros.cs" />
