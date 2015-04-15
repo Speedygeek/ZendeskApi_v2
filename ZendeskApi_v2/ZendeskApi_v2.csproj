@@ -40,9 +40,11 @@
   <ItemGroup>
     <Reference Include="AsyncCtpLibrary">
       <HintPath>..\packages\AsyncCTP.0.3\lib\net40\AsyncCtpLibrary.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,6 +63,8 @@
     <Compile Include="Models\Articles\Article.cs" />
     <Compile Include="Models\Articles\GroupArticleResponse.cs" />
     <Compile Include="Models\Articles\IndividualArticleResponse.cs" />
+    <Compile Include="Models\Articles\Result.cs" />
+    <Compile Include="Models\Articles\ArticleSearchResults.cs" />
     <Compile Include="Models\Categories\Category.cs" />
     <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
@@ -238,6 +242,9 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="RequestResult.cs" />
+    <Compile Include="Requests\HelpCenter\ArticleSortingOptions.cs" />
+    <Compile Include="Requests\HelpCenter\Comments.cs" />
+    <Compile Include="Requests\HelpCenter\Votes.cs" />
     <Compile Include="Requests\HelpCenter\Articles.cs" />
     <Compile Include="Requests\Attachments.cs" />
     <Compile Include="Requests\Categories.cs" />
