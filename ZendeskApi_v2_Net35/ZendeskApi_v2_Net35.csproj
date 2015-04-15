@@ -699,6 +699,7 @@
     <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
       <Link>ZendeskApi.cs</Link>
     </Compile>
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
