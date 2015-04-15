@@ -207,6 +207,27 @@
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Categories\IndividualCategoryResponse.cs">
       <Link>Models\HelpCenter\Categories\IndividualCategoryResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Comments\Comment.cs">
+      <Link>Models\HelpCenter\Comments\Comment.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Comments\GroupCommentResponse.cs">
+      <Link>Models\HelpCenter\Comments\GroupCommentResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Comments\IndividualCommentResponse.cs">
+      <Link>Models\HelpCenter\Comments\IndividualCommentResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Translations\Translation.cs">
+      <Link>Models\HelpCenter\Translations\Translation.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Votes\GroupVoteResponse.cs">
+      <Link>Models\HelpCenter\Votes\GroupVoteResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Votes\IndividualVoteResponse.cs">
+      <Link>Models\HelpCenter\Votes\IndividualVoteResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Votes\Vote.cs">
+      <Link>Models\HelpCenter\Votes\Vote.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Locales\GroupLocaleResponse.cs">
       <Link>Models\Locales\GroupLocaleResponse.cs</Link>
     </Compile>
