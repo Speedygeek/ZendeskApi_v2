@@ -17,7 +17,7 @@ namespace ZendeskApi_v2.Models.Sections
 
 		[JsonProperty("description")]
 		public string Description { get; set; }
-         
+
 		[JsonProperty("locale")]
 		public string Locale { get; set; }
 
