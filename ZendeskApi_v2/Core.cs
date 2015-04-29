@@ -233,9 +233,19 @@ namespace ZendeskApi_v2
         protected string GetPasswordOrTokenAuthHeader()
         {
             if (!String.IsNullOrEmpty(ApiToken) && ApiToken.Trim().Length >= 0)
-                return GetAuthHeader(User + "/token", ApiToken);
-            
+            {
+                if (!String.IsNullOrEmpty(User) && User.Trim().Length >= 0)
+                    return GetAuthHeader(User + "/token", ApiToken);
+
+                return GetAuthBearerHeader(ApiToken);
+            }
+
             return GetAuthHeader(User, Password);
+        }
+
+        protected string GetAuthBearerHeader(string accessToken)
+        {
+            return string.Format("Bearer {0}", accessToken);
         }
 
         protected string GetAuthHeader(string userName, string password)

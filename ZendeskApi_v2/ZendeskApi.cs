@@ -71,7 +71,7 @@ namespace ZendeskApi_v2
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
         /// <param name="locale">Optional param which designates the locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
-        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="", string locale="en-us")
+        public ZendeskApi(string yourZendeskUrl, string user="", string password="", string apiToken="", string locale="en-us")
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
             
