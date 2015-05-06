@@ -1,6 +1,15 @@
 Zendesk Api V2
 ==============
 
+Want to take over ownership of this project?
+--------------
+I want to throw this out there to see if there is anyone in the community that would be willing to take over ownership of this project. If you are interested please write me eric.neifert@gamil.com.
+
+Hope to hear from you,
+Eric
+
+About
+--------------
 This is a full c# wrapper for Zendesk's api v2. http://developer.zendesk.com/documentation/rest_api/introduction.html
 
 I am sorry to say but I will no longer be able to support ths api but here are some examples of things you might want to do, for even more examples check out the "Tests" folder above. Everything is tested so there are plenty of examples! Also there is a live demo here: http://zendeskcdemo.apphb.com/
