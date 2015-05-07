@@ -3,7 +3,7 @@ Zendesk Api V2
 
 Want to take over ownership of this project?
 --------------
-I want to throw this out there to see if there is anyone in the community that would be willing to take over ownership of this project. If you are interested please write me eric.neifert@gamil.com.
+I want to throw this out there to see if there is anyone in the community that would be willing to take over ownership of this project. If you are interested please write me eric.neifert@gmail.com.
 
 Hope to hear from you,
 Eric
