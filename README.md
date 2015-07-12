@@ -1,12 +1,20 @@
 Zendesk Api V2
 ==============
 
-Want to take over ownership of this project?
+Hello 
 --------------
-I want to throw this out there to see if there is anyone in the community that would be willing to take over ownership of this project. If you are interested please write me eric.neifert@gmail.com.
+Hello All, 
 
-Hope to hear from you,
-Eric
+I have taken over the project from Eric. First I would like to thank Eric and all the others that have given so much of their personal time. I hope to work with all of you over time. 
+
+In the short term I am planning on adding automated build to the project. This will allow test to be run when a pull request is submitted. 
+
+I will be working over the next few days to get the issues filtered and tagged. Once this is done I will be able to give an accurate road map of the changes and updates I hope to make with the community. 
+
+If you have any questions feel free to contact me here on github
+
+Thanks, 
+Beth  
 
 About
 --------------
