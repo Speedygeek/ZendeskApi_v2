@@ -1,5 +1,6 @@
-Zendesk Api V2
+Zendesk Api V2 
 ==============
+[![Build status](https://ci.appveyor.com/api/projects/status/6ve1ey4x7ctd5029?svg=true)](https://ci.appveyor.com/project/mozts2005/zendeskapi-v2)
 
 Hello 
 --------------
