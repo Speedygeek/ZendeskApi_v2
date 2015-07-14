@@ -87,7 +87,7 @@ ipch/
 $tf/
 
 # nuget files
-lib/
+nupkg/lib/
 
 # Guidance Automation Toolkit
 *.gpState
