@@ -50,8 +50,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 	public class Articles : Core, IArticles
 	{
-		public Articles(string zendeskApiUrl, string user, string password, string apiToken)
-			: base(zendeskApiUrl, user, password, apiToken)
+		public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
 		{
 		}
 

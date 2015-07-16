@@ -35,8 +35,29 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
+	    protected string OAuthToken;
         
         
+        /// <summary>
+        /// Constructor that uses BasicHttpAuthentication.
+        /// </summary>
+        /// <param name="zendeskApiUrl"></param>
+        /// <param name="p_OAuthToken"></param>
+        public Core(string zendeskApiUrl, string p_OAuthToken):
+            this(zendeskApiUrl, null, null, null, p_OAuthToken)
+        {
+        }
+
+        /// <summary>
+        /// Constructor that uses BasicHttpAuthentication.
+        /// </summary>
+        /// <param name="zendeskApiUrl"></param>
+        /// <param name="p_OAuthToken"></param>
+        public Core(string zendeskApiUrl, string user, string password, string apiToken):
+            this(zendeskApiUrl, user, password, apiToken, null)
+        {
+        }
+
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
@@ -44,12 +65,13 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        public Core(string zendeskApiUrl, string user, string password, string apiToken)
+        public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken)
         {
             User = user;
             Password = password;
             ZendeskUrl = zendeskApiUrl;
             ApiToken = apiToken;
+            OAuthToken = p_OAuthToken;
         }
 
 #if SYNC
@@ -234,8 +256,10 @@ namespace ZendeskApi_v2
         {
             if (!String.IsNullOrEmpty(ApiToken) && ApiToken.Trim().Length >= 0)
                 return GetAuthHeader(User + "/token", ApiToken);
-            
-            return GetAuthHeader(User, Password);
+            else if (!String.IsNullOrEmpty(Password) && Password.Trim().Length >= 0)
+                return GetAuthHeader(User, Password);
+            else
+	            return string.Format("Bearer {0}", OAuthToken);
         }
 
         protected string GetAuthHeader(string userName, string password)

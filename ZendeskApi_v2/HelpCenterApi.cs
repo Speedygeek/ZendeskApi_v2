@@ -22,13 +22,13 @@ namespace ZendeskApi_v2.HelpCenter
 
         public string Locale { get; set; }
 
-        public HelpCenterApi(string yourZendeskUrl, string user, string password, string apiToken, string locale)
+        public HelpCenterApi(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
         {
-            Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale);
-            Sections = new Sections(yourZendeskUrl, user, password, apiToken);
-            Articles = new Articles(yourZendeskUrl, user, password, apiToken);
-            Votes = new Votes(yourZendeskUrl, user, password, apiToken);
-            Comments = new Comments(yourZendeskUrl, user, password, apiToken);
+            Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
+            Sections = new Sections(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            Articles = new Articles(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
 
             Locale = locale;
         }

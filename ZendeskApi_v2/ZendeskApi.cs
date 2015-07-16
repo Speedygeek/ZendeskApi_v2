@@ -63,39 +63,86 @@ namespace ZendeskApi_v2
 
         public string ZendeskUrl { get; set; }
 
+
+	    /// <summary>
+	    /// Constructor that takes 2 params.
+	    /// </summary>
+	    /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+	    /// <param name="oauthToken">Access token</param>
+	    public ZendeskApi(string yourZendeskUrl,
+	        string p_OauthToken): this(yourZendeskUrl, null, null, null, "en-us", p_OauthToken)
+	    {
+	    }
+
         /// <summary>
-        /// Constructor that takes 3 params.
+	    /// Constructor that takes 3 params.
+	    /// </summary>
+	    /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+	    /// <param name="user">Email adress of the user.</param>
+        /// <param name="password">Password of the user.</param>
+	    public ZendeskApi(string yourZendeskUrl,
+	        string user,
+            string password): this(yourZendeskUrl, user, password, null, "en-us", null)
+	    {
+	    }
+
+
+	    /// <summary>
+        /// Constructor that takes 4 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
-        /// <param name="user"></param>
+        /// <param name="user">Email adress of the user</param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
-        /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        /// <param name="locale">Optional param which designates the locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
-        public ZendeskApi(string yourZendeskUrl, string user, string password="", string apiToken="", string locale="en-us")
+        /// <param name="apiToken">Used if specified instead of the password</param>
+        /// <param name="locale">Locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
+
+	    public ZendeskApi(string yourZendeskUrl,
+	        string user,
+	        string apiToken,
+            string locale): this(yourZendeskUrl, user, "", apiToken, locale, null)
+	    {
+	    }
+
+
+
+        /// <summary>
+        /// Constructor that takes 6 params.
+        /// </summary>
+        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user">Email adress of the user</param>
+        /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
+        /// <param name="apiToken">Used if specified instead of the password</param>
+        /// <param name="locale">Locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
+        public ZendeskApi(string yourZendeskUrl,
+                          string user,
+                          string password,
+                          string apiToken,
+                          string locale,
+                          string p_OAuthToken)
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
             
-            Tickets = new Tickets(formattedUrl, user, password, apiToken);
-            Attachments = new Attachments(formattedUrl, user, password, apiToken);
-            Views = new Views(formattedUrl, user, password, apiToken);
-            Users = new Users(formattedUrl, user, password, apiToken);
-            Requests = new Requests.Requests(formattedUrl, user, password, apiToken);
-            Groups = new Groups(formattedUrl, user, password, apiToken);
-            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken);
-            Organizations = new Organizations(formattedUrl, user, password, apiToken);
-            Search = new Search(formattedUrl, user, password, apiToken);
-            Tags = new Tags(formattedUrl, user, password, apiToken);
-            Forums = new Forums(formattedUrl, user, password, apiToken);
-            Categories = new Categories(formattedUrl, user, password, apiToken);
-            Topics = new Topics(formattedUrl, user, password, apiToken);
-            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken);
-            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken);
-            Locales = new Locales(formattedUrl, user, password, apiToken);
-            Macros = new Macros(formattedUrl, user, password, apiToken);
-            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken);
-            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken);
-            Triggers = new Triggers(formattedUrl, user, password, apiToken);
-            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale);
+            Tickets = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Attachments = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Views = new Views(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Users = new Users(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Requests = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Groups = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken);
+            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Organizations = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Search = new Search(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Tags = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Forums = new Forums(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Categories = new Categories(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Topics = new Topics(formattedUrl, user, password, apiToken, p_OAuthToken);
+            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken, p_OAuthToken);
+            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Locales = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Macros = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken);
+            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken, p_OAuthToken);
+            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Triggers = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken);
+            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
 
             ZendeskUrl = formattedUrl;
         }
@@ -109,7 +156,7 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password"></param>
         public ZendeskApi(IWebProxy proxy, string yourZendeskUrl, string user, string password)
-            : this(yourZendeskUrl, user, password)
+            : this(yourZendeskUrl, user, password, null, "en-us", null)
         {
             if (proxy == null) return;
 

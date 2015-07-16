@@ -148,8 +148,8 @@ namespace ZendeskApi_v2.Requests
         private const string _ticket_metrics = "ticket_metrics";
 
 
-        public Tickets(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Tickets(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 

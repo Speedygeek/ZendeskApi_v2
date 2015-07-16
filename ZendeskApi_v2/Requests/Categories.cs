@@ -27,8 +27,8 @@ namespace ZendeskApi_v2.Requests
 
 	public class Categories : Core, ICategories
 	{
-        public Categories(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Categories(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
