@@ -8,7 +8,7 @@ namespace ZendeskApi_v2.Requests
 	public interface IGroups : ICore
 	{
 #if SYNC
-		MultipleGroupResponse GetGroups();
+		MultipleGroupResponse GetGroups(int? perPage = null, int? page = null);
 		MultipleGroupResponse GetAssignableGroups();
 		IndividualGroupResponse GetGroupById(long id);
 		IndividualGroupResponse CreateGroup(string groupName);
@@ -35,7 +35,7 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-		Task<MultipleGroupResponse> GetGroupsAsync();
+		Task<MultipleGroupResponse> GetGroupsAsync(int? perPage = null, int? page = null);
 		Task<MultipleGroupResponse> GetAssignableGroupsAsync();
 		Task<IndividualGroupResponse> GetGroupByIdAsync(long id);
 		Task<IndividualGroupResponse> CreateGroupAsync(string groupName);
@@ -70,9 +70,9 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
-        public MultipleGroupResponse GetGroups()
+        public MultipleGroupResponse GetGroups(int? perPage = null, int? page = null)
         {
-            return GenericGet<MultipleGroupResponse>("groups.json");
+            return GenericPagedGet<MultipleGroupResponse>("groups.json", perPage, page);
         }
 
         public MultipleGroupResponse GetAssignableGroups()
@@ -167,9 +167,9 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-        public async Task<MultipleGroupResponse> GetGroupsAsync()
+        public async Task<MultipleGroupResponse> GetGroupsAsync(int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<MultipleGroupResponse>("groups.json");
+            return await GenericPagedGetAsync<MultipleGroupResponse>("groups.json", perPage, page);
         }
 
         public async Task<MultipleGroupResponse> GetAssignableGroupsAsync()

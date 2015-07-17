@@ -706,15 +706,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
-if not exist "$(SolutionDir)nupkg\lib" mkdir "$(SolutionDir)nupkg\lib"
-if not exist "$(SolutionDir)nupkg\lib\net40" mkdir "$(SolutionDir)nupkg\lib\net40"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)nupkg\lib\net40\$(TargetFileName) /Y
-if not exist "$(SolutionDir)nupkg\lib\net35" mkdir "$(SolutionDir)nupkg\lib\net35"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)nupkg\lib\net35\$(TargetFileName) /Y</PostBuildEvent>
-  </PropertyGroup>
-  <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" /> -->
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
