@@ -730,7 +730,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" />-->
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(ProjectDir)
 if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8"
