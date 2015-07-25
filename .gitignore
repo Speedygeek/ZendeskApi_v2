@@ -87,7 +87,7 @@ ipch/
 $tf/
 
 # nuget files
-nupkg/lib/
+/ZendeskApi_v2_Package/lib
 
 # Guidance Automation Toolkit
 *.gpState

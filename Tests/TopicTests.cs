@@ -37,11 +37,11 @@ namespace Tests
         public void CanCreateUpdateAndDeleteTopics()
         {
             var create = api.Topics.CreateTopic(new Topic()
-                                                    {
-                                                        ForumId = forumId,
-                                                        Title = "My test topic",
-                                                        Body = "testing"
-                                                    });
+            {
+                ForumId = forumId,
+                Title = "My test topic",
+                Body = "testing"
+            });
             Assert.Greater(create.Topic.Id, 0);
 
             create.Topic.Title = "My New Test Topic";
@@ -54,7 +54,7 @@ namespace Tests
 
         [Test]
         public void CanShowManyTopics()
-        {            
+        {
             var create = api.Topics.CreateTopic(new Topic()
             {
                 ForumId = forumId,
@@ -62,10 +62,10 @@ namespace Tests
                 Body = "testing5"
             });
 
-            var get = api.Topics.GetTopics(); 
+            var get = api.Topics.GetTopics();
 
             var showMany = api.Topics.GetMultipleTopicsById(get.Topics.Select(x => x.Id.Value).ToList());
-            Assert.AreEqual(showMany.Count, get.Count);
+            Assert.AreEqual(showMany.Count, get.PageSize);
             Assert.Greater(showMany.Count, 0);
 
             Assert.True(api.Topics.DeleteTopic(create.Topic.Id.Value));
@@ -76,9 +76,9 @@ namespace Tests
         {
             var topicId = api.Topics.GetTopics().Topics[0].Id.Value;
             var create = api.Topics.CreateTopicComment(topicId, new TopicComment()
-                                                                    {
-                                                                        Body = "testing topic comments!"
-                                                                    });
+            {
+                Body = "testing topic comments!"
+            });
 
             Assert.Greater(create.TopicComment.Id.Value, 0);
 
@@ -112,7 +112,7 @@ namespace Tests
 
             var getAll = api.Topics.GetAllTopicSubscriptions();
             Assert.Greater(getAll.Count, 0);
-            
+
             var getByTopic = api.Topics.GetTopicSubscriptionsByTopic(topicId);
             Assert.Greater(getByTopic.Count, 0);
 

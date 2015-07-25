@@ -1,7 +1,7 @@
-﻿ using System;
- using System.Collections.Generic;
- using System.Globalization;
- using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,30 +13,30 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2
 {
-	public interface ICore
-	{
+    public interface ICore
+    {
 #if SYNC
-		T GetByPageUrl<T>(string pageUrl, int perPage=100);
-		T RunRequest<T>(string resource, string requestMethod, object body = null);
-		RequestResult RunRequest(string resource, string requestMethod, object body = null);
+        T GetByPageUrl<T>(string pageUrl, int perPage = 100);
+        T RunRequest<T>(string resource, string requestMethod, object body = null);
+        RequestResult RunRequest(string resource, string requestMethod, object body = null);
 #endif
-		
-#if ASYNC
-		Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100);
-		Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null);
-		Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null);
-#endif
-	}
 
-	public class Core : ICore
-	{
-        private const string XOnBehalfOfEmail = "X-On-Behalf-Of";        
+#if ASYNC
+        Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100);
+        Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null);
+        Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null);
+#endif
+    }
+
+    public class Core : ICore
+    {
+        private const string XOnBehalfOfEmail = "X-On-Behalf-Of";
         protected string User;
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-        
-        
+
+
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
@@ -55,9 +55,9 @@ namespace ZendeskApi_v2
 #if SYNC
         internal IWebProxy Proxy;
 
-        public T GetByPageUrl<T>(string pageUrl, int perPage=100)
-        {            
-            if(string.IsNullOrEmpty(pageUrl))
+        public T GetByPageUrl<T>(string pageUrl, int perPage = 100)
+        {
+            if (string.IsNullOrEmpty(pageUrl))
                 return JsonConvert.DeserializeObject<T>("");
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
@@ -68,11 +68,11 @@ namespace ZendeskApi_v2
         {
             var response = RunRequest(resource, requestMethod, body);
             var obj = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings()
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
             return obj;
-        }        
+        }
 
         public RequestResult RunRequest(string resource, string requestMethod, object body = null)
         {
@@ -87,17 +87,8 @@ namespace ZendeskApi_v2
                 HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
                 req.ContentType = "application/json";
 
-            if (this.Proxy != null)
-                req.Proxy = this.Proxy;
-                
-                //req.Credentials = new NetworkCredential(User, Password);
-                //req.Credentials = new System.Net.CredentialCache
-                //                      {
-                //                          {
-                //                              new System.Uri(ZendeskUrl), "Basic",
-                //                              new System.Net.NetworkCredential(User, Password)
-                //                              }
-                //                      };
+                //if (this.Proxy != null)
+                //    req.Proxy = this.Proxy;
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.PreAuthenticate = true;
@@ -109,7 +100,7 @@ namespace ZendeskApi_v2
                 if (body != null)
                 {
                     var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                    byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
+                    byte[] formData = Encoding.UTF8.GetBytes(json);
                     req.ContentLength = formData.Length;
 
                     var dataStream = req.GetRequestStream();
@@ -131,13 +122,13 @@ namespace ZendeskApi_v2
             catch (WebException ex)
             {
                 throw new WebException(ex.Message + " " + ex.Response.Headers.ToString(), ex);
-            }            
-        }        
+            }
+        }
 
         protected T GenericGet<T>(string resource)
         {
-            
-            return RunRequest<T>(resource, "GET");            
+
+            return RunRequest<T>(resource, "GET");
         }
 
         protected T GenericPagedGet<T>(string resource, int? perPage = null, int? page = null)
@@ -156,7 +147,7 @@ namespace ZendeskApi_v2
             }
 
             if (parameters.Any())
-            {                
+            {
                 paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
@@ -164,7 +155,7 @@ namespace ZendeskApi_v2
             return GenericGet<T>(resource + paramString);
         }
 
-        protected T GenericPagedSortedGet<T>(string resource, int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null )
+        protected T GenericPagedSortedGet<T>(string resource, int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
             var parameters = new Dictionary<string, string>();
 
@@ -199,16 +190,16 @@ namespace ZendeskApi_v2
         }
 
 
-        
+
         protected bool GenericDelete(string resource)
         {
             var res = RunRequest(resource, "DELETE");
             return res.HttpStatusCode == HttpStatusCode.OK || res.HttpStatusCode == HttpStatusCode.NoContent;
         }
-        
-        protected T GenericPost<T>(string resource, object body=null)
+
+        protected T GenericPost<T>(string resource, object body = null)
         {
-            var res = RunRequest<T>(resource, "POST", body);            
+            var res = RunRequest<T>(resource, "POST", body);
             return res;
         }
 
@@ -218,7 +209,7 @@ namespace ZendeskApi_v2
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
-        protected T GenericPut<T>(string resource, object body=null)
+        protected T GenericPut<T>(string resource, object body = null)
         {
             var res = RunRequest<T>(resource, "PUT", body);
             return res;
@@ -302,7 +293,7 @@ namespace ZendeskApi_v2
                 var dataStream = await requestStream.ContinueWith(t => t.Result.WriteAsync(formData, 0, formData.Length));
                 Task.WaitAll(dataStream);
             }
-            
+
             Task<WebResponse> task = Task.Factory.FromAsync(
             req.BeginGetResponse,
             asyncResult => req.EndGetResponse(asyncResult),

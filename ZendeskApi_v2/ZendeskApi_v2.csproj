@@ -278,9 +278,9 @@
   <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" />-->
   <PropertyGroup>
     <PostBuildEvent>cd $(ProjectDir)
-if not exist "$(SolutionDir)nupkg\lib" mkdir "$(SolutionDir)nupkg\lib"
-if not exist "$(SolutionDir)nupkg\lib\net45" mkdir "$(SolutionDir)nupkg\lib\net45"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)nupkg\lib\net45\$(TargetFileName) /Y</PostBuildEvent>
+if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib"
+if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45"
+copy $(OutDir)$(TargetFileName) $(SolutionDir)\ZendeskApi_v2_Package\lib\net45\$(TargetFileName) /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

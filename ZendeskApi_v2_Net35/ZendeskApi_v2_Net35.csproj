@@ -34,8 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net35\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -708,11 +709,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd $(ProjectDir)
-if not exist "$(SolutionDir)nupkg\lib" mkdir "$(SolutionDir)nupkg\lib"
-if not exist "$(SolutionDir)nupkg\lib\net40" mkdir "$(SolutionDir)nupkg\lib\net40"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)nupkg\lib\net40\$(TargetFileName) /Y
-if not exist "$(SolutionDir)nupkg\lib\net35" mkdir "$(SolutionDir)nupkg\lib\net35"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)nupkg\lib\net35\$(TargetFileName) /Y</PostBuildEvent>
+\ZendeskApi_v2_Package\lib
+if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib"
+if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net40" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib\net40"
+copy $(OutDir)$(TargetFileName) $(SolutionDir)ZendeskApi_v2_Package\lib\net40\$(TargetFileName) /Y
+if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net35" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib\net35"
+copy $(OutDir)$(TargetFileName) $(SolutionDir)ZendeskApi_v2_Package\lib\net35\$(TargetFileName) /Y</PostBuildEvent>
   </PropertyGroup>
   <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
