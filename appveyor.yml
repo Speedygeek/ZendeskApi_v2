@@ -15,6 +15,8 @@ before_build:
     nuget.exe restore
 build:
   verbosity: minimal
+test_script:
+- ps: nunit-console C:\projects\zendeskapi-v2\Tests\bin\Release\Tests.dll /framework:net-4.5
 artifacts:
 - path: '\ZendeskApi_v2_Package\*.nupkg'
   name: Pakage
