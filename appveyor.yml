@@ -8,6 +8,11 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+before_build:
+- ps: >-
+    cd C:\projects\zendeskapi-v2
+    Get-ChildItem -Path "C:\projects\zendeskapi-v2" -Recurse | Remove-Item -Force -Recurse
+    nuget.exe restore
 build:
   verbosity: minimal
 artifacts:
