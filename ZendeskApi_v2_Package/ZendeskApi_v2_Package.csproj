@@ -49,10 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NuGet.config" />
     <None Include="NuGetPackage.ps1" />
     <None Include="NuGetSetup.ps1" />
-    <None Include="NuGet.exe" />
     <None Include="Package.nuspec" />
   </ItemGroup>
   <ItemGroup>
@@ -68,11 +66,9 @@
   </Target>-->
   <Target Name="AfterBuild">
     <Delete Files=".\NuGet.log" />
-    
- <GetAssemblyIdentity AssemblyFiles=".\bin\$(Configuration)\ZendeskApi_v2_Package.dll">
-    <Output TaskParameter="Assemblies" ItemName="AssemblyIdentity"/>
-  </GetAssemblyIdentity>
-
+    <GetAssemblyIdentity AssemblyFiles=".\bin\$(Configuration)\ZendeskApi_v2_Package.dll">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyIdentity" />
+    </GetAssemblyIdentity>
     <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " ContinueOnError="True" Command="PowerShell.exe -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Unrestricted -Command &quot;&amp; {.\NuGetPackage.ps1 -version %(AssemblyIdentity.Version)} &quot;" IgnoreExitCode="true">
       <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
     </Exec>
