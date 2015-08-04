@@ -43,7 +43,7 @@ namespace ZendeskApi_v2.Requests
         { }
 #if SYNC
         
-        public GroupAttachmentResponse GetAllAttachments(long? articleId, int? perPage = null, int? page = null)
+        public GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId, int? perPage = null, int? page = null)
         {
             return GenericPagedGet<GroupAttachmentResponse>(String.Format("help_center/articles/{0}/attachments.json", articleId), perPage, page);
         }
