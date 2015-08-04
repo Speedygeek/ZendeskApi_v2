@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.HelpCenter.Attachments;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
@@ -41,6 +42,12 @@ namespace ZendeskApi_v2.Requests
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         { }
 #if SYNC
+        
+        public GroupAttachmentResponse GetAllAttachments(long? articleId, int? perPage = null, int? page = null)
+        {
+            return GenericPagedGet<GroupAttachmentResponse>(String.Format("help_center/articles/{0}/attachments.json", articleId), perPage, page);
+        }
+
         public Upload UploadAttachment(ZenFile file)
         {
             return UploadAttachment(file, "", null);

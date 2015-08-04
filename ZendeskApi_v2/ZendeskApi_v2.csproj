@@ -90,6 +90,7 @@
     <Compile Include="Models\HelpCenter\Categories\Category.cs" />
     <Compile Include="Models\HelpCenter\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\HelpCenter\Categories\IndividualCategoryResponse.cs" />
+    <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
     <Compile Include="Models\HelpCenter\Comments\Comment.cs" />
     <Compile Include="Models\HelpCenter\Comments\GroupCommentResponse.cs" />
     <Compile Include="Models\HelpCenter\Comments\IndividualCommentResponse.cs" />

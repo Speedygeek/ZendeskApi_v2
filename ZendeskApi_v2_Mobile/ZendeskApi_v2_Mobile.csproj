@@ -694,6 +694,7 @@
     <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
       <Link>ZendeskApi.cs</Link>
     </Compile>
+    <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
