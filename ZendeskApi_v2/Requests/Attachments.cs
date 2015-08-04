@@ -16,6 +16,7 @@ namespace ZendeskApi_v2.Requests
 	public interface IAttachments : ICore
 	{
 #if SYNC
+        GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId, int? perPage = null, int? page = null);
         Upload UploadAttachment(ZenFile file);
         Upload UploadAttachment(ZenFile file, int? timeout);
 		Upload UploadAttachments(IEnumerable<ZenFile> files);
