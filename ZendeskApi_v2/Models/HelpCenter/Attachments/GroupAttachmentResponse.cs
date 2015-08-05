@@ -11,7 +11,7 @@ namespace ZendeskApi_v2.Models.HelpCenter.Attachments
 
    public class GroupAttachmentResponse : GroupResponseBase
    {
-      [JsonProperty("attachment")]
+      [JsonProperty("article_attachments")]
       public IList<Shared.Attachment> Attachments { get; set; }
    }
 }

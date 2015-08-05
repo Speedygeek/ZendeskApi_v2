@@ -16,7 +16,7 @@ namespace ZendeskApi_v2.Requests
 	public interface IAttachments : ICore
 	{
 #if SYNC
-        GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId, int? perPage = null, int? page = null);
+        GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId);
         Upload UploadAttachment(ZenFile file);
         Upload UploadAttachment(ZenFile file, int? timeout);
 		Upload UploadAttachments(IEnumerable<ZenFile> files);
@@ -44,9 +44,9 @@ namespace ZendeskApi_v2.Requests
         { }
 #if SYNC
         
-        public GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId, int? perPage = null, int? page = null)
+        public GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId)
         {
-            return GenericPagedGet<GroupAttachmentResponse>(String.Format("help_center/articles/{0}/attachments.json", articleId), perPage, page);
+            return GenericGet<GroupAttachmentResponse>(String.Format("help_center/articles/{0}/attachments.json", articleId));
         }
 
         public Upload UploadAttachment(ZenFile file)
