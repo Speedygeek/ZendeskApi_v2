@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 #if ASYNC
 using System.Threading.Tasks;
 #endif
@@ -139,13 +140,14 @@ namespace ZendeskApi_v2
             }
             catch (WebException ex)
             {
+                Debug.Write(ex.Message);
                 throw new WebException(ex.Message + " " + ex.Response.Headers.ToString(), ex);
+
             }
         }
 
         protected T GenericGet<T>(string resource)
         {
-
             return RunRequest<T>(resource, "GET");
         }
 
