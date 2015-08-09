@@ -1,5 +1,5 @@
 version: 3.0.{build}
-os: Visual Studio 2015
+os: Default Azure
 configuration: Release
 platform: Any CPU
 assembly_info:
@@ -10,8 +10,8 @@ assembly_info:
   assembly_informational_version: '{version}'
 before_build:
 - ps: >-
-    Get-ChildItem -Path "C:\projects\zendeskapi-v2\packages" -Recurse | Remove-Item -Force -Recurse
-    
+    cd C:\projects\zendeskapi-v2
+
     nuget.exe restore
 build:
   verbosity: minimal
@@ -21,10 +21,7 @@ artifacts:
 - path: '\ZendeskApi_v2_Package\*.nupkg'
   name: Pakage
 deploy:
-- provider: NuGet
-  api_key:
-    secure: 8IojfvgiN2VwaySuRZBgfg3TQCxzXFlon6qLV2BhmGqBamZRvn4s0afGBSlap7WR
-  skip_symbols: true
-  artifact: Pakage
+- provider: Environment
+  name: Public Nuget
   on:
     branch: master
