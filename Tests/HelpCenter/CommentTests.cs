@@ -6,6 +6,7 @@ using ZendeskApi_v2.Requests.HelpCenter;
 namespace Tests.HelpCenter
 {
     [TestFixture]
+    [Category("HelpCenter")]
     public class CommentTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
