@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.HelpCenter.Attachments;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
@@ -15,6 +16,7 @@ namespace ZendeskApi_v2.Requests
 	public interface IAttachments : ICore
 	{
 #if SYNC
+        GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId);
         Upload UploadAttachment(ZenFile file);
         Upload UploadAttachment(ZenFile file, int? timeout);
 		Upload UploadAttachments(IEnumerable<ZenFile> files);
@@ -37,10 +39,16 @@ namespace ZendeskApi_v2.Requests
 
 	public class Attachments : Core, IAttachments
 	{
-        public Attachments(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Attachments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         { }
 #if SYNC
+        
+        public GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId)
+        {
+            return GenericGet<GroupAttachmentResponse>(String.Format("help_center/articles/{0}/attachments.json", articleId));
+        }
+
         public Upload UploadAttachment(ZenFile file)
         {
             return UploadAttachment(file, "", null);

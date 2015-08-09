@@ -696,6 +696,7 @@
     <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
       <Link>ZendeskApi.cs</Link>
     </Compile>
+    <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -734,11 +735,13 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
-if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8"
-copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8\$(TargetFileName)" /Y
-if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8"
-copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8\$(TargetFileName)" /Y</PostBuildEvent>
+    <PostBuildEvent>
+      cd $(ProjectDir)
+      if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8"
+      copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8\$(TargetFileName)" /Y
+      if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8"
+      copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8\$(TargetFileName)" /Y
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -746,6 +749,11 @@ copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portab
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  </Target>
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

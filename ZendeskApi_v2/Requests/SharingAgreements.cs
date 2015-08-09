@@ -19,8 +19,8 @@ namespace ZendeskApi_v2.Requests
 	public class SharingAgreements : Core, ISharingAgreements
 	{
 
-        public SharingAgreements(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public SharingAgreements(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 

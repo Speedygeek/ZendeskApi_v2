@@ -35,7 +35,28 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
+        protected string OAuthToken;
 
+
+        /// <summary>
+        /// Constructor that uses BasicHttpAuthentication.
+        /// </summary>
+        /// <param name="zendeskApiUrl"></param>
+        /// <param name="p_OAuthToken"></param>
+        public Core(string zendeskApiUrl, string p_OAuthToken) :
+            this(zendeskApiUrl, null, null, null, p_OAuthToken)
+        {
+        }
+
+        /// <summary>
+        /// Constructor that uses BasicHttpAuthentication.
+        /// </summary>
+        /// <param name="zendeskApiUrl"></param>
+        /// <param name="p_OAuthToken"></param>
+        public Core(string zendeskApiUrl, string user, string password, string apiToken) :
+            this(zendeskApiUrl, user, password, apiToken, null)
+        {
+        }
 
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
@@ -44,12 +65,13 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        public Core(string zendeskApiUrl, string user, string password, string apiToken)
+        public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken)
         {
             User = user;
             Password = password;
             ZendeskUrl = zendeskApiUrl;
             ApiToken = apiToken;
+            OAuthToken = p_OAuthToken;
         }
 
 #if SYNC
@@ -78,17 +100,13 @@ namespace ZendeskApi_v2
         {
             try
             {
-                var requestUrl = ZendeskUrl;
-                if (!requestUrl.EndsWith("/"))
-                    requestUrl += "/";
-
-                requestUrl += resource;
+                var requestUrl = ZendeskUrl + resource;
 
                 HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
                 req.ContentType = "application/json";
 
-                //if (this.Proxy != null)
-                //    req.Proxy = this.Proxy;
+                if (this.Proxy != null)
+                    req.Proxy = this.Proxy;
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.PreAuthenticate = true;
@@ -100,7 +118,7 @@ namespace ZendeskApi_v2
                 if (body != null)
                 {
                     var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                    byte[] formData = Encoding.UTF8.GetBytes(json);
+                    byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
                     req.ContentLength = formData.Length;
 
                     var dataStream = req.GetRequestStream();
@@ -224,19 +242,11 @@ namespace ZendeskApi_v2
         protected string GetPasswordOrTokenAuthHeader()
         {
             if (!String.IsNullOrEmpty(ApiToken) && ApiToken.Trim().Length >= 0)
-            {
-                if (!String.IsNullOrEmpty(User) && User.Trim().Length >= 0)
-                    return GetAuthHeader(User + "/token", ApiToken);
-
-                return GetAuthBearerHeader(ApiToken);
-            }
-
-            return GetAuthHeader(User, Password);
-        }
-
-        protected string GetAuthBearerHeader(string accessToken)
-        {
-            return string.Format("Bearer {0}", accessToken);
+                return GetAuthHeader(User + "/token", ApiToken);
+            else if (!String.IsNullOrEmpty(Password) && Password.Trim().Length >= 0)
+                return GetAuthHeader(User, Password);
+            else
+                return string.Format("Bearer {0}", OAuthToken);
         }
 
         protected string GetAuthHeader(string userName, string password)
@@ -264,16 +274,11 @@ namespace ZendeskApi_v2
 
         public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null)
         {
-            var requestUrl = ZendeskUrl;
-            if (!requestUrl.EndsWith("/"))
-                requestUrl += "/";
-
-            requestUrl += resource;
+            var requestUrl = ZendeskUrl + resource;
 
             HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
             req.ContentType = "application/json";
 
-            //req.Credentials = new System.Net.NetworkCredential(User, Password);
             req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
 
 

@@ -32,7 +32,7 @@ namespace Tests
         [Test]
         public void CanUseTokenAccess()
         {
-            var api = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Email, "", Settings.ApiToken);
+            var api = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Email, "", Settings.ApiToken, "en-us", null);
             var id = Settings.SampleTicketId;
             var ticket = api.Tickets.GetTicket(id).Ticket;
 

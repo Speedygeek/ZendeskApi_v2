@@ -30,8 +30,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
         private string Locale { get; set; }
 
-        public Categories(string yourZendeskUrl, string user, string password, string apiToken, string locale)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Categories(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
             Locale = locale;
         }

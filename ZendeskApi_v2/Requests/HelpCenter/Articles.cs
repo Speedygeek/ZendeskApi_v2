@@ -23,7 +23,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 	{
 #if SYNC
         IndividualArticleResponse GetArticle(long articleId);
-		GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
+		GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
 		GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
 		GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
 		GroupArticleResponse GetArticlesByUserId(long userId);
@@ -35,7 +35,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #endif
 #if ASYNC
         Task<IndividualArticleResponse> GetArticleAsync(long articleId);
-		Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
+		Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
         Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
 		Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
 		Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId);
@@ -50,8 +50,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 	public class Articles : Core, IArticles
 	{
-		public Articles(string zendeskApiUrl, string user, string password, string apiToken)
-			: base(zendeskApiUrl, user, password, apiToken)
+		public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
 		{
 		}
 
@@ -61,10 +61,10 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 			return GenericGet<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", articleId));
 		}
 
-        public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null) {
+        public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null) {
             var resourceUrl = this.GetFormattedArticlesUri("help_center/articles.json", options, sideloadOptions);
 
-            return GenericGet<GroupArticleResponse>(resourceUrl);
+            return GenericPagedGet<GroupArticleResponse>(resourceUrl, perPage, page);
         }
 
 
@@ -132,11 +132,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return await GenericPostAsync<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", articleId));
 		}
 
-		public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
+		public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
 		{
             var resourceUrl = this.GetFormattedArticlesUri("help_center/articles.json", options, sideloadOptions);
 
-			return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
+			return await GenericPagedGetAsync<GroupArticleResponse>(resourceUrl, perPage, page);
 		}
 
 		public async Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)

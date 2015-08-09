@@ -82,8 +82,8 @@ namespace ZendeskApi_v2.Requests
 
 	public class Topics : Core, ITopics
 	{
-        public Topics(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Topics(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 

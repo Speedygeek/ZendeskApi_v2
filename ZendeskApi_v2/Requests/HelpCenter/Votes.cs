@@ -21,8 +21,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 	public class Votes : Core, IVotes
 	{
-		public Votes(string zendeskApiUrl, string user, string password, string apiToken)
-			: base(zendeskApiUrl, user, password, apiToken)
+		public Votes(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
 		{
 		}
 

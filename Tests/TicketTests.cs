@@ -169,7 +169,7 @@ namespace Tests
         }
 
         [Test]
-        [Ignore] // fragile needs to be changed. 
+        [Ignore("fragile needs to be changed.")]
         public void CanGetRecentTicketsPaged()
         {
             var ticketsRes = api.Tickets.GetRecentTickets(5, 2);
@@ -575,7 +575,7 @@ namespace Tests
         }
 
         [Test]
-        [Ignore] // currently getting a 404 need to talk with zendesk about why. 
+        [Ignore("currently getting a 404 need to talk with zendesk about why.")]
         public void CanGetAuditsAndMarkAsTrusted()
         {
             var audits = api.Tickets.GetAudits(Settings.SampleTicketId);

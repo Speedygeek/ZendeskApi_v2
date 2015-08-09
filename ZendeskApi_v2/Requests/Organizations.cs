@@ -8,7 +8,7 @@ namespace ZendeskApi_v2.Requests
 	public interface IOrganizations : ICore
 	{
 #if SYNC
-		GroupOrganizationResponse GetOrganizations();
+		GroupOrganizationResponse GetOrganizations(int? perPage = null, int? page = null);
 
 		/// <summary>
 		/// Returns an array of organizations whose name starts with the value specified in the name parameter. The name must be at least 2 characters in length.
@@ -25,7 +25,7 @@ namespace ZendeskApi_v2.Requests
 #endif
 		
 #if ASYNC
-		Task<GroupOrganizationResponse> GetOrganizationsAsync();
+		Task<GroupOrganizationResponse> GetOrganizationsAsync(int? perPage = null, int? page = null);
 
 		/// <summary>
 		/// Returns an array of organizations whose name starts with the value specified in the name parameter. The name must be at least 2 characters in length.
@@ -44,15 +44,15 @@ namespace ZendeskApi_v2.Requests
 
 	public class Organizations : Core, IOrganizations
 	{
-        public Organizations(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Organizations(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
 #if SYNC
-        public GroupOrganizationResponse GetOrganizations()
+        public GroupOrganizationResponse GetOrganizations(int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupOrganizationResponse>("organizations.json");
+            return GenericPagedGet<GroupOrganizationResponse>("organizations.json", perPage, page);
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace ZendeskApi_v2.Requests
 
 #if ASYNC
 
-        public async Task<GroupOrganizationResponse> GetOrganizationsAsync()
+        public async Task<GroupOrganizationResponse> GetOrganizationsAsync(int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupOrganizationResponse>("organizations.json");
+            return await GenericPagedGetAsync<GroupOrganizationResponse>("organizations.json", perPage, page);
         }
 
         /// <summary>

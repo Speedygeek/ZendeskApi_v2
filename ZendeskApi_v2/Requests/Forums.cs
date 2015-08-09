@@ -39,8 +39,8 @@ namespace ZendeskApi_v2.Requests
 
 	public class Forums : Core, IForums
 	{
-        public Forums(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Forums(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 #if SYNC

@@ -11,7 +11,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 	{
 #if SYNC
 
-		GroupCommentResponse GetCommentsForArticle(long? articleId);
+		GroupCommentResponse GetCommentsForArticle(long? articleId, int? perPage = null, int? page = null);
         GroupCommentResponse GetCommentsForUser(long? userId);
         GroupCommentResponse GetCommentsForCurrentUser();
 #endif
@@ -28,16 +28,16 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     /// </summary>
 	public class Comments : Core, IComments
 	{
-		public Comments(string zendeskApiUrl, string user, string password, string apiToken)
-			: base(zendeskApiUrl, user, password, apiToken)
+		public Comments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
 		{
 		}
 
 #if SYNC
 
-		public GroupCommentResponse GetCommentsForArticle(long? articleId)
+		public GroupCommentResponse GetCommentsForArticle(long? articleId, int? perPage = null, int? page = null)
 		{
-			return GenericGet<GroupCommentResponse>(string.Format("help_center/articles/{0}/comments.json", articleId));
+			return GenericPagedGet<GroupCommentResponse>(string.Format("help_center/articles/{0}/comments.json", articleId), perPage, page);
 		}
 
         public GroupCommentResponse GetCommentsForUser(long? userId)

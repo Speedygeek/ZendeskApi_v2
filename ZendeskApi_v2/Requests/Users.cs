@@ -13,7 +13,7 @@ namespace ZendeskApi_v2.Requests
 	{
 #if SYNC
 		IndividualUserResponse GetCurrentUser();
-		GroupUserResponse GetAllUsers();
+		GroupUserResponse GetAllUsers(int? perPage = null, int? page = null);
 		IndividualUserResponse GetUser(long id);
 		GroupUserResponse SearchByEmail(string email);
 		GroupUserResponse SearchByExternalId(string externalId);
@@ -45,7 +45,7 @@ namespace ZendeskApi_v2.Requests
 
 #if ASYNC
 		Task<IndividualUserResponse> GetCurrentUserAsync();
-		Task<GroupUserResponse> GetAllUsersAsync();
+		Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null);
 		Task<IndividualUserResponse> GetUserAsync(long id);
 		Task<GroupUserResponse> SearchByEmailAsync(string email);
 		Task<GroupUserResponse> SearchByExternalIdAsync(string externalId);
@@ -78,8 +78,8 @@ namespace ZendeskApi_v2.Requests
 
 	public class Users : Core, IUsers
 	{
-        public Users(string yourZendeskUrl, string user, string password, string apiToken)
-            : base(yourZendeskUrl, user, password, apiToken)
+        public Users(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
@@ -89,9 +89,9 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualUserResponse>("users/me.json");
         }
 
-        public GroupUserResponse GetAllUsers()
+        public GroupUserResponse GetAllUsers(int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupUserResponse>("users.json");
+            return GenericPagedGet<GroupUserResponse>("users.json", perPage, page);
         }
 
         public IndividualUserResponse GetUser(long id)
@@ -214,9 +214,9 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualUserResponse>("users/me.json");
         }
 
-        public async Task<GroupUserResponse> GetAllUsersAsync()
+        public async Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupUserResponse>("users.json");
+            return await GenericPagedGetAsync<GroupUserResponse>("users.json", perPage, page);
         }
 
         public async Task<IndividualUserResponse> GetUserAsync(long id)
