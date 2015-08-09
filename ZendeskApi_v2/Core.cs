@@ -142,7 +142,6 @@ namespace ZendeskApi_v2
             {
                 Debug.Write(ex.Message);
                 throw new WebException(ex.Message + " " + ex.Response.Headers.ToString(), ex);
-
             }
         }
 
@@ -243,9 +242,9 @@ namespace ZendeskApi_v2
 #endif
         protected string GetPasswordOrTokenAuthHeader()
         {
-            if (!String.IsNullOrEmpty(ApiToken) && ApiToken.Trim().Length >= 0)
+            if (!string.IsNullOrEmpty(ApiToken.Trim()))
                 return GetAuthHeader(User + "/token", ApiToken);
-            else if (!String.IsNullOrEmpty(Password) && Password.Trim().Length >= 0)
+            else if (!string.IsNullOrEmpty(Password.Trim()))
                 return GetAuthHeader(User, Password);
             else
                 return string.Format("Bearer {0}", OAuthToken);

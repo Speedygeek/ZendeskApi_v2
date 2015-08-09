@@ -13,32 +13,32 @@ using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface IAttachments : ICore
-	{
+    public interface IAttachments : ICore
+    {
 #if SYNC
         GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId);
         Upload UploadAttachment(ZenFile file);
         Upload UploadAttachment(ZenFile file, int? timeout);
-		Upload UploadAttachments(IEnumerable<ZenFile> files);
+        Upload UploadAttachments(IEnumerable<ZenFile> files);
 #endif
-		
+        
 #if ASYNC
-		Task<Upload> UploadAttachmentAsync(ZenFile file);
-		Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files);
+        Task<Upload> UploadAttachmentAsync(ZenFile file);
+        Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files);
 
-		/// <summary>
-		/// Uploads a file to zendesk and returns the corresponding token id.
-		/// To upload another file to an existing token just pass in the existing token.
-		/// </summary>
-		/// <param name="file"></param>
-		/// <param name="token"></param>
-		/// <returns></returns>  
-		Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "");
+        /// <summary>
+        /// Uploads a file to zendesk and returns the corresponding token id.
+        /// To upload another file to an existing token just pass in the existing token.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>  
+        Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "");
 #endif
-	}
+    }
 
-	public class Attachments : Core, IAttachments
-	{
+    public class Attachments : Core, IAttachments
+    {
         public Attachments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         { }
@@ -46,7 +46,7 @@ namespace ZendeskApi_v2.Requests
         
         public GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId)
         {
-            return GenericGet<GroupAttachmentResponse>(String.Format("help_center/articles/{0}/attachments.json", articleId));
+            return GenericGet<GroupAttachmentResponse>(string.Format("help_center/articles/{0}/attachments.json", articleId));
         }
 
         public Upload UploadAttachment(ZenFile file)

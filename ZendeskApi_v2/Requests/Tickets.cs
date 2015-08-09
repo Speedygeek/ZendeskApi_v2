@@ -424,7 +424,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id)
         {
-            return GenericGet<IndividualTicketMetricResponse>(String.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
+            return GenericGet<IndividualTicketMetricResponse>(string.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
         }
 
         #endregion
@@ -681,7 +681,7 @@ namespace ZendeskApi_v2.Requests
 
         public Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id)
         {
-            return GenericGetAsync<IndividualTicketMetricResponse>(String.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
+            return GenericGetAsync<IndividualTicketMetricResponse>(string.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
         }
 
 

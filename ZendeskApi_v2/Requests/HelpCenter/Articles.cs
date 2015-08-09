@@ -10,7 +10,8 @@ using ZendeskApi_v2.Models.Articles;
 namespace ZendeskApi_v2.Requests.HelpCenter
 {
     [Flags]
-    public enum ArticleSideLoadOptionsEnum{
+    public enum ArticleSideLoadOptionsEnum
+    {
         None = 1,
         Users = 2,
         Sections = 4,
@@ -19,49 +20,50 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     }
 
 
-	public interface IArticles : ICore
-	{
+    public interface IArticles : ICore
+    {
 #if SYNC
         IndividualArticleResponse GetArticle(long articleId);
-		GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
-		GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
-		GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
-		GroupArticleResponse GetArticlesByUserId(long userId);
-		GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime);
+        GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
+        GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
+        GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
+        GroupArticleResponse GetArticlesByUserId(long userId);
+        GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime);
         ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null);
-		IndividualArticleResponse CreateArticle(long sectionId, Article article);
-		IndividualArticleResponse UpdateArticle(Article article);
-		bool DeleteArticle(long id);
+        IndividualArticleResponse CreateArticle(long sectionId, Article article);
+        IndividualArticleResponse UpdateArticle(Article article);
+        bool DeleteArticle(long id);
 #endif
 #if ASYNC
         Task<IndividualArticleResponse> GetArticleAsync(long articleId);
-		Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
+        Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
         Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
-		Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
-		Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId);
-		Task<GroupArticleResponse> GetArticlesSinceDateTimeAsync(DateTime startTime);
+        Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
+        Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId);
+        Task<GroupArticleResponse> GetArticlesSinceDateTimeAsync(DateTime startTime);
         Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null);
-		Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article);
-		Task<IndividualArticleResponse> UpdateArticleAsync(Article article);
-		Task<bool> DeleteArticleAsync(long id);
+        Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article);
+        Task<IndividualArticleResponse> UpdateArticleAsync(Article article);
+        Task<bool> DeleteArticleAsync(long id);
 #endif
 
-	}
+    }
 
-	public class Articles : Core, IArticles
-	{
-		public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+    public class Articles : Core, IArticles
+    {
+        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
-		{
-		}
+        {
+        }
 
 #if SYNC
         public IndividualArticleResponse GetArticle(long articleId)
-		{
-			return GenericGet<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", articleId));
-		}
+        {
+            return GenericGet<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", articleId));
+        }
 
-        public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null) {
+        public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
+        {
             var resourceUrl = this.GetFormattedArticlesUri("help_center/articles.json", options, sideloadOptions);
 
             return GenericPagedGet<GroupArticleResponse>(resourceUrl, perPage, page);
@@ -69,138 +71,142 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 
         public GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
-		{
+        {
             var uri = string.Format("help_center/categories/{0}/articles.json", categoryId);
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
-			return GenericGet<GroupArticleResponse>(resourceUrl);
-		}
+            return GenericGet<GroupArticleResponse>(resourceUrl);
+        }
 
-		public GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
-		{
+        public GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
+        {
             var uri = string.Format("help_center/sections/{0}/articles.json", sectionId);
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
-			return GenericGet<GroupArticleResponse>(resourceUrl);
-		}
-		public GroupArticleResponse GetArticlesByUserId(long userId)
-		{
-			return GenericGet<GroupArticleResponse>(string.Format("help_center/users/{0}/articles.json", userId));
-		}
+            return GenericGet<GroupArticleResponse>(resourceUrl);
+        }
+        public GroupArticleResponse GetArticlesByUserId(long userId)
+        {
+            return GenericGet<GroupArticleResponse>(string.Format("help_center/users/{0}/articles.json", userId));
+        }
 
-		public GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime)
-		{
-			return GenericGet<GroupArticleResponse>(string.Format("help_center/incremental/articles.json?start_time={0}", startTime.GetEpoch()));
-		}
+        public GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime)
+        {
+            return GenericGet<GroupArticleResponse>(string.Format("help_center/incremental/articles.json?start_time={0}", startTime.GetEpoch()));
+        }
 
         public ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null)
-		{
-			return GenericGet<ArticleSearchResults>(string.Format("help_center/articles/search.json?query={0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}", 
-                                                                            query,
-                                                                            String.IsNullOrEmpty(category) ? "" : "&category=" + category,
-                                                                            String.IsNullOrEmpty(section) ? "" : "&section=" + section,
-                                                                            String.IsNullOrEmpty(labels) ? "" : "&label_names=" + labels,
-                                                                            String.IsNullOrEmpty(locale) ? "" : "&locale=" + locale,
-                                                                            !createdBefore.HasValue ? "" : "&created_before=" + createdBefore.Value.ToString("yyyy-MM-dd"),
-                                                                            !createdAfter.HasValue ? "" : "&created_after=" + createdAfter.Value.ToString("yyyy-MM-dd"),
-                                                                            !createdAt.HasValue ? "" : "&created_at=" + createdAt.Value.ToString("yyyy-MM-dd"),
-                                                                            !updatedBefore.HasValue ? "" : "&updated_before=" + updatedBefore.Value.ToString("yyyy-MM-dd"),
-                                                                            !updatedAfter.HasValue ? "" : "&updated_after=" + updatedAfter.Value.ToString("yyyy-MM-dd"),
-                                                                            !updatedAt.HasValue ? "" : "&updated_at=" + updatedAt.Value.ToString("yyyy-MM-dd")));
-		}
+        {
+            return GenericGet<ArticleSearchResults>(
+                string.Format("help_center/articles/search.json?query={0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
+                             query,
+                             string.IsNullOrEmpty(category) ? "" : "&category=" + category,
+                             string.IsNullOrEmpty(section) ? "" : "&section=" + section,
+                             string.IsNullOrEmpty(labels) ? "" : "&label_names=" + labels,
+                             string.IsNullOrEmpty(locale) ? "" : "&locale=" + locale,
+                             !createdBefore.HasValue ? "" : "&created_before=" + createdBefore.Value.ToString("yyyy-MM-dd"),
+                             !createdAfter.HasValue ? "" : "&created_after=" + createdAfter.Value.ToString("yyyy-MM-dd"),
+                             !createdAt.HasValue ? "" : "&created_at=" + createdAt.Value.ToString("yyyy-MM-dd"),
+                             !updatedBefore.HasValue ? "" : "&updated_before=" + updatedBefore.Value.ToString("yyyy-MM-dd"),
+                             !updatedAfter.HasValue ? "" : "&updated_after=" + updatedAfter.Value.ToString("yyyy-MM-dd"),
+                             !updatedAt.HasValue ? "" : "&updated_at=" + updatedAt.Value.ToString("yyyy-MM-dd")));
+        }
 
-		public IndividualArticleResponse CreateArticle(long sectionId, Article article)
-		{
-			var body = new { article };
-			return GenericPost<IndividualArticleResponse>(string.Format("help_center/sections/{0}/articles.json", sectionId), body);
-		}
+        public IndividualArticleResponse CreateArticle(long sectionId, Article article)
+        {
+            var body = new { article };
+            return GenericPost<IndividualArticleResponse>(string.Format("help_center/sections/{0}/articles.json", sectionId), body);
+        }
 
-		public IndividualArticleResponse UpdateArticle(Article article)
-		{
-			var body = new { article };
-			return GenericPut<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", article.Id), body);
-		}
+        public IndividualArticleResponse UpdateArticle(Article article)
+        {
+            var body = new { article };
+            return GenericPut<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", article.Id), body);
+        }
 
-		public bool DeleteArticle(long id)
-		{
-			return GenericDelete(string.Format("help_center/articles/{0}.json", id));
-		}
+        public bool DeleteArticle(long id)
+        {
+            return GenericDelete(string.Format("help_center/articles/{0}.json", id));
+        }
 #endif
 #if ASYNC
         public async Task<IndividualArticleResponse> GetArticleAsync(long articleId)
-		{
+        {
             return await GenericPostAsync<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", articleId));
-		}
+        }
 
-		public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
-		{
+        public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
+        {
             var resourceUrl = this.GetFormattedArticlesUri("help_center/articles.json", options, sideloadOptions);
 
-			return await GenericPagedGetAsync<GroupArticleResponse>(resourceUrl, perPage, page);
-		}
+            return await GenericPagedGetAsync<GroupArticleResponse>(resourceUrl, perPage, page);
+        }
 
-		public async Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
-		{
+        public async Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
+        {
             var uri = string.Format("help_center/categories/{0}/articles.json", categoryId);
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
-			return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
-		}
+            return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
+        }
 
-		public async Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
-		{
+        public async Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
+        {
             var uri = string.Format("help_center/sections/{0}/articles.json", sectionId);
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
-			return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
-		}
+            return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
+        }
 
-		public async Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId)
-		{
-			return await GenericGetAsync<GroupArticleResponse>(string.Format("help_center/users/{0}/articles.json", userId));
-		}
+        public async Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId)
+        {
+            return await GenericGetAsync<GroupArticleResponse>(string.Format("help_center/users/{0}/articles.json", userId));
+        }
 
-		public async Task<GroupArticleResponse> GetArticlesSinceDateTimeAsync(DateTime startTime)
-		{
-			return await GenericGetAsync<GroupArticleResponse>(string.Format("help_center/incremental/articles.json?start_time={0}", startTime.GetEpoch()));
-		}
+        public async Task<GroupArticleResponse> GetArticlesSinceDateTimeAsync(DateTime startTime)
+        {
+            return await GenericGetAsync<GroupArticleResponse>(string.Format("help_center/incremental/articles.json?start_time={0}", startTime.GetEpoch()));
+        }
 
         public async Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null)
-		{
-			return await GenericGetAsync<ArticleSearchResults>(string.Format("help_center/articles/search.json?query={0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}", 
-                                                                            query,
-                                                                            String.IsNullOrEmpty(category) ? "" : "&category=" + category,
-                                                                            String.IsNullOrEmpty(section) ? "" : "&section=" + section,
-                                                                            String.IsNullOrEmpty(labels) ? "" : "&label_names=" + labels,
-                                                                            String.IsNullOrEmpty(locale) ? "" : "&locale=" + locale,
-                                                                            !createdBefore.HasValue ? "" : "&created_before=" + createdBefore.Value.ToString("yyyy-MM-dd"),
-                                                                            !createdAfter.HasValue ? "" : "&created_after=" + createdAfter.Value.ToString("yyyy-MM-dd"),
-                                                                            !createdAt.HasValue ? "" : "&created_at=" + createdAt.Value.ToString("yyyy-MM-dd"),
-                                                                            !updatedBefore.HasValue ? "" : "&updated_before=" + updatedBefore.Value.ToString("yyyy-MM-dd"),
-                                                                            !updatedAfter.HasValue ? "" : "&updated_after=" + updatedAfter.Value.ToString("yyyy-MM-dd"),
-                                                                            !updatedAt.HasValue ? "" : "&updated_at=" + updatedAt.Value.ToString("yyyy-MM-dd")));
-		}
+        {
+            return await GenericGetAsync<ArticleSearchResults>(
+                string.Format("help_center/articles/search.json?query={0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
+                             query,
+                             string.IsNullOrEmpty(category) ? "" : "&category=" + category,
+                             string.IsNullOrEmpty(section) ? "" : "&section=" + section,
+                             string.IsNullOrEmpty(labels) ? "" : "&label_names=" + labels,
+                             string.IsNullOrEmpty(locale) ? "" : "&locale=" + locale,
+                             !createdBefore.HasValue ? "" : "&created_before=" + createdBefore.Value.ToString("yyyy-MM-dd"),
+                             !createdAfter.HasValue ? "" : "&created_after=" + createdAfter.Value.ToString("yyyy-MM-dd"),
+                             !createdAt.HasValue ? "" : "&created_at=" + createdAt.Value.ToString("yyyy-MM-dd"),
+                             !updatedBefore.HasValue ? "" : "&updated_before=" + updatedBefore.Value.ToString("yyyy-MM-dd"),
+                             !updatedAfter.HasValue ? "" : "&updated_after=" + updatedAfter.Value.ToString("yyyy-MM-dd"),
+                             !updatedAt.HasValue ? "" : "&updated_at=" + updatedAt.Value.ToString("yyyy-MM-dd")));
+        }
 
-		public async Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article)
-		{
-			var body = new { article };
-			return await GenericPostAsync<IndividualArticleResponse>(string.Format("help_center/sections/{0}/articles.json", sectionId), body);
-		}
+        public async Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article)
+        {
+            var body = new { article };
+            return await GenericPostAsync<IndividualArticleResponse>(string.Format("help_center/sections/{0}/articles.json", sectionId), body);
+        }
 
-		public async Task<IndividualArticleResponse> UpdateArticleAsync(Article article)
-		{
-			var body = new { article };
-			return await GenericPutAsync<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", article.Id), body);
-		}
+        public async Task<IndividualArticleResponse> UpdateArticleAsync(Article article)
+        {
+            var body = new { article };
+            return await GenericPutAsync<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", article.Id), body);
+        }
 
-		public async Task<bool> DeleteArticleAsync(long id)
-		{
-			return await GenericDeleteAsync(string.Format("help_center/articles/{0}.json", id));
-		}
+        public async Task<bool> DeleteArticleAsync(long id)
+        {
+            return await GenericDeleteAsync(string.Format("help_center/articles/{0}.json", id));
+        }
 #endif
 
-        private string GetFormattedArticlesUri(string resourceUrl, ArticleSortingOptions options, ArticleSideLoadOptionsEnum sideloadOptions) {
-            if (options != null) {
+        private string GetFormattedArticlesUri(string resourceUrl, ArticleSortingOptions options, ArticleSideLoadOptionsEnum sideloadOptions)
+        {
+            if (options != null)
+            {
                 if (string.IsNullOrEmpty(options.Locale))
                     throw new ArgumentException("Locale is required to sort");
 
@@ -208,11 +214,13 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             }
 
             string sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
-            if (sideloadOptions != ArticleSideLoadOptionsEnum.None) {
+            if (sideloadOptions != ArticleSideLoadOptionsEnum.None)
+            {
                 resourceUrl += resourceUrl.Contains("?") ? "&include=" : "?include=";
 
                 //Categories flag REQUIRES sections to be added as well, or nothing will be returned
-                if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections)) {
+                if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections))
+                {
                     sideLoads += string.Format(",{0}", ArticleSideLoadOptionsEnum.Sections.ToString().ToLower());
                 }
 
@@ -220,5 +228,5 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             }
             return resourceUrl;
         }
-	}
+    }
 }

@@ -11,6 +11,7 @@ namespace Tests.HelpCenter
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
         [Test]
+        [Timeout(120000)]
         public void CanGetCategories()
         {
             var res = api.HelpCenter.Categories.GetCategories();

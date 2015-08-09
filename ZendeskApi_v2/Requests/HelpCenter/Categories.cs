@@ -49,7 +49,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public IndividualCategoryResponse CreateCategory(Category category)
         {
-            if (String.IsNullOrEmpty(category.Locale))
+            if (string.IsNullOrEmpty(category.Locale))
                 category.Locale = Locale;
             var body = new { category };
 
