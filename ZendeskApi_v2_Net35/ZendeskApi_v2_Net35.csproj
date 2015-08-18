@@ -24,7 +24,6 @@
     <DefineConstants>TRACE;DEBUG;SYNC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +32,6 @@
     <DefineConstants>TRACE;SYNC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -53,6 +51,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Extensions\RequestExtensions.cs">
       <Link>Extensions\RequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Extensions\StringExtensions.cs">
+      <Link>Extensions\StringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\HelpCenterApi.cs">
       <Link>HelpCenterApi.cs</Link>
@@ -720,7 +721,6 @@ if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net35" mkdir "$(SolutionDi
 copy $(OutDir)$(TargetFileName) $(SolutionDir)ZendeskApi_v2_Package\lib\net35\$(TargetFileName) /Y</PostBuildEvent>
   </PropertyGroup>
   <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" /> -->
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

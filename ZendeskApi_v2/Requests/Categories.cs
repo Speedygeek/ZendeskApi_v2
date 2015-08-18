@@ -6,27 +6,27 @@ using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface ICategories : ICore
-	{
+    public interface ICategories : ICore
+    {
 #if SYNC
-		GroupCategoryResponse GetCategories();
-		IndividualCategoryResponse GetCategoryById(long id);
-		IndividualCategoryResponse CreateCategory(Category category);
-		IndividualCategoryResponse UpdateCategory(Category category);
-		bool DeleteCategory(long id);
+        GroupCategoryResponse GetCategories();
+        IndividualCategoryResponse GetCategoryById(long id);
+        IndividualCategoryResponse CreateCategory(Category category);
+        IndividualCategoryResponse UpdateCategory(Category category);
+        bool DeleteCategory(long id);
 #endif
 
 #if ASYNC
-		Task<GroupCategoryResponse> GetCategoriesAsync();
-		Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id);
-		Task<IndividualCategoryResponse> CreateCategoryAsync(Category category);
-		Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category);
-		Task<bool> DeleteCategoryAsync(long id);
+        Task<GroupCategoryResponse> GetCategoriesAsync();
+        Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id);
+        Task<IndividualCategoryResponse> CreateCategoryAsync(Category category);
+        Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category);
+        Task<bool> DeleteCategoryAsync(long id);
 #endif
-	}
+    }
 
-	public class Categories : Core, ICategories
-	{
+    public class Categories : Core, ICategories
+    {
         public Categories(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {

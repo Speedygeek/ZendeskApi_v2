@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -43,7 +43,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net" />
@@ -51,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RequestExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HelpCenterApi.cs" />
     <Compile Include="Models\AccountsAndActivities\Activity.cs" />
     <Compile Include="Models\AccountsAndActivities\Actor.cs" />
@@ -88,10 +88,10 @@
     <Compile Include="Models\Groups\IndividualGroupResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupMembershipResponse.cs" />
     <Compile Include="Models\Groups\MultipleGroupResponse.cs" />
+    <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
     <Compile Include="Models\HelpCenter\Categories\Category.cs" />
     <Compile Include="Models\HelpCenter\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\HelpCenter\Categories\IndividualCategoryResponse.cs" />
-    <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
     <Compile Include="Models\HelpCenter\Comments\Comment.cs" />
     <Compile Include="Models\HelpCenter\Comments\GroupCommentResponse.cs" />
     <Compile Include="Models\HelpCenter\Comments\IndividualCommentResponse.cs" />
@@ -273,19 +273,16 @@
     <Compile Include="Requests\Tickets.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" />-->
   <PropertyGroup>
-    <PostBuildEvent>
-      cd $(ProjectDir)
-      if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib"
-      if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45"
-      copy $(OutDir)$(TargetFileName) $(SolutionDir)\ZendeskApi_v2_Package\lib\net45\$(TargetFileName) /Y
-    </PostBuildEvent>
+    <PostBuildEvent>cd $(ProjectDir)
+if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib"
+if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45"
+copy $(OutDir)$(TargetFileName) $(SolutionDir)\ZendeskApi_v2_Package\lib\net45\$(TargetFileName) /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
