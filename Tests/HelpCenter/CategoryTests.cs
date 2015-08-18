@@ -18,7 +18,7 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var res1 = api.HelpCenter.Categories.GetCategoryById(res.Categories[0].Id.Value);
-            Assert.AreEqual(res1.Category.Id, res.Categories[0].Id);
+            Assert.AreEqual(res1.Category.Id, res.Categories[0].Id.Value);
         }
 
         [Test]

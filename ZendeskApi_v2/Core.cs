@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 #endif
 using Newtonsoft.Json;
+using ZendeskApi_v2.Extensions;
 
 namespace ZendeskApi_v2
 {
@@ -36,8 +37,8 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
+        JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
         protected string OAuthToken;
-
 
         /// <summary>
         /// Constructor that uses BasicHttpAuthentication.
@@ -70,6 +71,9 @@ namespace ZendeskApi_v2
         {
             User = user;
             Password = password;
+            if (!zendeskApiUrl.EndsWith("/", StringComparison.CurrentCulture))
+                zendeskApiUrl += "/";
+
             ZendeskUrl = zendeskApiUrl;
             ApiToken = apiToken;
             OAuthToken = p_OAuthToken;
@@ -90,10 +94,7 @@ namespace ZendeskApi_v2
         public T RunRequest<T>(string resource, string requestMethod, object body = null)
         {
             var response = RunRequest(resource, requestMethod, body);
-            var obj = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings()
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            var obj = JsonConvert.DeserializeObject<T>(response.Content, jsonSettings);
             return obj;
         }
 
@@ -102,7 +103,6 @@ namespace ZendeskApi_v2
             try
             {
                 var requestUrl = ZendeskUrl + resource;
-
                 HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
                 req.ContentType = "application/json";
 
@@ -118,8 +118,8 @@ namespace ZendeskApi_v2
 
                 if (body != null)
                 {
-                    var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                    byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
+                    var json = JsonConvert.SerializeObject(body, jsonSettings);
+                    byte[] formData = Encoding.UTF8.GetBytes(json);
                     req.ContentLength = formData.Length;
 
                     var dataStream = req.GetRequestStream();
@@ -208,8 +208,6 @@ namespace ZendeskApi_v2
             return GenericGet<T>(resource + paramString);
         }
 
-
-
         protected bool GenericDelete(string resource)
         {
             var res = RunRequest(resource, "DELETE");
@@ -240,14 +238,22 @@ namespace ZendeskApi_v2
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 #endif
+
         protected string GetPasswordOrTokenAuthHeader()
         {
-            if (!string.IsNullOrEmpty(ApiToken.Trim()))
+            if (!ApiToken.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
                 return GetAuthHeader(User + "/token", ApiToken);
-            else if (!string.IsNullOrEmpty(Password.Trim()))
+            else if (!Password.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
                 return GetAuthHeader(User, Password);
+            else if (!OAuthToken.IsNullOrWhiteSpace())
+                return GetAuthBearerHeader(OAuthToken);
             else
-                return string.Format("Bearer {0}", OAuthToken);
+                return string.Empty;
+        }
+
+        protected string GetAuthBearerHeader(string oAuthToken)
+        {
+            return string.Format("Bearer {0}", oAuthToken);
         }
 
         protected string GetAuthHeader(string userName, string password)
@@ -276,20 +282,17 @@ namespace ZendeskApi_v2
         public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null)
         {
             var requestUrl = ZendeskUrl + resource;
-
             HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
             req.ContentType = "application/json";
 
             req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-
-
             req.Method = requestMethod; //GET POST PUT DELETE
             req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
 
             if (body != null)
             {
-                var json = JsonConvert.SerializeObject(body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
-                byte[] formData = UTF8Encoding.UTF8.GetBytes(json);
+                var json = JsonConvert.SerializeObject(body, jsonSettings);
+                byte[] formData = Encoding.UTF8.GetBytes(json);
 
                 var requestStream = Task.Factory.FromAsync(
                     req.BeginGetRequestStream,
