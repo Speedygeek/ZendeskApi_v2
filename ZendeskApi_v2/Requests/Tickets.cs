@@ -720,8 +720,11 @@ namespace ZendeskApi_v2.Requests
 
         private string GetResourceStringWithSideLoadOptionsParam(string resource, TicketSideLoadOptionsEnum sideLoadOptions)
         {
-            if (sideLoadOptions != TicketSideLoadOptionsEnum.None)  // todo: Remove None from flag if it was included in combined flag.
+            if (sideLoadOptions != TicketSideLoadOptionsEnum.None)
             {
+                if (sideLoadOptions.HasFlag(TicketSideLoadOptionsEnum.None))
+                    sideLoadOptions &= ~TicketSideLoadOptionsEnum.None;
+
                 string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
                 resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
                 return resource;
