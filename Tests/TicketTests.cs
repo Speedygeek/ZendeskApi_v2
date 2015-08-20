@@ -11,11 +11,13 @@ using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Requests;
 
 
 namespace Tests
 {
     [TestFixture]
+    [Category("Tickets")]
     public class TicketTests
     {
         ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
@@ -832,5 +834,17 @@ namespace Tests
             Assert.AreEqual(metric.TicketId, id);
         }
 
+        [Test]
+        public void TicketSideLoadingTest()
+        {
+            var tickets =
+                api.Tickets.GetAllTickets(sideLoadOptions:
+                    TicketSideLoadOptionsEnum.Users |
+                    TicketSideLoadOptionsEnum.Organizations |
+                    TicketSideLoadOptionsEnum.Groups);
+
+            Assert.IsTrue(tickets.Users.Any());
+            Assert.IsTrue(tickets.Organizations.Any());
+        }
     }
 }

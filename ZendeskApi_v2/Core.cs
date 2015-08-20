@@ -167,7 +167,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
+                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
 
@@ -201,7 +201,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
+                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
 
@@ -354,7 +354,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
 
@@ -388,7 +388,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = "?" + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
 
