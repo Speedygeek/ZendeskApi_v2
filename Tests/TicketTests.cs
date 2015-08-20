@@ -21,12 +21,22 @@ namespace Tests
     public class TicketTests
     {
         ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
 
         [Test]
         public void CanGetTicketsAsync()
         {
             var tickets = api.Tickets.GetAllTicketsAsync();
             Assert.True(tickets.Result.Count > 0);
+        }
+
+        [Test]
+        public void CanGetTicketsAsyncWithSideLoad()
+        {
+            var tickets = api.Tickets.GetAllTicketsAsync(sideLoadOptions: ticketSideLoadOptions);
+            Assert.True(tickets.Result.Count > 0);
+            Assert.IsTrue(tickets.Result.Users.Any());
+            Assert.IsTrue(tickets.Result.Organizations.Any());
         }
 
         [Test]
@@ -89,6 +99,15 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetTicketsWithSideLoad()
+        {
+            var tickets = api.Tickets.GetAllTickets(sideLoadOptions: ticketSideLoadOptions);
+            Assert.True(tickets.Count > 0);
+            Assert.IsTrue(tickets.Users.Any());
+            Assert.IsTrue(tickets.Organizations.Any());
+        }
+
+        [Test]
         public void CanGetTicketsPaged()
         {
             const int count = 50;
@@ -120,6 +139,18 @@ namespace Tests
             var ticket = api.Tickets.GetTicket(id).Ticket;
             Assert.NotNull(ticket);
             Assert.AreEqual(ticket.Id, id);
+        }
+
+        [Test]
+        public void CanGetTicketByIdWithSideLoad()
+        {
+            var id = Settings.SampleTicketId;
+            var ticket = api.Tickets.GetTicket(id, sideLoadOptions: ticketSideLoadOptions);
+            Assert.NotNull(ticket);
+            Assert.NotNull(ticket.Ticket);
+            Assert.AreEqual(ticket.Ticket.Id, id);
+            Assert.IsTrue(ticket.Users.Any());
+            Assert.IsTrue(ticket.Organizations.Any());
         }
 
         [Test]
@@ -171,6 +202,16 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetTicketsByViewIdPagedWithSideLoad()
+        {
+            CanGetTicketsByViewIdPaged();
+            var ticketsRes = api.Tickets.GetTicketsByViewID(Settings.ViewId, 10, 2, sideLoadOptions: ticketSideLoadOptions);
+
+            Assert.IsTrue(ticketsRes.Users.Any());
+            Assert.IsTrue(ticketsRes.Users.Any());
+        }
+
+        [Test]
         [Ignore("fragile needs to be changed.")]
         public void CanGetRecentTicketsPaged()
         {
@@ -209,9 +250,23 @@ namespace Tests
             Assert.AreEqual("3", nextPage);
         }
 
+        [Test]
+        public void CanTicketsByUserIdPagedWithSideLoad()
+        {
+            CanTicketsByUserIdPaged();
+            var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
+            Assert.IsTrue(ticketsRes.Users.Any());
+            Assert.IsTrue(ticketsRes.Organizations.Any());
+        }
 
-
-
+        [Test]
+        public void CanTicketsByUserIdPagedAsyncWithSideLoad()
+        {
+            var ticketsRes = api.Tickets.GetTicketsByUserIDAsync(Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
+            Assert.IsTrue(ticketsRes.Result.Users.Any());
+            Assert.IsTrue(ticketsRes.Result.Organizations.Any());
+        }
+        
         [Test]
         public void CanGetMultipleTickets()
         {
@@ -229,6 +284,29 @@ namespace Tests
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
         }
+
+        [Test]
+        public void CanGetMultipleTicketsWithSideLoad()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var tickets = api.Tickets.GetMultipleTickets(ids, sideLoadOptions: ticketSideLoadOptions);
+            Assert.NotNull(tickets);
+            Assert.AreEqual(tickets.Count, ids.Count);
+            Assert.IsTrue(tickets.Users.Any());
+            Assert.IsTrue(tickets.Organizations.Any());
+        }
+
+        [Test]
+        public async Task CanGetMultipleTicketsAsyncWithSideLoad()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var tickets = await api.Tickets.GetMultipleTicketsAsync(ids, sideLoadOptions: ticketSideLoadOptions);
+            Assert.NotNull(tickets);
+            Assert.AreEqual(tickets.Count, ids.Count);
+            Assert.IsTrue(tickets.Users.Any());
+            Assert.IsTrue(tickets.Organizations.Any());
+        }
+
 
         [Test]
         public void CanGetMultipleTicketsSingleTicket()
@@ -835,14 +913,41 @@ namespace Tests
         }
 
         [Test]
-        public void TicketSideLoadingTest()
+        public void CanGetAllTicketsWithSideLoad()
         {
             var tickets =
-                api.Tickets.GetAllTickets(sideLoadOptions:
-                    TicketSideLoadOptionsEnum.Users |
-                    TicketSideLoadOptionsEnum.Organizations |
-                    TicketSideLoadOptionsEnum.Groups);
+                api.Tickets.GetAllTickets(sideLoadOptions: ticketSideLoadOptions);
 
+            Assert.IsTrue(tickets.Users.Any());
+            Assert.IsTrue(tickets.Organizations.Any());
+        }
+
+        [Test]
+        public void CanGetAllTicketsAsyncWithSideLoad()
+        {
+            var tickets =
+                api.Tickets.GetAllTicketsAsync(sideLoadOptions: ticketSideLoadOptions);
+
+            Assert.IsTrue(tickets.Result.Users.Any());
+            Assert.IsTrue(tickets.Result.Organizations.Any());
+        }
+
+        [Test]
+        public void CanGetTicketsByOrganizationIDAsyncWithSideLoad()
+        {
+            var id = Settings.OrganizationId;
+            var tickets = api.Tickets.GetTicketsByOrganizationIDAsync(id, sideLoadOptions: ticketSideLoadOptions);
+            Assert.True(tickets.Result.Count > 0);
+            Assert.IsTrue(tickets.Result.Users.Any());
+            Assert.IsTrue(tickets.Result.Organizations.Any());
+        }
+
+        [Test]
+        public void CanCanGetTicketsByOrganizationIDWithSideLoad()
+        {
+            var id = Settings.OrganizationId;
+            var tickets = api.Tickets.GetTicketsByOrganizationID(id, sideLoadOptions: ticketSideLoadOptions);
+            Assert.True(tickets.Count > 0);
             Assert.IsTrue(tickets.Users.Any());
             Assert.IsTrue(tickets.Organizations.Any());
         }
