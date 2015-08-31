@@ -29,6 +29,7 @@ namespace ZendeskApi_v2.Requests
 
     public interface ITickets : ICore
     {
+        
 #if SYNC
         GroupTicketFormResponse GetTicketForms();
         IndividualTicketFormResponse CreateTicketForm(TicketForm ticketForm);
@@ -161,7 +162,6 @@ namespace ZendeskApi_v2.Requests
         private const string _organizations = "organizations";
         private const string _ticket_metrics = "ticket_metrics";
 
-
         public Tickets(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
@@ -213,7 +213,6 @@ namespace ZendeskApi_v2.Requests
         public GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
-
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
@@ -226,7 +225,7 @@ namespace ZendeskApi_v2.Requests
         public GroupTicketResponse GetTicketsByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets), sideLoadOptions);
-            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets));
+            return GenericGet<GroupTicketResponse>(resource);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -244,7 +243,7 @@ namespace ZendeskApi_v2.Requests
         public GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/requested.json", userId), sideLoadOptions);
-            return GenericPagedGet<GroupTicketResponse>(string.Format("users/{0}/tickets/requested.json", userId), perPage, page);
+            return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -256,7 +255,7 @@ namespace ZendeskApi_v2.Requests
         public IndividualTicketResponse GetTicket(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}.json", _tickets, id), sideLoadOptions);
-            return GenericGet<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, id));
+            return GenericGet<IndividualTicketResponse>(resource);
         }
 
         public GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null)
