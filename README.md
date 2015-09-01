@@ -1,5 +1,7 @@
 Zendesk Api V2 
 ==============
+
+[![Join the chat at https://gitter.im/mozts2005/ZendeskApi_v2](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mozts2005/ZendeskApi_v2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build status](https://ci.appveyor.com/api/projects/status/6ve1ey4x7ctd5029?svg=true)](https://ci.appveyor.com/project/mozts2005/zendeskapi-v2)
 
 Hello 
