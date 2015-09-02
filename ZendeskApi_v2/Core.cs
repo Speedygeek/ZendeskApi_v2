@@ -214,6 +214,12 @@ namespace ZendeskApi_v2
             return res.HttpStatusCode == HttpStatusCode.OK || res.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
+        protected T GenericDelete<T>(string resource)
+        {
+            var res = RunRequest<T>(resource, "DELETE");
+            return res;
+        }
+
         protected T GenericPost<T>(string resource, object body = null)
         {
             var res = RunRequest<T>(resource, "POST", body);
@@ -400,6 +406,12 @@ namespace ZendeskApi_v2
         {
             var res = RunRequestAsync(resource, "DELETE");
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK || x.Result.HttpStatusCode == HttpStatusCode.NoContent);
+        }
+
+        protected async Task<T> GenericDeleteAsync<T>(string resource)
+        {
+            var res = RunRequestAsync<T>(resource, "DELETE");
+            return await res;
         }
 
         protected async Task<T> GenericPostAsync<T>(string resource, object body = null)

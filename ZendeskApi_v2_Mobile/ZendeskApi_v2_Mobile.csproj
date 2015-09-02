@@ -264,14 +264,23 @@
     <Compile Include="..\ZendeskApi_v2\Models\Macros\Result.cs">
       <Link>Models\Macros\Result.cs</Link>
     </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Organizations\GroupOrganizationMembershipResponse.cs">
+      <Link>Models\Organizations\GroupOrganizationMembershipResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Organizations\GroupOrganizationResponse.cs">
       <Link>Models\Organizations\GroupOrganizationResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Organizations\IndividualOrganizationMembershipResponse.cs">
+      <Link>Models\Organizations\IndividualOrganizationMembershipResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Organizations\IndividualOrganizationResponse.cs">
       <Link>Models\Organizations\IndividualOrganizationResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Organizations\Organization.cs">
       <Link>Models\Organizations\Organization.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Organizations\OrganizationMembership.cs">
+      <Link>Models\Organizations\OrganizationMembership.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Requests\GroupCommentResponse.cs">
       <Link>Models\Requests\GroupCommentResponse.cs</Link>
