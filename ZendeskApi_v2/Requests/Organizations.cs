@@ -126,14 +126,14 @@ namespace ZendeskApi_v2.Requests
             return GenericPagedGet<GroupOrganizationMembershipResponse>("organization_memberships.json", perPage, page);
         }
 
-        public GroupOrganizationMembershipResponse GetOrganizationMembershipsByUserId(long userId)
+        public GroupOrganizationMembershipResponse GetOrganizationMembershipsByUserId(long userId, int? perPage = null, int? page = null)
         {
-            return GenericPagedGet<GroupOrganizationMembershipResponse>(string.Format("users/{0}/organization_memberships.json", userId));
+            return GenericPagedGet<GroupOrganizationMembershipResponse>(string.Format("users/{0}/organization_memberships.json", userId), perPage, page);
         }
 
-        public GroupOrganizationMembershipResponse GetOrganizationMembershipsByOrganizationId(long organizationId)
+        public GroupOrganizationMembershipResponse GetOrganizationMembershipsByOrganizationId(long organizationId, int? perPage = null, int? page = null)
         {
-            return GenericPagedGet<GroupOrganizationMembershipResponse>(string.Format("organizations/{0}/organization_memberships.json", organizationId));
+            return GenericPagedGet<GroupOrganizationMembershipResponse>(string.Format("organizations/{0}/organization_memberships.json", organizationId), perPage, page);
         }
 
         public IndividualOrganizationMembershipResponse GetOrganizationMembership(long id)
@@ -235,14 +235,14 @@ namespace ZendeskApi_v2.Requests
             return await GenericPagedGetAsync<GroupOrganizationMembershipResponse>("organization_memberships.json", perPage, page);
         }
 
-        public async Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByUserIdAsync(long userId)
+        public async Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByUserIdAsync(long userId, int? perPage = null, int? page = null)
         {
-            return await GenericPagedGetAsync<GroupOrganizationMembershipResponse>(string.Format("users/{0}/organization_memberships.json", userId));
+            return await GenericPagedGetAsync<GroupOrganizationMembershipResponse>(string.Format("users/{0}/organization_memberships.json", userId), perPage, page);
         }
 
-        public async Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByOrganizationIdAsync(long organizationId)
+        public async Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByOrganizationIdAsync(long organizationId, int? perPage = null, int? page = null)
         {
-            return await GenericPagedGetAsync<GroupOrganizationMembershipResponse>(string.Format("organizations/{0}/organization_memberships.json", organizationId));
+            return await GenericPagedGetAsync<GroupOrganizationMembershipResponse>(string.Format("organizations/{0}/organization_memberships.json", organizationId), perPage, page);
         }
 
         public async Task<IndividualOrganizationMembershipResponse> GetOrganizationMembershipAsync(long id)
