@@ -109,6 +109,15 @@
     <Compile Include="Models\Macros\Macro.cs" />
     <Compile Include="Models\Macros\Restriction.cs" />
     <Compile Include="Models\Macros\Result.cs" />
+    <Compile Include="Models\Schedules\GroupScheduleHolidayResponse.cs" />
+    <Compile Include="Models\Schedules\GroupScheduleResponse.cs" />
+    <Compile Include="Models\Schedules\Holiday.cs" />
+    <Compile Include="Models\Schedules\IndividualScheduleHolidayResponse.cs" />
+    <Compile Include="Models\Schedules\IndividualScheduleResponse.cs" />
+    <Compile Include="Models\Schedules\IndividualScheduleWorkWeekResponse.cs" />
+    <Compile Include="Models\Schedules\Interval.cs" />
+    <Compile Include="Models\Schedules\Schedule.cs" />
+    <Compile Include="Models\Schedules\WorkWeek.cs" />
     <Compile Include="Models\Sections\GroupSectionResponse.cs" />
     <Compile Include="Models\Sections\IndividualSectionResponse.cs" />
     <Compile Include="Models\Sections\Section.cs" />
@@ -255,6 +264,7 @@
     <Compile Include="Requests\Organizations.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="Requests\SatisfactionRatings.cs" />
+    <Compile Include="Requests\Schedules.cs" />
     <Compile Include="Requests\Search.cs" />
     <Compile Include="Requests\AccountsAndActivity.cs" />
     <Compile Include="Requests\HelpCenter\Sections.cs" />

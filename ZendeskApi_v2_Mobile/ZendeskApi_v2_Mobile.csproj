@@ -297,6 +297,33 @@
     <Compile Include="..\ZendeskApi_v2\Models\SatisfactionRatings\SatisfactionRating.cs">
       <Link>Models\SatisfactionRatings\SatisfactionRating.cs</Link>
     </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\GroupScheduleHolidayResponse.cs">
+      <Link>Models\Schedules\GroupScheduleHolidayResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\GroupScheduleResponse.cs">
+      <Link>Models\Schedules\GroupScheduleResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\Holiday.cs">
+      <Link>Models\Schedules\Holiday.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\IndividualScheduleHolidayResponse.cs">
+      <Link>Models\Schedules\IndividualScheduleHolidayResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\IndividualScheduleResponse.cs">
+      <Link>Models\Schedules\IndividualScheduleResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\IndividualScheduleWorkWeekResponse.cs">
+      <Link>Models\Schedules\IndividualScheduleWorkWeekResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\Interval.cs">
+      <Link>Models\Schedules\Interval.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\Schedule.cs">
+      <Link>Models\Schedules\Schedule.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Schedules\WorkWeek.cs">
+      <Link>Models\Schedules\WorkWeek.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Search\Result.cs">
       <Link>Models\Search\Result.cs</Link>
     </Compile>
@@ -671,6 +698,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\SatisfactionRatings.cs">
       <Link>Requests\SatisfactionRatings.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Requests\Schedules.cs">
+      <Link>Requests\Schedules.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\Search.cs">
       <Link>Requests\Search.cs</Link>
