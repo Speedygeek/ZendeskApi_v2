@@ -68,14 +68,18 @@ namespace ZendeskApi_v2.Requests
         GroupAuditResponse GetAudits(long ticketId);
         IndividualAuditResponse GetAuditById(long ticketId, long auditId);
         bool MarkAuditAsTrusted(long ticketId, long auditId);
+        [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         TicketExportResponse GetInrementalTicketExport(DateTime startTime);
+        TicketExportResponse GetIncrementalTicketExport(DateTime startTime);
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
         /// </summary>
         /// <param name="startTime"></param>
         /// <returns></returns>
+        [Obsolete("This has been deprecated. Please use __TestOnly__GetIncrementalTicketExport", true)]
         TicketExportResponse __TestOnly__GetInrementalTicketExport(DateTime startTime);
+        TicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTime startTime);
 
         GroupTicketFieldResponse GetTicketFields();
         IndividualTicketFieldResponse GetTicketFieldById(long id);
@@ -344,7 +348,13 @@ namespace ZendeskApi_v2.Requests
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
+        [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         public TicketExportResponse GetInrementalTicketExport(DateTime startTime)
+        {
+            return GenericGet<TicketExportResponse>("exports/tickets.json?start_time=" + startTime.GetEpoch());
+        }
+
+        public TicketExportResponse GetIncrementalTicketExport(DateTime startTime)
         {
             return GenericGet<TicketExportResponse>("exports/tickets.json?start_time=" + startTime.GetEpoch());
         }
@@ -354,7 +364,13 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="startTime"></param>
         /// <returns></returns>
+        [Obsolete("This has been deprecated. Please use __TestOnly__GetIncrementalTicketExport", true)]
         public TicketExportResponse __TestOnly__GetInrementalTicketExport(DateTime startTime)
+        {
+            return GenericGet<TicketExportResponse>("exports/tickets/sample.json?start_time=" + startTime.GetEpoch());
+        }
+
+        public TicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTime startTime)
         {
             return GenericGet<TicketExportResponse>("exports/tickets/sample.json?start_time=" + startTime.GetEpoch());
         }
