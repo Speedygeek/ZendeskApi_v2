@@ -27,8 +27,8 @@ namespace ZendeskApi_v2.Requests
         bool DeleteOrganization(long id);
 
         GroupOrganizationMembershipResponse GetOrganizationMemberships(int? perPage = null, int? page = null);
-        GroupOrganizationMembershipResponse GetOrganizationMembershipsByUserId(long userId);
-        GroupOrganizationMembershipResponse GetOrganizationMembershipsByOrganizationId(long organizationId);
+        GroupOrganizationMembershipResponse GetOrganizationMembershipsByUserId(long userId, int? perPage = null, int? page = null);
+        GroupOrganizationMembershipResponse GetOrganizationMembershipsByOrganizationId(long organizationId, int? perPage = null, int? page = null);
         IndividualOrganizationMembershipResponse GetOrganizationMembership(long id);
         IndividualOrganizationMembershipResponse GetOrganizationMembershipByIdAndUserId(long id, long userid);
         IndividualOrganizationMembershipResponse CreateOrganizationMembership(OrganizationMembership organizationMembership);
@@ -57,8 +57,8 @@ namespace ZendeskApi_v2.Requests
         Task<bool> DeleteOrganizationAsync(long id);
 
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsAsync(int? perPage = null, int? page = null);
-        Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByUserIdAsync(long userId);
-        Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByOrganizationIdAsync(long organizationId);
+        Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByUserIdAsync(long userId, int? perPage = null, int? page = null);
+        Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByOrganizationIdAsync(long organizationId, int? perPage = null, int? page = null);
         Task<IndividualOrganizationMembershipResponse> GetOrganizationMembershipAsync(long id);
         Task<IndividualOrganizationMembershipResponse> GetOrganizationMembershipByIdAndUserIdAsync(long id, long userid);
         Task<IndividualOrganizationMembershipResponse> CreateOrganizationMembershipAsync(OrganizationMembership organizationMembership);
