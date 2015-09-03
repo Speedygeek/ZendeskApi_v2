@@ -109,6 +109,9 @@
     <Compile Include="Models\Macros\Macro.cs" />
     <Compile Include="Models\Macros\Restriction.cs" />
     <Compile Include="Models\Macros\Result.cs" />
+    <Compile Include="Models\Organizations\GroupOrganizationMembershipResponse.cs" />
+    <Compile Include="Models\Organizations\IndividualOrganizationMembershipResponse.cs" />
+    <Compile Include="Models\Organizations\OrganizationMembership.cs" />
     <Compile Include="Models\Sections\GroupSectionResponse.cs" />
     <Compile Include="Models\Sections\IndividualSectionResponse.cs" />
     <Compile Include="Models\Sections\Section.cs" />
