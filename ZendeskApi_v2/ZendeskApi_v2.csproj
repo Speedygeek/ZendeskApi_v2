@@ -118,6 +118,9 @@
     <Compile Include="Models\Schedules\Interval.cs" />
     <Compile Include="Models\Schedules\Schedule.cs" />
     <Compile Include="Models\Schedules\WorkWeek.cs" />
+    <Compile Include="Models\Organizations\GroupOrganizationMembershipResponse.cs" />
+    <Compile Include="Models\Organizations\IndividualOrganizationMembershipResponse.cs" />
+    <Compile Include="Models\Organizations\OrganizationMembership.cs" />
     <Compile Include="Models\Sections\GroupSectionResponse.cs" />
     <Compile Include="Models\Sections\IndividualSectionResponse.cs" />
     <Compile Include="Models\Sections\Section.cs" />

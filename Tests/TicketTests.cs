@@ -670,7 +670,7 @@ namespace Tests
         [Test]
         public void CanGetInrementalTicketExport()
         {
-            var res = api.Tickets.__TestOnly__GetInrementalTicketExport(DateTime.Now.AddDays(-1));
+            var res = api.Tickets.__TestOnly__GetIncrementalTicketExport(DateTime.Now.AddDays(-1));
             Assert.True(res.Results.Count > 0);
         }
 
