@@ -5,25 +5,25 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.Triggers
 {
-
     public class Trigger
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("title")]
         public string Title { get; set; }
 
         [JsonProperty("active")]
         public bool Active { get; set; }
+
+        [JsonProperty("position")]
+        public long? Position { get; set; }
 
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
