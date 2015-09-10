@@ -94,6 +94,8 @@ namespace ZendeskApi_v2.Requests
         bool DeleteManySuspendedTickets(IEnumerable<long> ids);
         GroupTicketMetricResponse GetAllTicketMetrics();
         IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id);
+        IndividualTicketResponse ImportTicket(Ticket ticket);
+        JobStatusResponse BulkImportTickets(IEnumerable<Ticket> tickets);
 #endif
 
 #if ASYNC
@@ -155,12 +157,16 @@ namespace ZendeskApi_v2.Requests
         Task<bool> DeleteTicketFormAsync(long id);
         Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync();
         Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id);
+        Task<IndividualTicketResponse> ImportTicketAsync(Ticket ticket);
+        Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<Ticket> tickets);
 #endif
     }
 
     public class Tickets : Core, ITickets
     {
         private const string _tickets = "tickets";
+        private const string _imports = "imports";
+        private const string _create_many = "create_many";
         private const string _ticket_forms = "ticket_forms";
         private const string _views = "views";
         private const string _organizations = "organizations";
@@ -278,6 +284,28 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { ticket };
             return GenericPost<IndividualTicketResponse>(_tickets + ".json", body);
+        }
+
+        /// <summary>
+        /// In addition to setting normal ticket properties, you can set the following time stamps on the tickets: solved_at, updated_at, and created_at.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
+        public IndividualTicketResponse ImportTicket(Ticket ticket)
+        {
+            var body = new { ticket };
+            return GenericPost<IndividualTicketResponse>(_imports + "/" + _tickets + ".json", body);
+        }
+
+        /// <summary>
+        /// In addition to setting normal ticket properties, you can set the following time stamps on the tickets: solved_at, updated_at, and created_at.
+        /// </summary>
+        /// <param name="tickets"></param>
+        /// <returns></returns>
+        public JobStatusResponse BulkImportTickets(IEnumerable<Ticket> tickets)
+        {
+            var body = new { tickets };
+            return GenericPost<JobStatusResponse>(_imports + "/" + _tickets + "/" + _create_many + ".json", body);
         }
 
         /// <summary>
@@ -526,6 +554,29 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { ticket };
             return await GenericPostAsync<IndividualTicketResponse>(_tickets + ".json", body);
+        }
+
+        /// <summary>
+        /// In addition to setting normal ticket properties, you can set the following time stamps on the tickets: solved_at, updated_at, and created_at.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
+        public async Task<IndividualTicketResponse> ImportTicketAsync(Ticket ticket)
+        {
+            var body = new { ticket };
+            return await GenericPostAsync<IndividualTicketResponse>(_imports + "/" + _tickets + ".json", body);
+        }
+
+        /// <summary>
+        /// In addition to setting normal ticket properties, you can set the following time stamps on the tickets: solved_at, updated_at, and created_at.
+        /// </summary>
+        /// <param name="tickets"></param>
+        /// <returns></returns>
+        public async Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<Ticket> tickets)
+        {
+            var body = new { tickets };
+            return await GenericPostAsync<JobStatusResponse>(_imports + "/" + _tickets + "/" + _create_many + ".json", body);
+
         }
 
         /// <summary>
