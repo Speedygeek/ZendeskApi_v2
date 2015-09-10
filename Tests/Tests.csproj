@@ -102,6 +102,7 @@
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />
     <Compile Include="SatisfactionRatingTests.cs" />
+    <Compile Include="ScheduleTests.cs" />
     <Compile Include="SearchTests.cs" />
     <Compile Include="AccountsAndActivityTests.cs" />
     <Compile Include="SharingAgreementTests.cs" />
