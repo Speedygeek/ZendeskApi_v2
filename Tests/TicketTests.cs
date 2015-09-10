@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Newtonsoft.Json;
@@ -950,6 +951,101 @@ namespace Tests
             Assert.True(tickets.Count > 0);
             Assert.IsTrue(tickets.Users.Any());
             Assert.IsTrue(tickets.Organizations.Any());
+        }
+
+        [Test]
+        public void CanImportTicket()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment() { Body = "HELP" },
+                Priority = TicketPriorities.Urgent,
+                CreatedAt = DateTime.Now.AddDays(-5),
+                UpdatedAt = DateTime.Now.AddDays(-4),
+                SolvedAt = DateTime.Now.AddDays(-3),
+                Status = TicketStatus.Solved,
+                AssigneeId = Settings.UserId
+            };
+
+            var res = api.Tickets.ImportTicket(ticket).Ticket;
+
+            Assert.NotNull(res);
+            Assert.Greater(res.Id.Value, 0);
+            Assert.Less(res.CreatedAt.Value.LocalDateTime, DateTime.Now.AddDays(-4));
+            Assert.Greater(res.UpdatedAt.Value.LocalDateTime, res.CreatedAt.Value.LocalDateTime);
+            //Assert.Greater(res.SolvedAt.Value.LocalDateTime, res.UpdatedAt.Value.LocalDateTime);
+        }
+
+        [Test]
+        public void CanImportTicketAsync()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment() { Body = "HELP" },
+                Priority = TicketPriorities.Urgent,
+                CreatedAt = DateTime.Now.AddDays(-5),
+                UpdatedAt = DateTime.Now.AddDays(-4),
+                SolvedAt = DateTime.Now.AddDays(-3),
+                Status = TicketStatus.Solved,
+                AssigneeId = Settings.UserId
+            };
+
+            var res = api.Tickets.ImportTicketAsync(ticket);
+
+            Assert.NotNull(res.Result);
+            Assert.Greater(res.Result.Ticket.Id.Value, 0);
+            Assert.Less(res.Result.Ticket.CreatedAt.Value.LocalDateTime, DateTime.Now.AddDays(-4));
+            Assert.Greater(res.Result.Ticket.UpdatedAt.Value.LocalDateTime, res.Result.Ticket.CreatedAt.Value.LocalDateTime);
+            Assert.AreEqual(res.Result.Ticket.Status, TicketStatus.Solved);
+
+            api.Tickets.DeleteAsync(res.Id);
+        }
+
+
+        [Test]
+        public void CanBulkImportTicket()
+        {
+            List<Ticket> test = new List<Ticket>();
+
+            for (int x = 0; x < 2; x++)
+            {
+                var ticket = new Ticket()
+                {
+                    Subject = "my printer is on fire",
+                    Comment = new Comment() { Body = "HELP" },
+                    Priority = TicketPriorities.Urgent,
+                    CreatedAt = DateTime.Now.AddDays(-5),
+                    UpdatedAt = DateTime.Now.AddDays(-4),
+                    SolvedAt = DateTime.Now.AddDays(-3),
+                    Status = TicketStatus.Solved,
+                    AssigneeId = Settings.UserId
+                };
+                test.Add(ticket);
+            }
+
+            var res = api.Tickets.BulkImportTickets(test);
+
+            Assert.AreEqual(res.JobStatus.Status, "queued");
+
+            var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
+            Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
+
+            int count = 0;
+            while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
+                count++;
+            }
+
+            Assert.AreEqual(job.JobStatus.Status.ToLower(), "completed");
+
+            foreach (var r in job.JobStatus.Results)
+            {
+                api.Tickets.DeleteAsync(r.Id);
+            }
         }
     }
 }
