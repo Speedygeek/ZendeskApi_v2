@@ -94,8 +94,8 @@ namespace ZendeskApi_v2.Requests
         bool DeleteManySuspendedTickets(IEnumerable<long> ids);
         GroupTicketMetricResponse GetAllTicketMetrics();
         IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id);
-        IndividualTicketResponse ImportTicket(Ticket ticket);
-        JobStatusResponse BulkImportTickets(IEnumerable<Ticket> tickets);
+        IndividualTicketResponse ImportTicket(TicketImport ticket);
+        JobStatusResponse BulkImportTickets(IEnumerable<TicketImport> tickets);
 #endif
 
 #if ASYNC
@@ -157,8 +157,8 @@ namespace ZendeskApi_v2.Requests
         Task<bool> DeleteTicketFormAsync(long id);
         Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync();
         Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id);
-        Task<IndividualTicketResponse> ImportTicketAsync(Ticket ticket);
-        Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<Ticket> tickets);
+        Task<IndividualTicketResponse> ImportTicketAsync(TicketImport ticket);
+        Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<TicketImport> tickets);
 #endif
     }
 
@@ -291,7 +291,7 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="ticket"></param>
         /// <returns></returns>
-        public IndividualTicketResponse ImportTicket(Ticket ticket)
+        public IndividualTicketResponse ImportTicket(TicketImport ticket)
         {
             var body = new { ticket };
             return GenericPost<IndividualTicketResponse>(_imports + "/" + _tickets + ".json", body);
@@ -302,7 +302,7 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="tickets"></param>
         /// <returns></returns>
-        public JobStatusResponse BulkImportTickets(IEnumerable<Ticket> tickets)
+        public JobStatusResponse BulkImportTickets(IEnumerable<TicketImport> tickets)
         {
             var body = new { tickets };
             return GenericPost<JobStatusResponse>(_imports + "/" + _tickets + "/" + _create_many + ".json", body);
@@ -561,7 +561,7 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="ticket"></param>
         /// <returns></returns>
-        public async Task<IndividualTicketResponse> ImportTicketAsync(Ticket ticket)
+        public async Task<IndividualTicketResponse> ImportTicketAsync(TicketImport ticket)
         {
             var body = new { ticket };
             return await GenericPostAsync<IndividualTicketResponse>(_imports + "/" + _tickets + ".json", body);
@@ -572,7 +572,7 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="tickets"></param>
         /// <returns></returns>
-        public async Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<Ticket> tickets)
+        public async Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<TicketImport> tickets)
         {
             var body = new { tickets };
             return await GenericPostAsync<JobStatusResponse>(_imports + "/" + _tickets + "/" + _create_many + ".json", body);

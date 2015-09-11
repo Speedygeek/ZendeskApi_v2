@@ -459,6 +459,12 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\Suspended\SuspendedTicket.cs">
       <Link>Models\Tickets\Suspended\SuspendedTicket.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketImport.cs">
+      <Link>Models\Tickets\TicketImport.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketImportComment.cs">
+      <Link>Models\Tickets\TicketImportComment.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\TimeSpanMetric.cs">
       <Link>Models\Tickets\TimeSpanMetric.cs</Link>
     </Compile>
