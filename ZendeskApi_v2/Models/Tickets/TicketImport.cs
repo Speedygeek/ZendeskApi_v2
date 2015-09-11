@@ -20,6 +20,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [Obsolete("Comment property is not used in TicketImport.  Please use Description property and Comments collection property.",true)]
         public new Comment Comment { get; set; }
 
+        [JsonProperty("description")]
+        public new string Description { get; set; }
+
         /// <summary>
         /// Only Used for Ticket Import
         /// </summary>

@@ -965,7 +965,8 @@ namespace Tests
                 UpdatedAt = DateTime.Now.AddDays(-4),
                 SolvedAt = DateTime.Now.AddDays(-3),
                 Status = TicketStatus.Solved,
-                AssigneeId = Settings.UserId
+                AssigneeId = Settings.UserId,
+                Description = "test description"
             };
 
             var res = api.Tickets.ImportTicket(ticket).Ticket;
@@ -976,10 +977,11 @@ namespace Tests
             Assert.Less(res.CreatedAt.Value.LocalDateTime, DateTime.Now.AddDays(-4));
             Assert.Greater(res.UpdatedAt.Value.LocalDateTime, res.CreatedAt.Value.LocalDateTime);
             Assert.AreEqual(res.Status, TicketStatus.Solved);
+            Assert.AreEqual(res.Description, "test description");
 
             var resComments = api.Tickets.GetTicketComments(res.Id.Value);
             Assert.NotNull(resComments);
-            Assert.AreEqual(resComments.Count, 2);
+            Assert.AreEqual(resComments.Count, 3);
 
             api.Tickets.DeleteAsync(res.Id.Value);
             //Assert.Greater(res.SolvedAt.Value.LocalDateTime, res.UpdatedAt.Value.LocalDateTime);
@@ -997,7 +999,8 @@ namespace Tests
                 UpdatedAt = DateTime.Now.AddDays(-4),
                 SolvedAt = DateTime.Now.AddDays(-3),
                 Status = TicketStatus.Solved,
-                AssigneeId = Settings.UserId
+                AssigneeId = Settings.UserId,
+                Description = "test description"
             };
 
             var res = api.Tickets.ImportTicketAsync(ticket);
@@ -1007,10 +1010,11 @@ namespace Tests
             Assert.Less(res.Result.Ticket.CreatedAt.Value.LocalDateTime, DateTime.Now.AddDays(-4));
             Assert.Greater(res.Result.Ticket.UpdatedAt.Value.LocalDateTime, res.Result.Ticket.CreatedAt.Value.LocalDateTime);
             Assert.AreEqual(res.Result.Ticket.Status, TicketStatus.Solved);
+            Assert.AreEqual(res.Result.Ticket.Description, "test description");
 
             var resComments = api.Tickets.GetTicketComments(res.Result.Ticket.Id.Value);
             Assert.NotNull(resComments);
-            Assert.AreEqual(resComments.Count, 2);
+            Assert.AreEqual(resComments.Count, 3);
 
             api.Tickets.DeleteAsync(res.Id);
         }
@@ -1032,7 +1036,8 @@ namespace Tests
                     UpdatedAt = DateTime.Now.AddDays(-4),
                     SolvedAt = DateTime.Now.AddDays(-3),
                     Status = TicketStatus.Solved,
-                    AssigneeId = Settings.UserId
+                    AssigneeId = Settings.UserId,
+                    Description = "test description"
                 };
                 test.Add(ticket);
             }
@@ -1043,6 +1048,7 @@ namespace Tests
 
             var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
             Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
+            
 
             int count = 0;
             while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
@@ -1056,9 +1062,11 @@ namespace Tests
 
             foreach (var r in job.JobStatus.Results)
             {
+                var ticket = api.Tickets.GetTicket(r.Id).Ticket;
+                Assert.AreEqual(ticket.Description, "test description");
                 var resComments = api.Tickets.GetTicketComments(r.Id);
                 Assert.NotNull(resComments);
-                Assert.AreEqual(resComments.Count, 2);
+                Assert.AreEqual(resComments.Count, 3);
                 foreach (var c in resComments.Comments)
                 {
                     Assert.True(c.CreatedAt.HasValue);
