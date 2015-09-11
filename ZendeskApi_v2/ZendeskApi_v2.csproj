@@ -115,6 +115,8 @@
     <Compile Include="Models\Sections\GroupSectionResponse.cs" />
     <Compile Include="Models\Sections\IndividualSectionResponse.cs" />
     <Compile Include="Models\Sections\Section.cs" />
+    <Compile Include="Models\Tickets\TicketImportComment.cs" />
+    <Compile Include="Models\Tickets\TicketImport.cs" />
     <Compile Include="Models\Tickets\GroupTicketMetricResponse.cs" />
     <Compile Include="Models\Tickets\IndividualTicketMetricResponse.cs" />
     <Compile Include="Models\Tickets\TimeSpanMetric.cs" />

@@ -956,10 +956,10 @@ namespace Tests
         [Test]
         public void CanImportTicket()
         {
-            var ticket = new Ticket()
+            var ticket = new TicketImport()
             {
                 Subject = "my printer is on fire",
-                Comment = new Comment() { Body = "HELP" },
+                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
                 Priority = TicketPriorities.Urgent,
                 CreatedAt = DateTime.Now.AddDays(-5),
                 UpdatedAt = DateTime.Now.AddDays(-4),
@@ -971,19 +971,27 @@ namespace Tests
             var res = api.Tickets.ImportTicket(ticket).Ticket;
 
             Assert.NotNull(res);
+            Assert.True(res.Id.HasValue);
             Assert.Greater(res.Id.Value, 0);
             Assert.Less(res.CreatedAt.Value.LocalDateTime, DateTime.Now.AddDays(-4));
             Assert.Greater(res.UpdatedAt.Value.LocalDateTime, res.CreatedAt.Value.LocalDateTime);
+            Assert.AreEqual(res.Status, TicketStatus.Solved);
+
+            var resComments = api.Tickets.GetTicketComments(res.Id.Value);
+            Assert.NotNull(resComments);
+            Assert.AreEqual(resComments.Count, 2);
+
+            api.Tickets.DeleteAsync(res.Id.Value);
             //Assert.Greater(res.SolvedAt.Value.LocalDateTime, res.UpdatedAt.Value.LocalDateTime);
         }
 
         [Test]
         public void CanImportTicketAsync()
         {
-            var ticket = new Ticket()
+            var ticket = new TicketImport()
             {
                 Subject = "my printer is on fire",
-                Comment = new Comment() { Body = "HELP" },
+                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
                 Priority = TicketPriorities.Urgent,
                 CreatedAt = DateTime.Now.AddDays(-5),
                 UpdatedAt = DateTime.Now.AddDays(-4),
@@ -1000,6 +1008,10 @@ namespace Tests
             Assert.Greater(res.Result.Ticket.UpdatedAt.Value.LocalDateTime, res.Result.Ticket.CreatedAt.Value.LocalDateTime);
             Assert.AreEqual(res.Result.Ticket.Status, TicketStatus.Solved);
 
+            var resComments = api.Tickets.GetTicketComments(res.Result.Ticket.Id.Value);
+            Assert.NotNull(resComments);
+            Assert.AreEqual(resComments.Count, 2);
+
             api.Tickets.DeleteAsync(res.Id);
         }
 
@@ -1007,14 +1019,14 @@ namespace Tests
         [Test]
         public void CanBulkImportTicket()
         {
-            List<Ticket> test = new List<Ticket>();
+            List<TicketImport> test = new List<TicketImport>();
 
             for (int x = 0; x < 2; x++)
             {
-                var ticket = new Ticket()
+                var ticket = new TicketImport()
                 {
                     Subject = "my printer is on fire",
-                    Comment = new Comment() { Body = "HELP" },
+                    Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 1", CreatedAt = DateTime.UtcNow.AddDays(-2), Public= false }, new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 2", CreatedAt = DateTime.UtcNow.AddDays(-3), Public = false } },
                     Priority = TicketPriorities.Urgent,
                     CreatedAt = DateTime.Now.AddDays(-5),
                     UpdatedAt = DateTime.Now.AddDays(-4),
@@ -1044,6 +1056,15 @@ namespace Tests
 
             foreach (var r in job.JobStatus.Results)
             {
+                var resComments = api.Tickets.GetTicketComments(r.Id);
+                Assert.NotNull(resComments);
+                Assert.AreEqual(resComments.Count, 2);
+                foreach (var c in resComments.Comments)
+                {
+                    Assert.True(c.CreatedAt.HasValue);
+                    Assert.Less(c.CreatedAt.Value.LocalDateTime, DateTime.Now.AddDays(-1));
+                }
+
                 api.Tickets.DeleteAsync(r.Id);
             }
         }

@@ -105,13 +105,6 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("ticket_form_id")]
         public long? TicketFormId { get; set; }
-
-        /// <summary>
-        /// Only Used for Ticket Import
-        /// </summary>
-        [JsonProperty("solved_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? SolvedAt { get; set; }
         
     }
 }
