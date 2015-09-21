@@ -28,18 +28,11 @@ namespace Tests
         [Test]
         public void CanCreateUpdateAndDeleteMacros()
         {
-            var create = api.Macros.CreateMacro(new Macro()
-                                                    {
-                                                      Title  = "Roger Wilco",
-                                                      Actions = new List<Action>()
-                                                                    {
-                                                                        new Action()
-                                                                            {
-                                                                                Field = "status",
-                                                                                Value = "open"
-                                                                            }
-                                                                    }
-                                                    });
+            var create = api.Macros.CreateMacro(new Macro
+            {
+                Title = "Roger Wilco",
+                Actions = new List<Action> { new Action { Field = "status", Value = new List<string> { "open" } } }
+            });
 
             Assert.Greater(create.Macro.Id, 0);
 
@@ -48,19 +41,26 @@ namespace Tests
             Assert.AreEqual(update.Macro.Id, create.Macro.Id);
 
             //Test apply macro
-            var ticket = api.Tickets.CreateTicket(new Ticket()
-                                                   {
-                                                       Subject = "macro test ticket",
-                                                       Comment = new Comment() { Body = "Testing macros" },
-                                                       Priority = TicketPriorities.Normal
-                                                   }).Ticket;            
-            
+            var ticket = api.Tickets.CreateTicket(new Ticket
+            {
+                Subject = "macro test ticket",
+                Comment = new Comment { Body = "Testing macros" },
+                Priority = TicketPriorities.Normal
+            }).Ticket;
+
             var applyToTicket = api.Macros.ApplyMacroToTicket(ticket.Id.Value, create.Macro.Id.Value);
             Assert.AreEqual(applyToTicket.Result.Ticket.Id, ticket.Id);
-
             Assert.True(api.Tickets.Delete(ticket.Id.Value));
-
             Assert.True(api.Macros.DeleteMacro(create.Macro.Id.Value));
+        }
+
+
+        [Test]
+        public void CanGetMacroByID()
+        {
+            var macro = api.Macros.GetMacroById(45319945);
+
+            Assert.IsNotNull(macro);
         }
     }
 }
