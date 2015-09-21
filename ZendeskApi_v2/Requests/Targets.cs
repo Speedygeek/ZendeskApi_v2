@@ -34,7 +34,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTargetResponse GetTarget(long id)
         {
-            return GenericGet<IndividualTargetResponse>(string.Format("targets/{1}.json", id));
+            return GenericGet<IndividualTargetResponse>(string.Format("targets/{0}.json", id));
         }
 
         public IndividualTargetResponse CreateTarget(BaseTarget target)
@@ -46,12 +46,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualTargetResponse UpdateTarget(BaseTarget target)
         {
             var body = new { target };
-            return GenericPut<IndividualTargetResponse>(string.Format("targets/{1}.json", target.Id), body);
+            return GenericPut<IndividualTargetResponse>(string.Format("targets/{0}.json", target.Id), body);
         }
 
         public bool DeleteTarget(long id)
         {
-            return GenericDelete(string.Format("targets/{1}.json", id));
+            return GenericDelete(string.Format("targets/{0}.json", id));
         }
 #endif
 
