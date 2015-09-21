@@ -296,6 +296,8 @@
     <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />
     <Compile Include="Requests\Voice.cs" />
+    <Compile Include="Serialization\BaseJsonConverter.cs" />
+    <Compile Include="Serialization\TargetJsonConverter.cs" />
     <Compile Include="ZendeskApi.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Models\Constants\TicketPriorities.cs" />

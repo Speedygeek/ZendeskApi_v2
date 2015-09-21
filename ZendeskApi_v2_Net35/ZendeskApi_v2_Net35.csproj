@@ -796,6 +796,12 @@
     <Compile Include="..\ZendeskApi_v2\Requests\Voice.cs">
       <Link>Requests\Voice.cs</Link>
     </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Serialization\BaseJsonConverter.cs">
+      <Link>Serialization\BaseJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Serialization\TargetJsonConverter.cs">
+      <Link>Serialization\TargetJsonConverter.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
       <Link>ZendeskApi.cs</Link>
     </Compile>
