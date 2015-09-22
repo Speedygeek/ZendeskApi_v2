@@ -5,7 +5,7 @@ using System;
 namespace ZendeskApi_v2.Serialization
 {
     /// <summary>
-    /// http://json.codeplex.com/discussions/56031
+    /// Example from http://json.codeplex.com/discussions/56031
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class BaseJsonConverter<T> : JsonConverter

@@ -2,6 +2,9 @@
 
 namespace ZendeskApi_v2.Models.Targets
 {
+    /// <summary>
+    /// HTTP Target is currently available only for beta customers.
+    /// </summary>
     public class HTTPTarget : BaseTarget
     {
         [JsonProperty("target_url")]
