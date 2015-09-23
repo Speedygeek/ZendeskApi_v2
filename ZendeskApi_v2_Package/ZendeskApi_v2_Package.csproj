@@ -65,13 +65,19 @@
     </ParameterGroup>
     <Task>
       <Using Namespace="System.Diagnostics" />
-      <Code Type="Fragment" Language="cs"><![CDATA[
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
         Log.LogMessage("Getting version details of assembly at: " + this.AssemblyPath, MessageImportance.High);
 
-        Version v = Version.Parse(FileVersionInfo.GetVersionInfo(this.AssemblyPath).ProductVersion);
+        Regex regex = new Regex(@"(?<Major>\d*)\.(?<Minor>\d*)(\.(?<Build>\d*)(\.(?<Revision>\d*))?)?(-(?<pr>.*))?");
+        string result = regex.Replace(FileVersionInfo.GetVersionInfo(this.AssemblyPath).ProductVersion, @"${Major}.${Minor}.${Build}");
+
+        Version v = Version.Parse(result);
 
         this.SimVersion = v.Major + "." + v.Minor + "." + v.Build;    
-      ]]></Code>
+      ]]>
+      </Code>
     </Task>
   </UsingTask>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
