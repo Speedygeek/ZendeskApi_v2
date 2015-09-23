@@ -13,7 +13,7 @@ namespace Tests
         [Test]
         public void CreatesUrisCorrectly()
         {
-            var res = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2",  Settings.Email, Settings.Password);
+            var res = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Email, Settings.Password);
             Assert.AreEqual(Settings.Site, res.ZendeskUrl);
 
             var res1 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com/api/v2", Settings.Email, Settings.Password);

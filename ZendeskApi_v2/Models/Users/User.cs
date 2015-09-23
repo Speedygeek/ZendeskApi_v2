@@ -25,12 +25,12 @@ namespace ZendeskApi_v2.Models.Users
         public string Alias { get; set; }
 
         [JsonProperty("created_at")]
-		[JsonConverter(typeof(IsoDateTimeConverter))]
-                public DateTimeOffset? CreatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? CreatedAt { get; set; }
 
         [JsonProperty("updated_at")]
-		[JsonConverter(typeof(IsoDateTimeConverter))]
-                public DateTimeOffset? UpdatedAt { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("active")]
         public bool? Active { get; set; }
@@ -95,8 +95,8 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("remote_photo_url")]
         public string RemotePhotoUrl { get; set; }
-        
+
         [JsonProperty("user_fields")]
-        public IDictionary<string, string> CustomFields { get; set; }
+        public IDictionary<string, object> CustomFields { get; set; }
     }
 }

@@ -15,8 +15,8 @@ namespace Tests
         public const string ApiToken = "R5PXRh5hEwT9Ry3hfSzGF2WKsxPf3ScSCq0suxii";
 
         public const long UserId = 281513402;
-        public const long SampleTicketId = 1;
-        public const long SampleTicketId2 = 2;
+        public const long SampleTicketId = 1364;
+        public const long SampleTicketId2 = 1366;
 
         public const long EndUserId = 287004928;
 

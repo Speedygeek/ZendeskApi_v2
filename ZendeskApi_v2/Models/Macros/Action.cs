@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ZendeskApi_v2.Serialization;
 
 namespace ZendeskApi_v2.Models.Macros
 {
@@ -16,6 +17,7 @@ namespace ZendeskApi_v2.Models.Macros
         public string Field { get; set; }
 
         [JsonProperty("value")]
-        public string Value { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<string>))]
+        public IList<string> Value { get; set; }
     }
 }
