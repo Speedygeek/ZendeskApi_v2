@@ -17,7 +17,7 @@ namespace Tests
 {
     [TestFixture]
     public class UserTests
-    {        
+    {
         ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
         [Test]
@@ -50,18 +50,18 @@ namespace Tests
 
         [Test]
         public void CanCreateUpdateSuspendAndDeleteUser()
-        {            
+        {
             var user = new User()
-                           {
-                              Name = "test user72",
-                              Email = "test772@test.com",
-                              Role = "end-user",                              
-                              Verified = true,
-                              CustomFields = new Dictionary<string, string>()
+            {
+                Name = "test user72",
+                Email = "test772@test.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
                                   {
                                       {"user_dropdown", "option_1"}
                                   }
-                           };
+            };
 
             var res1 = api.Users.CreateUser(user);
             var userId = res1.User.Id ?? 0;
@@ -76,7 +76,7 @@ namespace Tests
             var res2 = api.Users.UpdateUser(res1.User);
             var blah = api.Users.GetUser(res1.User.Id.Value);
             Assert.AreEqual(res1.User.Phone, res2.User.Phone);
-            
+
 
             var res3 = api.Users.SuspendUser(res2.User.Id.Value);
             Assert.IsTrue(res3.User.Suspended);
@@ -119,10 +119,10 @@ namespace Tests
 
         [Test]
         public void CanFindUser()
-        {            
+        {
             //var res1 = api.Users.SearchByEmail(Settings.Email);
             var res1 = api.Users.SearchByEmail(Settings.ColloboratorEmail);
-            Assert.True(res1.Users.Count > 0);            
+            Assert.True(res1.Users.Count > 0);
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace Tests
         {
             var res1 = api.Users.GetCurrentUser();
             Assert.True(res1.User.Id > 0);
-        } 
+        }
 
         [Test]
         public void CanGetUserIdentities()
@@ -161,10 +161,10 @@ namespace Tests
             var userId = res1.User.Id.Value;
 
             var res2 = api.Users.AddUserIdentity(userId, new UserIdentity()
-                                                              {
-                                                                  Type = UserIdentityTypes.Email,
-                                                                  Value = "moretest@test.com"
-                                                              });
+            {
+                Type = UserIdentityTypes.Email,
+                Value = "moretest@test.com"
+            });
             var identityId = res2.Identity.Id.Value;
             Assert.Greater(identityId, 0);
 
@@ -172,7 +172,7 @@ namespace Tests
             Assert.AreEqual(identityId, verfified.Identity.Id);
 
             var primaries = api.Users.SetUserIdentityAsPrimary(userId, identityId);
-            Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);            
+            Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);
 
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
