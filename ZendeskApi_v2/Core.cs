@@ -299,40 +299,25 @@ namespace ZendeskApi_v2
             if (body != null)
             {
                 var json = JsonConvert.SerializeObject(body, jsonSettings);
-                byte[] formData = Encoding.UTF8.GetBytes(json);
 
-                using (var requestStream = await Task.Factory.FromAsync(
-                    req.BeginGetRequestStream,
-                    asyncResult => req.EndGetRequestStream(asyncResult),
-                    (object)null))
+                using (Stream requestStream = await req.GetRequestStreamAsync())
+                using (StreamWriter writer = new StreamWriter(requestStream, Encoding.UTF8))
                 {
-                    await requestStream.WriteAsync(formData, 0, formData.Length);
+                    await writer.WriteAsync(json);
                 }
             }
 
-            using (var httpWebResponse = await Task.Factory.FromAsync(
-                req.BeginGetResponse,
-                asyncResult => req.EndGetResponse(asyncResult),
-                (object)null)
-                as HttpWebResponse)
+            string content = string.Empty;
+            using (WebResponse response = await req.GetResponseAsync())
             {
-                var content = await ReadStreamFromResponseAsync(httpWebResponse);
-
-                return new RequestResult
+                using (Stream responseStream = response.GetResponseStream())
+                using (StreamReader sr = new StreamReader(responseStream))
                 {
-                    Content = content,
-                    HttpStatusCode = httpWebResponse.StatusCode
-                };
-            }
-        }
+                    content = await sr.ReadToEndAsync();
+                }
 
-        private static async Task<string> ReadStreamFromResponseAsync(WebResponse response)
-        {
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(responseStream))
-            {
-                //Need to return this response 
-                return await sr.ReadToEndAsync();
+                var httpResponse = (HttpWebResponse)response;
+                return new RequestResult { HttpStatusCode = httpResponse.StatusCode, Content = content };
             }
         }
 
