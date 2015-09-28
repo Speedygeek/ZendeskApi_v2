@@ -141,7 +141,8 @@ namespace ZendeskApi_v2
             catch (WebException ex)
             {
                 Debug.Write(ex.Message);
-                throw new WebException(ex.Message + " " + ex.Response.Headers.ToString(), ex);
+                var headers = ex.Response != null ? " " + ex.Response.Headers : null;
+                throw new WebException(ex.Message + headers, ex);
             }
         }
 
@@ -298,43 +299,25 @@ namespace ZendeskApi_v2
             if (body != null)
             {
                 var json = JsonConvert.SerializeObject(body, jsonSettings);
-                byte[] formData = Encoding.UTF8.GetBytes(json);
 
-                var requestStream = Task.Factory.FromAsync(
-                    req.BeginGetRequestStream,
-                    asyncResult => req.EndGetRequestStream(asyncResult),
-                    (object)null);
-
-                var dataStream = await requestStream.ContinueWith(t => t.Result.WriteAsync(formData, 0, formData.Length));
-                Task.WaitAll(dataStream);
+                using (Stream requestStream = await req.GetRequestStreamAsync())
+                using (StreamWriter writer = new StreamWriter(requestStream, Encoding.UTF8))
+                {
+                    await writer.WriteAsync(json);
+                }
             }
 
-            Task<WebResponse> task = Task.Factory.FromAsync(
-            req.BeginGetResponse,
-            asyncResult => req.EndGetResponse(asyncResult),
-            (object)null);
-
-            return await task.ContinueWith(t =>
+            string content = string.Empty;
+            using (WebResponse response = await req.GetResponseAsync())
             {
-                var httpWebResponse = t.Result as HttpWebResponse;
-
-                return new RequestResult
+                using (Stream responseStream = response.GetResponseStream())
+                using (StreamReader sr = new StreamReader(responseStream))
                 {
-                    Content = ReadStreamFromResponse(httpWebResponse),
-                    HttpStatusCode = httpWebResponse.StatusCode
-                };
+                    content = await sr.ReadToEndAsync();
+                }
 
-            });
-        }
-
-        private static string ReadStreamFromResponse(WebResponse response)
-        {
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(responseStream))
-            {
-                //Need to return this response 
-                string strContent = sr.ReadToEnd();
-                return strContent;
+                var httpResponse = (HttpWebResponse)response;
+                return new RequestResult { HttpStatusCode = httpResponse.StatusCode, Content = content };
             }
         }
 
