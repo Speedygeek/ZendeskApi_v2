@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+
+using ZendeskApi_v2.Models.Tickets;
 
 namespace Tests
 {
@@ -38,6 +41,24 @@ namespace Tests
 
             Assert.NotNull(ticket);
             Assert.AreEqual(ticket.Id, id);
+        }
+
+        [Test]
+        public void AsyncGivesCorrectException()
+        {
+            var api = new ZendeskApi_v2.ZendeskApi(
+                "http://csharpapi.zendesk.com/api/v2", 
+                Settings.Email, 
+                "Incorrect password");
+
+            Assert.Throws<WebException>(async () =>
+            {
+                await api.Tickets.CreateTicketAsync(new Ticket
+                {
+                    Subject = "subject"
+                });
+            });
+
         }
     }
 }

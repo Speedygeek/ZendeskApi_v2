@@ -141,7 +141,8 @@ namespace ZendeskApi_v2
             catch (WebException ex)
             {
                 Debug.Write(ex.Message);
-                throw new WebException(ex.Message + " " + ex.Response.Headers.ToString(), ex);
+                var headers = ex.Response != null ? " " + ex.Response.Headers : null;
+                throw new WebException(ex.Message + headers, ex);
             }
         }
 
@@ -300,41 +301,38 @@ namespace ZendeskApi_v2
                 var json = JsonConvert.SerializeObject(body, jsonSettings);
                 byte[] formData = Encoding.UTF8.GetBytes(json);
 
-                var requestStream = Task.Factory.FromAsync(
+                using (var requestStream = await Task.Factory.FromAsync(
                     req.BeginGetRequestStream,
                     asyncResult => req.EndGetRequestStream(asyncResult),
-                    (object)null);
-
-                var dataStream = await requestStream.ContinueWith(t => t.Result.WriteAsync(formData, 0, formData.Length));
-                Task.WaitAll(dataStream);
+                    (object)null))
+                {
+                    await requestStream.WriteAsync(formData, 0, formData.Length);
+                }
             }
 
-            Task<WebResponse> task = Task.Factory.FromAsync(
-            req.BeginGetResponse,
-            asyncResult => req.EndGetResponse(asyncResult),
-            (object)null);
-
-            return await task.ContinueWith(t =>
+            using (var httpWebResponse = await Task.Factory.FromAsync(
+                req.BeginGetResponse,
+                asyncResult => req.EndGetResponse(asyncResult),
+                (object)null)
+                as HttpWebResponse)
             {
-                var httpWebResponse = t.Result as HttpWebResponse;
+                var content = await ReadStreamFromResponseAsync(httpWebResponse);
 
                 return new RequestResult
                 {
-                    Content = ReadStreamFromResponse(httpWebResponse),
+                    Content = content,
                     HttpStatusCode = httpWebResponse.StatusCode
                 };
-
-            });
+            }
         }
 
-        private static string ReadStreamFromResponse(WebResponse response)
+        private static async Task<string> ReadStreamFromResponseAsync(WebResponse response)
         {
             using (Stream responseStream = response.GetResponseStream())
             using (StreamReader sr = new StreamReader(responseStream))
             {
                 //Need to return this response 
-                string strContent = sr.ReadToEnd();
-                return strContent;
+                return await sr.ReadToEndAsync();
             }
         }
 
