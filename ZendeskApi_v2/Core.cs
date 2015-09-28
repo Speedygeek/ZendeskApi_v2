@@ -299,25 +299,40 @@ namespace ZendeskApi_v2
             if (body != null)
             {
                 var json = JsonConvert.SerializeObject(body, jsonSettings);
+                byte[] formData = Encoding.UTF8.GetBytes(json);
 
-                using (Stream requestStream = await req.GetRequestStreamAsync())
-                using (StreamWriter writer = new StreamWriter(requestStream, Encoding.UTF8))
+                using (var requestStream = await Task.Factory.FromAsync(
+                    req.BeginGetRequestStream,
+                    asyncResult => req.EndGetRequestStream(asyncResult),
+                    (object)null))
                 {
-                    await writer.WriteAsync(json);
+                    await requestStream.WriteAsync(formData, 0, formData.Length);
                 }
             }
 
-            string content = string.Empty;
-            using (WebResponse response = await req.GetResponseAsync())
+            using (var httpWebResponse = await Task.Factory.FromAsync(
+                req.BeginGetResponse,
+                asyncResult => req.EndGetResponse(asyncResult),
+                (object)null)
+                as HttpWebResponse)
             {
-                using (Stream responseStream = response.GetResponseStream())
-                using (StreamReader sr = new StreamReader(responseStream))
-                {
-                    content = await sr.ReadToEndAsync();
-                }
+                var content = await ReadStreamFromResponseAsync(httpWebResponse);
 
-                var httpResponse = (HttpWebResponse)response;
-                return new RequestResult { HttpStatusCode = httpResponse.StatusCode, Content = content };
+                return new RequestResult
+                {
+                    Content = content,
+                    HttpStatusCode = httpWebResponse.StatusCode
+                };
+            }
+        }
+
+        private static async Task<string> ReadStreamFromResponseAsync(WebResponse response)
+        {
+            using (Stream responseStream = response.GetResponseStream())
+            using (StreamReader sr = new StreamReader(responseStream))
+            {
+                //Need to return this response 
+                return await sr.ReadToEndAsync();
             }
         }
 
