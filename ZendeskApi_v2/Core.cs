@@ -285,11 +285,11 @@ namespace ZendeskApi_v2
             var obj = Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(response.Content));
             return await obj;
         }
-
+        
         public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null)
         {
             var requestUrl = ZendeskUrl + resource;
-            HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(requestUrl);
             req.ContentType = "application/json";
 
             req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
@@ -298,12 +298,11 @@ namespace ZendeskApi_v2
 
             if (body != null)
             {
-                var json = JsonConvert.SerializeObject(body, jsonSettings);
-
                 using (Stream requestStream = await req.GetRequestStreamAsync())
-                using (StreamWriter writer = new StreamWriter(requestStream, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(requestStream))
                 {
-                    await writer.WriteAsync(json);
+                    JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(jsonSettings);
+                    jsonSerializer.Serialize(writer, body);
                 }
             }
 
