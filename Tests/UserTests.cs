@@ -177,5 +177,30 @@ namespace Tests
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
         }
+
+        [Test]
+        public void CanNotCreateUserWithStringEmptyEmail()
+        {
+            var u = new User();
+            u.Name = new Random().Next(1, 2000000).ToString() + " " + new Random().Next(1, 2000000).ToString();
+            //u.Alias = u.Name;
+            u.Verified = true;
+            u.Email = "";
+            u.LocaleId = 1;
+            u.Role = UserRoles.EndUser;
+
+            bool success = false;
+            try
+            {
+                var result = api.Users.CreateUser(u);
+                success = true;
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"));
+            }
+
+            Assert.IsFalse(success);
+        }
     }
 }
