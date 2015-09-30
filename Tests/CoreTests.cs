@@ -60,5 +60,37 @@ namespace Tests
             });
 
         }
+
+        [Test]
+        public void GivesCorrectException()
+        {
+            var api = new ZendeskApi_v2.ZendeskApi(
+                Settings.Site,
+                Settings.Email,
+                "Incorrect password");
+
+            Assert.Throws<WebException>(() =>
+            {
+                api.Tickets.CreateTicket(new Ticket
+                {
+                    Subject = "subject"
+                });
+            });
+
+            api = new ZendeskApi_v2.ZendeskApi(
+                Settings.Site,
+                Settings.Email,
+                Settings.Password);
+
+            try
+            {
+                api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() {Name = "sdfsd sadfs", Email = ""});
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"));
+            }
+
+        }
     }
 }
