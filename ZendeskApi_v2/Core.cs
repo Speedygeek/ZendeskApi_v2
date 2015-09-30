@@ -127,7 +127,7 @@ namespace ZendeskApi_v2
                     dataStream.Close();
                 }
                 var res = req.GetResponse();
-                HttpWebResponse response = res as HttpWebResponse;
+                var response = res as HttpWebResponse;
                 var responseStream = response.GetResponseStream();
                 var reader = new StreamReader(responseStream);
                 string responseFromServer = reader.ReadToEnd();
@@ -140,9 +140,25 @@ namespace ZendeskApi_v2
             }
             catch (WebException ex)
             {
+                string error = string.Empty;
+                if (ex.Response != null || (ex.InnerException is WebException && ((WebException)(ex.InnerException)).Response != null))
+                using (Stream stream = (ex.Response ?? ((WebException)ex.InnerException).Response).GetResponseStream())
+
+                if (stream != null)
+                {
+                    using (var sr = new StreamReader(stream))
+                    {
+                        error = sr.ReadToEnd();
+                    }
+                }
                 Debug.Write(ex.Message);
-                var headers = ex.Response != null ? " " + ex.Response.Headers : null;
-                throw new WebException(ex.Message + headers, ex);
+                Debug.Write(error);
+
+                var headers = ex.Response != null ? (string.IsNullOrWhiteSpace(error) ? "" : ("\r\n Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null) ?  " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n" + ex.Response.Headers) : string.Empty;
+                var wException = new WebException(ex.Message + headers, ex);
+                wException.Data.Add("jsonException", error);
+
+                throw wException;
             }
         }
 

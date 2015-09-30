@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -87,33 +88,56 @@ namespace ZendeskApi_v2.Requests
         Upload UploadAttachment(ZenFile file, string token, int? timeout)
         {
             var requestUrl = ZendeskUrl + string.Format("uploads.json?filename={0}", file.FileName);
+            
+            try
+            {
+                if (!string.IsNullOrEmpty(token))
+                    requestUrl += string.Format("&token={0}", token);
 
-            if (!string.IsNullOrEmpty(token))
-                requestUrl += string.Format("&token={0}", token);
+                WebRequest req = WebRequest.Create(requestUrl);
+                req.ContentType = file.ContentType;
+                req.Method = "POST";
+                req.ContentLength = file.FileData.Length;
+                req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
 
-            WebRequest req = WebRequest.Create(requestUrl);
-            req.ContentType = file.ContentType;
-            req.Method = "POST";
-            req.ContentLength = file.FileData.Length;
-            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+                //If timeout has value set a specific Timeout in the WebRequest
+                if (timeout.HasValue)
+                    req.Timeout = timeout.Value;
 
-            //If timeout has value set a specific Timeout in the WebRequest
-            if (timeout.HasValue)
-                req.Timeout = timeout.Value;
+                req.PreAuthenticate = true;
+                var dataStream = req.GetRequestStream();
+                dataStream.Write(file.FileData, 0, file.FileData.Length);
+                dataStream.Dispose();
 
-            req.PreAuthenticate = true;
-            var dataStream = req.GetRequestStream();
-            dataStream.Write(file.FileData, 0, file.FileData.Length);
-            dataStream.Dispose();
+                WebResponse response = req.GetResponse();
+                dataStream = response.GetResponseStream();
+                var reader = new StreamReader(dataStream);
+                string responseFromServer = reader.ReadToEnd();
+                dataStream.Dispose();
+                response.Close();
 
-            WebResponse response = req.GetResponse();
-            dataStream = response.GetResponseStream();
-            var reader = new StreamReader(dataStream);
-            string responseFromServer = reader.ReadToEnd();
-            dataStream.Dispose();
-            response.Close();
+                return responseFromServer.ConvertToObject<UploadResult>().Upload;
+            }
+            catch (WebException ex)
+            {
+                string error = string.Empty;
+                using (Stream stream = (ex.Response ?? ((WebException)ex.InnerException).Response).GetResponseStream())
 
-            return responseFromServer.ConvertToObject<UploadResult>().Upload;
+                    if (stream != null)
+                        using (var sr = new StreamReader(stream))
+                        {
+                            error = sr.ReadToEnd();
+                        }
+
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(error);
+
+                var headers = ex.Response != null ? (string.IsNullOrWhiteSpace(error) ? "" : ("\r\n Error Content: " + error) + "\r\n RequestUrl: " + requestUrl + "\r\n Token: " + token + "\r\n ContentLength: " + ((file.FileData != null) ? file.FileData.Length : -1) ) : string.Empty;
+                var wException = new WebException(ex.Message + headers, ex);
+                wException.Data.Add("jsonException", error);
+
+                throw wException;
+            }
         }
 #endif
 
