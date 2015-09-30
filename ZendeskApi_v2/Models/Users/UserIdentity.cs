@@ -17,7 +17,7 @@ namespace ZendeskApi_v2.Models.Users
         public long? Id { get; set; }
 
         [JsonProperty("user_id")]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }

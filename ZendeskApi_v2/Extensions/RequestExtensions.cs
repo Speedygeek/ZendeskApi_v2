@@ -46,6 +46,11 @@ namespace ZendeskApi_v2.Extensions
             return string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray());
         }
 
+        public static string ToCsv(this IEnumerable<string> ids)
+        {
+            return string.Join(",", ids.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray());
+        }
+
         public static T ConvertToObject<T>(this string json)
         {
             var obj = JsonConvert.DeserializeObject<T>(json);

@@ -75,7 +75,7 @@ namespace ZendeskApi_v2.Models.Search
         public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Can be: ticket, user, group, organization, or topic

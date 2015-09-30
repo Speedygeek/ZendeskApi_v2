@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using ZendeskApi_v2.Extensions;
 #if ASYNC
 using System.Net;
 using System.Threading.Tasks;
@@ -9,16 +11,29 @@ using User = ZendeskApi_v2.Models.Users.User;
 
 namespace ZendeskApi_v2.Requests
 {
+    [Flags]
+    public enum UserSideLoadOptions
+    {
+        None = 0,
+        Organizations = 1, 
+        Abilities = 2, 
+        Roles = 4, 
+        Identities = 8, 
+        Groups = 16
+    }
+
 	public interface IUsers : ICore
 	{
 #if SYNC
 		IndividualUserResponse GetCurrentUser();
-		GroupUserResponse GetAllUsers(int? perPage = null, int? page = null);
+		GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 		IndividualUserResponse GetUser(long id);
-		GroupUserResponse SearchByEmail(string email);
-		GroupUserResponse SearchByExternalId(string externalId);
-		GroupUserResponse GetUsersInGroup(long id);
-		GroupUserResponse GetUsersInOrganization(long id);
+	    IndividualUserResponse MergeUser(long fromId, long intoId);
+	    GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        GroupUserResponse SearchByEmail(string email);
+        GroupUserResponse SearchByExternalId(string externalId);
+        GroupUserResponse GetUsersInGroup(long id);
+        GroupUserResponse GetUsersInOrganization(long id);
 		IndividualUserResponse CreateUser(User user);
 		JobStatusResponse BulkCreateUsers(IEnumerable<User> users);
 		IndividualUserResponse SuspendUser(long id);
@@ -29,6 +44,7 @@ namespace ZendeskApi_v2.Requests
 		GroupUserIdentityResponse GetUserIdentities(long userId);
 		IndividualUserIdentityResponse GetSpecificUserIdentity(long userId, long identityId);
 		IndividualUserIdentityResponse AddUserIdentity(long userId, UserIdentity identity);
+        IndividualUserIdentityResponse UpdateUserIdentity(long userId, UserIdentity identity);
 		IndividualUserIdentityResponse SetUserIdentityAsVerified(long userId, long identityId);
 		GroupUserIdentityResponse SetUserIdentityAsPrimary(long userId, long identityId);
 
@@ -45,8 +61,10 @@ namespace ZendeskApi_v2.Requests
 
 #if ASYNC
 		Task<IndividualUserResponse> GetCurrentUserAsync();
-		Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null);
+        Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 		Task<IndividualUserResponse> GetUserAsync(long id);
+        Task<IndividualUserResponse> MergeUserAsync(long fromId, long intoId);
+        Task<GroupUserResponse> GetMultipleUsersAsync(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 		Task<GroupUserResponse> SearchByEmailAsync(string email);
 		Task<GroupUserResponse> SearchByExternalIdAsync(string externalId);
 		Task<GroupUserResponse> GetUsersInGroupAsync(long id);
@@ -61,6 +79,7 @@ namespace ZendeskApi_v2.Requests
 		Task<GroupUserIdentityResponse> GetUserIdentitiesAsync(long userId);
 		Task<IndividualUserIdentityResponse> GetSpecificUserIdentityAsync(long userId, long identityId);
 		Task<IndividualUserIdentityResponse> AddUserIdentityAsync(long userId, UserIdentity identity);
+        Task<IndividualUserIdentityResponse> UpdateUserIdentityAsync(long userId, UserIdentity identity);
 		Task<IndividualUserIdentityResponse> SetUserIdentityAsVerifiedAsync(long userId, long identityId);
 		Task<GroupUserIdentityResponse> SetUserIdentityAsPrimaryAsync(long userId, long identityId);
 
@@ -89,14 +108,35 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualUserResponse>("users/me.json");
         }
 
-        public GroupUserResponse GetAllUsers(int? perPage = null, int? page = null)
+        public GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            return GenericPagedGet<GroupUserResponse>("users.json", perPage, page);
+            string resource = GetResourceStringWithSideLoadOptionsParam("users.json", sideLoadOptions);
+
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
 
         public IndividualUserResponse GetUser(long id)
         {
             return GenericGet<IndividualUserResponse>(string.Format("users/{0}.json", id));
+        }
+
+        /// <summary>
+        /// The user whose id is provided in the URL will be merged into the existing user provided in the params. Any two arbitrary users can be merged.
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="intoId"></param>
+        /// <returns></returns>
+        public IndividualUserResponse MergeUser(long fromId, long intoId)
+        {
+            var body = new { user = new {id=intoId}};
+            return GenericPut<IndividualUserResponse>(string.Format("users/{0}/merge.json", fromId), body);
+        }
+
+        public GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/show_many.json?ids={0}", ids.ToCsv()), sideLoadOptions);
+
+            return GenericGet<GroupUserResponse>(resource);
         }
 
         public GroupUserResponse SearchByEmail(string email)
@@ -178,7 +218,12 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { identity };
             return GenericPost<IndividualUserIdentityResponse>(string.Format("users/{0}/identities.json", userId), body);
-        }        
+        }
+        public IndividualUserIdentityResponse UpdateUserIdentity(long userId, UserIdentity identity)
+        {
+            var body = new { identity };
+            return GenericPost<IndividualUserIdentityResponse>(string.Format("users/{0}/identities.json", userId), body);
+        } 
 
         public IndividualUserIdentityResponse SetUserIdentityAsVerified(long userId, long identityId)
         {
@@ -214,7 +259,7 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualUserResponse>("users/me.json");
         }
 
-        public async Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null)
+        public async Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
             return await GenericPagedGetAsync<GroupUserResponse>("users.json", perPage, page);
         }
@@ -222,6 +267,23 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualUserResponse> GetUserAsync(long id)
         {
             return await GenericGetAsync<IndividualUserResponse>(string.Format("users/{0}.json", id));
+        }
+
+        /// <summary>
+        /// The user whose id is provided in the URL will be merged into the existing user provided in the params. Any two arbitrary users can be merged.
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="intoId"></param>
+        /// <returns></returns>
+        public async Task<IndividualUserResponse> MergeUserAsync(long fromId, long intoId)
+        {
+            var body = new { user = new { id = intoId } };
+            return await GenericPutAsync<IndividualUserResponse>(string.Format("users/{0}/merge.json", fromId), body);
+        }
+
+        public async Task<GroupUserResponse> GetMultipleUsersAsync(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            return await GenericGetAsync<GroupUserResponse>(string.Format("users/show_many.json?ids={0}", ids.ToCsv()));
         }
 
         public async Task<GroupUserResponse> SearchByEmailAsync(string email)
@@ -303,7 +365,13 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { identity };
             return await GenericPostAsync<IndividualUserIdentityResponse>(string.Format("users/{0}/identities.json", userId), body);
-        }        
+        }
+
+        public async Task<IndividualUserIdentityResponse> UpdateUserIdentityAsync(long userId, UserIdentity identity)
+        {
+            var body = new { identity };
+            return await GenericPostAsync<IndividualUserIdentityResponse>(string.Format("users/{0}/identities.json", userId), body);
+        } 
 
         public async Task<IndividualUserIdentityResponse> SetUserIdentityAsVerifiedAsync(long userId, long identityId)
         {
@@ -331,5 +399,19 @@ namespace ZendeskApi_v2.Requests
             return await GenericDeleteAsync(string.Format("users/{0}/identities/{1}.json", userId, identityId));
         }
 #endif
+        private string GetResourceStringWithSideLoadOptionsParam(string resource, UserSideLoadOptions sideLoadOptions)
+        {
+            if (sideLoadOptions != UserSideLoadOptions.None)
+            {
+                if (sideLoadOptions.HasFlag(UserSideLoadOptions.None))
+                    sideLoadOptions &= ~UserSideLoadOptions.None;
+
+                string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
+                resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
+                return resource;
+            }
+
+            return resource;
+        }
     }
 }
