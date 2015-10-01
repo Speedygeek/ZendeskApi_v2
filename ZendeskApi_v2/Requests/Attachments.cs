@@ -178,7 +178,11 @@ namespace ZendeskApi_v2.Requests
                 Debug.Write(ex.Message);
                 Debug.Write(error);
 
-                var headers = ex.Response != null ? (error.IsNullOrWhiteSpace() ? "" : ("\r\n Error Content: " + error) + "\r\n" + ((file != null && file.FileData != null) ? (" File Name: " + file.FileName + "\r\n" + " File Length: " + file.FileData.Length + "\r\n") : string.Empty) + ex.Response.Headers) : string.Empty;
+               var  headers = ("Error Content: " + error) + "\r\n" + (" File Name: " + (file.FileName ?? string.Empty) + "\r\n" + " File Length: " + (file.FileData != null ? file.FileData.Length.ToString() : "no data") + "\r\n");
+
+                if (ex.Response != null && ex.Response.Headers != null)
+                    headers += ex.Response.Headers;   
+             
                 var wException = new WebException(ex.Message + headers, ex);
                 wException.Data.Add("jsonException", error);
 

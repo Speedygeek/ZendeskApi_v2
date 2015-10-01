@@ -175,7 +175,14 @@ namespace ZendeskApi_v2
                 Debug.Write(ex.Message);
                 Debug.Write(error);
 
-                var headers = ex.Response != null ? (error.IsNullOrWhiteSpace() ? "" : ("\r\n Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null) ?  " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n" + ex.Response.Headers) : string.Empty;
+                var headers = ("Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null && !(body is ZenFile)) ? " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n";
+                if (body != null && (body is ZenFile))
+                    headers = ("Error Content: " + error) + "\r\n" +(" File Name: " + (((ZenFile) body).FileName ?? string.Empty) + "\r\n" +
+                        " File Length: " + (((ZenFile)body).FileData != null ? ((ZenFile)body).FileData.Length.ToString() : "no data") + "\r\n");
+                
+                if (ex.Response != null && ex.Response.Headers != null)
+                    headers += ex.Response.Headers;
+
                 var wException = new WebException(ex.Message + headers, ex);
                 wException.Data.Add("jsonException", error);
 
@@ -375,7 +382,10 @@ namespace ZendeskApi_v2
                 Debug.Write(ex.Message);
                 Debug.Write(error);
 
-                var headers = ex.Response != null ? (error.IsNullOrWhiteSpace() ? "" : ("\r\n Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null) ? " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n" + ex.Response.Headers) : string.Empty;
+                var headers = ("Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null && !(body is ZenFile)) ? " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n";
+                if (ex.Response != null && ex.Response.Headers != null)
+                    headers += ex.Response.Headers;
+                
                 var wException = new WebException(ex.Message + headers, ex);
                 wException.Data.Add("jsonException", error);
 
