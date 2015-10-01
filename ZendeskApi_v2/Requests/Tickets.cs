@@ -46,7 +46,7 @@ namespace ZendeskApi_v2.Requests
         GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         IndividualTicketResponse GetTicket(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
-        GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null);
+        GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         IndividualTicketResponse CreateTicket(Ticket ticket);
 
@@ -106,7 +106,7 @@ namespace ZendeskApi_v2.Requests
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<IndividualTicketResponse> GetTicketAsync(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
-        Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null);
+        Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket);
 
@@ -268,9 +268,10 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualTicketResponse>(resource);
         }
 
-        public GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null)
+        public GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericPagedGet<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId), perPage, page);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/comments.json", _tickets, ticketId), sideLoadOptions);
+            return GenericPagedGet<GroupCommentResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -539,9 +540,10 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualTicketResponse>(resource);
         }
 
-        public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null)
+        public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return await GenericPagedGetAsync<GroupCommentResponse>(string.Format("{0}/{1}/comments.json", _tickets, ticketId), perPage, page);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/comments.json", _tickets, ticketId), sideLoadOptions);
+            return await GenericPagedGetAsync<GroupCommentResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)

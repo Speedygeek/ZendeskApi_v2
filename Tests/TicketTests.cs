@@ -432,6 +432,15 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetTicketCommentsWithSideLoading()
+        {
+            var comments = api.Tickets.GetTicketComments(2, sideLoadOptions: ticketSideLoadOptions);
+            Assert.IsNotEmpty(comments.Users);
+            Assert.IsNull(comments.Organizations);
+        }
+
+
+        [Test]
         public void CanGetTicketCommentsPaged()
         {
             const int perPage = 5;

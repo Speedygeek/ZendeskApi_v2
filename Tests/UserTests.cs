@@ -11,11 +11,13 @@ using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Users;
+using ZendeskApi_v2.Requests;
 
 
 namespace Tests
 {
     [TestFixture]
+    [Category("Users")]
     public class UserTests
     {
         ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
@@ -176,6 +178,76 @@ namespace Tests
 
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
+        }
+
+        [Test]
+        public async void CanMergeUsers()
+        {
+            var user1 = new User();
+            user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
+            user1.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
+
+            var user2 = new User();
+            user2.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
+            user2.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
+
+            var resultUser1 = api.Users.CreateUser(user1);
+            var resultUser2 = api.Users.CreateUser(user2);
+
+            var mergedUser = api.Users.MergeUser(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
+            var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
+
+            Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
+            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
+            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user2.Email.ToLower()));
+
+            api.Users.DeleteUser(resultUser1.User.Id.Value);
+            api.Users.DeleteUser(resultUser2.User.Id.Value);
+
+        }
+
+        [Test]
+        public async void CanMergeUsersAsync()
+        {
+            var user1 = new User();
+            user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
+            user1.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
+
+            var user2 = new User();
+            user2.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
+            user2.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
+
+            var resultUser1 = api.Users.CreateUser(user1);
+            var resultUser2 = api.Users.CreateUser(user2);
+
+            var mergedUser = await api.Users.MergeUserAsync(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
+            var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
+
+            Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
+            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
+            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user2.Email.ToLower()));
+
+            api.Users.DeleteUser(resultUser1.User.Id.Value);
+            api.Users.DeleteUser(resultUser2.User.Id.Value);
+        }
+
+        [Test]
+        public void CanGetMultipleUsers()
+        {
+            var userList = api.Users.GetAllUsers(10,1).Users.Select(u => u.Id.Value).ToList();
+            var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities | UserSideLoadOptions.Roles);
+
+            Assert.AreEqual(userList.Count, result.Count);
+            Assert.IsTrue((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()));
+        }
+
+        [Test]
+        public void CanGetMultipleUsersAsync()
+        {
+            var userList = api.Users.GetAllUsersAsync(10, 1).Result.Users.Select(u => u.Id.Value).ToList();
+            var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities);
+            Assert.AreEqual(userList.Count, result.Count);
+            Assert.IsTrue((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()));
         }
     }
 }
