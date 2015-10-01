@@ -571,14 +571,14 @@ namespace Tests
         }
 
         [Test]
-        public void CanAddAttachmentToTicketAsync()
+        public async void CanAddAttachmentToTicketAsync()
         {
-            var res = api.Attachments.UploadAttachmentAsync(new ZenFile()
+            var res = await api.Attachments.UploadAttachmentAsync(new ZenFile()
             {
                 ContentType = "text/plain",
                 FileName = "testupload.txt",
                 FileData = File.ReadAllBytes(Environment.CurrentDirectory + "\\testupload.txt")
-            }).Result;
+            });
 
             var ticket = new Ticket()
             {
@@ -592,10 +592,11 @@ namespace Tests
                 },
             };
 
-            var t1 = api.Tickets.CreateTicketAsync(ticket).Result;
+            var t1 = await api.Tickets.CreateTicketAsync(ticket);
+
             Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
 
-            Assert.True(api.Tickets.DeleteAsync(t1.Ticket.Id.Value).Result);
+            Assert.True(await api.Tickets.DeleteAsync(t1.Ticket.Id.Value));
         }
 
         [Test]
