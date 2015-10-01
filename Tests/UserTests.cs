@@ -181,7 +181,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanMergeUsers()
+        public async void CanMergeUsers()
         {
             var user1 = new User();
             user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
@@ -195,8 +195,7 @@ namespace Tests
             var resultUser2 = api.Users.CreateUser(user2);
 
             var mergedUser = api.Users.MergeUser(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
-            Thread.Sleep(2000);
-            var mergedIdentities = api.Users.GetUserIdentities(mergedUser.User.Id.Value);
+            var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
 
             Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
             Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
@@ -208,7 +207,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanMergeUsersAsync()
+        public async void CanMergeUsersAsync()
         {
             var user1 = new User();
             user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
@@ -221,9 +220,8 @@ namespace Tests
             var resultUser1 = api.Users.CreateUser(user1);
             var resultUser2 = api.Users.CreateUser(user2);
 
-            var mergedUser = api.Users.MergeUserAsync(resultUser1.User.Id.Value, resultUser2.User.Id.Value).Result;
-            Thread.Sleep(2000);
-            var mergedIdentities = api.Users.GetUserIdentities(mergedUser.User.Id.Value);
+            var mergedUser = await api.Users.MergeUserAsync(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
+            var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
 
             Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
             Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
