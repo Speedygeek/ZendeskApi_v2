@@ -475,6 +475,27 @@ namespace Tests
         }
 
         [Test]
+        public async void CanCreateTicketWithRequesterAsync()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "ticket with requester",
+                Comment = new Comment() { Body = "testing requester" },
+                Priority = TicketPriorities.Normal,
+                Requester = new Requester() { Email = Settings.ColloboratorEmail }
+            };
+
+            var res = await api.Tickets.CreateTicketAsync(ticket);
+
+            Assert.NotNull(res);
+            Assert.NotNull(res.Ticket);
+            Assert.AreEqual(res.Ticket.RequesterId, Settings.CollaboratorId);
+
+            Assert.True(api.Tickets.Delete(res.Ticket.Id.Value));
+        }
+
+
+        [Test]
         public void CanCreateTicketWithDueDate()
         {
             var dueAt = DateTimeOffset.UtcNow;
