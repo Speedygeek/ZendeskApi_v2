@@ -165,15 +165,19 @@ namespace ZendeskApi_v2
                 if (ex.Response != null || (ex.InnerException is WebException && ((WebException)(ex.InnerException)).Response != null))
                 using (Stream stream = (ex.Response ?? ((WebException)ex.InnerException).Response).GetResponseStream())
 
-                if (stream != null)
-                {
-                    using (var sr = new StreamReader(stream))
+                    if (stream != null && stream.CanRead)
                     {
-                        error = sr.ReadToEnd();
+                        using (var sr = new StreamReader(stream))
+                        {
+                            error = sr.ReadToEnd();
+                        }
                     }
-                }
-                Debug.Write(ex.Message);
-                Debug.Write(error);
+                    else
+                    {
+                        error = "Cannot read error stream.";}
+
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(error);
 
                 var headers = ("Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null && !(body is ZenFile)) ? " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n";
                 if (body != null && (body is ZenFile))
@@ -371,16 +375,20 @@ namespace ZendeskApi_v2
                 string error = string.Empty;
                 if (ex.Response != null || (ex.InnerException is WebException && ((WebException)(ex.InnerException)).Response != null))
                     using (Stream stream = (ex.Response ?? ((WebException)ex.InnerException).Response).GetResponseStream())
-
-                        if (stream != null)
+                        if (stream != null && stream.CanRead)
                         {
                             using (var sr = new StreamReader(stream))
                             {
                                 error = sr.ReadToEnd();
                             }
                         }
-                Debug.Write(ex.Message);
-                Debug.Write(error);
+                        else
+                        {
+                            error = "Cannot read error stream.";
+                        }
+
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(error);
 
                 var headers = ("Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null && !(body is ZenFile)) ? " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n";
                 if (ex.Response != null && ex.Response.Headers != null)

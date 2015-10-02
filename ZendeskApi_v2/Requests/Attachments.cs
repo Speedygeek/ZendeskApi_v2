@@ -175,8 +175,13 @@ namespace ZendeskApi_v2.Requests
                                 error = sr.ReadToEnd();
                             }
                         }
-                Debug.Write(ex.Message);
-                Debug.Write(error);
+                        else
+                        {
+                            error = "Cannot read error stream.";
+                        }
+
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(error);
 
                var  headers = ("Error Content: " + error) + "\r\n" + (" File Name: " + (file.FileName ?? string.Empty) + "\r\n" + " File Length: " + (file.FileData != null ? file.FileData.Length.ToString() : "no data") + "\r\n");
 
