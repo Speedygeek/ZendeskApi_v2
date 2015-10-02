@@ -4,7 +4,17 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Groups
 {
-    public class Group
+    public interface IGroup
+    {
+        string Url { get; set; }
+        long? Id { get; set; }
+        string Name { get; set; }
+        bool Deleted { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
+    }
+
+    public class Group : IGroup
     {
 
         [JsonProperty("url")]

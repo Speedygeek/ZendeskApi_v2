@@ -249,5 +249,14 @@ namespace Tests
             Assert.AreEqual(userList.Count, result.Count);
             Assert.IsTrue((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()));
         }
+
+        [Test]
+        public void SearchForUserAnonymousType()
+        {
+            var user = api.Users.GetAllUsers(1, 1).Users;
+
+            var result = api.Search.SearchFor<User>(user[0].Name);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }

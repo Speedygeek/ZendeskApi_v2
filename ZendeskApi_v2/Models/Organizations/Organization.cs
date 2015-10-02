@@ -9,8 +9,25 @@ using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.Organizations
 {
+    public interface IOrganization
+    {
+        string Url { get; set; }
+        long? Id { get; set; }
+        object ExternalId { get; set; }
+        string Name { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
+        IList<object> DomainNames { get; set; }
+        object Details { get; set; }
+        object Notes { get; set; }
+        object GroupId { get; set; }
+        bool SharedTickets { get; set; }
+        bool SharedComments { get; set; }
+        IList<string> Tags { get; set; }
+        IDictionary<string, object> OrganizationFields { get; set; }
+    }
 
-    public class Organization
+    public class Organization : IOrganization
     {
 
         [JsonProperty("url")]
