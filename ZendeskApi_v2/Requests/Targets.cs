@@ -17,6 +17,11 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
+        Task<GroupTargetResponse> GetAllTargetsAsync();
+        Task<IndividualTargetResponse> GetTargetAsync(long id);
+        Task<IndividualTargetResponse> CreateTargetAsync(BaseTarget target);
+        Task<IndividualTargetResponse> UpdateTargetAsync(BaseTarget target);
+        Task<bool> DeleteTargetAsync(long id);
 #endif
     }
     public class Targets : Core, ITargets
@@ -56,6 +61,32 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
+        public async Task<GroupTargetResponse> GetAllTargetsAsync()
+        {
+            return await GenericGetAsync<GroupTargetResponse>("targets.json");
+        }
+
+        public async Task<IndividualTargetResponse> GetTargetAsync(long id)
+        {
+            return await GenericGetAsync<IndividualTargetResponse>(string.Format("targets/{0}.json", id));
+        }
+
+        public async Task<IndividualTargetResponse> CreateTargetAsync(BaseTarget target)
+        {
+            var body = new { target };
+            return await GenericPostAsync<IndividualTargetResponse>("targets.json", body);
+        }
+
+        public async Task<IndividualTargetResponse> UpdateTargetAsync(BaseTarget target)
+        {
+            var body = new { target };
+            return await GenericPutAsync<IndividualTargetResponse>(string.Format("targets/{0}.json", target.Id), body);
+        }
+
+        public async Task<bool> DeleteTargetAsync(long id)
+        {
+            return await GenericDeleteAsync(string.Format("targets/{0}.json", id));
+        }
 #endif
     }
 }
