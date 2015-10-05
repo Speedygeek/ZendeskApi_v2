@@ -13,7 +13,7 @@ namespace ZendeskApi_v2.Models.Targets
         public string Title { get; set; }
 
         [JsonProperty("type")]
-        public virtual string Type { get; }
+        public virtual string Type { get; private set; }
 
         [JsonProperty("active")]
         public bool Active { get; set; }
