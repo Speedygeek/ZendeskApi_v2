@@ -30,7 +30,6 @@ namespace Tests
             var target = new EmailTarget()
             {
                 Title   = "Test Email Target",
-                Type    = "email_target",
                 Active  = false,
                 Email   = "test@test.com",
                 Subject = "Test"
@@ -57,7 +56,6 @@ namespace Tests
             var emailTarget = new EmailTarget()
             {
                 Title   = "Test Email Target",
-                Type    = "email_target",
                 Active  = false,
                 Email   = "test@test.com",
                 Subject = "Test"
@@ -70,7 +68,6 @@ namespace Tests
             var jiraTarget = new JiraTarget()
             {
                 Title     = "Test Jira Target",
-                Type      = "jira_target",
                 Active    = false,
                 TargetUrl = "http://test.com",
                 Username  = "testuser",
