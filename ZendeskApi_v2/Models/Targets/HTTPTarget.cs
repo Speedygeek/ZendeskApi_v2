@@ -7,6 +7,15 @@ namespace ZendeskApi_v2.Models.Targets
     /// </summary>
     public class HTTPTarget : BaseTarget
     {
+        [JsonProperty("type")]
+        public override string Type
+        {
+            get
+            {
+                return "http_target";
+            }
+        }
+
         [JsonProperty("target_url")]
         public string TargetUrl { get; set; }
 

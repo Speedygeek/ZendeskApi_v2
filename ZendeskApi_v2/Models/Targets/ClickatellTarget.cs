@@ -4,6 +4,15 @@ namespace ZendeskApi_v2.Models.Targets
 {
     public class ClickatellTarget : BaseTarget
     {
+        [JsonProperty("type")]
+        public override string Type
+        {
+            get
+            {
+                return "clickatell_target";
+            }
+        }
+
         [JsonProperty("target_url")]
         public string TargetUrl { get; set; }
 

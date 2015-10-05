@@ -4,6 +4,15 @@ namespace ZendeskApi_v2.Models.Targets
 {
     public class URLTarget : BaseTarget
     {
+        [JsonProperty("type")]
+        public override string Type
+        {
+            get
+            {
+                return "url_target";
+            }
+        }
+
         [JsonProperty("target_url")]
         public string TargetUrl { get; set; }
 

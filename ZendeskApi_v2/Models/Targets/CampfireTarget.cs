@@ -4,6 +4,15 @@ namespace ZendeskApi_v2.Models.Targets
 {
     public class CampfireTarget : BaseTarget
     {
+        [JsonProperty("type")]
+        public override string Type
+        {
+            get
+            {
+                return "campfire_target";
+            }
+        }
+
         [JsonProperty("subdomain")]
         public string SubDomain { get; set; }
 

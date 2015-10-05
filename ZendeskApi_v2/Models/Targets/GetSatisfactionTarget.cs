@@ -4,6 +4,15 @@ namespace ZendeskApi_v2.Models.Targets
 {
     public class GetSatisfactionTarget : BaseTarget
     {
+        [JsonProperty("type")]
+        public override string Type
+        {
+            get
+            {
+                return "get_satisfaction_target";
+            }
+        }
+
         [JsonProperty("email")]
         public string Email { get; set; }
 

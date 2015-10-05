@@ -4,6 +4,15 @@ namespace ZendeskApi_v2.Models.Targets
 {
     public class PivotalTarget : BaseTarget
     {
+        [JsonProperty("type")]
+        public override string Type
+        {
+            get
+            {
+                return "pivotal_target";
+            }
+        }
+
         [JsonProperty("token")]
         public string Token { get; set; }
 
