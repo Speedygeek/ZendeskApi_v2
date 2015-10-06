@@ -1087,10 +1087,12 @@ namespace Tests
         }
 
         [Test]
-        public void SearchForOrgAnonymousType()
+        public void SearchForTicketAnonymousType()
         {
             var result = api.Search.SearchFor<Ticket>(Settings.SampleTicketId.ToString());
             Assert.IsTrue(result.Count > 0);
+
+            Assert.Throws<Exception>(()=>api.Search.SearchFor<ITicket>(Settings.SampleTicketId.ToString()));
         }
     }
 }
