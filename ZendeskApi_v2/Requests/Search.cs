@@ -339,7 +339,7 @@ namespace ZendeskApi_v2.Requests
 
             if (types.All(t => t != typeo))
             {
-                string message = "Anonymous type must be " + string.Join(",", types.Select(o => o.Name))+ " but was passed in: " + typeo.Name;
+                string message = "Anonymous type must be " + string.Join<string>(",", types.Select(o => o.Name).ToList())+ " but was passed in: " + typeo.Name;
                 throw new Exception(message);
             }
 
