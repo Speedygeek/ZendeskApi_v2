@@ -332,6 +332,7 @@ namespace ZendeskApi_v2.Requests
 
 	    public string AddTypeToSearchTerm(Type typeo, string searchTerm)
 	    {
+	        string typeName = typeo.Name;
 	        var types = (new Type[]
 	        {
 	            typeof (User), typeof (Organization), typeof (Ticket), typeof (Group)
@@ -339,11 +340,11 @@ namespace ZendeskApi_v2.Requests
 
             if (types.All(t => t != typeo))
             {
-                string message = "Anonymous type must be " + string.Join<string>(",", types.Select(o => o.Name).ToList())+ " but was passed in: " + typeo.Name;
+                string message = "Anonymous type must be User, Organization, Ticket, Group but was passed in: " + typeo.Name;
                 throw new Exception(message);
             }
 
-            return string.Join<string>(" ", new[] { "type:" + (typeo.Name.StartsWith("I") ? typeo.Name.Substring(1) : typeo.Name) , searchTerm.Trim() });
+            return "type:" + typeName + (!(string.IsNullOrEmpty(searchTerm.Trim())) ? " ":"") + searchTerm.Trim() ;
 
 	    }
     }
