@@ -7,7 +7,40 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Users
 {
-    public class User
+    public interface IUser
+    {
+        long? Id { get; set; }
+        string Url { get; set; }
+        string Name { get; set; }
+        string ExternalId { get; set; }
+        string Alias { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
+        bool? Active { get; set; }
+        bool Verified { get; set; }
+        bool? Shared { get; set; }
+        long? LocaleId { get; set; }
+        string TimeZone { get; set; }
+        DateTimeOffset? LastLoginAt { get; set; }
+        string Email { get; set; }
+        string Phone { get; set; }
+        string Signature { get; set; }
+        string Details { get; set; }
+        string Notes { get; set; }
+        long? OrganizationId { get; set; }
+        string Role { get; set; }
+        long? CustomRoleId { get; set; }
+        bool Moderator { get; set; }
+        string TicketRestriction { get; set; }
+        bool OnlyPrivateComments { get; set; }
+        IList<string> Tags { get; set; }
+        bool Suspended { get; set; }
+        Photo Photo { get; set; }
+        string RemotePhotoUrl { get; set; }
+        IDictionary<string, object> CustomFields { get; set; }
+    }
+
+    public class User : IUser
     {
         [JsonProperty("id")]
         public long? Id { get; set; }

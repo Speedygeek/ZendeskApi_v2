@@ -4,7 +4,15 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
-    public class BaseTicket
+    public interface IBaseTicket
+    {
+        string Url { get; set; }
+        long? Id { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
+    }
+
+    public class BaseTicket : IBaseTicket
     {
         [JsonProperty("url")]
         public string Url { get; set; }

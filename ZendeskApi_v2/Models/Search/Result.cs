@@ -11,8 +11,44 @@ using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Models.Search
 {
-    
-    public class Result
+    public interface IResult
+    {
+        string Name { get; set; }
+        string Title { get; set; }
+        string Body { get; set; }
+        string Description { get; set; }
+        string Notes { get; set; }
+        Via Via { get; set; }
+        string Priority { get; set; }
+        string TopicType { get; set; }
+        long? SubmitterId { get; set; }
+        long? UpdaterId { get; set; }
+        long? ForumId { get; set; }
+        long? OrganizationId { get; set; }
+        long? GroupId { get; set; }
+        IList<CustomField> CustomFields { get; set; }
+        IList<string> Tags { get; set; }
+        IList<Attachment> Attachments { get; set; }
+        int? CommentsCount { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
+        long Id { get; set; }
+
+        /// <summary>
+        /// Can be: ticket, user, group, organization, or topic
+        /// </summary>
+        string ResultType { get; set; }
+
+        string Url { get; set; }
+        string ExternalId { get; set; }
+        string Type { get; set; }
+        string Subject { get; set; }
+        long? RequesterId { get; set; }
+        long? AssigneeId { get; set; }
+        string Status { get; set; }
+    }
+
+    public class Result : IResult
     {
 
         [JsonProperty("name")]

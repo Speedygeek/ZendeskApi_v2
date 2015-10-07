@@ -1085,5 +1085,14 @@ namespace Tests
                 api.Tickets.DeleteAsync(r.Id);
             }
         }
+
+        [Test]
+        public void SearchForTicketAnonymousType()
+        {
+            var result = api.Search.SearchFor<Ticket>(Settings.SampleTicketId.ToString());
+            Assert.IsTrue(result.Count > 0);
+
+            Assert.Throws<Exception>(()=>api.Search.SearchFor<ITicket>(Settings.SampleTicketId.ToString()));
+        }
     }
 }

@@ -5,8 +5,70 @@ using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Models.Tickets
-{    
-    public class Ticket : BaseTicket
+{
+    public interface ITicket
+    {
+        object ExternalId { get; set; }
+        string Type { get; set; }
+
+        /// <summary>
+        /// This field can no longer be set. As of January 2013 use "Comment.Body" instead.
+        /// </summary>
+        string Description { get; }
+
+        string Subject { get; set; }
+        string Priority { get; set; }
+        string Status { get; set; }
+        string Recipient { get; set; }
+        long? RequesterId { get; set; }
+        long? SubmitterId { get; set; }
+        long? AssigneeId { get; set; }
+        long? OrganizationId { get; set; }
+        long? GroupId { get; set; }
+
+        /// <summary>
+        /// This is for getting the Ids only
+        /// </summary>
+        IList<long> CollaboratorIds { get; set; }
+
+        /// <summary>
+        /// This is used only to update tickets and will not be returned.
+        /// NOTE that setting collaborators this way will completely ignore what's already set, so make sure to include existing collaborators in the array if you wish to retain these on the ticket.        
+        /// </summary>
+        IList<string> CollaboratorEmails { get; set; }
+
+        object ForumTopicId { get; set; }
+        object ProblemId { get; set; }
+        bool? HasIncidents { get; set; }
+        DateTimeOffset? DueAt { get; set; }
+        IList<string> Tags { get; set; }
+        IList<CustomField> CustomFields { get; set; }
+        SatisfactionRating SatisfactionRating { get; set; }
+        int? BrandId { get; set; }
+        Via Via { get; set; }
+
+        /// <summary>
+        /// This is used for updates only
+        /// </summary>
+        Comment Comment { get; set; }
+
+        /// <summary>
+        /// This is used for updates only
+        /// </summary>
+        Requester Requester { get; set; }
+
+        /// <summary>
+        /// The id of the ticket form to render for this ticket - only applicable for enterprise accounts.
+        /// </summary>
+        long? TicketFormId { get; set; }
+
+        string Url { get; set; }
+        long? Id { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
+    }
+
+    public class Ticket : BaseTicket, ITicket
     {
         [JsonProperty("external_id")]
         public object ExternalId { get; set; }             

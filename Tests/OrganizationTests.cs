@@ -149,5 +149,12 @@ namespace Tests
             Assert.True(api.Organizations.DeleteOrganization(org.Organization.Id.Value));
             Assert.True(api.Organizations.DeleteOrganization(org2.Organization.Id.Value));
         }
+
+        [Test]
+        public void SearchForOrgAnonymousType()
+        {
+            var result = api.Search.SearchFor<Organization>(Settings.DefaultOrg);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }
