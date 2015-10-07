@@ -39,7 +39,7 @@ namespace ZendeskApi_v2.Models.Search
         public object Description { get; set; }
     }
 
-    public class SearchResults : ISearchResultsT<IResult>
+    public class SearchResults : ISearchResultsT<Result>
     {
         [JsonProperty("count")]
         public int Count { get; set; }
@@ -51,7 +51,7 @@ namespace ZendeskApi_v2.Models.Search
         public object PrevPage { get; set; }
 
         [JsonProperty("results")]
-        public IList<IResult> Results { get; set; }
+        public IList<Result> Results { get; set; }
 
         [JsonProperty("error")]
         public object Error { get; set; }
