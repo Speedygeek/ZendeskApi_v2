@@ -35,6 +35,7 @@ namespace ZendeskApi_v2
         IHelpCenterApi HelpCenter { get; }
         IVoice Voice { get; }
         ISchedules Schedules { get; }
+        ITargets Targets { get; }
 
         string ZendeskUrl { get; }
     }
@@ -64,6 +65,7 @@ namespace ZendeskApi_v2
         public IHelpCenterApi HelpCenter { get; set; }
         public IVoice Voice { get; set; }
         public ISchedules Schedules { get; set; }
+        public ITargets Targets { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -149,6 +151,7 @@ namespace ZendeskApi_v2
             HelpCenter          = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
             Voice               = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken);
             Schedules           = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Targets             = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken);
 
             ZendeskUrl = formattedUrl;
         }
@@ -188,6 +191,7 @@ namespace ZendeskApi_v2
             ((Triggers)Triggers).Proxy                            = proxy;
             ((Voice)Voice).Proxy                                  = proxy;
             ((Schedules)Schedules).Proxy                          = proxy;
+            ((Targets)Targets).Proxy = proxy;
         }
 
 #endif

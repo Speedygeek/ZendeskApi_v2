@@ -108,6 +108,7 @@
     <Compile Include="AccountsAndActivityTests.cs" />
     <Compile Include="SharingAgreementTests.cs" />
     <Compile Include="TagTests.cs" />
+    <Compile Include="TargetTests.cs" />
     <Compile Include="TopicTests.cs" />
     <Compile Include="TriggerTests.cs" />
     <Compile Include="UserTests.cs" />

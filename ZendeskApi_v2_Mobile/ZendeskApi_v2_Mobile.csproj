@@ -408,6 +408,51 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tags\TagAutocompleteResponse.cs">
       <Link>Models\Tags\TagAutocompleteResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\BasecampTarget.cs">
+      <Link>Models\Targets\BasecampTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\BaseTarget.cs">
+      <Link>Models\Targets\BaseTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\CampfireTarget.cs">
+      <Link>Models\Targets\CampfireTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\ClickatellTarget.cs">
+      <Link>Models\Targets\ClickatellTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\EmailTarget.cs">
+      <Link>Models\Targets\EmailTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\FlowdockTarget.cs">
+      <Link>Models\Targets\FlowdockTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\GetSatisfactionTarget.cs">
+      <Link>Models\Targets\GetSatisfactionTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\GroupTargetResponse.cs">
+      <Link>Models\Targets\GroupTargetResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\HTTPTarget.cs">
+      <Link>Models\Targets\HTTPTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\IndividualTargetResponse.cs">
+      <Link>Models\Targets\IndividualTargetResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\JiraTarget.cs">
+      <Link>Models\Targets\JiraTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\PivotalTarget.cs">
+      <Link>Models\Targets\PivotalTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\TwitterTarget.cs">
+      <Link>Models\Targets\TwitterTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\URLTarget.cs">
+      <Link>Models\Targets\URLTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Models\Targets\YammerTarget.cs">
+      <Link>Models\Targets\YammerTarget.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\BaseTicket.cs">
       <Link>Models\Tickets\BaseTicket.cs</Link>
     </Compile>
@@ -726,6 +771,9 @@
     <Compile Include="..\ZendeskApi_v2\Requests\Tags.cs">
       <Link>Requests\Tags.cs</Link>
     </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Requests\Targets.cs">
+      <Link>Requests\Targets.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\Tickets.cs">
       <Link>Requests\Tickets.cs</Link>
     </Compile>
@@ -744,6 +792,12 @@
     <Compile Include="..\ZendeskApi_v2\Requests\Voice.cs">
       <Link>Requests\Voice.cs</Link>
     </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Serialization\BaseJsonConverter.cs">
+      <Link>Serialization\BaseJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ZenDeskApi_v2\Serialization\TargetJsonConverter.cs">
+      <Link>Serialization\TargetJsonConverter.cs</Link>
+	</Compile>
     <Compile Include="..\ZendeskApi_v2\Serialization\SingleOrArrayConverter.cs">
       <Link>Serialization\SingleOrArrayConverter.cs</Link>
     </Compile>
