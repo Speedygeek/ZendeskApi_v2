@@ -8,15 +8,15 @@ namespace ZendeskApi_v2.Requests
 {
     public interface IVoice : ICore
     {
-        #if SYNC
+#if SYNC
         bool OpenUserProfileInAgentBrowser(long agentId, long userId);
         bool OpenTicketInAgentBrowser(long agentId, long ticketId);
-        #endif
-        
-        #if ASYNC
+#endif
+
+#if ASYNC
         Task<bool> OpenUserProfileInAgentBrowserAsync(long agentId, long userId);
         Task<bool> OpenTicketInAgentBrowserAsync(long agentId, long ticketId);
-        #endif
+#endif
     }
 
     class Voice : Core, IVoice
@@ -31,46 +31,29 @@ namespace ZendeskApi_v2.Requests
         {
         }
 
-        #if SYNC
+#if SYNC
         public bool OpenUserProfileInAgentBrowser(long agentId, long userId)
         {
-            var result = RunRequest(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, users, userId, display), "POST");
-            if (result.HttpStatusCode == HttpStatusCode.OK)
-                return true;
-            else
-                return false;
-
+            return GenericBoolPost(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, users, userId, display));
         }
 
         public bool OpenTicketInAgentBrowser(long agentId, long ticketId)
         {
-            var result = RunRequest(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, tickets, ticketId, display), "POST");
-            if (result.HttpStatusCode == HttpStatusCode.OK)
-                return true;
-            else
-                return false;
+            return GenericBoolPost(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, tickets, ticketId, display));
         }
 
-        #endif
+#endif
 
-        #if ASYNC
+#if ASYNC
         public async Task<bool> OpenUserProfileInAgentBrowserAsync(long agentId, long userId)
         {
-            var result = await RunRequestAsync(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, users, userId, display), "POST");
-            if (result.HttpStatusCode == HttpStatusCode.OK)
-                return true;
-            else
-                return false;
+            return await GenericBoolPostAsync(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, users, userId, display));
         }
 
         public async Task<bool> OpenTicketInAgentBrowserAsync(long agentId, long ticketId)
         {
-            var result = await RunRequestAsync(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, tickets, ticketId, display), "POST");
-            if (result.HttpStatusCode == HttpStatusCode.OK)
-                return true;
-            else
-                return false;
+            return await GenericBoolPostAsync(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, tickets, ticketId, display));
         }
-        #endif
+#endif
     }
 }

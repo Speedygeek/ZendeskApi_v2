@@ -83,10 +83,11 @@ namespace ZendeskApi_v2.Requests
         Upload UploadAttachment(ZenFile file, string token, int? timeout = null)
         {
             var resource = string.Format("uploads.json?filename={0}", file.FileName);
-            if (!string.IsNullOrEmpty(token))
-                    resource += string.Format("&token={0}", token);
-
-            var requestResult = RunRequest<UploadResult>(resource, RequestMethod.POST.ToString(), file, timeout);
+            if (!token.IsNullOrWhiteSpace())
+            {
+                resource += string.Format("&token={0}", token);
+            }
+            var requestResult = RunRequest<UploadResult>(resource, RequestMethod.Post, file, timeout);
             return requestResult.Upload;
         }
 #endif
@@ -127,84 +128,20 @@ namespace ZendeskApi_v2.Requests
         /// <param name="timeout"></param>
         /// <returns></returns>  
         public async Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "", int? timeout = null)
-        {
-            try
+        {  
+            string resource = string.Format("uploads.json?filename={0}", file.FileName);
+
+            if (!token.IsNullOrWhiteSpace())
             {
-                var requestUrl = ZendeskUrl + string.Format("uploads.json?filename={0}", file.FileName);
-
-                if (!string.IsNullOrEmpty(token))
-                    requestUrl += string.Format("&token={0}", token);
-
-                HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
-                req.ContentType = file.ContentType;
-                req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-                req.Method = "POST"; //GET POST PUT DELETE
-
-                req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-
-                var requestStream = Task.Factory.FromAsync(
-                    req.BeginGetRequestStream,
-                    asyncResult => req.EndGetRequestStream(asyncResult),
-                    (object) null);
-
-                var dataStream =
-                    await requestStream.ContinueWith(t => t.Result.WriteAsync(file.FileData, 0, file.FileData.Length));
-                Task.WaitAll(dataStream);
-
-                Task<WebResponse> task = Task.Factory.FromAsync(
-                    req.BeginGetResponse,
-                    asyncResult => req.EndGetResponse(asyncResult),
-                    (object) null);
-
-                return await task.ContinueWith(t =>
-                {
-                    var httpWebResponse = t.Result as HttpWebResponse;
-                    return ReadStreamFromResponse(httpWebResponse).ConvertToObject<UploadResult>().Upload;
-                });
+                resource += string.Format("&token={0}", token);
             }
-            catch (WebException ex)
-            {
-                string error = string.Empty;
-                if (ex.Response != null || (ex.InnerException is WebException && ((WebException)(ex.InnerException)).Response != null))
-                    using (Stream stream = (ex.Response ?? ((WebException)ex.InnerException).Response).GetResponseStream())
 
-                        if (stream != null)
-                        {
-                            using (var sr = new StreamReader(stream))
-                            {
-                                error = sr.ReadToEnd();
-                            }
-                        }
-                        else
-                        {
-                            error = "Cannot read error stream.";
-                        }
+            UploadResult result = await RunRequestAsync<UploadResult>(resource, RequestMethod.Post, file, timeout);
 
-                Debug.WriteLine(ex.Message);
-                Debug.WriteLine(error);
-
-               var  headers = ("Error Content: " + error) + "\r\n" + (" File Name: " + (file.FileName ?? string.Empty) + "\r\n" + " File Length: " + (file.FileData != null ? file.FileData.Length.ToString() : "no data") + "\r\n");
-
-                if (ex.Response != null && ex.Response.Headers != null)
-                    headers += ex.Response.Headers;   
-             
-                var wException = new WebException(ex.Message + headers, ex);
-                wException.Data.Add("jsonException", error);
-
-                throw wException;
-            }
+            return result.Upload;
         }
 
-        private static string ReadStreamFromResponse(WebResponse response)
-        {
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(responseStream))
-            {
-                //Need to return this response 
-                string strContent = sr.ReadToEnd();
-                return strContent;
-            }
-        }
+
 #endif
 
 
