@@ -4,10 +4,12 @@ using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Models.Users;
 
 namespace Tests
 {
     [TestFixture]
+    [Category("Search")]
     public class SearchTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
@@ -108,6 +110,72 @@ namespace Tests
             Assert.IsTrue(res!=null);
             Assert.IsTrue(res.Results.Count>0);
             Assert.IsTrue(!string.IsNullOrEmpty(res.Results[0].Subject));
+        }
+
+        [Test]
+        public void TicketSearchByTicketAnonymousType()
+        {
+            var res = api.Search.SearchFor<Ticket>("my printer is on fire");
+
+            Assert.IsTrue(res != null);
+            Assert.Greater(res.Results.Count, 10);
+            Assert.IsTrue(!string.IsNullOrEmpty(res.Results[0].Subject));
+
+            var noRes = api.Search.SearchFor<User>("my printer is on fire");
+
+            Assert.IsTrue(noRes != null);
+            Assert.IsTrue(noRes.Results.Count == 0);
+
+            res = api.Search.SearchFor<Ticket>("my printer is on fire", perPage: 10);
+            Assert.IsTrue(res != null);
+            Assert.AreEqual(res.Results.Count, 10);
+            Assert.AreEqual(res.Page, 1);
+            Assert.IsTrue(res.Results[0] is Ticket);
+
+        }
+
+        [Test]
+        public async void TicketSearchByTicketAnonymousTypeAsync()
+        {
+            var res = await api.Search.SearchForAsync<Ticket>("my printer is on fire");
+
+            Assert.IsTrue(res != null);
+            Assert.Greater(res.Results.Count, 10);
+            Assert.IsTrue(!string.IsNullOrEmpty(res.Results[0].Subject));
+
+            var noRes = await api.Search.SearchForAsync<User>("my printer is on fire");
+
+            Assert.IsTrue(noRes != null);
+            Assert.IsTrue(noRes.Results.Count == 0);
+
+            res = await api.Search.SearchForAsync<Ticket>("my printer is on fire", perPage: 10);
+            Assert.IsTrue(res != null);
+            Assert.AreEqual(res.Results.Count, 10);
+            Assert.AreEqual(res.Page, 1);
+            Assert.IsTrue(res.Results[0] is Ticket);
+
+        }
+
+        [Test]
+        public void UserSearchByUserAnonymousType()
+        {
+            var res = api.Search.SearchFor<User>(Settings.Email);
+
+            Assert.IsTrue(res != null);
+            Assert.AreEqual(res.Results.Count, 1);
+            Assert.AreEqual(res.Results[0].Id, Settings.UserId);
+            Assert.IsTrue(res.Results[0] is User);
+        }
+
+        [Test]
+        public async void UserSearchByUserAnonymousTypeAsync()
+        {
+            var res = await api.Search.SearchForAsync<User>(Settings.Email);
+
+            Assert.IsTrue(res != null);
+            Assert.AreEqual(res.Results.Count, 1);
+            Assert.AreEqual(res.Results[0].Id, Settings.UserId);
+            Assert.IsTrue(res.Results[0] is User);
         }
     }
 }
