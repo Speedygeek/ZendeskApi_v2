@@ -484,6 +484,27 @@ namespace Tests
         }
 
         [Test]
+        public async void CanCreateTicketWithRequesterAsync()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "ticket with requester",
+                Comment = new Comment() { Body = "testing requester" },
+                Priority = TicketPriorities.Normal,
+                Requester = new Requester() { Email = Settings.ColloboratorEmail }
+            };
+
+            var res = await api.Tickets.CreateTicketAsync(ticket);
+
+            Assert.NotNull(res);
+            Assert.NotNull(res.Ticket);
+            Assert.AreEqual(res.Ticket.RequesterId, Settings.CollaboratorId);
+
+            Assert.True(api.Tickets.Delete(res.Ticket.Id.Value));
+        }
+
+
+        [Test]
         public void CanCreateTicketWithDueDate()
         {
             var dueAt = DateTimeOffset.UtcNow;
@@ -559,14 +580,14 @@ namespace Tests
         }
 
         [Test]
-        public void CanAddAttachmentToTicketAsync()
+        public async void CanAddAttachmentToTicketAsync()
         {
-            var res = api.Attachments.UploadAttachmentAsync(new ZenFile()
+            var res = await api.Attachments.UploadAttachmentAsync(new ZenFile()
             {
                 ContentType = "text/plain",
                 FileName = "testupload.txt",
                 FileData = File.ReadAllBytes(Environment.CurrentDirectory + "\\testupload.txt")
-            }).Result;
+            });
 
             var ticket = new Ticket()
             {
@@ -580,10 +601,11 @@ namespace Tests
                 },
             };
 
-            var t1 = api.Tickets.CreateTicketAsync(ticket).Result;
+            var t1 = await api.Tickets.CreateTicketAsync(ticket);
+
             Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
 
-            Assert.True(api.Tickets.DeleteAsync(t1.Ticket.Id.Value).Result);
+            Assert.True(await api.Tickets.DeleteAsync(t1.Ticket.Id.Value));
         }
 
         [Test]

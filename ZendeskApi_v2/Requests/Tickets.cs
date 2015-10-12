@@ -373,7 +373,7 @@ namespace ZendeskApi_v2.Requests
         public bool MarkAuditAsTrusted(long ticketId, long auditId)
         {
             var resource = string.Format("tickets/{0}/audits/{1}/trust.json", ticketId, auditId);
-            var res = RunRequest(resource, "PUT");
+            var res = RunRequest(resource, RequestMethod.Put);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
@@ -461,14 +461,14 @@ namespace ZendeskApi_v2.Requests
         public bool RecoverSuspendedTicket(long id)
         {
             var resource = string.Format("suspended_tickets/{0}/recover.json", id);
-            var res = RunRequest(resource, "PUT");
+            var res = RunRequest(resource, RequestMethod.Put);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public bool RecoverManySuspendedTickets(IEnumerable<long> ids)
         {
             var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
-            var res = RunRequest(resource, "PUT");
+            var res = RunRequest(resource, RequestMethod.Put);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
@@ -645,7 +645,7 @@ namespace ZendeskApi_v2.Requests
         public async Task<bool> MarkAuditAsTrustedAsync(long ticketId, long auditId)
         {
             var resource = string.Format("tickets/{0}/audits/{1}/trust.json", ticketId, auditId);
-            var res = RunRequestAsync(resource, "PUT");
+            var res = RunRequestAsync(resource, RequestMethod.Put);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 
@@ -712,14 +712,14 @@ namespace ZendeskApi_v2.Requests
         public async Task<bool> RecoverSuspendedTicketAsync(long id)
         {
             var resource = string.Format("suspended_tickets/{0}/recover.json", id);
-            var res = RunRequestAsync(resource, "PUT");
+            var res = RunRequestAsync(resource, RequestMethod.Put);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 
         public async Task<bool> RecoverManySuspendedTicketsAsync(IEnumerable<long> ids)
         {
             var resource = string.Format("suspended_tickets/recover_many.json?ids={0}", ids.ToCsv());
-            var res = RunRequestAsync(resource, "PUT");
+            var res = RunRequestAsync(resource, RequestMethod.Put);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,23 +18,21 @@ namespace ZendeskApi_v2.Requests
     {
 #if SYNC
         GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId);
-        Upload UploadAttachment(ZenFile file);
-        Upload UploadAttachment(ZenFile file, int? timeout);
-        Upload UploadAttachments(IEnumerable<ZenFile> files);
+        Upload UploadAttachment(ZenFile file, int? timeout = null);
+        Upload UploadAttachments(IEnumerable<ZenFile> files, int? timeout = null);
 #endif
 
 #if ASYNC
-        Task<Upload> UploadAttachmentAsync(ZenFile file);
-        Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files);
-
         /// <summary>
         /// Uploads a file to zendesk and returns the corresponding token id.
         /// To upload another file to an existing token just pass in the existing token.
         /// </summary>
         /// <param name="file"></param>
         /// <param name="token"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>  
-        Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "");
+        Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "", int? timeout = null);
+        Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files, int? timeout = null);
 #endif
     }
 
@@ -49,28 +48,25 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupAttachmentResponse>(string.Format("help_center/articles/{0}/attachments.json", articleId));
         }
 
-        public Upload UploadAttachment(ZenFile file)
-        {
-            return UploadAttachment(file, "", null);
-        }
 
-        public Upload UploadAttachment(ZenFile file, int? timeout)
+        public Upload UploadAttachment(ZenFile file, int? timeout = null)
         {
             return UploadAttachment(file, "", timeout);
         }
 
-        public Upload UploadAttachments(IEnumerable<ZenFile> files)
+        public Upload UploadAttachments(IEnumerable<ZenFile> files, int? timeout = null)
         {
-            if (!files.Any())
+            var zenFiles = files as IList<ZenFile> ?? files.ToList();
+            if (!zenFiles.Any())
                 return null;
 
-            var res = UploadAttachment(files.First());
+            var res = UploadAttachment(zenFiles.First(), timeout);
 
-            if (files.Count() > 1)
+            if (zenFiles.Count() > 1)
             {
-                var otherFiles = files.Skip(1);
+                var otherFiles = zenFiles.Skip(1);
                 foreach (var curFile in otherFiles)
-                    res = UploadAttachment(curFile, res.Token, null);
+                    res = UploadAttachment(curFile, res.Token, timeout);
             }
 
             return res;
@@ -84,60 +80,40 @@ namespace ZendeskApi_v2.Requests
         /// <param name="token"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>       
-        Upload UploadAttachment(ZenFile file, string token, int? timeout)
+        Upload UploadAttachment(ZenFile file, string token, int? timeout = null)
         {
-            var requestUrl = ZendeskUrl + string.Format("uploads.json?filename={0}", file.FileName);
-
-            if (!string.IsNullOrEmpty(token))
-                requestUrl += string.Format("&token={0}", token);
-
-            WebRequest req = WebRequest.Create(requestUrl);
-            req.ContentType = file.ContentType;
-            req.Method = "POST";
-            req.ContentLength = file.FileData.Length;
-            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-
-            //If timeout has value set a specific Timeout in the WebRequest
-            if (timeout.HasValue)
-                req.Timeout = timeout.Value;
-
-            req.PreAuthenticate = true;
-            var dataStream = req.GetRequestStream();
-            dataStream.Write(file.FileData, 0, file.FileData.Length);
-            dataStream.Dispose();
-
-            WebResponse response = req.GetResponse();
-            dataStream = response.GetResponseStream();
-            var reader = new StreamReader(dataStream);
-            string responseFromServer = reader.ReadToEnd();
-            dataStream.Dispose();
-            response.Close();
-
-            return responseFromServer.ConvertToObject<UploadResult>().Upload;
+            var resource = string.Format("uploads.json?filename={0}", file.FileName);
+            if (!token.IsNullOrWhiteSpace())
+            {
+                resource += string.Format("&token={0}", token);
+            }
+            var requestResult = RunRequest<UploadResult>(resource, RequestMethod.Post, file, timeout);
+            return requestResult.Upload;
         }
 #endif
 
 #if ASYNC
-        public async Task<Upload> UploadAttachmentAsync(ZenFile file)
+        public async Task<Upload> UploadAttachmentAsync(ZenFile file, int? timeout = null)
         {
-            return await UploadAttachmentAsync(file, "");
+            return await UploadAttachmentAsync(file, "", timeout);
         }
 
-        public async Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files)
+        public async Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files, int? timeout = null)
         {
-            if (!files.Any())
+            var zenFiles = files as IList<ZenFile> ?? files.ToList();
+            if (!zenFiles.Any())
                 return null;
 
-            var res = UploadAttachmentAsync(files.First());
+            var res = UploadAttachmentAsync(zenFiles.First(), timeout);
 
-            if (files.Count() > 1)
+            if (zenFiles.Count() > 1)
             {
-                var otherFiles = files.Skip(1);
+                var otherFiles = zenFiles.Skip(1);
                 foreach (var curFile in otherFiles)
                 {
-                    res = await res.ContinueWith(x => UploadAttachmentAsync(curFile, x.Result.Token));
+                    var file = curFile;
+                    res = await res.ContinueWith(x => UploadAttachmentAsync(file, x.Result.Token, timeout));
                 }
-
             }
 
             return await res;
@@ -149,51 +125,23 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="file"></param>
         /// <param name="token"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>  
-        public async Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "")
-        {
-            var requestUrl = ZendeskUrl + string.Format("uploads.json?filename={0}", file.FileName);
+        public async Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "", int? timeout = null)
+        {  
+            string resource = string.Format("uploads.json?filename={0}", file.FileName);
 
-            if (!string.IsNullOrEmpty(token))
-                requestUrl += string.Format("&token={0}", token);
-
-            HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
-            req.ContentType = file.ContentType;
-            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-            req.Method = "POST"; //GET POST PUT DELETE
-
-            req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-
-            var requestStream = Task.Factory.FromAsync(
-                req.BeginGetRequestStream,
-                asyncResult => req.EndGetRequestStream(asyncResult),
-                (object)null);
-
-            var dataStream = await requestStream.ContinueWith(t => t.Result.WriteAsync(file.FileData, 0, file.FileData.Length));
-            Task.WaitAll(dataStream);
-
-            Task<WebResponse> task = Task.Factory.FromAsync(
-            req.BeginGetResponse,
-            asyncResult => req.EndGetResponse(asyncResult),
-            (object)null);
-
-            return await task.ContinueWith(t =>
+            if (!token.IsNullOrWhiteSpace())
             {
-                var httpWebResponse = t.Result as HttpWebResponse;
-                return ReadStreamFromResponse(httpWebResponse).ConvertToObject<UploadResult>().Upload;
-            });
-        }
-
-        private static string ReadStreamFromResponse(WebResponse response)
-        {
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(responseStream))
-            {
-                //Need to return this response 
-                string strContent = sr.ReadToEnd();
-                return strContent;
+                resource += string.Format("&token={0}", token);
             }
+
+            UploadResult result = await RunRequestAsync<UploadResult>(resource, RequestMethod.Post, file, timeout);
+
+            return result.Upload;
         }
+
+
 #endif
 
 

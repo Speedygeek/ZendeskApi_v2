@@ -12,21 +12,32 @@ using System.Threading.Tasks;
 #endif
 using Newtonsoft.Json;
 using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2
 {
+
+    public static class RequestMethod
+    {
+        public const string Get = "GET";
+        public const string Put = "PUT";
+        public const string Post= "POST";
+        public const string Delete = "DELETE";
+    }
+
+
     public interface ICore
     {
 #if SYNC
         T GetByPageUrl<T>(string pageUrl, int perPage = 100);
-        T RunRequest<T>(string resource, string requestMethod, object body = null);
-        RequestResult RunRequest(string resource, string requestMethod, object body = null);
+        T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null);
+        RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null);
 #endif
 
 #if ASYNC
         Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100);
-        Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null);
-        Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null);
+        Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null);
+        Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null);
 #endif
     }
 
@@ -88,17 +99,17 @@ namespace ZendeskApi_v2
                 return JsonConvert.DeserializeObject<T>("");
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
-            return RunRequest<T>(resource, "GET");
+            return RunRequest<T>(resource, RequestMethod.Get);
         }
 
-        public T RunRequest<T>(string resource, string requestMethod, object body = null)
+        public T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null)
         {
-            var response = RunRequest(resource, requestMethod, body);
+            var response = RunRequest(resource, requestMethod, body, timeout);
             var obj = JsonConvert.DeserializeObject<T>(response.Content, jsonSettings);
             return obj;
         }
 
-        public RequestResult RunRequest(string resource, string requestMethod, object body = null)
+        public RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null)
         {
             try
             {
@@ -107,64 +118,62 @@ namespace ZendeskApi_v2
                 req.ContentType = "application/json";
 
                 if (this.Proxy != null)
+                {
                     req.Proxy = this.Proxy;
+                }
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.PreAuthenticate = true;
 
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-                req.ContentLength = 0;
+                req.Timeout = timeout ?? req.Timeout;
 
                 if (body != null)
                 {
-                    var json = JsonConvert.SerializeObject(body, jsonSettings);
-                    byte[] formData = Encoding.UTF8.GetBytes(json);
-                    req.ContentLength = formData.Length;
+                    byte[] data = null;
+                    var zenFile = body as ZenFile;
+                    if (zenFile == null)
+                    {
+                        data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body, jsonSettings));
+                    }
+                    else
+                    {
+                        req.ContentType = zenFile.ContentType;
+                        data = zenFile.FileData;
+                    }
 
-                    var dataStream = req.GetRequestStream();
-                    dataStream.Write(formData, 0, formData.Length);
-                    dataStream.Close();
+                    req.ContentLength = data.Length;
+
+                    using (var dataStream = req.GetRequestStream())
+                    {
+                        dataStream.Write(data, 0, data.Length);
+                    }
                 }
-                var res = req.GetResponse();
-                HttpWebResponse response = res as HttpWebResponse;
-                var responseStream = response.GetResponseStream();
-                var reader = new StreamReader(responseStream);
-                string responseFromServer = reader.ReadToEnd();
 
-                return new RequestResult()
+                var res = req.GetResponse();
+                var response = res as HttpWebResponse;
+                string responseFromServer = string.Empty;
+                using (var responseStream = response.GetResponseStream())
                 {
-                    Content = responseFromServer,
-                    HttpStatusCode = response.StatusCode
-                };
+                    using (var reader = new StreamReader(responseStream))
+                    {
+                        responseFromServer = reader.ReadToEnd();
+                    }
+                }
+
+                return new RequestResult { Content = responseFromServer, HttpStatusCode = response.StatusCode };
             }
             catch (WebException ex)
             {
-                string error = string.Empty;
-                if (ex.Response != null || (ex.InnerException is WebException && ((WebException)(ex.InnerException)).Response != null))
-                    using (Stream stream = (ex.Response ?? ((WebException)ex.InnerException).Response).GetResponseStream())
-
-                        if (stream != null)
-                        {
-                            using (var sr = new StreamReader(stream))
-                            {
-                                error = sr.ReadToEnd();
-                            }
-                        }
-                Debug.Write(ex.Message);
-                Debug.Write(error);
-
-                var headers = ex.Response != null ? (error.IsNullOrWhiteSpace() ? "" : ("\r\n Error Content: " + error) + "\r\n" + " Resource String: " + resource + "\r\n" + ((body != null) ? " Body: " + JsonConvert.SerializeObject(body) : "") + "\r\n" + ex.Response.Headers) : string.Empty;
-                var wException = new WebException(ex.Message + headers, ex);
-                wException.Data.Add("jsonException", error);
-
+                WebException wException = GetWebException(resource, body, ex);
                 throw wException;
             }
         }
 
         protected T GenericGet<T>(string resource)
         {
-            return RunRequest<T>(resource, "GET");
+            return RunRequest<T>(resource, RequestMethod.Get);
         }
 
         protected T GenericPagedGet<T>(string resource, int? perPage = null, int? page = null)
@@ -227,37 +236,37 @@ namespace ZendeskApi_v2
 
         protected bool GenericDelete(string resource)
         {
-            var res = RunRequest(resource, "DELETE");
+            var res = RunRequest(resource, RequestMethod.Delete);
             return res.HttpStatusCode == HttpStatusCode.OK || res.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
         protected T GenericDelete<T>(string resource)
         {
-            var res = RunRequest<T>(resource, "DELETE");
+            var res = RunRequest<T>(resource, RequestMethod.Delete);
             return res;
         }
 
         protected T GenericPost<T>(string resource, object body = null)
         {
-            var res = RunRequest<T>(resource, "POST", body);
+            var res = RunRequest<T>(resource, RequestMethod.Post, body);
             return res;
         }
 
         protected bool GenericBoolPost(string resource, object body = null)
         {
-            var res = RunRequest(resource, "POST", body);
+            var res = RunRequest(resource, RequestMethod.Post, body);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
         protected T GenericPut<T>(string resource, object body = null)
         {
-            var res = RunRequest<T>(resource, "PUT", body);
+            var res = RunRequest<T>(resource, RequestMethod.Put, body);
             return res;
         }
 
         protected bool GenericBoolPut(string resource, object body = null)
         {
-            var res = RunRequest(resource, "PUT", body);
+            var res = RunRequest(resource, RequestMethod.Put, body);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 #endif
@@ -292,53 +301,72 @@ namespace ZendeskApi_v2
                 return JsonConvert.DeserializeObject<T>("");
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
-            return await RunRequestAsync<T>(resource, "GET");
+            return await RunRequestAsync<T>(resource, RequestMethod.Get);
         }
 
-        public async Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null)
+        public async Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null)
         {
-            var response = await RunRequestAsync(resource, requestMethod, body);
+            var response = await RunRequestAsync(resource, requestMethod, body, timeout);
             var obj = Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(response.Content));
             return await obj;
         }
-        
-        public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null)
+
+        public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null)
         {
             var requestUrl = ZendeskUrl + resource;
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(requestUrl);
-            req.ContentType = "application/json";
-
-            req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-            req.Method = requestMethod; //GET POST PUT DELETE
-            req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-
-            if (body != null)
+            try
             {
-                using (Stream requestStream = await req.GetRequestStreamAsync())
-                using (StreamWriter writer = new StreamWriter(requestStream))
+                HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
+                req.ContentType = "application/json";
+
+                req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+                req.Method = requestMethod; //GET POST PUT DELETE
+                req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
+
+                if (body != null)
                 {
-                    JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(jsonSettings);
-                    jsonSerializer.Serialize(writer, body);
+                    byte[] data = null;
+                    var zenFile = body as ZenFile;
+                    if (zenFile == null)
+                    {
+                        data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body, jsonSettings));
+                    }
+                    else
+                    {
+                        req.ContentType = zenFile.ContentType;
+                        data = zenFile.FileData;
+                    }
+
+                    using (Stream requestStream = await req.GetRequestStreamAsync())
+                    {
+
+                        await requestStream.WriteAsync(data, 0, data.Length);
+                    }
+                }
+
+                using (HttpWebResponse response = (HttpWebResponse)await req.GetResponseAsync())
+                {
+                    string content = string.Empty;
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        using (StreamReader sr = new StreamReader(responseStream))
+                        {
+                            content = await sr.ReadToEndAsync();
+                        }
+                    }
+                    return new RequestResult { HttpStatusCode = response.StatusCode, Content = content };
                 }
             }
-
-            string content = string.Empty;
-            using (WebResponse response = await req.GetResponseAsync())
+            catch (WebException ex)
             {
-                using (Stream responseStream = response.GetResponseStream())
-                using (StreamReader sr = new StreamReader(responseStream))
-                {
-                    content = await sr.ReadToEndAsync();
-                }
-
-                var httpResponse = (HttpWebResponse)response;
-                return new RequestResult { HttpStatusCode = httpResponse.StatusCode, Content = content };
+                WebException wException = GetWebException(resource, body, ex);
+                throw wException;
             }
         }
 
         protected async Task<T> GenericGetAsync<T>(string resource)
         {
-            return await RunRequestAsync<T>(resource, "GET");
+            return await RunRequestAsync<T>(resource, RequestMethod.Get);
         }
 
         protected async Task<T> GenericPagedGetAsync<T>(string resource, int? perPage = null, int? page = null)
@@ -402,39 +430,94 @@ namespace ZendeskApi_v2
 
         protected async Task<bool> GenericDeleteAsync(string resource)
         {
-            var res = RunRequestAsync(resource, "DELETE");
+            var res = RunRequestAsync(resource, RequestMethod.Delete);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK || x.Result.HttpStatusCode == HttpStatusCode.NoContent);
         }
 
         protected async Task<T> GenericDeleteAsync<T>(string resource)
         {
-            var res = RunRequestAsync<T>(resource, "DELETE");
+            var res = RunRequestAsync<T>(resource, RequestMethod.Delete);
             return await res;
         }
 
         protected async Task<T> GenericPostAsync<T>(string resource, object body = null)
         {
-            var res = RunRequestAsync<T>(resource, "POST", body);
+            var res = RunRequestAsync<T>(resource, RequestMethod.Post, body);
             return await res;
         }
 
         protected async Task<bool> GenericBoolPostAsync(string resource, object body = null)
         {
-            var res = RunRequestAsync(resource, "POST", body);
+            var res = RunRequestAsync(resource, RequestMethod.Post, body);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 
         protected async Task<T> GenericPutAsync<T>(string resource, object body = null)
         {
-            var res = RunRequestAsync<T>(resource, "PUT", body);
+            var res = RunRequestAsync<T>(resource, RequestMethod.Put, body);
             return await res;
         }
 
         protected async Task<bool> GenericBoolPutAsync(string resource, object body = null)
         {
-            var res = RunRequestAsync(resource, "PUT", body);
+            var res = RunRequestAsync(resource, RequestMethod.Put, body);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 #endif
+
+        private WebException GetWebException(string resource, object body, WebException originalWebException)
+        {
+            string error = string.Empty;
+            WebException innerException = originalWebException.InnerException as WebException;
+
+            if (originalWebException.Response != null || (innerException != null && innerException.Response != null))
+            {
+                using (Stream stream = (originalWebException.Response ?? innerException.Response).GetResponseStream())
+                {
+                    if (stream != null && stream.CanRead)
+                    {
+                        using (var sr = new StreamReader(stream))
+                        {
+                            error = sr.ReadToEnd();
+                        }
+                    }
+                    else
+                    {
+                        error = "Cannot read error stream.";
+                    }
+                }
+            }
+            Debug.WriteLine(originalWebException.Message);
+            Debug.WriteLine(error);
+
+            string headersMessage = string.Format("Error content: {0} \r\n Resource String: {1}  + \r\n", error, resource);
+            string bodyMessage = string.Empty;
+
+            if (body != null)
+            {
+                ZenFile zenFile = body as ZenFile;
+                if (zenFile == null)
+                {
+                    bodyMessage = string.Format(" Body: {0}", JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings));
+                }
+                else
+                {
+                    bodyMessage = string.Format(" File Name: {0} \r\n File Length: {1}\r\n", zenFile.FileName,
+                        (zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data"));
+                }
+            }
+
+            headersMessage += bodyMessage;
+
+            if (originalWebException.Response != null && originalWebException.Response.Headers != null)
+            {
+                headersMessage += originalWebException.Response.Headers;
+            }
+
+            var wException = new WebException(originalWebException.Message + headersMessage, originalWebException);
+            wException.Data.Add("jsonException", error);
+
+            return wException;
+        }
     }
 }
