@@ -9,16 +9,32 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Search
 {
 
-    public class SearchResults
+    public class SearchResults<T> : GroupResponseBase
     {
-        [JsonProperty("count")]
-        public int Count { get; set; }
-
-        [JsonProperty("next_page")]
-        public string NextPage { get; set; }
-
         [JsonProperty("prev_page")]
-        public object PrevPage { get; set; }
+        public string PrevPage { get; set; }
+
+        [Obsolete("This is not used in SearchResults. Please use PrevPage.", true)]
+        public new string PreviousPage { get; set; }
+
+        [JsonProperty("results")]
+        public IList<T> Results { get; set; }
+
+        [JsonProperty("error")]
+        public object Error { get; set; }
+
+        [JsonProperty("description")]
+        public object Description { get; set; }
+    }
+
+
+    public class SearchResults : GroupResponseBase
+    {
+        [JsonProperty("prev_page")]
+        public string PrevPage { get; set; }
+
+        [Obsolete("This is not used in SearchResults. Please use PrevPage.", true)]
+        public new string PreviousPage { get; set; }
 
         [JsonProperty("results")]
         public IList<Result> Results { get; set; }
