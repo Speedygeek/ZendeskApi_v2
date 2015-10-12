@@ -7,14 +7,8 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Users
 {
-    public class User
+    public class User : IndividualSearchableResponseBase
     {
-        [JsonProperty("id")]
-        public long? Id { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -23,14 +17,6 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("alias")]
         public string Alias { get; set; }
-
-        [JsonProperty("created_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? CreatedAt { get; set; }
-
-        [JsonProperty("updated_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("active")]
         public bool? Active { get; set; }

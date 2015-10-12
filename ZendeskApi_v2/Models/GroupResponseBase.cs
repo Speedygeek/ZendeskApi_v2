@@ -7,7 +7,17 @@ using ZendeskApi_v2.Extensions;
 
 namespace ZendeskApi_v2.Models
 {
-    public class GroupResponseBase
+    public interface IGroupResponseBase
+    {
+        string NextPage { get; set; }
+        string PreviousPage { get; set; }
+        int Count { get; set; }
+        int Page { get; }
+        int PageSize { get; }
+        int TotalPages { get; }
+    }
+
+    public class GroupResponseBase : IGroupResponseBase
     {        
         [JsonProperty("next_page")]
         public string NextPage { get; set; }
