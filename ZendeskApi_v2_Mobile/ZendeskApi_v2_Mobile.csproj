@@ -234,6 +234,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Votes\Vote.cs">
       <Link>Models\HelpCenter\Votes\Vote.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\IndividualResponseBase.cs">
+      <Link>Models\IndividualResponseBase.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Locales\GroupLocaleResponse.cs">
       <Link>Models\Locales\GroupLocaleResponse.cs</Link>
     </Compile>
@@ -797,7 +800,7 @@
     </Compile>
     <Compile Include="..\ZenDeskApi_v2\Serialization\TargetJsonConverter.cs">
       <Link>Serialization\TargetJsonConverter.cs</Link>
-	</Compile>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Serialization\SingleOrArrayConverter.cs">
       <Link>Serialization\SingleOrArrayConverter.cs</Link>
     </Compile>
