@@ -10,28 +10,13 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Organizations
 {
 
-    public class Organization
+    public class Organization : IndividualSearchableResponseBase
     {
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("id")]
-        public long? Id { get; set; }
-
         [JsonProperty("external_id")]
         public object ExternalId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("created_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? CreatedAt { get; set; }
-
-        [JsonProperty("updated_at")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? UpdatedAt { get; set; }
 
         [JsonProperty("domain_names")]
         public IList<object> DomainNames { get; set; }
