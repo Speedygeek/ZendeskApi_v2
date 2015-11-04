@@ -10,6 +10,7 @@ namespace ZendeskApi_v2.Requests
     {
 #if SYNC
         GroupRequestResponse GetAllRequests();
+        GroupRequestResponse GetAllOpenRequests();
         GroupRequestResponse GetAllSolvedRequests();
         GroupRequestResponse GetAllCcdRequests();
         GroupRequestResponse GetAllRequestsForUser(long id);
@@ -23,6 +24,7 @@ namespace ZendeskApi_v2.Requests
 
 #if ASYNC
         Task<GroupRequestResponse> GetAllRequestsAsync();
+        Task<GroupRequestResponse> GetAllOpenRequestsAsync();
         Task<GroupRequestResponse> GetAllSolvedRequestsAsync();
         Task<GroupRequestResponse> GetAllCcdRequestsAsync();
         Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id);
