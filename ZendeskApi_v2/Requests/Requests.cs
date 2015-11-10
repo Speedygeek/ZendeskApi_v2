@@ -9,10 +9,46 @@ namespace ZendeskApi_v2.Requests
     public interface IRequests : ICore
     {
 #if SYNC
-        GroupRequestResponse GetAllRequests();
-        GroupRequestResponse GetAllOpenRequests();
-        GroupRequestResponse GetAllSolvedRequests();
-        GroupRequestResponse GetAllCcdRequests();
+        /// <summary>
+        /// Gets all requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse</returns>
+        GroupRequestResponse GetAllRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
+        /// <summary>
+        /// Gets all open requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse</returns>
+        GroupRequestResponse GetAllOpenRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
+        /// <summary>
+        /// Gets all solved (including closed) requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse</returns>
+        GroupRequestResponse GetAllSolvedRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
+        /// <summary>
+        /// Gets all closed requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse</returns>
+        GroupRequestResponse GetAllCcdRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
         GroupRequestResponse GetAllRequestsForUser(long id);
         IndividualRequestResponse GetRequestById(long id);
         GroupCommentResponse GetRequestCommentsById(long id);
@@ -23,10 +59,46 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-        Task<GroupRequestResponse> GetAllRequestsAsync();
-        Task<GroupRequestResponse> GetAllOpenRequestsAsync();
-        Task<GroupRequestResponse> GetAllSolvedRequestsAsync();
-        Task<GroupRequestResponse> GetAllCcdRequestsAsync();
+        /// <summary>
+        /// Gets all requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse Task</returns>
+        Task<GroupRequestResponse> GetAllRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
+        /// <summary>
+        /// Gets all open requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse Task</returns>
+        Task<GroupRequestResponse> GetAllOpenRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
+        /// <summary>
+        /// Gets all solved (including closed) requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse Task</returns>
+        Task<GroupRequestResponse> GetAllSolvedRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
+        /// <summary>
+        /// Gets all closed requests available to user.
+        /// </summary>
+        /// <param name="perPage">Number of results per page. Must be between 1 and 100.</param>
+        /// <param name="page">Page to get results for. Must be greater than 0.</param>
+        /// <param name="sortCol">Column to sort by. Only "updated_at" and "created_at" are supported by API.</param>
+        /// <param name="sortAscending">Whether or not to sort ascending. API defaults to true.</param>
+        /// <returns>GroupRequestResponse Task</returns>
+        Task<GroupRequestResponse> GetAllCcdRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
+
         Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id);
         Task<IndividualRequestResponse> GetRequestByIdAsync(long id);
         Task<GroupCommentResponse> GetRequestCommentsByIdAsync(long id);
@@ -44,24 +116,24 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
-        public GroupRequestResponse GetAllRequests()
+        public GroupRequestResponse GetAllRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return GenericGet<GroupRequestResponse>("requests.json");
+            return GenericPagedSortedGet<GroupRequestResponse>("requests.json", perPage, page, sortCol, sortAscending);
         }
 
-        public GroupRequestResponse GetAllOpenRequests()
+        public GroupRequestResponse GetAllOpenRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return GenericGet<GroupRequestResponse>("requests/open.json");
+            return GenericPagedSortedGet<GroupRequestResponse>("requests/open.json", perPage, page, sortCol, sortAscending);
         }
 
-        public GroupRequestResponse GetAllSolvedRequests()
+        public GroupRequestResponse GetAllSolvedRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return GenericGet<GroupRequestResponse>("requests/solved.json");
+            return GenericPagedSortedGet<GroupRequestResponse>("requests/solved.json", perPage, page, sortCol, sortAscending);
         }
 
-        public GroupRequestResponse GetAllCcdRequests()
+        public GroupRequestResponse GetAllCcdRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return GenericGet<GroupRequestResponse>("requests/ccd.json");
+            return GenericPagedSortedGet<GroupRequestResponse>("requests/ccd.json", perPage, page, sortCol, sortAscending);
         }
 
         public GroupRequestResponse GetAllRequestsForUser(long id)
@@ -107,24 +179,24 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-        public async Task<GroupRequestResponse> GetAllRequestsAsync()
+        public async Task<GroupRequestResponse> GetAllRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return await GenericGetAsync<GroupRequestResponse>("requests.json");
+            return await GenericPagedSortedGetAsync<GroupRequestResponse>("requests.json", perPage, page, sortCol, sortAscending);
         }
 
-        public async Task<GroupRequestResponse> GetAllOpenRequestsAsync()
+        public async Task<GroupRequestResponse> GetAllOpenRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return await GenericGetAsync<GroupRequestResponse>("requests/open.json");
+            return await GenericPagedSortedGetAsync<GroupRequestResponse>("requests/open.json", perPage, page, sortCol, sortAscending);
         }
 
-        public async Task<GroupRequestResponse> GetAllSolvedRequestsAsync()
+        public async Task<GroupRequestResponse> GetAllSolvedRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return await GenericGetAsync<GroupRequestResponse>("requests/solved.json");
+            return await GenericPagedSortedGetAsync<GroupRequestResponse>("requests/solved.json", perPage, page, sortCol, sortAscending);
         }
 
-        public async Task<GroupRequestResponse> GetAllCcdRequestsAsync()
+        public async Task<GroupRequestResponse> GetAllCcdRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
-            return await GenericGetAsync<GroupRequestResponse>("requests/ccd.json");
+            return await GenericPagedSortedGetAsync<GroupRequestResponse>("requests/ccd.json", perPage, page, sortCol, sortAscending);
         }
 
         public async Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id)
