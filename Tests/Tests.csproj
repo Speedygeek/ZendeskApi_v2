@@ -100,6 +100,8 @@
     <Compile Include="JobStatusTests.cs" />
     <Compile Include="LocaleTests.cs" />
     <Compile Include="MacroTests.cs" />
+    <Compile Include="Models\Tickets\FromTests.cs" />
+    <Compile Include="Models\Tickets\ToTests.cs" />
     <Compile Include="OrganizationTests.cs" />
     <Compile Include="RequestTests.cs" />
     <Compile Include="SatisfactionRatingTests.cs" />
