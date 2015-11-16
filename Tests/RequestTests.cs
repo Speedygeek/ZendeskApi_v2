@@ -1,5 +1,5 @@
-using System.Linq;
 using NUnit.Framework;
+using System.Linq;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;

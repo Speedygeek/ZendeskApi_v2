@@ -1,3 +1,4 @@
+using System;
 #if ASYNC
 using System.Threading.Tasks;
 #endif
@@ -164,14 +165,24 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualRequestResponse UpdateRequest(long id, Comment comment)
         {
-            var body = new { request = new { comment} };
-            return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
+            var request = new Request
+            {
+                Id = id,
+                Comment = comment
+            };
+
+            return UpdateRequest(request);
         }
 
         public IndividualRequestResponse UpdateRequest(Request request, Comment comment=null)
         {
+            if (!request.Id.HasValue) { throw new ArgumentException("request must have Id set."); }
+
             if (comment != null)
+            {
                 request.Comment = comment;
+            }
+
             var body = new { request };
             
             return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", request.Id.Value), body);

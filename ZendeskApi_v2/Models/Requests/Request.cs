@@ -1,11 +1,10 @@
 ﻿// JSON C# Class Generator
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 
@@ -49,6 +48,21 @@ namespace ZendeskApi_v2.Models.Requests
 
         [JsonProperty("requester_id")]
         public long? RequesterId { get; set; }
+
+        /// <summary>
+        /// If true, end user can mark request as solved.
+        /// This will be ignored when updating a request.
+        /// Consider this as readonly.
+        /// </summary>
+        [JsonProperty("can_be_solved_by_me")]
+        public bool? CanBeSolvedByMe { get; set; }
+
+        /// <summary>
+        /// Whether or not request is solved (an end user can set this if "CanBeSolvedByMe" is true).
+        /// This will be ignored when updating a request if "CanBeSolvedByMe" is false.
+        /// </summary>
+        [JsonProperty("solved")]
+        public bool? Solved { get; set; }
 
         /// <summary>
         /// This is used for updates only
