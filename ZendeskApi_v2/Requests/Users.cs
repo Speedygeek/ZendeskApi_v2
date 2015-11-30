@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using ZendeskApi_v2.Extensions;
 #if ASYNC
-using System.Net;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Users;
 using User = ZendeskApi_v2.Models.Users.User;
 
-namespace ZendeskApi_v2.Requests
-{
-    [Flags]
+namespace ZendeskApi_v2.Requests {
+	[Flags]
     public enum UserSideLoadOptions
     {
         None = 0,
@@ -31,7 +29,8 @@ namespace ZendeskApi_v2.Requests
 	    IndividualUserResponse MergeUser(long fromId, long intoId);
 	    GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         GroupUserResponse SearchByEmail(string email);
-        GroupUserResponse SearchByExternalId(string externalId);
+        GroupUserResponse SearchByPhone(string phone);
+		GroupUserResponse SearchByExternalId(string externalId);
         GroupUserResponse GetUsersInGroup(long id);
         GroupUserResponse GetUsersInOrganization(long id);
 		IndividualUserResponse CreateUser(User user);
@@ -66,6 +65,7 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> MergeUserAsync(long fromId, long intoId);
         Task<GroupUserResponse> GetMultipleUsersAsync(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 		Task<GroupUserResponse> SearchByEmailAsync(string email);
+		Task<GroupUserResponse> SearchByPhoneAsync(string phone);
 		Task<GroupUserResponse> SearchByExternalIdAsync(string externalId);
 		Task<GroupUserResponse> GetUsersInGroupAsync(long id);
 		Task<GroupUserResponse> GetUsersInOrganizationAsync(long id);
@@ -144,7 +144,11 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupUserResponse>(string.Format("users/search.json?query={0}", email));
         }
 
-        public GroupUserResponse SearchByExternalId(string externalId)
+		public GroupUserResponse SearchByPhone(string phone) {
+			return GenericGet<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", phone));
+		}
+
+		public GroupUserResponse SearchByExternalId(string externalId)
         {
             return GenericGet<GroupUserResponse>(string.Format("users/search.json?external_id={0}", externalId));
         }
@@ -291,7 +295,11 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query={0}", email));
         }
 
-        public async Task<GroupUserResponse> SearchByExternalIdAsync(string externalId)
+		public async Task<GroupUserResponse> SearchByPhoneAsync(string phone) {
+			return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", phone));
+		}
+
+		public async Task<GroupUserResponse> SearchByExternalIdAsync(string externalId)
         {
             return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?external_id={0}", externalId));
         }

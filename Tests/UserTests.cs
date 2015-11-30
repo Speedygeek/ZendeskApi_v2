@@ -127,7 +127,35 @@ namespace Tests
             Assert.True(res1.Users.Count > 0);
         }
 
-        [Test]
+		[Test]
+		public void CanFindUserByPhone() {
+			var res1 = api.Users.SearchByPhone(Settings.Phone);
+			Assert.True(res1.Users.Count > 0);
+			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
+			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+        }
+
+		[Test]
+		public void CanFindUserByPhoneAsync() {
+			var res1 = api.Users.SearchByPhoneAsync(Settings.Phone).Result;
+			Assert.True(res1.Users.Count > 0);
+			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
+			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+		}
+
+		[Test]
+		public void CannotFindUserByPhone() {
+			var res1 = api.Users.SearchByPhone(Settings.BadPhone);
+			Assert.True(res1.Users.Count == 0);
+		}
+
+		[Test]
+		public void CannotFindUserByPhoneAsync() {
+			var res1 = api.Users.SearchByPhoneAsync(Settings.BadPhone).Result;
+			Assert.True(res1.Users.Count == 0);
+		}
+
+		[Test]
         public void CanGetCurrentUser()
         {
             var res1 = api.Users.GetCurrentUser();
