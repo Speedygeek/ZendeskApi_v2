@@ -1,5 +1,6 @@
-using NUnit.Framework;
 using System.Linq;
+using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
@@ -9,7 +10,7 @@ namespace Tests
     [TestFixture]
     public class RequestTests
     {
-        private readonly ZendeskApi _api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private readonly ZendeskApi _api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         [Test]
         public void CanGetAllRequests()

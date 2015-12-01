@@ -1,6 +1,7 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Users;
@@ -10,7 +11,7 @@ namespace Tests
     [TestFixture]
     public class OrganizationTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
         [TestFixtureSetUp]
         public void Init()
         {
@@ -46,10 +47,10 @@ namespace Tests
         [Test]
         public void CanSearchForOrganizations()
         {
-            var res = api.Organizations.GetOrganizationsStartingWith(Settings.DefaultOrg.Substring(0, 3));
+            var res = api.Organizations.GetOrganizationsStartingWith(Settings.Default.DefaultOrg.Substring(0, 3));
             Assert.Greater(res.Count, 0);
 
-            var search = api.Organizations.SearchForOrganizations(Settings.DefaultOrg);
+            var search = api.Organizations.SearchForOrganizations(Settings.Default.DefaultOrg);
             Assert.Greater(res.Count, 0);
         }
 

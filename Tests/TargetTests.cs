@@ -1,5 +1,6 @@
-﻿using NUnit.Framework;
-using System.Linq;
+﻿using System.Linq;
+using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Targets;
 
@@ -8,7 +9,7 @@ namespace Tests
     [TestFixture]
     public class TargetTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         [TestFixtureSetUp]
         public void Init()

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     [Category("Voice")]
     public class VoiceTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
         private long agentid;
         private long ticketid;
         private long userid;
@@ -20,8 +15,8 @@ namespace Tests
         [Test]
         public void OpenTicketForAgent()
         {
-            agentid = Settings.UserId;
-            ticketid = Settings.SampleTicketId;
+            agentid = Settings.Default.UserId;
+            ticketid = Settings.Default.SampleTicketId;
 
             var result = api.Voice.OpenTicketInAgentBrowser(agentid, ticketid);
             Assert.IsTrue(result);
@@ -30,8 +25,8 @@ namespace Tests
         [Test]
         public void OpenTicketTabForAgentAsync()
         {
-            agentid = Settings.UserId;
-            ticketid = Settings.SampleTicketId;
+            agentid = Settings.Default.UserId;
+            ticketid = Settings.Default.SampleTicketId;
 
             var result = api.Voice.OpenTicketInAgentBrowserAsync(agentid, ticketid);
             Assert.IsTrue(result.Result);
@@ -40,8 +35,8 @@ namespace Tests
         [Test]
         public void OpenUserProfileInAgentBrowser()
         {
-            agentid = Settings.UserId;
-            userid = Settings.EndUserId;
+            agentid = Settings.Default.UserId;
+            userid = Settings.Default.EndUserId;
 
             var result = api.Voice.OpenUserProfileInAgentBrowser(agentid, userid);
             Assert.IsTrue(result);
@@ -50,8 +45,8 @@ namespace Tests
         [Test]
         public void OpenUserProfileInAgentBrowserAsync()
         {
-            agentid = Settings.UserId;
-            userid = Settings.EndUserId;
+            agentid = Settings.Default.UserId;
+            userid = Settings.Default.EndUserId;
 
             var result = api.Voice.OpenUserProfileInAgentBrowserAsync(agentid, userid);
             Assert.IsTrue(result.Result);

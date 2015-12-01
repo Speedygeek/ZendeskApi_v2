@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
-using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Shared;
-using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Views;
 using ZendeskApi_v2.Models.Views.Executed;
 
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     public class ViewTests
     {        
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         [Test]
         public void CanGetViews()
@@ -66,7 +59,7 @@ namespace Tests
         [Test]
         public void CanExecutePagedView()
         {
-            var res = api.Views.ExecuteView(Settings.ViewId, "", true, 25, 2);
+            var res = api.Views.ExecuteView(Settings.Default.ViewId, "", true, 25, 2);
 
             Assert.AreEqual(25, res.Rows.Count);
 

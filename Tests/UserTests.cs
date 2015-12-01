@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Users;
@@ -13,7 +14,7 @@ namespace Tests {
     [Category("Users")]
     public class UserTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         [Test]
         public void CanGetUsers()
@@ -25,21 +26,21 @@ namespace Tests {
         [Test]
         public void CanGetUser()
         {
-            var res = api.Users.GetUser(Settings.UserId);
-            Assert.True(res.User.Id == Settings.UserId);
+            var res = api.Users.GetUser(Settings.Default.UserId);
+            Assert.True(res.User.Id == Settings.Default.UserId);
         }
 
         [Test]
         public void CanGetUsersInGroup()
         {
-            var res = api.Users.GetUsersInGroup(Settings.GroupId);
+            var res = api.Users.GetUsersInGroup(Settings.Default.GroupId);
             Assert.True(res.Count > 0);
         }
 
         [Test]
         public void CanGetUsersInOrg()
         {
-            var res = api.Users.GetUsersInOrganization(Settings.OrganizationId);
+            var res = api.Users.GetUsersInOrganization(Settings.Default.OrganizationId);
             Assert.True(res.Count > 0);
         }
 
@@ -115,44 +116,44 @@ namespace Tests {
         [Test]
         public void CanFindUser()
         {
-            //var res1 = api.Users.SearchByEmail(Settings.Email);
-            var res1 = api.Users.SearchByEmail(Settings.ColloboratorEmail);
+            //var res1 = api.Users.SearchByEmail(Settings.Default.Email);
+            var res1 = api.Users.SearchByEmail(Settings.Default.ColloboratorEmail);
             Assert.True(res1.Users.Count > 0);
         }
 
 		[Test]
 		public void CanFindUserByPhone() {
-			var res1 = api.Users.SearchByPhone(Settings.Phone);
+			var res1 = api.Users.SearchByPhone(Settings.Default.Phone);
 			Assert.True(res1.Users.Count > 0);
-			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
+			Assert.AreEqual(Settings.Default.Phone, res1.Users.First().Phone);
 			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
         }
 
 		[Test]
 		public void CanFindUserByFormattedPhone() {
-			var res1 = api.Users.SearchByPhone(Settings.FormattedPhone);
+			var res1 = api.Users.SearchByPhone(Settings.Default.FormattedPhone);
 			Assert.True(res1.Users.Count > 0);
-			Assert.AreEqual(Settings.FormattedPhone, res1.Users.First().Phone);
+			Assert.AreEqual(Settings.Default.FormattedPhone, res1.Users.First().Phone);
 			Assert.AreEqual("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5", res1.Users.First().Name);
 		}
 
 		[Test]
 		public void CanFindUserByPhoneAsync() {
-			var res1 = api.Users.SearchByPhoneAsync(Settings.Phone).Result;
+			var res1 = api.Users.SearchByPhoneAsync(Settings.Default.Phone).Result;
 			Assert.True(res1.Users.Count > 0);
-			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
+			Assert.AreEqual(Settings.Default.Phone, res1.Users.First().Phone);
 			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
 		}
 
 		[Test]
 		public void CannotFindUserByPhone() {
-			var res1 = api.Users.SearchByPhone(Settings.BadPhone);
+			var res1 = api.Users.SearchByPhone(Settings.Default.BadPhone);
 			Assert.True(res1.Users.Count == 0);
 		}
 
 		[Test]
 		public void CannotFindUserByPhoneAsync() {
-			var res1 = api.Users.SearchByPhoneAsync(Settings.BadPhone).Result;
+			var res1 = api.Users.SearchByPhoneAsync(Settings.Default.BadPhone).Result;
 			Assert.True(res1.Users.Count == 0);
 		}
 

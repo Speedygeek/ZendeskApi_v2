@@ -5,8 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
@@ -14,14 +13,12 @@ using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Requests;
 
-
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     [Category("Tickets")]
     public class TicketTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
         TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
 
         [Test]
@@ -43,7 +40,7 @@ namespace Tests
         [Test]
         public void CanCanGetTicketsByOrganizationIDAsync()
         {
-            var id = Settings.OrganizationId;
+            var id = Settings.Default.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationIDAsync(id);
             Assert.True(tickets.Result.Count > 0);
         }
@@ -62,7 +59,7 @@ namespace Tests
                 {
                     new CustomField()
                         {
-                            Id = Settings.CustomFieldId,
+                            Id = Settings.Default.CustomFieldId,
                             Value = "Doing fine!"
                         }
                 };
@@ -73,9 +70,9 @@ namespace Tests
             Assert.Greater(res.Id.Value, 0);
 
             res.Status = TicketStatus.Solved;
-            res.AssigneeId = Settings.UserId;
+            res.AssigneeId = Settings.Default.UserId;
 
-            res.CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail };
+            res.CollaboratorEmails = new List<string>() { Settings.Default.ColloboratorEmail };
             var body = "got it thanks";
             var updateResponse = api.Tickets.UpdateTicketAsync(res, new Comment() { Body = body, Public = true });
 
@@ -136,7 +133,7 @@ namespace Tests
         [Test]
         public void CanGetTicketById()
         {
-            var id = Settings.SampleTicketId;
+            var id = Settings.Default.SampleTicketId;
             var ticket = api.Tickets.GetTicket(id).Ticket;
             Assert.NotNull(ticket);
             Assert.AreEqual(ticket.Id, id);
@@ -145,7 +142,7 @@ namespace Tests
         [Test]
         public void CanGetTicketByIdWithSideLoad()
         {
-            var id = Settings.SampleTicketId;
+            var id = Settings.Default.SampleTicketId;
             var ticket = api.Tickets.GetTicket(id, sideLoadOptions: ticketSideLoadOptions);
             Assert.NotNull(ticket);
             Assert.NotNull(ticket.Ticket);
@@ -157,7 +154,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByOrganizationId()
         {
-            var id = Settings.OrganizationId;
+            var id = Settings.Default.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationID(id);
             Assert.True(tickets.Count > 0);
         }
@@ -166,7 +163,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByOrganizationIdPaged()
         {
-            var id = Settings.OrganizationId;
+            var id = Settings.Default.OrganizationId;
             var ticketsRes = api.Tickets.GetTicketsByOrganizationID(id, 2, 3);
 
             Assert.AreEqual(3, ticketsRes.PageSize);
@@ -186,7 +183,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByViewIdPaged()
         {
-            var ticketsRes = api.Tickets.GetTicketsByViewID(Settings.ViewId, 10, 2);
+            var ticketsRes = api.Tickets.GetTicketsByViewID(Settings.Default.ViewId, 10, 2);
 
             Assert.AreEqual(10, ticketsRes.PageSize);
             Assert.AreEqual(10, ticketsRes.Tickets.Count);
@@ -206,7 +203,7 @@ namespace Tests
         public void CanGetTicketsByViewIdPagedWithSideLoad()
         {
             CanGetTicketsByViewIdPaged();
-            var ticketsRes = api.Tickets.GetTicketsByViewID(Settings.ViewId, 10, 2, sideLoadOptions: ticketSideLoadOptions);
+            var ticketsRes = api.Tickets.GetTicketsByViewID(Settings.Default.ViewId, 10, 2, sideLoadOptions: ticketSideLoadOptions);
 
             Assert.IsTrue(ticketsRes.Users.Any());
             Assert.IsTrue(ticketsRes.Users.Any());
@@ -235,7 +232,7 @@ namespace Tests
         [Test]
         public void CanTicketsByUserIdPaged()
         {
-            var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.UserId, 5, 2);
+            var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.Default.UserId, 5, 2);
 
             Assert.AreEqual(5, ticketsRes.PageSize);
             Assert.AreEqual(5, ticketsRes.Tickets.Count);
@@ -255,7 +252,7 @@ namespace Tests
         public void CanTicketsByUserIdPagedWithSideLoad()
         {
             CanTicketsByUserIdPaged();
-            var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
+            var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.Default.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
             Assert.IsTrue(ticketsRes.Users.Any());
             Assert.IsTrue(ticketsRes.Organizations.Any());
         }
@@ -263,7 +260,7 @@ namespace Tests
         [Test]
         public void CanTicketsByUserIdPagedAsyncWithSideLoad()
         {
-            var ticketsRes = api.Tickets.GetTicketsByUserIDAsync(Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
+            var ticketsRes = api.Tickets.GetTicketsByUserIDAsync(Settings.Default.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
             Assert.IsTrue(ticketsRes.Result.Users.Any());
             Assert.IsTrue(ticketsRes.Result.Organizations.Any());
         }
@@ -271,7 +268,7 @@ namespace Tests
         [Test]
         public void CanGetMultipleTickets()
         {
-            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var ids = new List<long>() { Settings.Default.SampleTicketId, Settings.Default.SampleTicketId2 };
             var tickets = api.Tickets.GetMultipleTickets(ids);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
@@ -280,7 +277,7 @@ namespace Tests
         [Test]
         public async Task CanGetMultipleTicketsAsync()
         {
-            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var ids = new List<long>() { Settings.Default.SampleTicketId, Settings.Default.SampleTicketId2 };
             var tickets = await api.Tickets.GetMultipleTicketsAsync(ids);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
@@ -289,7 +286,7 @@ namespace Tests
         [Test]
         public void CanGetMultipleTicketsWithSideLoad()
         {
-            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var ids = new List<long>() { Settings.Default.SampleTicketId, Settings.Default.SampleTicketId2 };
             var tickets = api.Tickets.GetMultipleTickets(ids, sideLoadOptions: ticketSideLoadOptions);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
@@ -300,7 +297,7 @@ namespace Tests
         [Test]
         public async Task CanGetMultipleTicketsAsyncWithSideLoad()
         {
-            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var ids = new List<long>() { Settings.Default.SampleTicketId, Settings.Default.SampleTicketId2 };
             var tickets = await api.Tickets.GetMultipleTicketsAsync(ids, sideLoadOptions: ticketSideLoadOptions);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
@@ -312,7 +309,7 @@ namespace Tests
         [Test]
         public void CanGetMultipleTicketsSingleTicket()
         {
-            var ids = new List<long>() { Settings.SampleTicketId };
+            var ids = new List<long>() { Settings.Default.SampleTicketId };
             var tickets = api.Tickets.GetMultipleTickets(ids);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
@@ -321,7 +318,7 @@ namespace Tests
         [Test]
         public async Task CanGetMultipleTicketsAsyncSingleTicket()
         {
-            var ids = new List<long>() { Settings.SampleTicketId };
+            var ids = new List<long>() { Settings.Default.SampleTicketId };
             var tickets = await api.Tickets.GetMultipleTicketsAsync(ids);
             Assert.NotNull(tickets);
             Assert.AreEqual(tickets.Count, ids.Count);
@@ -353,12 +350,12 @@ namespace Tests
                 {
                     new CustomField()
                         {
-                            Id = Settings.CustomFieldId,
+                            Id = Settings.Default.CustomFieldId,
                             Value = "testing"
                         },
                     new CustomField()
                         {
-                            Id = Settings.CustomBoolFieldId,
+                            Id = Settings.Default.CustomBoolFieldId,
                             Value = true
                         }
                 };
@@ -393,7 +390,7 @@ namespace Tests
                 {
                     new CustomField()
                         {
-                            Id = Settings.CustomFieldId,
+                            Id = Settings.Default.CustomFieldId,
                             Value = "testing"
                         }
                 };
@@ -407,9 +404,9 @@ namespace Tests
             Assert.LessOrEqual(res.CreatedAt - DateTimeOffset.UtcNow, TimeSpan.FromMinutes(1.0));
 
             res.Status = TicketStatus.Solved;
-            res.AssigneeId = Settings.UserId;
+            res.AssigneeId = Settings.Default.UserId;
 
-            res.CollaboratorIds.Add(Settings.CollaboratorId);
+            res.CollaboratorIds.Add(Settings.Default.CollaboratorId);
             var body = "got it thanks";
 
             res.CustomFields[0].Value = "updated";
@@ -472,13 +469,13 @@ namespace Tests
                 Subject = "ticket with requester",
                 Comment = new Comment() { Body = "testing requester" },
                 Priority = TicketPriorities.Normal,
-                Requester = new Requester() { Email = Settings.ColloboratorEmail }
+                Requester = new Requester() { Email = Settings.Default.ColloboratorEmail }
             };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.NotNull(res);
-            Assert.AreEqual(res.RequesterId, Settings.CollaboratorId);
+            Assert.AreEqual(res.RequesterId, Settings.Default.CollaboratorId);
 
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }
@@ -491,14 +488,14 @@ namespace Tests
                 Subject = "ticket with requester",
                 Comment = new Comment() { Body = "testing requester" },
                 Priority = TicketPriorities.Normal,
-                Requester = new Requester() { Email = Settings.ColloboratorEmail }
+                Requester = new Requester() { Email = Settings.Default.ColloboratorEmail }
             };
 
             var res = await api.Tickets.CreateTicketAsync(ticket);
 
             Assert.NotNull(res);
             Assert.NotNull(res.Ticket);
-            Assert.AreEqual(res.Ticket.RequesterId, Settings.CollaboratorId);
+            Assert.AreEqual(res.Ticket.RequesterId, Settings.Default.CollaboratorId);
 
             Assert.True(api.Tickets.Delete(res.Ticket.Id.Value));
         }
@@ -515,7 +512,7 @@ namespace Tests
                 Comment = new Comment() { Body = "test comment" },
                 Type = "task",
                 Priority = TicketPriorities.Normal,
-                DueAt = DateTimeOffset.UtcNow
+                DueAt = dueAt
             };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
@@ -534,13 +531,13 @@ namespace Tests
                 Subject = "ticket with ticket form id",
                 Comment = new Comment() { Body = "testing requester" },
                 Priority = TicketPriorities.Normal,
-                TicketFormId = Settings.TicketFormId
+                TicketFormId = Settings.Default.TicketFormId
             };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.NotNull(res);
-            Assert.AreEqual(Settings.TicketFormId, res.TicketFormId);
+            Assert.AreEqual(Settings.Default.TicketFormId, res.TicketFormId);
 
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }
@@ -565,8 +562,8 @@ namespace Tests
             {
                 Status = TicketStatus.Solved,
                 Comment = new Comment() { Public = true, Body = "check your email" },
-                CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail },
-                AssigneeId = Settings.UserId
+                CollaboratorEmails = new List<string>() { Settings.Default.ColloboratorEmail },
+                AssigneeId = Settings.Default.UserId
             });
 
 
@@ -639,7 +636,7 @@ namespace Tests
         [Test]
         public void CanGetCollaborators()
         {
-            var res = api.Tickets.GetCollaborators(Settings.SampleTicketId);
+            var res = api.Tickets.GetCollaborators(Settings.Default.SampleTicketId);
             Assert.Greater(res.Users.Count, 0);
         }
 
@@ -690,13 +687,13 @@ namespace Tests
         [Ignore("currently getting a 404 need to talk with zendesk about why.")]
         public void CanGetAuditsAndMarkAsTrusted()
         {
-            var audits = api.Tickets.GetAudits(Settings.SampleTicketId);
+            var audits = api.Tickets.GetAudits(Settings.Default.SampleTicketId);
             Assert.Greater(audits.Audits.Count, 0);
 
-            var aud = api.Tickets.GetAuditById(Settings.SampleTicketId, audits.Audits.First().Id);
+            var aud = api.Tickets.GetAuditById(Settings.Default.SampleTicketId, audits.Audits.First().Id);
             Assert.NotNull(aud.Audit);
 
-            Assert.True(api.Tickets.MarkAuditAsTrusted(Settings.SampleTicketId, audits.Audits.First().Id));
+            Assert.True(api.Tickets.MarkAuditAsTrusted(Settings.Default.SampleTicketId, audits.Audits.First().Id));
         }
 
         [Test]
@@ -716,7 +713,7 @@ namespace Tests
         [Test]
         public void CanGetTicketFieldById()
         {
-            var id = Settings.CustomFieldId;
+            var id = Settings.Default.CustomFieldId;
             var ticketField = api.Tickets.GetTicketFieldById(id).TicketField;
             Assert.NotNull(ticketField);
             Assert.AreEqual(ticketField.Id, id);
@@ -725,7 +722,7 @@ namespace Tests
         [Test]
         public void CanGetTicketFieldByIdAsync()
         {
-            var id = Settings.CustomFieldId;
+            var id = Settings.Default.CustomFieldId;
             var ticketField = api.Tickets.GetTicketFieldByIdAsync(id).Result.TicketField;
             Assert.NotNull(ticketField);
             Assert.AreEqual(ticketField.Id, id);
@@ -929,7 +926,7 @@ namespace Tests
         [Test]
         public void CanGetTicketMetricByTicketId()
         {
-            var id = Settings.SampleTicketId;
+            var id = Settings.Default.SampleTicketId;
             var metric = api.Tickets.GetTicketMetricsForTicket(id).TicketMetric;
             Assert.NotNull(metric);
             Assert.AreEqual(metric.TicketId, id);
@@ -938,7 +935,7 @@ namespace Tests
         [Test]
         public void CanGetTicketMetricByTicketIdAsync()
         {
-            var id = Settings.SampleTicketId;
+            var id = Settings.Default.SampleTicketId;
             var metric = api.Tickets.GetTicketMetricsForTicketAsync(id).Result.TicketMetric;
             Assert.NotNull(metric);
             Assert.AreEqual(metric.TicketId, id);
@@ -967,7 +964,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByOrganizationIDAsyncWithSideLoad()
         {
-            var id = Settings.OrganizationId;
+            var id = Settings.Default.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationIDAsync(id, sideLoadOptions: ticketSideLoadOptions);
             Assert.True(tickets.Result.Count > 0);
             Assert.IsTrue(tickets.Result.Users.Any());
@@ -977,7 +974,7 @@ namespace Tests
         [Test]
         public void CanCanGetTicketsByOrganizationIDWithSideLoad()
         {
-            var id = Settings.OrganizationId;
+            var id = Settings.Default.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationID(id, sideLoadOptions: ticketSideLoadOptions);
             Assert.True(tickets.Count > 0);
             Assert.IsTrue(tickets.Users.Any());
@@ -990,13 +987,13 @@ namespace Tests
             var ticket = new TicketImport()
             {
                 Subject = "my printer is on fire",
-                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
+                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.Default.UserId, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Settings.Default.UserId, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
                 Priority = TicketPriorities.Urgent,
                 CreatedAt = DateTime.Now.AddDays(-5),
                 UpdatedAt = DateTime.Now.AddDays(-4),
                 SolvedAt = DateTime.Now.AddDays(-3),
                 Status = TicketStatus.Solved,
-                AssigneeId = Settings.UserId,
+                AssigneeId = Settings.Default.UserId,
                 Description = "test description"
             };
 
@@ -1024,13 +1021,13 @@ namespace Tests
             var ticket = new TicketImport()
             {
                 Subject = "my printer is on fire",
-                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
+                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.Default.UserId, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Settings.Default.UserId, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
                 Priority = TicketPriorities.Urgent,
                 CreatedAt = DateTime.Now.AddDays(-5),
                 UpdatedAt = DateTime.Now.AddDays(-4),
                 SolvedAt = DateTime.Now.AddDays(-3),
                 Status = TicketStatus.Solved,
-                AssigneeId = Settings.UserId,
+                AssigneeId = Settings.Default.UserId,
                 Description = "test description"
             };
 
@@ -1061,13 +1058,13 @@ namespace Tests
                 var ticket = new TicketImport()
                 {
                     Subject = "my printer is on fire",
-                    Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 1", CreatedAt = DateTime.UtcNow.AddDays(-2), Public= false }, new TicketImportComment { AuthorId = Settings.UserId, Value = "HELP comment created in Import 2", CreatedAt = DateTime.UtcNow.AddDays(-3), Public = false } },
+                    Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Settings.Default.UserId, Value = "HELP comment created in Import 1", CreatedAt = DateTime.UtcNow.AddDays(-2), Public= false }, new TicketImportComment { AuthorId = Settings.Default.UserId, Value = "HELP comment created in Import 2", CreatedAt = DateTime.UtcNow.AddDays(-3), Public = false } },
                     Priority = TicketPriorities.Urgent,
                     CreatedAt = DateTime.Now.AddDays(-5),
                     UpdatedAt = DateTime.Now.AddDays(-4),
                     SolvedAt = DateTime.Now.AddDays(-3),
                     Status = TicketStatus.Solved,
-                    AssigneeId = Settings.UserId,
+                    AssigneeId = Settings.Default.UserId,
                     Description = "test description"
                 };
                 test.Add(ticket);

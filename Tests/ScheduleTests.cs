@@ -1,15 +1,14 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Schedules;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     public class ScheduleTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
         [TestFixtureSetUp]
         public void Init()
         {

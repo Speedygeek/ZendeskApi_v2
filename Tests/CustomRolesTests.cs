@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 
 namespace Tests
@@ -6,7 +7,7 @@ namespace Tests
     [TestFixture]
     public class CustomRolesTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         //[Test]
         //[Ignore]
