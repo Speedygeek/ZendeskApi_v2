@@ -1,8 +1,9 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Organizations;
+using ZendeskApi_v2.Models.Tags;
 using ZendeskApi_v2.Models.Users;
 
 namespace Tests
@@ -32,6 +33,22 @@ namespace Tests
                 }
             }
         }
+
+		[Test]
+		public void CanAddAndRemoveTagsFromOrganization() {
+			var tag = new Tag();
+			var organization = api.Organizations.GetOrganizations().Organizations.First();
+			tag.Name = "MM";
+			organization.Tags.Add(tag.Name);
+
+			var org = api.Organizations.UpdateOrganization(organization);
+			org.Organization.Tags.Add("New");
+
+			var org2 = api.Organizations.UpdateOrganization(org.Organization);
+			org2.Organization.Tags.Remove("MM");
+			org2.Organization.Tags.Remove("New");
+			api.Organizations.UpdateOrganization(org2.Organization);
+		}
 
         [Test]
         public void CanGetOrganizations()
