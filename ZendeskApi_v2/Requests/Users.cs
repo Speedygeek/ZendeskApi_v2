@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Users;
 using User = ZendeskApi_v2.Models.Users.User;
+using System.Text.RegularExpressions;
 
 namespace ZendeskApi_v2.Requests {
 	[Flags]
@@ -145,7 +146,7 @@ namespace ZendeskApi_v2.Requests {
         }
 
 		public GroupUserResponse SearchByPhone(string phone) {
-			return GenericGet<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", phone));
+			return GenericGet<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", Regex.Replace(phone, @"\D", "")));
 		}
 
 		public GroupUserResponse SearchByExternalId(string externalId)
@@ -296,7 +297,7 @@ namespace ZendeskApi_v2.Requests {
         }
 
 		public async Task<GroupUserResponse> SearchByPhoneAsync(string phone) {
-			return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", phone));
+			return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", Regex.Replace(phone, @"\D", "")));
 		}
 
 		public async Task<GroupUserResponse> SearchByExternalIdAsync(string externalId)

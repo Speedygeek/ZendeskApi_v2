@@ -8,6 +8,7 @@
         public const string Password = "pa55word";
         public const string ApiToken = "R5PXRh5hEwT9Ry3hfSzGF2WKsxPf3ScSCq0suxii";
 		public const string Phone = "1234567890";
+		public const string FormattedPhone = "(111) 222-3333";
 		public const string BadPhone = "0987654321";
 
 		public const long UserId = 281513402;

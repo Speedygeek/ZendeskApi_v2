@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Shared;
-using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
 
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     [Category("Users")]
     public class UserTests
     {
@@ -134,6 +127,14 @@ namespace Tests
 			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
 			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
         }
+
+		[Test]
+		public void CanFindUserByFormattedPhone() {
+			var res1 = api.Users.SearchByPhone(Settings.FormattedPhone);
+			Assert.True(res1.Users.Count > 0);
+			Assert.AreEqual(Settings.FormattedPhone, res1.Users.First().Phone);
+			Assert.AreEqual("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5", res1.Users.First().Name);
+		}
 
 		[Test]
 		public void CanFindUserByPhoneAsync() {
