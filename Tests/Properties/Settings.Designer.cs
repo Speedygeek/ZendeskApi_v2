@@ -193,5 +193,41 @@ namespace Tests.Properties {
                 return ((long)(this["CustomFieldTypeOfFeedbackId"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1234567890")]
+        public string Phone {
+            get {
+                return ((string)(this["Phone"]));
+            }
+            set {
+                this["Phone"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0987654321")]
+        public string BadPhone {
+            get {
+                return ((string)(this["BadPhone"]));
+            }
+            set {
+                this["BadPhone"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(111) 222-3333")]
+        public string FormattedPhone {
+            get {
+                return ((string)(this["FormattedPhone"]));
+            }
+            set {
+                this["FormattedPhone"] = value;
+            }
+        }
     }
 }

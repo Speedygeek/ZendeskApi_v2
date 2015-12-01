@@ -121,7 +121,43 @@ namespace Tests {
             Assert.True(res1.Users.Count > 0);
         }
 
-        [Test]
+		[Test]
+		public void CanFindUserByPhone() {
+			var res1 = api.Users.SearchByPhone(Settings.Default.Phone);
+			Assert.True(res1.Users.Count > 0);
+			Assert.AreEqual(Settings.Default.Phone, res1.Users.First().Phone);
+			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+        }
+
+		[Test]
+		public void CanFindUserByFormattedPhone() {
+			var res1 = api.Users.SearchByPhone(Settings.Default.FormattedPhone);
+			Assert.True(res1.Users.Count > 0);
+			Assert.AreEqual(Settings.Default.FormattedPhone, res1.Users.First().Phone);
+			Assert.AreEqual("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5", res1.Users.First().Name);
+		}
+
+		[Test]
+		public void CanFindUserByPhoneAsync() {
+			var res1 = api.Users.SearchByPhoneAsync(Settings.Default.Phone).Result;
+			Assert.True(res1.Users.Count > 0);
+			Assert.AreEqual(Settings.Default.Phone, res1.Users.First().Phone);
+			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+		}
+
+		[Test]
+		public void CannotFindUserByPhone() {
+			var res1 = api.Users.SearchByPhone(Settings.Default.BadPhone);
+			Assert.True(res1.Users.Count == 0);
+		}
+
+		[Test]
+		public void CannotFindUserByPhoneAsync() {
+			var res1 = api.Users.SearchByPhoneAsync(Settings.Default.BadPhone).Result;
+			Assert.True(res1.Users.Count == 0);
+		}
+
+		[Test]
         public void CanGetCurrentUser()
         {
             var res1 = api.Users.GetCurrentUser();

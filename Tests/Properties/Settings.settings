@@ -59,5 +59,14 @@
     <Setting Name="CustomFieldTypeOfFeedbackId" Type="System.Int64" Scope="Application">
       <Value Profile="(Default)">23999346</Value>
     </Setting>
+    <Setting Name="Phone" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1234567890</Value>
+    </Setting>
+    <Setting Name="BadPhone" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0987654321</Value>
+    </Setting>
+    <Setting Name="FormattedPhone" Type="System.String" Scope="User">
+      <Value Profile="(Default)">(111) 222-3333</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
