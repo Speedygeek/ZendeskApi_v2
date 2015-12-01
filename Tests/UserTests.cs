@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Shared;
-using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
 
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     [Category("Users")]
     public class UserTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         [Test]
         public void CanGetUsers()
@@ -32,21 +26,21 @@ namespace Tests
         [Test]
         public void CanGetUser()
         {
-            var res = api.Users.GetUser(Settings.UserId);
-            Assert.True(res.User.Id == Settings.UserId);
+            var res = api.Users.GetUser(Settings.Default.UserId);
+            Assert.True(res.User.Id == Settings.Default.UserId);
         }
 
         [Test]
         public void CanGetUsersInGroup()
         {
-            var res = api.Users.GetUsersInGroup(Settings.GroupId);
+            var res = api.Users.GetUsersInGroup(Settings.Default.GroupId);
             Assert.True(res.Count > 0);
         }
 
         [Test]
         public void CanGetUsersInOrg()
         {
-            var res = api.Users.GetUsersInOrganization(Settings.OrganizationId);
+            var res = api.Users.GetUsersInOrganization(Settings.Default.OrganizationId);
             Assert.True(res.Count > 0);
         }
 
@@ -122,8 +116,8 @@ namespace Tests
         [Test]
         public void CanFindUser()
         {
-            //var res1 = api.Users.SearchByEmail(Settings.Email);
-            var res1 = api.Users.SearchByEmail(Settings.ColloboratorEmail);
+            //var res1 = api.Users.SearchByEmail(Settings.Default.Email);
+            var res1 = api.Users.SearchByEmail(Settings.Default.ColloboratorEmail);
             Assert.True(res1.Users.Count > 0);
         }
 

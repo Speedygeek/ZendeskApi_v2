@@ -1,42 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-
+using Tests.Properties;
 using ZendeskApi_v2.Models.Tickets;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     public class CoreTests
     {
         [Test]
         public void CreatesUrisCorrectly()
         {
-            var res = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Email, Settings.Password);
-            Assert.AreEqual(Settings.Site, res.ZendeskUrl);
+            var res = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Default.Email, Settings.Default.Password);
+            Assert.AreEqual(Settings.Default.Site, res.ZendeskUrl);
 
-            var res1 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com/api/v2", Settings.Email, Settings.Password);
-            Assert.AreEqual(Settings.Site, res1.ZendeskUrl);
+            var res1 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com/api/v2", Settings.Default.Email, Settings.Default.Password);
+            Assert.AreEqual(Settings.Default.Site, res1.ZendeskUrl);
 
-            var res2 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com", Settings.Email, Settings.Password);
-            Assert.AreEqual(Settings.Site, res2.ZendeskUrl);
+            var res2 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com", Settings.Default.Email, Settings.Default.Password);
+            Assert.AreEqual(Settings.Default.Site, res2.ZendeskUrl);
 
-            var api3 = new ZendeskApi_v2.ZendeskApi("csharpapi", Settings.Email, Settings.Password);
-            Assert.AreEqual(Settings.Site, api3.ZendeskUrl);
+            var api3 = new ZendeskApi_v2.ZendeskApi("csharpapi", Settings.Default.Email, Settings.Default.Password);
+            Assert.AreEqual(Settings.Default.Site, api3.ZendeskUrl);
 
-            var api4 = new ZendeskApi_v2.ZendeskApi("http://csharpapi.zendesk.com/api/v2", Settings.Email, Settings.Password);
-            Assert.AreEqual(Settings.Site, api4.ZendeskUrl);
+            var api4 = new ZendeskApi_v2.ZendeskApi("http://csharpapi.zendesk.com/api/v2", Settings.Default.Email, Settings.Default.Password);
+            Assert.AreEqual(Settings.Default.Site, api4.ZendeskUrl);
         }
 
         [Test]
         public void CanUseTokenAccess()
         {
-            var api = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Email, "", Settings.ApiToken, "en-us", null);
-            var id = Settings.SampleTicketId;
+            var api = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.Default.Email, "", Settings.Default.ApiToken, "en-us", null);
+            var id = Settings.Default.SampleTicketId;
             var ticket = api.Tickets.GetTicket(id).Ticket;
 
             Assert.NotNull(ticket);
@@ -48,7 +43,7 @@ namespace Tests
         {
             var api = new ZendeskApi_v2.ZendeskApi(
                 "http://csharpapi.zendesk.com/api/v2", 
-                Settings.Email, 
+                Settings.Default.Email, 
                 "Incorrect password");
 
             Assert.Throws<WebException>(async () =>
@@ -65,8 +60,8 @@ namespace Tests
         public void GivesCorrectException()
         {
             var api = new ZendeskApi_v2.ZendeskApi(
-                Settings.Site,
-                Settings.Email,
+                Settings.Default.Site,
+                Settings.Default.Email,
                 "Incorrect password");
 
             Assert.Throws<WebException>(() =>
@@ -78,9 +73,9 @@ namespace Tests
             });
 
             api = new ZendeskApi_v2.ZendeskApi(
-                Settings.Site,
-                Settings.Email,
-                Settings.Password);
+                Settings.Default.Site,
+                Settings.Default.Email,
+                Settings.Default.Password);
 
             try
             {

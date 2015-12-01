@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
-using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Users;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     [Category("Search")]
     public class SearchTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
          /*     
         [TestFixtureSetUp]
         public void Init()
@@ -35,7 +32,7 @@ namespace Tests
                     {
                         new CustomField()
                         {
-                            Id = Settings.CustomFieldTypeOfFeedbackId,
+                            Id = Settings.Default.CustomFieldTypeOfFeedbackId,
                             Value = typesOfFeedback[number]
                         },
                     },
@@ -61,7 +58,7 @@ namespace Tests
                     {
                         new CustomField()
                         {
-                            Id = Settings.CustomFieldTypeOfFeedbackId,
+                            Id = Settings.Default.CustomFieldTypeOfFeedbackId,
                             Value = typesOfFeedback[number]
                         },
                     },
@@ -76,7 +73,7 @@ namespace Tests
         [Test]
         public void CanSearch()
         {
-            var res = api.Search.SearchFor(Settings.Email);
+            var res = api.Search.SearchFor(Settings.Default.Email);
             Assert.AreEqual(res.Results[0].ResultType, "user");
             Assert.Greater(res.Results[0].Id, 0);
         }
@@ -159,22 +156,22 @@ namespace Tests
         [Test]
         public void UserSearchByUserAnonymousType()
         {
-            var res = api.Search.SearchFor<User>(Settings.Email);
+            var res = api.Search.SearchFor<User>(Settings.Default.Email);
 
             Assert.IsTrue(res != null);
             Assert.AreEqual(res.Results.Count, 1);
-            Assert.AreEqual(res.Results[0].Id, Settings.UserId);
+            Assert.AreEqual(res.Results[0].Id, Settings.Default.UserId);
             Assert.IsTrue(res.Results[0] is User);
         }
 
         [Test]
         public async void UserSearchByUserAnonymousTypeAsync()
         {
-            var res = await api.Search.SearchForAsync<User>(Settings.Email);
+            var res = await api.Search.SearchForAsync<User>(Settings.Default.Email);
 
             Assert.IsTrue(res != null);
             Assert.AreEqual(res.Results.Count, 1);
-            Assert.AreEqual(res.Results[0].Id, Settings.UserId);
+            Assert.AreEqual(res.Results[0].Id, Settings.Default.UserId);
             Assert.IsTrue(res.Results[0] is User);
         }
     }

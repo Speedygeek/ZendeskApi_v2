@@ -1,16 +1,17 @@
 using System.Linq;
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Models.Groups;
+using ZendeskApi_v2.Models.Users;
 
 namespace Tests
 {
     [TestFixture]
     public class GroupTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
 
         [Test]
         public void CanGetGroups()
@@ -54,7 +55,7 @@ namespace Tests
             var res = api.Groups.GetGroupMemberships();
             Assert.Greater(res.Count, 0);
 
-            var res1 = api.Groups.GetGroupMembershipsByUser(Settings.UserId);
+            var res1 = api.Groups.GetGroupMembershipsByUser(Settings.Default.UserId);
             Assert.Greater(res1.Count, 0);
 
             var groups = api.Groups.GetGroups();

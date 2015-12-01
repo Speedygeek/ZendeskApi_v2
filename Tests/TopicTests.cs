@@ -1,15 +1,14 @@
-using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
+using Tests.Properties;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Topics;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests {
+	[TestFixture]
     public class TopicTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Default.Site, Settings.Default.Email, Settings.Default.Password);
         private long forumId;
 
         public TopicTests()
@@ -29,7 +28,7 @@ namespace Tests
             var byForum = api.Topics.GetTopicsByForum(res.Topics[0].ForumId.Value);
             Assert.AreEqual(byForum.Topics[0].ForumId, res.Topics[0].ForumId.Value);
 
-            var byUser = api.Topics.GetTopicsByUser(Settings.UserId);
+            var byUser = api.Topics.GetTopicsByUser(Settings.Default.UserId);
             Assert.Greater(byUser.Count, 0);
         }
 
@@ -89,7 +88,7 @@ namespace Tests
             var getComents = api.Topics.GetTopicCommentsByTopicId(topicId);
             Assert.Greater(getComents.Count, 0);
 
-            var getByUser = api.Topics.GetTopicCommentsByUserId(Settings.UserId);
+            var getByUser = api.Topics.GetTopicCommentsByUserId(Settings.Default.UserId);
             Assert.Greater(getByUser.Count, 0);
 
             var getSpecific = api.Topics.GetSpecificTopicCommentByTopic(topicId, update.TopicComment.Id.Value);
@@ -107,7 +106,7 @@ namespace Tests
         {
             var topicId = api.Topics.GetTopics().Topics[0].Id.Value;
 
-            var create = api.Topics.CreateTopicSubscription(Settings.EndUserId, topicId);
+            var create = api.Topics.CreateTopicSubscription(Settings.Default.EndUserId, topicId);
             Assert.Greater(create.TopicSubscription.Id.Value, 0);
 
             var getAll = api.Topics.GetAllTopicSubscriptions();
@@ -133,7 +132,7 @@ namespace Tests
             var topicVotes = api.Topics.GetTopicVotes(topicId);
             Assert.Greater(topicVotes.Count, 0);
 
-            var userVotes = api.Topics.GetTopicVotesByUser(Settings.UserId);
+            var userVotes = api.Topics.GetTopicVotesByUser(Settings.Default.UserId);
             Assert.Greater(userVotes.Count, 0);
 
             var checkVote = api.Topics.CheckForVote(topicId);

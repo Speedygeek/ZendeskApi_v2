@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Tests.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Site" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://csharpapi.zendesk.com/api/v2/</Value>
+    </Setting>
+    <Setting Name="DefaultOrg" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">csharpapi</Value>
+    </Setting>
+    <Setting Name="Email" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">eric.neifert@gmail.com</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">pa55word</Value>
+    </Setting>
+    <Setting Name="ApiToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">R5PXRh5hEwT9Ry3hfSzGF2WKsxPf3ScSCq0suxii</Value>
+    </Setting>
+    <Setting Name="UserId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">281513402</Value>
+    </Setting>
+    <Setting Name="SampleTicketId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">1364</Value>
+    </Setting>
+    <Setting Name="SampleTicketId2" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">1366</Value>
+    </Setting>
+    <Setting Name="EndUserId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">287004928</Value>
+    </Setting>
+    <Setting Name="ColloboratorEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">eneif123@yahoo.com</Value>
+    </Setting>
+    <Setting Name="CollaboratorId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">282136547</Value>
+    </Setting>
+    <Setting Name="CustomFieldId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">22117646</Value>
+    </Setting>
+    <Setting Name="CustomBoolFieldId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">23812686</Value>
+    </Setting>
+    <Setting Name="GroupId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">20402842</Value>
+    </Setting>
+    <Setting Name="OrganizationId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">22560572</Value>
+    </Setting>
+    <Setting Name="ViewName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">My unsolved tickets</Value>
+    </Setting>
+    <Setting Name="ViewId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">31559032</Value>
+    </Setting>
+    <Setting Name="TicketFormId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">26227</Value>
+    </Setting>
+    <Setting Name="CustomFieldTypeOfFeedbackId" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">23999346</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
