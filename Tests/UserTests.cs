@@ -22,7 +22,24 @@ namespace Tests {
             Assert.True(res.Count > 0);
         }
 
-        [Test]
+		[Test]
+		public void CanGetUserByCustomField() {
+			var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.FieldValue);
+			var user = res.Users.FirstOrDefault();
+
+			Assert.NotNull(user);
+			Assert.AreEqual(1158278453, user.Id);
+		}
+
+		[Test]
+		public void CannotGetUserByCustomField() {
+			var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.BadFieldValue);
+
+			Assert.AreEqual(0, res.Users.Count);
+			Assert.Null(res.Users.FirstOrDefault());
+		}
+
+		[Test]
         public void CanGetUser()
         {
             var res = api.Users.GetUser(Settings.UserId);
