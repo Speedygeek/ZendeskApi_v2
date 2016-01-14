@@ -33,7 +33,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public long? AuthorId { get; set; }
 
         [JsonProperty("html_body")]
-        public string HtmlBody { get; private set; }
+        public string HtmlBody { get; set; }
 
         [JsonProperty("attachments")]
         public IList<Attachment> Attachments { get; private set; }
