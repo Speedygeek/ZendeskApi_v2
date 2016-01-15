@@ -5,63 +5,63 @@ using ZendeskApi_v2.Models.Locales;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface ILocales : ICore
-	{
+    public interface ILocales : ICore
+    {
 #if SYNC
-		/// <summary>
-		/// This lists the translation locales that are available for the account.
-		/// </summary>
-		/// <returns></returns>
-		GroupLocaleResponse GetAllLocales();
+        /// <summary>
+        /// This lists the translation locales that are available for the account.
+        /// </summary>
+        /// <returns></returns>
+        GroupLocaleResponse GetAllLocales();
 
-		/// <summary>
-		/// This lists the translation locales that have been localized for agents.
-		/// </summary>
-		/// <returns></returns>
-		GroupLocaleResponse GetLocalesForAgents();
+        /// <summary>
+        /// This lists the translation locales that have been localized for agents.
+        /// </summary>
+        /// <returns></returns>
+        GroupLocaleResponse GetLocalesForAgents();
 
-		/// <summary>
-		/// This lists the translation locales that have been localized for agents.
-		/// </summary>
-		/// <returns></returns>
-		IndividualLocaleResponse GetLocaleById(long id);
+        /// <summary>
+        /// This lists the translation locales that have been localized for agents.
+        /// </summary>
+        /// <returns></returns>
+        IndividualLocaleResponse GetLocaleById(long id, bool translation = false);
 
-		/// <summary>
-		/// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
-		/// </summary>
-		/// <returns></returns>
-		IndividualLocaleResponse GetCurrentLocale();
+        /// <summary>
+        /// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
+        /// </summary>
+        /// <returns></returns>
+        IndividualLocaleResponse GetCurrentLocale(bool translation = false);
 #endif
 
 #if ASYNC
-		/// <summary>
-		/// This lists the translation locales that are available for the account.
-		/// </summary>
-		/// <returns></returns>
-		Task<GroupLocaleResponse> GetAllLocalesAsync();
+        /// <summary>
+        /// This lists the translation locales that are available for the account.
+        /// </summary>
+        /// <returns></returns>
+        Task<GroupLocaleResponse> GetAllLocalesAsync();
 
-		/// <summary>
-		/// This lists the translation locales that have been localized for agents.
-		/// </summary>
-		/// <returns></returns>
-		Task<GroupLocaleResponse> GetLocalesForAgentsAsync();
+        /// <summary>
+        /// This lists the translation locales that have been localized for agents.
+        /// </summary>
+        /// <returns></returns>
+        Task<GroupLocaleResponse> GetLocalesForAgentsAsync();
 
-		/// <summary>
-		/// This lists the translation locales that have been localized for agents.
-		/// </summary>
-		/// <returns></returns>
-		Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id);
+        /// <summary>
+        /// This lists the translation locales that have been localized for agents.
+        /// </summary>
+        /// <returns></returns>
+        Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id, bool translation = false);
 
-		/// <summary>
-		/// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
-		/// </summary>
-		/// <returns></returns>
-		Task<IndividualLocaleResponse> GetCurrentLocaleAsync();
+        /// <summary>
+        /// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
+        /// </summary>
+        /// <returns></returns>
+        Task<IndividualLocaleResponse> GetCurrentLocaleAsync(bool translation = false);
 #endif
-	}
+    }
 
-	public class Locales : Core, ILocales
-	{
+    public class Locales : Core, ILocales
+    {
 
         public Locales(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
@@ -91,20 +91,19 @@ namespace ZendeskApi_v2.Requests
         /// This lists the translation locales that have been localized for agents.
         /// </summary>
         /// <returns></returns>
-        public IndividualLocaleResponse GetLocaleById(long id)
+        public IndividualLocaleResponse GetLocaleById(long id, bool translation = false)
         {
-            return GenericGet<IndividualLocaleResponse>(string.Format("locales/{0}.json", id));
+            return GenericGet<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, (translation ? "?include=translations" : null)));
         }
 
         /// <summary>
         /// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
         /// </summary>
         /// <returns></returns>
-        public IndividualLocaleResponse GetCurrentLocale()
+        public IndividualLocaleResponse GetCurrentLocale(bool translation = false)
         {
-            return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json"));
+            return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json{0}", (translation ? "?include=translations" : null)));
         }
-
 #endif
 
 #if ASYNC
@@ -130,18 +129,18 @@ namespace ZendeskApi_v2.Requests
         /// This lists the translation locales that have been localized for agents.
         /// </summary>
         /// <returns></returns>
-        public async Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id)
+        public async Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id, bool translation = false)
         {
-            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/{0}.json", id));
+            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, (translation ? "?include=translations" : null)));
         }
 
         /// <summary>
         /// This works exactly like show, but instead of taking an id as argument, it renders the locale of the user performing the request.
         /// </summary>
         /// <returns></returns>
-        public async Task<IndividualLocaleResponse> GetCurrentLocaleAsync()
+        public async Task<IndividualLocaleResponse> GetCurrentLocaleAsync(bool translation = false)
         {
-            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/current.json"));
+            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/current.json{0}", (translation ? "?include=translations" : null)));
         }
 #endif
     }
