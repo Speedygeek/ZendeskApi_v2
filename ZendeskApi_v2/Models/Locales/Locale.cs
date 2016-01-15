@@ -32,5 +32,8 @@ namespace ZendeskApi_v2.Models.Locales
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
+
+        [JsonProperty("translations")]
+        public Dictionary<string, object> Translations { get; set; }
     }
 }
