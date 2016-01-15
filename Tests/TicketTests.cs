@@ -86,6 +86,43 @@ namespace Tests
         }
 
         [Test]
+        public void CanCreateUpdateAndDeleteTicketHtmlBodyAsync()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment() { HtmlBody = "<p style='color:red;'>HELP</p>" },
+                Priority = TicketPriorities.Urgent
+            };
+
+            ticket.CustomFields = new List<CustomField>()
+                {
+                    new CustomField()
+                        {
+                            Id = Settings.CustomFieldId,
+                            Value = "Doing fine!"
+                        }
+                };
+
+            var res = api.Tickets.CreateTicketAsync(ticket).Result.Ticket;
+
+            Assert.NotNull(res);
+            Assert.Greater(res.Id.Value, 0);
+
+            res.Status = TicketStatus.Solved;
+            res.AssigneeId = Settings.UserId;
+
+            res.CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail };
+            var body = "<p style='color:blue;'>got it thanks</p>";
+            var updateResponse = api.Tickets.UpdateTicketAsync(res, new Comment() { Body = body, Public = true });
+
+            Assert.NotNull(updateResponse.Result);
+            Assert.AreEqual(updateResponse.Result.Audit.Events.First().Body, body);
+
+            //Assert.True(api.Tickets.DeleteAsync(res.Id.Value).Result);
+        }
+        
+        [Test]
         public void CanGetTickets()
         {
             var tickets = api.Tickets.GetAllTickets();
