@@ -31,6 +31,7 @@ namespace ZendeskApi_v2.Requests {
 	    GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         GroupUserResponse SearchByEmail(string email);
         GroupUserResponse SearchByPhone(string phone);
+        GroupUserResponse SearchByCustomUserField(string fieldKey, string fieldValue);
 		GroupUserResponse SearchByExternalId(string externalId);
         GroupUserResponse GetUsersInGroup(long id);
         GroupUserResponse GetUsersInOrganization(long id);
@@ -67,6 +68,7 @@ namespace ZendeskApi_v2.Requests {
         Task<GroupUserResponse> GetMultipleUsersAsync(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 		Task<GroupUserResponse> SearchByEmailAsync(string email);
 		Task<GroupUserResponse> SearchByPhoneAsync(string phone);
+		Task<GroupUserResponse> SearchByCustomUserFieldAsync(string fieldKey, string fieldValue);
 		Task<GroupUserResponse> SearchByExternalIdAsync(string externalId);
 		Task<GroupUserResponse> GetUsersInGroupAsync(long id);
 		Task<GroupUserResponse> GetUsersInOrganizationAsync(long id);
@@ -147,6 +149,10 @@ namespace ZendeskApi_v2.Requests {
 
 		public GroupUserResponse SearchByPhone(string phone) {
 			return GenericGet<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", Regex.Replace(phone, @"\D", "")));
+		}
+
+		public GroupUserResponse SearchByCustomUserField(string fieldKey, string fieldValue) {
+			return GenericGet<GroupUserResponse>(string.Format("users/search.json?query={0}:{1}", fieldKey, fieldValue));
 		}
 
 		public GroupUserResponse SearchByExternalId(string externalId)
@@ -298,6 +304,10 @@ namespace ZendeskApi_v2.Requests {
 
 		public async Task<GroupUserResponse> SearchByPhoneAsync(string phone) {
 			return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query=role:end-user phone:*{0}", Regex.Replace(phone, @"\D", "")));
+		}
+
+		public async Task<GroupUserResponse> SearchByCustomUserFieldAsync(string fieldKey, string fieldValue) {
+			return await GenericGetAsync<GroupUserResponse>(string.Format("users/search.json?query={0}:{1}", fieldKey, fieldValue));
 		}
 
 		public async Task<GroupUserResponse> SearchByExternalIdAsync(string externalId)

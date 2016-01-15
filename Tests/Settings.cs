@@ -11,6 +11,10 @@
 		public const string FormattedPhone = "(111) 222-3333";
 		public const string BadPhone = "0987654321";
 
+		public const string FieldKey = "test";
+		public const string FieldValue = "0897c9c1f80646118a8194c942aa84cf";
+		public const string BadFieldValue = "BAD";
+
 		public const long UserId = 281513402;
         public const long SampleTicketId = 1364;
         public const long SampleTicketId2 = 1366;
