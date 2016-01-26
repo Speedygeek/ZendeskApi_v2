@@ -4,6 +4,7 @@ using System.Net;
 #if ASYNC
 using System.Threading.Tasks;
 #endif
+using ZendeskApi_v2.Constants;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Shared;
@@ -69,17 +70,18 @@ namespace ZendeskApi_v2.Requests
         IndividualAuditResponse GetAuditById(long ticketId, long auditId);
         bool MarkAuditAsTrusted(long ticketId, long auditId);
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
-        TicketExportResponse GetInrementalTicketExport(DateTime startTime);
-        TicketExportResponse GetIncrementalTicketExport(DateTime startTime);
+        GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+        GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
         /// </summary>
         /// <param name="startTime"></param>
+        /// <param name="sideLoadOptions"></param>
         /// <returns></returns>
         [Obsolete("This has been deprecated. Please use __TestOnly__GetIncrementalTicketExport", true)]
-        TicketExportResponse __TestOnly__GetInrementalTicketExport(DateTime startTime);
-        TicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTime startTime);
+        GroupTicketExportResponse __TestOnly__GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+        GroupTicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         GroupTicketFieldResponse GetTicketFields();
         IndividualTicketFieldResponse GetTicketFieldById(long id);
@@ -128,14 +130,15 @@ namespace ZendeskApi_v2.Requests
         Task<GroupAuditResponse> GetAuditsAsync(long ticketId);
         Task<IndividualAuditResponse> GetAuditByIdAsync(long ticketId, long auditId);
         Task<bool> MarkAuditAsTrustedAsync(long ticketId, long auditId);
-        Task<TicketExportResponse> GetInrementalTicketExportAsync(DateTime startTime);
+        Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
         /// </summary>
         /// <param name="startTime"></param>
+        /// <param name="sideLoadOptions"></param>
         /// <returns></returns>
-        Task<TicketExportResponse> __TestOnly__GetInrementalTicketExportAsync(DateTime startTime);
+        Task<GroupTicketExportResponse> __TestOnly__GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketFieldResponse> GetTicketFieldsAsync();
         Task<IndividualTicketFieldResponse> GetTicketFieldByIdAsync(long id);
@@ -378,30 +381,69 @@ namespace ZendeskApi_v2.Requests
         }
 
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
-        public TicketExportResponse GetInrementalTicketExport(DateTime startTime)
+        public GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<TicketExportResponse>("exports/tickets.json?start_time=" + startTime.GetEpoch());
+            return GenericGet<GroupTicketExportResponse>(ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch());
         }
 
-        public TicketExportResponse GetIncrementalTicketExport(DateTime startTime)
+        public GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime,
+            TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<TicketExportResponse>("exports/tickets.json?start_time=" + startTime.GetEpoch());
+            const int maxItemsPerPage = 1000;
+
+            var resource =
+                GetResourceStringWithSideLoadOptionsParam(
+                    ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch(),
+                    sideLoadOptions);
+
+            var response = new GroupTicketExportResponse();
+
+            var tickets = new List<Ticket>();
+            var users = new List<User>();
+
+            do
+            {
+                response = GenericGet<GroupTicketExportResponse>(resource);
+
+                if (response.Tickets.Count <= 0)
+                {
+                    break;
+                }
+
+                tickets.AddRange(response.Tickets);
+
+                if (response.Users != null)
+                {
+                    users.AddRange(response.Users);
+                }
+
+                resource =
+                    response.NextPage.Substring(response.NextPage.IndexOf("incremental/tickets.json",
+                        StringComparison.InvariantCultureIgnoreCase));
+            } while (response.Count >= maxItemsPerPage);
+
+            response.Tickets = tickets;
+            response.Users = users;
+
+
+            return response;
         }
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
         /// </summary>
         /// <param name="startTime"></param>
+        /// <param name="sideLoadOptions"></param>
         /// <returns></returns>
         [Obsolete("This has been deprecated. Please use __TestOnly__GetIncrementalTicketExport", true)]
-        public TicketExportResponse __TestOnly__GetInrementalTicketExport(DateTime startTime)
+        public GroupTicketExportResponse __TestOnly__GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<TicketExportResponse>("exports/tickets/sample.json?start_time=" + startTime.GetEpoch());
+            return GenericGet<GroupTicketExportResponse>("incremental/tickets/sample.json?start_time=" + startTime.UtcDateTime.GetEpoch());
         }
 
-        public TicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTime startTime)
+        public GroupTicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<TicketExportResponse>("exports/tickets/sample.json?start_time=" + startTime.GetEpoch());
+            return GenericGet<GroupTicketExportResponse>("incremental/tickets/sample.json?start_time=" + startTime.UtcDateTime.GetEpoch());
         }
 
         public GroupTicketFieldResponse GetTicketFields()
@@ -649,19 +691,20 @@ namespace ZendeskApi_v2.Requests
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 
-        public async Task<TicketExportResponse> GetInrementalTicketExportAsync(DateTime startTime)
+        public async Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return await GenericGetAsync<TicketExportResponse>("exports/tickets.json?start_time=" + startTime.GetEpoch());
+            return await GenericPagedGetAsync<GroupTicketExportResponse>(ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch());
         }
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
         /// </summary>
         /// <param name="startTime"></param>
+        /// <param name="sideLoadOptions"></param>
         /// <returns></returns>
-        public async Task<TicketExportResponse> __TestOnly__GetInrementalTicketExportAsync(DateTime startTime)
+        public async Task<GroupTicketExportResponse> __TestOnly__GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return await GenericGetAsync<TicketExportResponse>("exports/tickets/sample.json?start_time=" + startTime.GetEpoch());
+            return await GenericPagedGetAsync<GroupTicketExportResponse>("incremental/tickets/sample.json?start_time=" + startTime.UtcDateTime.GetEpoch());
         }
 
         public async Task<GroupTicketFieldResponse> GetTicketFieldsAsync()
