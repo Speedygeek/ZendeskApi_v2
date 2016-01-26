@@ -705,28 +705,48 @@ namespace Tests
         }
 
         [Test]
-        public void CanGetIncrementalTicketExport()
+        public void CanGetIncrementalTicketExportPaged()
         {
+            const int maxTicketsPerPage = 1000;
+
             var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5));
-            Assert.True(res.Tickets.Count > 0);
+
+            Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
+            Assert.IsNotNullOrEmpty(res.NextPage);
         }
 
         [Test]
-        public void CanGetIncrementalTicketExportWithUsersSideLoad()
+        public void CanGetIncrementalTicketExportWithUsersSideLoadPaged()
         {
+            const int maxTicketsPerPage = 1000;
+
             var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5), TicketSideLoadOptionsEnum.Users);
 
+            Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
+            Assert.IsTrue(res.Users.Count > 0);
+            Assert.IsNotNullOrEmpty(res.NextPage);
+
+            res = this.api.Tickets.GetIncrementalTicketExport(res.NextPage);
+
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Users.Count > 0);
         }
 
         [Test]
-        public void CanGetIncrementalTicketExportWithUOrganizationsSideLoad()
+        public void CanGetIncrementalTicketExportWithGroupsSideLoadPaged()
         {
-            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5), TicketSideLoadOptionsEnum.Organizations);
+            const int maxTicketsPerPage = 1000;
+
+            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5), TicketSideLoadOptionsEnum.Groups);
+
+            Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
+            Assert.IsTrue(res.Groups.Count > 0);
+            Assert.IsNotNullOrEmpty(res.NextPage);
+
+            res = this.api.Tickets.GetIncrementalTicketExport(res.NextPage);
 
             Assert.IsTrue(res.Tickets.Count > 0);
-            Assert.IsTrue(res.Users.Count > 0);
+            Assert.IsTrue(res.Groups.Count > 0);
         }
 
         [Test]
