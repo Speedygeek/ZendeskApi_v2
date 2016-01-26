@@ -42,6 +42,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\ZendeskApi_v2\Constants\ResourceConstants.cs">
+      <Link>Constants\ResourceConstants.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Core.cs">
       <Link>Core.cs</Link>
     </Compile>
@@ -480,6 +483,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\From.cs">
       <Link>Models\Tickets\From.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketExportResponse.cs">
+      <Link>Models\Tickets\GroupTicketExportResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketFieldResponse.cs">
       <Link>Models\Tickets\GroupTicketFieldResponse.cs</Link>
     </Compile>
@@ -554,9 +560,6 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\Ticket.cs">
       <Link>Models\Tickets\Ticket.cs</Link>
-    </Compile>
-    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketExportResponse.cs">
-      <Link>Models\Tickets\TicketExportResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketExportResult.cs">
       <Link>Models\Tickets\TicketExportResult.cs</Link>

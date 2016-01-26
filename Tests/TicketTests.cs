@@ -1,12 +1,10 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
@@ -700,10 +698,35 @@ namespace Tests
         }
 
         [Test]
-        public void CanGetInrementalTicketExport()
+        public void CanGetInrementalTicketExportTestOnly()
         {
             var res = api.Tickets.__TestOnly__GetIncrementalTicketExport(DateTime.Now.AddDays(-1));
-            Assert.True(res.Results.Count > 0);
+            Assert.True(res.Count > 0);
+        }
+
+        [Test]
+        public void CanGetIncrementalTicketExport()
+        {
+            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5));
+            Assert.True(res.Tickets.Count > 0);
+        }
+
+        [Test]
+        public void CanGetIncrementalTicketExportWithUsersSideLoad()
+        {
+            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5), TicketSideLoadOptionsEnum.Users);
+
+            Assert.IsTrue(res.Tickets.Count > 0);
+            Assert.IsTrue(res.Users.Count > 0);
+        }
+
+        [Test]
+        public void CanGetIncrementalTicketExportWithUOrganizationsSideLoad()
+        {
+            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-5), TicketSideLoadOptionsEnum.Organizations);
+
+            Assert.IsTrue(res.Tickets.Count > 0);
+            Assert.IsTrue(res.Users.Count > 0);
         }
 
         [Test]

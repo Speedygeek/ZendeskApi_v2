@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ZendeskApi_v2\Constants\ResourceConstants.cs">
+      <Link>Constants\ResourceConstants.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Core.cs">
       <Link>Core.cs</Link>
     </Compile>
@@ -484,6 +487,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\From.cs">
       <Link>Models\Tickets\From.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketExportResponse.cs">
+      <Link>Models\Tickets\GroupTicketExportResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\GroupTicketFieldResponse.cs">
       <Link>Models\Tickets\GroupTicketFieldResponse.cs</Link>
     </Compile>
@@ -558,9 +564,6 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketMetric.cs">
       <Link>Models\Tickets\TicketMetric.cs</Link>
-    </Compile>
-    <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketExportResponse.cs">
-      <Link>Models\Tickets\TicketExportResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Tickets\TicketExportResult.cs">
       <Link>Models\Tickets\TicketExportResult.cs</Link>
@@ -818,15 +821,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
-\ZendeskApi_v2_Package\lib
+    <PostBuildEvent>cd "$(ProjectDir)"
 if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib"
 if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net40" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib\net40"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)ZendeskApi_v2_Package\lib\net40\$(TargetFileName) /Y
+copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)ZendeskApi_v2_Package\lib\net40\$(TargetFileName)" /Y
 if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net35" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib\net35"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)ZendeskApi_v2_Package\lib\net35\$(TargetFileName) /Y</PostBuildEvent>
+copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)ZendeskApi_v2_Package\lib\net35\$(TargetFileName)" /Y</PostBuildEvent>
   </PropertyGroup>
   <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,10 +2,13 @@
 	public class Settings
     {
 
-        public const string Site = "https://csharpapi.zendesk.com/api/v2/";
+        //public const string Site = "https://csharpapi.zendesk.com/api/v2/";
+        public const string Site = "https://pruvit.zendesk.com/api/v2/";
         public const string DefaultOrg = "csharpapi";
-        public const string Email = "eric.neifert@gmail.com";
-        public const string Password = "pa55word";
+        //public const string Email = "eric.neifert@gmail.com";
+        public const string Email = "craig+pruvit@marketvision.com";
+        //public const string Password = "pa55word";
+        public const string Password = "uD6-JTH-5q9-dHN";
         public const string ApiToken = "R5PXRh5hEwT9Ry3hfSzGF2WKsxPf3ScSCq0suxii";
 		public const string Phone = "1234567890";
 		public const string FormattedPhone = "(111) 222-3333";
