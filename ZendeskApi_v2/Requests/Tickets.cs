@@ -72,6 +72,7 @@ namespace ZendeskApi_v2.Requests
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+        GroupTicketExportResponse GetIncrementalTicketExport(string nextPage);
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
@@ -386,47 +387,46 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupTicketExportResponse>(ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch());
         }
 
-        public GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime,
-            TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        /// <summary>
+        /// Gets the tickets that have changed since a certain time.
+        /// </summary>
+        /// <param name="startTime">Return tickets that have changed since this time.</param>
+        /// <param name="sideLoadOptions">Retrieve related records as part of this request.</param>
+        /// <returns>Tickets that have changed since the given startTime.</returns>
+        /// <remarks>
+        /// The incremental api will return a maximum of 1000 items.  If the ticket count in the
+        /// result is 1000, use the nextPage value of the result to request the next set of items.
+        /// Keep repeating the request using the nextPage value until the number of tickets in the
+        /// response is less than 1000.
+        /// </remarks>
+        public GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            const int maxItemsPerPage = 1000;
-
             var resource =
                 GetResourceStringWithSideLoadOptionsParam(
                     ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch(),
                     sideLoadOptions);
 
-            var response = new GroupTicketExportResponse();
+            return GenericGet<GroupTicketExportResponse>(resource);
+        }
 
-            var tickets = new List<Ticket>();
-            var users = new List<User>();
+        /// <summary>
+        /// Gets another page of changed tickets.
+        /// </summary>
+        /// <param name="nextPage">The URL of the next page of changed tickets.</param>
+        /// <returns>
+        /// The next page of tickets that have changed since a given startTime
+        /// issued in a previous request.
+        /// </returns>
+        /// <remarks>
+        /// This is the paging method for getting additional pages of changed tickets
+        /// after an initial request is made with a given startTime.  Repeat the call to
+        /// this method until the response ticket count is less than 1000.
+        /// </remarks>
+        public GroupTicketExportResponse GetIncrementalTicketExport(string nextPage)
+        {
+            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
 
-            do
-            {
-                response = GenericGet<GroupTicketExportResponse>(resource);
-
-                if (response.Tickets.Count <= 0)
-                {
-                    break;
-                }
-
-                tickets.AddRange(response.Tickets);
-
-                if (response.Users != null)
-                {
-                    users.AddRange(response.Users);
-                }
-
-                resource =
-                    response.NextPage.Substring(response.NextPage.IndexOf("incremental/tickets.json",
-                        StringComparison.InvariantCultureIgnoreCase));
-            } while (response.Count >= maxItemsPerPage);
-
-            response.Tickets = tickets;
-            response.Users = users;
-
-
-            return response;
+            return GenericGet<GroupTicketExportResponse>(resource);
         }
 
         /// <summary>
