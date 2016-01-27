@@ -23,6 +23,9 @@ namespace ZendeskApi_v2.Models.HelpCenter.Comments
         [JsonProperty("body")]
         public string Body { get; set; }
 
+        [JsonProperty("html_body")]
+        public string HtmlBody { get; set; }
+
         [JsonProperty("author_id")]
         public long? AuthorId { get; set; }
 
