@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace ZendeskApi_v2.Models.Tags
 {
 
-    public class GroupTagResult
+    public class GroupTagResult : GroupResponseBase
     {
         [JsonProperty("tags")]
         public IList<Tag> Tags { get; set; }
