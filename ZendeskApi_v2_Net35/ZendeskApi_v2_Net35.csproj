@@ -46,9 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ZendeskApi_v2\Constants\ResourceConstants.cs">
-      <Link>Constants\ResourceConstants.cs</Link>
-    </Compile>
     <Compile Include="..\ZendeskApi_v2\Core.cs">
       <Link>Core.cs</Link>
     </Compile>

@@ -4,7 +4,6 @@ using System.Net;
 #if ASYNC
 using System.Threading.Tasks;
 #endif
-using ZendeskApi_v2.Constants;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Shared;
@@ -72,7 +71,7 @@ namespace ZendeskApi_v2.Requests
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
-        GroupTicketExportResponse GetIncrementalTicketExport(string nextPage);
+        GroupTicketExportResponse GetIncrementalTicketExportNextPage(string nextPage);
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
@@ -175,6 +174,7 @@ namespace ZendeskApi_v2.Requests
         private const string _views = "views";
         private const string _organizations = "organizations";
         private const string _ticket_metrics = "ticket_metrics";
+        private const string _incremental_export = "incremental/tickets.json?start_time=";
 
         public Tickets(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
@@ -384,7 +384,7 @@ namespace ZendeskApi_v2.Requests
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         public GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<GroupTicketExportResponse>(ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch());
+            return GenericGet<GroupTicketExportResponse>(_incremental_export + startTime.UtcDateTime.GetEpoch());
         }
 
         /// <summary>
@@ -403,7 +403,7 @@ namespace ZendeskApi_v2.Requests
         {
             var resource =
                 GetResourceStringWithSideLoadOptionsParam(
-                    ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch(),
+                    _incremental_export + startTime.UtcDateTime.GetEpoch(),
                     sideLoadOptions);
 
             return GenericGet<GroupTicketExportResponse>(resource);
@@ -422,7 +422,7 @@ namespace ZendeskApi_v2.Requests
         /// after an initial request is made with a given startTime.  Repeat the call to
         /// this method until the response ticket count is less than 1000.
         /// </remarks>
-        public GroupTicketExportResponse GetIncrementalTicketExport(string nextPage)
+        public GroupTicketExportResponse GetIncrementalTicketExportNextPage(string nextPage)
         {
             var resource = nextPage.Replace(ZendeskUrl, string.Empty);
 
@@ -693,7 +693,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return await GenericPagedGetAsync<GroupTicketExportResponse>(ResourceConstants.GetIncrementalTicketExportResource + startTime.UtcDateTime.GetEpoch());
+            return await GenericPagedGetAsync<GroupTicketExportResponse>(_incremental_export + startTime.UtcDateTime.GetEpoch());
         }
 
         /// <summary>

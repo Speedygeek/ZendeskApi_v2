@@ -726,7 +726,7 @@ namespace Tests
             Assert.IsTrue(res.Users.Count > 0);
             Assert.IsNotNullOrEmpty(res.NextPage);
 
-            res = this.api.Tickets.GetIncrementalTicketExport(res.NextPage);
+            res = this.api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
 
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Users.Count > 0);
@@ -743,7 +743,7 @@ namespace Tests
             Assert.IsTrue(res.Groups.Count > 0);
             Assert.IsNotNullOrEmpty(res.NextPage);
 
-            res = this.api.Tickets.GetIncrementalTicketExport(res.NextPage);
+            res = this.api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
 
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Groups.Count > 0);
