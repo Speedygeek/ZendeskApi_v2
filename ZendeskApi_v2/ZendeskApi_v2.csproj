@@ -215,7 +215,7 @@
     <Compile Include="Models\Tickets\Suspended\To.cs" />
     <Compile Include="Models\Tickets\Suspended\Via.cs" />
     <Compile Include="Models\Tickets\Ticket.cs" />
-    <Compile Include="Models\Tickets\TicketExportResponse.cs" />
+    <Compile Include="Models\Tickets\GroupTicketExportResponse.cs" />
     <Compile Include="Models\Tickets\TicketExportResult.cs" />
     <Compile Include="Models\Tickets\TicketField.cs" />
     <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />
@@ -315,10 +315,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" />-->
   <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
+    <PostBuildEvent>cd "$(ProjectDir)"
+
 if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib"
+
 if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45"
-copy $(OutDir)$(TargetFileName) $(SolutionDir)\ZendeskApi_v2_Package\lib\net45\$(TargetFileName) /Y</PostBuildEvent>
+copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)\ZendeskApi_v2_Package\lib\net45\$(TargetFileName)" /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
