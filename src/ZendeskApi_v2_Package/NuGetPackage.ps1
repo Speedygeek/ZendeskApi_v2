@@ -245,7 +245,7 @@ function Publish {
 			}
 			else {
 				$global:ExitCode = 0
-			}                
+			}
 		}
 	}
 }

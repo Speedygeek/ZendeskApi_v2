@@ -8,6 +8,7 @@
     <owners>mozts2005</owners>
     <licenseUrl>https://raw.githubusercontent.com/mozts2005/ZendeskApi_v2/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/mozts2005/ZendeskApi_v2</projectUrl>
+    <
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A full c# wrapper for Zendesk's api v2.</description>
     <copyright>Copyright 2012-2015</copyright>

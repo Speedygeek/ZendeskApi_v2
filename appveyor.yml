@@ -1,22 +1,19 @@
-version: 3.2.{build}
+install:
+  - choco install gitversion.portable -pre -y
+
 pull_requests:
   do_not_increment_build_number: true
 os: Default Azure
 configuration: Release
 platform: Any CPU
 assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+  patch: false
 nuget:
   disable_publish_on_pr: true
 before_build:
-- ps: >-
-    cd C:\projects\zendeskapi-v2
-
-    nuget.exe restore
+  - nuget restore
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  
 build:
   verbosity: minimal
 test: off
