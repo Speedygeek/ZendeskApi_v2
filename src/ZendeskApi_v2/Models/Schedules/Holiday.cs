@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using ZendeskApi_v2.Serialization;
 
 namespace ZendeskApi_v2.Models.Schedules
 {
@@ -11,9 +14,11 @@ namespace ZendeskApi_v2.Models.Schedules
         public string Name { get; set; }
 
         [JsonProperty("start_date")]
-        public int? StartDate { get; set; }
+        [JsonConverter(typeof(HolidayDateConverter))]
+        public DateTimeOffset? StartDate { get; set; }
 
         [JsonProperty("end_date")]
-        public int? EndDate { get; set; }
+        [JsonConverter(typeof(HolidayDateConverter))]
+        public DateTimeOffset? EndDate { get; set; }
     }
 }

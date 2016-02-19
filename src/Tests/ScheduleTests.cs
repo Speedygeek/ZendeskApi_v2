@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2;
@@ -94,7 +95,7 @@ namespace Tests
             Assert.True(api.Schedules.DeleteSchedule(res.Schedule.Id.Value));
         }
 
-[Test]
+        [Test]
         public void CanCreateUpdateAndDeleteHoliday()
         {
             var res = api.Schedules.CreateSchedule(new Schedule()
@@ -106,13 +107,13 @@ namespace Tests
             var res2 = api.Schedules.CreateHoliday(res.Schedule.Id.Value, new Holiday()
             {
                 Name      = "Test Holiday",
-                StartDate = 35,
-                EndDate   = 35
+                StartDate = DateTimeOffset.Parse("2016-02-05"),
+                EndDate   = DateTimeOffset.Parse("2016-02-05")
             });
 
             Assert.Greater(res2.Holiday.Id, 0);
 
-            res2.Holiday.EndDate = 36;
+            res2.Holiday.EndDate = DateTimeOffset.Parse("2016-02-06");
             var update           = api.Schedules.UpdateHoliday(res.Schedule.Id.Value, res2.Holiday);
             Assert.AreEqual(update.Holiday.Name, res2.Holiday.Name);
             Assert.AreEqual(update.Holiday.EndDate, res2.Holiday.EndDate);
