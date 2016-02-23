@@ -18,6 +18,7 @@ before_build:
 
     gitversion /l console /output buildserver /updateAssemblyInfo
 build:
+  project: C:\projects\zendeskapi-v2\src\ZendeskApi_v2_vs2013.sln
   verbosity: minimal
 test: off
 #test_script:
