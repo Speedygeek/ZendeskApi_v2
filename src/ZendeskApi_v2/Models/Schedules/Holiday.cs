@@ -14,11 +14,11 @@ namespace ZendeskApi_v2.Models.Schedules
         public string Name { get; set; }
 
         [JsonProperty("start_date")]
-        [JsonConverter(typeof(HolidayDateConverter))]
+        [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? StartDate { get; set; }
 
         [JsonProperty("end_date")]
-        [JsonConverter(typeof(HolidayDateConverter))]
+        [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? EndDate { get; set; }
     }
 }

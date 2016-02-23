@@ -798,9 +798,6 @@
     <Compile Include="..\ZenDeskApi_v2\Serialization\BaseJsonConverter.cs">
       <Link>Serialization\BaseJsonConverter.cs</Link>
     </Compile>
-    <Compile Include="..\ZenDeskApi_v2\Serialization\HolidayDateConverter.cs">
-      <Link>Serialization\HolidayDateConverter.cs</Link>
-    </Compile>
     <Compile Include="..\ZenDeskApi_v2\Serialization\TargetJsonConverter.cs">
       <Link>Serialization\TargetJsonConverter.cs</Link>
     </Compile>
