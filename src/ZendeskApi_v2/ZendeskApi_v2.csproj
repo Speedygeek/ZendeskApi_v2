@@ -140,6 +140,7 @@
     <Compile Include="Models\Targets\TwitterTarget.cs" />
     <Compile Include="Models\Targets\URLTarget.cs" />
     <Compile Include="Models\Targets\YammerTarget.cs" />
+    <Compile Include="Models\Tickets\GroupTicketExportResponse.cs" />
     <Compile Include="Models\Tickets\TicketImportComment.cs" />
     <Compile Include="Models\Tickets\TicketImport.cs" />
     <Compile Include="Models\Tickets\GroupTicketMetricResponse.cs" />
@@ -215,7 +216,6 @@
     <Compile Include="Models\Tickets\Suspended\To.cs" />
     <Compile Include="Models\Tickets\Suspended\Via.cs" />
     <Compile Include="Models\Tickets\Ticket.cs" />
-    <Compile Include="Models\Tickets\GroupTicketExportResponse.cs" />
     <Compile Include="Models\Tickets\TicketExportResult.cs" />
     <Compile Include="Models\Tickets\TicketField.cs" />
     <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />

@@ -1,5 +1,5 @@
 ﻿namespace Tests {
-	public class Settings
+    public class Settings
     {
 
         public const string Site = "https://csharpapi.zendesk.com/api/v2/";
@@ -7,15 +7,15 @@
         public const string Email = "eric.neifert@gmail.com";
         public const string Password = "pa55word";
         public const string ApiToken = "R5PXRh5hEwT9Ry3hfSzGF2WKsxPf3ScSCq0suxii";
-		public const string Phone = "1234567890";
-		public const string FormattedPhone = "(111) 222-3333";
-		public const string BadPhone = "0987654321";
+        public const string Phone = "1234567890";
+        public const string FormattedPhone = "(111) 222-3333";
+        public const string BadPhone = "0987654321";
 
-		public const string FieldKey = "test";
-		public const string FieldValue = "0897c9c1f80646118a8194c942aa84cf";
-		public const string BadFieldValue = "BAD";
+        public const string FieldKey = "test";
+        public const string FieldValue = "0897c9c1f80646118a8194c942aa84cf";
+        public const string BadFieldValue = "BAD";
 
-		public const long UserId = 281513402;
+        public const long UserId = 281513402;
         public const long SampleTicketId = 1364;
         public const long SampleTicketId2 = 1366;
 
