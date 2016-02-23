@@ -11,11 +11,12 @@ assembly_info:
 nuget:
   disable_publish_on_pr: true
 before_build:
-  - ps: >-
-  cd C:\projects\zendeskapi-v2\src
-  nuget.exe restore
-  gitversion /l console /output buildserver /updateAssemblyInfo
-  
+- ps: >-
+    cd C:\projects\zendeskapi-v2\src
+
+    nuget.exe restore
+
+    gitversion /l console /output buildserver /updateAssemblyInfo
 build:
   verbosity: minimal
 test: off
