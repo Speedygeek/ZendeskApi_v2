@@ -11,14 +11,16 @@ assembly_info:
 nuget:
   disable_publish_on_pr: true
 before_build:
-  - nuget restore
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  - ps: >-
+  cd C:\projects\zendeskapi-v2\src
+  nuget.exe restore
+  gitversion /l console /output buildserver /updateAssemblyInfo
   
 build:
   verbosity: minimal
 test: off
 #test_script:
-#- ps: nunit-console C:\projects\zendeskapi-v2\Tests\bin\Release\Tests.dll /framework:net-4.5
+#- ps: nunit-console C:\projects\zendeskapi-v2\src\Tests\bin\Release\Tests.dll /framework:net-4.5
 artifacts:
 - path: '\ZendeskApi_v2_Package\*.nupkg'
   name: Pakage
@@ -26,4 +28,4 @@ deploy:
 - provider: Environment
   name: Public Nuget
   on:
-    branch: master    
+    branch: master
