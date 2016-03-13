@@ -7,7 +7,7 @@ os: Default Azure
 configuration: Release
 platform: Any CPU
 assembly_info:
-  patch: false
+  patch: true
 nuget:
   disable_publish_on_pr: true
 before_build:
@@ -29,7 +29,7 @@ before_build:
     
     $script_versionNumber = "$($versionInfo.NuGetVersionV2).build.$($env:APPVEYOR_BUILD_ID)"
     
-    Update-AppveyorBuild -Version 
+    Update-AppveyorBuild -Version $script_versionNumber
 build:
   project: C:\projects\zendeskapi-v2\src\ZendeskApi_v2_vs2013.sln
   verbosity: minimal
@@ -39,8 +39,8 @@ test: off
 artifacts:
 - path: '\src\ZendeskApi_v2_Package\*.nupkg'
   name: Pakage
-deploy:
-- provider: Environment
-  name: Public Nuget
-  on:
-    branch: master
+#deploy:
+#- provider: Environment
+#  name: Public Nuget
+#  on:
+#    branch: master
