@@ -821,12 +821,16 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd "$(ProjectDir)"
-if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib"
-if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net40" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib\net40"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)ZendeskApi_v2_Package\lib\net40\$(TargetFileName)" /Y
-if not exist "$(SolutionDir)ZendeskApi_v2_Package\lib\net35" mkdir "$(SolutionDir)ZendeskApi_v2_Package\lib\net35"
-copy "$(OutDir)$(TargetFileName)" "$(SolutionDir)ZendeskApi_v2_Package\lib\net35\$(TargetFileName)" /Y</PostBuildEvent>
+    <PostBuildEvent>pushd "$(SolutionDir)"
+
+if not exist "ZendeskApi_v2_Package\lib" mkdir "ZendeskApi_v2_Package\lib"
+if not exist "ZendeskApi_v2_Package\lib\net40" mkdir "ZendeskApi_v2_Package\lib\net40"
+copy "$(ProjectName)\$(OutDir)\$(TargetFileName)" "ZendeskApi_v2_Package\lib\net40\$(TargetFileName)" /Y
+if not exist "ZendeskApi_v2_Package\lib\net35" mkdir "ZendeskApi_v2_Package\lib\net35"
+
+copy "$(ProjectName)\$(OutDir)\$(TargetFileName)" "ZendeskApi_v2_Package\lib\net35\$(TargetFileName)" /Y
+
+popd</PostBuildEvent>
   </PropertyGroup>
   <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

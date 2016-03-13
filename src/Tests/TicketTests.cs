@@ -265,7 +265,43 @@ namespace Tests
             Assert.IsTrue(ticketsRes.Result.Users.Any());
             Assert.IsTrue(ticketsRes.Result.Organizations.Any());
         }
-        
+
+        [Test]
+        public void CanAssignedTicketsByUserIdPaged() 
+        {
+            var ticketsRes = api.Tickets.GetAssignedTicketsByUserID( Settings.UserId, 5, 2 );
+
+            Assert.AreEqual( 5, ticketsRes.PageSize );
+            Assert.AreEqual( 5, ticketsRes.Tickets.Count );
+            Assert.Greater( ticketsRes.Count, 0 );
+
+            var nextPage = ticketsRes.NextPage.GetQueryStringDict()
+                    .Where( x => x.Key == "page" )
+                        .Select( x => x.Value )
+                        .FirstOrDefault();
+
+            Assert.NotNull( nextPage );
+
+            Assert.AreEqual( "3", nextPage );
+        }
+
+        [Test]
+        public void CanAssignedTicketsByUserIdPagedWithSideLoad() 
+        {
+            CanTicketsByUserIdPaged();
+            var ticketsRes = api.Tickets.GetAssignedTicketsByUserID( Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions );
+            Assert.IsTrue( ticketsRes.Users.Any() );
+            Assert.IsTrue( ticketsRes.Organizations.Any() );
+        }
+
+        [Test]
+        public void CanAssignedTicketsByUserIdPagedAsyncWithSideLoad() 
+        {
+            var ticketsRes = api.Tickets.GetAssignedTicketsByUserIDAsync( Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions );
+            Assert.IsTrue( ticketsRes.Result.Users.Any() );
+            Assert.IsTrue( ticketsRes.Result.Organizations.Any() );
+        }
+
         [Test]
         public void CanGetMultipleTickets()
         {

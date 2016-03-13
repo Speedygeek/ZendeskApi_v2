@@ -44,6 +44,7 @@ namespace ZendeskApi_v2.Requests
         GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+        GroupTicketResponse GetAssignedTicketsByUserID( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None );
         GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         IndividualTicketResponse GetTicket(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
@@ -106,6 +107,7 @@ namespace ZendeskApi_v2.Requests
         Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+        Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None );
         Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<IndividualTicketResponse> GetTicketAsync(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
@@ -258,6 +260,11 @@ namespace ZendeskApi_v2.Requests
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/requested.json", userId), sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
+        }
+        public GroupTicketResponse GetAssignedTicketsByUserID( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None ) 
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam( string.Format( "users/{0}/tickets/assigned.json", userId ), sideLoadOptions );
+            return GenericPagedGet<GroupTicketResponse>( resource, perPage, page );
         }
 
         public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -570,6 +577,11 @@ namespace ZendeskApi_v2.Requests
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
+        public async Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None ) 
+        {
+          string resource = GetResourceStringWithSideLoadOptionsParam( string.Format( "users/{0}/tickets/assigned.json", userId ), sideLoadOptions );
+          return await GenericPagedGetAsync<GroupTicketResponse>( resource, perPage, page );
+        }
         public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/ccd.json", userId), sideLoadOptions);

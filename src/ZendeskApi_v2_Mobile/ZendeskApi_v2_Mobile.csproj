@@ -849,11 +849,16 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
-if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8"
-copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8\$(TargetFileName)" /Y
-if not exist "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8" mkdir "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8"
-copy $(OutDir)$(TargetFileName) "$(SolutionDir)\ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8\$(TargetFileName)" /Y</PostBuildEvent>
+    <PostBuildEvent>pushd "$(SolutionDir)"
+
+if not exist "ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8" mkdir "ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8"
+copy "$(ProjectName)\$(OutDir)\$(TargetFileName)" "ZendeskApi_v2_Package\lib\portable-net45+sl4+wp71+win8\$(TargetFileName)" /Y
+
+if not exist "ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8" mkdir "ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8"
+copy "$(ProjectName)\$(OutDir)\$(TargetFileName)" "ZendeskApi_v2_Package\lib\portable-net45+sl4+wp75+win8\$(TargetFileName)" /Y
+
+popd
+</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
