@@ -16,8 +16,7 @@ before_build:
     cd C:\projects\zendeskapi-v2\src
 
     nuget.exe restore
-    $gitVersionExe = "C:\projects\zendeskapi-v2\build\GitVersion\GitVersion.exe"
-    $output = & $gitVersionExe
+    $output = gitversion
     $joined = $output -join "`n"
     $versionInfo = $joined | ConvertFrom-Json
 
