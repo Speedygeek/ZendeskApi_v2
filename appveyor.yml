@@ -1,6 +1,19 @@
 install:
-  - ps: "choco install gitversion.portable -pre -y\n$output = gitversion\n    $joined = $output -join \"`n\"\n    $versionInfo = $joined | ConvertFrom-Json\n    $versionInfo | % { foreach ($property in $_.PSObject.Properties) { \n    Set-AppveyorBuildVariable -Name \"GitVersion_$($property.Name)\"-Value \"$($_.PSObject.properties[$property.Name].Value)\"\n    }}\n    $script_versionNumber = \"$($versionInfo.NuGetVersionV2).build.$($env:APPVEYOR_BUILD_ID)\"\nUpdate-AppveyorBuild -Version $script_versionNumber"
+  - ps: >- 
   
+  choco install gitversion.portable -pre -y
+  
+  $output = gitversion
+  
+  $joined = $output -join "`n"
+  
+  $versionInfo = $joined | ConvertFrom-Json
+  
+  $versionInfo | % { foreach ($property in $_.PSObject.Properties) { Set-AppveyorBuildVariable -Name "GitVersion_$($property.Name)" -Value "$($_.PSObject.properties[$property.Name].Value)"    }}
+  
+  $script_versionNumber = "$($versionInfo.NuGetVersionV2).build.$($env:APPVEYOR_BUILD_ID)"
+  
+  Update-AppveyorBuild -Version $script_versionNumber"  
 pull_requests:
   do_not_increment_build_number: true
 os: Default Azure
@@ -17,7 +30,7 @@ before_build:
 
     nuget.exe restore
     
-    gitversion /l console /updateAssemblyInfo
+    #gitversion /l console /updateAssemblyInfo
 build:
   project: C:\projects\zendeskapi-v2\src\ZendeskApi_v2_vs2013.sln
   verbosity: minimal
