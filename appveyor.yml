@@ -27,7 +27,9 @@ before_build:
     Set-AppveyorBuildVariable -Name "GitVersion_$($property.Name)" -Value "$($_.PSObject.properties[$property.Name].Value)"
     }}
     
-    Update-AppveyorBuild -Version "$versionInfo.NuGetVersionV2" + ".build.$env:APPVEYOR_BUILD_ID"
+    $script_versionNumber = "$($versionInfo.NuGetVersionV2).build.$($env:APPVEYOR_BUILD_ID)"
+    
+    Update-AppveyorBuild -Version 
 build:
   project: C:\projects\zendeskapi-v2\src\ZendeskApi_v2_vs2013.sln
   verbosity: minimal
