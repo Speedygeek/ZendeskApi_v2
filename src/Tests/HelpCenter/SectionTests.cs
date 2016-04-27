@@ -25,9 +25,13 @@ namespace Tests.HelpCenter
 		[Test]
 		public void CanCreateUpdateAndDeleteSections()
 		{
+			//https://csharpapi.zendesk.com/hc/en-us/categories/200382245-Category-1
+			long category_id = 200382245;
+			
 			var res = api.HelpCenter.Sections.CreateSection( new Section()
 			{
-				Name = "My Test section"
+				Name = "My Test section",
+				CategoryId = category_id
 			} );
 			Assert.Greater( res.Section.Id, 0 );
 
