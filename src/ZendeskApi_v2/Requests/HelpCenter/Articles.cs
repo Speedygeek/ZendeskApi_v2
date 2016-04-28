@@ -35,8 +35,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         bool DeleteArticle(long id);
 #endif
 #if ASYNC
-        Task<IndividualArticleResponse> GetArticleAsync(long articleId);
-        Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
+        Task<IndividualArticleResponse> GetArticleAsync( long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None );
+		Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
         Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
         Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
         Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId);
@@ -132,9 +132,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 #endif
 #if ASYNC
-        public async Task<IndividualArticleResponse> GetArticleAsync(long articleId)
+        public async Task<IndividualArticleResponse> GetArticleAsync(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None )
         {
-            return await GenericPostAsync<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", articleId));
+			var resourceUrl = this.GetFormattedArticleUri( string.Format( "help_center/articles/{0}.json", articleId ), sideloadOptions );
+
+			return await GenericGetAsync<IndividualArticleResponse>( resourceUrl );
         }
 
         public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
