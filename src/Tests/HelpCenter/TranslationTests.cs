@@ -87,8 +87,6 @@ namespace Tests.HelpCenter
 		[Test]
 		public void CanListMissingCreateUpdateAndDeleteTranslationsForSection()
 		{
-			//first, merge in fix for categories.
-			Assert.Fail();
 			//create a section with en-us locale.
 			//verify that fr is missing.
 			//add a translation and verify.
@@ -98,12 +96,13 @@ namespace Tests.HelpCenter
 
 			//prep
 			var resCategoies = api.HelpCenter.Categories.GetCategories();
-			var new_section_res = api.HelpCenter.Sections.CreateSection( null /*new ZendeskApi_v2.Models.HelpCenter()
+			var new_section_res = api.HelpCenter.Sections.CreateSection( new ZendeskApi_v2.Models.Sections.Section()
 			{
 				Name = "My Test section for translations",
 				Description = "The body of my section (en-us)",
-				Locale = "en-us"
-			}*/ );
+				Locale = "en-us",
+				CategoryId = resCategoies.Categories[ 0 ].Id.Value
+			} );
 			long section_id = new_section_res.Section.Id.Value;
 
 			var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForSection( section_id );
