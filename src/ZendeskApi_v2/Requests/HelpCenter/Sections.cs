@@ -57,7 +57,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public IndividualSectionResponse CreateSection(Section section)
         {
 			var body = new { section };
-			return GenericPost<IndividualSectionResponse>(string.Format("help_center/sections.json"), body);
+			return GenericPost<IndividualSectionResponse>(string.Format( "help_center/categories/{0}/sections.json", section.CategoryId ), body);
         }
 
         public IndividualSectionResponse UpdateSection(Section section)
