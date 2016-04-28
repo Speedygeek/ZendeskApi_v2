@@ -72,6 +72,7 @@
     <Compile Include="Models\Constants\UserRoles.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
     <Compile Include="Models\Constants\Visibility.cs" />
+    <Compile Include="Models\HelpCenter\Translations\GroupTranslationResponse.cs" />
     <Compile Include="Models\HelpCenter\Translations\IndividualTranslationResponse.cs" />
     <Compile Include="Models\IndividualResponseBase.cs" />
     <Compile Include="Models\CustomRoles\Configuration.cs" />

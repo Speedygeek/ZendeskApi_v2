@@ -226,6 +226,12 @@
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Comments\IndividualCommentResponse.cs">
       <Link>Models\HelpCenter\Comments\IndividualCommentResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Translations\GroupTranslationResponse.cs">
+      <Link>Models\HelpCenter\Translations\GroupTranslationResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Translations\IndividualTranslationResponse.cs">
+      <Link>Models\HelpCenter\Translations\IndividualTranslationResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Translations\Translation.cs">
       <Link>Models\HelpCenter\Translations\Translation.cs</Link>
     </Compile>
@@ -744,6 +750,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Sections.cs">
       <Link>Requests\HelpCenter\Sections.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Translations.cs">
+      <Link>Requests\HelpCenter\Translations.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Votes.cs">
       <Link>Requests\HelpCenter\Votes.cs</Link>
