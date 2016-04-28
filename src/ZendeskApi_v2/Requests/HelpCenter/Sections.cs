@@ -93,7 +93,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 		public async Task<IndividualSectionResponse> CreateSectionAsync(Section section)
 		{
 			var body = new { section };
-			return await GenericPostAsync<IndividualSectionResponse>(string.Format("help_center/sections.json"), body);
+			return await GenericPostAsync<IndividualSectionResponse>( string.Format( "help_center/categories/{0}/sections.json", section.CategoryId ), body);
 		}
 
 		public async Task<IndividualSectionResponse> UpdateSectionAsync(Section section)
