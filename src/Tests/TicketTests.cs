@@ -47,7 +47,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanCreateUpdateAndDeleteTicketAsync()
+        public async Task CanCreateUpdateAndDeleteTicketAsync()
         {
             var ticket = new Ticket()
             {
@@ -65,7 +65,7 @@ namespace Tests
                         }
                 };
 
-            var res = api.Tickets.CreateTicketAsync(ticket).Result.Ticket;
+            var res = (await api.Tickets.CreateTicketAsync(ticket)).Ticket;
 
             Assert.NotNull(res);
             Assert.Greater(res.Id.Value, 0);
@@ -75,12 +75,14 @@ namespace Tests
 
             res.CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail };
             var body = "got it thanks";
-            var updateResponse = api.Tickets.UpdateTicketAsync(res, new Comment() { Body = body, Public = true });
+            var updateResponse = await api.Tickets.UpdateTicketAsync(res, new Comment() { Body = body, Public = true });
 
-            Assert.NotNull(updateResponse.Result);
-            Assert.AreEqual(updateResponse.Result.Audit.Events.First().Body, body);
+            await Task.Delay(1000);
 
-            //Assert.True(api.Tickets.DeleteAsync(res.Id.Value).Result);
+            Assert.NotNull(updateResponse);
+            Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
+
+            Assert.True(await api.Tickets.DeleteAsync(res.Id.Value));
         }
 
         [Test]
