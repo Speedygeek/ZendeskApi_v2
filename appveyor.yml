@@ -44,15 +44,18 @@ artifacts:
   name: Pakage
 before_deploy:
 - ps: >-
-    Write-Line "Build version: " $env:script_versionNumber
+    Write-Host 'This is PowerShell'
+    Write-Host "Build version: " $env:script_versionNumber
 
     if($env:script_versionNumber.contains("-")) {
       $env:Is_Prerelease  = 'true'
-    }else{
+    }
+    else
+    {
       $env:Is_Prerelease  = 'false'
     }
 
-    Write-Line "Is the build Prerelease: " $env:Is_Prerelease
+    Write-Host "Is the build Prerelease: " $env:Is_Prerelease
 deploy:
 - provider: Environment
   name: Public Nuget
