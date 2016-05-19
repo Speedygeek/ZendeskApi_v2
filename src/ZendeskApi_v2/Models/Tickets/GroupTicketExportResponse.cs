@@ -7,6 +7,7 @@ using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.SharingAgreements;
 using ZendeskApi_v2.Models.Users;
+using ZendeskApi_v2.Serialization;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -16,8 +17,8 @@ namespace ZendeskApi_v2.Models.Tickets
         public int Count { get; set; }
 
         [JsonProperty("end_time")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? EndTime { get; set; }
+        [JsonConverter(typeof(UnixEpochTimeConverter))]
+        public DateTime EndTime { get; set; }
 
         [JsonProperty("groups")]
         public IList<Group> Groups { get; set; }

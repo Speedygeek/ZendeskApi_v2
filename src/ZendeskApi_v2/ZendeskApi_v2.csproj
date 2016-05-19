@@ -303,6 +303,7 @@
     <Compile Include="Serialization\BaseJsonConverter.cs" />
     <Compile Include="Serialization\TargetJsonConverter.cs" />
     <Compile Include="Serialization\SingleOrArrayConverter.cs" />
+    <Compile Include="Serialization\UnixEpochTimeConverter.cs" />
     <Compile Include="ZendeskApi.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Models\Constants\TicketPriorities.cs" />
