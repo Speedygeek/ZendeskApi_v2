@@ -53,7 +53,7 @@ test:
   assemblies: '**\*tests.dll'
 artifacts:
 - path: '\src\ZendeskApi_v2_Package\*.nupkg'
-  name: Pakage
+  name: Package
 deploy:
 - provider: Environment
   name: Public Nuget

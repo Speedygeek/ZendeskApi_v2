@@ -21,16 +21,13 @@ namespace ZendeskApi_v2.Serialization
                 if (!nullable)
                 {
                     throw new JsonSerializationException(string.Format("Cannot convert null value to {0}.", objectType.Name));
-
                 }
-
                 return null;
             }
 
             if (reader.TokenType == JsonToken.Integer)
             {
                 long epoch = (long)reader.Value;
-
                 return _epoch.AddSeconds(epoch);
             }
 
