@@ -19,7 +19,15 @@ namespace Tests.HelpCenter
             Assert.IsNotNull(res.Arcticle);
         }
 
-        [Test]
+		[Test]
+		public void CanGetSingleArticleWithTranslations()
+		{
+			var res = api.HelpCenter.Articles.GetArticle( _articleIdWithComments, ArticleSideLoadOptionsEnum.Translations );
+			Assert.IsNotNull( res.Arcticle );
+			Assert.Greater( res.Arcticle.Translations.Count, 0 );
+		}
+
+		[Test]
         public void CanGetArticles()
         {
             var res = api.HelpCenter.Articles.GetArticles();
@@ -139,7 +147,15 @@ namespace Tests.HelpCenter
             Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Arcticle.Id.Value));
         }
 
-        [Test]
+		[Test]
+		public void CanGetSingleArticleWithTranslationsAsync()
+		{
+			var res = api.HelpCenter.Articles.GetArticleAsync( _articleIdWithComments, ArticleSideLoadOptionsEnum.Translations ).Result;
+			Assert.IsNotNull( res.Arcticle );
+			Assert.Greater( res.Arcticle.Translations.Count, 0 );
+		}
+
+		[Test]
         public void CanGetArticlesAsync()
         {
             var res = api.HelpCenter.Articles.GetArticlesAsync().Result;

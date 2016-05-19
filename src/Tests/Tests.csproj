@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelpCenter\TranslationTests.cs" />
     <Compile Include="HelpCenter\SectionTests.cs" />
     <Compile Include="HelpCenter\VoteTests.cs" />
     <Compile Include="HelpCenter\CommentTests.cs" />
