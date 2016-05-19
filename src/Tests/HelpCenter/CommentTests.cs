@@ -14,7 +14,7 @@ namespace Tests.HelpCenter
 
         [Test]
         [Ignore("unreliable test")]
-        [Timeout(1000)]
+        //[Timeout(1000)]
         public void CanGetArticleComments()
         {
             var comments = api.HelpCenter.Comments.GetCommentsForArticle(_articleIdWithComments);

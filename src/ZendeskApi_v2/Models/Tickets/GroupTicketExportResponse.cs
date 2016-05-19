@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Groups;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Shared;
@@ -14,7 +16,8 @@ namespace ZendeskApi_v2.Models.Tickets
         public int Count { get; set; }
 
         [JsonProperty("end_time")]
-        public long EndTime { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? EndTime { get; set; }
 
         [JsonProperty("groups")]
         public IList<Group> Groups { get; set; }

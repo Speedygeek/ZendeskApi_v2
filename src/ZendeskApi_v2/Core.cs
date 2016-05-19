@@ -21,7 +21,7 @@ namespace ZendeskApi_v2
     {
         public const string Get = "GET";
         public const string Put = "PUT";
-        public const string Post= "POST";
+        public const string Post = "POST";
         public const string Delete = "DELETE";
     }
 
@@ -48,7 +48,7 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-        JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
+        JsonSerializerSettings jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DateParseHandling = DateParseHandling.DateTimeOffset, DateFormatHandling = DateFormatHandling.IsoDateFormat };
         protected string OAuthToken;
 
         /// <summary>
