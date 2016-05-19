@@ -34,7 +34,7 @@ build:
   verbosity: minimal
 test: on
 test_script:
-- ps: nunit-console C:\projects\zendeskapi-v2\src\Tests\bin\Release\Tests.dll /framework:net-4.5
+- ps: nunit3-console C:\projects\zendeskapi-v2\src\Tests\bin\Release\Tests.dll /framework:net-4.5
 artifacts:
 - path: '\src\ZendeskApi_v2_Package\*.nupkg'
   name: Pakage
