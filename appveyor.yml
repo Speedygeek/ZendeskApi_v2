@@ -42,13 +42,13 @@ before_deploy:
 - ps: >-
     Write-Host "Build version: " $env:APPVEYOR_BUILD_VERSION
 
-if($env:APPVEYOR_BUILD_VERSION.contains("-")) {
-    $env:Is_Prerelease  = 'true'
-}else{
-    $env:Is_Prerelease  = 'false'
-}
+    if($env:APPVEYOR_BUILD_VERSION.contains("-")) {
+      $env:Is_Prerelease  = 'true'
+    }else{
+      $env:Is_Prerelease  = 'false'
+    }
 
-Write-Host "Is the build Prerelease: " $env:Is_Prerelease
+    Write-Host "Is the build Prerelease: " $env:Is_Prerelease
 deploy:
 - provider: Environment
   name: Public Nuget
