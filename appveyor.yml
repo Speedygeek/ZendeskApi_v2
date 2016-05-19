@@ -34,19 +34,21 @@ build:
   verbosity: minimal
 test: on
 test_script:
-- ps: nunit3-console C:\projects\zendeskapi-v2\src\Tests\bin\Release\Tests.dll /framework:net-4.5
+- ps: nunit3-console C:\projects\zendeskapi-v2\src\Tests\bin\Release\Tests.dll --result=myresults.xml;format=AppVeyor --framework:net-4.5
 artifacts:
 - path: '\src\ZendeskApi_v2_Package\*.nupkg'
   name: Pakage
 before_deploy:
 - ps: >-
-    if($env:APPVEYOR_BUILD_VERSION.contains("-")) {
-        $env:Is_Prerelease  = 'true'
-    }else{
+    Write-Host "Build version: " $env:APPVEYOR_BUILD_VERSION
 
+if($env:APPVEYOR_BUILD_VERSION.contains("-")) {
+    $env:Is_Prerelease  = 'true'
+}else{
     $env:Is_Prerelease  = 'false'
+}
 
-    }
+Write-Host "Is the build Prerelease: " $env:Is_Prerelease
 deploy:
 - provider: Environment
   name: Public Nuget

@@ -200,23 +200,23 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<IList<string>> ListMissingTranslationsForArticleAsync( long articleId )
 		{
-			var res = RunRequestAsync( String.Format( "help_center/articles/{0}/translations/missing.json", articleId ), "GET" );
+			var res = await RunRequestAsync( String.Format( "help_center/articles/{0}/translations/missing.json", articleId ), "GET" );
 			var anon_type = new { locales = new List<string>() };
-			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Result.Content, anon_type );
+			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 		public async Task<IList<string>> ListMissingTranslationsForSectionAsync( long articleId )
 		{
-			var res = RunRequestAsync( String.Format( "help_center/sections/{0}/translations/missing.json", articleId ), "GET" );
+			var res = await RunRequestAsync( String.Format( "help_center/sections/{0}/translations/missing.json", articleId ), "GET" );
 			var anon_type = new { locales = new List<string>() };
-			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Result.Content, anon_type );
+			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 		public async Task<IList<string>> ListMissingTranslationsForCategoryAsync( long articleId )
 		{
-			var res = RunRequestAsync( String.Format( "help_center/categories/{0}/translations/missing.json", articleId ), "GET" );
+			var res = await RunRequestAsync( String.Format( "help_center/categories/{0}/translations/missing.json", articleId ), "GET" );
 			var anon_type = new { locales = new List<string>() };
-			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Result.Content, anon_type );
+			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 
