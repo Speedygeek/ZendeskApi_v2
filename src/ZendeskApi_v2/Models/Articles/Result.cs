@@ -14,7 +14,7 @@ namespace ZendeskApi_v2.Models.Articles {
     {
         
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
@@ -23,7 +23,7 @@ namespace ZendeskApi_v2.Models.Articles {
         public string HtmlUrl { get; set; }
 
         [JsonProperty("author_id")]
-        public int AuthorId { get; set; }
+        public long? AuthorId { get; set; }
 
         [JsonProperty("comments_disabled")]
         public bool CommentsDisabled { get; set; }
