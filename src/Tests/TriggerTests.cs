@@ -12,7 +12,7 @@ namespace Tests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             var triggers = api.Triggers.GetTriggers();

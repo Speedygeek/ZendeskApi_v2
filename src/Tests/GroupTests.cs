@@ -70,7 +70,7 @@ namespace Tests
 
             var groups = api.Groups.GetGroups();
             var res1 = api.Groups.GetAssignableGroupMembershipsByGroup(groups.Groups[0].Id.Value);
-            Assert.Greater(res1.Count, 0);            
+            Assert.Greater(res1.Count, 0);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Tests
             Assert.AreEqual(res1.GroupMembership.Id, res.GroupMemberships[0].Id);
 
             var res2 = api.Groups.GetGroupMembershipsByUserAndMembershipId(res1.GroupMembership.UserId, res.GroupMemberships[0].Id.Value);
-            Assert.AreEqual(res2.GroupMembership.UserId, res1.GroupMembership.UserId);            
+            Assert.AreEqual(res2.GroupMembership.UserId, res1.GroupMembership.UserId);
         }
 
         [Test]
@@ -90,17 +90,17 @@ namespace Tests
         {
             var group = api.Groups.CreateGroup("Test Group 2").Group;
             var user = api.Users.CreateUser(new User()
-                                                {
-                                                    Name = "test user133",
-                                                    Email = "test133@test.com",
-                                                    Role = UserRoles.Agent
-                                                }).User;            
-            
+            {
+                Name = "test user133",
+                Email = "test133@test.com",
+                Role = UserRoles.Agent
+            }).User;
+
             var res = api.Groups.CreateGroupMembership(new GroupMembership()
-                                                           {
-                                                               UserId = user.Id.Value,
-                                                               GroupId = group.Id.Value
-                                                           });
+            {
+                UserId = user.Id.Value,
+                GroupId = group.Id.Value
+            });
 
             Assert.Greater(res.GroupMembership.Id, 0);
 

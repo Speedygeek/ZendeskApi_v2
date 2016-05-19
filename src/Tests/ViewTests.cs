@@ -18,14 +18,14 @@ namespace Tests
 {
     [TestFixture]
     public class ViewTests
-    {        
+    {
         ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
         [Test]
         public void CanGetViews()
         {
             var views = api.Views.GetAllViews();
-            Assert.True(views.Count > 0);            
+            Assert.True(views.Count > 0);
         }
 
         [Test]
@@ -55,9 +55,9 @@ namespace Tests
         {
             var views = api.Views.GetAllViews();
             //var res = api.Views.ExecuteView(views.Views.First().Id);
-            
+
             //id for all unsolved tickets
-            var res = api.Views.ExecuteView(31559032);            
+            var res = api.Views.ExecuteView(31559032);
 
             Assert.Greater(res.Rows.Count, 0);
             Assert.Greater(res.Columns.Count, 0);
@@ -70,7 +70,7 @@ namespace Tests
 
             Assert.AreEqual(25, res.Rows.Count);
 
-            var nextPage  =  res.NextPage.GetQueryStringDict()
+            var nextPage = res.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
                         .FirstOrDefault();
@@ -82,18 +82,15 @@ namespace Tests
 
         [Test]
         public void CanPreviewViews()
-        {            
+        {
             var preview = new PreviewViewRequest()
-                              {
-                                  View = new PreviewView()
-                                             {
-                                                 All =
-                                                     new List<All>()
-                                                         {new All() {Field = "status", Value = "open", Operator = "is"}},
-                                                 Output =
-                                                     new PreviewViewOutput() {Columns = new List<string>() {"subject"}}
-                                             }
-                              };
+            {
+                View = new PreviewView()
+                {
+                    All = new List<All> {new All {Field = "status", Value = "open", Operator = "is"}},
+                    Output = new PreviewViewOutput { Columns = new List<string> { "subject" } }
+                }
+            };
 
             var previewRes = api.Views.PreviewView(preview);
             Assert.Greater(previewRes.Rows.Count, 0);
@@ -117,7 +114,7 @@ namespace Tests
             var id = views.Views[0].Id;
             var res = api.Views.GetViewCount(id);
 
-            Assert.True(res.ViewCount.ViewId == id);            
+            Assert.True(res.ViewCount.ViewId == id);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Tests
                                                                    ContentType = "text/plain",
                                                                    FileName = "testupload.txt",
                                                                    FileData =
-                                                                       File.ReadAllBytes(Environment.CurrentDirectory +
+                                                                       File.ReadAllBytes(TestContext.CurrentContext.TestDirectory +
                                                                                          "\\testupload.txt")
                                                                });
             Assert.True(!string.IsNullOrEmpty(res.Token));

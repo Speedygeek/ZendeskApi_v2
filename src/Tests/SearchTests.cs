@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
@@ -135,7 +136,7 @@ namespace Tests
         }
 
         [Test]
-        public async void TicketSearchByTicketAnonymousTypeAsync()
+        public async Task TicketSearchByTicketAnonymousTypeAsync()
         {
             var res = await api.Search.SearchForAsync<Ticket>("my printer is on fire");
 
@@ -168,7 +169,7 @@ namespace Tests
         }
 
         [Test]
-        public async void UserSearchByUserAnonymousTypeAsync()
+        public async Task UserSearchByUserAnonymousTypeAsync()
         {
             var res = await api.Search.SearchForAsync<User>(Settings.Email);
 

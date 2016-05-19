@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Articles;
 using ZendeskApi_v2.Requests.HelpCenter;
@@ -98,8 +99,8 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticlesSorted()
         {
-            var articlesAscending = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions(){ SortBy = ArticleSortEnum.Title });
-            var articlesDescending = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions(){ SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
+            var articlesAscending = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
+            var articlesDescending = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
         }
@@ -108,8 +109,8 @@ namespace Tests.HelpCenter
         public void CanGetArticlesSortedInASection()
         {
             var section = api.HelpCenter.Sections.GetSections().Sections[0];
-            var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions(){ SortBy = ArticleSortEnum.Title });
-            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions(){ SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
+            var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
+            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
         }
@@ -121,8 +122,8 @@ namespace Tests.HelpCenter
         public void CanGetArticlesSortedInACategory()
         {
             var category = api.HelpCenter.Categories.GetCategories().Categories[0];
-            var articlesAscending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions(){ SortBy = ArticleSortEnum.Title });
-            var articlesDescending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions(){ SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
+            var articlesAscending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
+            var articlesDescending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
         }
@@ -140,9 +141,9 @@ namespace Tests.HelpCenter
             });
             Assert.Greater(res.Arcticle.Id, 0);
 
-            res.Arcticle.Body = "updated body";
-            var update = api.HelpCenter.Articles.UpdateArticle(res.Arcticle);
-            Assert.AreEqual(update.Arcticle.Body, res.Arcticle.Body);
+            res.Arcticle.LabelNames = new string[] { "updated" };
+            var update = api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle).Result;
+            Assert.That(update.Arcticle.LabelNames, Is.EqualTo(res.Arcticle.LabelNames));
 
             Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Arcticle.Id.Value));
         }
@@ -167,20 +168,21 @@ namespace Tests.HelpCenter
         }
 
         [Test]
-        public void CanCreateUpdateAndDeleteArticlesAsync()
+        public async Task CanCreateUpdateAndDeleteArticlesAsync()
         {
             var resSections = api.HelpCenter.Sections.GetSectionsAsync().Result;
-            var res = api.HelpCenter.Articles.CreateArticleAsync(resSections.Sections[0].Id.Value, new Article()
+            var res = await api.HelpCenter.Articles.CreateArticleAsync(resSections.Sections[0].Id.Value, new Article()
             {
                 Title = "My Test article",
                 Body = "The body of my article",
                 Locale = "en-us"
-            }).Result;
+            });
+
             Assert.Greater(res.Arcticle.Id, 0);
 
-            res.Arcticle.Body = "updated body";
-            var update = api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle).Result;
-            Assert.AreEqual(update.Arcticle.Body, res.Arcticle.Body);
+            res.Arcticle.LabelNames = new string[] { "photo", "tripod" };
+            var update = await api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle);
+            Assert.AreEqual(update.Arcticle.LabelNames, res.Arcticle.LabelNames);
 
             Assert.True(api.HelpCenter.Articles.DeleteArticleAsync(res.Arcticle.Id.Value).Result);
         }

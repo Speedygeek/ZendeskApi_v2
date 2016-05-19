@@ -51,7 +51,7 @@ namespace Tests
                 Settings.Email, 
                 "Incorrect password");
 
-            Assert.Throws<WebException>(async () =>
+            Assert.ThrowsAsync<WebException>(async () =>
             {
                 await api.Tickets.CreateTicketAsync(new Ticket
                 {

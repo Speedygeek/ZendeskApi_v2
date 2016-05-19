@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
@@ -8,8 +9,9 @@ using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
 
 
-namespace Tests {
-	[TestFixture]
+namespace Tests
+{
+    [TestFixture]
     [Category("Users")]
     public class UserTests
     {
@@ -22,24 +24,26 @@ namespace Tests {
             Assert.True(res.Count > 0);
         }
 
-		[Test]
-		public void CanGetUserByCustomField() {
-			var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.FieldValue);
-			var user = res.Users.FirstOrDefault();
+        [Test]
+        public void CanGetUserByCustomField()
+        {
+            var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.FieldValue);
+            var user = res.Users.FirstOrDefault();
 
-			Assert.NotNull(user);
-			Assert.AreEqual(1158278453, user.Id);
-		}
+            Assert.NotNull(user);
+            Assert.AreEqual(1158278453, user.Id);
+        }
 
-		[Test]
-		public void CannotGetUserByCustomField() {
-			var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.BadFieldValue);
+        [Test]
+        public void CannotGetUserByCustomField()
+        {
+            var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.BadFieldValue);
 
-			Assert.AreEqual(0, res.Users.Count);
-			Assert.Null(res.Users.FirstOrDefault());
-		}
+            Assert.AreEqual(0, res.Users.Count);
+            Assert.Null(res.Users.FirstOrDefault());
+        }
 
-		[Test]
+        [Test]
         public void CanGetUser()
         {
             var res = api.Users.GetUser(Settings.UserId);
@@ -63,6 +67,13 @@ namespace Tests {
         [Test]
         public void CanCreateUpdateSuspendAndDeleteUser()
         {
+            var list = api.Users.GetAllUsers();
+            var u = list.Users.Where(x => x.Email == "test772@test.com").FirstOrDefault();
+            if (u != null)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
             var user = new User()
             {
                 Name = "test user72",
@@ -137,43 +148,48 @@ namespace Tests {
             Assert.True(res1.Users.Count > 0);
         }
 
-		[Test]
-		public void CanFindUserByPhone() {
-			var res1 = api.Users.SearchByPhone(Settings.Phone);
-			Assert.True(res1.Users.Count > 0);
-			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
-			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+        [Test]
+        public void CanFindUserByPhone()
+        {
+            var res1 = api.Users.SearchByPhone(Settings.Phone);
+            Assert.True(res1.Users.Count > 0);
+            Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
+            Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
         }
 
-		[Test]
-		public void CanFindUserByFormattedPhone() {
-			var res1 = api.Users.SearchByPhone(Settings.FormattedPhone);
-			Assert.True(res1.Users.Count > 0);
-			Assert.AreEqual(Settings.FormattedPhone, res1.Users.First().Phone);
-			Assert.AreEqual("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5", res1.Users.First().Name);
-		}
+        [Test]
+        public void CanFindUserByFormattedPhone()
+        {
+            var res1 = api.Users.SearchByPhone(Settings.FormattedPhone);
+            Assert.True(res1.Users.Count > 0);
+            Assert.AreEqual(Settings.FormattedPhone, res1.Users.First().Phone);
+            Assert.AreEqual("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5", res1.Users.First().Name);
+        }
 
-		[Test]
-		public void CanFindUserByPhoneAsync() {
-			var res1 = api.Users.SearchByPhoneAsync(Settings.Phone).Result;
-			Assert.True(res1.Users.Count > 0);
-			Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
-			Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
-		}
+        [Test]
+        public void CanFindUserByPhoneAsync()
+        {
+            var res1 = api.Users.SearchByPhoneAsync(Settings.Phone).Result;
+            Assert.True(res1.Users.Count > 0);
+            Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
+            Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+        }
 
-		[Test]
-		public void CannotFindUserByPhone() {
-			var res1 = api.Users.SearchByPhone(Settings.BadPhone);
-			Assert.True(res1.Users.Count == 0);
-		}
+        [Test]
+        public void CannotFindUserByPhone()
+        {
+            var res1 = api.Users.SearchByPhone(Settings.BadPhone);
+            Assert.True(res1.Users.Count == 0);
+        }
 
-		[Test]
-		public void CannotFindUserByPhoneAsync() {
-			var res1 = api.Users.SearchByPhoneAsync(Settings.BadPhone).Result;
-			Assert.True(res1.Users.Count == 0);
-		}
+        [Test]
+        public void CannotFindUserByPhoneAsync()
+        {
+            var res1 = api.Users.SearchByPhoneAsync(Settings.BadPhone).Result;
+            Assert.True(res1.Users.Count == 0);
+        }
 
-		[Test]
+        [Test]
         public void CanGetCurrentUser()
         {
             var res1 = api.Users.GetCurrentUser();
@@ -252,7 +268,7 @@ namespace Tests {
         }
 
         [Test]
-        public async void CanNotCreateUserWithStringEmptyEmailAsync()
+        public async Task CanNotCreateUserWithStringEmptyEmailAsync()
         {
             var u = new User();
             u.Name = new Random().Next(1, 2000000).ToString() + " " + new Random().Next(1, 2000000).ToString();
@@ -277,7 +293,7 @@ namespace Tests {
         }
 
         [Test]
-        public async void CanMergeUsers()
+        public async Task CanMergeUsers()
         {
             var user1 = new User();
             user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
@@ -291,7 +307,8 @@ namespace Tests {
             var resultUser2 = api.Users.CreateUser(user2);
 
             var mergedUser = api.Users.MergeUser(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
-            var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
+            await Task.Delay(1000);
+            var mergedIdentities = api.Users.GetUserIdentities(mergedUser.User.Id.Value);
 
             Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
             Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
@@ -303,7 +320,7 @@ namespace Tests {
         }
 
         [Test]
-        public async void CanMergeUsersAsync()
+        public async Task CanMergeUsersAsync()
         {
             var user1 = new User();
             user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
@@ -317,9 +334,11 @@ namespace Tests {
             var resultUser2 = api.Users.CreateUser(user2);
 
             var mergedUser = await api.Users.MergeUserAsync(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
+
+            await Task.Delay(1000);
             var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
 
-            Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
+            Assert.That(resultUser2.User.Id, Is.EqualTo(mergedUser.User.Id));
             Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
             Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user2.Email.ToLower()));
 
@@ -330,7 +349,7 @@ namespace Tests {
         [Test]
         public void CanGetMultipleUsers()
         {
-            var userList = api.Users.GetAllUsers(10,1).Users.Select(u => u.Id.Value).ToList();
+            var userList = api.Users.GetAllUsers(10, 1).Users.Select(u => u.Id.Value).ToList();
             var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities | UserSideLoadOptions.Roles);
 
             Assert.AreEqual(userList.Count, result.Count);

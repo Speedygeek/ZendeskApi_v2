@@ -13,7 +13,7 @@ namespace Tests.HelpCenter
         private long _articleIdWithComments = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
 
         [Test]
-        [Ignore]
+        [Ignore("unreliable test")]
         [Timeout(1000)]
         public void CanGetArticleComments()
         {
@@ -23,7 +23,7 @@ namespace Tests.HelpCenter
         }
 
         [Test]
-        [Ignore]
+        [Ignore("unreliable test")]
         [Timeout(1000)]
         public void CanGetUserComments()
         {

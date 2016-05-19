@@ -5,15 +5,15 @@ using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Models.Tickets
-{    
+{
     public class Ticket : BaseTicket
     {
         [JsonProperty("external_id")]
-        public object ExternalId { get; set; }             
+        public object ExternalId { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
-        
+
         /// <summary>
         /// This field can no longer be set. As of January 2013 use "Comment.Body" instead.
         /// </summary>
@@ -21,7 +21,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public string Description { get; internal set; }
 
         [JsonProperty("subject")]
-        public string Subject { get; set; }        
+        public string Subject { get; set; }
 
         [JsonProperty("priority")]
         public string Priority { get; set; }
@@ -84,7 +84,7 @@ namespace ZendeskApi_v2.Models.Tickets
 
         [JsonProperty("brand_id")]
         public int? BrandId { get; set; }
-      
+
         [JsonProperty("via")]
         public Via Via { get; set; }
 
@@ -105,6 +105,6 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("ticket_form_id")]
         public long? TicketFormId { get; set; }
-        
+
     }
 }
