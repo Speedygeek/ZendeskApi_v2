@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Serialization
             {
                 if (!nullable)
                 {
-                    throw new JsonSerializationException($"Cannot convert null value to {objectType.Name}.");
+                    throw new JsonSerializationException(string.Format("Cannot convert null value to {0}.", objectType.Name));
 
                 }
 
