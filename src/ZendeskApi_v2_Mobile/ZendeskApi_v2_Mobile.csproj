@@ -54,6 +54,12 @@
     <Compile Include="..\ZendeskApi_v2\HelpCenterApi.cs">
       <Link>HelpCenterApi.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\AccessPolicies\AccessPolicy.cs">
+      <Link>Models\AccessPolicies\AccessPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\AccessPolicies\IndividualAccessPolicyResponse.cs">
+      <Link>Models\AccessPolicies\IndividualAccessPolicyResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\AccountsAndActivities\Activity.cs">
       <Link>Models\AccountsAndActivities\Activity.cs</Link>
     </Compile>
@@ -821,6 +827,7 @@
     </Compile>
     <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\HelpCenter\AccessPolicies.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

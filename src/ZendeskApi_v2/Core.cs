@@ -329,7 +329,9 @@ namespace ZendeskApi_v2
                     var zenFile = body as ZenFile;
                     if (zenFile == null)
                     {
-                        data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body, jsonSettings));
+                        string json = JsonConvert.SerializeObject(body, jsonSettings);
+
+                        data = Encoding.UTF8.GetBytes(json);
                     }
                     else
                     {

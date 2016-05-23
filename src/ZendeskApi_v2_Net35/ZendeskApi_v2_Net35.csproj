@@ -58,6 +58,12 @@
     <Compile Include="..\ZendeskApi_v2\HelpCenterApi.cs">
       <Link>HelpCenterApi.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\AccessPolicies\AccessPolicy.cs">
+      <Link>Models\AccessPolicies\AccessPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\AccessPolicies\IndividualAccessPolicyResponse.cs">
+      <Link>Models\AccessPolicies\IndividualAccessPolicyResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\AccountsAndActivities\Activity.cs">
       <Link>Models\AccountsAndActivities\Activity.cs</Link>
     </Compile>
@@ -735,6 +741,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\Groups.cs">
       <Link>Requests\Groups.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\AccessPolicies.cs">
+      <Link>Requests\HelpCenter\AccessPolicies.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Articles.cs">
       <Link>Requests\HelpCenter\Articles.cs</Link>

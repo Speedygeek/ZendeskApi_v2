@@ -23,8 +23,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,8 +33,9 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;SYNC ASYNC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Net45|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +53,8 @@
     <CodeAnalysisRuleDirectories>;F:\Programs\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">

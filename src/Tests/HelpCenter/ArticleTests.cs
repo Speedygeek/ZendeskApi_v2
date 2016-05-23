@@ -1,8 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Linq;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Articles;
+using ZendeskApi_v2.Models.Sections;
 using ZendeskApi_v2.Requests.HelpCenter;
+using ZendeskApi_v2.Models.Users;
+using System.Collections.Generic;
+using ZendeskApi_v2.Models.AccessPolicies;
+using System.Net;
 
 namespace Tests.HelpCenter
 {
@@ -20,15 +27,15 @@ namespace Tests.HelpCenter
             Assert.IsNotNull(res.Arcticle);
         }
 
-		[Test]
-		public void CanGetSingleArticleWithTranslations()
-		{
-			var res = api.HelpCenter.Articles.GetArticle( _articleIdWithComments, ArticleSideLoadOptionsEnum.Translations );
-			Assert.IsNotNull( res.Arcticle );
-			Assert.Greater( res.Arcticle.Translations.Count, 0 );
-		}
+        [Test]
+        public void CanGetSingleArticleWithTranslations()
+        {
+            var res = api.HelpCenter.Articles.GetArticle(_articleIdWithComments, ArticleSideLoadOptionsEnum.Translations);
+            Assert.IsNotNull(res.Arcticle);
+            Assert.Greater(res.Arcticle.Translations.Count, 0);
+        }
 
-		[Test]
+        [Test]
         public void CanGetArticles()
         {
             var res = api.HelpCenter.Articles.GetArticles();
@@ -148,30 +155,30 @@ namespace Tests.HelpCenter
             Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Arcticle.Id.Value));
         }
 
-		[Test]
-		public void CanGetSingleArticleWithTranslationsAsync()
-		{
-			var res = api.HelpCenter.Articles.GetArticleAsync( _articleIdWithComments, ArticleSideLoadOptionsEnum.Translations ).Result;
-			Assert.IsNotNull( res.Arcticle );
-			Assert.Greater( res.Arcticle.Translations.Count, 0 );
-		}
-
-		[Test]
-        public void CanGetArticlesAsync()
+        [Test]
+        public void CanGetSingleArticleWithTranslationsAsync()
         {
-            var res = api.HelpCenter.Articles.GetArticlesAsync().Result;
+            var res = api.HelpCenter.Articles.GetArticleAsync(_articleIdWithComments, ArticleSideLoadOptionsEnum.Translations).Result;
+            Assert.IsNotNull(res.Arcticle);
+            Assert.Greater(res.Arcticle.Translations.Count, 0);
+        }
+
+        [Test]
+        public async Task CanGetArticlesAsync()
+        {
+            var res = await api.HelpCenter.Articles.GetArticlesAsync();
             Assert.Greater(res.Count, 0);
 
-            var resSections = api.HelpCenter.Sections.GetSectionsAsync().Result;
-            var res1 = api.HelpCenter.Articles.GetArticlesBySectionIdAsync(resSections.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Result.Articles[0].SectionId, resSections.Sections[0].Id);
+            var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
+            var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(resSections.Sections[0].Id.Value);
+            Assert.AreEqual(res1.Articles[0].SectionId, resSections.Sections[0].Id);
         }
 
         [Test]
         public async Task CanCreateUpdateAndDeleteArticlesAsync()
         {
-            var resSections = api.HelpCenter.Sections.GetSectionsAsync().Result;
-            var res = await api.HelpCenter.Articles.CreateArticleAsync(resSections.Sections[0].Id.Value, new Article()
+            var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
+            var res = await api.HelpCenter.Articles.CreateArticleAsync(resSections.Sections[0].Id.Value, new Article
             {
                 Title = "My Test article",
                 Body = "The body of my article",
@@ -184,7 +191,53 @@ namespace Tests.HelpCenter
             var update = await api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle);
             Assert.AreEqual(update.Arcticle.LabelNames, res.Arcticle.LabelNames);
 
-            Assert.True(api.HelpCenter.Articles.DeleteArticleAsync(res.Arcticle.Id.Value).Result);
+            Assert.True(await api.HelpCenter.Articles.DeleteArticleAsync(res.Arcticle.Id.Value));
         }
+
+        [Test]
+        public async Task TestCaseForIssue220()
+        {
+            var resp = await api.HelpCenter.Sections.GetSectionsAsync();
+            foreach (var _section in resp.Sections.Where(x => x.Name == "testing section access" || x.Name == "testing section"))
+            {
+                await api.HelpCenter.Sections.DeleteSectionAsync(_section.Id.Value);
+            }
+
+            var responsSection = await api.HelpCenter.Sections.CreateSectionAsync(new Section
+            {
+                Name = "testing section access",
+                CategoryId = Settings.Category_ID
+            });
+
+            var res = await api.HelpCenter.Articles.CreateArticleAsync(responsSection.Section.Id.Value, new Article
+            {
+                Title = "My Test article",
+                Body = "The body of my article",
+                Locale = "en-us"
+            });
+
+            var tagList = new List<string> { "testing" };
+
+            responsSection.Section.AccessPolicy = new AccessPolicy { ViewableBy = ViewableBy.signed_in_users, RequiredTags = tagList };
+
+            await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
+
+            var apiForUser2 = new ZendeskApi(Settings.Site, Settings.Email2, Settings.Password2);
+
+            Section section = (await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value)).Section;
+
+            // user 2 is a member of the testing tag so we should get the section 
+            Assert.That(section, Is.Not.Null);
+
+            responsSection.Section.AccessPolicy = new AccessPolicy { ViewableBy = ViewableBy.signed_in_users, RequiredTags = new List<string> { "monkey" } };
+
+            await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
+
+            Assert.ThrowsAsync<WebException>(async () =>
+            {
+                await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
+            });
+        }
+
     }
 }

@@ -52,6 +52,8 @@
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HelpCenterApi.cs" />
+    <Compile Include="Models\AccessPolicies\AccessPolicy.cs" />
+    <Compile Include="Models\AccessPolicies\IndividualAccessPolicyResponse.cs" />
     <Compile Include="Models\AccountsAndActivities\Activity.cs" />
     <Compile Include="Models\AccountsAndActivities\Actor.cs" />
     <Compile Include="Models\AccountsAndActivities\GroupActivityResponse.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
     <Compile Include="RequestResult.cs" />
+    <Compile Include="Requests\HelpCenter\AccessPolicies.cs" />
     <Compile Include="Requests\HelpCenter\Articles.cs" />
     <Compile Include="Requests\Attachments.cs" />
     <Compile Include="Requests\Categories.cs" />
