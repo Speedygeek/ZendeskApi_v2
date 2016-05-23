@@ -115,9 +115,12 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticlesSortedInASection()
         {
-            var section = api.HelpCenter.Sections.GetSections().Sections[0];
-            var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
-            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
+            var section = api.HelpCenter.Sections.GetSections().Sections[1];
+
+            var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
+                new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
+            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, 
+                new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
         }
