@@ -74,6 +74,10 @@
     <Compile Include="Models\Constants\UserRoles.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
     <Compile Include="Models\Constants\Visibility.cs" />
+    <Compile Include="Models\HelpCenter\HelpCenterBase.cs" />
+    <Compile Include="Models\HelpCenter\Topics\GroupTopicResponse.cs" />
+    <Compile Include="Models\HelpCenter\Topics\IndividualTopicResponse.cs" />
+    <Compile Include="Models\HelpCenter\Topics\Topic.cs" />
     <Compile Include="Models\HelpCenter\Translations\GroupTranslationResponse.cs" />
     <Compile Include="Models\HelpCenter\Translations\IndividualTranslationResponse.cs" />
     <Compile Include="Models\IndividualResponseBase.cs" />
@@ -283,6 +287,7 @@
     <Compile Include="Requests\HelpCenter\ArticleSortingOptions.cs" />
     <Compile Include="Requests\HelpCenter\Categories.cs" />
     <Compile Include="Requests\HelpCenter\Comments.cs" />
+    <Compile Include="Requests\HelpCenter\Topics.cs" />
     <Compile Include="Requests\HelpCenter\Translations.cs" />
     <Compile Include="Requests\HelpCenter\Votes.cs" />
     <Compile Include="Requests\JobStatuses.cs" />

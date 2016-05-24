@@ -228,6 +228,18 @@
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Comments\IndividualCommentResponse.cs">
       <Link>Models\HelpCenter\Comments\IndividualCommentResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\HelpCenterBase.cs">
+      <Link>Models\HelpCenter\HelpCenterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Topics\GroupTopicResponse.cs">
+      <Link>Models\HelpCenter\Topics\GroupTopicResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Topics\IndividualTopicResponse.cs">
+      <Link>Models\HelpCenter\Topics\IndividualTopicResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Topics\Topic.cs">
+      <Link>Models\HelpCenter\Topics\Topic.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Translations\GroupTranslationResponse.cs">
       <Link>Models\HelpCenter\Translations\GroupTranslationResponse.cs</Link>
     </Compile>
@@ -752,6 +764,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Sections.cs">
       <Link>Requests\HelpCenter\Sections.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Topics.cs">
+      <Link>Requests\HelpCenter\Topics.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Translations.cs">
       <Link>Requests\HelpCenter\Translations.cs</Link>

@@ -10,6 +10,7 @@ namespace ZendeskApi_v2.HelpCenter
         IVotes Votes { get; }
         IComments Comments { get; }
         IAccessPolicies AccessPolicies { get; }
+        ITopics Topics { get; }
         string Locale { get; }
     }
 
@@ -22,6 +23,7 @@ namespace ZendeskApi_v2.HelpCenter
         public IVotes Votes { get; set; }
         public IComments Comments { get; set; }
         public IAccessPolicies AccessPolicies { get; set; }
+        public ITopics Topics { get; set; }
         public string Locale { get; set; }
 
         public HelpCenterApi(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
@@ -33,6 +35,7 @@ namespace ZendeskApi_v2.HelpCenter
             Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             AccessPolicies = new AccessPolicies(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            Topics = new Topics(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Locale = locale;
         }
     }

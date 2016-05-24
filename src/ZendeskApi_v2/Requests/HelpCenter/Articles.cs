@@ -23,8 +23,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     public interface IArticles : ICore
     {
 #if SYNC
-        IndividualArticleResponse GetArticle(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None );
-		GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
+        IndividualArticleResponse GetArticle(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None);
+        GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
         GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
         GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
         GroupArticleResponse GetArticlesByUserId(long userId);
@@ -35,8 +35,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         bool DeleteArticle(long id);
 #endif
 #if ASYNC
-        Task<IndividualArticleResponse> GetArticleAsync( long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None );
-		Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
+        Task<IndividualArticleResponse> GetArticleAsync(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None);
+        Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null);
         Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
         Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null);
         Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId);
@@ -57,11 +57,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 
 #if SYNC
-        public IndividualArticleResponse GetArticle(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None )
+        public IndividualArticleResponse GetArticle(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None)
         {
-			var resourceUrl = this.GetFormattedArticleUri( string.Format( "help_center/articles/{0}.json", articleId ), sideloadOptions );
+            var resourceUrl = this.GetFormattedArticleUri(string.Format("help_center/articles/{0}.json", articleId), sideloadOptions);
 
-            return GenericGet<IndividualArticleResponse>( resourceUrl );
+            return GenericGet<IndividualArticleResponse>(resourceUrl);
         }
 
         public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
@@ -132,11 +132,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 #endif
 #if ASYNC
-        public async Task<IndividualArticleResponse> GetArticleAsync(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None )
+        public async Task<IndividualArticleResponse> GetArticleAsync(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None)
         {
-			var resourceUrl = this.GetFormattedArticleUri( string.Format( "help_center/articles/{0}.json", articleId ), sideloadOptions );
+            var resourceUrl = this.GetFormattedArticleUri(string.Format("help_center/articles/{0}.json", articleId), sideloadOptions);
 
-			return await GenericGetAsync<IndividualArticleResponse>( resourceUrl );
+            return await GenericGetAsync<IndividualArticleResponse>(resourceUrl);
         }
 
         public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
@@ -233,23 +233,23 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return resourceUrl;
         }
 
-		private string GetFormattedArticleUri( string resourceUrl, ArticleSideLoadOptionsEnum sideloadOptions )
-		{
-		
-			string sideLoads = sideloadOptions.ToString().ToLower().Replace( " ", "" );
-			if( sideloadOptions != ArticleSideLoadOptionsEnum.None )
-			{
-				resourceUrl += resourceUrl.Contains( "?" ) ? "&include=" : "?include=";
+        private string GetFormattedArticleUri(string resourceUrl, ArticleSideLoadOptionsEnum sideloadOptions)
+        {
 
-				//Categories flag REQUIRES sections to be added as well, or nothing will be returned
-				if( sideloadOptions.HasFlag( ArticleSideLoadOptionsEnum.Categories ) && !sideloadOptions.HasFlag( ArticleSideLoadOptionsEnum.Sections ) )
-				{
-					sideLoads += string.Format( ",{0}", ArticleSideLoadOptionsEnum.Sections.ToString().ToLower() );
-				}
+            string sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
+            if (sideloadOptions != ArticleSideLoadOptionsEnum.None)
+            {
+                resourceUrl += resourceUrl.Contains("?") ? "&include=" : "?include=";
 
-				resourceUrl += sideLoads;
-			}
-			return resourceUrl;
-		}
-	}
+                //Categories flag REQUIRES sections to be added as well, or nothing will be returned
+                if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections))
+                {
+                    sideLoads += string.Format(",{0}", ArticleSideLoadOptionsEnum.Sections.ToString().ToLower());
+                }
+
+                resourceUrl += sideLoads;
+            }
+            return resourceUrl;
+        }
+    }
 }
