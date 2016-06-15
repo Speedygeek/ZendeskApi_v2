@@ -1,4 +1,6 @@
 ﻿using ZendeskApi_v2.Requests.HelpCenter;
+using static ZendeskApi_v2.Utils.ApiUtils;
+
 namespace ZendeskApi_v2.HelpCenter
 {
     public interface IHelpCenterApi
@@ -12,6 +14,7 @@ namespace ZendeskApi_v2.HelpCenter
         IAccessPolicies AccessPolicies { get; }
         ITopics Topics { get; }
         string Locale { get; }
+        string ZendeskUrl { get; }
     }
 
     public class HelpCenterApi : IHelpCenterApi
@@ -25,18 +28,36 @@ namespace ZendeskApi_v2.HelpCenter
         public IAccessPolicies AccessPolicies { get; set; }
         public ITopics Topics { get; set; }
         public string Locale { get; set; }
+        public string ZendeskUrl { get; set; }
 
         public HelpCenterApi(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
         {
-            Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
-            Sections = new Sections(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Articles = new Articles(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Translations = new Translations(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            AccessPolicies = new AccessPolicies(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Topics = new Topics(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
+
+            Categories = new Categories(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
+            Sections = new Sections(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Articles = new Articles(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Translations = new Translations(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Votes = new Votes(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Comments = new Comments(formattedUrl, user, password, apiToken, p_OAuthToken);
+            AccessPolicies = new AccessPolicies(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Topics = new Topics(formattedUrl, user, password, apiToken, p_OAuthToken);
             Locale = locale;
+
+            ZendeskUrl = formattedUrl;
+        }
+
+
+        /// <summary>
+        /// Constructor that takes 3 params.
+        /// </summary>
+        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user">Email adress of the user.</param>
+        /// <param name="password">Password of the user.</param>
+        public HelpCenterApi(string yourZendeskUrl,
+            string user,
+            string password) : this(yourZendeskUrl, user, password, null, "en-us", null)
+        {
         }
     }
 }

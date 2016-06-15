@@ -1,7 +1,7 @@
-﻿using System;
-using ZendeskApi_v2.Requests;
+﻿using ZendeskApi_v2.Requests;
 using System.Net;
 using ZendeskApi_v2.HelpCenter;
+using static ZendeskApi_v2.Utils.ApiUtils;
 
 #if Net35 
 using System.Web;
@@ -180,7 +180,7 @@ namespace ZendeskApi_v2
             ((Search)Search).Proxy                                = proxy;
             ((Tags)Tags).Proxy                                    = proxy;
             ((Forums)Forums).Proxy                                = proxy;
-            ((ZendeskApi_v2.Requests.Categories)Categories).Proxy = proxy;
+            ((Categories)Categories).Proxy = proxy;
             ((Topics)Topics).Proxy                                = proxy;
             ((AccountsAndActivity)AccountsAndActivity).Proxy      = proxy;
             ((JobStatuses)JobStatuses).Proxy                      = proxy;
@@ -195,28 +195,7 @@ namespace ZendeskApi_v2
         }
 
 #endif
-        Uri GetFormattedZendeskUrl(string yourZendeskUrl)
-        {
-            yourZendeskUrl = yourZendeskUrl.ToLower();
-
-            //Make sure the Authority is https://
-            if (yourZendeskUrl.StartsWith("http://"))
-                yourZendeskUrl = yourZendeskUrl.Replace("http://", "https://");
-
-            if (!yourZendeskUrl.StartsWith("https://"))
-                yourZendeskUrl = "https://" + yourZendeskUrl;
-
-            if (!yourZendeskUrl.EndsWith("/api/v2"))
-            {
-                //ensure that url ends with ".zendesk.com/api/v2"
-                yourZendeskUrl = yourZendeskUrl.Split(new[] { ".zendesk.com" }, StringSplitOptions.RemoveEmptyEntries)[0] + ".zendesk.com/api/v2";
-            }
-
-
-            if (!yourZendeskUrl.EndsWith("/", StringComparison.CurrentCultureIgnoreCase))
-                yourZendeskUrl += "/";
-            return new Uri(yourZendeskUrl);
-        }
+        
 
 #if Net35 
         public string GetLoginUrl(string name, string email, string authenticationToken, string returnToUrl = "")
