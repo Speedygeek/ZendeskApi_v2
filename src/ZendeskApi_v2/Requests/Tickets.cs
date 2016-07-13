@@ -67,6 +67,7 @@ namespace ZendeskApi_v2.Requests
         GroupTicketResponse GetProblems();
         GroupTicketResponse AutoCompleteProblems(string text);
         GroupAuditResponse GetAudits(long ticketId);
+        GroupAuditResponse GetAuditsNextPage(string NextPage);
         IndividualAuditResponse GetAuditById(long ticketId, long auditId);
         bool MarkAuditAsTrusted(long ticketId, long auditId);
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
@@ -375,7 +376,12 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupAuditResponse>(string.Format("tickets/{0}/audits.json", ticketId));
         }
+        public GroupAuditResponse GetAuditsNextPage(string NextPage)
+        {
+            var resource = NextPage.Replace(ZendeskUrl, string.Empty);
 
+            return GenericGet<GroupAuditResponse>(resource);
+        }
         public IndividualAuditResponse GetAuditById(long ticketId, long auditId)
         {
             return GenericGet<IndividualAuditResponse>(string.Format("tickets/{0}/audits/{1}.json", ticketId, auditId));

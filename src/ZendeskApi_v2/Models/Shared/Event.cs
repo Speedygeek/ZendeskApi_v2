@@ -42,7 +42,7 @@ namespace ZendeskApi_v2.Models.Shared
         /// Used when event is VoiceComment
         /// </summary>
         [JsonProperty("data")]
-        public string Data { get; set; }
+        public Data Data { get; set; }
 
         /// <summary>
         /// Used when event is VoiceComment

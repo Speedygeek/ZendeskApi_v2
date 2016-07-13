@@ -385,6 +385,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\Shared\Audit.cs">
       <Link>Models\Shared\Audit.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Shared\Data.cs">
+      <Link>Models\Shared\Data.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Shared\Event.cs">
       <Link>Models\Shared\Event.cs</Link>
     </Compile>
