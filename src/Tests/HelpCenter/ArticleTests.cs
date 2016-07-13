@@ -42,8 +42,8 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = api.HelpCenter.Sections.GetSections();
-            var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(resSections.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Articles[0].SectionId, resSections.Sections[0].Id);
+            var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(202119686);
+            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
         }
 
         #region Sideloaded Content
@@ -115,11 +115,11 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticlesSortedInASection()
         {
-            var section = api.HelpCenter.Sections.GetSections().Sections[1];
+            var section = api.HelpCenter.Sections.GetSectionById(201010935).Section;
 
             var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
                 new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
-            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, 
+            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
                 new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
@@ -173,8 +173,8 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
-            var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(resSections.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Articles[0].SectionId, resSections.Sections[0].Id);
+            GroupArticleResponse res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(202119686);
+            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
         }
 
         [Test]

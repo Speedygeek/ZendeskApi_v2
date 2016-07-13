@@ -31,15 +31,15 @@ namespace Tests.HelpCenter
             var res = api.HelpCenter.Sections.CreateSection(new Section
             {
                 Name = "My Test section",
+                Position = 12,
                 CategoryId = category_id
             });
             Assert.Greater(res.Section.Id, 0);
 
-            res.Section.Description = "updated description";
+            res.Section.Position = 42;
             var update = api.HelpCenter.Sections.UpdateSection(res.Section);
-            Assert.AreEqual(update.Section.Description, res.Section.Description);
-
-            Assert.True(api.HelpCenter.Sections.DeleteSection(res.Section.Id.Value));
+            Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
+            Assert.That(api.HelpCenter.Sections.DeleteSection(res.Section.Id.Value), Is.True);
         }
 
         [Test]
@@ -61,16 +61,16 @@ namespace Tests.HelpCenter
             var res = await api.HelpCenter.Sections.CreateSectionAsync(new Section
             {
                 Name = "My Test section",
+                Position = 12,
                 CategoryId = category_id
             });
 
-            Assert.Greater(res.Section.Id, 0);
+            Assert.That(res.Section.Id, Is.GreaterThan(0));
 
-            res.Section.Description = "updated description";
+            res.Section.Position = 42;
             var update = await api.HelpCenter.Sections.UpdateSectionAsync(res.Section);
-            Assert.AreEqual(update.Section.Description, res.Section.Description);
-
-            Assert.True(await api.HelpCenter.Sections.DeleteSectionAsync(res.Section.Id.Value));
+            Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
+            Assert.That(await api.HelpCenter.Sections.DeleteSectionAsync(res.Section.Id.Value), Is.True);
         }
     }
 }

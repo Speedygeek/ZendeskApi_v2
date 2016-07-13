@@ -241,7 +241,7 @@ namespace Tests
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
         }
-
+        [Ignore("this is no longer an error")]
         [Test]
         public void CanNotCreateUserWithStringEmptyEmail()
         {
@@ -266,7 +266,7 @@ namespace Tests
 
             Assert.IsFalse(success);
         }
-
+        [Ignore("this is no longer an error")]
         [Test]
         public async Task CanNotCreateUserWithStringEmptyEmailAsync()
         {
