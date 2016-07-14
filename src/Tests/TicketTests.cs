@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -544,7 +545,7 @@ namespace Tests
         [Test]
         public void CanCreateTicketWithDueDate()
         {
-            var dueAt = DateTimeOffset.UtcNow;
+            var dueAt = DateTimeOffset.Parse("12/31/2020 07:00:00 -05:00");
 
             var ticket = new Ticket()
             {
@@ -552,13 +553,13 @@ namespace Tests
                 Comment = new Comment() { Body = "test comment" },
                 Type = "task",
                 Priority = TicketPriorities.Normal,
-                DueAt = DateTimeOffset.UtcNow
+                DueAt = dueAt
             };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
 
-            Assert.NotNull(res);
-            Assert.AreEqual(dueAt.ToString(), res.DueAt.ToString());
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.DueAt, Is.EqualTo(dueAt));
 
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }
