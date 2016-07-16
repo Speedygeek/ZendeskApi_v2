@@ -71,7 +71,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericPagedGet<GroupArticleResponse>(resourceUrl, perPage, page);
         }
 
-
         public GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
             var uri = string.Format("help_center/categories/{0}/articles.json", categoryId);

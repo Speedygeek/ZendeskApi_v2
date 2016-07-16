@@ -75,6 +75,9 @@
     <Compile Include="Models\Constants\ViaTypes.cs" />
     <Compile Include="Models\Constants\Visibility.cs" />
     <Compile Include="Models\HelpCenter\HelpCenterBase.cs" />
+    <Compile Include="Models\HelpCenter\Post\GroupPostResponse.cs" />
+    <Compile Include="Models\HelpCenter\Post\IndividualPostResponse.cs" />
+    <Compile Include="Models\HelpCenter\Post\Post.cs" />
     <Compile Include="Models\HelpCenter\Topics\GroupTopicResponse.cs" />
     <Compile Include="Models\HelpCenter\Topics\IndividualTopicResponse.cs" />
     <Compile Include="Models\HelpCenter\Topics\Topic.cs" />
@@ -288,6 +291,7 @@
     <Compile Include="Requests\HelpCenter\ArticleSortingOptions.cs" />
     <Compile Include="Requests\HelpCenter\Categories.cs" />
     <Compile Include="Requests\HelpCenter\Comments.cs" />
+    <Compile Include="Requests\HelpCenter\Posts.cs" />
     <Compile Include="Requests\HelpCenter\Topics.cs" />
     <Compile Include="Requests\HelpCenter\Translations.cs" />
     <Compile Include="Requests\HelpCenter\Votes.cs" />

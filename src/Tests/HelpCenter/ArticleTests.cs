@@ -238,7 +238,7 @@ namespace Tests.HelpCenter
 
             Assert.ThrowsAsync<WebException>(async () =>
             {
-                await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
+              var sec =  await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
             });
         }
 

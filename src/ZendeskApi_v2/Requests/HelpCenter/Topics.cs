@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-#if ASYNC
+﻿#if ASYNC
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.HelpCenter.Topics;
@@ -59,7 +55,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public bool DeleteTopic(long topicId)
         {
-            return GenericDelete(string.Format("community/topics/{0}.json)", topicId));
+            return GenericDelete(string.Format("community/topics/{0}.json", topicId));
         }
 #endif
 #if ASYNC
