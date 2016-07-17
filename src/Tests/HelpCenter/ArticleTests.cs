@@ -10,11 +10,13 @@ using ZendeskApi_v2.Models.Users;
 using System.Collections.Generic;
 using ZendeskApi_v2.Models.AccessPolicies;
 using System.Net;
+using System.Threading;
 
 namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
+    [Parallelizable(ParallelScope.None)]
     public class ArticleTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
@@ -236,6 +238,7 @@ namespace Tests.HelpCenter
 
             await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
 
+            Thread.Sleep(10000);
             Assert.ThrowsAsync<WebException>(async () =>
             {
               var sec =  await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);

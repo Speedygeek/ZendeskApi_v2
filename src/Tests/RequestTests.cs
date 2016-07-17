@@ -147,54 +147,6 @@ namespace Tests
         }
 
         [Test]
-        [Ignore("Currently no Ccd Requests on Test account")]
-        public void CanGetAllCcdRequests()
-        {
-            var res = _api.Requests.GetAllCcdRequests();
-            Assert.True(res.Count > 0);
-        }
-
-        [TestCase(1, 1)]
-        [TestCase(1, 2)]
-        [Ignore("Currently no Ccd Requests on Test account")]
-        public void CanGetAllCcdRequestsPaged(int perPage, int page)
-        {
-            Assert.DoesNotThrow(() =>
-            {
-                var res = _api.Requests.GetAllCcdRequests(perPage: perPage, page: page);
-
-                Assert.IsNotNull(res);
-                Assert.IsNotNull(res.Requests);
-                Assert.AreEqual(perPage, res.PageSize);
-                Assert.AreEqual(page, res.Page);
-            });
-        }
-
-        [Test]
-        [Ignore("Currently no Ccd Requests on Test account")]
-        public void CanGetAllCcdRequestsSorted()
-        {
-            Assert.DoesNotThrow(() =>
-            {
-                var unsorted = _api.Requests.GetAllCcdRequests();
-
-                Assert.IsNotNull(unsorted);
-                Assert.IsNotNull(unsorted.Requests);
-                Assert.AreEqual(unsorted.Requests.AsQueryable(), unsorted.Requests.AsQueryable());
-                Assert.AreNotEqual(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    unsorted.Requests.AsQueryable());
-
-                var sorted = _api.Requests.GetAllCcdRequests(sortCol: "updated_at", sortAscending: true);
-
-                Assert.IsNotNull(sorted);
-                Assert.IsNotNull(sorted.Requests);
-                Assert.AreEqual(sorted.Requests.AsQueryable(), sorted.Requests.AsQueryable());
-                Assert.AreEqual(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    sorted.Requests.AsQueryable());
-            });
-        }
-
-        [Test]
         public void CanCreateAndUpdateRequests()
         {
             var req = new Request

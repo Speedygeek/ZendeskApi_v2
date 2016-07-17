@@ -106,7 +106,6 @@
     <Compile Include="HelpCenter\TranslationTests.cs" />
     <Compile Include="HelpCenter\SectionTests.cs" />
     <Compile Include="HelpCenter\VoteTests.cs" />
-    <Compile Include="HelpCenter\CommentTests.cs" />
     <Compile Include="HelpCenter\ArticleTests.cs" />
     <Compile Include="AttachmentTests.cs" />
     <Compile Include="CategoryTests.cs" />
@@ -146,6 +145,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="gracehoppertocat3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="testupload.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
