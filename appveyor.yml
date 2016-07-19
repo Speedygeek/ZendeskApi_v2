@@ -16,9 +16,11 @@ install:
     Update-AppveyorBuild -Version $script_versionNumber
     
     $env:script_versionNumber = $script_versionNumber
+    
     $env:APPVEYOR_PATCHING_VERSION = "$($versionInfo.AssemblySemVer)"
 
     Write-Host "Build version: " $script_versionNumber
+    
     Write-Host "Assembly version: " $env:APPVEYOR_PATCHING_VERSION
 
     if($script_versionNumber.contains("-")) {
