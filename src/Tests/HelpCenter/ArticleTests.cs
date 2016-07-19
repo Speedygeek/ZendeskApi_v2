@@ -200,6 +200,7 @@ namespace Tests.HelpCenter
         }
 
         [Test]
+        [Ignore("Test case needs to be changed")]
         public async Task TestCaseForIssue220()
         {
             var resp = await api.HelpCenter.Sections.GetSectionsAsync();
