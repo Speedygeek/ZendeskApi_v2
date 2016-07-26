@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Voice
 {
-    public class GroupAgentActivityResponse
+    public class GroupAgentActivityResponse : GroupResponseBase
     {
         [JsonProperty("agents_activity")]
-        public IList<AgentActivity> AgentsActivity { get; set; }
+        public IList<AgentActivity> AgentActivity { get; set; }
     }
 }
