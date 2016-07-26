@@ -27,6 +27,6 @@ namespace ZendeskApi_v2.Models.Voice
         public long AverageTalkTime { get; set; }
 
         [JsonProperty("last_updated_at")]
-        public DateTimeOffset LastUpdatedAt { get; set; }
+        public DateTimeOffset? LastUpdatedAt { get; set; }
     }
 }

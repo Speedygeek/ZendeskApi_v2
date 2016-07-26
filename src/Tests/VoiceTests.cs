@@ -82,9 +82,10 @@ namespace Tests
         {
             var res = api.Voice.GetHistoricalQueueActivity();
 
-            Assert.NotNull(res.Details);
+            Assert.NotNull(res);
         }
 
+        [Test]
         public void GetHistoricalQueueActivityAsync()
         {
             var res = api.Voice.GetHistoricalQueueActivityAsync();
