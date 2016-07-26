@@ -63,5 +63,8 @@ namespace ZendeskApi_v2.Models.Tickets
 
         [JsonProperty("requester_wait_time_in_minutes")]
         public TimeSpanMetric RequesterWaitTimeInMinutes { get; set; }
+
+        [JsonProperty("on_hold_time_in_minutes")]
+        public TimeSpanMetric OnHoldTimeInMinutes { get; set; }
     }
 }

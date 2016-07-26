@@ -277,6 +277,8 @@
     <Compile Include="Models\Views\View.cs" />
     <Compile Include="Models\Views\ViewCount.cs" />
     <Compile Include="Models\Views\GroupViewCountResponse.cs" />
+    <Compile Include="Models\Voice\AgentActivity.cs" />
+    <Compile Include="Models\Voice\GroupAgentActivityResponse.cs" />
     <Compile Include="RequestResult.cs" />
     <Compile Include="Requests\HelpCenter\AccessPolicies.cs" />
     <Compile Include="Requests\HelpCenter\Articles.cs" />

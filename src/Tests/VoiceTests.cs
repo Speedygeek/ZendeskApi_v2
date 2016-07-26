@@ -57,5 +57,15 @@ namespace Tests
             Assert.IsTrue(result.Result);
         }
 
+        [Test]
+        public void GetAllAgentAvailability()
+        {
+            var res = api.Voice.GetVoiceAgentActivity();
+
+            var agent = res.AgentsActivity.FirstOrDefault();
+            Assert.NotNull(agent);
+            Assert.Equals(281513402, agent.AgentId);
+        }
+
     }
 }
