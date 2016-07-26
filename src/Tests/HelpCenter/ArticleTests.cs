@@ -10,11 +10,13 @@ using ZendeskApi_v2.Models.Users;
 using System.Collections.Generic;
 using ZendeskApi_v2.Models.AccessPolicies;
 using System.Net;
+using System.Threading;
 
 namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
+    [Parallelizable(ParallelScope.None)]
     public class ArticleTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
@@ -42,8 +44,8 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = api.HelpCenter.Sections.GetSections();
-            var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(resSections.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Articles[0].SectionId, resSections.Sections[0].Id);
+            var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(202119686);
+            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
         }
 
         #region Sideloaded Content
@@ -115,11 +117,11 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticlesSortedInASection()
         {
-            var section = api.HelpCenter.Sections.GetSections().Sections[1];
+            var section = api.HelpCenter.Sections.GetSectionById(201010935).Section;
 
             var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
                 new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
-            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None, 
+            var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
                 new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
@@ -173,8 +175,8 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
-            var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(resSections.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Articles[0].SectionId, resSections.Sections[0].Id);
+            GroupArticleResponse res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(202119686);
+            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
         }
 
         [Test]
@@ -198,6 +200,7 @@ namespace Tests.HelpCenter
         }
 
         [Test]
+        [Ignore("Test case needs to be changed")]
         public async Task TestCaseForIssue220()
         {
             var resp = await api.HelpCenter.Sections.GetSectionsAsync();
@@ -236,9 +239,10 @@ namespace Tests.HelpCenter
 
             await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
 
+            Thread.Sleep(10000);
             Assert.ThrowsAsync<WebException>(async () =>
             {
-                await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
+              var sec =  await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
             });
         }
 

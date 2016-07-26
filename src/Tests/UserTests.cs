@@ -7,7 +7,8 @@ using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
-
+using ZendeskApi_v2.Models.Shared;
+using System.IO;
 
 namespace Tests
 {
@@ -68,16 +69,17 @@ namespace Tests
         public void CanCreateUpdateSuspendAndDeleteUser()
         {
             var list = api.Users.GetAllUsers();
-            var u = list.Users.Where(x => x.Email == "test772@test.com").FirstOrDefault();
-            if (u != null)
+            var users = list.Users.Where(x => x.Email == "test772@tester.com");
+
+            foreach(var u in users)
             {
                 api.Users.DeleteUser(u.Id.Value);
             }
 
             var user = new User()
             {
-                Name = "test user72",
-                Email = "test772@test.com",
+                Name = "tester user72",
+                Email = "test772@tester.com",
                 Role = "end-user",
                 Verified = true,
                 CustomFields = new Dictionary<string, object>()
@@ -110,35 +112,6 @@ namespace Tests
             //check the remote photo url
             //Assert.AreEqual(res1.User.RemotePhotoUrl, res2.User.RemotePhotoUrl);
         }
-
-        //Bulk Create users is hard to test because of we don't know how long the job will take to complete. Test should pass if you run individually but might cause problems in parallel.
-        //[Test]
-        //public void CanBulkCreateUsers()
-        //{            
-        //    var users = new List<User>()
-        //    {
-        //        new User()
-        //            {
-        //                Name = "test user7",
-        //                Email = "test7@test.com",
-        //            },
-        //        new User()
-        //            {
-        //                Name = "test user8",
-        //                Email = "test8@test.com",
-        //            },
-        //    };
-
-        //    var res1 = api.Users.BulkCreateUsers(users);
-        //    Assert.IsNotEmpty(res1.JobStatus.Id);            
-
-        //    Thread.Sleep(2000);
-
-        //    var user1 = api.Users.SearchByEmail(users[0].Email);
-        //    var user2 = api.Users.SearchByEmail(users[1].Email);
-        //    Assert.True(api.Users.DeleteUser(user1.Users[0].Id.Value));
-        //    Assert.True(api.Users.DeleteUser(user2.Users[0].Id.Value));
-        //}
 
         [Test]
         public void CanFindUser()
@@ -243,84 +216,6 @@ namespace Tests
         }
 
         [Test]
-        public void CanNotCreateUserWithStringEmptyEmail()
-        {
-            var u = new User();
-            u.Name = new Random().Next(1, 2000000).ToString() + " " + new Random().Next(1, 2000000).ToString();
-            //u.Alias = u.Name;
-            u.Verified = true;
-            u.Email = "";
-            u.LocaleId = 1;
-            u.Role = UserRoles.EndUser;
-
-            bool success = false;
-            try
-            {
-                var result = api.Users.CreateUser(u);
-                success = true;
-            }
-            catch (Exception e)
-            {
-                Assert.IsTrue(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"));
-            }
-
-            Assert.IsFalse(success);
-        }
-
-        [Test]
-        public async Task CanNotCreateUserWithStringEmptyEmailAsync()
-        {
-            var u = new User();
-            u.Name = new Random().Next(1, 2000000).ToString() + " " + new Random().Next(1, 2000000).ToString();
-            //u.Alias = u.Name;
-            u.Verified = true;
-            u.Email = "";
-            u.LocaleId = 1;
-            u.Role = UserRoles.EndUser;
-
-            bool success = false;
-            try
-            {
-                var result = await api.Users.CreateUserAsync(u);
-                success = true;
-            }
-            catch (Exception e)
-            {
-                Assert.IsTrue(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"));
-            }
-
-            Assert.IsFalse(success);
-        }
-
-        [Test]
-        [Ignore("unreliable test")]
-        public async Task CanMergeUsers()
-        {
-            var user1 = new User();
-            user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
-            user1.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
-
-            var user2 = new User();
-            user2.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
-            user2.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
-
-            var resultUser1 = api.Users.CreateUser(user1);
-            var resultUser2 = api.Users.CreateUser(user2);
-
-            var mergedUser = api.Users.MergeUser(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
-            await Task.Delay(1000);
-            var mergedIdentities = api.Users.GetUserIdentities(mergedUser.User.Id.Value);
-
-            Assert.AreEqual(resultUser2.User.Id, mergedUser.User.Id);
-            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
-            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user2.Email.ToLower()));
-
-            api.Users.DeleteUser(resultUser1.User.Id.Value);
-            api.Users.DeleteUser(resultUser2.User.Id.Value);
-
-        }
-
-        [Test]
         public async Task CanMergeUsersAsync()
         {
             var user1 = new User();
@@ -364,6 +259,36 @@ namespace Tests
             var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities);
             Assert.AreEqual(userList.Count, result.Count);
             Assert.IsTrue((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()));
+        }
+
+        [Test]
+        public void CanSetUserPhoto()
+        {
+            var file = new ZenFile()
+            {
+                ContentType = "image/jpeg",
+                FileName = "gracehoppertocat3.jpg",
+                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\gracehoppertocat3.jpg")
+            };
+
+            var user = api.Users.SetUserPhoto(Settings.UserId, file);
+            Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
+            Assert.That(user.User.Photo.Size, Is.EqualTo(6553));
+        }
+
+        [Test]
+        public async Task CanSetUserPhotoAsync()
+        {
+            var file = new ZenFile()
+            {
+                ContentType = "image/jpeg",
+                FileName = "gracehoppertocat3.jpg",
+                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\gracehoppertocat3.jpg")
+            };
+
+            var user = await api.Users.SetUserPhotoAsync(Settings.UserId, file);
+            Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
+            Assert.That(user.User.Photo.Size, Is.EqualTo(6553));
         }
     }
 }

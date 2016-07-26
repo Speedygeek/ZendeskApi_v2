@@ -38,8 +38,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -75,6 +75,9 @@
     <Compile Include="Models\Constants\ViaTypes.cs" />
     <Compile Include="Models\Constants\Visibility.cs" />
     <Compile Include="Models\HelpCenter\HelpCenterBase.cs" />
+    <Compile Include="Models\HelpCenter\Post\GroupPostResponse.cs" />
+    <Compile Include="Models\HelpCenter\Post\IndividualPostResponse.cs" />
+    <Compile Include="Models\HelpCenter\Post\Post.cs" />
     <Compile Include="Models\HelpCenter\Topics\GroupTopicResponse.cs" />
     <Compile Include="Models\HelpCenter\Topics\IndividualTopicResponse.cs" />
     <Compile Include="Models\HelpCenter\Topics\Topic.cs" />
@@ -291,6 +294,7 @@
     <Compile Include="Requests\HelpCenter\ArticleSortingOptions.cs" />
     <Compile Include="Requests\HelpCenter\Categories.cs" />
     <Compile Include="Requests\HelpCenter\Comments.cs" />
+    <Compile Include="Requests\HelpCenter\Posts.cs" />
     <Compile Include="Requests\HelpCenter\Topics.cs" />
     <Compile Include="Requests\HelpCenter\Translations.cs" />
     <Compile Include="Requests\HelpCenter\Votes.cs" />

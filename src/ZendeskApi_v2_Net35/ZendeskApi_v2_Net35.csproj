@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -234,6 +234,15 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\HelpCenterBase.cs">
       <Link>Models\HelpCenter\HelpCenterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Post\GroupPostResponse.cs">
+      <Link>Models\HelpCenter\Post\GroupPostResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Post\IndividualPostResponse.cs">
+      <Link>Models\HelpCenter\Post\IndividualPostResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Post\Post.cs">
+      <Link>Models\HelpCenter\Post\Post.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\HelpCenter\Topics\GroupTopicResponse.cs">
       <Link>Models\HelpCenter\Topics\GroupTopicResponse.cs</Link>
@@ -780,6 +789,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Comments.cs">
       <Link>Requests\HelpCenter\Comments.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Posts.cs">
+      <Link>Requests\HelpCenter\Posts.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\HelpCenter\Sections.cs">
       <Link>Requests\HelpCenter\Sections.cs</Link>

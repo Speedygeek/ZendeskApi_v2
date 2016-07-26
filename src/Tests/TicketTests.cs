@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -44,46 +45,6 @@ namespace Tests
             var id = Settings.OrganizationId;
             var tickets = api.Tickets.GetTicketsByOrganizationIDAsync(id);
             Assert.True(tickets.Result.Count > 0);
-        }
-
-        [Test]
-        [Ignore("unreliable test")]
-        public async Task CanCreateUpdateAndDeleteTicketAsync()
-        {
-            var ticket = new Ticket()
-            {
-                Subject = "my printer is on fire",
-                Comment = new Comment() { Body = "HELP" },
-                Priority = TicketPriorities.Urgent
-            };
-
-            ticket.CustomFields = new List<CustomField>()
-                {
-                    new CustomField()
-                        {
-                            Id = Settings.CustomFieldId,
-                            Value = "Doing fine!"
-                        }
-                };
-
-            var res = (await api.Tickets.CreateTicketAsync(ticket)).Ticket;
-
-            Assert.NotNull(res);
-            Assert.Greater(res.Id.Value, 0);
-
-            res.Status = TicketStatus.Solved;
-            res.AssigneeId = Settings.UserId;
-
-            res.CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail };
-            var body = "got it thanks";
-            var updateResponse = await api.Tickets.UpdateTicketAsync(res, new Comment() { Body = body, Public = true });
-
-            await Task.Delay(1000);
-
-            Assert.NotNull(updateResponse);
-            Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
-
-            Assert.True(await api.Tickets.DeleteAsync(res.Id.Value));
         }
 
         [Test]
@@ -211,26 +172,6 @@ namespace Tests
 
             Assert.IsTrue(ticketsRes.Users.Any());
             Assert.IsTrue(ticketsRes.Users.Any());
-        }
-
-        [Test]
-        [Ignore("fragile needs to be changed.")]
-        public void CanGetRecentTicketsPaged()
-        {
-            var ticketsRes = api.Tickets.GetRecentTickets(5, 2);
-
-            Assert.AreEqual(5, ticketsRes.PageSize);
-            Assert.AreEqual(5, ticketsRes.Tickets.Count);
-            Assert.Greater(ticketsRes.Count, 0);
-
-            var nextPage = ticketsRes.NextPage.GetQueryStringDict()
-                    .Where(x => x.Key == "page")
-                        .Select(x => x.Value)
-                        .FirstOrDefault();
-
-            Assert.NotNull(nextPage);
-
-            Assert.AreEqual("3", nextPage);
         }
 
         [Test]
@@ -544,7 +485,7 @@ namespace Tests
         [Test]
         public void CanCreateTicketWithDueDate()
         {
-            var dueAt = DateTimeOffset.UtcNow;
+            var dueAt = DateTimeOffset.Parse("12/31/2020 07:00:00 -05:00");
 
             var ticket = new Ticket()
             {
@@ -552,13 +493,13 @@ namespace Tests
                 Comment = new Comment() { Body = "test comment" },
                 Type = "task",
                 Priority = TicketPriorities.Normal,
-                DueAt = DateTimeOffset.UtcNow
+                DueAt = dueAt
             };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
 
-            Assert.NotNull(res);
-            Assert.AreEqual(dueAt.ToString(), res.DueAt.ToString());
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.DueAt, Is.EqualTo(dueAt));
 
             Assert.True(api.Tickets.Delete(res.Id.Value));
         }
@@ -721,19 +662,6 @@ namespace Tests
             Assert.Greater(res.Tickets.Count, 0);
 
             Assert.True(api.Tickets.Delete(t1.Id.Value));
-        }
-
-        [Test]
-        [Ignore("currently getting a 404 need to talk with zendesk about why.")]
-        public void CanGetAuditsAndMarkAsTrusted()
-        {
-            var audits = api.Tickets.GetAudits(Settings.SampleTicketId);
-            Assert.Greater(audits.Audits.Count, 0);
-
-            var aud = api.Tickets.GetAuditById(Settings.SampleTicketId, audits.Audits.First().Id);
-            Assert.NotNull(aud.Audit);
-
-            Assert.True(api.Tickets.MarkAuditAsTrusted(Settings.SampleTicketId, audits.Audits.First().Id));
         }
 
         [Test]

@@ -11,11 +11,8 @@
         public const string FormattedPhone = "(111) 222-3333";
         public const string BadPhone = "0987654321";
 
-
         public const string Email2 = "zendeskcsharpapi454@gmail.com";
         public const string Password2 = "Pa55word,";
-
-
 
         public const string FieldKey = "test";
         public const string FieldValue = "0897c9c1f80646118a8194c942aa84cf";
@@ -45,5 +42,6 @@
         
         // Help Center 
         public const long Category_ID = 200382245;
+        public const long Topic_ID = 200360263;
     }
 }

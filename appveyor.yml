@@ -17,7 +17,11 @@ install:
     
     $env:script_versionNumber = $script_versionNumber
     
+    $env:APPVEYOR_PATCHING_VERSION = "$($versionInfo.AssemblySemVer)"
+
     Write-Host "Build version: " $script_versionNumber
+    
+    Write-Host "Assembly version: " $env:APPVEYOR_PATCHING_VERSION
 
     if($script_versionNumber.contains("-")) {
       $env:Is_Prerelease  = 'true'
@@ -35,6 +39,10 @@ configuration: Release
 platform: Any CPU
 assembly_info:
   patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: $(APPVEYOR_PATCHING_VERSION)
+  assembly_file_version: $(APPVEYOR_PATCHING_VERSION)
+  assembly_informational_version: $(APPVEYOR_PATCHING_VERSION)
 nuget:
   disable_publish_on_pr: true
 before_build:
