@@ -57,5 +57,41 @@ namespace Tests
             Assert.IsTrue(result.Result);
         }
 
+        [Test]
+        public void GetAllAgentAvailability()
+        {
+            var res = api.Voice.GetVoiceAgentActivity();
+
+            var agent = res.AgentActivity.FirstOrDefault();
+            Assert.NotNull(agent);
+            Assert.AreEqual(281513402, agent.AgentId);
+        }
+
+        [Test]
+        public void GetAllAgentAvailabilityAsync()
+        {
+            var res = api.Voice.GetVoiceAgentActivityAsync();
+
+            var agent = res.Result.AgentActivity.FirstOrDefault();
+            Assert.NotNull(agent);
+            Assert.AreEqual(281513402, agent.AgentId);
+        }
+
+        [Test]
+        public void GetHistoricalQueueActivity()
+        {
+            var res = api.Voice.GetHistoricalQueueActivity();
+
+            Assert.NotNull(res);
+        }
+
+        [Test]
+        public void GetHistoricalQueueActivityAsync()
+        {
+            var res = api.Voice.GetHistoricalQueueActivityAsync();
+
+            Assert.NotNull(res.Result.Details);
+        }
+
     }
 }

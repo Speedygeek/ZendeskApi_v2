@@ -745,6 +745,15 @@
     <Compile Include="..\ZendeskApi_v2\Models\Views\ViewCount.cs">
       <Link>Models\Views\ViewCount.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Voice\AgentActivity.cs">
+      <Link>Models\Voice\AgentActivity.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Voice\GroupAgentActivityResponse.cs">
+      <Link>Models\Voice\GroupAgentActivityResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Voice\HistoricalQueueActivity.cs">
+      <Link>Models\Voice\HistoricalQueueActivity.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\RequestResult.cs">
       <Link>RequestResult.cs</Link>
     </Compile>
@@ -869,6 +878,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>pushd "$(SolutionDir)"
