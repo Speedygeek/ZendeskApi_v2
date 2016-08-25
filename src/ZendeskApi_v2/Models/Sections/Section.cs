@@ -34,7 +34,7 @@ namespace ZendeskApi_v2.Models.Sections
         [JsonProperty("category_id")]
         public long? CategoryId { get; set; }
 
-        [JsonProperty("outdated")]
+        [JsonProperty("outdated", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Outdated { get; set; }
 
         [JsonProperty("visibility")]

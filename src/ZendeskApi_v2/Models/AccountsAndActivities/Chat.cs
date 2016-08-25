@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class Chat
     {
 
-        [JsonProperty("enabled")]
+        [JsonProperty("enabled", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Enabled { get; set; }
 
         [JsonProperty("maximum_request_count")]

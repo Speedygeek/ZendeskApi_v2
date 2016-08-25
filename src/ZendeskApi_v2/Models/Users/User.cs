@@ -18,13 +18,13 @@ namespace ZendeskApi_v2.Models.Users
         [JsonProperty("alias")]
         public string Alias { get; set; }
 
-        [JsonProperty("active")]
+        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool? Active { get; set; }
 
-        [JsonProperty("verified")]
+        [JsonProperty("verified", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Verified { get; set; }
 
-        [JsonProperty("shared")]
+        [JsonProperty("shared", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool? Shared { get; set; }
 
         [JsonProperty("locale_id")]
@@ -61,19 +61,19 @@ namespace ZendeskApi_v2.Models.Users
         [JsonProperty("custom_role_id")]
         public long? CustomRoleId { get; set; }
 
-        [JsonProperty("moderator")]
+        [JsonProperty("moderator", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Moderator { get; set; }
 
         [JsonProperty("ticket_restriction")]
         public string TicketRestriction { get; set; }
 
-        [JsonProperty("only_private_comments")]
+        [JsonProperty("only_private_comments", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool OnlyPrivateComments { get; set; }
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
 
-        [JsonProperty("suspended")]
+        [JsonProperty("suspended", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Suspended { get; set; }
 
         [JsonProperty("photo")]

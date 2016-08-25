@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Models.Views
         [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonProperty("active")]
+        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Active { get; set; }
 
         [JsonProperty("updated_at")]

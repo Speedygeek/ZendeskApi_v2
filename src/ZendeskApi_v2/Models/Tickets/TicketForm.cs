@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
 
-        [JsonProperty("end_user_visible")]
+        [JsonProperty("end_user_visible", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool EndUserVisible { get; set; }
 
         [JsonProperty("position")]
@@ -29,10 +29,10 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("ticket_field_ids")]
         public IList<long> TicketFieldIds { get; set; }
 
-        [JsonProperty("active")]
+        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Active { get; set; }
 
-        [JsonProperty("default")]
+        [JsonProperty("default", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Default { get; set; }
 
         [JsonProperty("created_at")]

@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class User
     {
 
-        [JsonProperty("tagging")]
+        [JsonProperty("tagging", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Tagging { get; set; }
     }
 }

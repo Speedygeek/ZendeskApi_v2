@@ -43,7 +43,7 @@ namespace ZendeskApi_v2.Models.HelpCenter.Categories
         [JsonProperty("source_locale")]
         public string SourceLocale { get; set; }
 
-        [JsonProperty("outdated")]
+        [JsonProperty("outdated", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Outdated { get; set; }
 
         [JsonProperty("translations")]
