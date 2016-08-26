@@ -67,8 +67,8 @@ namespace Tests
             var res = api.Organizations.GetOrganizationsStartingWith(Settings.DefaultOrg.Substring(0, 3));
             Assert.Greater(res.Count, 0);
 
-            var search = api.Organizations.SearchForOrganizations(Settings.DefaultOrg);
-            Assert.Greater(res.Count, 0);
+            var search = api.Organizations.SearchForOrganizationsByExternalId(Settings.DefaultExternalId);
+            Assert.Greater(search.Count, 0);
         }
 
         [Test]
