@@ -11,7 +11,7 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("id")]
         public long? Id { get; set; }
 
-        [JsonProperty("public")]
+        [JsonProperty("public", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Public { get; set; }
 
         /// <summary>

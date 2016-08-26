@@ -54,14 +54,14 @@ namespace ZendeskApi_v2.Models.Requests
         /// This will be ignored when updating a request.
         /// Consider this as readonly.
         /// </summary>
-        [JsonProperty("can_be_solved_by_me")]
+        [JsonProperty("can_be_solved_by_me", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool? CanBeSolvedByMe { get; set; }
 
         /// <summary>
         /// Whether or not request is solved (an end user can set this if "CanBeSolvedByMe" is true).
         /// This will be ignored when updating a request if "CanBeSolvedByMe" is false.
         /// </summary>
-        [JsonProperty("solved")]
+        [JsonProperty("solved", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool? Solved { get; set; }
 
         /// <summary>

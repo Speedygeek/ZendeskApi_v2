@@ -9,13 +9,13 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class Apps
     {
 
-        [JsonProperty("use")]
+        [JsonProperty("use", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Use { get; set; }
 
-        [JsonProperty("create_private")]
+        [JsonProperty("create_private", DefaultValueHandling=DefaultValueHandling.Include)]
         public bool CreatePrivate { get; set; }
 
-        [JsonProperty("create_public")]
+        [JsonProperty("create_public", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool CreatePublic { get; set; }
     }
 }

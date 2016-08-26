@@ -19,7 +19,7 @@ namespace ZendeskApi_v2.Models.Triggers
         [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonProperty("active")]
+        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Active { get; set; }
 
         [JsonProperty("position")]

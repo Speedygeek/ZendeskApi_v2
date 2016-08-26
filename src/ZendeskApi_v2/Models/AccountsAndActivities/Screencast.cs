@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class Screencast
     {
 
-        [JsonProperty("enabled_for_tickets")]
+        [JsonProperty("enabled_for_tickets", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool EnabledForTickets { get; set; }
 
         [JsonProperty("host")]
