@@ -4,7 +4,7 @@
 
         public const string Site = "https://csharpapi.zendesk.com/api/v2/";
         public const string DefaultOrg = "csharpapi";
-        public const string DefaultExternalId = "abcd123";
+        public const string DefaultExternalId = "1234abc";
 
         public const string Email = "eric.neifert@gmail.com";
         public const string Password = "pa55word";
