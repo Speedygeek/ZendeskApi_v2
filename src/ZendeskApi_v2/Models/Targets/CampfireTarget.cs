@@ -16,7 +16,7 @@ namespace ZendeskApi_v2.Models.Targets
         [JsonProperty("subdomain")]
         public string SubDomain { get; set; }
 
-        [JsonProperty("ssl", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("ssl")]
         public bool SSL { get; set; }
 
         [JsonProperty("room")]
@@ -25,7 +25,7 @@ namespace ZendeskApi_v2.Models.Targets
         [JsonProperty("token")]
         public string Token { get; set; }
 
-        [JsonProperty("preserve_format", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("preserve_format")]
         public bool PreserveFormat { get; set; }
     }
 }

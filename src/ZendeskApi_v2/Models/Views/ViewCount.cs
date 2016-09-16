@@ -17,7 +17,7 @@ namespace ZendeskApi_v2.Models.Views
         [JsonProperty("pretty")]
         public string Pretty { get; set; }
 
-        [JsonProperty("fresh", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("fresh")]
         public bool Fresh { get; set; }
     }
 }

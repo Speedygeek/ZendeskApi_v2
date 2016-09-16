@@ -26,7 +26,7 @@ namespace ZendeskApi_v2.Models.Topics
         [JsonProperty("body")]
         public string Body { get; set; }
 
-        [JsonProperty("informative", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("informative")]
         public bool Informative { get; set; }
 
         [JsonProperty("attachments")]

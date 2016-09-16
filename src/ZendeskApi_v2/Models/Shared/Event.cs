@@ -14,7 +14,7 @@ namespace ZendeskApi_v2.Models.Shared
         [JsonProperty("body")]
         public string Body { get; set; }
 
-        [JsonProperty("public", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("public")]
         public bool Public { get; set; }        
 
         [JsonProperty("attachments")]
@@ -35,7 +35,7 @@ namespace ZendeskApi_v2.Models.Shared
         /// <summary>
         /// Used when event is Comment
         /// </summary>
-        [JsonProperty("trusted", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("trusted")]
         public bool? Trusted { get; set; }
 
         /// <summary>

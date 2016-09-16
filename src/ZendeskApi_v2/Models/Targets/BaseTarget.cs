@@ -15,7 +15,7 @@ namespace ZendeskApi_v2.Models.Targets
         [JsonProperty("type")]
         public virtual string Type { get; private set; }
 
-        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("active")]
         public bool Active { get; set; }
 
         [JsonProperty("created_at")]

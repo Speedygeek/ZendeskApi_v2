@@ -18,7 +18,7 @@ namespace ZendeskApi_v2.Models.Organizations
         [JsonProperty("organization_id")]
         public long? OrganizationId { get; set; }
 
-        [JsonProperty("default", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("default")]
         public bool Default { get; set; }
 
         [JsonProperty("created_at")]

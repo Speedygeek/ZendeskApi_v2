@@ -23,13 +23,13 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("position")]
         public int Position { get; set; }
 
-        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("active")]
         public bool Active { get; set; }
 
-        [JsonProperty("required", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("required")]
         public bool Required { get; set; }
 
-        [JsonProperty("collapsed_for_agents", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("collapsed_for_agents")]
         public bool CollapsedForAgents { get; set; }
 
         [JsonProperty("regexp_for_validation")]
@@ -38,13 +38,13 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("title_in_portal")]
         public string TitleInPortal { get; set; }
 
-        [JsonProperty("visible_in_portal", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("visible_in_portal")]
         public bool VisibleInPortal { get; set; }
 
-        [JsonProperty("editable_in_portal", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("editable_in_portal")]
         public bool EditableInPortal { get; set; }
 
-        [JsonProperty("required_in_portal", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("required_in_portal")]
         public bool RequiredInPortal { get; set; }
 
         [JsonProperty("tag")]

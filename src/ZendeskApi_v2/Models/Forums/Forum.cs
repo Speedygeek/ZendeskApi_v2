@@ -31,7 +31,7 @@ namespace ZendeskApi_v2.Models.Forums
         [JsonProperty("locale_id")]
         public long? LocaleId { get; set; }
 
-        [JsonProperty("locked", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("locked")]
         public bool Locked { get; set; }
 
         [JsonProperty("position")]

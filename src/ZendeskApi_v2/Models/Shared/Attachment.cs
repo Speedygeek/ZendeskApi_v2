@@ -27,7 +27,7 @@ namespace ZendeskApi_v2.Models.Shared
         [JsonProperty("size")]
         public int Size { get; set; }
 
-        [JsonProperty("inline", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("inline")]
         public bool Inline { get; set; }
 
         [JsonProperty("created_at")]

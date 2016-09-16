@@ -33,19 +33,19 @@ namespace ZendeskApi_v2.Models.Articles
         [JsonProperty("author_id")]
         public long? AuthorId { get; set; }
 
-        [JsonProperty("comments_disabled", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("comments_disabled")]
         public bool CommentsDisabled { get; set; }
 
-        [JsonProperty("outdated", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("outdated")]
         public bool Outdated { get; set; }
 
-        [JsonProperty("draft", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("draft")]
         public bool Draft { get; set; }
 
         [JsonProperty("label_names")]
         public string[] LabelNames { get; set; }
 
-        [JsonProperty("promoted", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("promoted")]
         public bool Promoted { get; set; }
 
         [JsonProperty("position")]

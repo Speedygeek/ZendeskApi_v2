@@ -39,13 +39,13 @@ namespace ZendeskApi_v2.Models.Topics
         [JsonProperty("forum_id")]
         public long? ForumId { get; set; }
 
-        [JsonProperty("locked", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("locked")]
         public bool Locked { get; set; }
 
-        [JsonProperty("pinned", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("pinned")]
         public bool Pinned { get; set; }
 
-        [JsonProperty("highlighted", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("highlighted")]
         public bool Highlighted { get; set; }
 
         [JsonProperty("position")]

@@ -38,7 +38,7 @@ namespace ZendeskApi_v2.Models.Shared
         [JsonProperty("author_id")]
         public long? author_id { get; set; }
 
-        [JsonProperty("public", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("public")]
         public bool? Public { get; set; }
 
         [JsonProperty("brand_id")]

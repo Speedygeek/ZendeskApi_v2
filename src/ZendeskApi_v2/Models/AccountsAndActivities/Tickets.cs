@@ -12,31 +12,31 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class Tickets
     {
 
-        [JsonProperty("list_newest_comments_first", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("list_newest_comments_first")]
         public bool ListNewestCommentsFirst { get; set; }
 
-        [JsonProperty("collaboration", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("collaboration")]
         public bool Collaboration { get; set; }
 
-        [JsonProperty("private_attachments", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("private_attachments")]
         public bool PrivateAttachments { get; set; }
 
-        [JsonProperty("agent_collision", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("agent_collision")]
         public bool AgentCollision { get; set; }
 
-        [JsonProperty("tagging", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("tagging")]
         public bool Tagging { get; set; }
 
-        [JsonProperty("list_empty_views", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("list_empty_views")]
         public bool ListEmptyViews { get; set; }
 
-        [JsonProperty("comments_public_by_default", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("comments_public_by_default")]
         public bool CommentsPublicByDefault { get; set; }
 
         [JsonProperty("maximum_personal_views_to_list")]
         public int MaximumPersonalViewsToList { get; set; }
 
-        [JsonProperty("status_hold", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("status_hold")]
         public bool StatusHold { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -1115,6 +1116,25 @@ namespace Tests
 
                 api.Tickets.DeleteAsync(r.Id);
             }
+        }
+
+        [Test]
+        public void CanCreateTicketWithPrivateComment()
+        {
+            var ticket = new Ticket { Comment = new Comment { Body = "This is a Test", Public = false } };
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateParseHandling = DateParseHandling.DateTimeOffset,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
+                ContractResolver = ZendeskApi_v2.Serialization.ZendeskContractResolver.Instance
+
+            };
+
+            string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
+            Assert.That(json, Contains.Substring("false"));
         }
     }
 }

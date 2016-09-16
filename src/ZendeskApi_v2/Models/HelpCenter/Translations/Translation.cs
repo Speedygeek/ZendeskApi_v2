@@ -30,13 +30,13 @@ namespace ZendeskApi_v2.Models.HelpCenter.Translations {
         [JsonProperty("body")]
         public string Body { get; set; }
 
-        [JsonProperty("outdated", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("outdated")]
         public bool Outdated { get; set; }
 
-        [JsonProperty("draft", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("draft")]
         public bool Draft { get; set; }
 
-        [JsonProperty("hidden", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("hidden")]
         public bool Hidden { get; set; }
 
         [JsonProperty("created_at")]

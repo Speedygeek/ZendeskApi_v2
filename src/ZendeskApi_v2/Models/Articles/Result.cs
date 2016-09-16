@@ -25,13 +25,13 @@ namespace ZendeskApi_v2.Models.Articles {
         [JsonProperty("author_id")]
         public long? AuthorId { get; set; }
 
-        [JsonProperty("comments_disabled", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("comments_disabled")]
         public bool CommentsDisabled { get; set; }
 
-        [JsonProperty("draft", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("draft")]
         public bool Draft { get; set; }
 
-        [JsonProperty("promoted", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("promoted")]
         public bool Promoted { get; set; }
 
         [JsonProperty("position")]
@@ -67,7 +67,7 @@ namespace ZendeskApi_v2.Models.Articles {
         [JsonProperty("locale")]
         public string Locale { get; set; }
 
-        [JsonProperty("outdated", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("outdated")]
         public bool Outdated { get; set; }
 
         [JsonProperty("result_type")]

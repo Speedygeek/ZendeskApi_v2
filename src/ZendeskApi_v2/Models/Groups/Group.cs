@@ -9,7 +9,7 @@ namespace ZendeskApi_v2.Models.Groups
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("deleted", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("deleted")]
         public bool Deleted { get; set; }
     }
 }

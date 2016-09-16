@@ -25,10 +25,10 @@ namespace ZendeskApi_v2.Models.Users
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        [JsonProperty("verified", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("verified")]
         public bool Verified { get; set; }
 
-        [JsonProperty("primary", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("primary")]
         public bool Primary { get; set; }
 
         [JsonProperty("updated_at")]

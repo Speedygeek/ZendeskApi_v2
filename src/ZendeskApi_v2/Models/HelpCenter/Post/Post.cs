@@ -25,19 +25,19 @@ namespace ZendeskApi_v2.Models.HelpCenter.Post
         /// <summary>
         /// When true, pins the post to the top of its topic
         /// </summary>
-        [JsonProperty("pinned", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("pinned")]
         public bool Pinned { get; set; }
 
         /// <summary>
         /// Whether the post is featured
         /// </summary>
-        [JsonProperty("featured", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("featured")]
         public bool Featured { get; set; }
 
         /// <summary>
         /// Whether further comments are allowed
         /// </summary>
-        [JsonProperty("closed", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("closed")]
         public bool Closed { get; set; }
 
         //TODO: Convert to enum 

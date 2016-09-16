@@ -37,7 +37,7 @@ namespace ZendeskApi_v2.Models.Targets
         [JsonProperty("from")]
         public string From { get; set; }
 
-        [JsonProperty("us_small_business_account", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("us_small_business_account")]
         public bool USSmallBusinessAccount { get; set; }
     }
 }

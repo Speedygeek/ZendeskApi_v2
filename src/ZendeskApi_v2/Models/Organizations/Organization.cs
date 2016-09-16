@@ -30,10 +30,10 @@ namespace ZendeskApi_v2.Models.Organizations
         [JsonProperty("group_id")]
         public object GroupId { get; set; }
 
-        [JsonProperty("shared_tickets", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("shared_tickets")]
         public bool SharedTickets { get; set; }
 
-        [JsonProperty("shared_comments", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("shared_comments")]
         public bool SharedComments { get; set; }
 
         [JsonProperty("tags")]

@@ -12,10 +12,10 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class Lotus
     {
 
-        [JsonProperty("prefer_lotus", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("prefer_lotus")]
         public bool PreferLotus { get; set; }
 
-        [JsonProperty("reporting", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("reporting")]
         public bool Reporting { get; set; }
     }
 }

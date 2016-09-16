@@ -868,6 +868,9 @@
     <Compile Include="..\ZendeskApi_v2\Serialization\UnixEpochTimeConverter.cs">
       <Link>Serialization\UnixEpochTimeConverter.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Serialization\ZendeskContractResolver.cs">
+      <Link>Serialization\ZendeskContractResolver.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
       <Link>ZendeskApi.cs</Link>
     </Compile>

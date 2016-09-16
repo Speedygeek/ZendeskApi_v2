@@ -12,16 +12,16 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
     public class Voice
     {
 
-        [JsonProperty("enabled", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("enabled")]
         public bool Enabled { get; set; }
 
-        [JsonProperty("maintenance", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("maintenance")]
         public bool Maintenance { get; set; }
 
-        [JsonProperty("logging", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("logging")]
         public bool Logging { get; set; }
 
-        [JsonProperty("outbound", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("outbound")]
         public bool Outbound { get; set; }
     }
 }

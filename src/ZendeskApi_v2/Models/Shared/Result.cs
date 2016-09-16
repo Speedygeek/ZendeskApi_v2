@@ -17,7 +17,7 @@ namespace ZendeskApi_v2.Models.Shared
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty("success", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("success")]
         public bool Success { get; set; }
 
         [JsonProperty("status")]

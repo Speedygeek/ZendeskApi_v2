@@ -19,7 +19,7 @@ namespace ZendeskApi_v2.Models.Groups
         [JsonProperty("group_id")]
         public long GroupId { get; set; }
 
-        [JsonProperty("default", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty("default")]
         public bool Default { get; set; }
 
         [JsonProperty("created_at")]
