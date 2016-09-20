@@ -63,6 +63,9 @@
     <Compile Include="Models\Articles\GroupArticleResponse.cs" />
     <Compile Include="Models\Articles\IndividualArticleResponse.cs" />
     <Compile Include="Models\Articles\Result.cs" />
+    <Compile Include="Models\Brands\Brand.cs" />
+    <Compile Include="Models\Brands\GroupBrandResponse.cs" />
+    <Compile Include="Models\Brands\IndividualBrandResponse.cs" />
     <Compile Include="Models\Categories\Category.cs" />
     <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
     <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
@@ -312,6 +315,7 @@
     <Compile Include="Requests\Tags.cs" />
     <Compile Include="Requests\Targets.cs" />
     <Compile Include="Requests\Topics.cs" />
+    <Compile Include="Requests\Brands.cs" />
     <Compile Include="Requests\Triggers.cs" />
     <Compile Include="Requests\Users.cs" />
     <Compile Include="Requests\Views.cs" />

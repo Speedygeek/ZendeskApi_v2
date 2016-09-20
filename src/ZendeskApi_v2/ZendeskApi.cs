@@ -14,6 +14,7 @@ namespace ZendeskApi_v2
     {
         ITickets Tickets { get; }
         IAttachments Attachments { get; }
+        IBrands Brands { get; }
         IViews Views { get; }
         IUsers Users { get; }
         IRequests Requests { get; }
@@ -44,6 +45,7 @@ namespace ZendeskApi_v2
     {
         public ITickets Tickets { get; set; }
         public IAttachments Attachments { get; set; }
+        public IBrands Brands { get; set; }
         public IViews Views { get; set; }
         public IUsers Users { get; set; }
         public IRequests Requests { get; set; }
@@ -130,6 +132,7 @@ namespace ZendeskApi_v2
 
             Tickets             = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken);
             Attachments         = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Brands              = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken);
             Views               = new Views(formattedUrl, user, password, apiToken, p_OAuthToken);
             Users               = new Users(formattedUrl, user, password, apiToken, p_OAuthToken);
             Requests            = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken);
@@ -171,6 +174,7 @@ namespace ZendeskApi_v2
 
             ((Tickets)Tickets).Proxy                              = proxy;
             ((Attachments)Attachments).Proxy                      = proxy;
+            ((Brands)Brands).Proxy                                = proxy;
             ((Views)Views).Proxy                                  = proxy;
             ((Users)Users).Proxy                                  = proxy;
             ((Requests.Requests)Requests).Proxy                   = proxy;
