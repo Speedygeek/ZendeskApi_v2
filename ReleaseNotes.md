@@ -1,5 +1,23 @@
+# 3.5.1 (19 September 2016)
+
+ - [#241](https://github.com/mozts2005/ZendeskApi_v2/pull/241) - Release Note clean up contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#240](https://github.com/mozts2005/ZendeskApi_v2/issues/240) - Article property on IndividualArticleResponse is misspelled
+ - [#239](https://github.com/mozts2005/ZendeskApi_v2/issues/239) - Update Ticket disregards public flag for comments
+ - [#238](https://github.com/mozts2005/ZendeskApi_v2/issues/238) - SortOrder is ignored for search results +fix
+ - [#237](https://github.com/mozts2005/ZendeskApi_v2/issues/237) - SearchForOrganizationsAsync() returns no results
+ - [#236](https://github.com/mozts2005/ZendeskApi_v2/pull/236) - updated SearchForOrganizations to better reflect its purpose contributed by ([mwarger](https://github.com/mwarger))
+ - [#234](https://github.com/mozts2005/ZendeskApi_v2/pull/234) - Fix an issue with bool serialization (#233) contributed by ([Tyf0x](https://github.com/Tyf0x))
+ - [#233](https://github.com/mozts2005/ZendeskApi_v2/issues/233) - Comments.Public = false creates comment as public +fix
+ - [#231](https://github.com/mozts2005/ZendeskApi_v2/pull/231) - New Zendesk voice methods contributed by ([WinDrop](https://github.com/WinDrop))
+ - [#230](https://github.com/mozts2005/ZendeskApi_v2/issues/230) - Would it be possible to compile ZendeskApi_v2 against .NET Framework 4.0?
+
+Commits: cab28417d6...33038c8dc3
+
+
 # 3.5.0 (19 July 2016)
 
+ - [#221](https://github.com/mozts2005/ZendeskApi_v2/issues/221) - Forum topics +enhancement
+ - [#194](https://github.com/mozts2005/ZendeskApi_v2/issues/194) - Can't add user photo +enhancement +in-progress
  - [#229](https://github.com/mozts2005/ZendeskApi_v2/pull/229) - New class for voice data and method allowing to request more than 100 audits per ticket contributed by ([WinDrop](https://github.com/WinDrop))
  - [#228](https://github.com/mozts2005/ZendeskApi_v2/issues/228) - GrooveApi
  - [#225](https://github.com/mozts2005/ZendeskApi_v2/issues/225) - invalid token
@@ -36,7 +54,7 @@
  - [#140](https://github.com/mozts2005/ZendeskApi_v2/issues/140) - User Custom Field of DateTime type
  - [#125](https://github.com/mozts2005/ZendeskApi_v2/issues/125) - Ticket Creation error
 
-Commits: c386381743...cf1071b30e
+Commits: c386381743...0ab4b3f06e
 
 
 # 3.2.19 (27 January 2016)
