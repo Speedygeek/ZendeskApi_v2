@@ -54,7 +54,7 @@ namespace Tests.HelpCenter
                 Body = "The body of my article",
                 Locale = "en-us"
             });
-            long article_id = new_article_res.Arcticle.Id.Value;
+            long article_id = new_article_res.Article.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForArticle(article_id);
             Assert.AreEqual(1, missing_res.Count);
@@ -239,7 +239,7 @@ namespace Tests.HelpCenter
                 Body = "The body of my article",
                 Locale = "en-us"
             });
-            long article_id = new_article_res.Arcticle.Id.Value;
+            long article_id = new_article_res.Article.Id.Value;
 
             var missing_res = await api.HelpCenter.Translations.ListMissingTranslationsForArticleAsync(article_id);
             Assert.That(missing_res.Count, Is.EqualTo(1));
