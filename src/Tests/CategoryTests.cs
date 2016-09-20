@@ -9,6 +9,22 @@ namespace Tests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
+        [TestFixtureSetUp]
+        public void Setup()
+        {
+
+            var res = api.Categories.GetCategoriesAsync().Result;
+            foreach (var category in res.Categories)
+            {
+                if (category.Name == "My Test category two")
+                {
+                    var test = api.Categories.DeleteCategoryAsync(category.Id.Value).Result;
+                }
+            }
+        }
+
+
+
         [Test]
         public void CanGetCategories()
         {
