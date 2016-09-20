@@ -2,10 +2,10 @@
 
 namespace ZendeskApi_v2.Models.Articles
 {
-	public class IndividualArticleResponse
-	{
+    public class IndividualArticleResponse
+    {
 
-		[JsonProperty("article")]
-		public Article Arcticle { get; set; }
-	}
+        [JsonProperty("article")]
+        public Article Article { get; set; }
+    }
 }
