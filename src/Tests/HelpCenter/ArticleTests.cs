@@ -26,15 +26,15 @@ namespace Tests.HelpCenter
         public void CanGetSingleArticle()
         {
             var res = api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
-            Assert.IsNotNull(res.Arcticle);
+            Assert.IsNotNull(res.Article);
         }
 
         [Test]
         public void CanGetSingleArticleWithTranslations()
         {
             var res = api.HelpCenter.Articles.GetArticle(_articleIdWithComments, ArticleSideLoadOptionsEnum.Translations);
-            Assert.IsNotNull(res.Arcticle);
-            Assert.Greater(res.Arcticle.Translations.Count, 0);
+            Assert.IsNotNull(res.Article);
+            Assert.Greater(res.Article.Translations.Count, 0);
         }
 
         [Test]
@@ -151,21 +151,21 @@ namespace Tests.HelpCenter
                 Body = "The body of my article",
                 Locale = "en-us"
             });
-            Assert.Greater(res.Arcticle.Id, 0);
+            Assert.Greater(res.Article.Id, 0);
 
-            res.Arcticle.LabelNames = new string[] { "updated" };
-            var update = api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle).Result;
-            Assert.That(update.Arcticle.LabelNames, Is.EqualTo(res.Arcticle.LabelNames));
+            res.Article.LabelNames = new string[] { "updated" };
+            var update = api.HelpCenter.Articles.UpdateArticleAsync(res.Article).Result;
+            Assert.That(update.Article.LabelNames, Is.EqualTo(res.Article.LabelNames));
 
-            Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Arcticle.Id.Value));
+            Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Article.Id.Value));
         }
 
         [Test]
         public void CanGetSingleArticleWithTranslationsAsync()
         {
             var res = api.HelpCenter.Articles.GetArticleAsync(_articleIdWithComments, ArticleSideLoadOptionsEnum.Translations).Result;
-            Assert.IsNotNull(res.Arcticle);
-            Assert.Greater(res.Arcticle.Translations.Count, 0);
+            Assert.IsNotNull(res.Article);
+            Assert.Greater(res.Article.Translations.Count, 0);
         }
 
         [Test]
@@ -190,13 +190,13 @@ namespace Tests.HelpCenter
                 Locale = "en-us"
             });
 
-            Assert.Greater(res.Arcticle.Id, 0);
+            Assert.Greater(res.Article.Id, 0);
 
-            res.Arcticle.LabelNames = new string[] { "photo", "tripod" };
-            var update = await api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle);
-            Assert.AreEqual(update.Arcticle.LabelNames, res.Arcticle.LabelNames);
+            res.Article.LabelNames = new string[] { "photo", "tripod" };
+            var update = await api.HelpCenter.Articles.UpdateArticleAsync(res.Article);
+            Assert.AreEqual(update.Article.LabelNames, res.Article.LabelNames);
 
-            Assert.True(await api.HelpCenter.Articles.DeleteArticleAsync(res.Arcticle.Id.Value));
+            Assert.True(await api.HelpCenter.Articles.DeleteArticleAsync(res.Article.Id.Value));
         }
 
         [Test]
