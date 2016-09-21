@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Brands;
+using System;
 
 namespace Tests
 {
@@ -42,7 +43,7 @@ namespace Tests
             {
                 Name = "Test Brand",
                 Active = true,
-                Subdomain = "testdomain"
+                Subdomain = string.Format("test-{0}", Guid.NewGuid())
             };
 
             var res = api.Brands.CreateBrand(brand);
