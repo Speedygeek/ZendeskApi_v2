@@ -678,11 +678,17 @@
     <Compile Include="..\ZendeskApi_v2\Models\Users\IndividualUserIdentityResponse.cs">
       <Link>Models\Users\IndividualUserIdentityResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Users\IndividualUserRelatedInformationResponse.cs">
+      <Link>Models\Users\IndividualUserRelatedInformationResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Users\IndividualUserResponse.cs">
       <Link>Models\Users\IndividualUserResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Users\Photo.cs">
       <Link>Models\Users\Photo.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Users\RelatedInformation.cs">
+      <Link>Models\Users\RelatedInformation.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Users\User.cs">
       <Link>Models\Users\User.cs</Link>
