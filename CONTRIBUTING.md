@@ -59,7 +59,7 @@ Read [GitHub Help][pullrequesthelp] for more details about creating pull request
 
 ## <a name="cla"></a> Contributor License Agreement
 
-By contributing your code to Json.NET you grant Elizabeth Schneider a non-exclusive, irrevocable, worldwide,
+By contributing your code to ZendeskApi_v2 you grant Elizabeth Schneider a non-exclusive, irrevocable, worldwide,
 royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights
 (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and
 publicly perform and display the Contributions on any licensing terms, including without limitation:
@@ -82,7 +82,7 @@ INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRIN
 FOR A PARTICULAR PURPOSE.
 
 
-[github]: https://github.com/JamesNK/Newtonsoft.Json
+[github]: https://github.com/mozts2005/ZendeskApi_v2
 [stackoverflow]: http://stackoverflow.com/questions/tagged/zendeskapiv2
 [dropbox]: https://www.dropbox.com
 [gist]: https://gist.github.com
