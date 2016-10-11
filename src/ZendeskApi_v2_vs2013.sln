@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZendeskApi_v2", "ZenDeskApi_v2\ZendeskApi_v2.csproj", "{D17BCC22-9561-4FC4-9C52-975808641ECE}"
@@ -34,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZendeskApi_v2_Package", "Ze
 		{C1D27B49-4B9D-467D-98E7-3695F35EA400} = {C1D27B49-4B9D-467D-98E7-3695F35EA400}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZendeskApi_v2.Example", "ZendeskApi_v2.Example\ZendeskApi_v2.Example.csproj", "{0A9FE800-92F6-4979-8F0C-6129ECF94952}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +63,10 @@ Global
 		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9FE800-92F6-4979-8F0C-6129ECF94952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9FE800-92F6-4979-8F0C-6129ECF94952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9FE800-92F6-4979-8F0C-6129ECF94952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9FE800-92F6-4979-8F0C-6129ECF94952}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
