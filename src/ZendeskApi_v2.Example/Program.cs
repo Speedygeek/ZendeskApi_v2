@@ -26,7 +26,7 @@ namespace ZendeskApi_v2.Example
             int pageSize = 5;
             var api = new ZendeskApi(companySubDomain, userName, userPassword);
 
-            var userResponse = await api.Search.SearchForAsync<User>(userEmailToSreachFor);
+            var userResponse = api.Search.SearchFor<User>(userEmailToSreachFor);
 
             long userId = userResponse.Results[0].Id.Value;
             List<Ticket> tickets = new List<Ticket>();
@@ -47,7 +47,7 @@ namespace ZendeskApi_v2.Example
 
             foreach (var ticket in tickets)
             {
-                System.Console.WriteLine($"ticket id: {ticket.Id}, Assignee Id: {ticket.AssigneeId?.ToString() ?? "Not Assigned"}, Requester Id: {ticket.RequesterId}");
+                System.Console.WriteLine(string.Format("ticket id: {0 }, Assignee Id: {1}, Requester Id: {2}", ticket.Id, ticket.AssigneeId, ticket.RequesterId ));
             }
 
         }
