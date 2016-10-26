@@ -564,9 +564,8 @@ namespace ZendeskApi_v2
                 headersMessage += originalWebException.Response.Headers;
             }
 
-            var wException = new WebException(originalWebException.Message + headersMessage, originalWebException);
+            var wException = new WebException(originalWebException.Message + headersMessage, originalWebException, originalWebException.Status, originalWebException.Response);
             wException.Data.Add("jsonException", error);
-			wException.Response = originalWebException.Response;
 
             return wException;
         }
