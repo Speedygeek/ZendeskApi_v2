@@ -62,7 +62,6 @@
     <Folder Include="src\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\GitVersionTask.3.4.1\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.4.1\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
   <UsingTask TaskName="GetVersionParts" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
       <AssemblyPath ParameterType="System.String" Required="true" />
@@ -92,9 +91,6 @@
     <GetVersionParts AssemblyPath=".\bin\$(Configuration)\ZendeskApi_v2_Package.dll">
       <Output TaskParameter="SimVersion" PropertyName="Version" />
     </GetVersionParts>
-    
-    
-    
     <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " ContinueOnError="True" Command="PowerShell.exe -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Unrestricted -Command &quot;&amp; {.\NuGetPackage.ps1 -version $(GitVersion_NuGetVersion)} &quot;" IgnoreExitCode="true">
       <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
     </Exec>
@@ -108,11 +104,11 @@
     <Message Text="SUCCESS: Created package." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Debug|AnyCPU|0' " Importance="High" />
     <Message Text="SUCCESS: Published package." Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|0' " Importance="High" />
   </Target>
-  
+  <Import Project="..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\GitVersionTask.3.4.1\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.4.1\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
+    <Error Condition="!Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
   </Target>
 </Project>
