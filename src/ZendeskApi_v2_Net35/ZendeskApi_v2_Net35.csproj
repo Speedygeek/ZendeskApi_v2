@@ -283,6 +283,9 @@
     <Compile Include="..\ZendeskApi_v2\Models\IndividualResponseBase.cs">
       <Link>Models\IndividualResponseBase.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\ISearchable.cs">
+      <Link>Models\ISearchable.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Locales\GroupLocaleResponse.cs">
       <Link>Models\Locales\GroupLocaleResponse.cs</Link>
     </Compile>
