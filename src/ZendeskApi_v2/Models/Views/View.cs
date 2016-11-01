@@ -7,10 +7,8 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Views
 {
-
     public class View
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 

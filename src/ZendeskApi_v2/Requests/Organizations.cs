@@ -1,6 +1,9 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Models.Organizations;
@@ -11,6 +14,7 @@ namespace ZendeskApi_v2.Requests
     public interface IOrganizations : ICore
     {
 #if SYNC
+
         GroupOrganizationResponse GetOrganizations(int? perPage = null, int? page = null);
 
         /// <summary>
@@ -21,26 +25,43 @@ namespace ZendeskApi_v2.Requests
         GroupOrganizationResponse GetOrganizationsStartingWith(string name);
 
         GroupOrganizationResponse SearchForOrganizationsByExternalId(string externalId);
+
         IndividualOrganizationResponse GetOrganization(long id);
+
         IndividualOrganizationResponse CreateOrganization(Organization organization);
+
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
+
         bool DeleteOrganization(long id);
 
         GroupOrganizationMembershipResponse GetOrganizationMemberships(int? perPage = null, int? page = null);
+
         GroupOrganizationMembershipResponse GetOrganizationMembershipsByUserId(long userId, int? perPage = null, int? page = null);
+
         GroupOrganizationMembershipResponse GetOrganizationMembershipsByOrganizationId(long organizationId, int? perPage = null, int? page = null);
+
         IndividualOrganizationMembershipResponse GetOrganizationMembership(long id);
+
         IndividualOrganizationMembershipResponse GetOrganizationMembershipByIdAndUserId(long id, long userid);
+
         IndividualOrganizationMembershipResponse CreateOrganizationMembership(OrganizationMembership organizationMembership);
+
         IndividualOrganizationMembershipResponse CreateOrganizationMembership(long userId, OrganizationMembership organizationMembership);
+
         JobStatusResponse CreateManyOrganizationMemberships(IEnumerable<OrganizationMembership> organizationMemberships);
+
         bool DeleteOrganizationMembership(long id);
+
         bool DeleteOrganizationMembership(long id, long userId);
+
         JobStatusResponse DestroyManyOrganizationMemberships(IEnumerable<long> ids);
+
         GroupOrganizationMembershipResponse SetOrganizationMembershipAsDefault(long id, long userId);
+
 #endif
 
 #if ASYNC
+
         Task<GroupOrganizationResponse> GetOrganizationsAsync(int? perPage = null, int? page = null);
 
         /// <summary>
@@ -52,23 +73,39 @@ namespace ZendeskApi_v2.Requests
 
         // TODO: Rename SearchForOrganizationsByExternalIdAsync(string externalId);
         Task<GroupOrganizationResponse> SearchForOrganizationsAsync(string searchTerm);
+
         Task<IndividualOrganizationResponse> GetOrganizationAsync(long id);
+
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
+
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
+
         Task<bool> DeleteOrganizationAsync(long id);
 
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsAsync(int? perPage = null, int? page = null);
+
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByUserIdAsync(long userId, int? perPage = null, int? page = null);
+
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByOrganizationIdAsync(long organizationId, int? perPage = null, int? page = null);
+
         Task<IndividualOrganizationMembershipResponse> GetOrganizationMembershipAsync(long id);
+
         Task<IndividualOrganizationMembershipResponse> GetOrganizationMembershipByIdAndUserIdAsync(long id, long userid);
+
         Task<IndividualOrganizationMembershipResponse> CreateOrganizationMembershipAsync(OrganizationMembership organizationMembership);
+
         Task<IndividualOrganizationMembershipResponse> CreateOrganizationMembershipAsync(long userId, OrganizationMembership organizationMembership);
+
         Task<JobStatusResponse> CreateManyOrganizationMembershipsAsync(IEnumerable<OrganizationMembership> organizationMemberships);
+
         Task<bool> DeleteOrganizationMembershipAsync(long id);
+
         Task<bool> DeleteOrganizationMembershipAsync(long id, long userId);
+
         Task<JobStatusResponse> DestroyManyOrganizationMembershipsAsync(IEnumerable<long> ids);
+
         Task<GroupOrganizationMembershipResponse> SetOrganizationMembershipAsDefaultAsync(long id, long userId);
+
 #endif
     }
 
@@ -80,6 +117,7 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         public GroupOrganizationResponse GetOrganizations(int? perPage = null, int? page = null)
         {
             return GenericPagedGet<GroupOrganizationResponse>("organizations.json", perPage, page);
@@ -152,6 +190,7 @@ namespace ZendeskApi_v2.Requests
             var body = new { organization_membership };
             return GenericPost<IndividualOrganizationMembershipResponse>("organization_memberships.json", body);
         }
+
         public IndividualOrganizationMembershipResponse CreateOrganizationMembership(long userId, OrganizationMembership organization_membership)
         {
             var body = new { organization_membership };
@@ -294,6 +333,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericPutAsync<GroupOrganizationMembershipResponse>(string.Format("users/{0}/organization_memberships/{1}/make_default.json", userId, id));
         }
+
 #endif
     }
 }

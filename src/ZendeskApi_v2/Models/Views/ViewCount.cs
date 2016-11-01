@@ -4,7 +4,6 @@ namespace ZendeskApi_v2.Models.Views
 {
     public class ViewCount
     {
-
         [JsonProperty("view_id")]
         public long ViewId { get; set; }
 

@@ -7,79 +7,84 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using Newtonsoft.Json;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2
 {
-
-    public static class RequestMethod
-    {
-        public const string Get = "GET";
-        public const string Put = "PUT";
-        public const string Post = "POST";
-        public const string Delete = "DELETE";
-    }
-
-
     public interface ICore
     {
 #if SYNC
+
         T GetByPageUrl<T>(string pageUrl, int perPage = 100);
+
         T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
+
         RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
+
 #endif
 
 #if ASYNC
+
         Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100);
+
         Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
+
         Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
+
 #endif
     }
 
     public class Core : ICore
     {
         private const string XOnBehalfOfEmail = "X-On-Behalf-Of";
-        protected string User;
-        protected string Password;
-        protected string ZendeskUrl;
-        protected string ApiToken;
-        JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        private string user;
+        private string password;
+        private string zendeskUrl;
+        private string apiToken;
+        private string oAuthToken;
+
+        private JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
             ContractResolver = Serialization.ZendeskContractResolver.Instance
-
         };
-        protected string OAuthToken;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Core"/> class.
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
         /// <param name="zendeskApiUrl"></param>
         /// <param name="p_OAuthToken"></param>
-        public Core(string zendeskApiUrl, string p_OAuthToken) :
-            this(zendeskApiUrl, null, null, null, p_OAuthToken)
+        public Core(string zendeskApiUrl, string p_OAuthToken)
+            : this(zendeskApiUrl, null, null, null, p_OAuthToken)
         {
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Core"/> class.
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
         /// <param name="zendeskApiUrl"></param>
         /// <param name="p_OAuthToken"></param>
-        public Core(string zendeskApiUrl, string user, string password, string apiToken) :
-            this(zendeskApiUrl, user, password, apiToken, null)
+        public Core(string zendeskApiUrl, string user, string password, string apiToken)
+            : this(zendeskApiUrl, user, password, apiToken, null)
         {
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Core"/> class.
         /// Constructor that uses BasicHttpAuthentication.
         /// </summary>
         /// <param name="zendeskApiUrl"></param>
@@ -88,25 +93,43 @@ namespace ZendeskApi_v2
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
         public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken)
         {
-            User = user;
-            Password = password;
+            this.user = user;
+            this.password = password;
             if (!zendeskApiUrl.EndsWith("/", StringComparison.CurrentCulture))
             {
                 zendeskApiUrl += "/";
             }
 
             ZendeskUrl = zendeskApiUrl;
-            ApiToken = apiToken;
-            OAuthToken = p_OAuthToken;
+            this.apiToken = apiToken;
+            oAuthToken = p_OAuthToken;
         }
 
 #if SYNC
-        internal IWebProxy Proxy;
+        internal IWebProxy Proxy { get; set; }
+#endif
+
+        protected string ZendeskUrl
+        {
+            get
+            {
+                return zendeskUrl;
+            }
+
+            set
+            {
+                zendeskUrl = value;
+            }
+        }
+
+#if SYNC
 
         public T GetByPageUrl<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
-                return JsonConvert.DeserializeObject<T>("");
+            {
+                return JsonConvert.DeserializeObject<T>(string.Empty);
+            }
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return RunRequest<T>(resource, RequestMethod.Get);
@@ -210,7 +233,7 @@ namespace ZendeskApi_v2
         {
             var parameters = new Dictionary<string, string>();
 
-            var paramString = "";
+            var paramString = string.Empty;
             if (perPage.HasValue)
             {
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
@@ -226,7 +249,6 @@ namespace ZendeskApi_v2
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
-
             return GenericGet<T>(resource + paramString);
         }
 
@@ -234,7 +256,7 @@ namespace ZendeskApi_v2
         {
             var parameters = new Dictionary<string, string>();
 
-            var paramString = "";
+            var paramString = string.Empty;
             if (perPage.HasValue)
             {
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
@@ -252,14 +274,13 @@ namespace ZendeskApi_v2
 
             if (sortAscending.HasValue)
             {
-                parameters.Add("sort_order", sortAscending.Value ? "" : "desc");
+                parameters.Add("sort_order", sortAscending.Value ? string.Empty : "desc");
             }
 
             if (parameters.Any())
             {
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
-
 
             return GenericGet<T>(resource + paramString);
         }
@@ -299,18 +320,27 @@ namespace ZendeskApi_v2
             var res = RunRequest(resource, RequestMethod.Put, body);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
+
 #endif
 
         protected string GetPasswordOrTokenAuthHeader()
         {
-            if (!ApiToken.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
-                return GetAuthHeader(User + "/token", ApiToken);
-            else if (!Password.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
-                return GetAuthHeader(User, Password);
-            else if (!OAuthToken.IsNullOrWhiteSpace())
-                return GetAuthBearerHeader(OAuthToken);
+            if (!apiToken.IsNullOrWhiteSpace() && !user.IsNullOrWhiteSpace())
+            {
+                return GetAuthHeader(user + "/token", apiToken);
+            }
+            else if (!password.IsNullOrWhiteSpace() && !user.IsNullOrWhiteSpace())
+            {
+                return GetAuthHeader(user, password);
+            }
+            else if (!oAuthToken.IsNullOrWhiteSpace())
+            {
+                return GetAuthBearerHeader(oAuthToken);
+            }
             else
+            {
                 return string.Empty;
+            }
         }
 
         protected string GetAuthBearerHeader(string oAuthToken)
@@ -325,10 +355,13 @@ namespace ZendeskApi_v2
         }
 
 #if ASYNC
+
         public async Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
-                return JsonConvert.DeserializeObject<T>("");
+            {
+                return JsonConvert.DeserializeObject<T>(string.Empty);
+            }
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return await RunRequestAsync<T>(resource, RequestMethod.Get);
@@ -423,7 +456,7 @@ namespace ZendeskApi_v2
         {
             var parameters = new Dictionary<string, string>();
 
-            var paramString = "";
+            var paramString = string.Empty;
             if (perPage.HasValue)
             {
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
@@ -439,7 +472,6 @@ namespace ZendeskApi_v2
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
-
             return await GenericGetAsync<T>(resource + paramString);
         }
 
@@ -447,7 +479,7 @@ namespace ZendeskApi_v2
         {
             var parameters = new Dictionary<string, string>();
 
-            var paramString = "";
+            var paramString = string.Empty;
             if (perPage.HasValue)
             {
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
@@ -465,7 +497,7 @@ namespace ZendeskApi_v2
 
             if (sortAscending.HasValue)
             {
-                parameters.Add("sort_order", sortAscending.Value ? "" : "desc");
+                parameters.Add("sort_order", sortAscending.Value ? string.Empty : "desc");
             }
 
             if (parameters.Any())
@@ -473,10 +505,8 @@ namespace ZendeskApi_v2
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
-
             return await GenericGetAsync<T>(resource + paramString);
         }
-
 
         protected async Task<bool> GenericDeleteAsync(string resource)
         {
@@ -513,6 +543,7 @@ namespace ZendeskApi_v2
             var res = RunRequestAsync(resource, RequestMethod.Put, body);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
+
 #endif
 
         private WebException GetWebException(string resource, object body, WebException originalWebException)
@@ -552,8 +583,7 @@ namespace ZendeskApi_v2
                 }
                 else
                 {
-                    bodyMessage = string.Format(" File Name: {0} \r\n File Length: {1}\r\n", zenFile.FileName,
-                        (zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data"));
+                    bodyMessage = string.Format(" File Name: {0} \r\n File Length: {1}\r\n", zenFile.FileName, zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data");
                 }
             }
 

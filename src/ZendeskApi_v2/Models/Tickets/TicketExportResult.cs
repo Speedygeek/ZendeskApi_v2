@@ -4,7 +4,6 @@ namespace ZendeskApi_v2.Models.Tickets
 {
     public class TicketExportResult
     {
-
         [JsonProperty("generated_timestamp")]
         public long GeneratedTimestamp { get; set; }
 

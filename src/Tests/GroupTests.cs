@@ -2,8 +2,8 @@ using System.Linq;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Models.Groups;
+using ZendeskApi_v2.Models.Users;
 
 namespace Tests
 {

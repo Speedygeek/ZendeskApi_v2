@@ -1,49 +1,77 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Forums;
-using ZendeskApi_v2.Models.Tags;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface IForums : ICore
-	{
+    public interface IForums : ICore
+    {
 #if SYNC
-		GroupForumResponse GetForums();
-		IndividualForumResponse GetForumById(long forumId);
-		GroupForumResponse GetForumsByCategory(long categoryId);
-		IndividualForumResponse CreateForum(Forum forum);
-		IndividualForumResponse UpdateForum(Forum forum);
-		bool DeleteForum(long id);
-		GroupForumSubcriptionResponse GetForumSubscriptions();
-		GroupForumSubcriptionResponse GetForumSubscriptionsByForumId(long forumId);
-		IndividualForumSubcriptionResponse GetForumSubscriptionsById(long subscriptionId);
-		IndividualForumSubcriptionResponse CreateForumSubscription(ForumSubscription forumSubscription);
-		bool DeleteForumSubscription(long subscriptionId);
+
+        GroupForumResponse GetForums();
+
+        IndividualForumResponse GetForumById(long forumId);
+
+        GroupForumResponse GetForumsByCategory(long categoryId);
+
+        IndividualForumResponse CreateForum(Forum forum);
+
+        IndividualForumResponse UpdateForum(Forum forum);
+
+        bool DeleteForum(long id);
+
+        GroupForumSubcriptionResponse GetForumSubscriptions();
+
+        GroupForumSubcriptionResponse GetForumSubscriptionsByForumId(long forumId);
+
+        IndividualForumSubcriptionResponse GetForumSubscriptionsById(long subscriptionId);
+
+        IndividualForumSubcriptionResponse CreateForumSubscription(ForumSubscription forumSubscription);
+
+        bool DeleteForumSubscription(long subscriptionId);
+
 #endif
 
 #if ASYNC
-		Task<GroupForumResponse> GetForumsAsync();
-		Task<IndividualForumResponse> GetForumByIdAsync(long forumId);
-		Task<GroupForumResponse> GetForumsByCategoryAsync(long categoryId);
-		Task<IndividualForumResponse> CreateForumAsync(Forum forum);
-		Task<IndividualForumResponse> UpdateForumAsync(Forum forum);
-		Task<bool> DeleteForumAsync(long id);
-		Task<GroupForumSubcriptionResponse> GetForumSubscriptionsAsync();
-		Task<GroupForumSubcriptionResponse> GetForumSubscriptionsByForumIdAsync(long forumId);
-		Task<IndividualForumSubcriptionResponse> GetForumSubscriptionsByIdAsync(long subscriptionId);
-		Task<IndividualForumSubcriptionResponse> CreateForumSubscriptionAsync(ForumSubscription forumSubscription);
-		Task<bool> DeleteForumSubscriptionAsync(long subscriptionId);
-#endif
-	}
 
-	public class Forums : Core, IForums
-	{
+        Task<GroupForumResponse> GetForumsAsync();
+
+        Task<IndividualForumResponse> GetForumByIdAsync(long forumId);
+
+        Task<GroupForumResponse> GetForumsByCategoryAsync(long categoryId);
+
+        Task<IndividualForumResponse> CreateForumAsync(Forum forum);
+
+        Task<IndividualForumResponse> UpdateForumAsync(Forum forum);
+
+        Task<bool> DeleteForumAsync(long id);
+
+        Task<GroupForumSubcriptionResponse> GetForumSubscriptionsAsync();
+
+        Task<GroupForumSubcriptionResponse> GetForumSubscriptionsByForumIdAsync(long forumId);
+
+        Task<IndividualForumSubcriptionResponse> GetForumSubscriptionsByIdAsync(long subscriptionId);
+
+        Task<IndividualForumSubcriptionResponse> CreateForumSubscriptionAsync(ForumSubscription forumSubscription);
+
+        Task<bool> DeleteForumSubscriptionAsync(long subscriptionId);
+
+#endif
+    }
+
+    public class Forums : Core, IForums
+    {
         public Forums(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
+
 #if SYNC
+
         public GroupForumResponse GetForums()
         {
             return GenericGet<GroupForumResponse>("forums.json");
@@ -103,6 +131,7 @@ namespace ZendeskApi_v2.Requests
 
 #endif
 #if ASYNC
+
         public async Task<GroupForumResponse> GetForumsAsync()
         {
             return await GenericGetAsync<GroupForumResponse>("forums.json");
@@ -159,6 +188,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync(string.Format("forum_subscriptions/{0}.json", subscriptionId));
         }
+
 #endif
     }
 }

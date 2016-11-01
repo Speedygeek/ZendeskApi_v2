@@ -1,6 +1,9 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Locales;
 
 namespace ZendeskApi_v2.Requests
@@ -8,6 +11,7 @@ namespace ZendeskApi_v2.Requests
     public interface ILocales : ICore
     {
 #if SYNC
+
         /// <summary>
         /// This lists the translation locales that are available for the account.
         /// </summary>
@@ -31,9 +35,11 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <returns></returns>
         IndividualLocaleResponse GetCurrentLocale(bool translation = false);
+
 #endif
 
 #if ASYNC
+
         /// <summary>
         /// This lists the translation locales that are available for the account.
         /// </summary>
@@ -57,18 +63,19 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <returns></returns>
         Task<IndividualLocaleResponse> GetCurrentLocaleAsync(bool translation = false);
+
 #endif
     }
 
     public class Locales : Core, ILocales
     {
-
         public Locales(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
 #if SYNC
+
         /// <summary>
         /// This lists the translation locales that are available for the account.
         /// </summary>
@@ -93,7 +100,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualLocaleResponse GetLocaleById(long id, bool translation = false)
         {
-            return GenericGet<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, (translation ? "?include=translations" : null)));
+            return GenericGet<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, translation ? "?include=translations" : null));
         }
 
         /// <summary>
@@ -102,11 +109,13 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualLocaleResponse GetCurrentLocale(bool translation = false)
         {
-            return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json{0}", (translation ? "?include=translations" : null)));
+            return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json{0}", translation ? "?include=translations" : null));
         }
+
 #endif
 
 #if ASYNC
+
         /// <summary>
         /// This lists the translation locales that are available for the account.
         /// </summary>
@@ -131,7 +140,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id, bool translation = false)
         {
-            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, (translation ? "?include=translations" : null)));
+            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, translation ? "?include=translations" : null));
         }
 
         /// <summary>
@@ -140,8 +149,9 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<IndividualLocaleResponse> GetCurrentLocaleAsync(bool translation = false)
         {
-            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/current.json{0}", (translation ? "?include=translations" : null)));
+            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/current.json{0}", translation ? "?include=translations" : null));
         }
+
 #endif
     }
 }

@@ -1,12 +1,11 @@
 ﻿// JSON C# Class Generator
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace ZendeskApi_v2.Models.Articles {
+namespace ZendeskApi_v2.Models.Articles
+{
     public class ArticleSearchResults
     {
         [JsonProperty("page")]
@@ -14,7 +13,7 @@ namespace ZendeskApi_v2.Models.Articles {
 
         [JsonProperty("count")]
         public int Count { get; set; }
-        
+
         [JsonProperty("per_page")]
         public int PerPage { get; set; }
 

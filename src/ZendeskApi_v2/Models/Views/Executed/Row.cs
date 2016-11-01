@@ -6,10 +6,8 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Views.Executed
 {
-
     public class Row
     {
-
         [JsonProperty("custom_fields")]
         public IList<CustomField> CustomFields { get; set; }
 

@@ -9,6 +9,6 @@ namespace ZendeskApi_v2.Models.Constants
         public const string Integer = "integer";
         public const string Decimal = "decimal";
         public const string Regexp = "regexp";
-        public const string Tagger  = "tagger";        
+        public const string Tagger = "tagger";
     }
 }

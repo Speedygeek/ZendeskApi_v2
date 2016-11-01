@@ -1,10 +1,10 @@
-using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Brands;
-using System;
 
 namespace Tests
 {
@@ -33,7 +33,7 @@ namespace Tests
             Assert.Greater(res.Count, 0);
 
             var ind = api.Brands.GetBrand(res.Brands[0].Id.Value);
-            Assert.AreEqual(ind.Brand.Id, res.Brands[0].Id);            
+            Assert.AreEqual(ind.Brand.Id, res.Brands[0].Id);
         }
 
         [Test]
@@ -51,11 +51,10 @@ namespace Tests
             Assert.Greater(res.Brand.Id, 0);
 
             res.Brand.Name = "Test Brand Updated";
-            var update        = api.Brands.UpdateBrand(res.Brand);
+            var update = api.Brands.UpdateBrand(res.Brand);
             Assert.AreEqual(update.Brand.Name, res.Brand.Name);
 
             Assert.True(api.Brands.DeleteBrand(res.Brand.Id.Value));
         }
-      
     }
 }

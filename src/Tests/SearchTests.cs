@@ -29,6 +29,7 @@ namespace Tests
             var res = api.Search.SearchFor("Effective", "created_at", "asc");
             Assert.IsTrue(res.Count > 0);
         }
+
         [Test]
         public void TotalNumberOftickesShouldbeSameWhenReterivingNextPage()
         {
@@ -42,8 +43,8 @@ namespace Tests
             res = api.Search.SearchFor("Effective", "", "", 2); //fetch next page
             Assert.IsTrue(res.Count > 0);
             Assert.IsTrue(res.Count == total); //number of results should be same as page 1
-
         }
+
         [Test]
         public void TicketHasSubject()
         {
@@ -73,7 +74,6 @@ namespace Tests
             Assert.AreEqual(res.Results.Count, 10);
             Assert.AreEqual(res.Page, 1);
             Assert.IsTrue(res.Results[0] is Ticket);
-
         }
 
         [Test]
@@ -95,7 +95,6 @@ namespace Tests
             Assert.AreEqual(res.Results.Count, 10);
             Assert.AreEqual(res.Page, 1);
             Assert.IsTrue(res.Results[0] is Ticket);
-
         }
 
         [Test]
@@ -123,13 +122,12 @@ namespace Tests
         [Test]
         public void SearchSortIsWorking()
         {
-            //desc asc 
+            //desc asc
             var res = api.Search.SearchFor<Ticket>("Effective", "created_at", "asc");
             Assert.IsTrue(res.Count > 2);
             var first = res.Results[0];
             var second = res.Results[1];
             Assert.That(second.CreatedAt, Is.GreaterThan(first.CreatedAt));
-
         }
     }
 }

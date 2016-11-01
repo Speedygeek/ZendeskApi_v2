@@ -1,4 +1,5 @@
 ﻿using ZendeskApi_v2.Requests.HelpCenter;
+
 namespace ZendeskApi_v2.HelpCenter
 {
     public interface IHelpCenterApi

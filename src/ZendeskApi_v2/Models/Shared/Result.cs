@@ -4,7 +4,6 @@ namespace ZendeskApi_v2.Models.Shared
 {
     public class Result
     {
-
         [JsonProperty("title")]
         public string Title { get; set; }
 

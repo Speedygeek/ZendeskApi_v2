@@ -4,8 +4,6 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using ZendeskApi_v2.Extensions;
-using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Models
 {
@@ -25,10 +23,4 @@ namespace ZendeskApi_v2.Models
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
     }
-
-    public class IndividualSearchableResponseBase : IndividualResponseBase, ISearchable
-    {
-    }
-
-    public interface ISearchable{}
 }

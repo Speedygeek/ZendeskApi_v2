@@ -51,7 +51,6 @@ namespace Tests
             Assert.True(api.Topics.DeleteTopic(create.Topic.Id.Value));
         }
 
-
         [Test]
         public void CanShowManyTopics()
         {

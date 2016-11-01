@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using System.Linq;
+﻿using System.Linq;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Targets;
 
@@ -29,9 +29,9 @@ namespace Tests
         {
             var target = new EmailTarget()
             {
-                Title   = "Test Email Target",
-                Active  = false,
-                Email   = "test@test.com",
+                Title = "Test Email Target",
+                Active = false,
+                Email = "test@test.com",
                 Subject = "Test"
             };
 
@@ -55,9 +55,9 @@ namespace Tests
         {
             var emailTarget = new EmailTarget()
             {
-                Title   = "Test Email Target",
-                Active  = false,
-                Email   = "test@test.com",
+                Title = "Test Email Target",
+                Active = false,
+                Email = "test@test.com",
                 Subject = "Test"
             };
 
@@ -67,11 +67,11 @@ namespace Tests
 
             var jiraTarget = new JiraTarget()
             {
-                Title     = "Test Jira Target",
-                Active    = false,
+                Title = "Test Jira Target",
+                Active = false,
                 TargetUrl = "http://test.com",
-                Username  = "testuser",
-                Password  = "testpassword"
+                Username = "testuser",
+                Password = "testpassword"
             };
 
             var jiraResult = (JiraTarget)api.Targets.CreateTarget(jiraTarget).Target;
@@ -81,7 +81,7 @@ namespace Tests
             var targets = api.Targets.GetAllTargets();
             foreach (var target in targets.Targets)
             {
-                if(target.Id == emailResult.Id)
+                if (target.Id == emailResult.Id)
                 {
                     Assert.IsInstanceOf<EmailTarget>(emailResult);
                 }

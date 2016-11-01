@@ -9,11 +9,11 @@ namespace ZendeskApi_v2.Serialization
     ///  found example here https://dotnetfiddle.net/XG3eRy
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class SingleOrArrayConverter<T> : JsonConverter
+    internal class SingleOrArrayConverter<T> : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(List<T>));
+            return objectType == typeof(List<T>);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

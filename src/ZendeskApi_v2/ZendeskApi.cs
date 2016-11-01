@@ -1,9 +1,9 @@
 ﻿using System;
-using ZendeskApi_v2.Requests;
 using System.Net;
 using ZendeskApi_v2.HelpCenter;
+using ZendeskApi_v2.Requests;
 
-#if Net35 
+#if Net35
 using System.Web;
 using System.Security.Cryptography;
 #endif
@@ -71,18 +71,20 @@ namespace ZendeskApi_v2
 
         public string ZendeskUrl { get; set; }
 
-
         /// <summary>
+        /// Initializes a new instance of the <see cref="ZendeskApi"/> class.
         /// Constructor that takes 2 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
         /// <param name="oauthToken">Access token</param>
         public ZendeskApi(string yourZendeskUrl,
-            string p_OauthToken) : this(yourZendeskUrl, null, null, null, "en-us", p_OauthToken)
+            string p_OauthToken)
+            : this(yourZendeskUrl, null, null, null, "en-us", p_OauthToken)
         {
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ZendeskApi"/> class.
         /// Constructor that takes 3 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
@@ -90,12 +92,13 @@ namespace ZendeskApi_v2
         /// <param name="password">Password of the user.</param>
         public ZendeskApi(string yourZendeskUrl,
             string user,
-            string password) : this(yourZendeskUrl, user, password, null, "en-us", null)
+            string password)
+            : this(yourZendeskUrl, user, password, null, "en-us", null)
         {
         }
 
-
         /// <summary>
+        /// Initializes a new instance of the <see cref="ZendeskApi"/> class.
         /// Constructor that takes 4 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
@@ -107,13 +110,13 @@ namespace ZendeskApi_v2
         public ZendeskApi(string yourZendeskUrl,
             string user,
             string apiToken,
-            string locale) : this(yourZendeskUrl, user, "", apiToken, locale, null)
+            string locale)
+            : this(yourZendeskUrl, user, string.Empty, apiToken, locale, null)
         {
         }
 
-
-
         /// <summary>
+        /// Initializes a new instance of the <see cref="ZendeskApi"/> class.
         /// Constructor that takes 6 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
@@ -130,37 +133,39 @@ namespace ZendeskApi_v2
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
 
-            Tickets             = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Attachments         = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Brands              = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Views               = new Views(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Users               = new Users(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Requests            = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Groups              = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken);
-            CustomAgentRoles    = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Organizations       = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Search              = new Search(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Tags                = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Forums              = new Forums(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Categories          = new Categories(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Topics              = new Topics(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Tickets = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Attachments = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Brands = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Views = new Views(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Users = new Users(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Requests = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Groups = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken);
+            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Organizations = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Search = new Search(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Tags = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Forums = new Forums(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Categories = new Categories(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Topics = new Topics(formattedUrl, user, password, apiToken, p_OAuthToken);
             AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken, p_OAuthToken);
-            JobStatuses         = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Locales             = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Macros              = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken);
+            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Locales = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Macros = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken);
             SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken, p_OAuthToken);
-            SharingAgreements   = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Triggers            = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken);
-            HelpCenter          = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
-            Voice               = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Schedules           = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Targets             = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken);
+            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Triggers = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken);
+            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
+            Voice = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Schedules = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Targets = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken);
 
             ZendeskUrl = formattedUrl;
         }
 
 #if SYNC
+
         /// <summary>
+        /// Initializes a new instance of the <see cref="ZendeskApi"/> class.
         /// Constructor that takes 3 params.
         /// </summary>
         /// <param name="proxy"></param>
@@ -170,45 +175,51 @@ namespace ZendeskApi_v2
         public ZendeskApi(IWebProxy proxy, string yourZendeskUrl, string user, string password)
             : this(yourZendeskUrl, user, password, null, "en-us", null)
         {
-            if (proxy == null) return;
-
-            ((Tickets)Tickets).Proxy                              = proxy;
-            ((Attachments)Attachments).Proxy                      = proxy;
-            ((Brands)Brands).Proxy                                = proxy;
-            ((Views)Views).Proxy                                  = proxy;
-            ((Users)Users).Proxy                                  = proxy;
-            ((Requests.Requests)Requests).Proxy                   = proxy;
-            ((Groups)Groups).Proxy                                = proxy;
-            ((CustomAgentRoles)CustomAgentRoles).Proxy            = proxy;
-            ((Organizations)Organizations).Proxy                  = proxy;
-            ((Search)Search).Proxy                                = proxy;
-            ((Tags)Tags).Proxy                                    = proxy;
-            ((Forums)Forums).Proxy                                = proxy;
+            if (proxy == null)
+            {
+                return;
+            } ((Tickets)Tickets).Proxy = proxy;
+            ((Attachments)Attachments).Proxy = proxy;
+            ((Brands)Brands).Proxy = proxy;
+            ((Views)Views).Proxy = proxy;
+            ((Users)Users).Proxy = proxy;
+            ((Requests.Requests)Requests).Proxy = proxy;
+            ((Groups)Groups).Proxy = proxy;
+            ((CustomAgentRoles)CustomAgentRoles).Proxy = proxy;
+            ((Organizations)Organizations).Proxy = proxy;
+            ((Search)Search).Proxy = proxy;
+            ((Tags)Tags).Proxy = proxy;
+            ((Forums)Forums).Proxy = proxy;
             ((ZendeskApi_v2.Requests.Categories)Categories).Proxy = proxy;
-            ((Topics)Topics).Proxy                                = proxy;
-            ((AccountsAndActivity)AccountsAndActivity).Proxy      = proxy;
-            ((JobStatuses)JobStatuses).Proxy                      = proxy;
-            ((Locales)Locales).Proxy                              = proxy;
-            ((Macros)Macros).Proxy                                = proxy;
-            ((SatisfactionRatings)SatisfactionRatings).Proxy      = proxy;
-            ((SharingAgreements)SharingAgreements).Proxy          = proxy;
-            ((Triggers)Triggers).Proxy                            = proxy;
-            ((Voice)Voice).Proxy                                  = proxy;
-            ((Schedules)Schedules).Proxy                          = proxy;
+            ((Topics)Topics).Proxy = proxy;
+            ((AccountsAndActivity)AccountsAndActivity).Proxy = proxy;
+            ((JobStatuses)JobStatuses).Proxy = proxy;
+            ((Locales)Locales).Proxy = proxy;
+            ((Macros)Macros).Proxy = proxy;
+            ((SatisfactionRatings)SatisfactionRatings).Proxy = proxy;
+            ((SharingAgreements)SharingAgreements).Proxy = proxy;
+            ((Triggers)Triggers).Proxy = proxy;
+            ((Voice)Voice).Proxy = proxy;
+            ((Schedules)Schedules).Proxy = proxy;
             ((Targets)Targets).Proxy = proxy;
         }
 
 #endif
-        Uri GetFormattedZendeskUrl(string yourZendeskUrl)
+
+        private Uri GetFormattedZendeskUrl(string yourZendeskUrl)
         {
             yourZendeskUrl = yourZendeskUrl.ToLower();
 
             //Make sure the Authority is https://
             if (yourZendeskUrl.StartsWith("http://"))
+            {
                 yourZendeskUrl = yourZendeskUrl.Replace("http://", "https://");
+            }
 
             if (!yourZendeskUrl.StartsWith("https://"))
+            {
                 yourZendeskUrl = "https://" + yourZendeskUrl;
+            }
 
             if (!yourZendeskUrl.EndsWith("/api/v2"))
             {
@@ -216,19 +227,20 @@ namespace ZendeskApi_v2
                 yourZendeskUrl = yourZendeskUrl.Split(new[] { ".zendesk.com" }, StringSplitOptions.RemoveEmptyEntries)[0] + ".zendesk.com/api/v2";
             }
 
-
             if (!yourZendeskUrl.EndsWith("/", StringComparison.CurrentCultureIgnoreCase))
+            {
                 yourZendeskUrl += "/";
+            }
+
             return new Uri(yourZendeskUrl);
         }
 
-#if Net35 
+#if Net35
         public string GetLoginUrl(string name, string email, string authenticationToken, string returnToUrl = "")
         {
             string url = string.Format("{0}/access/remoteauth/", ZendeskUrl);
 
             string timestamp = GetUnixEpoch(DateTime.Now).ToString();
-
 
             string message = string.Format("{0}|{1}|||||{2}|{3}", name, email, authenticationToken, timestamp);
             //string message = name + email + token + timestamp;
@@ -252,7 +264,6 @@ namespace ZendeskApi_v2
 
             return unixTime.TotalSeconds;
         }
-
 
         public string Md5(string strChange)
         {
@@ -282,6 +293,5 @@ namespace ZendeskApi_v2
             return Result.ToString();
         }
 #endif
-
     }
 }

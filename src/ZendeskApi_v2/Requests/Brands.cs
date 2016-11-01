@@ -1,28 +1,41 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
-using System.Collections.Generic;
+
 using ZendeskApi_v2.Models.Brands;
-using System;
 
 namespace ZendeskApi_v2.Requests
 {
     public interface IBrands : ICore
     {
 #if SYNC
+
         GroupBrandResponse GetBrands();
+
         IndividualBrandResponse GetBrand(long id);
+
         IndividualBrandResponse CreateBrand(Brand brand);
+
         IndividualBrandResponse UpdateBrand(Brand brand);
+
         bool DeleteBrand(long id);
+
 #endif
 
 #if ASYNC
+
         Task<GroupBrandResponse> GetBrandsAsync();
+
         Task<IndividualBrandResponse> GetBrandAsync(long id);
+
         Task<IndividualBrandResponse> CreateBrandAsync(Brand brand);
+
         Task<IndividualBrandResponse> UpdateBrandAsync(Brand brand);
+
         Task<bool> DeleteBrandAsync(long id);
+
 #endif
     }
 
@@ -34,6 +47,7 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         public GroupBrandResponse GetBrands()
         {
             return GenericGet<GroupBrandResponse>(string.Format("brands.json"));
@@ -60,9 +74,11 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("brands/{0}.json", id));
         }
+
 #endif
 
-#if ASYNC    
+#if ASYNC
+
         public async Task<GroupBrandResponse> GetBrandsAsync()
         {
             return await GenericGetAsync<GroupBrandResponse>(string.Format("brands.json"));
@@ -89,6 +105,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync(string.Format("brands/{0}.json", id));
         }
+
 #endif
     }
 }

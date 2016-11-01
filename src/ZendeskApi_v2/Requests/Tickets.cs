@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Shared;
@@ -29,26 +33,44 @@ namespace ZendeskApi_v2.Requests
 
     public interface ITickets : ICore
     {
-        
 #if SYNC
+
         GroupTicketFormResponse GetTicketForms();
+
         IndividualTicketFormResponse CreateTicketForm(TicketForm ticketForm);
+
         IndividualTicketFormResponse GetTicketFormById(long id);
+
         IndividualTicketFormResponse UpdateTicketForm(TicketForm ticketForm);
+
         bool ReorderTicketForms(long[] orderedTicketFormIds);
+
         IndividualTicketFormResponse CloneTicketForm(long ticketFormId);
+
         bool DeleteTicketForm(long id);
+
         GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetTicketsByViewID(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetTicketsByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
-        GroupTicketResponse GetAssignedTicketsByUserID( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None );
+
+        GroupTicketResponse GetAssignedTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         IndividualTicketResponse GetTicket(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         IndividualTicketResponse CreateTicket(Ticket ticket);
 
         /// <summary>
@@ -60,19 +82,32 @@ namespace ZendeskApi_v2.Requests
         IndividualTicketResponse UpdateTicket(Ticket ticket, Comment comment = null);
 
         JobStatusResponse BulkUpdate(IEnumerable<long> ids, BulkUpdate info);
+
         bool Delete(long id);
+
         bool DeleteMultiple(IEnumerable<long> ids);
+
         GroupUserResponse GetCollaborators(long id);
+
         GroupTicketResponse GetIncidents(long id);
+
         GroupTicketResponse GetProblems();
+
         GroupTicketResponse AutoCompleteProblems(string text);
+
         GroupAuditResponse GetAudits(long ticketId);
+
         GroupAuditResponse GetAuditsNextPage(string NextPage);
+
         IndividualAuditResponse GetAuditById(long ticketId, long auditId);
+
         bool MarkAuditAsTrusted(long ticketId, long auditId);
+
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketExportResponse GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketExportResponse GetIncrementalTicketExportNextPage(string nextPage);
 
         /// <summary>
@@ -83,36 +118,63 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         [Obsolete("This has been deprecated. Please use __TestOnly__GetIncrementalTicketExport", true)]
         GroupTicketExportResponse __TestOnly__GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketExportResponse __TestOnly__GetIncrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         GroupTicketFieldResponse GetTicketFields();
+
         IndividualTicketFieldResponse GetTicketFieldById(long id);
+
         IndividualTicketFieldResponse CreateTicketField(TicketField ticketField);
+
         IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField);
+
         bool DeleteTicketField(long id);
+
         GroupSuspendedTicketResponse GetSuspendedTickets();
+
         IndividualSuspendedTicketResponse GetSuspendedTicketById(long id);
+
         bool RecoverSuspendedTicket(long id);
+
         bool RecoverManySuspendedTickets(IEnumerable<long> ids);
+
         bool DeleteSuspendedTickets(long id);
+
         bool DeleteManySuspendedTickets(IEnumerable<long> ids);
+
         GroupTicketMetricResponse GetAllTicketMetrics();
+
         IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id);
+
         IndividualTicketResponse ImportTicket(TicketImport ticket);
+
         JobStatusResponse BulkImportTickets(IEnumerable<TicketImport> tickets);
+
 #endif
 
 #if ASYNC
+
         Task<GroupTicketResponse> GetAllTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetTicketsByViewIDAsync(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
-        Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None );
+
+        Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<IndividualTicketResponse> GetTicketAsync(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket);
 
         /// <summary>
@@ -124,15 +186,25 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualTicketResponse> UpdateTicketAsync(Ticket ticket, Comment comment = null);
 
         Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, BulkUpdate info);
+
         Task<bool> DeleteAsync(long id);
+
         Task<bool> DeleteMultipleAsync(IEnumerable<long> ids);
+
         Task<GroupUserResponse> GetCollaboratorsAsync(long id);
+
         Task<GroupTicketResponse> GetIncidentsAsync(long id);
+
         Task<GroupTicketResponse> GetProblemsAsync();
+
         Task<GroupTicketResponse> AutoCompleteProblemsAsync(string text);
+
         Task<GroupAuditResponse> GetAuditsAsync(long ticketId);
+
         Task<IndividualAuditResponse> GetAuditByIdAsync(long ticketId, long auditId);
+
         Task<bool> MarkAuditAsTrustedAsync(long ticketId, long auditId);
+
         Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         /// <summary>
@@ -144,40 +216,62 @@ namespace ZendeskApi_v2.Requests
         Task<GroupTicketExportResponse> __TestOnly__GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketFieldResponse> GetTicketFieldsAsync();
+
         Task<IndividualTicketFieldResponse> GetTicketFieldByIdAsync(long id);
+
         Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField);
+
         Task<IndividualTicketFieldResponse> UpdateTicketFieldAsync(TicketField ticketField);
+
         Task<bool> DeleteTicketFieldAsync(long id);
+
         Task<GroupSuspendedTicketResponse> GetSuspendedTicketsAsync();
+
         Task<IndividualSuspendedTicketResponse> GetSuspendedTicketByIdAsync(long id);
+
         Task<bool> RecoverSuspendedTicketAsync(long id);
+
         Task<bool> RecoverManySuspendedTicketsAsync(IEnumerable<long> ids);
+
         Task<bool> DeleteSuspendedTicketsAsync(long id);
+
         Task<bool> DeleteManySuspendedTicketsAsync(IEnumerable<long> ids);
+
         Task<GroupTicketFormResponse> GetTicketFormsAsync();
+
         Task<IndividualTicketFormResponse> CreateTicketFormAsync(TicketForm ticketForm);
+
         Task<IndividualTicketFormResponse> GetTicketFormByIdAsync(long id);
+
         Task<IndividualTicketFormResponse> UpdateTicketFormAsync(TicketForm ticketForm);
+
         Task<bool> ReorderTicketFormsAsync(long[] orderedTicketFormIds);
+
         Task<IndividualTicketFormResponse> CloneTicketFormAsync(long ticketFormId);
+
         Task<bool> DeleteTicketFormAsync(long id);
+
         Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync();
+
         Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id);
+
         Task<IndividualTicketResponse> ImportTicketAsync(TicketImport ticket);
+
         Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<TicketImport> tickets);
+
 #endif
     }
 
     public class Tickets : Core, ITickets
     {
-        private const string _tickets = "tickets";
-        private const string _imports = "imports";
-        private const string _create_many = "create_many";
-        private const string _ticket_forms = "ticket_forms";
-        private const string _views = "views";
-        private const string _organizations = "organizations";
-        private const string _ticket_metrics = "ticket_metrics";
-        private const string _incremental_export = "incremental/tickets.json?start_time=";
+        private const string TicketsValue = "tickets";
+        private const string Imports = "imports";
+        private const string Create_many = "create_many";
+        private const string Ticket_forms = "ticket_forms";
+        private const string Views = "views";
+        private const string Organizations = "organizations";
+        private const string Ticket_metrics = "ticket_metrics";
+        private const string Incremental_export = "incremental/tickets.json?start_time=";
 
         public Tickets(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
@@ -188,66 +282,63 @@ namespace ZendeskApi_v2.Requests
 
         public GroupTicketFormResponse GetTicketForms()
         {
-            return GenericGet<GroupTicketFormResponse>(_ticket_forms + ".json");
+            return GenericGet<GroupTicketFormResponse>(Ticket_forms + ".json");
         }
 
         public IndividualTicketFormResponse CreateTicketForm(TicketForm ticketForm)
         {
             var body = new { ticket_form = ticketForm };
-            return GenericPost<IndividualTicketFormResponse>(_ticket_forms + ".json", body);
+            return GenericPost<IndividualTicketFormResponse>(Ticket_forms + ".json", body);
         }
 
         public IndividualTicketFormResponse GetTicketFormById(long id)
         {
-            return GenericGet<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, id));
+            return GenericGet<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", Ticket_forms, id));
         }
 
         public IndividualTicketFormResponse UpdateTicketForm(TicketForm ticketForm)
         {
             var body = new { ticket_form = ticketForm };
-            return GenericPut<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, ticketForm.Id), body);
+            return GenericPut<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", Ticket_forms, ticketForm.Id), body);
         }
-
 
         public bool ReorderTicketForms(long[] orderedTicketFormIds)
         {
             var body = new { ticket_form_ids = orderedTicketFormIds };
-            return GenericPut<bool>(string.Format("{0}/reorder.json", _ticket_forms), body);
+            return GenericPut<bool>(string.Format("{0}/reorder.json", Ticket_forms), body);
         }
 
         public IndividualTicketFormResponse CloneTicketForm(long ticketFormId)
         {
-            return GenericPost<IndividualTicketFormResponse>(string.Format("{0}/{1}/clone.json", _ticket_forms, ticketFormId));
+            return GenericPost<IndividualTicketFormResponse>(string.Format("{0}/{1}/clone.json", Ticket_forms, ticketFormId));
         }
 
         public bool DeleteTicketForm(long id)
         {
-            return GenericDelete(string.Format("{0}/{1}.json", _ticket_forms, id));
+            return GenericDelete(string.Format("{0}/{1}.json", Ticket_forms, id));
         }
-
-
 
         public GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(TicketsValue + ".json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByViewID(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", _views, viewId, _tickets), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", Views, viewId, TicketsValue), sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", Organizations, id, TicketsValue), sideLoadOptions);
             return GenericGet<GroupTicketResponse>(resource);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", Organizations, id, TicketsValue), sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
         }
 
@@ -262,10 +353,11 @@ namespace ZendeskApi_v2.Requests
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/requested.json", userId), sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
-        public GroupTicketResponse GetAssignedTicketsByUserID( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None ) 
+
+        public GroupTicketResponse GetAssignedTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam( string.Format( "users/{0}/tickets/assigned.json", userId ), sideLoadOptions );
-            return GenericPagedGet<GroupTicketResponse>( resource, perPage, page );
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/assigned.json", userId), sideLoadOptions);
+            return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -276,27 +368,26 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTicketResponse GetTicket(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}.json", _tickets, id), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}.json", TicketsValue, id), sideLoadOptions);
             return GenericGet<IndividualTicketResponse>(resource);
         }
 
         public GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/comments.json", _tickets, ticketId), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/comments.json", TicketsValue, ticketId), sideLoadOptions);
             return GenericPagedGet<GroupCommentResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/show_many.json?ids={1}", _tickets, ids.ToCsv()), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/show_many.json?ids={1}", TicketsValue, ids.ToCsv()), sideLoadOptions);
             return GenericGet<GroupTicketResponse>(resource);
         }
-
 
         public IndividualTicketResponse CreateTicket(Ticket ticket)
         {
             var body = new { ticket };
-            return GenericPost<IndividualTicketResponse>(_tickets + ".json", body);
+            return GenericPost<IndividualTicketResponse>(TicketsValue + ".json", body);
         }
 
         /// <summary>
@@ -307,7 +398,7 @@ namespace ZendeskApi_v2.Requests
         public IndividualTicketResponse ImportTicket(TicketImport ticket)
         {
             var body = new { ticket };
-            return GenericPost<IndividualTicketResponse>(_imports + "/" + _tickets + ".json", body);
+            return GenericPost<IndividualTicketResponse>(Imports + "/" + TicketsValue + ".json", body);
         }
 
         /// <summary>
@@ -318,7 +409,7 @@ namespace ZendeskApi_v2.Requests
         public JobStatusResponse BulkImportTickets(IEnumerable<TicketImport> tickets)
         {
             var body = new { tickets };
-            return GenericPost<JobStatusResponse>(_imports + "/" + _tickets + "/" + _create_many + ".json", body);
+            return GenericPost<JobStatusResponse>(Imports + "/" + Tickets.TicketsValue + "/" + Create_many + ".json", body);
         }
 
         /// <summary>
@@ -330,36 +421,39 @@ namespace ZendeskApi_v2.Requests
         public IndividualTicketResponse UpdateTicket(Ticket ticket, Comment comment = null)
         {
             if (comment != null)
+            {
                 ticket.Comment = comment;
+            }
+
             var body = new { ticket };
 
-            return GenericPut<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);
+            return GenericPut<IndividualTicketResponse>(string.Format("{0}/{1}.json", TicketsValue, ticket.Id), body);
         }
 
         public JobStatusResponse BulkUpdate(IEnumerable<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
-            return GenericPut<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);
+            return GenericPut<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", TicketsValue, ids.ToCsv()), body);
         }
 
         public bool Delete(long id)
         {
-            return GenericDelete(string.Format("{0}/{1}.json", _tickets, id));
+            return GenericDelete(string.Format("{0}/{1}.json", TicketsValue, id));
         }
 
         public bool DeleteMultiple(IEnumerable<long> ids)
         {
-            return GenericDelete(string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()));
+            return GenericDelete(string.Format("{0}/destroy_many.json?ids={1}", TicketsValue, ids.ToCsv()));
         }
 
         public GroupUserResponse GetCollaborators(long id)
         {
-            return GenericGet<GroupUserResponse>(string.Format("{0}/{1}/collaborators.json", _tickets, id));
+            return GenericGet<GroupUserResponse>(string.Format("{0}/{1}/collaborators.json", TicketsValue, id));
         }
 
         public GroupTicketResponse GetIncidents(long id)
         {
-            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/incidents.json", _tickets, id));
+            return GenericGet<GroupTicketResponse>(string.Format("{0}/{1}/incidents.json", TicketsValue, id));
         }
 
         public GroupTicketResponse GetProblems()
@@ -376,12 +470,14 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupAuditResponse>(string.Format("tickets/{0}/audits.json", ticketId));
         }
+
         public GroupAuditResponse GetAuditsNextPage(string NextPage)
         {
             var resource = NextPage.Replace(ZendeskUrl, string.Empty);
 
             return GenericGet<GroupAuditResponse>(resource);
         }
+
         public IndividualAuditResponse GetAuditById(long ticketId, long auditId)
         {
             return GenericGet<IndividualAuditResponse>(string.Format("tickets/{0}/audits/{1}.json", ticketId, auditId));
@@ -397,7 +493,7 @@ namespace ZendeskApi_v2.Requests
         [Obsolete("This has been deprecated. Please use GetIncrementalTicketExport", true)]
         public GroupTicketExportResponse GetInrementalTicketExport(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<GroupTicketExportResponse>(_incremental_export + startTime.UtcDateTime.GetEpoch());
+            return GenericGet<GroupTicketExportResponse>(Incremental_export + startTime.UtcDateTime.GetEpoch());
         }
 
         /// <summary>
@@ -416,7 +512,7 @@ namespace ZendeskApi_v2.Requests
         {
             var resource =
                 GetResourceStringWithSideLoadOptionsParam(
-                    _incremental_export + startTime.UtcDateTime.GetEpoch(),
+                    Incremental_export + startTime.UtcDateTime.GetEpoch(),
                     sideLoadOptions);
 
             return GenericGet<GroupTicketExportResponse>(resource);
@@ -538,36 +634,38 @@ namespace ZendeskApi_v2.Requests
         }
 
         #region TicketMetrics
+
         public GroupTicketMetricResponse GetAllTicketMetrics()
         {
-            return GenericGet<GroupTicketMetricResponse>(_ticket_metrics + ".json");
+            return GenericGet<GroupTicketMetricResponse>(Ticket_metrics + ".json");
         }
 
         public IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id)
         {
-            return GenericGet<IndividualTicketMetricResponse>(string.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
+            return GenericGet<IndividualTicketMetricResponse>(string.Format("{0}/{1}/metrics.json", TicketsValue, ticket_id));
         }
 
-        #endregion
+        #endregion TicketMetrics
+
 #endif
 
-
 #if ASYNC
+
         public async Task<GroupTicketResponse> GetAllTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(TicketsValue + ".json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", _views, viewId, _tickets), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", Views, viewId, TicketsValue), sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", _organizations, id, _tickets), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/{2}.json", Organizations, id, TicketsValue), sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
@@ -583,11 +681,12 @@ namespace ZendeskApi_v2.Requests
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
-        public async Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync( long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None ) 
+        public async Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-          string resource = GetResourceStringWithSideLoadOptionsParam( string.Format( "users/{0}/tickets/assigned.json", userId ), sideLoadOptions );
-          return await GenericPagedGetAsync<GroupTicketResponse>( resource, perPage, page );
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/assigned.json", userId), sideLoadOptions);
+            return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
+
         public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("users/{0}/tickets/ccd.json", userId), sideLoadOptions);
@@ -596,26 +695,26 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualTicketResponse> GetTicketAsync(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}.json", _tickets, id), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}.json", TicketsValue, id), sideLoadOptions);
             return await GenericGetAsync<IndividualTicketResponse>(resource);
         }
 
         public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/comments.json", _tickets, ticketId), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/{1}/comments.json", TicketsValue, ticketId), sideLoadOptions);
             return await GenericPagedGetAsync<GroupCommentResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/show_many.json?ids={1}", _tickets, ids.ToCsv()), sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam(string.Format("{0}/show_many.json?ids={1}", TicketsValue, ids.ToCsv()), sideLoadOptions);
             return await GenericGetAsync<GroupTicketResponse>(resource);
         }
 
         public async Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket)
         {
             var body = new { ticket };
-            return await GenericPostAsync<IndividualTicketResponse>(_tickets + ".json", body);
+            return await GenericPostAsync<IndividualTicketResponse>(TicketsValue + ".json", body);
         }
 
         /// <summary>
@@ -626,7 +725,7 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTicketResponse> ImportTicketAsync(TicketImport ticket)
         {
             var body = new { ticket };
-            return await GenericPostAsync<IndividualTicketResponse>(_imports + "/" + _tickets + ".json", body);
+            return await GenericPostAsync<IndividualTicketResponse>(Imports + "/" + TicketsValue + ".json", body);
         }
 
         /// <summary>
@@ -637,8 +736,7 @@ namespace ZendeskApi_v2.Requests
         public async Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<TicketImport> tickets)
         {
             var body = new { tickets };
-            return await GenericPostAsync<JobStatusResponse>(_imports + "/" + _tickets + "/" + _create_many + ".json", body);
-
+            return await GenericPostAsync<JobStatusResponse>(Imports + "/" + Tickets.TicketsValue + "/" + Create_many + ".json", body);
         }
 
         /// <summary>
@@ -650,36 +748,39 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTicketResponse> UpdateTicketAsync(Ticket ticket, Comment comment = null)
         {
             if (comment != null)
+            {
                 ticket.Comment = comment;
+            }
+
             var body = new { ticket };
 
-            return await GenericPutAsync<IndividualTicketResponse>(string.Format("{0}/{1}.json", _tickets, ticket.Id), body);
+            return await GenericPutAsync<IndividualTicketResponse>(string.Format("{0}/{1}.json", TicketsValue, ticket.Id), body);
         }
 
         public async Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, BulkUpdate info)
         {
             var body = new { ticket = info };
-            return await GenericPutAsync<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", _tickets, ids.ToCsv()), body);
+            return await GenericPutAsync<JobStatusResponse>(string.Format("{0}/update_many.json?ids={1}", TicketsValue, ids.ToCsv()), body);
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("{0}/{1}.json", _tickets, id));
+            return await GenericDeleteAsync(string.Format("{0}/{1}.json", TicketsValue, id));
         }
 
         public async Task<bool> DeleteMultipleAsync(IEnumerable<long> ids)
         {
-            return await GenericDeleteAsync(string.Format("{0}/destroy_many.json?ids={1}", _tickets, ids.ToCsv()));
+            return await GenericDeleteAsync(string.Format("{0}/destroy_many.json?ids={1}", TicketsValue, ids.ToCsv()));
         }
 
         public async Task<GroupUserResponse> GetCollaboratorsAsync(long id)
         {
-            return await GenericGetAsync<GroupUserResponse>(string.Format("{0}/{1}/collaborators.json", _tickets, id));
+            return await GenericGetAsync<GroupUserResponse>(string.Format("{0}/{1}/collaborators.json", TicketsValue, id));
         }
 
         public async Task<GroupTicketResponse> GetIncidentsAsync(long id)
         {
-            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/incidents.json", _tickets, id));
+            return await GenericGetAsync<GroupTicketResponse>(string.Format("{0}/{1}/incidents.json", TicketsValue, id));
         }
 
         public async Task<GroupTicketResponse> GetProblemsAsync()
@@ -711,7 +812,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return await GenericPagedGetAsync<GroupTicketExportResponse>(_incremental_export + startTime.UtcDateTime.GetEpoch());
+            return await GenericPagedGetAsync<GroupTicketExportResponse>(Incremental_export + startTime.UtcDateTime.GetEpoch());
         }
 
         /// <summary>
@@ -796,55 +897,55 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupTicketFormResponse> GetTicketFormsAsync()
         {
-            return await GenericGetAsync<GroupTicketFormResponse>(_ticket_forms + ".json");
+            return await GenericGetAsync<GroupTicketFormResponse>(Ticket_forms + ".json");
         }
 
         public async Task<IndividualTicketFormResponse> CreateTicketFormAsync(TicketForm ticketForm)
         {
             var body = new { ticket_form = ticketForm };
-            return await GenericPostAsync<IndividualTicketFormResponse>(_ticket_forms + ".json", body);
+            return await GenericPostAsync<IndividualTicketFormResponse>(Ticket_forms + ".json", body);
         }
 
         public async Task<IndividualTicketFormResponse> GetTicketFormByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, id));
+            return await GenericGetAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", Ticket_forms, id));
         }
 
         public async Task<IndividualTicketFormResponse> UpdateTicketFormAsync(TicketForm ticketForm)
         {
-            return await GenericPutAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", _ticket_forms, ticketForm.Id), ticketForm);
+            return await GenericPutAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}.json", Ticket_forms, ticketForm.Id), ticketForm);
         }
-
 
         public async Task<bool> ReorderTicketFormsAsync(long[] orderedTicketFormIds)
         {
             var body = new { ticket_form_ids = orderedTicketFormIds };
-            return await GenericPutAsync<bool>(string.Format("{0}/reorder.json", _ticket_forms), body);
+            return await GenericPutAsync<bool>(string.Format("{0}/reorder.json", Ticket_forms), body);
         }
 
         public async Task<IndividualTicketFormResponse> CloneTicketFormAsync(long ticketFormId)
         {
-            return await GenericPostAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}/clone.json", _ticket_forms, ticketFormId));
+            return await GenericPostAsync<IndividualTicketFormResponse>(string.Format("{0}/{1}/clone.json", Ticket_forms, ticketFormId));
         }
 
         public async Task<bool> DeleteTicketFormAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("{0}/{1}.json", _ticket_forms, id));
+            return await GenericDeleteAsync(string.Format("{0}/{1}.json", Ticket_forms, id));
         }
 
         #region TicketMetrics
+
         public Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync()
         {
-            return GenericGetAsync<GroupTicketMetricResponse>(_ticket_metrics + ".json");
+            return GenericGetAsync<GroupTicketMetricResponse>(Ticket_metrics + ".json");
         }
 
         public Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id)
         {
-            return GenericGetAsync<IndividualTicketMetricResponse>(string.Format("{0}/{1}/metrics.json", _tickets, ticket_id));
+            return GenericGetAsync<IndividualTicketMetricResponse>(string.Format("{0}/{1}/metrics.json", TicketsValue, ticket_id));
         }
 
+        #endregion TicketMetrics
 
-        #endregion
 #endif
 
         private string GetResourceStringWithSideLoadOptionsParam(string resource, TicketSideLoadOptionsEnum sideLoadOptions)
@@ -852,9 +953,11 @@ namespace ZendeskApi_v2.Requests
             if (sideLoadOptions != TicketSideLoadOptionsEnum.None)
             {
                 if (sideLoadOptions.HasFlag(TicketSideLoadOptionsEnum.None))
+                {
                     sideLoadOptions &= ~TicketSideLoadOptionsEnum.None;
+                }
 
-                string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
+                string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", string.Empty);
                 resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
                 return resource;
             }

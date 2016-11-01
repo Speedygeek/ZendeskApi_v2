@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace ZendeskApi_v2.Serialization
 {
@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jsonObject = JObject.Load(reader);
-            var target     = Create(objectType, jsonObject);
+            var target = Create(objectType, jsonObject);
             serializer.Populate(jsonObject.CreateReader(), target);
             return target;
         }

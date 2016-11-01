@@ -12,7 +12,6 @@ namespace Tests
         [TestFixtureSetUp]
         public void Setup()
         {
-
             var res = api.Categories.GetCategoriesAsync().Result;
             foreach (var category in res.Categories)
             {
@@ -22,8 +21,6 @@ namespace Tests
                 }
             }
         }
-
-
 
         [Test]
         public void CanGetCategories()

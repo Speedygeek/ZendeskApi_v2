@@ -1,6 +1,9 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using System.Collections.Generic;
 using ZendeskApi_v2.Models.Triggers;
 
@@ -9,23 +12,39 @@ namespace ZendeskApi_v2.Requests
     public interface ITriggers : ICore
     {
 #if SYNC
+
         GroupTriggerResponse GetTriggers();
+
         IndividualTriggerResponse GetTriggerById(long id);
+
         GroupTriggerResponse GetActiveTriggers();
+
         IndividualTriggerResponse CreateTrigger(Trigger trigger);
+
         IndividualTriggerResponse UpdateTrigger(Trigger trigger);
+
         bool DeleteTrigger(long id);
+
         bool ReorderTriggers(IEnumerable<long> trigger_ids);
+
 #endif
 
 #if ASYNC
+
         Task<GroupTriggerResponse> GetTriggersAsync();
+
         Task<IndividualTriggerResponse> GetTriggerByIdAsync(long id);
+
         Task<GroupTriggerResponse> GetActiveTriggersAsync();
+
         Task<IndividualTriggerResponse> CreateTriggerAsync(Trigger trigger);
+
         Task<IndividualTriggerResponse> UpdateTriggerAsync(Trigger trigger);
+
         Task<bool> DeleteTriggerAsync(long id);
+
         Task<bool> ReorderTriggersAsync(IEnumerable<long> trigger_ids);
+
 #endif
     }
 
@@ -37,6 +56,7 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         public GroupTriggerResponse GetTriggers()
         {
             return GenericGet<GroupTriggerResponse>(string.Format("triggers.json"));
@@ -74,9 +94,11 @@ namespace ZendeskApi_v2.Requests
             var body = new { trigger_ids };
             return GenericBoolPut("triggers/reorder.json", body);
         }
+
 #endif
 
-#if ASYNC    
+#if ASYNC
+
         public async Task<GroupTriggerResponse> GetTriggersAsync()
         {
             return await GenericGetAsync<GroupTriggerResponse>(string.Format("triggers.json"));
@@ -114,6 +136,7 @@ namespace ZendeskApi_v2.Requests
             var body = new { trigger_ids };
             return await GenericBoolPutAsync("triggers/reorder.json", body);
         }
+
 #endif
     }
 }

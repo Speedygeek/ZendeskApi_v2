@@ -6,7 +6,6 @@ namespace ZendeskApi_v2.Models.Groups
 {
     public class GroupMembership
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 

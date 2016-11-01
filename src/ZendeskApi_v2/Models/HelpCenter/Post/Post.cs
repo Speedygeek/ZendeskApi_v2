@@ -40,7 +40,7 @@ namespace ZendeskApi_v2.Models.HelpCenter.Post
         [JsonProperty("closed")]
         public bool Closed { get; set; }
 
-        //TODO: Convert to enum 
+        //TODO: Convert to enum
         /// <summary>
         /// The status of the post. Possible values: "planned", "not_planned" , "answered", or "completed"
         /// </summary>

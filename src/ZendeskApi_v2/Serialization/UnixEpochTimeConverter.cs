@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 namespace ZendeskApi_v2.Serialization
 {
     public class UnixEpochTimeConverter : DateTimeConverterBase
     {
-        private static readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            bool nullable = (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            bool nullable = objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>);
 
             Type T = nullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
@@ -28,7 +26,7 @@ namespace ZendeskApi_v2.Serialization
             if (reader.TokenType == JsonToken.Integer)
             {
                 long epoch = (long)reader.Value;
-                return _epoch.AddSeconds(epoch);
+                return UnixEpochTimeConverter.Epoch.AddSeconds(epoch);
             }
 
             return null;

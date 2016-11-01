@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
@@ -14,15 +14,14 @@ using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Requests;
 
-
 namespace Tests
 {
     [TestFixture]
     [Category("Tickets")]
     public class TicketTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
-        TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
 
         [Test]
         public void CanGetTicketsAsync()
@@ -95,7 +94,6 @@ namespace Tests
             Assert.AreEqual(nextPage, (page + 1).ToString());
         }
 
-
         [Test]
         public void CanGetTicketById()
         {
@@ -124,7 +122,6 @@ namespace Tests
             var tickets = api.Tickets.GetTicketsByOrganizationID(id);
             Assert.True(tickets.Count > 0);
         }
-
 
         [Test]
         public void CanGetTicketsByOrganizationIdPaged()
@@ -287,7 +284,6 @@ namespace Tests
             Assert.IsTrue(tickets.Organizations.Any());
         }
 
-
         [Test]
         public void CanGetMultipleTicketsSingleTicket()
         {
@@ -341,9 +337,7 @@ namespace Tests
 
             Assert.AreEqual(ticket.CustomFields[1].Value, updateResponse.Ticket.CustomFields[1].Value);
 
-
             Assert.True(api.Tickets.Delete(res.Id.Value));
-
         }
 
         [Test]
@@ -406,7 +400,6 @@ namespace Tests
             Assert.IsNull(comments.Organizations);
         }
 
-
         [Test]
         public void CanGetTicketCommentsPaged()
         {
@@ -429,7 +422,6 @@ namespace Tests
 
             Assert.AreEqual((page + 1).ToString(), nextPageValue);
         }
-
 
         [Test]
         public void CanCreateTicketWithRequester()
@@ -469,7 +461,6 @@ namespace Tests
 
             Assert.True(api.Tickets.Delete(res.Ticket.Id.Value));
         }
-
 
         [Test]
         public void CanCreateTicketWithDueDate()
@@ -535,7 +526,6 @@ namespace Tests
                 CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail },
                 AssigneeId = Settings.UserId
             });
-
 
             Assert.AreEqual(res.JobStatus.Status, "queued");
 
@@ -785,7 +775,6 @@ namespace Tests
             string option2 = "test_value_b";
             string option3 = "test_value_c";
 
-
             var tField = new TicketField()
             {
                 Type = TicketFieldTypes.Tagger,
@@ -914,7 +903,6 @@ namespace Tests
             var count = 50;
             var nextPage = api.Tickets.GetByPageUrl<GroupTicketMetricResponse>(metrics.NextPage, count);
             Assert.AreEqual(nextPage.TicketMetrics.Count, count);
-
         }
 
         [Test]
@@ -1048,7 +1036,6 @@ namespace Tests
             api.Tickets.DeleteAsync(res.Id);
         }
 
-
         [Test]
         public void CanBulkImportTicket()
         {
@@ -1077,7 +1064,6 @@ namespace Tests
 
             var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
             Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
-
 
             int count = 0;
             while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
@@ -1118,7 +1104,6 @@ namespace Tests
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
                 ContractResolver = ZendeskApi_v2.Serialization.ZendeskContractResolver.Instance
-
             };
 
             string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);

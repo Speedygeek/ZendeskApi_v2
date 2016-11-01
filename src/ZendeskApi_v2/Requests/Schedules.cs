@@ -1,42 +1,67 @@
 ﻿#if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
-using System.Collections.Generic;
-using System.Linq;
+
 using ZendeskApi_v2.Models.Schedules;
-using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
 {
     public interface ISchedules : ICore
     {
 #if SYNC
+
         GroupScheduleResponse GetAllSchedules();
+
         IndividualScheduleResponse GetSchedule(long id);
+
         IndividualScheduleResponse CreateSchedule(Schedule schedule);
+
         IndividualScheduleResponse UpdateSchedule(Schedule schedule);
+
         bool DeleteSchedule(long id);
+
         IndividualScheduleWorkWeekResponse UpdateIntervals(long scheduleId, WorkWeek workweek);
+
         GroupScheduleHolidayResponse GetHolidaysByScheduleId(long scheduleId);
+
         IndividualScheduleHolidayResponse GetHolidayByIdAndScheduleId(long scheduleId, long holidayId);
+
         IndividualScheduleHolidayResponse CreateHoliday(long scheduleId, Holiday holiday);
+
         IndividualScheduleHolidayResponse UpdateHoliday(long scheduleId, Holiday holiday);
+
         bool DeleteHoliday(long scheduleId, long holidayId);
+
 #endif
 #if ASYNC
+
         Task<GroupScheduleResponse> GetAllSchedulesAsync();
+
         Task<IndividualScheduleResponse> GetScheduleAsync(long id);
+
         Task<IndividualScheduleResponse> CreateScheduleAsync(Schedule schedule);
+
         Task<IndividualScheduleResponse> UpdateScheduleAsync(Schedule schedule);
+
         Task<bool> DeleteScheduleAsync(long id);
+
         Task<IndividualScheduleWorkWeekResponse> UpdateIntervalsAsync(long scheduleId, WorkWeek workweek);
+
         Task<GroupScheduleHolidayResponse> GetHolidaysByScheduleIdAsync(long scheduleId);
+
         Task<IndividualScheduleHolidayResponse> GetHolidayByIdAndScheduleIdAsync(long holidayId, long scheduleId);
+
         Task<IndividualScheduleHolidayResponse> CreateHolidayAsync(long scheduleId, Holiday holiday);
+
         Task<IndividualScheduleHolidayResponse> UpdateHolidayAsync(long scheduleId, Holiday holiday);
+
         Task<bool> DeleteHolidayAsync(long scheduleId, long holidayId);
+
 #endif
     }
+
     public class Schedules : Core, ISchedules
     {
         public Schedules(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
@@ -45,6 +70,7 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         public GroupScheduleResponse GetAllSchedules()
         {
             return GenericGet<GroupScheduleResponse>("business_hours/schedules.json");
@@ -104,9 +130,11 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holidayId));
         }
+
 #endif
 
 #if ASYNC
+
         public async Task<GroupScheduleResponse> GetAllSchedulesAsync()
         {
             return await GenericGetAsync<GroupScheduleResponse>("business_hours/schedules.json");
@@ -166,6 +194,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holidayId));
         }
+
 #endif
     }
 }

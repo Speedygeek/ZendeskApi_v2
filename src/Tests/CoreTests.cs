@@ -47,8 +47,8 @@ namespace Tests
         public void AsyncGivesCorrectException()
         {
             var api = new ZendeskApi_v2.ZendeskApi(
-                "http://csharpapi.zendesk.com/api/v2", 
-                Settings.Email, 
+                "http://csharpapi.zendesk.com/api/v2",
+                Settings.Email,
                 "Incorrect password");
 
             Assert.ThrowsAsync<WebException>(async () =>
@@ -58,7 +58,6 @@ namespace Tests
                     Subject = "subject"
                 });
             });
-
         }
 
         [Test]
@@ -84,13 +83,12 @@ namespace Tests
 
             try
             {
-                api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() {Name = "sdfsd sadfs", Email = ""});
+                api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "sdfsd sadfs", Email = "" });
             }
             catch (Exception e)
             {
                 Assert.IsTrue(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"));
             }
-
         }
     }
 }

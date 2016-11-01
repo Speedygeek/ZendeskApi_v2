@@ -16,6 +16,7 @@ namespace Tests.HelpCenter
         private long _articleId = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
         private long _sectionId = 201010935;
         private long _categoryId = 200382245;
+
         [Test]
         public void CanListTranslations()
         {
@@ -82,7 +83,6 @@ namespace Tests.HelpCenter
 
             //teardown.
             Assert.IsTrue(api.HelpCenter.Articles.DeleteArticle(article_id));
-
         }
 
         [Test]
@@ -132,7 +132,6 @@ namespace Tests.HelpCenter
 
             //teardown.
             Assert.IsTrue(api.HelpCenter.Sections.DeleteSection(section_id));
-
         }
 
         [Test]
@@ -144,7 +143,6 @@ namespace Tests.HelpCenter
             //update translation and verify.
             //delete translation and verify.
             //delete new category.
-
 
             //prep
             var new_category_res = api.HelpCenter.Categories.CreateCategory(new ZendeskApi_v2.Models.HelpCenter.Categories.Category()
@@ -181,7 +179,6 @@ namespace Tests.HelpCenter
 
             //teardown.
             Assert.IsTrue(api.HelpCenter.Categories.DeleteCategory(category_id));
-
         }
 
         [Test]
@@ -197,9 +194,7 @@ namespace Tests.HelpCenter
             Assert.IsTrue(res.Contains("fr"));
         }
 
-
         //Async tests:
-
 
         [Test]
         public async Task CanListTranslationsAsync()
@@ -267,7 +262,6 @@ namespace Tests.HelpCenter
 
             //tear-down.
             Assert.That(await api.HelpCenter.Articles.DeleteArticleAsync(article_id), Is.True);
-
         }
 
         [Test]
@@ -329,7 +323,6 @@ namespace Tests.HelpCenter
             //update translation and verify.
             //delete translation and verify.
             //delete new category.
-
 
             //prep
             var new_category_res = await api.HelpCenter.Categories.CreateCategoryAsync(new Category()

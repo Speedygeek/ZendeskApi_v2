@@ -886,7 +886,16 @@
       <Link>ZendeskApi.cs</Link>
     </Compile>
     <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
+    <Compile Include="Models\IndividualSearchableResponseBase.cs" />
+    <Compile Include="Models\Search\SearchResults`1.cs" />
+    <Compile Include="Models\Shared\UploadResult.cs" />
+    <Compile Include="Models\Tickets\CustomFieldOptions.cs" />
+    <Compile Include="Models\Tickets\TicketFieldBase.cs" />
+    <Compile Include="Models\Views\Executed\PreviewView.cs" />
+    <Compile Include="Models\Views\Executed\PreviewViewOutput.cs" />
+    <Compile Include="Models\Voice\HistoricalQueueActivityDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestMethod.cs" />
     <Compile Include="Requests\HelpCenter\AccessPolicies.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -922,7 +931,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>

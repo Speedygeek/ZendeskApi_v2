@@ -3,7 +3,7 @@ using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Models.Shared
 {
-    public  class MetaData
+    public class MetaData
     {
         [JsonProperty("custom")]
         public Custom Custom { get; set; }

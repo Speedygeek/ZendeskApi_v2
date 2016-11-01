@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Tags;
 using ZendeskApi_v2.Models.Users;
-using System.Threading.Tasks;
 
 namespace Tests
 {
     [TestFixture]
     public class OrganizationTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+
         [OneTimeSetUp]
         public void Init()
         {
@@ -104,7 +105,6 @@ namespace Tests
                 Role = "end-user"
             };
 
-
             var res = api.Users.CreateUser(user);
 
             var org_membership = new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id };
@@ -168,7 +168,6 @@ namespace Tests
             Assert.True(api.Organizations.DeleteOrganization(org.Organization.Id.Value));
             Assert.True(api.Organizations.DeleteOrganization(org2.Organization.Id.Value));
         }
-
 
         [Test]
         public async Task CanSearchForOrganizationsAsync()

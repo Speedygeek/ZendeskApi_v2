@@ -6,10 +6,8 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Views
 {
-
     public class Conditions
     {
-
         [JsonProperty("all")]
         public IList<All> All { get; set; }
 

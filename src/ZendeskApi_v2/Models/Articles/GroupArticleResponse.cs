@@ -3,12 +3,10 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Articles
 {
-
-	public class GroupArticleResponse : GroupResponseBase
-	{
-
-		[JsonProperty("articles")]
-		public IList<Article> Articles { get; set; }
+    public class GroupArticleResponse : GroupResponseBase
+    {
+        [JsonProperty("articles")]
+        public IList<Article> Articles { get; set; }
 
         [JsonProperty("sections")]
         public IList<Sections.Section> Sections { get; set; }
@@ -18,5 +16,5 @@ namespace ZendeskApi_v2.Models.Articles
 
         [JsonProperty("users")]
         public IList<Users.User> Users { get; set; }
-	}
+    }
 }

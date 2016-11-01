@@ -5,7 +5,7 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Shared
 {
-    public  class Audit
+    public class Audit
     {
         [JsonProperty("id")]
         public long Id { get; set; }
