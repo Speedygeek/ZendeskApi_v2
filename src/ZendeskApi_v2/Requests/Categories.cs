@@ -1,27 +1,41 @@
 using ZendeskApi_v2.Models.Categories;
+
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
-using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Requests
 {
     public interface ICategories : ICore
     {
 #if SYNC
+
         GroupCategoryResponse GetCategories();
+
         IndividualCategoryResponse GetCategoryById(long id);
+
         IndividualCategoryResponse CreateCategory(Category category);
+
         IndividualCategoryResponse UpdateCategory(Category category);
+
         bool DeleteCategory(long id);
+
 #endif
 
 #if ASYNC
+
         Task<GroupCategoryResponse> GetCategoriesAsync();
+
         Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id);
+
         Task<IndividualCategoryResponse> CreateCategoryAsync(Category category);
+
         Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category);
+
         Task<bool> DeleteCategoryAsync(long id);
+
 #endif
     }
 
@@ -33,6 +47,7 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         public GroupCategoryResponse GetCategories()
         {
             return GenericGet<GroupCategoryResponse>("categories.json");
@@ -45,7 +60,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualCategoryResponse CreateCategory(Category category)
         {
-            var body = new {category};
+            var body = new { category };
             return GenericPost<IndividualCategoryResponse>(string.Format("categories.json"), body);
         }
 
@@ -56,12 +71,14 @@ namespace ZendeskApi_v2.Requests
         }
 
         public bool DeleteCategory(long id)
-        {            
+        {
             return GenericDelete(string.Format("categories/{0}.json", id));
         }
+
 #endif
 
-#if ASYNC                
+#if ASYNC
+
         public async Task<GroupCategoryResponse> GetCategoriesAsync()
         {
             return await GenericGetAsync<GroupCategoryResponse>("categories.json");
@@ -88,6 +105,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync(string.Format("categories/{0}.json", id));
         }
+
 #endif
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -25,6 +22,5 @@ namespace ZendeskApi_v2.Models.HelpCenter
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset UpdatedAt { get; set; }
-
     }
 }

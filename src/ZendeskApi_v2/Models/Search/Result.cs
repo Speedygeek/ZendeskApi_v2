@@ -5,16 +5,13 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Models.Search
 {
-    
     public class Result
     {
-
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -103,7 +100,5 @@ namespace ZendeskApi_v2.Models.Search
 
         [JsonProperty("status")]
         public string Status { get; set; }
-
-
     }
 }

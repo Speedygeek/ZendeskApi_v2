@@ -5,14 +5,11 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.Locales
 {
-
     public class Locale
     {
-
         [JsonProperty("id")]
         public long Id { get; set; }
 

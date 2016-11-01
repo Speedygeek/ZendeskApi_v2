@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.HelpCenter.Translations;
 
 namespace ZendeskApi_v2.Models.Articles
 {
-
     public class Article
     {
         [JsonProperty("id")]

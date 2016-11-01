@@ -8,11 +8,9 @@ namespace Tests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
-
         [TestFixtureSetUp]
         public void Setup()
         {
-
         }
 
         [Test]

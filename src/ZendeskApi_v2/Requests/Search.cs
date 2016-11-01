@@ -1,23 +1,21 @@
+﻿using ZendeskApi_v2.Models;
 
-using System;
-using System.Linq;
-using ZendeskApi_v2.Models;
-using ZendeskApi_v2.Models.Groups;
-using ZendeskApi_v2.Models.Organizations;
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Search;
-using ZendeskApi_v2.Models.Tickets;
-using ZendeskApi_v2.Models.Users;
 
 namespace ZendeskApi_v2.Requests
 {
     public interface ISearch : ICore
     {
 #if SYNC
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -27,7 +25,7 @@ namespace ZendeskApi_v2.Requests
         SearchResults SearchFor(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -55,11 +53,13 @@ namespace ZendeskApi_v2.Requests
         /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
         /// <returns></returns>
         SearchResults<T> AnonymousSearchFor<T>(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null) where T : ISearchable;
+
 #endif
 
 #if ASYNC
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -69,7 +69,7 @@ namespace ZendeskApi_v2.Requests
         Task<SearchResults> SearchForAsync(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -97,11 +97,12 @@ namespace ZendeskApi_v2.Requests
         /// <param name="sortOrder">Possible values are 'relevance', 'asc', 'desc'. Defaults to 'relevance' when no 'order' criteria is requested.</param>
         /// <returns></returns>
         Task<SearchResults<T>> AnonymousSearchForAsync<T>(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null) where T : ISearchable;
+
 #endif
     }
 
     /// <summary>
-    /// The search API is a unified search API that returns tickets, users, organizations, and forum topics. 
+    /// The search API is a unified search API that returns tickets, users, organizations, and forum topics.
     /// Define filters to narrow your search results according to result type, date attributes, and object attributes such as ticket requester or tag.
     /// </summary>
     public class Search : Core, ISearch
@@ -112,8 +113,9 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -128,7 +130,7 @@ namespace ZendeskApi_v2.Requests
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -171,11 +173,13 @@ namespace ZendeskApi_v2.Requests
 
             return GenericPagedSortedGet<SearchResults<T>>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
+
 #endif
 
 #if ASYNC
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -190,7 +194,7 @@ namespace ZendeskApi_v2.Requests
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <param name="page">Returns specified {page} - pagination</param>
@@ -233,13 +237,14 @@ namespace ZendeskApi_v2.Requests
 
             return await GenericPagedSortedGetAsync<SearchResults<T>>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
+
 #endif
 
         public string AddTypeToSearchTerm<T>(string searchTerm = "")
         {
             string typeName = typeof(T).Name;
 
-            return "type:" + typeName + (!(string.IsNullOrEmpty(searchTerm.Trim())) ? " " : "") + searchTerm.Trim();
+            return "type:" + typeName + (!string.IsNullOrEmpty(searchTerm.Trim()) ? " " : string.Empty) + searchTerm.Trim();
         }
 
         public bool SortOrderAscending(string sortOrder)

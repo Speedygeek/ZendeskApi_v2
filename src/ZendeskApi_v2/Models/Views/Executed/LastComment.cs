@@ -7,10 +7,8 @@ using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Views.Executed
 {
-
     public class LastComment
     {
-
         [JsonProperty("body")]
         public string Body { get; set; }
 

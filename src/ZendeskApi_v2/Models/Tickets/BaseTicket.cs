@@ -1,7 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -20,6 +19,5 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
-
     }
 }

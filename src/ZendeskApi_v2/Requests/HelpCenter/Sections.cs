@@ -1,33 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-#if ASYNC
-using System.Threading.Tasks;
-#endif
-using ZendeskApi_v2.Models.Sections;
+﻿#if ASYNC
 
+using System.Threading.Tasks;
+
+#endif
+
+using ZendeskApi_v2.Models.Sections;
 
 namespace ZendeskApi_v2.Requests.HelpCenter
 {
     public interface ISections : ICore
     {
 #if SYNC
+
         GroupSectionResponse GetSections();
+
         GroupSectionResponse GetSectionsByCategoryId(long categoryId);
+
         IndividualSectionResponse GetSectionById(long id);
+
         IndividualSectionResponse CreateSection(Section section);
+
         IndividualSectionResponse UpdateSection(Section section);
+
         bool DeleteSection(long id);
+
 #endif
 
 #if ASYNC
+
         Task<GroupSectionResponse> GetSectionsAsync();
+
         Task<GroupSectionResponse> GetSectionsByCategoryIdAsync(long categoryId);
+
         Task<IndividualSectionResponse> GetSectionByIdAsync(long id);
+
         Task<IndividualSectionResponse> CreateSectionAsync(Section section);
+
         Task<IndividualSectionResponse> UpdateSectionAsync(Section section);
+
         Task<bool> DeleteSectionAsync(long id);
+
 #endif
     }
 
@@ -44,6 +56,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         {
             return GenericGet<GroupSectionResponse>("help_center/sections.json?include=access_policies");
         }
+
         public GroupSectionResponse GetSectionsByCategoryId(long categoryId)
         {
             return GenericGet<GroupSectionResponse>(string.Format("help_center/categories/{0}/sections.json?include=access_policies", categoryId));

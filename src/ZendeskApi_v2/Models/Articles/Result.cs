@@ -1,18 +1,12 @@
 ﻿// JSON C# Class Generator
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using ZendeskApi_v2.Models.Shared;
-using ZendeskApi_v2.Models.Tickets;
 
-namespace ZendeskApi_v2.Models.Articles {
+namespace ZendeskApi_v2.Models.Articles
+{
     public class Result
     {
-        
         [JsonProperty("id")]
         public long? Id { get; set; }
 

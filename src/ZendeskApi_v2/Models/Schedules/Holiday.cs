@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using ZendeskApi_v2.Serialization;
 
 namespace ZendeskApi_v2.Models.Schedules
 {

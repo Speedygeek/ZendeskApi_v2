@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
+using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
-using ZendeskApi_v2.Models.Shared;
-using System.IO;
 
 namespace Tests
 {
@@ -16,7 +16,7 @@ namespace Tests
     [Category("Users")]
     public class UserTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
         [Test]
         public void CanGetUsers()
@@ -71,7 +71,7 @@ namespace Tests
             var list = api.Users.GetAllUsers();
             var users = list.Users.Where(x => x.Email == "test772@tester.com");
 
-            foreach(var u in users)
+            foreach (var u in users)
             {
                 api.Users.DeleteUser(u.Id.Value);
             }
@@ -101,7 +101,6 @@ namespace Tests
             var res2 = api.Users.UpdateUser(res1.User);
             var blah = api.Users.GetUser(res1.User.Id.Value);
             Assert.AreEqual(res1.User.Phone, res2.User.Phone);
-
 
             var res3 = api.Users.SuspendUser(res2.User.Id.Value);
             Assert.IsTrue(res3.User.Suspended);

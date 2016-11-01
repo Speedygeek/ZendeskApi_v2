@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using ZendeskApi_v2.Models.Tickets;
 using Newtonsoft.Json.Converters;
 
 namespace ZendeskApi_v2.Models.Shared

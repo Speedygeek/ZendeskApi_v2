@@ -2,17 +2,13 @@
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.Tickets.Suspended
 {
-
     public class SuspendedTicket
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 

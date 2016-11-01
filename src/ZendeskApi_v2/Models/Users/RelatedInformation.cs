@@ -4,10 +4,9 @@ namespace ZendeskApi_v2.Models.Users
 {
     public class RelatedInformation
     {
-
         [JsonProperty("assigned_tickets")]
         public int AssignedTickets { get; set; }
-     
+
         [JsonProperty("requested_tickets")]
         public int RequestedTickets { get; set; }
 
@@ -31,7 +30,7 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("forum_subscriptions")]
         public int FormSubscriptions { get; set; }
- 
+
         [JsonProperty("organization_subscriptions")]
         public int OrganitzationSubscriptions { get; set; }
     }

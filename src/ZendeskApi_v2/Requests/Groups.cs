@@ -1,75 +1,111 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Groups;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface IGroups : ICore
-	{
+    public interface IGroups : ICore
+    {
 #if SYNC
-		MultipleGroupResponse GetGroups(int? perPage = null, int? page = null);
-		MultipleGroupResponse GetAssignableGroups();
-		IndividualGroupResponse GetGroupById(long id);
-		IndividualGroupResponse CreateGroup(string groupName);
-		IndividualGroupResponse UpdateGroup(Group group);
-		bool DeleteGroup(long id);
-		MultipleGroupMembershipResponse GetGroupMemberships();
-		MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId);
-		MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId);
-		MultipleGroupMembershipResponse GetAssignableGroupMemberships();
-		MultipleGroupMembershipResponse GetAssignableGroupMembershipsByGroup(long groupId);
-		IndividualGroupMembershipResponse GetGroupMembershipsByMembershipId(long groupMembershipId);
-		IndividualGroupMembershipResponse GetGroupMembershipsByUserAndMembershipId(long userId, long groupMembershipId);
 
-		/// <summary>
-		/// Creating a membership means assigning an agent to a given group
-		/// </summary>
-		/// <param name="groupMembership"></param>
-		/// <returns></returns>
-		IndividualGroupMembershipResponse CreateGroupMembership(GroupMembership groupMembership);
+        MultipleGroupResponse GetGroups(int? perPage = null, int? page = null);
 
-		MultipleGroupMembershipResponse SetGroupMembershipAsDefault(long userId, long groupMembershipId);
-		bool DeleteGroupMembership(long groupMembershipId);
-		bool DeleteUserGroupMembership(long userId, long groupMembershipId);
+        MultipleGroupResponse GetAssignableGroups();
+
+        IndividualGroupResponse GetGroupById(long id);
+
+        IndividualGroupResponse CreateGroup(string groupName);
+
+        IndividualGroupResponse UpdateGroup(Group group);
+
+        bool DeleteGroup(long id);
+
+        MultipleGroupMembershipResponse GetGroupMemberships();
+
+        MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId);
+
+        MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId);
+
+        MultipleGroupMembershipResponse GetAssignableGroupMemberships();
+
+        MultipleGroupMembershipResponse GetAssignableGroupMembershipsByGroup(long groupId);
+
+        IndividualGroupMembershipResponse GetGroupMembershipsByMembershipId(long groupMembershipId);
+
+        IndividualGroupMembershipResponse GetGroupMembershipsByUserAndMembershipId(long userId, long groupMembershipId);
+
+        /// <summary>
+        /// Creating a membership means assigning an agent to a given group
+        /// </summary>
+        /// <param name="groupMembership"></param>
+        /// <returns></returns>
+        IndividualGroupMembershipResponse CreateGroupMembership(GroupMembership groupMembership);
+
+        MultipleGroupMembershipResponse SetGroupMembershipAsDefault(long userId, long groupMembershipId);
+
+        bool DeleteGroupMembership(long groupMembershipId);
+
+        bool DeleteUserGroupMembership(long userId, long groupMembershipId);
+
 #endif
 
 #if ASYNC
-		Task<MultipleGroupResponse> GetGroupsAsync(int? perPage = null, int? page = null);
-		Task<MultipleGroupResponse> GetAssignableGroupsAsync();
-		Task<IndividualGroupResponse> GetGroupByIdAsync(long id);
-		Task<IndividualGroupResponse> CreateGroupAsync(string groupName);
-		Task<IndividualGroupResponse> UpdateGroupAsync(Group group);
-		Task<bool> DeleteGroupAsync(long id);
-		Task<MultipleGroupMembershipResponse> GetGroupMembershipsAsync();
-		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId);
-		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId);
-		Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync();
-		Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsByGroupAsync(long groupId);
-		Task<IndividualGroupMembershipResponse> GetGroupMembershipsByMembershipIdAsync(long groupMembershipId);
-		Task<IndividualGroupMembershipResponse> GetGroupMembershipsByUserAndMembershipIdAsync(long userId, long groupMembershipId);
 
-		/// <summary>
-		/// Creating a membership means assigning an agent to a given group
-		/// </summary>
-		/// <param name="groupMembership"></param>
-		/// <returns></returns>
-		Task<IndividualGroupMembershipResponse> CreateGroupMembershipAsync(GroupMembership groupMembership);
+        Task<MultipleGroupResponse> GetGroupsAsync(int? perPage = null, int? page = null);
 
-		Task<MultipleGroupMembershipResponse> SetGroupMembershipAsDefaultAsync(long userId, long groupMembershipId);
-		Task<bool> DeleteGroupMembershipAsync(long groupMembershipId);
-		Task<bool> DeleteUserGroupMembershipAsync(long userId, long groupMembershipId);
+        Task<MultipleGroupResponse> GetAssignableGroupsAsync();
+
+        Task<IndividualGroupResponse> GetGroupByIdAsync(long id);
+
+        Task<IndividualGroupResponse> CreateGroupAsync(string groupName);
+
+        Task<IndividualGroupResponse> UpdateGroupAsync(Group group);
+
+        Task<bool> DeleteGroupAsync(long id);
+
+        Task<MultipleGroupMembershipResponse> GetGroupMembershipsAsync();
+
+        Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId);
+
+        Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId);
+
+        Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync();
+
+        Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsByGroupAsync(long groupId);
+
+        Task<IndividualGroupMembershipResponse> GetGroupMembershipsByMembershipIdAsync(long groupMembershipId);
+
+        Task<IndividualGroupMembershipResponse> GetGroupMembershipsByUserAndMembershipIdAsync(long userId, long groupMembershipId);
+
+        /// <summary>
+        /// Creating a membership means assigning an agent to a given group
+        /// </summary>
+        /// <param name="groupMembership"></param>
+        /// <returns></returns>
+        Task<IndividualGroupMembershipResponse> CreateGroupMembershipAsync(GroupMembership groupMembership);
+
+        Task<MultipleGroupMembershipResponse> SetGroupMembershipAsDefaultAsync(long userId, long groupMembershipId);
+
+        Task<bool> DeleteGroupMembershipAsync(long groupMembershipId);
+
+        Task<bool> DeleteUserGroupMembershipAsync(long userId, long groupMembershipId);
+
 #endif
-	}
+    }
 
-	public class Groups : Core, IGroups
-	{
+    public class Groups : Core, IGroups
+    {
         public Groups(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
 #if SYNC
+
         public MultipleGroupResponse GetGroups(int? perPage = null, int? page = null)
         {
             return GenericPagedGet<MultipleGroupResponse>("groups.json", perPage, page);
@@ -87,7 +123,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualGroupResponse CreateGroup(string groupName)
         {
-            var body = new {group = new {name = groupName}};
+            var body = new { group = new { name = groupName } };
             return GenericPost<IndividualGroupResponse>("groups.json", body);
         }
 
@@ -96,13 +132,11 @@ namespace ZendeskApi_v2.Requests
             var body = new { group };
             return GenericPut<IndividualGroupResponse>(string.Format("groups/{0}.json", group.Id), body);
         }
-        
+
         public bool DeleteGroup(long id)
-        {            
+        {
             return GenericDelete(string.Format("groups/{0}.json", id));
         }
-
-
 
         public MultipleGroupMembershipResponse GetGroupMemberships()
         {
@@ -146,7 +180,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualGroupMembershipResponse CreateGroupMembership(GroupMembership groupMembership)
         {
-            var body = new {group_membership = groupMembership};
+            var body = new { group_membership = groupMembership };
             return GenericPost<IndividualGroupMembershipResponse>(string.Format("group_memberships.json"), body);
         }
 
@@ -156,7 +190,7 @@ namespace ZendeskApi_v2.Requests
         }
 
         public bool DeleteGroupMembership(long groupMembershipId)
-        {            
+        {
             return GenericDelete(string.Format("group_memberships/{0}.json", groupMembershipId));
         }
 
@@ -164,9 +198,11 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
         }
+
 #endif
 
 #if ASYNC
+
         public async Task<MultipleGroupResponse> GetGroupsAsync(int? perPage = null, int? page = null)
         {
             return await GenericPagedGetAsync<MultipleGroupResponse>("groups.json", perPage, page);
@@ -259,6 +295,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
         }
+
 #endif
     }
 }

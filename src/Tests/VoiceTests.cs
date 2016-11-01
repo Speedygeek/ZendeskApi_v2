@@ -92,6 +92,5 @@ namespace Tests
 
             Assert.NotNull(res.Result.Details);
         }
-
     }
 }

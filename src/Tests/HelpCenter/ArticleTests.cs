@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Linq;
-using NUnit.Framework;
-using ZendeskApi_v2;
-using ZendeskApi_v2.Models.Articles;
-using ZendeskApi_v2.Models.Sections;
-using ZendeskApi_v2.Requests.HelpCenter;
-using ZendeskApi_v2.Models.Users;
 using System.Collections.Generic;
-using ZendeskApi_v2.Models.AccessPolicies;
+using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.AccessPolicies;
+using ZendeskApi_v2.Models.Articles;
+using ZendeskApi_v2.Models.Sections;
+using ZendeskApi_v2.Models.Users;
+using ZendeskApi_v2.Requests.HelpCenter;
 
 namespace Tests.HelpCenter
 {
@@ -49,6 +49,7 @@ namespace Tests.HelpCenter
         }
 
         #region Sideloaded Content
+
         public void CanGetArticleSideloadedWith()
         {
             var res = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Users);
@@ -139,7 +140,8 @@ namespace Tests.HelpCenter
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
         }
-        #endregion
+
+        #endregion Sideloaded Content
 
         [Test]
         public void CanCreateUpdateAndDeleteArticles()
@@ -232,7 +234,7 @@ namespace Tests.HelpCenter
 
             Section section = (await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value)).Section;
 
-            // user 2 is a member of the testing tag so we should get the section 
+            // user 2 is a member of the testing tag so we should get the section
             Assert.That(section, Is.Not.Null);
 
             responsSection.Section.AccessPolicy = new AccessPolicy { ViewableBy = ViewableBy.signed_in_users, RequiredTags = new List<string> { "monkey" } };
@@ -242,9 +244,8 @@ namespace Tests.HelpCenter
             Thread.Sleep(10000);
             Assert.ThrowsAsync<WebException>(async () =>
             {
-              var sec =  await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
+                var sec = await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
             });
         }
-
     }
 }

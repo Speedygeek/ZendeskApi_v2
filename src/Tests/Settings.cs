@@ -1,7 +1,7 @@
-﻿namespace Tests {
+﻿namespace Tests
+{
     public class Settings
     {
-
         public const string Site = "https://csharpapi.zendesk.com/api/v2/";
         public const string DefaultOrg = "csharpapi";
         public const string DefaultExternalId = "1234abc";
@@ -41,9 +41,10 @@
         public const long TicketFormId = 26227;
 
         public const long CustomFieldTypeOfFeedbackId = 23999346;
-        
-        // Help Center 
+
+        // Help Center
         public const long Category_ID = 200382245;
+
         public const long Topic_ID = 200360263;
     }
 }

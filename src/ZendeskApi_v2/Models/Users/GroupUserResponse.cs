@@ -6,7 +6,6 @@ namespace ZendeskApi_v2.Models.Users
 {
     public class GroupUserResponse : GroupResponseBase
     {
-
         [JsonProperty("organizations")]
         public IList<Organization> Organizations { get; set; }
 

@@ -15,7 +15,7 @@ namespace ZendeskApi_v2.Models.Shared
         public string Body { get; set; }
 
         [JsonProperty("public")]
-        public bool Public { get; set; }        
+        public bool Public { get; set; }
 
         [JsonProperty("attachments")]
         public IList<Attachment> Attachments { get; set; }

@@ -1,7 +1,11 @@
 using System;
+
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
 
@@ -10,6 +14,7 @@ namespace ZendeskApi_v2.Requests
     public interface IRequests : ICore
     {
 #if SYNC
+
         /// <summary>
         /// Gets all requests available to user.
         /// </summary>
@@ -51,15 +56,23 @@ namespace ZendeskApi_v2.Requests
         GroupRequestResponse GetAllCcdRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
 
         GroupRequestResponse GetAllRequestsForUser(long id);
+
         IndividualRequestResponse GetRequestById(long id);
+
         GroupCommentResponse GetRequestCommentsById(long id);
+
         IndividualCommentResponse GetSpecificRequestComment(long requestId, long commentId);
+
         IndividualRequestResponse CreateRequest(Request request);
+
         IndividualRequestResponse UpdateRequest(long id, Comment comment);
+
         IndividualRequestResponse UpdateRequest(Request request, Comment comment = null);
+
 #endif
 
 #if ASYNC
+
         /// <summary>
         /// Gets all requests available to user.
         /// </summary>
@@ -101,11 +114,17 @@ namespace ZendeskApi_v2.Requests
         Task<GroupRequestResponse> GetAllCcdRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null);
 
         Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id);
+
         Task<IndividualRequestResponse> GetRequestByIdAsync(long id);
+
         Task<GroupCommentResponse> GetRequestCommentsByIdAsync(long id);
+
         Task<IndividualCommentResponse> GetSpecificRequestCommentAsync(long requestId, long commentId);
+
         Task<IndividualRequestResponse> CreateRequestAsync(Request request);
+
         Task<IndividualRequestResponse> UpdateRequestAsync(long id, Comment comment);
+
 #endif
     }
 
@@ -117,6 +136,7 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+
         public GroupRequestResponse GetAllRequests(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
             return GenericPagedSortedGet<GroupRequestResponse>("requests.json", perPage, page, sortCol, sortAscending);
@@ -142,7 +162,7 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupRequestResponse>(string.Format("users/{0}/requests.json", id));
         }
 
-        public  IndividualRequestResponse GetRequestById(long id)
+        public IndividualRequestResponse GetRequestById(long id)
         {
             return GenericGet<IndividualRequestResponse>(string.Format("requests/{0}.json", id));
         }
@@ -159,7 +179,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualRequestResponse CreateRequest(Request request)
         {
-            var body = new {request};
+            var body = new { request };
             return GenericPost<IndividualRequestResponse>("requests.json", body);
         }
 
@@ -174,7 +194,7 @@ namespace ZendeskApi_v2.Requests
             return UpdateRequest(request);
         }
 
-        public IndividualRequestResponse UpdateRequest(Request request, Comment comment=null)
+        public IndividualRequestResponse UpdateRequest(Request request, Comment comment = null)
         {
             if (!request.Id.HasValue) { throw new ArgumentException("request must have Id set."); }
 
@@ -184,12 +204,14 @@ namespace ZendeskApi_v2.Requests
             }
 
             var body = new { request };
-            
+
             return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", request.Id.Value), body);
         }
+
 #endif
 
 #if ASYNC
+
         public async Task<GroupRequestResponse> GetAllRequestsAsync(int? perPage = null, int? page = null, string sortCol = null, bool? sortAscending = null)
         {
             return await GenericPagedSortedGetAsync<GroupRequestResponse>("requests.json", perPage, page, sortCol, sortAscending);
@@ -232,15 +254,16 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualRequestResponse> CreateRequestAsync(Request request)
         {
-            var body = new {request};
+            var body = new { request };
             return await GenericPostAsync<IndividualRequestResponse>("requests.json", body);
         }
 
         public async Task<IndividualRequestResponse> UpdateRequestAsync(long id, Comment comment)
         {
-            var body = new { request = new { comment} };
+            var body = new { request = new { comment } };
             return await GenericPutAsync<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
         }
+
 #endif
     }
 }

@@ -5,13 +5,10 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-
 namespace ZendeskApi_v2.Models.AccountsAndActivities
 {
-
     public class Activity
     {
-
         [JsonProperty("id")]
         public long Id { get; set; }
 

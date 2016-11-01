@@ -18,7 +18,7 @@ namespace ZendeskApi_v2.Models
     }
 
     public class GroupResponseBase : IGroupResponseBase
-    {        
+    {
         [JsonProperty("next_page")]
         public string NextPage { get; set; }
 
@@ -41,18 +41,22 @@ namespace ZendeskApi_v2.Models
         }
 
         [JsonProperty("total_pages")]
-        public int TotalPages 
+        public int TotalPages
         {
-            get { return (int)Math.Ceiling(Count/(double)PageSize); }
+            get { return (int)Math.Ceiling(Count / (double)PageSize); }
         }
 
         private int GetPageFromParameter()
         {
             if (string.IsNullOrEmpty(PreviousPage))
+            {
                 return 1;
+            }
 
             if (string.IsNullOrEmpty(NextPage))
+            {
                 return TotalPages;
+            }
 
             var dict = NextPage.GetQueryStringDict();
             if (dict.ContainsKey("page"))
@@ -67,7 +71,9 @@ namespace ZendeskApi_v2.Models
         {
             var page = NextPage ?? PreviousPage;
             if (page == null)
+            {
                 return 100;
+            }
 
             var dict = page.GetQueryStringDict();
             if (dict.ContainsKey("per_page"))

@@ -1,53 +1,61 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Satisfaction;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface ISatisfactionRatings : ICore
-	{
+    public interface ISatisfactionRatings : ICore
+    {
 #if SYNC
-		/// <summary>
-		/// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
-		/// </summary>
-		/// <returns></returns>
-		GroupSatisfactionResponse GetSatisfactionRatings();
 
-		/// <summary>
-		/// Lists ratings provided by customers.
-		/// </summary>
-		/// <returns></returns>
-		GroupSatisfactionResponse GetReceivedSatisfactionRatings();
+        /// <summary>
+        /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
+        /// </summary>
+        /// <returns></returns>
+        GroupSatisfactionResponse GetSatisfactionRatings();
 
-		IndividualSatisfactionResponse GetSatisfactionRatingById(long id);
+        /// <summary>
+        /// Lists ratings provided by customers.
+        /// </summary>
+        /// <returns></returns>
+        GroupSatisfactionResponse GetReceivedSatisfactionRatings();
+
+        IndividualSatisfactionResponse GetSatisfactionRatingById(long id);
+
 #endif
 
 #if ASYNC
-		/// <summary>
-		/// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
-		/// </summary>
-		/// <returns></returns>
-		Task<GroupSatisfactionResponse> GetSatisfactionRatingsAsync();
 
-		/// <summary>
-		/// Lists ratings provided by customers.
-		/// </summary>
-		/// <returns></returns>
-		Task<GroupSatisfactionResponse> GetReceivedSatisfactionRatingsAsync();
+        /// <summary>
+        /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
+        /// </summary>
+        /// <returns></returns>
+        Task<GroupSatisfactionResponse> GetSatisfactionRatingsAsync();
 
-		Task<IndividualSatisfactionResponse> GetSatisfactionRatingByIdAsync(long id);
+        /// <summary>
+        /// Lists ratings provided by customers.
+        /// </summary>
+        /// <returns></returns>
+        Task<GroupSatisfactionResponse> GetReceivedSatisfactionRatingsAsync();
+
+        Task<IndividualSatisfactionResponse> GetSatisfactionRatingByIdAsync(long id);
+
 #endif
-	}
+    }
 
-	public class SatisfactionRatings : Core, ISatisfactionRatings
-	{
+    public class SatisfactionRatings : Core, ISatisfactionRatings
+    {
         public SatisfactionRatings(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
 #if SYNC
+
         /// <summary>
         /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
         /// </summary>
@@ -70,9 +78,11 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
         }
+
 #endif
 
 #if ASYNC
+
         /// <summary>
         /// Lists all received satisfaction rating requests ever issued for your account. To only list the satisfaction ratings submitted by your customers, use the "received" end point below instead.
         /// </summary>
@@ -95,6 +105,7 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericGetAsync<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
         }
+
 #endif
     }
 }

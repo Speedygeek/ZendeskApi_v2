@@ -2,7 +2,6 @@
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Shared;
@@ -54,6 +53,5 @@ namespace ZendeskApi_v2.Models.Brands
 
         [JsonProperty("signature_template")]
         public string SignatureTemplate { get; set; }
-
     }
 }

@@ -6,10 +6,8 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Views.Executed
 {
-
     public class ExecutedViewResponse : GroupResponseBase
     {
-
         [JsonProperty("rows")]
         public IList<Row> Rows { get; set; }
 
@@ -20,6 +18,6 @@ namespace ZendeskApi_v2.Models.Views.Executed
         public View View { get; set; }
 
         [JsonProperty("users")]
-        public IList<ExecutedUser> Users { get; set; }    
+        public IList<ExecutedUser> Users { get; set; }
     }
 }

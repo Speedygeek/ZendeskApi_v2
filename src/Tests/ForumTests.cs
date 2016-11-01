@@ -25,11 +25,11 @@ namespace Tests
         public void CanCreateUpdateAndDeleteForums()
         {
             var res = api.Forums.CreateForum(new Forum()
-                                                 {
-                                                     Name = "test forum",
-                                                     ForumType = ForumTypes.Articles,
-                                                     Access = ForumAccessTypes.Everybody
-                                                 });
+            {
+                Name = "test forum",
+                ForumType = ForumTypes.Articles,
+                Access = ForumAccessTypes.Everybody
+            });
             Assert.Greater(res.Forum.Id, 0);
 
             res.Forum.Name = "updated test forum";
@@ -47,15 +47,14 @@ namespace Tests
             {
                 api.Forums.DeleteForumSubscription(sub.Id.Value);
             }
-            
 
             var forum = api.Forums.GetForums().Forums.First();
 
             var res = api.Forums.CreateForumSubscription(new ForumSubscription()
-                                                             {
-                                                                 ForumId = forum.Id,
-                                                                 UserId = Settings.EndUserId,
-                                                             });
+            {
+                ForumId = forum.Id,
+                UserId = Settings.EndUserId,
+            });
             Assert.Greater(res.ForumSubscription.Id, 0);
 
             var forumSubs = api.Forums.GetForumSubscriptions();
@@ -65,10 +64,9 @@ namespace Tests
             Assert.Greater(forumSubsById.Count, 0);
 
             var forumSubId = api.Forums.GetForumSubscriptionsById(forumSubs.ForumSubscriptions[0].Id.Value);
-            Assert.AreEqual(forumSubId.ForumSubscription.Id, forumSubs.ForumSubscriptions[0].Id); 
+            Assert.AreEqual(forumSubId.ForumSubscription.Id, forumSubs.ForumSubscriptions[0].Id);
 
             Assert.True(api.Forums.DeleteForumSubscription(res.ForumSubscription.Id.Value));
-
         }
     }
 }

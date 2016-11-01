@@ -17,6 +17,6 @@ namespace ZendeskApi_v2.Models.Shared
         public string ContentType { get; set; }
 
         [JsonProperty("size")]
-        public int Size { get; set; }        
+        public int Size { get; set; }
     }
 }

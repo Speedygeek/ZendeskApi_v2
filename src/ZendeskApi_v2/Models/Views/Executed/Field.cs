@@ -5,10 +5,8 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Views.Executed
 {
-
     public class Field
     {
-
         [JsonProperty("id")]
         public long Id { get; set; }
 

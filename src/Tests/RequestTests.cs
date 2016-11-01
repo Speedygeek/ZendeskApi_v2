@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using System.Linq;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
@@ -152,7 +152,7 @@ namespace Tests
             var req = new Request
             {
                 Subject = "end user request test",
-                Comment = new Comment {Body = "end user test"}
+                Comment = new Comment { Body = "end user test" }
             };
 
             var res = _api.Requests.CreateRequest(req);

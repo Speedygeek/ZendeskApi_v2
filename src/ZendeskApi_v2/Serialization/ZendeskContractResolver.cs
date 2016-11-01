@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Reflection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Reflection;
 
 namespace ZendeskApi_v2.Serialization
 {
     public class ZendeskContractResolver : DefaultContractResolver
     {
         public static readonly ZendeskContractResolver Instance = new ZendeskContractResolver();
-
-
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {

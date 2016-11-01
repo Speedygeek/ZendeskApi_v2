@@ -54,7 +54,6 @@ namespace Tests
             Assert.True(api.Macros.DeleteMacro(create.Macro.Id.Value));
         }
 
-
         [Test]
         public void CanGetMacroByID()
         {

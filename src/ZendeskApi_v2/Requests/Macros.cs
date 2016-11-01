@@ -1,91 +1,103 @@
 #if ASYNC
+
 using System.Threading.Tasks;
+
 #endif
+
 using ZendeskApi_v2.Models.Macros;
 
 namespace ZendeskApi_v2.Requests
 {
-	public interface IMacros : ICore
-	{
+    public interface IMacros : ICore
+    {
 #if SYNC
-		/// <summary>
-		/// Lists all shared and personal macros available to the current user
-		/// </summary>
-		/// <returns></returns>
-		GroupMacroResponse GetAllMacros();
 
-		IndividualMacroResponse GetMacroById(long id);
+        /// <summary>
+        /// Lists all shared and personal macros available to the current user
+        /// </summary>
+        /// <returns></returns>
+        GroupMacroResponse GetAllMacros();
 
-		/// <summary>
-		/// Lists all active shared and personal macros available to the current user
-		/// </summary>
-		/// <returns></returns>
-		GroupMacroResponse GetActiveMacros();
+        IndividualMacroResponse GetMacroById(long id);
 
-		IndividualMacroResponse CreateMacro(Macro macro);
-		IndividualMacroResponse UpdateMacro(Macro macro);
-		bool DeleteMacro(long id);
+        /// <summary>
+        /// Lists all active shared and personal macros available to the current user
+        /// </summary>
+        /// <returns></returns>
+        GroupMacroResponse GetActiveMacros();
 
-		/// <summary>
-		/// Applies a macro to all applicable tickets.
-		/// </summary>
-		/// <param name="macroId"></param>
-		/// <returns></returns>
-		ApplyMacroResponse ApplyMacro(long macroId);
+        IndividualMacroResponse CreateMacro(Macro macro);
 
-		/// <summary>
-		/// Applies a macro to a specific ticket
-		/// </summary>
-		/// <param name="ticketId"></param>
-		/// <param name="macroId"></param>
-		/// <returns></returns>
-		ApplyMacroResponse ApplyMacroToTicket(long ticketId, long macroId);
+        IndividualMacroResponse UpdateMacro(Macro macro);
+
+        bool DeleteMacro(long id);
+
+        /// <summary>
+        /// Applies a macro to all applicable tickets.
+        /// </summary>
+        /// <param name="macroId"></param>
+        /// <returns></returns>
+        ApplyMacroResponse ApplyMacro(long macroId);
+
+        /// <summary>
+        /// Applies a macro to a specific ticket
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <param name="macroId"></param>
+        /// <returns></returns>
+        ApplyMacroResponse ApplyMacroToTicket(long ticketId, long macroId);
+
 #endif
 
 #if ASYNC
-		/// <summary>
-		/// Lists all shared and personal macros available to the current user
-		/// </summary>
-		/// <returns></returns>
-		Task<GroupMacroResponse> GetAllMacrosAsync();
 
-		Task<IndividualMacroResponse> GetMacroByIdAsync(long id);
+        /// <summary>
+        /// Lists all shared and personal macros available to the current user
+        /// </summary>
+        /// <returns></returns>
+        Task<GroupMacroResponse> GetAllMacrosAsync();
 
-		/// <summary>
-		/// Lists all active shared and personal macros available to the current user
-		/// </summary>
-		/// <returns></returns>
-		Task<GroupMacroResponse> GetActiveMacrosAsync();
+        Task<IndividualMacroResponse> GetMacroByIdAsync(long id);
 
-		Task<IndividualMacroResponse> CreateMacroAsync(Macro macro);
-		Task<IndividualMacroResponse> UpdateMacroAsync(Macro macro);
-		Task<bool> DeleteMacroAsync(long id);
+        /// <summary>
+        /// Lists all active shared and personal macros available to the current user
+        /// </summary>
+        /// <returns></returns>
+        Task<GroupMacroResponse> GetActiveMacrosAsync();
 
-		/// <summary>
-		/// Applies a macro to all applicable tickets.
-		/// </summary>
-		/// <param name="macroId"></param>
-		/// <returns></returns>
-		Task<ApplyMacroResponse> ApplyMacroAsync(long macroId);
+        Task<IndividualMacroResponse> CreateMacroAsync(Macro macro);
 
-		/// <summary>
-		/// Applies a macro to a specific ticket
-		/// </summary>
-		/// <param name="ticketId"></param>
-		/// <param name="macroId"></param>
-		/// <returns></returns>
-		Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId);
+        Task<IndividualMacroResponse> UpdateMacroAsync(Macro macro);
+
+        Task<bool> DeleteMacroAsync(long id);
+
+        /// <summary>
+        /// Applies a macro to all applicable tickets.
+        /// </summary>
+        /// <param name="macroId"></param>
+        /// <returns></returns>
+        Task<ApplyMacroResponse> ApplyMacroAsync(long macroId);
+
+        /// <summary>
+        /// Applies a macro to a specific ticket
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <param name="macroId"></param>
+        /// <returns></returns>
+        Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId);
+
 #endif
-	}
+    }
 
-	public class Macros : Core, IMacros
-	{
+    public class Macros : Core, IMacros
+    {
         public Macros(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
         }
 
 #if SYNC
+
         /// <summary>
         /// Lists all shared and personal macros available to the current user
         /// </summary>
@@ -111,7 +123,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualMacroResponse CreateMacro(Macro macro)
         {
-            var body = new {macro};
+            var body = new { macro };
             return GenericPost<IndividualMacroResponse>("macros.json", body);
         }
 
@@ -146,9 +158,11 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
         }
+
 #endif
 
 #if ASYNC
+
         /// <summary>
         /// Lists all shared and personal macros available to the current user
         /// </summary>
@@ -208,7 +222,8 @@ namespace ZendeskApi_v2.Requests
         public async Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId)
         {
             return await GenericGetAsync<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
-        }                        
+        }
+
 #endif
     }
 }

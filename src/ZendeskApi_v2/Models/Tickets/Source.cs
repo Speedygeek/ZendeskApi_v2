@@ -2,10 +2,8 @@
 
 namespace ZendeskApi_v2.Models.Tickets
 {
-
     public class Source
     {
-
         [JsonProperty("from")]
         public From From { get; set; }
 

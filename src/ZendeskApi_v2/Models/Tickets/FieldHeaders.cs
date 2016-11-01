@@ -4,7 +4,6 @@ namespace ZendeskApi_v2.Models.Tickets
 {
     public class FieldHeaders
     {
-
         [JsonProperty("generated_timestamp")]
         public string GeneratedTimestamp { get; set; }
 

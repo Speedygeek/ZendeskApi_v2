@@ -6,7 +6,7 @@ namespace ZendeskApi_v2.Models.Macros
     {
         [JsonProperty("type")]
         public string Type { get; set; }
-        
+
         [JsonProperty("id")]
         public long Id { get; set; }
     }

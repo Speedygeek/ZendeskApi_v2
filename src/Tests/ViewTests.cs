@@ -13,13 +13,12 @@ using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Views;
 using ZendeskApi_v2.Models.Views.Executed;
 
-
 namespace Tests
 {
     [TestFixture]
     public class ViewTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
 
         [Test]
         public void CanGetViews()
@@ -87,7 +86,7 @@ namespace Tests
             {
                 View = new PreviewView()
                 {
-                    All = new List<All> {new All {Field = "status", Value = "open", Operator = "is"}},
+                    All = new List<All> { new All { Field = "status", Value = "open", Operator = "is" } },
                     Output = new PreviewViewOutput { Columns = new List<string> { "subject" } }
                 }
             };

@@ -7,7 +7,6 @@ namespace ZendeskApi_v2.Models.Tickets
 {
     public class TicketForm
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 

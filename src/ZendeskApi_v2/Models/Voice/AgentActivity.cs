@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Voice
 {
     public class AgentActivity
     {
-
         [JsonProperty("agent_id")]
         public long AgentId { get; set; }
 

@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.HelpCenter.Post;
 
@@ -101,7 +101,7 @@ namespace Tests.HelpCenter
         {
             Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = await api.HelpCenter.Posts.CreatePostAsync(post);
-            Assert.That( await api.HelpCenter.Posts.DeletePostAsync(res.Post.Id.Value), Is.True);
+            Assert.That(await api.HelpCenter.Posts.DeletePostAsync(res.Post.Id.Value), Is.True);
         }
 
         [Test]

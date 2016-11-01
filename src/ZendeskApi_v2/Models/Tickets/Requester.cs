@@ -18,7 +18,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public string Name { get; set; }
 
         /// <summary>
-        ///  
+        ///
         /// </summary>
         [JsonProperty("email")]
         public string Email { get; set; }

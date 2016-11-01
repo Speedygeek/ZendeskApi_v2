@@ -5,16 +5,12 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using ZendeskApi_v2.Models.Shared;
-
 
 namespace ZendeskApi_v2.Models.Topics
 {
-
     public class Topic
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 
@@ -67,14 +63,13 @@ namespace ZendeskApi_v2.Models.Topics
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
-        
+
         /// <summary>
         /// Used for uploading Topics only
-        /// When creating and updating Topics you may attach files by passing in an array of the tokens received from uploading the files. 
+        /// When creating and updating Topics you may attach files by passing in an array of the tokens received from uploading the files.
         /// Use Attachments.UploadAttachment to get the token first.
         /// </summary>
         [JsonProperty("uploads")]
         public IList<string> Uploads { get; set; }
-
     }
 }

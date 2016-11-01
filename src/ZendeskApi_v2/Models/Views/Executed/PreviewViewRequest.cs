@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Views.Executed
@@ -19,22 +18,5 @@ namespace ZendeskApi_v2.Models.Views.Executed
 
         [JsonProperty("sort_by")]
         public string SortBy { get; set; }
-    }
-
-    public class PreviewView
-    {
-
-        [JsonProperty("all")]
-        public IList<All> All { get; set; }
-
-        [JsonProperty("output")]
-        public PreviewViewOutput Output { get; set; }
-    }
-
-    public class PreviewViewOutput
-    {
-
-        [JsonProperty("columns")]
-        public IList<string> Columns { get; set; }
     }
 }

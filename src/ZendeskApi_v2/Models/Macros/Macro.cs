@@ -5,11 +5,9 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 
 namespace ZendeskApi_v2.Models.Macros
 {
-
     public class Macro
     {
         [JsonProperty("url")]

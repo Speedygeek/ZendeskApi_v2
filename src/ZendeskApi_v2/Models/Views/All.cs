@@ -5,10 +5,8 @@ using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Views
 {
-
     public class All
     {
-
         [JsonProperty("field")]
         public string Field { get; set; }
 

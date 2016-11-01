@@ -22,9 +22,6 @@ namespace Tests
             var res = api.AccountsAndActivity.GetActivities();
 
             //var res1 = api.AccountsAndActivity.GetActivityById()
-            
         }
     }
-
-    
 }

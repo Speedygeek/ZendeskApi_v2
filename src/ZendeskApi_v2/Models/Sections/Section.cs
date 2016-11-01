@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ZendeskApi_v2.Models.AccessPolicies;
 using ZendeskApi_v2.Models.HelpCenter.Translations;
 
 namespace ZendeskApi_v2.Models.Sections
 {
-
     public class Section
     {
         [JsonProperty("id")]

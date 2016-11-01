@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Models.Groups;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Shared;
