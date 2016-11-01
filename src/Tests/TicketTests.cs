@@ -1109,5 +1109,15 @@ namespace Tests
             string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
             Assert.That(json, Contains.Substring("false"));
         }
+
+        [Test]
+        public void TicketGroupsAndTags()
+        {
+            var groups = api.Tickets.GetTicket(5098, TicketSideLoadOptionsEnum.Groups).Groups;
+            var tagCount = api.Tags.GetTags().Tags[0].Count;
+
+            Assert.That(groups.Count(), Is.GreaterThan(0));
+            Assert.That(tagCount, Is.GreaterThan(0));
+        }
     }
 }
