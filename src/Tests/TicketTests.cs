@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
@@ -1123,6 +1123,16 @@ namespace Tests
 
             string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
             Assert.That(json, Contains.Substring("false"));
+        }
+
+        [Test]
+        public void TicketGroupsAndTags()
+        {
+            var groups = api.Tickets.GetTicket(5098, TicketSideLoadOptionsEnum.Groups).Groups;
+            var tagCount = api.Tags.GetTags().Tags[0].Count;
+
+            Assert.That(groups.Count(), Is.GreaterThan(0));
+            Assert.That(tagCount, Is.GreaterThan(0));
         }
     }
 }
