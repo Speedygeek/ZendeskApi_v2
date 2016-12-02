@@ -1139,13 +1139,40 @@ namespace Tests
         }
 
         [Test]
-        public void TicketGroupsAndTags()
+        public async Task ViaChannel_Set_To_API_Isseue_254()
         {
-            var groups = api.Tickets.GetTicket(5098, TicketSideLoadOptionsEnum.Groups).Groups;
-            var tagCount = api.Tags.GetTags().Tags[0].Count;
+            // see https://github.com/mozts2005/ZendeskApi_v2/issues/254
 
-            Assert.That(groups.Count(), Is.GreaterThan(0));
-            Assert.That(tagCount, Is.GreaterThan(0));
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment() { Body = "HELP" },
+                Priority = TicketPriorities.Urgent
+            };
+
+            ticket.CustomFields = new List<CustomField>()
+                {
+                    new CustomField()
+                        {
+                            Id = Settings.CustomFieldId,
+                            Value = "testing"
+                        }
+                };
+
+            var resp = await api.Tickets.CreateTicketAsync(ticket);
+            var newTicket = resp.Ticket;
+
+            Assert.That(newTicket.Via.Channel, Is.EqualTo("api"));
+
+            var comment = new Comment { Body = "New comment", Public = true };
+
+            var resp2 = await api.Tickets.UpdateTicketAsync(newTicket, comment);
+            var resp3 = await api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value);
+
+            Assert.That(resp3.Comments.Any(c => c.Via?.Channel != "api"), Is.False);
+
+            // clean up
+            await api.Tickets.DeleteAsync(newTicket.Id.Value);
         }
 
         [Test]
