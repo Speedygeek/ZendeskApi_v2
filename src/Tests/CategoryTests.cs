@@ -7,7 +7,7 @@ namespace Tests
     [TestFixture]
     public class CategoryTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [TestFixtureSetUp]
         public void Setup()
