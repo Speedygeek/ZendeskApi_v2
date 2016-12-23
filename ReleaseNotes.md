@@ -1,5 +1,29 @@
+# 3.5.3 (23 December 2016)
+
+ - [#258](https://github.com/mozts2005/ZendeskApi_v2/pull/258) - update version number contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#257](https://github.com/mozts2005/ZendeskApi_v2/pull/257) - Fix #256 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#256](https://github.com/mozts2005/ZendeskApi_v2/issues/256) - Problem updating custom Ticket Fields Async +fix
+ - [#255](https://github.com/mozts2005/ZendeskApi_v2/pull/255) - Added Test for issue #254 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#254](https://github.com/mozts2005/ZendeskApi_v2/issues/254) - Comment channel changed from "api" to "web" when pusing to zendesk +More-Info-Needed
+ - [#253](https://github.com/mozts2005/ZendeskApi_v2/issues/253) - Search Tickets by Tag
+ - [#251](https://github.com/mozts2005/ZendeskApi_v2/pull/251) - added Test Case for #246 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#247](https://github.com/mozts2005/ZendeskApi_v2/issues/247) - Core.cs, WebException from RunRequest hides Response
+ - [#246](https://github.com/mozts2005/ZendeskApi_v2/issues/246) - Ticket Group null +Test-case-needed
+
+Commits: 0716779368...0716779368
+
+
 # 3.5.2 (27 October 2016)
 
+ - [#250](https://github.com/mozts2005/ZendeskApi_v2/pull/250) - update MSbuild task contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#249](https://github.com/mozts2005/ZendeskApi_v2/pull/249) - Included original Response in new WebException contributed by Nick Coad ([nickcoad](https://github.com/nickcoad))
+ - [#248](https://github.com/mozts2005/ZendeskApi_v2/pull/248) - Included original Response in new WebException contributed by Nick Coad ([nickcoad](https://github.com/nickcoad))
+ - [#245](https://github.com/mozts2005/ZendeskApi_v2/pull/245) - Added Example Console Application contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#244](https://github.com/mozts2005/ZendeskApi_v2/pull/244) - get User related info #227 contributed by ([M3LiNdRu](https://github.com/M3LiNdRu))
+ - [#243](https://github.com/mozts2005/ZendeskApi_v2/pull/243) - Support for Brands contributed by Jeremy Smith ([jerbri](https://github.com/jerbri))
+ - [#242](https://github.com/mozts2005/ZendeskApi_v2/pull/242) - Release notes for v3.5.1 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#227](https://github.com/mozts2005/ZendeskApi_v2/issues/227) - get User related info +Enhancement +hacktoberfest
+ - [#226](https://github.com/mozts2005/ZendeskApi_v2/issues/226) - Inconsistant 422 Errors Unprocessable Entity - Updating Trigger +fix +Test-case-needed
  - [#250](https://github.com/mozts2005/ZendeskApi_v2/pull/250) - update MSbuild task contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#249](https://github.com/mozts2005/ZendeskApi_v2/pull/249) - Included original Response in new WebException contributed by Nick Coad ([nickcoad](https://github.com/nickcoad))
  - [#248](https://github.com/mozts2005/ZendeskApi_v2/pull/248) - Included original Response in new WebException contributed by Nick Coad ([nickcoad](https://github.com/nickcoad))
@@ -10,11 +34,21 @@
  - [#227](https://github.com/mozts2005/ZendeskApi_v2/issues/227) - get User related info +enhancement +hacktoberfest
  - [#226](https://github.com/mozts2005/ZendeskApi_v2/issues/226) - Inconsistant 422 Errors Unprocessable Entity - Updating Trigger +fix +Test-case-needed
 
-Commits: 847d222181...f10b6b456e
+Commits: 847d222181...75e8f6a04e
 
 
 # 3.5.1 (19 September 2016)
 
+ - [#241](https://github.com/mozts2005/ZendeskApi_v2/pull/241) - Release Note clean up contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#240](https://github.com/mozts2005/ZendeskApi_v2/issues/240) - Article property on IndividualArticleResponse is misspelled
+ - [#239](https://github.com/mozts2005/ZendeskApi_v2/issues/239) - Update Ticket disregards public flag for comments
+ - [#238](https://github.com/mozts2005/ZendeskApi_v2/issues/238) - SortOrder is ignored for search results +fix
+ - [#237](https://github.com/mozts2005/ZendeskApi_v2/issues/237) - SearchForOrganizationsAsync() returns no results
+ - [#236](https://github.com/mozts2005/ZendeskApi_v2/pull/236) - updated SearchForOrganizations to better reflect its purpose contributed by ([mwarger](https://github.com/mwarger))
+ - [#234](https://github.com/mozts2005/ZendeskApi_v2/pull/234) - Fix an issue with bool serialization (#233) contributed by ([Tyf0x](https://github.com/Tyf0x))
+ - [#233](https://github.com/mozts2005/ZendeskApi_v2/issues/233) - Comments.Public = false creates comment as public +fix
+ - [#231](https://github.com/mozts2005/ZendeskApi_v2/pull/231) - New Zendesk voice methods contributed by ([WinDrop](https://github.com/WinDrop))
+ - [#230](https://github.com/mozts2005/ZendeskApi_v2/issues/230) - Would it be possible to compile ZendeskApi_v2 against .NET Framework 4.0?
  - [#241](https://github.com/mozts2005/ZendeskApi_v2/pull/241) - Release Note clean up contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#240](https://github.com/mozts2005/ZendeskApi_v2/issues/240) - Article property on IndividualArticleResponse is misspelled
  - [#239](https://github.com/mozts2005/ZendeskApi_v2/issues/239) - Update Ticket disregards public flag for comments
@@ -41,6 +75,41 @@ Commits: cab28417d6...30fb69ed97
 
 # 3.5.0 (19 July 2016)
 
+ - [#229](https://github.com/mozts2005/ZendeskApi_v2/pull/229) - New class for voice data and method allowing to request more than 100 audits per ticket contributed by ([WinDrop](https://github.com/WinDrop))
+ - [#228](https://github.com/mozts2005/ZendeskApi_v2/issues/228) - GrooveApi +Question
+ - [#225](https://github.com/mozts2005/ZendeskApi_v2/issues/225) - invalid token +Question
+ - [#224](https://github.com/mozts2005/ZendeskApi_v2/pull/224) - updated HelpCenterApi to properly format URL like Core does contributed by ([mwarger](https://github.com/mwarger))
+ - [#223](https://github.com/mozts2005/ZendeskApi_v2/issues/223) - Issue with NuGet package +Question
+ - [#222](https://github.com/mozts2005/ZendeskApi_v2/issues/222) - It can't be used by signed assembly
+ - [#221](https://github.com/mozts2005/ZendeskApi_v2/issues/221) - Forum topics +Enhancement
+ - [#220](https://github.com/mozts2005/ZendeskApi_v2/issues/220) - GetArticles blocked by section with tag assigned +Enhancement +In-progress
+ - [#219](https://github.com/mozts2005/ZendeskApi_v2/issues/219) - Method not found +More-Info-Needed
+ - [#218](https://github.com/mozts2005/ZendeskApi_v2/pull/218) - Adding support for translations contributed by Mark ([Marcus10110](https://github.com/Marcus10110))
+ - [#217](https://github.com/mozts2005/ZendeskApi_v2/pull/217) - Follow up to Help Center Section Fix contributed by Mark ([Marcus10110](https://github.com/Marcus10110))
+ - [#216](https://github.com/mozts2005/ZendeskApi_v2/pull/216) - [WIP] Unit test and fix for #195, "Help Center CreateSection API endpoint not correct, cannot create new sections." contributed by Mark ([Marcus10110](https://github.com/Marcus10110))
+ - [#215](https://github.com/mozts2005/ZendeskApi_v2/issues/215) - Zendesk API change - help center update article endpoint no longer allows changes to body, title or draft +fix
+ - [#214](https://github.com/mozts2005/ZendeskApi_v2/issues/214) - (401) Unauthorized "error":"invalid_token"
+ - [#213](https://github.com/mozts2005/ZendeskApi_v2/pull/213) - Add support to get tickets by assigned contributed by Nate ([tympaniplayer](https://github.com/tympaniplayer))
+ - [#212](https://github.com/mozts2005/ZendeskApi_v2/pull/212) - Support for compiling on UNC location contributed by ([fuhye](https://github.com/fuhye))
+ - [#211](https://github.com/mozts2005/ZendeskApi_v2/pull/211) - Support for compiling on UNC location contributed by ([fuhye](https://github.com/fuhye))
+ - [#210](https://github.com/mozts2005/ZendeskApi_v2/pull/210) - Support for compiling on UNC location contributed by ([fuhye](https://github.com/fuhye))
+ - [#209](https://github.com/mozts2005/ZendeskApi_v2/issues/209) - TicketExportResponse - EndDate property not serialized correctly +Test-case-needed
+ - [#208](https://github.com/mozts2005/ZendeskApi_v2/issues/208) - Ticket comment needs to have HTML body added +Enhancement +Up-for-Grabs
+ - [#207](https://github.com/mozts2005/ZendeskApi_v2/pull/207) - Merging Pull Request 204 to Master contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#206](https://github.com/mozts2005/ZendeskApi_v2/pull/206) - Updates to support date changes in the Holiday API contributed by ([CKCobra](https://github.com/CKCobra))
+ - [#205](https://github.com/mozts2005/ZendeskApi_v2/issues/205) - GetUserIdentities serialization error ( JSON integer is too large or small for an Int32) +fix
+ - [#204](https://github.com/mozts2005/ZendeskApi_v2/pull/204) - Refactor incremental ticket export contributed by ([brightwavepartners](https://github.com/brightwavepartners))
+ - [#203](https://github.com/mozts2005/ZendeskApi_v2/issues/203) - Article search serialization error (when Author Id exceeds max int). +fix
+ - [#202](https://github.com/mozts2005/ZendeskApi_v2/pull/202) - Make GroupTagResult Pageable contributed by Tyler Sanborn ([Tybearius](https://github.com/Tybearius)) +Test-case-needed
+ - [#201](https://github.com/mozts2005/ZendeskApi_v2/pull/201) - Test Unit to HtmlBody contributed by Andre Mesquita ([avmesquita](https://github.com/avmesquita))
+ - [#199](https://github.com/mozts2005/ZendeskApi_v2/pull/199) - Needed to send HTML content contributed by Andre Mesquita ([avmesquita](https://github.com/avmesquita)) +Test-case-needed
+ - [#198](https://github.com/mozts2005/ZendeskApi_v2/pull/198) - To send HTML content, need change HtmlBody contributed by Andre Mesquita ([avmesquita](https://github.com/avmesquita)) +Test-case-needed
+ - [#197](https://github.com/mozts2005/ZendeskApi_v2/pull/197) - HtmlBody was as private set contributed by Andre Mesquita ([avmesquita](https://github.com/avmesquita)) +Test-case-needed
+ - [#195](https://github.com/mozts2005/ZendeskApi_v2/issues/195) - Help Center CreateSection API endpoint not correct, cannot create new sections. +fix +Test-case-needed
+ - [#194](https://github.com/mozts2005/ZendeskApi_v2/issues/194) - Can't add user photo +Enhancement +In-progress
+ - [#190](https://github.com/mozts2005/ZendeskApi_v2/pull/190) - Added a Settings file instead of using a class to hold settings contributed by SPorter ([StephenMP](https://github.com/StephenMP))
+ - [#140](https://github.com/mozts2005/ZendeskApi_v2/issues/140) - User Custom Field of DateTime type +More-Info-Needed
+ - [#125](https://github.com/mozts2005/ZendeskApi_v2/issues/125) - Ticket Creation error +More-Info-Needed
  - [#229](https://github.com/mozts2005/ZendeskApi_v2/pull/229) - New class for voice data and method allowing to request more than 100 audits per ticket contributed by ([WinDrop](https://github.com/WinDrop))
  - [#228](https://github.com/mozts2005/ZendeskApi_v2/issues/228) - GrooveApi +question
  - [#225](https://github.com/mozts2005/ZendeskApi_v2/issues/225) - invalid token +question
@@ -119,6 +188,197 @@ Commits: c386381743...0ab4b3f06e
 
 # 3.2.19 (27 January 2016)
 
+ - [#200](https://github.com/mozts2005/ZendeskApi_v2/pull/200) - Add fetch translation metadata capability when getting locales contributed by oooooh ([yyuc](https://github.com/yyuc)) +Test-case-needed
+ - [#196](https://github.com/mozts2005/ZendeskApi_v2/issues/196) - Search function returns NULL value +Wont-fix
+ - [#193](https://github.com/mozts2005/ZendeskApi_v2/pull/193) - Added ability to search for a user by a custom user field (Issue #192) contributed by SPorter ([StephenMP](https://github.com/StephenMP))
+ - [#192](https://github.com/mozts2005/ZendeskApi_v2/issues/192) - Cannot search for user by custom user field
+ - [#191](https://github.com/mozts2005/ZendeskApi_v2/pull/191) - Issue #109 contributed by SPorter ([StephenMP](https://github.com/StephenMP))
+ - [#189](https://github.com/mozts2005/ZendeskApi_v2/pull/189) - Added the ability to find a user by querying by the user's phone contributed by SPorter ([StephenMP](https://github.com/StephenMP))
+ - [#188](https://github.com/mozts2005/ZendeskApi_v2/issues/188) - Get Ticket by Custom Field Value Too Slow +Question
+ - [#187](https://github.com/mozts2005/ZendeskApi_v2/issues/187) - GetAllUsers fails with 401 Unauthorized +Test-case-needed
+ - [#185](https://github.com/mozts2005/ZendeskApi_v2/pull/185) - Adding the ability to mark requests as solved. contributed by Dan VanWinkle ([dvanwinkle](https://github.com/dvanwinkle))
+ - [#184](https://github.com/mozts2005/ZendeskApi_v2/issues/184) - There is no method to mark a request as solved +Enhancement +Up-for-Grabs
+ - [#183](https://github.com/mozts2005/ZendeskApi_v2/pull/183) - #182 fix: Adds paging and sorting to Request requests contributed by Dan VanWinkle ([dvanwinkle](https://github.com/dvanwinkle))
+ - [#182](https://github.com/mozts2005/ZendeskApi_v2/issues/182) - Cannot page or sort Requests +Enhancement +Test-case-needed +Up-for-Grabs
+ - [#181](https://github.com/mozts2005/ZendeskApi_v2/pull/181) - #158: Added fields formatted_phone and phone to the To & From Models contributed by Dan VanWinkle ([dvanwinkle](https://github.com/dvanwinkle))
+ - [#180](https://github.com/mozts2005/ZendeskApi_v2/pull/180) - Added Request for Open Requests contributed by Dan VanWinkle ([dvanwinkle](https://github.com/dvanwinkle))
+ - [#179](https://github.com/mozts2005/ZendeskApi_v2/pull/179) - Search by type2 contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#178](https://github.com/mozts2005/ZendeskApi_v2/pull/178) - Search by anonymous type like SearchFor<User>(..). contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#177](https://github.com/mozts2005/ZendeskApi_v2/pull/177) - Pr 175 changes contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#176](https://github.com/mozts2005/ZendeskApi_v2/pull/176) - Implement Anonymous type in Search api. contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#175](https://github.com/mozts2005/ZendeskApi_v2/pull/175) - Exception improvements contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#174](https://github.com/mozts2005/ZendeskApi_v2/pull/174) - Exceptions contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#173](https://github.com/mozts2005/ZendeskApi_v2/pull/173) - Get Multiple Users, Side-Loading and Int-Long fixes. contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#172](https://github.com/mozts2005/ZendeskApi_v2/pull/172) - Exceptions contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#171](https://github.com/mozts2005/ZendeskApi_v2/pull/171) - Exception improvements contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#170](https://github.com/mozts2005/ZendeskApi_v2/issues/170) - Implement show_many endpoint for Users +Enhancement +Up-for-Grabs
+ - [#169](https://github.com/mozts2005/ZendeskApi_v2/pull/169) - Issue #165 Fixed request body failure contributed by ([dcrowe](https://github.com/dcrowe))
+ - [#168](https://github.com/mozts2005/ZendeskApi_v2/pull/168) - Revert "Issue #165 Fixed null-ptr error in RunRequest; Fixed incorrec… contributed by ([dcrowe](https://github.com/dcrowe))
+ - [#167](https://github.com/mozts2005/ZendeskApi_v2/pull/167) - Issue #165 Fixed null-ptr error in RunRequest; Fixed incorrect except… contributed by ([dcrowe](https://github.com/dcrowe))
+ - [#166](https://github.com/mozts2005/ZendeskApi_v2/issues/166) - Async methods rasie AggregateException instead of the actual exception#numeric
+ - [#165](https://github.com/mozts2005/ZendeskApi_v2/issues/165) - Async methods rasie AggregateException instead of the actual exception
+ - [#164](https://github.com/mozts2005/ZendeskApi_v2/issues/164) - Modify existing User Identity +Enhancement +Up-for-Grabs
+ - [#163](https://github.com/mozts2005/ZendeskApi_v2/issues/163) - UserIdentity.UserId and Search.Result.Id are INT but should be LONG +fix +Up-for-Grabs
+ - [#162](https://github.com/mozts2005/ZendeskApi_v2/issues/162) - Support Sideloading with Ticket Comments +Enhancement +Up-for-Grabs
+ - [#161](https://github.com/mozts2005/ZendeskApi_v2/pull/161) - Issue149 targets contributed by ([CKCobra](https://github.com/CKCobra))
+ - [#160](https://github.com/mozts2005/ZendeskApi_v2/pull/160) - Issue #157 changed the user and organization to use IDictionary<string, object> for custom Fields. contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#159](https://github.com/mozts2005/ZendeskApi_v2/pull/159) - #123: changed the Macro Action Value property to be a IList of string and to use custom converter contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#158](https://github.com/mozts2005/ZendeskApi_v2/issues/158) - Missing fields formatted_phone & phone in Ticket.Via.Source.To & .From +Enhancement +Up-for-Grabs
+ - [#157](https://github.com/mozts2005/ZendeskApi_v2/issues/157) - Can't update user with boolean custom field +More-Info-Needed
+ - [#156](https://github.com/mozts2005/ZendeskApi_v2/pull/156) - Ticket import contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#155](https://github.com/mozts2005/ZendeskApi_v2/pull/155) - Ticket Import and Bulk Ticket Import contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#154](https://github.com/mozts2005/ZendeskApi_v2/pull/154) - Issue 150 - Implement CRUD operations for Triggers contributed by ([CKCobra](https://github.com/CKCobra))
+ - [#153](https://github.com/mozts2005/ZendeskApi_v2/pull/153) - Implement New Schedules API contributed by ([CKCobra](https://github.com/CKCobra))
+ - [#152](https://github.com/mozts2005/ZendeskApi_v2/pull/152) - Issue #124 - Implement Organization Memberships contributed by ([CKCobra](https://github.com/CKCobra))
+ - [#151](https://github.com/mozts2005/ZendeskApi_v2/pull/151) - Issue #120 - Fixed Spelling - GetInrementalTicketExport to GetIncrementalTicketExport contributed by ([CKCobra](https://github.com/CKCobra))
+ - [#150](https://github.com/mozts2005/ZendeskApi_v2/issues/150) - Add CRUD support for Triggers
+ - [#149](https://github.com/mozts2005/ZendeskApi_v2/issues/149) - Add CRUD support for Targets
+ - [#148](https://github.com/mozts2005/ZendeskApi_v2/pull/148) - Add a Gitter chat badge to README.md contributed by The Gitter Badger ([gitter-badger](https://github.com/gitter-badger))
+ - [#147](https://github.com/mozts2005/ZendeskApi_v2/issues/147) - Voice integration and side-loading updates
+ - [#146](https://github.com/mozts2005/ZendeskApi_v2/pull/146) - Implement Voice API integration to be able to open a ticket or user t… contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#145](https://github.com/mozts2005/ZendeskApi_v2/pull/145) - Implement side-loading objects in IndividualTicketResponse. contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#144](https://github.com/mozts2005/ZendeskApi_v2/pull/144) - Implement Side-Loading for Tickets contributed by Matt Nisnevich ([mattnis](https://github.com/mattnis))
+ - [#143](https://github.com/mozts2005/ZendeskApi_v2/issues/143) - Ticket Side-Loading +Enhancement
+ - [#142](https://github.com/mozts2005/ZendeskApi_v2/pull/142) - clean up ZendeskUrl contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#141](https://github.com/mozts2005/ZendeskApi_v2/issues/141) - Core.cs has a pretty bad null pointer error
+ - [#139](https://github.com/mozts2005/ZendeskApi_v2/issues/139) - from 3.0.20 to 3.0.29 getting Unauthorized message +More-Info-Needed +Test-case-needed
+ - [#138](https://github.com/mozts2005/ZendeskApi_v2/pull/138) - Taking good work being done by good people contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#137](https://github.com/mozts2005/ZendeskApi_v2/issues/137) - release v2 3.0.21
+ - [#136](https://github.com/mozts2005/ZendeskApi_v2/issues/136) - File attachment support in the Help Center API +fix +Test-case-needed
+ - [#135](https://github.com/mozts2005/ZendeskApi_v2/issues/135) - Search API - limit number of results returned +Enhancement +Up-for-Grabs
+ - [#134](https://github.com/mozts2005/ZendeskApi_v2/pull/134) - Update README.md contributed by Alan Christianson ([alanc10n](https://github.com/alanc10n))
+ - [#133](https://github.com/mozts2005/ZendeskApi_v2/pull/133)- ADD. OAuth2 access token using in request headers. contributed by Andrey ([aartiomov](https://github.com/aartiomov))
+ - [#132](https://github.com/mozts2005/ZendeskApi_v2/pull/132) - New files added to the project contributed by Steve McNiven-Scott ([sitefinitysteve](https://github.com/sitefinitysteve))
+ - [#131](https://github.com/mozts2005/ZendeskApi_v2/issues/131) - Project will not build?
+ - [#130](https://github.com/mozts2005/ZendeskApi_v2/issues/130) - Nuget publish
+ - [#129](https://github.com/mozts2005/ZendeskApi_v2/pull/129) - Major HelpCenter Overhaul contributed by Steve McNiven-Scott ([sitefinitysteve](https://github.com/sitefinitysteve))
+ - [#128](https://github.com/mozts2005/ZendeskApi_v2/issues/128) - Failing HelpCenter Unit Tests
+ - [#127](https://github.com/mozts2005/ZendeskApi_v2/pull/127) - Add support for a ticket to be associated with a brand when it is created. contributed by Owain Williams ([AnturGyffrous](https://github.com/AnturGyffrous))
+ - [#126](https://github.com/mozts2005/ZendeskApi_v2/pull/126) - Implimented Article Search contributed by Steve McNiven-Scott ([sitefinitysteve](https://github.com/sitefinitysteve))
+ - [#124](https://github.com/mozts2005/ZendeskApi_v2/issues/124) - Support OrganizationMembership API +Enhancement +Up-for-Grabs
+ - [#123](https://github.com/mozts2005/ZendeskApi_v2/issues/123) - Macro.Action.Value can also be an array +fix +Test-case-needed
+ - [#122](https://github.com/mozts2005/ZendeskApi_v2/issues/122) - Problem when trying to update a ticket with custom fields +More-Info-Needed
+ - [#121](https://github.com/mozts2005/ZendeskApi_v2/issues/121) - Question re GetByPageUrl in incremental ticket export +Test-case-needed
+ - [#120](https://github.com/mozts2005/ZendeskApi_v2/issues/120) - Spelling in method name: GetInrementalTicketExport +fix
+ - [#119](https://github.com/mozts2005/ZendeskApi_v2/issues/119) - Bundled version is out-of-date +fix
+ - [#118](https://github.com/mozts2005/ZendeskApi_v2/pull/118) - Added missing properties from SearchResult object. contributed by Damian Green ([damiangreen](https://github.com/damiangreen))
+ - [#117](https://github.com/mozts2005/ZendeskApi_v2/issues/117) - How to get the detailed json response from the exception thrown?
+ - [#116](https://github.com/mozts2005/ZendeskApi_v2/issues/116) - Please provide ZendeskApi_v2 Create Ticket with Tags also sample Code in VB.net or C#
+ - [#115](https://github.com/mozts2005/ZendeskApi_v2/pull/115) - Allow Paging of views in ExecuteView. Unit test. contributed by James Connell ([automagic](https://github.com/automagic))
+ - [#114](https://github.com/mozts2005/ZendeskApi_v2/pull/114) - Add requester_id support on Requests model contributed by Aaron ([aarongundel](https://github.com/aarongundel))
+ - [#113](https://github.com/mozts2005/ZendeskApi_v2/issues/113) - No support for Pagination..!!
+ - [#112](https://github.com/mozts2005/ZendeskApi_v2/pull/112) - Create a method UploadAttachment with a Timeout parameter contributed by Marcotte Pierre-Antoine ([tapamarcotte](https://github.com/tapamarcotte))
+ - [#111](https://github.com/mozts2005/ZendeskApi_v2/pull/111) - Changed tags from iList<object> to iList<string> contributed by ([AlexisVZ](https://github.com/AlexisVZ))
+ - [#110](https://github.com/mozts2005/ZendeskApi_v2/issues/110) - Status in SearchFor Model.
+ - [#109](https://github.com/mozts2005/ZendeskApi_v2/issues/109) - Unable to update organization after adding tag +More-Info-Needed +Up-for-Grabs
+ - [#108](https://github.com/mozts2005/ZendeskApi_v2/issues/108) - Issue with tickets created via Facebook Channel +More-Info-Needed +Question
+ - [#107](https://github.com/mozts2005/ZendeskApi_v2/pull/107) - Add Help Center API support contributed by ([peteallen](https://github.com/peteallen))
+ - [#106](https://github.com/mozts2005/ZendeskApi_v2/issues/106) - Changelog?
+ - [#105](https://github.com/mozts2005/ZendeskApi_v2/issues/105) - Retrieving macros throws exception when a macro's action contains an array value
+ - [#104](https://github.com/mozts2005/ZendeskApi_v2/issues/104) - Cant connect to Sandbox
+ - [#103](https://github.com/mozts2005/ZendeskApi_v2/pull/103) - Add CustomFieldOptions.Id property contributed by ([GillesBer](https://github.com/GillesBer))
+ - [#102](https://github.com/mozts2005/ZendeskApi_v2/pull/102) - Some resources where not disposed contributed by Haroun Ben Hmida ([HarounDemor](https://github.com/HarounDemor))
+ - [#101](https://github.com/mozts2005/ZendeskApi_v2/pull/101) - Change type of date/time fields from 'string' to 'DateTimeOffset' contributed by Gary Grossman ([ggrossman](https://github.com/ggrossman))
+ - [#100](https://github.com/mozts2005/ZendeskApi_v2/pull/100) - Update Ticket.cs contributed by Joe May ([j0emay](https://github.com/j0emay))
+ - [#99](https://github.com/mozts2005/ZendeskApi_v2/pull/99) - Update Ticket.cs contributed by Joe May ([j0emay](https://github.com/j0emay))
+ - [#98](https://github.com/mozts2005/ZendeskApi_v2/issues/98) - Api.Users.GetAllUsers() Only Returns First 100 Users +More-Info-Needed
+ - [#97](https://github.com/mozts2005/ZendeskApi_v2/issues/97) - RemotePhotoUrl Is Not Working
+ - [#96](https://github.com/mozts2005/ZendeskApi_v2/issues/96) - requester locale_id always setting to zero.
+ - [#95](https://github.com/mozts2005/ZendeskApi_v2/issues/95) - 422 Errors now when Requester email is not a known user
+ - [#94](https://github.com/mozts2005/ZendeskApi_v2/issues/94) - nuGet version works on development machine, error on prodcution server
+ - [#93](https://github.com/mozts2005/ZendeskApi_v2/issues/93) - trouble uploading app into my zendesk
+ - [#92](https://github.com/mozts2005/ZendeskApi_v2/pull/92) - Interfaces for unit testing contributed by Andreas Sion ([irq](https://github.com/irq))
+ - [#91](https://github.com/mozts2005/ZendeskApi_v2/issues/91) - problem when trying to update user with custom fields
+ - [#90](https://github.com/mozts2005/ZendeskApi_v2/issues/90) - Macros.ApplyMacroToTicketAsync spawns lots of new threads
+ - [#89](https://github.com/mozts2005/ZendeskApi_v2/issues/89) - Accessing more than one pages. +Question
+ - [#88](https://github.com/mozts2005/ZendeskApi_v2/pull/88) - Update url to ticket export tool contributed by Ken Dale ([kendaleiv](https://github.com/kendaleiv))
+ - [#87](https://github.com/mozts2005/ZendeskApi_v2/issues/87) - Unprocessable Entity
+ - [#86](https://github.com/mozts2005/ZendeskApi_v2/pull/86) - add subject field to search result object contributed by azadeh khojandi ([Azadehkhojandi](https://github.com/Azadehkhojandi))
+ - [#85](https://github.com/mozts2005/ZendeskApi_v2/pull/85) - pagination for search results - backward compatibility contributed by azadeh khojandi ([Azadehkhojandi](https://github.com/Azadehkhojandi))
+ - [#84](https://github.com/mozts2005/ZendeskApi_v2/issues/84) - License
+ - [#83](https://github.com/mozts2005/ZendeskApi_v2/pull/83) - Add ticket metrics contributed by Amal Khezami ([khezamian](https://github.com/khezamian))
+ - [#82](https://github.com/mozts2005/ZendeskApi_v2/issues/82) - TicketMetrics
+ - [#81](https://github.com/mozts2005/ZendeskApi_v2/pull/81) - pagination for search results contributed by azadeh khojandi ([Azadehkhojandi](https://github.com/Azadehkhojandi))
+ - [#80](https://github.com/mozts2005/ZendeskApi_v2/pull/80) - Adding a method to get tickets by organisation that supports paging contributed by ([kate-r](https://github.com/kate-r))
+ - [#79](https://github.com/mozts2005/ZendeskApi_v2/issues/79) - Unable to use Nuget Package due to bindingRedirect in Newtonsoft.Json Dependancy
+ - [#78](https://github.com/mozts2005/ZendeskApi_v2/issues/78) - Help CenterAPI support
+ - [#77](https://github.com/mozts2005/ZendeskApi_v2/issues/77) - How can I create User with Custom User Fields?
+ - [#76](https://github.com/mozts2005/ZendeskApi_v2/issues/76) - How can I update user field?
+ - [#75](https://github.com/mozts2005/ZendeskApi_v2/pull/75) - Update ZendeskApi.cs contributed by ([bishnupokharel](https://github.com/bishnupokharel))
+ - [#74](https://github.com/mozts2005/ZendeskApi_v2/pull/74) - Update Core.cs contributed by ([bishnupokharel](https://github.com/bishnupokharel))
+ - [#73](https://github.com/mozts2005/ZendeskApi_v2/pull/73) - Update User.cs contributed by ([bishnupokharel](https://github.com/bishnupokharel))
+ - [#72](https://github.com/mozts2005/ZendeskApi_v2/issues/72) - Tickets.GetMultipleTickets(Async) may fail for too many requested items +Enhancement +Up-for-Grabs
+ - [#71](https://github.com/mozts2005/ZendeskApi_v2/pull/71) - Use IEnumerable<T> instead of List<T> in requests contributed by Ken Dale ([kendaleiv](https://github.com/kendaleiv))
+ - [#70](https://github.com/mozts2005/ZendeskApi_v2/pull/70) - Fix GetMultipleTickets(Async) throwing 400 Bad Request for single ticket id contributed by Ken Dale ([kendaleiv](https://github.com/kendaleiv))
+ - [#69](https://github.com/mozts2005/ZendeskApi_v2/pull/69) - Minor text edit on README.md contributed by Ken Dale ([kendaleiv](https://github.com/kendaleiv))
+ - [#68](https://github.com/mozts2005/ZendeskApi_v2/issues/68) - Add organization memberships to client +Enhancement
+ - [#67](https://github.com/mozts2005/ZendeskApi_v2/issues/67) - 422 Unprocessable Entity whilst attempting to create Ticket Fields
+ - [#66](https://github.com/mozts2005/ZendeskApi_v2/issues/66) - Is it possible to manipulate Ticket Forms with the wrapper?
+ - [#65](https://github.com/mozts2005/ZendeskApi_v2/issues/65) - Creating a request with token causes 401 unauthorized response
+ - [#64](https://github.com/mozts2005/ZendeskApi_v2/issues/64) - How to get search result part by part.
+ - [#63](https://github.com/mozts2005/ZendeskApi_v2/issues/63) - 422 Unprocessable Entity - I'm not even dealing with description!
+ - [#62](https://github.com/mozts2005/ZendeskApi_v2/issues/62) - Updating issue, should not include 'via'
+ - [#61](https://github.com/mozts2005/ZendeskApi_v2/issues/61) - Updating issue, loses set checkbox (boolean) custom fields
+ - [#60](https://github.com/mozts2005/ZendeskApi_v2/issues/60) - CreateIssue (with Status = TicketStatus.Solved) returns Unprocessable Entity
+ - [#59](https://github.com/mozts2005/ZendeskApi_v2/issues/59) - Unprocessable entity doesn't give more detail
+ - [#58](https://github.com/mozts2005/ZendeskApi_v2/issues/58) - Fetching the requester of a ticket.
+ - [#57](https://github.com/mozts2005/ZendeskApi_v2/pull/57) - Added Get ticket field by ID method contributed by David Frankland ([DavidFrankland](https://github.com/DavidFrankland))
+ - [#56](https://github.com/mozts2005/ZendeskApi_v2/pull/56) - Add support for ticket_form_id field contributed by Kevin Kuszyk ([kevinkuszyk](https://github.com/kevinkuszyk))
+ - [#55](https://github.com/mozts2005/ZendeskApi_v2/issues/55) - OAuth2 and access tokens
+ - [#54](https://github.com/mozts2005/ZendeskApi_v2/pull/54) - Fix: 403 error when using user name and password to authenticate against the api. contributed by Kevin Kuszyk ([kevinkuszyk](https://github.com/kevinkuszyk))
+ - [#53](https://github.com/mozts2005/ZendeskApi_v2/issues/53) - Tests are failing with (401) Unauthorized error
+ - [#52](https://github.com/mozts2005/ZendeskApi_v2/issues/52) - Get tickets by view ID?
+ - [#51](https://github.com/mozts2005/ZendeskApi_v2/issues/51) - The remote server returned an error: (422) Unprocessable Entity.
+ - [#50](https://github.com/mozts2005/ZendeskApi_v2/pull/50) - created_at property missing on Ticket Comment contributed by ([jopierrelerm](https://github.com/jopierrelerm))
+ - [#49](https://github.com/mozts2005/ZendeskApi_v2/issues/49) - Organizations go to the wrong endpoint
+ - [#48](https://github.com/mozts2005/ZendeskApi_v2/issues/48) - Zendesk cannot accept Empty upload parameter anymore
+ - [#47](https://github.com/mozts2005/ZendeskApi_v2/issues/47) - Referenced assembly 'ZendeskApi_v2_Net35' does not have a strong name	
+ - [#46](https://github.com/mozts2005/ZendeskApi_v2/issues/46) - Cannot access comments via API
+ - [#45](https://github.com/mozts2005/ZendeskApi_v2/pull/45) - Added DeleteAttachment method contributed by Jonas Mølgaard ([jomse](https://github.com/jomse))
+ - [#44](https://github.com/mozts2005/ZendeskApi_v2/pull/44) - Added Attachment support for Topics contributed by Jonas Mølgaard ([jomse](https://github.com/jomse))
+ - [#43](https://github.com/mozts2005/ZendeskApi_v2/pull/43) - Added Uploads property to allow attaching files to a TopicComment contributed by Jonas Mølgaard ([jomse](https://github.com/jomse))
+ - [#42](https://github.com/mozts2005/ZendeskApi_v2/issues/42) - Add Attachment to a Topic does not work
+ - [#41](https://github.com/mozts2005/ZendeskApi_v2/issues/41) - Creation of Articles
+ - [#40](https://github.com/mozts2005/ZendeskApi_v2/pull/40) - Added OrganizationFields property to Organization contributed by Jonas Mølgaard ([jomse](https://github.com/jomse))
+ - [#39](https://github.com/mozts2005/ZendeskApi_v2/pull/39) - Enhanced async implementation and ApiToken support contributed by ([fwwasol](https://github.com/fwwasol))
+ - [#38](https://github.com/mozts2005/ZendeskApi_v2/issues/38) - Why is getLoginURL only available with .net 3.5 compiled apps?
+ - [#37](https://github.com/mozts2005/ZendeskApi_v2/issues/37) - CreateTicket response is always null
+ - [#36](https://github.com/mozts2005/ZendeskApi_v2/issues/36) - Nuget package dll for .net 4.0 project appears to be compiled as 4.5
+ - [#35](https://github.com/mozts2005/ZendeskApi_v2/issues/35) - Topic names on search are null
+ - [#34](https://github.com/mozts2005/ZendeskApi_v2/issues/34) - 422 and 404 errors when adding Requester to Ticket
+ - [#33](https://github.com/mozts2005/ZendeskApi_v2/issues/33) - Creating a New Ticket
+ - [#32](https://github.com/mozts2005/ZendeskApi_v2/issues/32) - Ticket.cs - could it be extended to add get ticket by userid?
+ - [#31](https://github.com/mozts2005/ZendeskApi_v2/issues/31) - null comments don't work for me?
+ - [#30](https://github.com/mozts2005/ZendeskApi_v2/issues/30) - Setting Proxy Credentials?
+ - [#29](https://github.com/mozts2005/ZendeskApi_v2/issues/29) - Small problem in GetAllTickets()?
+ - [#28](https://github.com/mozts2005/ZendeskApi_v2/issues/28) - I need to open the solution with Visual Studio 2010
+ - [#27](https://github.com/mozts2005/ZendeskApi_v2/issues/27) - Operating as the user
+ - [#26](https://github.com/mozts2005/ZendeskApi_v2/issues/26) - Compile to COM DLL usable with Access 2010?
+ - [#25](https://github.com/mozts2005/ZendeskApi_v2/issues/25) - Get All Tickets For User by email address
+ - [#24](https://github.com/mozts2005/ZendeskApi_v2/issues/24) - Is there any way to use token based authentication?
+ - [#23](https://github.com/mozts2005/ZendeskApi_v2/issues/23) - QUESTION: How to get Complete Ticket List
+ - [#22](https://github.com/mozts2005/ZendeskApi_v2/issues/22) - How can I set or update password of user ?
+ - [#21](https://github.com/mozts2005/ZendeskApi_v2/issues/21) - Comment AuthorId
+ - [#20](https://github.com/mozts2005/ZendeskApi_v2/pull/20) - Added support to get tickets by organization ID contributed by Adam Schaible ([aschaible](https://github.com/aschaible))
+ - [#19](https://github.com/mozts2005/ZendeskApi_v2/issues/19) - Cannot deserialize the JSON array into type 'ZendeskApi_v2.Models.Organizations.GroupOrganizationResponse' 
+ - [#18](https://github.com/mozts2005/ZendeskApi_v2/issues/18) - Updating a Ticket's Status to 'solved' throws exception
+ - [#17](https://github.com/mozts2005/ZendeskApi_v2/issues/17) - Failing build using NuGet package 2.3.8 with Nuget 2.1
+ - [#16](https://github.com/mozts2005/ZendeskApi_v2/issues/16) - Documentation error?
+ - [#15](https://github.com/mozts2005/ZendeskApi_v2/issues/15) - Deleting an Upload
+ - [#14](https://github.com/mozts2005/ZendeskApi_v2/issues/14) - VS 2012 MVC 4 .NET 4.0 Adding Strongly-Type Views
+ - [#13](https://github.com/mozts2005/ZendeskApi_v2/pull/13) - simple addition to get tickets by view contributed by Jared Wray ([jaredwray](https://github.com/jaredwray))
+ - [#12](https://github.com/mozts2005/ZendeskApi_v2/issues/12) - Using a token instead of a username/password
+ - [#11](https://github.com/mozts2005/ZendeskApi_v2/pull/11) - Corrected custom fields on request contributed by Joel Potter ([ithielnor](https://github.com/ithielnor))
+ - [#10](https://github.com/mozts2005/ZendeskApi_v2/pull/10) - Change to SearchForOrganizations contributed by ([bjerggaard](https://github.com/bjerggaard))
+ - [#9](https://github.com/mozts2005/ZendeskApi_v2/issues/9) - End User update custom field via Request function
+ - [#8](https://github.com/mozts2005/ZendeskApi_v2/issues/8) - Suggestion about paging number
+ - [#7](https://github.com/mozts2005/ZendeskApi_v2/issues/7) - Could not load Newtonsoft.json
+ - [#6](https://github.com/mozts2005/ZendeskApi_v2/issues/6) - setting group when creating ticket
+ - [#5](https://github.com/mozts2005/ZendeskApi_v2/issues/5) - Update custom fields issue
+ - [#4](https://github.com/mozts2005/ZendeskApi_v2/issues/4) - Setting User Photo and getting User by ExternalID
+ - [#3](https://github.com/mozts2005/ZendeskApi_v2/issues/3) - Create Ticket responds with "(422) Unprocessable Entity"
+ - [#2](https://github.com/mozts2005/ZendeskApi_v2/issues/2) - Serialization issue when executing a view due to Zendesk REST API changes implemented on 07 Feb 13
+ - [#1](https://github.com/mozts2005/ZendeskApi_v2/issues/1) - Errors When Deserialising Search Results
  - [#200](https://github.com/mozts2005/ZendeskApi_v2/pull/200) - Add fetch translation metadata capability when getting locales contributed by oooooh ([yyuc](https://github.com/yyuc)) +Test-case-needed
  - [#196](https://github.com/mozts2005/ZendeskApi_v2/issues/196) - Search function returns NULL value +wontfix
  - [#193](https://github.com/mozts2005/ZendeskApi_v2/pull/193) - Added ability to search for a user by a custom user field (Issue #192) contributed by SPorter ([StephenMP](https://github.com/StephenMP))

@@ -21,7 +21,7 @@ namespace Tests
     [Category("Tickets")]
     public class TicketTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
 
         [Test]
@@ -846,8 +846,10 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("Need to Create Suspended Ticket Working with Zendesk support Team")]
         public void CanGetSuspendedTickets()
         {
+
             var all = api.Tickets.GetSuspendedTickets();
             Assert.Greater(all.Count, 0);
 
