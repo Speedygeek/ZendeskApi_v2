@@ -1,4 +1,4 @@
-next-version: 3.5.1 
+next-version: 3.5.3 
 assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDeployment
 build-metadata-padding: 0
