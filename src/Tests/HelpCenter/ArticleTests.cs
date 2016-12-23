@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Linq;
-using NUnit.Framework;
-using ZendeskApi_v2;
-using ZendeskApi_v2.Models.Articles;
-using ZendeskApi_v2.Models.Sections;
-using ZendeskApi_v2.Requests.HelpCenter;
-using ZendeskApi_v2.Models.Users;
 using System.Collections.Generic;
-using ZendeskApi_v2.Models.AccessPolicies;
+using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.AccessPolicies;
+using ZendeskApi_v2.Models.Articles;
+using ZendeskApi_v2.Models.Sections;
+using ZendeskApi_v2.Models.Users;
+using ZendeskApi_v2.Requests.HelpCenter;
 
 namespace Tests.HelpCenter
 {
@@ -19,7 +19,7 @@ namespace Tests.HelpCenter
     [Parallelizable(ParallelScope.None)]
     public class ArticleTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private long _articleIdWithComments = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
 
         [Test]
@@ -228,7 +228,7 @@ namespace Tests.HelpCenter
 
             await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
 
-            var apiForUser2 = new ZendeskApi(Settings.Site, Settings.Email2, Settings.Password2);
+            var apiForUser2 = new ZendeskApi(Settings.Site, Settings.AgentEmail, Settings.AgentPassword);
 
             Section section = (await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value)).Section;
 
@@ -242,7 +242,7 @@ namespace Tests.HelpCenter
             Thread.Sleep(10000);
             Assert.ThrowsAsync<WebException>(async () =>
             {
-              var sec =  await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
+                var sec = await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
             });
         }
 

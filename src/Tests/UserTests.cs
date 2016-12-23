@@ -16,7 +16,7 @@ namespace Tests
     [Category("Users")]
     public class UserTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetUsers()

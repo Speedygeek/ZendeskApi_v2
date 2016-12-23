@@ -12,7 +12,7 @@ namespace Tests
     [Category("Voice")]
     public class VoiceTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private long agentid;
         private long ticketid;
         private long userid;
@@ -64,7 +64,7 @@ namespace Tests
 
             var agent = res.AgentActivity.FirstOrDefault();
             Assert.NotNull(agent);
-            Assert.AreEqual(281513402, agent.AgentId);
+            Assert.AreEqual(2110053086, agent.AgentId);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Tests
 
             var agent = res.Result.AgentActivity.FirstOrDefault();
             Assert.NotNull(agent);
-            Assert.AreEqual(281513402, agent.AgentId);
+            Assert.AreEqual(2110053086, agent.AgentId);
         }
 
         [Test]

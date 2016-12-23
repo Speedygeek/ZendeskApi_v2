@@ -13,12 +13,12 @@ namespace Tests
     [Category("Search")]
     public class SearchTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanSearch()
         {
-            var res = api.Search.SearchFor(Settings.Email);
+            var res = api.Search.SearchFor(Settings.AdminEmail);
             Assert.AreEqual(res.Results[0].ResultType, "user");
             Assert.Greater(res.Results[0].Id, 0);
         }
@@ -101,7 +101,7 @@ namespace Tests
         [Test]
         public void UserSearchByUserAnonymousType()
         {
-            var res = api.Search.SearchFor<User>(Settings.Email);
+            var res = api.Search.SearchFor<User>(Settings.AdminEmail);
 
             Assert.IsTrue(res != null);
             Assert.AreEqual(res.Results.Count, 1);
@@ -112,7 +112,7 @@ namespace Tests
         [Test]
         public async Task UserSearchByUserAnonymousTypeAsync()
         {
-            var res = await api.Search.SearchForAsync<User>(Settings.Email);
+            var res = await api.Search.SearchForAsync<User>(Settings.AdminEmail);
 
             Assert.IsTrue(res != null);
             Assert.AreEqual(res.Results.Count, 1);
