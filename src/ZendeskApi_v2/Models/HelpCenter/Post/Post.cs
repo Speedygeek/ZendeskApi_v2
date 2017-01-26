@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Models.HelpCenter.Post
         /// The id of the author of the post.
         /// </summary>
         [JsonProperty("author_id")]
-        public int AuthorId { get; set; }
+        public long AuthorId { get; set; }
 
         /// <summary>
         /// When true, pins the post to the top of its topic
@@ -51,25 +51,25 @@ namespace ZendeskApi_v2.Models.HelpCenter.Post
         /// The total sum of votes on the post
         /// </summary>
         [JsonProperty("vote_sum")]
-        public int VoteSum { get; set; }
+        public long VoteSum { get; set; }
 
         /// <summary>
         /// The number of votes cast on the post
         /// </summary>
         [JsonProperty("vote_count")]
-        public int VoteCount { get; set; }
+        public long VoteCount { get; set; }
 
         /// <summary>
         /// The number of comments on the post
         /// </summary>
         [JsonProperty("comment_count")]
-        public int CommentCount { get; set; }
+        public long CommentCount { get; set; }
 
         /// <summary>
         /// The number of followers of the post
         /// </summary>
         [JsonProperty("follower_count")]
-        public int FollowerCount { get; set; }
+        public long FollowerCount { get; set; }
 
         /// <summary>
         /// The id of the topic that the post belongs to

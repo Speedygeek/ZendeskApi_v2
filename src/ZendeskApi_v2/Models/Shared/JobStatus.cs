@@ -12,10 +12,10 @@ namespace ZendeskApi_v2.Models.Shared
         public string Url { get; set; }
 
         [JsonProperty("total")]
-        public int? Total { get; set; }
+        public long? Total { get; set; }
 
         [JsonProperty("progress")]
-        public int? Progress { get; set; }
+        public long? Progress { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }

@@ -49,7 +49,7 @@ namespace ZendeskApi_v2.Models.Topics
         public bool Highlighted { get; set; }
 
         [JsonProperty("position")]
-        public int? Position { get; set; }
+        public long? Position { get; set; }
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
@@ -58,7 +58,7 @@ namespace ZendeskApi_v2.Models.Topics
         public IList<Attachment> Attachments { get; set; }
 
         [JsonProperty("comments_count")]
-        public int CommentsCount { get; set; }
+        public long CommentsCount { get; set; }
 
         [JsonProperty("created_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]

@@ -41,7 +41,7 @@ namespace ZendeskApi_v2.Models.Sections
         public string Visibility { get; set; }
 
         [JsonProperty("position")]
-        public int Position { get; set; }
+        public long Position { get; set; }
 
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }

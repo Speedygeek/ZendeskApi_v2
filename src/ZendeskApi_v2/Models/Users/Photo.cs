@@ -19,7 +19,7 @@ namespace ZendeskApi_v2.Models.Users
         public string ContentType { get; set; }
 
         [JsonProperty("size")]
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("thumbnails")]
         public IList<Thumbnail> Thumbnails { get; set; }

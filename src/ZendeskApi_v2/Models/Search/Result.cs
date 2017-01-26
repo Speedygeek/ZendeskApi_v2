@@ -64,7 +64,7 @@ namespace ZendeskApi_v2.Models.Search
         public IList<Attachment> Attachments { get; set; }
 
         [JsonProperty("comments_count")]
-        public int? CommentsCount { get; set; }
+        public long? CommentsCount { get; set; }
 
         [JsonProperty("created_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]

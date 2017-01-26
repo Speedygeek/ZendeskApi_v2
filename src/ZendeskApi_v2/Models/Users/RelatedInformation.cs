@@ -6,33 +6,33 @@ namespace ZendeskApi_v2.Models.Users
     {
 
         [JsonProperty("assigned_tickets")]
-        public int AssignedTickets { get; set; }
+        public long AssignedTickets { get; set; }
      
         [JsonProperty("requested_tickets")]
-        public int RequestedTickets { get; set; }
+        public long RequestedTickets { get; set; }
 
         [JsonProperty("ccd_tickets")]
-        public int CcdTickets { get; set; }
+        public long CcdTickets { get; set; }
 
         [JsonProperty("topics")]
-        public int Topics { get; set; }
+        public long Topics { get; set; }
 
         [JsonProperty("topic_comments")]
-        public int TopicComments { get; set; }
+        public long TopicComments { get; set; }
 
         [JsonProperty("votes")]
-        public int Votes { get; set; }
+        public long Votes { get; set; }
 
         [JsonProperty("subscriptions")]
-        public int Subscriptions { get; set; }
+        public long Subscriptions { get; set; }
 
         [JsonProperty("entry_subscriptions")]
-        public int EntrySubscriptions { get; set; }
+        public long EntrySubscriptions { get; set; }
 
         [JsonProperty("forum_subscriptions")]
-        public int FormSubscriptions { get; set; }
+        public long FormSubscriptions { get; set; }
  
         [JsonProperty("organization_subscriptions")]
-        public int OrganitzationSubscriptions { get; set; }
+        public long OrganitzationSubscriptions { get; set; }
     }
 }

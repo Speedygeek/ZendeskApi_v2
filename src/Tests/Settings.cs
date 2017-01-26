@@ -7,12 +7,8 @@
         public const string DefaultOrg = "csharpapi";
         public const string DefaultExternalId = "1234abc";
 
-
         public const string AdminPassword = "&H3n!0q^3OjDLdm";
         public const string AdminEmail = "csharpzendeskapi1234@gmail.com";
-
-        //public const string AdminEmail = "eric.neifert@gmail.com";
-        //public const string AdminPassword = "pa55word";
 
         public const string ApiToken = "R5PXRh5hEwT9Ry3hfSzGF2WKsxPf3ScSCq0suxii";
         public const string Phone = "1234567890";

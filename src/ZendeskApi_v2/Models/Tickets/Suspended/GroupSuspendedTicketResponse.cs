@@ -22,6 +22,6 @@ namespace ZendeskApi_v2.Models.Tickets.Suspended
         public object PreviousPage { get; set; }
 
         [JsonProperty("count")]
-        public int Count { get; set; }
+        public long Count { get; set; }
     }
 }

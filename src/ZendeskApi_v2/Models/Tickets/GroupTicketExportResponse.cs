@@ -14,7 +14,7 @@ namespace ZendeskApi_v2.Models.Tickets
     public class GroupTicketExportResponse
     {
         [JsonProperty("count")]
-        public int Count { get; set; }
+        public long Count { get; set; }
 
         [JsonProperty("end_time")]
         [JsonConverter(typeof(UnixEpochTimeConverter))]
