@@ -14,7 +14,7 @@ namespace ZendeskApi_v2.Models.Views.Executed
         public IList<CustomField> CustomFields { get; set; }
 
         [JsonProperty("score")]
-        public int Score { get; set; }
+        public long Score { get; set; }
 
         [JsonProperty("subject")]
         public string Subject { get; set; }

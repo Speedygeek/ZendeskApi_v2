@@ -35,7 +35,7 @@ namespace ZendeskApi_v2.Models.Forums
         public bool Locked { get; set; }
 
         [JsonProperty("position")]
-        public int Position { get; set; }
+        public long Position { get; set; }
 
         [JsonProperty("forum_type")]
         public string ForumType { get; set; }

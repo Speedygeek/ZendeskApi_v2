@@ -24,7 +24,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public bool EndUserVisible { get; set; }
 
         [JsonProperty("position")]
-        public int Position { get; set; }
+        public long Position { get; set; }
 
         [JsonProperty("ticket_field_ids")]
         public IList<long> TicketFieldIds { get; set; }

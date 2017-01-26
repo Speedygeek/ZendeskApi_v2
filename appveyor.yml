@@ -1,3 +1,9 @@
+# Do not build feature branch with open Pull Requests
+skip_branch_with_pr: true
+
+# Maximum number of concurrent jobs for the project
+max_jobs: 1
+
 install:
 - ps: >-
 
@@ -34,7 +40,6 @@ install:
     Write-Host "Is the build Prerelease: " $env:Is_Prerelease
 pull_requests:
   do_not_increment_build_number: true
-skip_branch_with_pr: true
 image: Visual Studio 2015
 configuration: Release
 platform: Any CPU
@@ -74,3 +79,8 @@ deploy:
   on:
     branch: master
     Is_Prerelease: true
+notifications:
+- provider: GitHubPullRequest
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false
