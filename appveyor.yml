@@ -81,8 +81,6 @@ deploy:
     Is_Prerelease: true
 notifications:
 - provider: GitHubPullRequest
-  auth_token:
-    secure: svWGYdd7ARGNOOqfnDWlXWdMPOzM2FKvHIv/IzvNDJiApoLxQzjDl2tmoKBzbvDu
   on_build_success: true
   on_build_failure: true
   on_build_status_changed: false
