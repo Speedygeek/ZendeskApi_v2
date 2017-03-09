@@ -1,5 +1,24 @@
+# 3.6.0 (09 March 2017)
+
+ - [#265](https://github.com/mozts2005/ZendeskApi_v2/pull/265) - fixing build numbers contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#264](https://github.com/mozts2005/ZendeskApi_v2/pull/264) - Int to long contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#263](https://github.com/mozts2005/ZendeskApi_v2/issues/263) - CreatePost() Exception +fix
+ - [#262](https://github.com/mozts2005/ZendeskApi_v2/issues/262) - Need to change sectionid from int to long in article results +fix
+ - [#261](https://github.com/mozts2005/ZendeskApi_v2/issues/261) - System.Net.WebException using version net45
+
+Commits: ed24c19978...cd9af210c2
+
+
 # 3.5.3 (23 December 2016)
 
+ - [#260](https://github.com/mozts2005/ZendeskApi_v2/pull/260) - updated Release Notes for v3.5.3 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#259](https://github.com/mozts2005/ZendeskApi_v2/pull/259) - updated CONTRIBUTING.md contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#258](https://github.com/mozts2005/ZendeskApi_v2/pull/258) - update version number contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#257](https://github.com/mozts2005/ZendeskApi_v2/pull/257) - Fix #256 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#256](https://github.com/mozts2005/ZendeskApi_v2/issues/256) - Problem updating custom Ticket Fields Async +fix
+ - [#255](https://github.com/mozts2005/ZendeskApi_v2/pull/255) - Added Test for issue #254 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#254](https://github.com/mozts2005/ZendeskApi_v2/issues/254) - Comment channel changed from "api" to "web" when pusing to zendesk +More-Info-Needed
+ - [#253](https://github.com/mozts2005/ZendeskApi_v2/issues/253) - Search Tickets by Tag
  - [#258](https://github.com/mozts2005/ZendeskApi_v2/pull/258) - update version number contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#257](https://github.com/mozts2005/ZendeskApi_v2/pull/257) - Fix #256 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#256](https://github.com/mozts2005/ZendeskApi_v2/issues/256) - Problem updating custom Ticket Fields Async +fix
@@ -10,7 +29,7 @@
  - [#247](https://github.com/mozts2005/ZendeskApi_v2/issues/247) - Core.cs, WebException from RunRequest hides Response
  - [#246](https://github.com/mozts2005/ZendeskApi_v2/issues/246) - Ticket Group null +Test-case-needed
 
-Commits: 0716779368...0716779368
+Commits: 0716779368...cf3296eec6
 
 
 # 3.5.2 (27 October 2016)
