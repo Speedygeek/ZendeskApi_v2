@@ -14,17 +14,17 @@
     <tags>zendesk api</tags>
     <dependencies>
       <group targetFramework=".NETFramework3.5">
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
       <group targetFramework=".NETFramework4.0">
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="AsyncCTP" version="0.3" />
       </group>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
       <group targetFramework=".NETPortable0.0-net45+sl4+wp71+win8">
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
       </group>
     </dependencies>
