@@ -18,7 +18,7 @@ namespace ZendeskApi_v2.Example
         static async Task MainAsync(string email)
         {
 
-            string userEmailToSreachFor = "eneif123@yahoo.com";
+            string userEmailToSearchFor = "eneif123@yahoo.com";
 
             string userName = "eric.neifert@gmail.com"; // the user that will be logging in the API aka the call center staff 
             string userPassword = "pa55word";
@@ -26,7 +26,7 @@ namespace ZendeskApi_v2.Example
             int pageSize = 5;
             var api = new ZendeskApi(companySubDomain, userName, userPassword);
 
-            var userResponse = api.Search.SearchFor<User>(userEmailToSreachFor);
+            var userResponse = api.Search.SearchFor<User>(userEmailToSearchFor);
 
             long userId = userResponse.Results[0].Id.Value;
             List<Ticket> tickets = new List<Ticket>();
