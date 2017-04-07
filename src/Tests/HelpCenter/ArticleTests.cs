@@ -246,5 +246,17 @@ namespace Tests.HelpCenter
             });
         }
 
+        [Test]
+        public async Task CanGetSecondPageUisngGetByPageUrl()
+        {
+            int pageSize = 3;
+
+            var res = await api.HelpCenter.Articles.GetArticlesAsync(perPage: pageSize);
+            Assert.That(res.PageSize, Is.EqualTo(pageSize));
+
+            var resp = await api.HelpCenter.Articles.GetByPageUrlAsync<GroupArticleResponse>(res.NextPage, pageSize);
+            Assert.That(resp.Page, Is.EqualTo(2));
+
+        }
     }
 }
