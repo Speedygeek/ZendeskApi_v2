@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         GroupOrganizationResponse GetOrganizationsStartingWith(string name);
 
-        GroupOrganizationResponse SearchForOrganizations(string searchTerm);
+        GroupOrganizationResponse SearchForOrganizationsByExternalId(string externalId);
         IndividualOrganizationResponse GetOrganization(long id);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
@@ -50,6 +50,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         Task<GroupOrganizationResponse> GetOrganizationsStartingWithAsync(string name);
 
+        // TODO: Rename SearchForOrganizationsByExternalIdAsync(string externalId);
         Task<GroupOrganizationResponse> SearchForOrganizationsAsync(string searchTerm);
         Task<IndividualOrganizationResponse> GetOrganizationAsync(long id);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
@@ -94,9 +95,9 @@ namespace ZendeskApi_v2.Requests
             return GenericPost<GroupOrganizationResponse>(string.Format("organizations/autocomplete.json?name={0}", name));
         }
 
-        public GroupOrganizationResponse SearchForOrganizations(string searchTerm)
+        public GroupOrganizationResponse SearchForOrganizationsByExternalId(string externalId)
         {
-            return GenericGet<GroupOrganizationResponse>(string.Format("organizations/search.json?external_id={0}", searchTerm));
+            return GenericGet<GroupOrganizationResponse>(string.Format("organizations/search.json?external_id={0}", externalId));
         }
 
         public IndividualOrganizationResponse GetOrganization(long id)
@@ -106,7 +107,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualOrganizationResponse CreateOrganization(Organization organization)
         {
-            var body = new {organization};
+            var body = new { organization };
             return GenericPost<IndividualOrganizationResponse>("organizations.json", body);
         }
 
@@ -117,7 +118,7 @@ namespace ZendeskApi_v2.Requests
         }
 
         public bool DeleteOrganization(long id)
-        {            
+        {
             return GenericDelete(string.Format("organizations/{0}.json", id));
         }
 
@@ -205,7 +206,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupOrganizationResponse> SearchForOrganizationsAsync(string searchTerm)
         {
-            return await GenericPostAsync<GroupOrganizationResponse>(string.Format("organizations/autocomplete.json?external_id={0}", searchTerm));
+            return await GenericGetAsync<GroupOrganizationResponse>(string.Format("organizations/search.json?external_id={0}", searchTerm));
         }
 
         public async Task<IndividualOrganizationResponse> GetOrganizationAsync(long id)
@@ -215,7 +216,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization)
         {
-            var body = new {organization};
+            var body = new { organization };
             return await GenericPostAsync<IndividualOrganizationResponse>("organizations.json", body);
         }
 
@@ -226,7 +227,7 @@ namespace ZendeskApi_v2.Requests
         }
 
         public async Task<bool> DeleteOrganizationAsync(long id)
-        {            
+        {
             return await GenericDeleteAsync(string.Format("organizations/{0}.json", id));
         }
 

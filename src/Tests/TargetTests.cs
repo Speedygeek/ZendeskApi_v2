@@ -8,7 +8,7 @@ namespace Tests
     [TestFixture]
     public class TargetTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [OneTimeSetUp]
         public void Init()

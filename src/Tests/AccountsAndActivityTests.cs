@@ -6,7 +6,7 @@ namespace Tests
     [TestFixture]
     public class AccountsAndActivityTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetSettings()

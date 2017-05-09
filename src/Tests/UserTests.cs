@@ -16,7 +16,7 @@ namespace Tests
     [Category("Users")]
     public class UserTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetUsers()
@@ -289,6 +289,34 @@ namespace Tests
             var user = await api.Users.SetUserPhotoAsync(Settings.UserId, file);
             Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
             Assert.That(user.User.Photo.Size, Is.EqualTo(6553));
+        }
+
+        [Test]
+        public void CanGetUserRelatedInformation()
+        {
+            //Arrange
+            var userId = Settings.UserId;
+
+            //Act
+            var result = api.Users.GetUserRelatedInformation(userId);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf(typeof(IndividualUserRelatedInformationResponse), result);
+        }
+
+        [Test]
+        public async Task CanGetUserRelatedInformationAsync()
+        {
+            //Arrange
+            var userId = Settings.UserId;
+
+            //Act
+            var result = await api.Users.GetUserRelatedInformationAsync(userId);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf(typeof(IndividualUserRelatedInformationResponse), result);
         }
     }
 }

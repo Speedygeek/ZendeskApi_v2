@@ -5,13 +5,14 @@ using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Tags;
 using ZendeskApi_v2.Models.Users;
+using System.Threading.Tasks;
 
 namespace Tests
 {
     [TestFixture]
     public class OrganizationTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         [OneTimeSetUp]
         public void Init()
         {
@@ -67,8 +68,8 @@ namespace Tests
             var res = api.Organizations.GetOrganizationsStartingWith(Settings.DefaultOrg.Substring(0, 3));
             Assert.Greater(res.Count, 0);
 
-            var search = api.Organizations.SearchForOrganizations(Settings.DefaultOrg);
-            Assert.Greater(res.Count, 0);
+            var search = api.Organizations.SearchForOrganizationsByExternalId(Settings.DefaultExternalId);
+            Assert.Greater(search.Count, 0);
         }
 
         [Test]
@@ -166,6 +167,14 @@ namespace Tests
             Assert.True(api.Users.DeleteUser(res.User.Id.Value));
             Assert.True(api.Organizations.DeleteOrganization(org.Organization.Id.Value));
             Assert.True(api.Organizations.DeleteOrganization(org2.Organization.Id.Value));
+        }
+
+
+        [Test]
+        public async Task CanSearchForOrganizationsAsync()
+        {
+            var search = await api.Organizations.SearchForOrganizationsAsync(Settings.DefaultExternalId);
+            Assert.Greater(search.Count, 0);
         }
     }
 }

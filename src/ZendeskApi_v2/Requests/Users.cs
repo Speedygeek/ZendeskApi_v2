@@ -28,6 +28,7 @@ namespace ZendeskApi_v2.Requests
         IndividualUserResponse GetCurrentUser();
         GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         IndividualUserResponse GetUser(long id);
+        IndividualUserRelatedInformationResponse GetUserRelatedInformation(long id);
         IndividualUserResponse MergeUser(long fromId, long intoId);
         GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         GroupUserResponse SearchByEmail(string email);
@@ -64,6 +65,7 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> GetCurrentUserAsync();
         Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         Task<IndividualUserResponse> GetUserAsync(long id);
+        Task<IndividualUserRelatedInformationResponse> GetUserRelatedInformationAsync(long id);
         Task<IndividualUserResponse> MergeUserAsync(long fromId, long intoId);
         Task<GroupUserResponse> GetMultipleUsersAsync(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         Task<GroupUserResponse> SearchByEmailAsync(string email);
@@ -120,6 +122,11 @@ namespace ZendeskApi_v2.Requests
         public IndividualUserResponse GetUser(long id)
         {
             return GenericGet<IndividualUserResponse>(string.Format("users/{0}.json", id));
+        }
+
+        public IndividualUserRelatedInformationResponse GetUserRelatedInformation(long id)
+        {
+            return GenericGet<IndividualUserRelatedInformationResponse>(string.Format("users/{0}/related.json", id));
         }
 
         /// <summary>
@@ -285,6 +292,11 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualUserResponse>(string.Format("users/{0}.json", id));
         }
 
+        public async Task<IndividualUserRelatedInformationResponse> GetUserRelatedInformationAsync(long id)
+        {
+            return await GenericGetAsync<IndividualUserRelatedInformationResponse>(string.Format("users/{0}/related.json", id));
+        }
+
         /// <summary>
         /// The user whose id is provided in the URL will be merged into the existing user provided in the params. Any two arbitrary users can be merged.
         /// </summary>
@@ -444,5 +456,6 @@ namespace ZendeskApi_v2.Requests
 
             return resource;
         }
+
     }
 }

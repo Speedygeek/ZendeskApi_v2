@@ -2,6 +2,7 @@
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using ZendeskApi_v2.Extensions;
 
@@ -11,14 +12,14 @@ namespace ZendeskApi_v2.Models
     {
         string NextPage { get; set; }
         string PreviousPage { get; set; }
-        int Count { get; set; }
-        int Page { get; }
-        int PageSize { get; }
-        int TotalPages { get; }
+        long Count { get; set; }
+        long Page { get; }
+        long PageSize { get; }
+        long TotalPages { get; }
     }
 
-    public class GroupResponseBase : IGroupResponseBase
-    {        
+    public class GroupResponseBase:IGroupResponseBase
+    {
         [JsonProperty("next_page")]
         public string NextPage { get; set; }
 
@@ -26,27 +27,27 @@ namespace ZendeskApi_v2.Models
         public string PreviousPage { get; set; }
 
         [JsonProperty("count")]
-        public int Count { get; set; }
+        public long Count { get; set; }
 
         [JsonProperty("page")]
-        public int Page
+        public long Page
         {
             get { return GetPageFromParameter(); }
         }
 
         [JsonProperty("per_page")]
-        public int PageSize
+        public long PageSize
         {
             get { return GetPageSizeFromParameter(); }
         }
 
         [JsonProperty("total_pages")]
-        public int TotalPages 
+        public long TotalPages
         {
-            get { return (int)Math.Ceiling(Count/(double)PageSize); }
+            get { return (int)Math.Ceiling(Count / (double)PageSize); }
         }
 
-        private int GetPageFromParameter()
+        private long GetPageFromParameter()
         {
             if (string.IsNullOrEmpty(PreviousPage))
                 return 1;
@@ -54,7 +55,7 @@ namespace ZendeskApi_v2.Models
             if (string.IsNullOrEmpty(NextPage))
                 return TotalPages;
 
-            var dict = NextPage.GetQueryStringDict();
+            Dictionary<string, string> dict = NextPage.GetQueryStringDict();
             if (dict.ContainsKey("page"))
             {
                 return int.Parse(dict["page"]) - 1;
@@ -69,7 +70,7 @@ namespace ZendeskApi_v2.Models
             if (page == null)
                 return 100;
 
-            var dict = page.GetQueryStringDict();
+            Dictionary<string, string> dict = page.GetQueryStringDict();
             if (dict.ContainsKey("per_page"))
             {
                 return int.Parse(dict["per_page"]);

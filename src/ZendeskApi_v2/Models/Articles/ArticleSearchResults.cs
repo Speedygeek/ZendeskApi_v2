@@ -10,16 +10,16 @@ namespace ZendeskApi_v2.Models.Articles {
     public class ArticleSearchResults
     {
         [JsonProperty("page")]
-        public int Page { get; set; }
+        public long Page { get; set; }
 
         [JsonProperty("count")]
-        public int Count { get; set; }
+        public long Count { get; set; }
         
         [JsonProperty("per_page")]
-        public int PerPage { get; set; }
+        public long PerPage { get; set; }
 
         [JsonProperty("page_count")]
-        public int PageCount { get; set; }
+        public long PageCount { get; set; }
 
         [JsonProperty("next_page")]
         public string NextPage { get; set; }

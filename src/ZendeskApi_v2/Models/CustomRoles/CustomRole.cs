@@ -13,7 +13,7 @@ namespace ZendeskApi_v2.Models.CustomRoles
     public class CustomRole
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

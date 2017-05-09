@@ -25,7 +25,7 @@ namespace ZendeskApi_v2.Models.Shared
         public string ContentType { get; set; }
 
         [JsonProperty("size")]
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("inline")]
         public bool Inline { get; set; }

@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Linq;
-using NUnit.Framework;
-using ZendeskApi_v2;
-using ZendeskApi_v2.Models.Articles;
-using ZendeskApi_v2.Models.Sections;
-using ZendeskApi_v2.Requests.HelpCenter;
-using ZendeskApi_v2.Models.Users;
 using System.Collections.Generic;
-using ZendeskApi_v2.Models.AccessPolicies;
+using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using ZendeskApi_v2;
+using ZendeskApi_v2.Models.AccessPolicies;
+using ZendeskApi_v2.Models.Articles;
+using ZendeskApi_v2.Models.Sections;
+using ZendeskApi_v2.Models.Users;
+using ZendeskApi_v2.Requests.HelpCenter;
 
 namespace Tests.HelpCenter
 {
@@ -19,22 +19,22 @@ namespace Tests.HelpCenter
     [Parallelizable(ParallelScope.None)]
     public class ArticleTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private long _articleIdWithComments = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
 
         [Test]
         public void CanGetSingleArticle()
         {
             var res = api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
-            Assert.IsNotNull(res.Arcticle);
+            Assert.IsNotNull(res.Article);
         }
 
         [Test]
         public void CanGetSingleArticleWithTranslations()
         {
             var res = api.HelpCenter.Articles.GetArticle(_articleIdWithComments, ArticleSideLoadOptionsEnum.Translations);
-            Assert.IsNotNull(res.Arcticle);
-            Assert.Greater(res.Arcticle.Translations.Count, 0);
+            Assert.IsNotNull(res.Article);
+            Assert.Greater(res.Article.Translations.Count, 0);
         }
 
         [Test]
@@ -151,21 +151,21 @@ namespace Tests.HelpCenter
                 Body = "The body of my article",
                 Locale = "en-us"
             });
-            Assert.Greater(res.Arcticle.Id, 0);
+            Assert.Greater(res.Article.Id, 0);
 
-            res.Arcticle.LabelNames = new string[] { "updated" };
-            var update = api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle).Result;
-            Assert.That(update.Arcticle.LabelNames, Is.EqualTo(res.Arcticle.LabelNames));
+            res.Article.LabelNames = new string[] { "updated" };
+            var update = api.HelpCenter.Articles.UpdateArticleAsync(res.Article).Result;
+            Assert.That(update.Article.LabelNames, Is.EqualTo(res.Article.LabelNames));
 
-            Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Arcticle.Id.Value));
+            Assert.True(api.HelpCenter.Articles.DeleteArticle(res.Article.Id.Value));
         }
 
         [Test]
         public void CanGetSingleArticleWithTranslationsAsync()
         {
             var res = api.HelpCenter.Articles.GetArticleAsync(_articleIdWithComments, ArticleSideLoadOptionsEnum.Translations).Result;
-            Assert.IsNotNull(res.Arcticle);
-            Assert.Greater(res.Arcticle.Translations.Count, 0);
+            Assert.IsNotNull(res.Article);
+            Assert.Greater(res.Article.Translations.Count, 0);
         }
 
         [Test]
@@ -190,13 +190,13 @@ namespace Tests.HelpCenter
                 Locale = "en-us"
             });
 
-            Assert.Greater(res.Arcticle.Id, 0);
+            Assert.Greater(res.Article.Id, 0);
 
-            res.Arcticle.LabelNames = new string[] { "photo", "tripod" };
-            var update = await api.HelpCenter.Articles.UpdateArticleAsync(res.Arcticle);
-            Assert.AreEqual(update.Arcticle.LabelNames, res.Arcticle.LabelNames);
+            res.Article.LabelNames = new string[] { "photo", "tripod" };
+            var update = await api.HelpCenter.Articles.UpdateArticleAsync(res.Article);
+            Assert.AreEqual(update.Article.LabelNames, res.Article.LabelNames);
 
-            Assert.True(await api.HelpCenter.Articles.DeleteArticleAsync(res.Arcticle.Id.Value));
+            Assert.True(await api.HelpCenter.Articles.DeleteArticleAsync(res.Article.Id.Value));
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace Tests.HelpCenter
 
             await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
 
-            var apiForUser2 = new ZendeskApi(Settings.Site, Settings.Email2, Settings.Password2);
+            var apiForUser2 = new ZendeskApi(Settings.Site, Settings.AgentEmail, Settings.AgentPassword);
 
             Section section = (await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value)).Section;
 
@@ -242,9 +242,21 @@ namespace Tests.HelpCenter
             Thread.Sleep(10000);
             Assert.ThrowsAsync<WebException>(async () =>
             {
-              var sec =  await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
+                var sec = await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
             });
         }
 
+        [Test]
+        public async Task CanGetSecondPageUisngGetByPageUrl()
+        {
+            int pageSize = 3;
+
+            var res = await api.HelpCenter.Articles.GetArticlesAsync(perPage: pageSize);
+            Assert.That(res.PageSize, Is.EqualTo(pageSize));
+
+            var resp = await api.HelpCenter.Articles.GetByPageUrlAsync<GroupArticleResponse>(res.NextPage, pageSize);
+            Assert.That(resp.Page, Is.EqualTo(2));
+
+        }
     }
 }

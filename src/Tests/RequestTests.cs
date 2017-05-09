@@ -9,7 +9,7 @@ namespace Tests
     [TestFixture]
     public class RequestTests
     {
-        private readonly ZendeskApi _api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private readonly ZendeskApi _api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetAllRequests()
