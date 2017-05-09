@@ -64,7 +64,7 @@ namespace Tests
 
             var agent = res.AgentActivity.FirstOrDefault();
             Assert.NotNull(agent);
-            Assert.AreEqual(2110053086, agent.AgentId);
+            Assert.AreEqual(281513402, agent.AgentId);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Tests
 
             var agent = res.Result.AgentActivity.FirstOrDefault();
             Assert.NotNull(agent);
-            Assert.AreEqual(2110053086, agent.AgentId);
+            Assert.AreEqual(281513402, agent.AgentId);
         }
 
         [Test]
