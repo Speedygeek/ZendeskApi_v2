@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Models.Shared
         public long call_id { get; set; }
 
         [JsonProperty("call_duration")]
-        public int call_duration { get; set; }
+        public long call_duration { get; set; }
 
         [JsonProperty("answered_by_id")]
         public long? answered_by_id { get; set; }
@@ -45,7 +45,7 @@ namespace ZendeskApi_v2.Models.Shared
         public long brand_id { get; set; }
 
         [JsonProperty("via_id")]
-        public int via_id { get; set; }
+        public long via_id { get; set; }
 
         [JsonProperty("answered_by_name")]
         public string answered_by_name { get; set; }

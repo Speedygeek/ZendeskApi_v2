@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
@@ -20,8 +21,21 @@ namespace Tests
     [Category("Tickets")]
     public class TicketTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
+
+        [OneTimeTearDown]
+        public async Task TestCleanUp()
+        {
+            var response = await api.Tickets.GetTicketFieldsAsync();
+            foreach (var item in response.TicketFields)
+            {
+                if (item.Title == "My Tagger 2")
+                {
+                    await api.Tickets.DeleteTicketFieldAsync(item.Id.Value);
+                }
+            }
+        }
 
         [Test]
         public void CanGetTicketsAsync()
@@ -306,18 +320,6 @@ namespace Tests
         }
 
         [Test]
-        public void CorrectErrorMessagesAreThrown()
-        {
-            //var t = api.Tickets.GetTicket(921);
-            //var res = api.Tickets.UpdateTicket(t.Ticket,
-            //                                   new Comment()
-            //                                       {
-            //                                           Body = "trying to cause an error by updating a closed ticket. Let's see how it responds :)"                                                           
-            //                                       });
-
-        }
-
-        [Test]
         public void BooleanCustomFieldValuesArePreservedOnUpdate()
         {
             var ticket = new Ticket()
@@ -342,7 +344,7 @@ namespace Tests
                 };
 
             var res = api.Tickets.CreateTicket(ticket).Ticket;
-            Assert.AreEqual(ticket.CustomFields[1].Value, res.CustomFields[1].Value);
+            Assert.AreEqual(ticket.CustomFields[1].Value, res.CustomFields.Where(f => f.Id == Settings.CustomBoolFieldId).FirstOrDefault().Value);
 
             //var updateResponse = api.Tickets.UpdateTicket(res, new Comment() { Body = "Just trying to update it!", Public = true});
             //res.UpdatedAt = null;
@@ -857,8 +859,10 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("Need to Create Suspended Ticket Working with Zendesk support Team")]
         public void CanGetSuspendedTickets()
         {
+
             var all = api.Tickets.GetSuspendedTickets();
             Assert.Greater(all.Count, 0);
 
@@ -1115,6 +1119,159 @@ namespace Tests
 
                 api.Tickets.DeleteAsync(r.Id);
             }
+        }
+
+        [Test]
+        public void CanCreateTicketWithPrivateComment()
+        {
+            var ticket = new Ticket { Comment = new Comment { Body = "This is a Test", Public = false } };
+
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateParseHandling = DateParseHandling.DateTimeOffset,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
+                ContractResolver = ZendeskApi_v2.Serialization.ZendeskContractResolver.Instance
+
+            };
+
+            string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
+            Assert.That(json, Contains.Substring("false"));
+        }
+
+        [Test]
+        public async Task ViaChannel_Set_To_API_Isseue_254()
+        {
+            // see https://github.com/mozts2005/ZendeskApi_v2/issues/254
+
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment() { Body = "HELP" },
+                Priority = TicketPriorities.Urgent
+            };
+
+            ticket.CustomFields = new List<CustomField>()
+                {
+                    new CustomField()
+                        {
+                            Id = Settings.CustomFieldId,
+                            Value = "testing"
+                        }
+                };
+
+            var resp = await api.Tickets.CreateTicketAsync(ticket);
+            var newTicket = resp.Ticket;
+
+            Assert.That(newTicket.Via.Channel, Is.EqualTo("api"));
+
+            var comment = new Comment { Body = "New comment", Public = true };
+
+            var resp2 = await api.Tickets.UpdateTicketAsync(newTicket, comment);
+            var resp3 = await api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value);
+
+            Assert.That(resp3.Comments.Any(c => c.Via?.Channel != "api"), Is.False);
+
+            // clean up
+            await api.Tickets.DeleteAsync(newTicket.Id.Value);
+        }
+
+        [Test]
+        public async Task TicketField()
+        {
+            var tField = new TicketField
+            {
+                Type = TicketFieldTypes.Tagger,
+                Title = "My Tagger 2",
+                Description = "test description",
+                TitleInPortal = "Test Tagger",
+                CustomFieldOptions = new List<CustomFieldOptions>
+                {
+                    new CustomFieldOptions
+                    {
+                        Name = "test entryA",
+                        Value = "Test2"
+                    },
+                    new CustomFieldOptions
+                    {
+                        Name = "test entryB",
+                        Value = "test3"
+                    }
+                }
+            };
+
+            var res = api.Tickets.CreateTicketField(tField);
+            Assert.That(res.TicketField, Is.Not.Null);
+            Assert.That(res.TicketField.Id, Is.Not.Null);
+            Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task CanCreateUpdateOptionsAndDeleteTaggerTicketFieldAsync()
+        {
+            string option1 = "test_value_a";
+            string option1_Update = "test_value_a_newtag";
+            string option2 = "test_value_b";
+            string option3 = "test_value_c";
+
+            var tField = new TicketField()
+            {
+                Type = TicketFieldTypes.Tagger,
+                Title = "My Tagger 2",
+                Description = "test description",
+                TitleInPortal = "Test Tagger",
+                CustomFieldOptions = new List<CustomFieldOptions>()
+            };
+
+            tField.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryA",
+                Value = option1
+            });
+
+            tField.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryB",
+                Value = option2
+            });
+
+            var res = await api.Tickets.CreateTicketFieldAsync(tField);
+            Assert.That(res.TicketField, Is.Not.Null);
+            Assert.That(res.TicketField.Id, Is.Not.Null);
+            Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
+            Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
+            Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
+
+            long id = res.TicketField.Id.Value;
+
+            var tFieldU = new TicketField()
+            {
+                Id = id,
+                CustomFieldOptions = new List<CustomFieldOptions>()
+            };
+
+            //update CustomFieldOption A
+            tFieldU.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryA newTitle",
+                Value = option1_Update
+            });
+            //delete CustomFieldOption B
+            //add CustomFieldOption C
+            tFieldU.CustomFieldOptions.Add(new CustomFieldOptions()
+            {
+                Name = "test entryC",
+                Value = option3
+            });
+
+            var resU = await api.Tickets.UpdateTicketFieldAsync(tFieldU);
+
+            Assert.That(resU.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
+            Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update));
+            Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.Not.EqualTo(option2));
+
+            Assert.True(await api.Tickets.DeleteTicketFieldAsync(id));
         }
     }
 }

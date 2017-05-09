@@ -13,7 +13,7 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class PostTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private const string postTitile = "Help me!";
         private const string postDetails = "My printer is on fire!";
 

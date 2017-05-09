@@ -13,7 +13,7 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class TopicTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetTopic()

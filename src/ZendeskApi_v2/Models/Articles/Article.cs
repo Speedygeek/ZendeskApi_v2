@@ -49,13 +49,13 @@ namespace ZendeskApi_v2.Models.Articles
         public bool Promoted { get; set; }
 
         [JsonProperty("position")]
-        public int Position { get; set; }
+        public long Position { get; set; }
 
         [JsonProperty("vote_sum")]
-        public int VoteSum { get; set; }
+        public long VoteSum { get; set; }
 
         [JsonProperty("vote_count")]
-        public int VoteCount { get; set; }
+        public long VoteCount { get; set; }
 
         [JsonProperty("section_id")]
         public long? SectionId { get; set; }

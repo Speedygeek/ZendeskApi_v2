@@ -17,7 +17,7 @@ namespace ZendeskApi_v2.Models.Tickets.Suspended
         public string Url { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("author")]
         public Author Author { get; set; }

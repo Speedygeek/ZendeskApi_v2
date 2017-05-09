@@ -25,10 +25,10 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
         public string Title { get; set; }
 
         [JsonProperty("user")]
-        public ZendeskApi_v2.Models.Users.User User { get; set; }
+        public Users.User User { get; set; }
 
         [JsonProperty("actor")]
-        public ZendeskApi_v2.Models.Users.User Actor { get; set; }
+        public Users.User Actor { get; set; }
 
         [JsonProperty("created_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]

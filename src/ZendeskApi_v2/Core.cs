@@ -48,7 +48,15 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-        JsonSerializerSettings jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DateParseHandling = DateParseHandling.DateTimeOffset, DateFormatHandling = DateFormatHandling.IsoDateFormat, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate };
+        JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            DateParseHandling = DateParseHandling.DateTimeOffset,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
+            ContractResolver = Serialization.ZendeskContractResolver.Instance
+
+        };
         protected string OAuthToken;
 
         /// <summary>
@@ -556,7 +564,7 @@ namespace ZendeskApi_v2
                 headersMessage += originalWebException.Response.Headers;
             }
 
-            var wException = new WebException(originalWebException.Message + headersMessage, originalWebException);
+            var wException = new WebException(originalWebException.Message + headersMessage, originalWebException, originalWebException.Status, originalWebException.Response);
             wException.Data.Add("jsonException", error);
 
             return wException;

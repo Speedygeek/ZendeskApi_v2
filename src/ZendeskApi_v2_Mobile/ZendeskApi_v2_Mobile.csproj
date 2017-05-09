@@ -123,6 +123,15 @@
     <Compile Include="..\ZendeskApi_v2\Models\Articles\Result.cs">
       <Link>Models\Articles\Result.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Brands\Brand.cs">
+      <Link>Models\Brands\Brand.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Brands\GroupBrandResponse.cs">
+      <Link>Models\Brands\GroupBrandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Brands\IndividualBrandResponse.cs">
+      <Link>Models\Brands\IndividualBrandResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Categories\Category.cs">
       <Link>Models\Categories\Category.cs</Link>
     </Compile>
@@ -669,11 +678,17 @@
     <Compile Include="..\ZendeskApi_v2\Models\Users\IndividualUserIdentityResponse.cs">
       <Link>Models\Users\IndividualUserIdentityResponse.cs</Link>
     </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Users\IndividualUserRelatedInformationResponse.cs">
+      <Link>Models\Users\IndividualUserRelatedInformationResponse.cs</Link>
+    </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Users\IndividualUserResponse.cs">
       <Link>Models\Users\IndividualUserResponse.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Users\Photo.cs">
       <Link>Models\Users\Photo.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Models\Users\RelatedInformation.cs">
+      <Link>Models\Users\RelatedInformation.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Models\Users\User.cs">
       <Link>Models\Users\User.cs</Link>
@@ -758,6 +773,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\Attachments.cs">
       <Link>Requests\Attachments.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Requests\Brands.cs">
+      <Link>Requests\Brands.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Requests\Categories.cs">
       <Link>Requests\Categories.cs</Link>
@@ -860,6 +878,9 @@
     </Compile>
     <Compile Include="..\ZendeskApi_v2\Serialization\UnixEpochTimeConverter.cs">
       <Link>Serialization\UnixEpochTimeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ZendeskApi_v2\Serialization\ZendeskContractResolver.cs">
+      <Link>Serialization\ZendeskContractResolver.cs</Link>
     </Compile>
     <Compile Include="..\ZendeskApi_v2\ZendeskApi.cs">
       <Link>ZendeskApi.cs</Link>

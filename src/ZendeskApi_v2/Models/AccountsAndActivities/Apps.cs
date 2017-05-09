@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
         [JsonProperty("use")]
         public bool Use { get; set; }
 
-        [JsonProperty("create_private")]
+        [JsonProperty("create_private", DefaultValueHandling=DefaultValueHandling.Include)]
         public bool CreatePrivate { get; set; }
 
         [JsonProperty("create_public")]

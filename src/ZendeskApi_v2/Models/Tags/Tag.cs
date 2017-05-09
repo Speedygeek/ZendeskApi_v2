@@ -14,6 +14,6 @@ namespace ZendeskApi_v2.Models.Tags
         public string Name { get; set; }
 
         [JsonProperty("count")]
-        public int Count { get; set; }
+        public long Count { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class CategoryTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.Email, Settings.Password);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         //[Timeout(3000)]
@@ -26,13 +26,16 @@ namespace Tests.HelpCenter
         {
             var res = api.HelpCenter.Categories.CreateCategory(new Category()
             {
-                Name = "My Test category"
+                Name = "My Test category",
+                Description = "stuff and things",
+                Position = 1
             });
+
             Assert.Greater(res.Category.Id, 0);
 
-            res.Category.Description = "updated description";
+            res.Category.Position = 2;
             var update = api.HelpCenter.Categories.UpdateCategory(res.Category);
-            Assert.AreEqual(update.Category.Description, res.Category.Description);
+            Assert.AreEqual(update.Category.Position, res.Category.Position);
 
             Assert.True(api.HelpCenter.Categories.DeleteCategory(res.Category.Id.Value));
         }

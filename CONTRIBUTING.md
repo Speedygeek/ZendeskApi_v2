@@ -2,12 +2,15 @@
 
 Please read these guidelines before contributing to ZendeskApi_v2:
 
+ - [CLA](#CLA)
  - [Question or Problem?](#question)
  - [Issues and Bugs](#issue)
  - [Feature Requests](#feature)
  - [Submitting a Pull Request](#pullrequest)
- - [Contributor License Agreement](#cla)
-
+ - [Contributor License Agreement](#readcla)
+ 
+## <a name="CLA"></a> Sign Contributor License Agreement
+ [Please sign the Contributor License Agreement][cla].
 
 ## <a name="question"></a> Got a Question or Problem?
 
@@ -57,9 +60,9 @@ they work
 Read [GitHub Help][pullrequesthelp] for more details about creating pull requests.
 
 
-## <a name="cla"></a> Contributor License Agreement
+## <a name="readcla"></a> Contributor License Agreement
 
-By contributing your code to Json.NET you grant Elizabeth Schneider a non-exclusive, irrevocable, worldwide,
+By contributing your code to ZendeskApi_v2 you grant Elizabeth Schneider a non-exclusive, irrevocable, worldwide,
 royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights
 (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and
 publicly perform and display the Contributions on any licensing terms, including without limitation:
@@ -81,8 +84,8 @@ you provide is on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND
 INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS
 FOR A PARTICULAR PURPOSE.
 
-
-[github]: https://github.com/JamesNK/Newtonsoft.Json
+[cla]: https://www.clahub.com/agreements/mozts2005/ZendeskApi_v2
+[github]: https://github.com/mozts2005/ZendeskApi_v2
 [stackoverflow]: http://stackoverflow.com/questions/tagged/zendeskapiv2
 [dropbox]: https://www.dropbox.com
 [gist]: https://gist.github.com
