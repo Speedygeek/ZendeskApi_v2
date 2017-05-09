@@ -9,10 +9,10 @@ namespace ZendeskApi_v2.Models.Tickets
     public class Comment
     {
         [JsonProperty("id")]
-        public long? Id { get; }
+        public long? Id { get; private set; }
 
         [JsonProperty("type")]
-        public string Type { get; }
+        public string Type { get; set; }
 
         [JsonProperty("body")]
         public string Body { get; set; }
@@ -21,7 +21,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public string HtmlBody { get; set; }
 
         [JsonProperty("plain_body")]
-        public string PlainBody { get; }
+        public string PlainBody { get; private set; }
         
         [JsonProperty("public")]
         public bool Public { get; set; }

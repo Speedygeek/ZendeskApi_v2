@@ -152,7 +152,7 @@ namespace Tests
             var req = new Request
             {
                 Subject = "end user request test",
-                Comment = new Comment {Body = "end user test"}
+                Comment = new Comment {Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true}
             };
 
             var res = _api.Requests.CreateRequest(req);
@@ -167,7 +167,8 @@ namespace Tests
             res1.Request.Subject = "new subject";
             res1.Request.Comment = new Comment
             {
-                Body = "something more to say"
+                Body = "something more to say",
+                Public = true
             };
 
             var res2 = _api.Requests.UpdateRequest(res1.Request);
