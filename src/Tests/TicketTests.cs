@@ -405,10 +405,62 @@ namespace Tests
         }
 
         [Test]
+        public void CanCreateUpdateAndDeleteHTMLTicket()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment() { HtmlBody = "HELP</br>HELP On a New line." },
+                Priority = TicketPriorities.Urgent
+            };
+
+            ticket.CustomFields = new List<CustomField>()
+                {
+                    new CustomField()
+                        {
+                            Id = Settings.CustomFieldId,
+                            Value = "testing"
+                        }
+                };
+
+            var res = api.Tickets.CreateTicket(ticket).Ticket;
+
+            Assert.NotNull(res);
+            Assert.Greater(res.Id, 0);
+
+            Assert.AreEqual(res.CreatedAt, res.UpdatedAt);
+            Assert.LessOrEqual(res.CreatedAt - DateTimeOffset.UtcNow, TimeSpan.FromMinutes(1.0));
+
+            res.Status = TicketStatus.Solved;
+            res.AssigneeId = Settings.UserId;
+
+            res.CollaboratorIds.Add(Settings.CollaboratorId);
+            var htmlBody = "HELP</br>HELP On a New line.";
+
+            res.CustomFields[0].Value = "updated";
+
+            var updateResponse = api.Tickets.UpdateTicket(res, new Comment() { HtmlBody = htmlBody, Public = true, Uploads = new List<string>() });
+
+            Assert.NotNull(updateResponse);
+            //Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
+            Assert.Greater(updateResponse.Ticket.CollaboratorIds.Count, 0);
+            Assert.GreaterOrEqual(updateResponse.Ticket.UpdatedAt, updateResponse.Ticket.CreatedAt);
+
+            Assert.True(api.Tickets.Delete(res.Id.Value));
+        }
+
+        [Test]
         public void CanGetTicketComments()
         {
             var comments = api.Tickets.GetTicketComments(2);
             Assert.IsNotEmpty(comments.Comments[1].Body);
+        }
+
+        [Test]
+        public void CanGetTicketHTMLComments()
+        {
+            var comments = api.Tickets.GetTicketComments(2);
+            Assert.IsNotEmpty(comments.Comments[1].HtmlBody);
         }
 
         [Test]
@@ -487,6 +539,7 @@ namespace Tests
         [Test]
         public void CanCreateTicketWithDueDate()
         {
+            //31 December 2020 2AM
             var dueAt = DateTimeOffset.Parse("12/31/2020 07:00:00 -05:00");
 
             var ticket = new Ticket()

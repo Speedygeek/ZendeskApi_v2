@@ -9,13 +9,25 @@ namespace ZendeskApi_v2.Models.Tickets
     public class Comment
     {
         [JsonProperty("id")]
-        public long? Id { get; set; }
+        public long? Id { get; private set; }
 
-        [JsonProperty("public")]
-        public bool Public { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         [JsonProperty("body")]
         public string Body { get; set; }
+
+        [JsonProperty("html_body")]
+        public string HtmlBody { get; set; }
+
+        [JsonProperty("plain_body")]
+        public string PlainBody { get; private set; }
+        
+        [JsonProperty("public")]
+        public bool Public { get; set; }
+
+        [JsonProperty("author_id")]
+        public long? AuthorId { get; set; }
 
         /// <summary>
         /// Used for uploading attachments only
@@ -29,11 +41,6 @@ namespace ZendeskApi_v2.Models.Tickets
         /// <summary>
         /// Used only for getting ticket comments
         /// </summary>
-        [JsonProperty("author_id")]
-        public long? AuthorId { get; set; }
-
-        [JsonProperty("html_body")]
-        public string HtmlBody { get; private set; }
 
         [JsonProperty("attachments")]
         public IList<Attachment> Attachments { get; private set; }
