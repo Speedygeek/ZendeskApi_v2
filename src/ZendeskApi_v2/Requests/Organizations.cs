@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 #endif
 using System.Collections.Generic;
 using System.Linq;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Shared;
 
@@ -22,6 +23,7 @@ namespace ZendeskApi_v2.Requests
 
         GroupOrganizationResponse SearchForOrganizationsByExternalId(string externalId);
         IndividualOrganizationResponse GetOrganization(long id);
+        GroupOrganizationResponse GetMultipleOrganizations(IEnumerable<long> ids);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
         bool DeleteOrganization(long id);
@@ -53,6 +55,7 @@ namespace ZendeskApi_v2.Requests
         // TODO: Rename SearchForOrganizationsByExternalIdAsync(string externalId);
         Task<GroupOrganizationResponse> SearchForOrganizationsAsync(string searchTerm);
         Task<IndividualOrganizationResponse> GetOrganizationAsync(long id);
+        Task<GroupOrganizationResponse> GetMultipleOrganizationsAsync(IEnumerable<long> ids);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
         Task<bool> DeleteOrganizationAsync(long id);
@@ -105,6 +108,10 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualOrganizationResponse>(string.Format("organizations/{0}.json", id));
         }
 
+        public GroupOrganizationResponse GetMultipleOrganizations(IEnumerable<long> ids)
+        {
+            return GenericGet<GroupOrganizationResponse>(string.Format("organizations/show_many.json?ids={0}", ids.ToCsv()));
+        }
         public IndividualOrganizationResponse CreateOrganization(Organization organization)
         {
             var body = new { organization };
@@ -212,6 +219,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualOrganizationResponse> GetOrganizationAsync(long id)
         {
             return await GenericGetAsync<IndividualOrganizationResponse>(string.Format("organizations/{0}.json", id));
+        }
+
+        public async Task<GroupOrganizationResponse> GetMultipleOrganizationsAsync(IEnumerable<long> ids)
+        {
+            return await GenericGetAsync<GroupOrganizationResponse>(string.Format("organizations/show_many.json?ids={0}", ids.ToCsv()));
         }
 
         public async Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization)
