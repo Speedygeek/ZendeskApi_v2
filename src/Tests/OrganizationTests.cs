@@ -73,6 +73,25 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetMultipleOrganizations()
+        {
+            var org = api.Organizations.CreateOrganization(new Organization()
+            {
+                Name = "Test Org"
+            });
+
+            Assert.Greater(org.Organization.Id, 0);
+
+            var org2 = api.Organizations.CreateOrganization(new Organization()
+            {
+                Name = "Test Org2"
+            });
+
+            var orgs = api.Organizations.GetMultipleOrganizations(new [] { org.Organization.Id.Value, org2.Organization.Id.Value});
+            Assert.AreEqual(orgs.Organizations.Count, 2);
+        }
+
+        [Test]
         public void CanCreateUpdateAndDeleteOrganizations()
         {
             var res = api.Organizations.CreateOrganization(new Organization()
