@@ -13,7 +13,7 @@ using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Requests;
-
+using ZendeskApi_v2.Models.Brands;
 
 namespace Tests
 {
@@ -1326,5 +1326,32 @@ namespace Tests
 
             Assert.True(await api.Tickets.DeleteTicketFieldAsync(id));
         }
+
+        [Test]
+        public async Task CanGetBrandId()
+        {
+            var brand = new Brand()
+            {
+                Name = "Test Brand",
+                Active = true,
+                Subdomain = $"test-{Guid.NewGuid()}"
+            };
+
+            var respBrand = api.Brands.CreateBrand(brand);
+
+            brand = respBrand.Brand;
+
+            var ticket = new Ticket { Comment = new Comment { Body = "This is a Brand id Test", Public = false }, BrandId = brand.Id };
+            var respTicket = await api.Tickets.CreateTicketAsync(ticket);
+            var respTikets = await api.Tickets.GetMultipleTicketsAsync(new List<long> { respTicket.Ticket.Id.Value });
+
+            Assert.That(respTikets.Tickets[0].BrandId, Is.EqualTo(brand.Id));
+
+            // clean up
+            Assert.True(api.Brands.DeleteBrand(brand.Id.Value));
+            Assert.True(await api.Tickets.DeleteAsync(respTicket.Ticket.Id.Value));
+        }
+
+
     }
 }
