@@ -106,5 +106,11 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("ticket_form_id")]
         public long? TicketFormId { get; set; }
 
+        /// <summary>
+        /// Is true if any comments are public, false otherwise
+        /// </summary>
+        [JsonProperty("is_public")]
+        public bool IsPublic { get; private set; }
+
     }
 }

@@ -1353,5 +1353,28 @@ namespace Tests
         }
 
 
+
+        [Test]
+        public async Task CanGetIsPublicAsync()
+        {
+
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment {  Body= "HELP", Public = true },
+                Priority = TicketPriorities.Urgent
+            };
+
+            var resp1 = await api.Tickets.CreateTicketAsync(ticket);
+            Assert.That(resp1.Ticket.IsPublic, Is.True);
+
+            ticket.Comment.Public = false;
+            var resp2 = await api.Tickets.CreateTicketAsync(ticket);
+
+            Assert.That(resp2.Ticket.IsPublic, Is.False);
+
+            Assert.That(await api.Tickets.DeleteAsync(resp1.Ticket.Id.Value), Is.True);
+            Assert.That(await api.Tickets.DeleteAsync(resp2.Ticket.Id.Value), Is.True);
+        }
     }
 }
