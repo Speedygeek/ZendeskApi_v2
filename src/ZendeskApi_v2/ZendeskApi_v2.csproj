@@ -38,9 +38,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -77,6 +76,7 @@
     <Compile Include="Models\Constants\UserRoles.cs" />
     <Compile Include="Models\Constants\ViaTypes.cs" />
     <Compile Include="Models\Constants\Visibility.cs" />
+    <Compile Include="Models\HelpCenter\Attachments\ArticleAttachment.cs" />
     <Compile Include="Models\HelpCenter\HelpCenterBase.cs" />
     <Compile Include="Models\HelpCenter\Post\GroupPostResponse.cs" />
     <Compile Include="Models\HelpCenter\Post\IndividualPostResponse.cs" />
@@ -290,6 +290,7 @@
     <Compile Include="Models\Voice\HistoricalQueueActivity.cs" />
     <Compile Include="RequestResult.cs" />
     <Compile Include="Requests\HelpCenter\AccessPolicies.cs" />
+    <Compile Include="Requests\HelpCenter\ArticleAttachments.cs" />
     <Compile Include="Requests\HelpCenter\Articles.cs" />
     <Compile Include="Requests\Attachments.cs" />
     <Compile Include="Requests\Categories.cs" />
