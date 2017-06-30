@@ -7,7 +7,7 @@ max_jobs: 1
 install:
 - ps: >-
 
-    choco install gitversion.portable -pre -y
+    choco install gitversion.portable -y
     
     $output = gitversion
     
@@ -40,7 +40,7 @@ install:
     Write-Host "Is the build Prerelease: " $env:Is_Prerelease
 pull_requests:
   do_not_increment_build_number: true
-image: Visual Studio 2015
+image: Visual Studio 2017 Preview
 configuration: Release
 platform: Any CPU
 assembly_info:
