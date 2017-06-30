@@ -4,6 +4,8 @@ using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Models.Groups;
+using System.Threading.Tasks;
+using ZendeskApi_v2.Models.Search;
 
 namespace Tests
 {
@@ -11,6 +13,21 @@ namespace Tests
     public class GroupTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+
+        [OneTimeSetUp]
+        public async Task CleanUp()
+        {
+
+            var resp = await api.Search.SearchForAsync<User>("test133@test.com");
+
+
+            foreach (var user in resp.Results)
+            {
+                await api.Users.DeleteUserAsync(user.Id.Value);
+            }
+        }
+
+
 
         [Test]
         public void CanGetGroups()
