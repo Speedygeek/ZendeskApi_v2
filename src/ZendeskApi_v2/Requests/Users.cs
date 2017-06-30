@@ -272,7 +272,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualUserResponse SetUserPhoto(long userId, ZenFile photo)
         {
-            return GenericPut<IndividualUserResponse>(string.Format("users/{0}.json", userId), photo, "user[photo][uploaded_data]");
+            return GenericPut<IndividualUserResponse>(string.Format("users/{0}.json", userId), null, new Dictionary<string, object> { { "user[photo][uploaded_data]", photo } });
         }
 #endif
 
@@ -439,7 +439,7 @@ namespace ZendeskApi_v2.Requests
 
         public Task<IndividualUserResponse> SetUserPhotoAsync(long userId, ZenFile photo)
         {
-            return GenericPutAsync<IndividualUserResponse>(string.Format("users/{0}.json", userId), photo, "user[photo][uploaded_data]");
+            return GenericPutAsync<IndividualUserResponse>(string.Format("users/{0}.json", userId), null, new Dictionary<string, object> { { "user[photo][uploaded_data]", photo } });
         }
 #endif
         private string GetResourceStringWithSideLoadOptionsParam(string resource, UserSideLoadOptions sideLoadOptions)

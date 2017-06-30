@@ -6,6 +6,7 @@ namespace ZendeskApi_v2.HelpCenter
         ICategories Categories { get; }
         ISections Sections { get; }
         IArticles Articles { get; }
+        IArticleAttachments ArticleAttachments { get; }
         ITranslations Translations { get; }
         IPosts Posts { get; }
         IVotes Votes { get; }
@@ -17,16 +18,17 @@ namespace ZendeskApi_v2.HelpCenter
 
     public class HelpCenterApi : IHelpCenterApi
     {
-        public ICategories Categories { get; set; }
-        public ISections Sections { get; set; }
-        public IArticles Articles { get; set; }
-        public ITranslations Translations { get; set; }
-        public IVotes Votes { get; set; }
-        public IComments Comments { get; set; }
-        public IAccessPolicies AccessPolicies { get; set; }
-        public ITopics Topics { get; set; }
-        public IPosts Posts { get; set; }
-        public string Locale { get; set; }
+        public ICategories Categories { get; }
+        public ISections Sections { get; }
+        public IArticles Articles { get; }
+        public ITranslations Translations { get; }
+        public IVotes Votes { get; }
+        public IComments Comments { get; }
+        public IAccessPolicies AccessPolicies { get; }
+        public ITopics Topics { get; }
+        public IPosts Posts { get; }
+        public string Locale { get; }
+        public IArticleAttachments ArticleAttachments { get; }
 
         public HelpCenterApi(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
         {
@@ -40,6 +42,7 @@ namespace ZendeskApi_v2.HelpCenter
             Topics = new Topics(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Posts = new Posts(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Locale = locale;
+            ArticleAttachments = new ArticleAttachments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
         }
     }
 }
