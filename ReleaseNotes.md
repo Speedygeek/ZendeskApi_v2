@@ -1,5 +1,28 @@
+# 3.6.2 (08 July 2017)
+
+ - [#287](https://github.com/mozts2005/ZendeskApi_v2/issues/287) - Getting a list of article titles without body +Question
+ - [#286](https://github.com/mozts2005/ZendeskApi_v2/pull/286) - added help-center article attachments for Issue #280 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#285](https://github.com/mozts2005/ZendeskApi_v2/pull/285) - Adding Is_public to the ticket model contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#284](https://github.com/mozts2005/ZendeskApi_v2/pull/284) - adding Test for getting Brand Id contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#283](https://github.com/mozts2005/ZendeskApi_v2/issues/283) - Is_public missing in ticket object +Enhancement +More-Info-Needed
+ - [#282](https://github.com/mozts2005/ZendeskApi_v2/pull/282) - Create CODE_OF_CONDUCT.md contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#281](https://github.com/mozts2005/ZendeskApi_v2/issues/281) - "brand_id" property does not exist in Result object. +More-Info-Needed
+ - [#279](https://github.com/mozts2005/ZendeskApi_v2/pull/279) - Add GetMultipleOrganizations ("organizations/show_many.json") contributed by ([joplaal](https://github.com/joplaal))
+ - [#278](https://github.com/mozts2005/ZendeskApi_v2/issues/278) - Thumbnail class exsists, but creation is not supported +Invalid
+ - [#277](https://github.com/mozts2005/ZendeskApi_v2/issues/277) - OrganizationMembership Default nullable binding +Wont-fix
+ - [#276](https://github.com/mozts2005/ZendeskApi_v2/pull/276) - Fixed tests and new property for ticket comments contributed by ([WinDrop](https://github.com/WinDrop))
+ - [#275](https://github.com/mozts2005/ZendeskApi_v2/pull/275) - Added new fields to ticket comments contributed by ([WinDrop](https://github.com/WinDrop))
+ - [#274](https://github.com/mozts2005/ZendeskApi_v2/pull/274) - Amendments to Ticket Comments contributed by ([WinDrop](https://github.com/WinDrop))
+
+Commits: 4a6afa4034...b6b4ff86ab
+
+
 # 3.6.1 (07 April 2017)
 
+ - [#273](https://github.com/mozts2005/ZendeskApi_v2/pull/273) - adding icon for the project (#272) contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#271](https://github.com/mozts2005/ZendeskApi_v2/pull/271) - Issue-270 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#270](https://github.com/mozts2005/ZendeskApi_v2/issues/270) - API.HelpCenter.Articles.GetByPageUrl incorrectly formats the request Uri
+ - [#267](https://github.com/mozts2005/ZendeskApi_v2/issues/267) - Nuget dependencies are incorrect +fix
  - [#273](https://github.com/mozts2005/ZendeskApi_v2/pull/273) - adding icon for the project (#272) contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#272](https://github.com/mozts2005/ZendeskApi_v2/pull/272) - Project Clean up contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#270](https://github.com/mozts2005/ZendeskApi_v2/issues/270) - API.HelpCenter.Articles.GetByPageUrl incorrectly formats the request Uri
@@ -9,7 +32,7 @@
  - [#266](https://github.com/mozts2005/ZendeskApi_v2/pull/266) - Creating a Release for v3.6.0 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#232](https://github.com/mozts2005/ZendeskApi_v2/issues/232) - Bulk/Batch endpoint support +Enhancement +hacktoberfest
 
-Commits: 18286eb3df...bdd3c73512
+Commits: 18286eb3df...acac84a4e8
 
 
 # 3.6.0 (09 March 2017)
