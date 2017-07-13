@@ -45,7 +45,7 @@ namespace ZendeskApi_v2.Requests
 
         public GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId)
         {
-            return GenericGet<GroupAttachmentResponse>(string.Format("help_center/articles/{0}/attachments.json", articleId));
+            return GenericGet<GroupAttachmentResponse>($"help_center/articles/{articleId}/attachments.json");
         }
 
 
@@ -82,10 +82,10 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>       
         Upload UploadAttachment(ZenFile file, string token, int? timeout = null)
         {
-            var resource = string.Format("uploads.json?filename={0}", file.FileName);
+            var resource = $"uploads.json?filename={file.FileName}";
             if (!token.IsNullOrWhiteSpace())
             {
-                resource += string.Format("&token={0}", token);
+                resource += $"&token={token}";
             }
             var requestResult = RunRequest<UploadResult>(resource, RequestMethod.Post, file, timeout);
             return requestResult.Upload;
@@ -129,11 +129,11 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>  
         public async Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "", int? timeout = null)
         {  
-            string resource = string.Format("uploads.json?filename={0}", file.FileName);
+            string resource = $"uploads.json?filename={file.FileName}";
 
             if (!token.IsNullOrWhiteSpace())
             {
-                resource += string.Format("&token={0}", token);
+                resource += $"&token={token}";
             }
 
             UploadResult result = await RunRequestAsync<UploadResult>(resource, RequestMethod.Post, file, timeout);

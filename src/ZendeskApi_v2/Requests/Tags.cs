@@ -51,7 +51,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public TagAutocompleteResponse AutocompleteTags(string name)
         {
-            return GenericPost<TagAutocompleteResponse>(string.Format("autocomplete/tags.json?name={0}", name));
+            return GenericPost<TagAutocompleteResponse>($"autocomplete/tags.json?name={name}");
         }
 #endif
 
@@ -68,7 +68,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<TagAutocompleteResponse> AutocompleteTagsAsync(string name)
         {
-            return await GenericPostAsync<TagAutocompleteResponse>(string.Format("autocomplete/tags.json?name={0}", name));
+            return await GenericPostAsync<TagAutocompleteResponse>($"autocomplete/tags.json?name={name}");
         }
 #endif
     }

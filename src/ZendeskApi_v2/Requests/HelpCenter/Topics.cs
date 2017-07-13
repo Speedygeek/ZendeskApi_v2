@@ -38,7 +38,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public IndividualTopicResponse GetTopic(long topicId)
         {
-            return GenericGet<IndividualTopicResponse>(string.Format("community/topics/{0}.json", topicId));
+            return GenericGet<IndividualTopicResponse>($"community/topics/{topicId}.json");
         }
 
         public IndividualTopicResponse CreateTopic(Topic topic)
@@ -50,12 +50,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public IndividualTopicResponse UpdateTopic(Topic topic)
         {
             var body = new { topic };
-            return GenericPut<IndividualTopicResponse>(string.Format("community/topics/{0}.json", topic.Id.Value), body);
+            return GenericPut<IndividualTopicResponse>($"community/topics/{topic.Id.Value}.json", body);
         }
 
         public bool DeleteTopic(long topicId)
         {
-            return GenericDelete(string.Format("community/topics/{0}.json", topicId));
+            return GenericDelete($"community/topics/{topicId}.json");
         }
 #endif
 #if ASYNC
@@ -66,7 +66,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<IndividualTopicResponse> GetTopicAsync(long topicId)
         {
-            return await GenericGetAsync<IndividualTopicResponse>(string.Format("community/topics/{0}.json", topicId));
+            return await GenericGetAsync<IndividualTopicResponse>($"community/topics/{topicId}.json");
         }
 
         public async Task<IndividualTopicResponse> CreateTopicAsync(Topic topic)
@@ -79,12 +79,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<IndividualTopicResponse> UpdateTopicAsync(Topic topic)
         {
             var body = new { topic };
-            return await GenericPutAsync<IndividualTopicResponse>(string.Format("community/topics/{0}.json", topic.Id.Value), body);
+            return await GenericPutAsync<IndividualTopicResponse>($"community/topics/{topic.Id.Value}.json", body);
         }
 
         public async Task<bool> DeleteTopicAsync(long topicId)
         {
-            return await GenericDeleteAsync(string.Format("community/topics/{0}.json)", topicId));
+            return await GenericDeleteAsync($"community/topics/{topicId}.json)");
         }
 
 #endif

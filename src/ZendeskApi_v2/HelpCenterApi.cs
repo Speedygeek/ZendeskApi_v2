@@ -34,7 +34,7 @@ namespace ZendeskApi_v2.HelpCenter
         {
             Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
             Sections = new Sections(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Articles = new Articles(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            Articles = new Articles(yourZendeskUrl, user, password, apiToken, p_OAuthToken, locale);
             Translations = new Translations(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);

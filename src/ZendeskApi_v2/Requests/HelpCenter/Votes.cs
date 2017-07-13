@@ -30,7 +30,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public GroupVoteResponse GetVotesForArticle(long? articleId)
 		{ 
-			return GenericGet<GroupVoteResponse>(string.Format("help_center/articles/{0}/votes.json", articleId));
+			return GenericGet<GroupVoteResponse>($"help_center/articles/{articleId}/votes.json");
 		}
 		
 #endif
@@ -38,7 +38,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<GroupVoteResponse> GetVotesForArticleAsync(long? articleId)
 		{
-			return await GenericGetAsync<GroupVoteResponse>(string.Format("help_center/articles/{0}/votes.json", articleId));
+			return await GenericGetAsync<GroupVoteResponse>($"help_center/articles/{articleId}/votes.json");
 		}
 
 #endif

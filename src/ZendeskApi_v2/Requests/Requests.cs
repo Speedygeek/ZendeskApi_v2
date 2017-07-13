@@ -139,22 +139,22 @@ namespace ZendeskApi_v2.Requests
 
         public GroupRequestResponse GetAllRequestsForUser(long id)
         {
-            return GenericGet<GroupRequestResponse>(string.Format("users/{0}/requests.json", id));
+            return GenericGet<GroupRequestResponse>($"users/{id}/requests.json");
         }
 
         public  IndividualRequestResponse GetRequestById(long id)
         {
-            return GenericGet<IndividualRequestResponse>(string.Format("requests/{0}.json", id));
+            return GenericGet<IndividualRequestResponse>($"requests/{id}.json");
         }
 
         public GroupCommentResponse GetRequestCommentsById(long id)
         {
-            return GenericGet<GroupCommentResponse>(string.Format("requests/{0}/comments.json", id));
+            return GenericGet<GroupCommentResponse>($"requests/{id}/comments.json");
         }
 
         public IndividualCommentResponse GetSpecificRequestComment(long requestId, long commentId)
         {
-            return GenericGet<IndividualCommentResponse>(string.Format("requests/{0}/comments/{1}.json", requestId, commentId));
+            return GenericGet<IndividualCommentResponse>($"requests/{requestId}/comments/{commentId}.json");
         }
 
         public IndividualRequestResponse CreateRequest(Request request)
@@ -185,7 +185,7 @@ namespace ZendeskApi_v2.Requests
 
             var body = new { request };
             
-            return GenericPut<IndividualRequestResponse>(string.Format("requests/{0}.json", request.Id.Value), body);
+            return GenericPut<IndividualRequestResponse>($"requests/{request.Id.Value}.json", body);
         }
 #endif
 
@@ -212,22 +212,22 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupRequestResponse> GetAllRequestsForUserAsync(long id)
         {
-            return await GenericGetAsync<GroupRequestResponse>(string.Format("users/{0}/requests.json", id));
+            return await GenericGetAsync<GroupRequestResponse>($"users/{id}/requests.json");
         }
 
         public async Task<IndividualRequestResponse> GetRequestByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualRequestResponse>(string.Format("requests/{0}.json", id));
+            return await GenericGetAsync<IndividualRequestResponse>($"requests/{id}.json");
         }
 
         public async Task<GroupCommentResponse> GetRequestCommentsByIdAsync(long id)
         {
-            return await GenericGetAsync<GroupCommentResponse>(string.Format("requests/{0}/comments.json", id));
+            return await GenericGetAsync<GroupCommentResponse>($"requests/{id}/comments.json");
         }
 
         public async Task<IndividualCommentResponse> GetSpecificRequestCommentAsync(long requestId, long commentId)
         {
-            return await GenericGetAsync<IndividualCommentResponse>(string.Format("requests/{0}/comments/{1}.json", requestId, commentId));
+            return await GenericGetAsync<IndividualCommentResponse>($"requests/{requestId}/comments/{commentId}.json");
         }
 
         public async Task<IndividualRequestResponse> CreateRequestAsync(Request request)
@@ -239,7 +239,7 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualRequestResponse> UpdateRequestAsync(long id, Comment comment)
         {
             var body = new { request = new { comment} };
-            return await GenericPutAsync<IndividualRequestResponse>(string.Format("requests/{0}.json", id), body);
+            return await GenericPutAsync<IndividualRequestResponse>($"requests/{id}.json", body);
         }
 #endif
     }

@@ -41,17 +41,17 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public GroupPostResponse GetPostsByTopicId(long topicId, int? perPage = null, int? page = null)
         {
-            return GenericPagedGet<GroupPostResponse>(string.Format("community/topics/{0}/posts.json", topicId), perPage, page);
+            return GenericPagedGet<GroupPostResponse>($"community/topics/{topicId}/posts.json", perPage, page);
         }
 
         public GroupPostResponse GetPostsByUserId(long userId, int? perPage = null, int? page = null)
         {
-            return GenericPagedGet<GroupPostResponse>(string.Format("community/users/{0}/posts.json", userId), perPage, page);
+            return GenericPagedGet<GroupPostResponse>($"community/users/{userId}/posts.json", perPage, page);
         }
 
         public IndividualPostResponse GetPost(long postId)
         {
-            return GenericGet<IndividualPostResponse>(string.Format("community/posts/{0}.json", postId));
+            return GenericGet<IndividualPostResponse>($"community/posts/{postId}.json");
         }
 
         public IndividualPostResponse CreatePost(Post post)
@@ -63,12 +63,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public IndividualPostResponse UpdatePost(Post post)
         {
             var body = new { post };
-            return GenericPut<IndividualPostResponse>(string.Format("community/posts/{0}.json", post.Id.Value), body);
+            return GenericPut<IndividualPostResponse>($"community/posts/{post.Id.Value}.json", body);
         }
 
         public bool DeletePost(long postId)
         {
-            return GenericDelete(string.Format("community/posts/{0}.json", postId));
+            return GenericDelete($"community/posts/{postId}.json");
         }
 #endif
 #if ASYNC
@@ -80,17 +80,17 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<IndividualPostResponse> GetPostAsync(long postId)
         {
-            return await GenericGetAsync<IndividualPostResponse>(string.Format("community/posts/{0}.json", postId));
+            return await GenericGetAsync<IndividualPostResponse>($"community/posts/{postId}.json");
         }
 
         public Task<GroupPostResponse> GetPostsByTopicIdAsync(long topicId, int? perPage = null, int? page = null)
         {
-            return GenericPagedGetAsync<GroupPostResponse>(string.Format("community/topics/{0}/posts.json", topicId), perPage, page);
+            return GenericPagedGetAsync<GroupPostResponse>($"community/topics/{topicId}/posts.json", perPage, page);
         }
 
         public async Task<GroupPostResponse> GetPostsByUserIdAsync(long userId, int? perPage = null, int? page = null)
         {
-            return await GenericPagedGetAsync<GroupPostResponse>(string.Format("community/users/{0}/posts.json", userId), perPage, page);
+            return await GenericPagedGetAsync<GroupPostResponse>($"community/users/{userId}/posts.json", perPage, page);
         }
 
         public async Task<GroupPostResponse> GetPostsAsync(int? perPage = null, int? page = null)
@@ -101,12 +101,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<IndividualPostResponse> UpdatePostAsync(Post post)
         {
             var body = new { post };
-            return await GenericPutAsync<IndividualPostResponse>(string.Format("community/posts/{0}.json", post.Id.Value), body);
+            return await GenericPutAsync<IndividualPostResponse>($"community/posts/{post.Id.Value}.json", body);
         }
 
         public async Task<bool> DeletePostAsync(long postId)
         {
-            return await GenericDeleteAsync(string.Format("community/posts/{0}.json", postId));
+            return await GenericDeleteAsync($"community/posts/{postId}.json");
         }
 #endif
     }

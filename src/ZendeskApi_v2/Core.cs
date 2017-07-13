@@ -340,13 +340,13 @@ namespace ZendeskApi_v2
 
         protected string GetAuthBearerHeader(string oAuthToken)
         {
-            return string.Format("Bearer {0}", oAuthToken);
+            return $"Bearer {oAuthToken}";
         }
 
         protected string GetAuthHeader(string userName, string password)
         {
-            string auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", userName, password)));
-            return string.Format("Basic {0}", auth);
+            string auth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"));
+            return $"Basic {auth}";
         }
 
 #if ASYNC
@@ -589,7 +589,7 @@ namespace ZendeskApi_v2
             Debug.WriteLine(originalWebException.Message);
             Debug.WriteLine(error);
 
-            string headersMessage = string.Format("Error content: {0} \r\n Resource String: {1}  + \r\n", error, resource);
+            string headersMessage = $"Error content: {error} \r\n Resource String: {resource}  + \r\n";
             string bodyMessage = string.Empty;
 
             if (body != null)
@@ -597,12 +597,11 @@ namespace ZendeskApi_v2
                 ZenFile zenFile = body as ZenFile;
                 if (zenFile == null)
                 {
-                    bodyMessage = string.Format(" Body: {0}", JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings));
+                    bodyMessage = $" Body: {JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings)}";
                 }
                 else
                 {
-                    bodyMessage = string.Format(" File Name: {0} \r\n File Length: {1}\r\n", zenFile.FileName,
-                        (zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data"));
+                    bodyMessage = $" File Name: {zenFile.FileName} \r\n File Length: {(zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data")}\r\n";
                 }
             }
 
