@@ -95,22 +95,22 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTopicResponse GetTopicById(long topicId)
         {
-            return GenericGet<IndividualTopicResponse>(string.Format("topics/{0}.json", topicId));
+            return GenericGet<IndividualTopicResponse>($"topics/{topicId}.json");
         }
 
         public GroupTopicResponse GetMultipleTopicsById(IEnumerable<long> topicIds)
         {
-            return GenericPost<GroupTopicResponse>(string.Format("topics/show_many?ids={0}.json", topicIds.ToCsv()));
+            return GenericPost<GroupTopicResponse>($"topics/show_many?ids={topicIds.ToCsv()}.json");
         }
 
         public GroupTopicResponse GetTopicsByForum(long forumId)
         {
-            return GenericGet<GroupTopicResponse>(string.Format("forums/{0}/topics.json", forumId));
+            return GenericGet<GroupTopicResponse>($"forums/{forumId}/topics.json");
         }
 
         public GroupTopicResponse GetTopicsByUser(long userId)
         {
-            return GenericGet<GroupTopicResponse>(string.Format("users/{0}/topics.json", userId));
+            return GenericGet<GroupTopicResponse>($"users/{userId}/topics.json");
         }
 
         public IndividualTopicResponse CreateTopic(Topic topic)
@@ -122,54 +122,54 @@ namespace ZendeskApi_v2.Requests
         public IndividualTopicResponse UpdateTopic(Topic topic)
         {
             var body = new { topic };
-            return GenericPut<IndividualTopicResponse>(string.Format("topics/{0}.json", topic.Id), body);
+            return GenericPut<IndividualTopicResponse>($"topics/{topic.Id}.json", body);
         }
 
         public bool DeleteTopic(long topicId)
         {
-            return GenericDelete(string.Format("topics/{0}.json", topicId));
+            return GenericDelete($"topics/{topicId}.json");
         }
 
         public GroupTopicCommentResponse GetTopicCommentsByTopicId(long topicId)
         {
-            return GenericGet<GroupTopicCommentResponse>(string.Format("topics/{0}/comments.json", topicId));
+            return GenericGet<GroupTopicCommentResponse>($"topics/{topicId}/comments.json");
         }
 
         public GroupTopicCommentResponse GetTopicCommentsByUserId(long userId)
         {
-            return GenericGet<GroupTopicCommentResponse>(string.Format("users/{0}/topic_comments.json", userId));
+            return GenericGet<GroupTopicCommentResponse>($"users/{userId}/topic_comments.json");
         }
 
         public IndividualTopicCommentResponse GetSpecificTopicCommentByTopic(long topicId, long commentId)
         {
-            return GenericGet<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
+            return GenericGet<IndividualTopicCommentResponse>($"topics/{topicId}/comments/{commentId}.json");
         }
 
         public IndividualTopicCommentResponse GetSpecificTopicCommentByUser(long userId, long commentId)
         {
-            return GenericGet<IndividualTopicCommentResponse>(string.Format("users/{0}/topic_comments/{1}.json", userId, commentId));
+            return GenericGet<IndividualTopicCommentResponse>($"users/{userId}/topic_comments/{commentId}.json");
         }
 
         public IndividualTopicCommentResponse CreateTopicComment(long topicId, TopicComment topicComment)
         {
             var body = new { topic_comment = topicComment };
-            return GenericPost<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments.json", topicId), body);
+            return GenericPost<IndividualTopicCommentResponse>($"topics/{topicId}/comments.json", body);
         }
 
         public IndividualTopicCommentResponse UpdateTopicComment(TopicComment topicComment)
         {
             var body = new { topic_comment = topicComment};
-            return GenericPut<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments/{1}.json", topicComment.TopicId, topicComment.Id), body);
+            return GenericPut<IndividualTopicCommentResponse>($"topics/{topicComment.TopicId}/comments/{topicComment.Id}.json", body);
         }
 
         public bool DeleteTopicComment(long topicId, long commentId)
         {
-            return GenericDelete(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
+            return GenericDelete($"topics/{topicId}/comments/{commentId}.json");
         }
 
         public GroupTopicSubscriptionResponse GetTopicSubscriptionsByTopic(long topicId)
         {
-            return GenericGet<GroupTopicSubscriptionResponse>(string.Format("topics/{0}/subscriptions.json", topicId));
+            return GenericGet<GroupTopicSubscriptionResponse>($"topics/{topicId}/subscriptions.json");
         }
 
         public GroupTopicSubscriptionResponse GetAllTopicSubscriptions()
@@ -179,7 +179,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTopicSubscriptionResponse GetTopicSubscriptionById(long topicSubscriptionId)
         {
-            return GenericGet<IndividualTopicSubscriptionResponse>(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
+            return GenericGet<IndividualTopicSubscriptionResponse>($"topic_subscriptions/{topicSubscriptionId}.json");
         }
 
         public IndividualTopicSubscriptionResponse CreateTopicSubscription(long userId, long topicId)
@@ -190,17 +190,17 @@ namespace ZendeskApi_v2.Requests
 
         public bool DeleteTopicSubscription(long topicSubscriptionId)
         {
-            return GenericDelete(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
+            return GenericDelete($"topic_subscriptions/{topicSubscriptionId}.json");
         }
 
         public GroupTopicVoteResponse GetTopicVotes(long topicId)
         {
-            return GenericGet<GroupTopicVoteResponse>(string.Format("topics/{0}/votes.json", topicId));
+            return GenericGet<GroupTopicVoteResponse>($"topics/{topicId}/votes.json");
         }
 
         public GroupTopicVoteResponse GetTopicVotesByUser(long userId)
         {
-            return GenericGet<GroupTopicVoteResponse>(string.Format("users/{0}/topic_votes.json", userId));
+            return GenericGet<GroupTopicVoteResponse>($"users/{userId}/topic_votes.json");
         }
 
         /// <summary>
@@ -210,17 +210,17 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualTopicVoteResponse CheckForVote(long topicId)
         {
-            return GenericGet<IndividualTopicVoteResponse>(string.Format("topics/{0}/vote.json", topicId));
+            return GenericGet<IndividualTopicVoteResponse>($"topics/{topicId}/vote.json");
         }
 
         public IndividualTopicVoteResponse CreateVote(long topicId)
         {
-            return GenericPost<IndividualTopicVoteResponse>(string.Format("topics/{0}/vote.json", topicId));
+            return GenericPost<IndividualTopicVoteResponse>($"topics/{topicId}/vote.json");
         }
 
         public bool DeleteVote(long topicId)
         {
-            return GenericDelete(string.Format("topics/{0}/vote.json", topicId));
+            return GenericDelete($"topics/{topicId}/vote.json");
         }
 #endif
 
@@ -232,22 +232,22 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualTopicResponse> GetTopicByIdAsync(long topicId)
         {
-            return await GenericGetAsync<IndividualTopicResponse>(string.Format("topics/{0}.json", topicId));
+            return await GenericGetAsync<IndividualTopicResponse>($"topics/{topicId}.json");
         }
 
         public async Task<GroupTopicResponse> GetMultipleTopicsByIdAsync(IEnumerable<long> topicIds)
         {
-            return await GenericPostAsync<GroupTopicResponse>(string.Format("topics/show_many?ids={0}.json", topicIds.ToCsv()));
+            return await GenericPostAsync<GroupTopicResponse>($"topics/show_many?ids={topicIds.ToCsv()}.json");
         }
 
         public async Task<GroupTopicResponse> GetTopicsByForumAsync(long forumId)
         {
-            return await GenericGetAsync<GroupTopicResponse>(string.Format("forums/{0}/topics.json", forumId));
+            return await GenericGetAsync<GroupTopicResponse>($"forums/{forumId}/topics.json");
         }
 
         public async Task<GroupTopicResponse> GetTopicsByUserAsync(long userId)
         {
-            return await GenericGetAsync<GroupTopicResponse>(string.Format("users/{0}/topics.json", userId));
+            return await GenericGetAsync<GroupTopicResponse>($"users/{userId}/topics.json");
         }
 
         public async Task<IndividualTopicResponse> CreateTopicAsync(Topic topic)
@@ -259,54 +259,54 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTopicResponse> UpdateTopicAsync(Topic topic)
         {
             var body = new { topic };
-            return await GenericPutAsync<IndividualTopicResponse>(string.Format("topics/{0}.json", topic.Id), body);
+            return await GenericPutAsync<IndividualTopicResponse>($"topics/{topic.Id}.json", body);
         }
 
         public async Task<bool> DeleteTopicAsync(long topicId)
         {
-            return await GenericDeleteAsync(string.Format("topics/{0}.json", topicId));
+            return await GenericDeleteAsync($"topics/{topicId}.json");
         }
 
         public async Task<GroupTopicCommentResponse> GetTopicCommentsByTopicIdAsync(long topicId)
         {
-            return await GenericGetAsync<GroupTopicCommentResponse>(string.Format("topics/{0}/comments.json", topicId));
+            return await GenericGetAsync<GroupTopicCommentResponse>($"topics/{topicId}/comments.json");
         }
 
         public async Task<GroupTopicCommentResponse> GetTopicCommentsByUserIdAsync(long userId)
         {
-            return await GenericGetAsync<GroupTopicCommentResponse>(string.Format("users/{0}/topic_comments.json", userId));
+            return await GenericGetAsync<GroupTopicCommentResponse>($"users/{userId}/topic_comments.json");
         }
 
         public async Task<IndividualTopicCommentResponse> GetSpecificTopicCommentByTopicAsync(long topicId, long commentId)
         {
-            return await GenericGetAsync<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
+            return await GenericGetAsync<IndividualTopicCommentResponse>($"topics/{topicId}/comments/{commentId}.json");
         }
 
         public async Task<IndividualTopicCommentResponse> GetSpecificTopicCommentByUserAsync(long userId, long commentId)
         {
-            return await GenericGetAsync<IndividualTopicCommentResponse>(string.Format("users/{0}/topic_comments/{1}.json", userId, commentId));
+            return await GenericGetAsync<IndividualTopicCommentResponse>($"users/{userId}/topic_comments/{commentId}.json");
         }
 
         public async Task<IndividualTopicCommentResponse> CreateTopicCommentAsync(long topicId, TopicComment topicComment)
         {
             var body = new { topic_comment = topicComment };
-            return await GenericPostAsync<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments.json", topicId), body);
+            return await GenericPostAsync<IndividualTopicCommentResponse>($"topics/{topicId}/comments.json", body);
         }
 
         public async Task<IndividualTopicCommentResponse> UpdateTopicCommentAsync(TopicComment topicComment)
         {
             var body = new { topic_comment = topicComment};
-            return await GenericPutAsync<IndividualTopicCommentResponse>(string.Format("topics/{0}/comments/{1}.json", topicComment.TopicId, topicComment.Id), body);
+            return await GenericPutAsync<IndividualTopicCommentResponse>($"topics/{topicComment.TopicId}/comments/{topicComment.Id}.json", body);
         }
 
         public async Task<bool> DeleteTopicCommentAsync(long topicId, long commentId)
         {
-            return await GenericDeleteAsync(string.Format("topics/{0}/comments/{1}.json", topicId, commentId));
+            return await GenericDeleteAsync($"topics/{topicId}/comments/{commentId}.json");
         }
 
         public async Task<GroupTopicSubscriptionResponse> GetTopicSubscriptionsByTopicAsync(long topicId)
         {
-            return await GenericGetAsync<GroupTopicSubscriptionResponse>(string.Format("topics/{0}/subscriptions.json", topicId));
+            return await GenericGetAsync<GroupTopicSubscriptionResponse>($"topics/{topicId}/subscriptions.json");
         }
 
         public async Task<GroupTopicSubscriptionResponse> GetAllTopicSubscriptionsAsync()
@@ -316,7 +316,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualTopicSubscriptionResponse> GetTopicSubscriptionByIdAsync(long topicSubscriptionId)
         {
-            return await GenericGetAsync<IndividualTopicSubscriptionResponse>(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
+            return await GenericGetAsync<IndividualTopicSubscriptionResponse>($"topic_subscriptions/{topicSubscriptionId}.json");
         }
 
         public async Task<IndividualTopicSubscriptionResponse> CreateTopicSubscriptionAsync(long userId, long topicId)
@@ -327,17 +327,17 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<bool> DeleteTopicSubscriptionAsync(long topicSubscriptionId)
         {
-            return await GenericDeleteAsync(string.Format("topic_subscriptions/{0}.json", topicSubscriptionId));
+            return await GenericDeleteAsync($"topic_subscriptions/{topicSubscriptionId}.json");
         }
 
         public async Task<GroupTopicVoteResponse> GetTopicVotesAsync(long topicId)
         {
-            return await GenericGetAsync<GroupTopicVoteResponse>(string.Format("topics/{0}/votes.json", topicId));
+            return await GenericGetAsync<GroupTopicVoteResponse>($"topics/{topicId}/votes.json");
         }
 
         public async Task<GroupTopicVoteResponse> GetTopicVotesByUserAsync(long userId)
         {
-            return await GenericGetAsync<GroupTopicVoteResponse>(string.Format("users/{0}/topic_votes.json", userId));
+            return await GenericGetAsync<GroupTopicVoteResponse>($"users/{userId}/topic_votes.json");
         }
 
         /// <summary>
@@ -347,17 +347,17 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<IndividualTopicVoteResponse> CheckForVoteAsync(long topicId)
         {
-            return await GenericGetAsync<IndividualTopicVoteResponse>(string.Format("topics/{0}/vote.json", topicId));
+            return await GenericGetAsync<IndividualTopicVoteResponse>($"topics/{topicId}/vote.json");
         }
 
         public async Task<IndividualTopicVoteResponse> CreateVoteAsync(long topicId)
         {
-            return await GenericPostAsync<IndividualTopicVoteResponse>(string.Format("topics/{0}/vote.json", topicId));
+            return await GenericPostAsync<IndividualTopicVoteResponse>($"topics/{topicId}/vote.json");
         }
 
         public async Task<bool> DeleteVoteAsync(long topicId)
         {
-            return await GenericDeleteAsync(string.Format("topics/{0}/vote.json", topicId));
+            return await GenericDeleteAsync($"topics/{topicId}/vote.json");
         }
 #endif
     }

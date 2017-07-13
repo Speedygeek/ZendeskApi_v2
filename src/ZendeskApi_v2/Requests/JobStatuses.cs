@@ -27,14 +27,14 @@ namespace ZendeskApi_v2.Requests
 #if SYNC
         public JobStatusResponse GetJobStatus(string id)
         {
-            return GenericGet<JobStatusResponse>(string.Format("job_statuses/{0}.json", id));
+            return GenericGet<JobStatusResponse>($"job_statuses/{id}.json");
         }
 #endif
 
 #if ASYNC
         public async Task<JobStatusResponse> GetJobStatusAsync(string id)
         {
-            return await GenericGetAsync<JobStatusResponse>(string.Format("job_statuses/{0}.json", id));
+            return await GenericGetAsync<JobStatusResponse>($"job_statuses/{id}.json");
         }
 #endif
     }

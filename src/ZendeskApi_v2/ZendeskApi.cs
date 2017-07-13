@@ -130,31 +130,31 @@ namespace ZendeskApi_v2
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
 
-            Tickets             = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Attachments         = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Brands              = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Views               = new Views(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Users               = new Users(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Requests            = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Groups              = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken);
-            CustomAgentRoles    = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Organizations       = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Search              = new Search(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Tags                = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Forums              = new Forums(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Categories          = new Categories(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Topics              = new Topics(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Tickets = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Attachments = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Brands = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Views = new Views(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Users = new Users(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Requests = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Groups = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken);
+            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Organizations = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Search = new Search(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Tags = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Forums = new Forums(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Categories = new Categories(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Topics = new Topics(formattedUrl, user, password, apiToken, p_OAuthToken);
             AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken, p_OAuthToken);
-            JobStatuses         = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Locales             = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Macros              = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken);
+            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Locales = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Macros = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken);
             SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken, p_OAuthToken);
-            SharingAgreements   = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Triggers            = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken);
-            HelpCenter          = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
-            Voice               = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Schedules           = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken);
-            Targets             = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken);
+            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Triggers = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken);
+            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken);
+            Voice = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Schedules = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Targets = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken);
 
             ZendeskUrl = formattedUrl;
         }
@@ -172,29 +172,29 @@ namespace ZendeskApi_v2
         {
             if (proxy == null) return;
 
-            ((Tickets)Tickets).Proxy                              = proxy;
-            ((Attachments)Attachments).Proxy                      = proxy;
-            ((Brands)Brands).Proxy                                = proxy;
-            ((Views)Views).Proxy                                  = proxy;
-            ((Users)Users).Proxy                                  = proxy;
-            ((Requests.Requests)Requests).Proxy                   = proxy;
-            ((Groups)Groups).Proxy                                = proxy;
-            ((CustomAgentRoles)CustomAgentRoles).Proxy            = proxy;
-            ((Organizations)Organizations).Proxy                  = proxy;
-            ((Search)Search).Proxy                                = proxy;
-            ((Tags)Tags).Proxy                                    = proxy;
-            ((Forums)Forums).Proxy                                = proxy;
+            ((Tickets)Tickets).Proxy = proxy;
+            ((Attachments)Attachments).Proxy = proxy;
+            ((Brands)Brands).Proxy = proxy;
+            ((Views)Views).Proxy = proxy;
+            ((Users)Users).Proxy = proxy;
+            ((Requests.Requests)Requests).Proxy = proxy;
+            ((Groups)Groups).Proxy = proxy;
+            ((CustomAgentRoles)CustomAgentRoles).Proxy = proxy;
+            ((Organizations)Organizations).Proxy = proxy;
+            ((Search)Search).Proxy = proxy;
+            ((Tags)Tags).Proxy = proxy;
+            ((Forums)Forums).Proxy = proxy;
             ((ZendeskApi_v2.Requests.Categories)Categories).Proxy = proxy;
-            ((Topics)Topics).Proxy                                = proxy;
-            ((AccountsAndActivity)AccountsAndActivity).Proxy      = proxy;
-            ((JobStatuses)JobStatuses).Proxy                      = proxy;
-            ((Locales)Locales).Proxy                              = proxy;
-            ((Macros)Macros).Proxy                                = proxy;
-            ((SatisfactionRatings)SatisfactionRatings).Proxy      = proxy;
-            ((SharingAgreements)SharingAgreements).Proxy          = proxy;
-            ((Triggers)Triggers).Proxy                            = proxy;
-            ((Voice)Voice).Proxy                                  = proxy;
-            ((Schedules)Schedules).Proxy                          = proxy;
+            ((Topics)Topics).Proxy = proxy;
+            ((AccountsAndActivity)AccountsAndActivity).Proxy = proxy;
+            ((JobStatuses)JobStatuses).Proxy = proxy;
+            ((Locales)Locales).Proxy = proxy;
+            ((Macros)Macros).Proxy = proxy;
+            ((SatisfactionRatings)SatisfactionRatings).Proxy = proxy;
+            ((SharingAgreements)SharingAgreements).Proxy = proxy;
+            ((Triggers)Triggers).Proxy = proxy;
+            ((Voice)Voice).Proxy = proxy;
+            ((Schedules)Schedules).Proxy = proxy;
             ((Targets)Targets).Proxy = proxy;
         }
 

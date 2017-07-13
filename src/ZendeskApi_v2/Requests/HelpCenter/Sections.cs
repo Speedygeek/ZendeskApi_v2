@@ -46,29 +46,29 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
         public GroupSectionResponse GetSectionsByCategoryId(long categoryId)
         {
-            return GenericGet<GroupSectionResponse>(string.Format("help_center/categories/{0}/sections.json?include=access_policies", categoryId));
+            return GenericGet<GroupSectionResponse>($"help_center/categories/{categoryId}/sections.json?include=access_policies");
         }
 
         public IndividualSectionResponse GetSectionById(long id)
         {
-            return GenericGet<IndividualSectionResponse>(string.Format("help_center/sections/{0}.json?include=access_policies", id));
+            return GenericGet<IndividualSectionResponse>($"help_center/sections/{id}.json?include=access_policies");
         }
 
         public IndividualSectionResponse CreateSection(Section section)
         {
             var body = new { section };
-            return GenericPost<IndividualSectionResponse>(string.Format("help_center/categories/{0}/sections.json?include=access_policies", section.CategoryId), body);
+            return GenericPost<IndividualSectionResponse>($"help_center/categories/{section.CategoryId}/sections.json?include=access_policies", body);
         }
 
         public IndividualSectionResponse UpdateSection(Section section)
         {
             var body = new { section };
-            return GenericPut<IndividualSectionResponse>(string.Format("help_center/sections/{0}.json?include=access_policies", section.Id), body);
+            return GenericPut<IndividualSectionResponse>($"help_center/sections/{section.Id}.json?include=access_policies", body);
         }
 
         public bool DeleteSection(long id)
         {
-            return GenericDelete(string.Format("help_center/sections/{0}.json?include=access_policies", id));
+            return GenericDelete($"help_center/sections/{id}.json?include=access_policies");
         }
 
 #endif
@@ -82,29 +82,29 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<GroupSectionResponse> GetSectionsByCategoryIdAsync(long categoryId)
         {
-            return await GenericGetAsync<GroupSectionResponse>(string.Format("help_center/categories/{0}/sections.json?include=access_policies", categoryId));
+            return await GenericGetAsync<GroupSectionResponse>($"help_center/categories/{categoryId}/sections.json?include=access_policies");
         }
 
         public async Task<IndividualSectionResponse> GetSectionByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualSectionResponse>(string.Format("help_center/sections/{0}.json?include=access_policies", id));
+            return await GenericGetAsync<IndividualSectionResponse>($"help_center/sections/{id}.json?include=access_policies");
         }
 
         public async Task<IndividualSectionResponse> CreateSectionAsync(Section section)
         {
             var body = new { section };
-            return await GenericPostAsync<IndividualSectionResponse>(string.Format("help_center/categories/{0}/sections.json?include=access_policies", section.CategoryId), body);
+            return await GenericPostAsync<IndividualSectionResponse>($"help_center/categories/{section.CategoryId}/sections.json?include=access_policies", body);
         }
 
         public async Task<IndividualSectionResponse> UpdateSectionAsync(Section section)
         {
             var body = new { section };
-            return await GenericPutAsync<IndividualSectionResponse>(string.Format("help_center/sections/{0}.json?include=access_policies", section.Id), body);
+            return await GenericPutAsync<IndividualSectionResponse>($"help_center/sections/{section.Id}.json?include=access_policies", body);
         }
 
         public async Task<bool> DeleteSectionAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("help_center/sections/{0}.json?include=access_policies", id));
+            return await GenericDeleteAsync($"help_center/sections/{id}.json?include=access_policies");
         }
 
 #endif

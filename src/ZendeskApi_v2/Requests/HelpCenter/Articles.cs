@@ -51,29 +51,34 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
     public class Articles : Core, IArticles
     {
-        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+        private readonly string urlPrefix = "help_center";
+        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string locale)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
+            if (!locale.IsNullOrWhiteSpace())
+            {
+                urlPrefix = $"{urlPrefix}/{locale}";
+            }
         }
 
 #if SYNC
         public IndividualArticleResponse GetArticle(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None)
         {
-            var resourceUrl = this.GetFormattedArticleUri(string.Format("help_center/articles/{0}.json", articleId), sideloadOptions);
+            var resourceUrl = this.GetFormattedArticleUri($"{urlPrefix}/articles/{articleId}.json", sideloadOptions);
 
             return GenericGet<IndividualArticleResponse>(resourceUrl);
         }
 
         public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
         {
-            var resourceUrl = this.GetFormattedArticlesUri("help_center/articles.json", options, sideloadOptions);
+            var resourceUrl = this.GetFormattedArticlesUri($"{urlPrefix}/articles.json", options, sideloadOptions);
 
             return GenericPagedGet<GroupArticleResponse>(resourceUrl, perPage, page);
         }
 
         public GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
-            var uri = string.Format("help_center/categories/{0}/articles.json", categoryId);
+            var uri = $"{urlPrefix}/categories/{categoryId}/articles.json";
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return GenericGet<GroupArticleResponse>(resourceUrl);
@@ -81,73 +86,63 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
-            var uri = string.Format("help_center/sections/{0}/articles.json", sectionId);
+            var uri = $"{urlPrefix}/sections/{sectionId}/articles.json";
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return GenericGet<GroupArticleResponse>(resourceUrl);
         }
         public GroupArticleResponse GetArticlesByUserId(long userId)
         {
-            return GenericGet<GroupArticleResponse>(string.Format("help_center/users/{0}/articles.json", userId));
+            return GenericGet<GroupArticleResponse>($"help_center/users/{userId}/articles.json");
         }
 
         public GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime)
         {
-            return GenericGet<GroupArticleResponse>(string.Format("help_center/incremental/articles.json?start_time={0}", startTime.GetEpoch()));
+            return GenericGet<GroupArticleResponse>($"help_center/incremental/articles.json?start_time={startTime.GetEpoch()}");
         }
 
         public ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null)
         {
-            return GenericGet<ArticleSearchResults>(
-                string.Format("help_center/articles/search.json?query={0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
-                             query,
-                             string.IsNullOrEmpty(category) ? "" : "&category=" + category,
-                             string.IsNullOrEmpty(section) ? "" : "&section=" + section,
-                             string.IsNullOrEmpty(labels) ? "" : "&label_names=" + labels,
-                             string.IsNullOrEmpty(locale) ? "" : "&locale=" + locale,
-                             !createdBefore.HasValue ? "" : "&created_before=" + createdBefore.Value.ToString("yyyy-MM-dd"),
-                             !createdAfter.HasValue ? "" : "&created_after=" + createdAfter.Value.ToString("yyyy-MM-dd"),
-                             !createdAt.HasValue ? "" : "&created_at=" + createdAt.Value.ToString("yyyy-MM-dd"),
-                             !updatedBefore.HasValue ? "" : "&updated_before=" + updatedBefore.Value.ToString("yyyy-MM-dd"),
-                             !updatedAfter.HasValue ? "" : "&updated_after=" + updatedAfter.Value.ToString("yyyy-MM-dd"),
-                             !updatedAt.HasValue ? "" : "&updated_at=" + updatedAt.Value.ToString("yyyy-MM-dd")));
+            var querystringParams = new Dictionary<string, string> { { "category", category }, { "section", section }, { "label_names", labels },
+                { "locale", locale },{ "created_before", $"{createdBefore:yyyy-MM-dd}" }, {"created_after" , $"{createdAfter:yyyy-MM-dd}" },
+                { "created_at", $"{createdAt:yyyy-MM-dd}"}, { "updated_before", $"{updatedBefore:yyyy-MM-dd}"}, {"updated_after" , $"{updatedAfter:yyyy-MM-dd}" },{ "updated_at", $"{updatedAt:yyyy-MM-dd}"} };
+
+            return GenericGet<ArticleSearchResults>($"help_center/articles/search.json?query={query}&{querystringParams.GetQueryString()}");
         }
 
         public IndividualArticleResponse CreateArticle(long sectionId, Article article)
         {
-            var body = new { article };
-            return GenericPost<IndividualArticleResponse>(string.Format("help_center/sections/{0}/articles.json", sectionId), body);
+            return GenericPost<IndividualArticleResponse>($"{urlPrefix}/sections/{sectionId}/articles.json", new { article });
         }
 
         public IndividualArticleResponse UpdateArticle(Article article)
         {
-            var body = new { article };
-            return GenericPut<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", article.Id), body);
+            return GenericPut<IndividualArticleResponse>($"{urlPrefix}/articles/{article.Id}.json", new { article });
         }
 
         public bool DeleteArticle(long id)
         {
-            return GenericDelete(string.Format("help_center/articles/{0}.json", id));
+            return GenericDelete($"help_center/articles/{id}.json");
         }
 #endif
 #if ASYNC
         public async Task<IndividualArticleResponse> GetArticleAsync(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None)
         {
-            var resourceUrl = this.GetFormattedArticleUri(string.Format("help_center/articles/{0}.json", articleId), sideloadOptions);
+            var resourceUrl = this.GetFormattedArticleUri($"{urlPrefix}/articles/{articleId}.json", sideloadOptions);
 
             return await GenericGetAsync<IndividualArticleResponse>(resourceUrl);
         }
 
         public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
         {
-            var resourceUrl = this.GetFormattedArticlesUri("help_center/articles.json", options, sideloadOptions);
+            var resourceUrl = this.GetFormattedArticlesUri($"{urlPrefix}/articles.json", options, sideloadOptions);
 
             return await GenericPagedGetAsync<GroupArticleResponse>(resourceUrl, perPage, page);
         }
 
         public async Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
-            var uri = string.Format("help_center/categories/{0}/articles.json", categoryId);
+            var uri = $"{urlPrefix}/categories/{categoryId}/articles.json";
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
@@ -155,7 +150,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
-            var uri = string.Format("help_center/sections/{0}/articles.json", sectionId);
+            var uri = $"{urlPrefix}/sections/{sectionId}/articles.json";
             var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
@@ -163,46 +158,37 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<GroupArticleResponse> GetArticlesByUserIdAsync(long userId)
         {
-            return await GenericGetAsync<GroupArticleResponse>(string.Format("help_center/users/{0}/articles.json", userId));
+            return await GenericGetAsync<GroupArticleResponse>($"help_center/users/{userId}/articles.json");
         }
 
         public async Task<GroupArticleResponse> GetArticlesSinceDateTimeAsync(DateTime startTime)
         {
-            return await GenericGetAsync<GroupArticleResponse>(string.Format("help_center/incremental/articles.json?start_time={0}", startTime.GetEpoch()));
+            return await GenericGetAsync<GroupArticleResponse>($"help_center/incremental/articles.json?start_time={startTime.GetEpoch()}");
         }
 
         public async Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null)
         {
-            return await GenericGetAsync<ArticleSearchResults>(
-                string.Format("help_center/articles/search.json?query={0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
-                             query,
-                             string.IsNullOrEmpty(category) ? "" : "&category=" + category,
-                             string.IsNullOrEmpty(section) ? "" : "&section=" + section,
-                             string.IsNullOrEmpty(labels) ? "" : "&label_names=" + labels,
-                             string.IsNullOrEmpty(locale) ? "" : "&locale=" + locale,
-                             !createdBefore.HasValue ? "" : "&created_before=" + createdBefore.Value.ToString("yyyy-MM-dd"),
-                             !createdAfter.HasValue ? "" : "&created_after=" + createdAfter.Value.ToString("yyyy-MM-dd"),
-                             !createdAt.HasValue ? "" : "&created_at=" + createdAt.Value.ToString("yyyy-MM-dd"),
-                             !updatedBefore.HasValue ? "" : "&updated_before=" + updatedBefore.Value.ToString("yyyy-MM-dd"),
-                             !updatedAfter.HasValue ? "" : "&updated_after=" + updatedAfter.Value.ToString("yyyy-MM-dd"),
-                             !updatedAt.HasValue ? "" : "&updated_at=" + updatedAt.Value.ToString("yyyy-MM-dd")));
+            var querystringParams = new Dictionary<string, string> { { "category", category }, { "section", section }, { "label_names", labels },
+                { "locale", locale },{ "created_before", $"{createdBefore.Value:yyyy-MM-dd}" }, {"created_after" , $"{createdAfter:yyyy-MM-dd}" },
+                { "created_at", $"{createdAt:yyyy-MM-dd}"}, { "updated_before", $"{updatedBefore:yyyy-MM-dd}"}, {"updated_after" , $"{updatedAfter:yyyy-MM-dd}" },
+                { "updated_at", $"{updatedAt:yyyy-MM-dd}"} };
+
+            return await GenericGetAsync<ArticleSearchResults>($"help_center/articles/search.json?query={query}&{querystringParams.GetQueryString()}");
         }
 
         public async Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article)
         {
-            var body = new { article };
-            return await GenericPostAsync<IndividualArticleResponse>(string.Format("help_center/sections/{0}/articles.json", sectionId), body);
+            return await GenericPostAsync<IndividualArticleResponse>($"{urlPrefix}/sections/{sectionId}/articles.json", new { article });
         }
 
         public async Task<IndividualArticleResponse> UpdateArticleAsync(Article article)
         {
-            var body = new { article };
-            return await GenericPutAsync<IndividualArticleResponse>(string.Format("help_center/articles/{0}.json", article.Id), body);
+            return await GenericPutAsync<IndividualArticleResponse>($"{urlPrefix}/articles/{article.Id}.json", new { article });
         }
 
         public async Task<bool> DeleteArticleAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("help_center/articles/{0}.json", id));
+            return await GenericDeleteAsync($"help_center/articles/{id}.json");
         }
 #endif
 
@@ -211,12 +197,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             if (options != null)
             {
                 if (string.IsNullOrEmpty(options.Locale))
+                {
                     throw new ArgumentException("Locale is required to sort");
+                }
 
-                resourceUrl = options.GetSortingString(resourceUrl);
+                resourceUrl = options.GetSortingString(resourceUrl, urlPrefix);
             }
 
-            string sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
+            var sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
             if (sideloadOptions != ArticleSideLoadOptionsEnum.None)
             {
                 resourceUrl += resourceUrl.Contains("?") ? "&include=" : "?include=";
@@ -224,7 +212,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
                 //Categories flag REQUIRES sections to be added as well, or nothing will be returned
                 if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections))
                 {
-                    sideLoads += string.Format(",{0}", ArticleSideLoadOptionsEnum.Sections.ToString().ToLower());
+                    sideLoads += $",{ArticleSideLoadOptionsEnum.Sections.ToString().ToLower()}";
                 }
 
                 resourceUrl += sideLoads;
@@ -235,7 +223,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         private string GetFormattedArticleUri(string resourceUrl, ArticleSideLoadOptionsEnum sideloadOptions)
         {
 
-            string sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
+            var sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
             if (sideloadOptions != ArticleSideLoadOptionsEnum.None)
             {
                 resourceUrl += resourceUrl.Contains("?") ? "&include=" : "?include=";
@@ -243,7 +231,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
                 //Categories flag REQUIRES sections to be added as well, or nothing will be returned
                 if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections))
                 {
-                    sideLoads += string.Format(",{0}", ArticleSideLoadOptionsEnum.Sections.ToString().ToLower());
+                    sideLoads += $",{ArticleSideLoadOptionsEnum.Sections.ToString().ToLower()}";
                 }
 
                 resourceUrl += sideLoads;

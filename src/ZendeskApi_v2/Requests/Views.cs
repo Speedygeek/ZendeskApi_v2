@@ -61,12 +61,12 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualViewResponse GetView(long id)
         {
-            return GenericGet<IndividualViewResponse>(string.Format("views/{0}.json", id));
+            return GenericGet<IndividualViewResponse>($"views/{id}.json");
         }
 
         public ExecutedViewResponse ExecuteView(long id, string sortCol = "", bool ascending = true, int? perPage = null, int? page = null)
         {
-            var resource = string.Format("views/{0}/execute.json", id);
+            var resource = $"views/{id}/execute.json";
 
             return GenericPagedSortedGet<ExecutedViewResponse>(resource, perPage, page, sortCol, ascending);
         }
@@ -78,12 +78,12 @@ namespace ZendeskApi_v2.Requests
 
         public GroupViewCountResponse GetViewCounts(IEnumerable<long> viewIds)
         {
-            return GenericGet<GroupViewCountResponse>(string.Format("views/count_many.json?ids={0}", viewIds.ToCsv()));
+            return GenericGet<GroupViewCountResponse>($"views/count_many.json?ids={viewIds.ToCsv()}");
         }
 
         public IndividualViewCountResponse GetViewCount(long viewId)
         {
-            return GenericGet<IndividualViewCountResponse>(string.Format("views/{0}/count.json", viewId));
+            return GenericGet<IndividualViewCountResponse>($"views/{viewId}/count.json");
         }
 #endif
 
@@ -105,12 +105,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualViewResponse> GetViewAsync(long id)
         {
-            return await GenericGetAsync<IndividualViewResponse>(string.Format("views/{0}.json", id));
+            return await GenericGetAsync<IndividualViewResponse>($"views/{id}.json");
         }
 
         public async Task<ExecutedViewResponse> ExecuteViewAsync(long id, string sortCol = "", bool ascending = true, int? perPage = null, int? page = null)
         {
-            var resource = string.Format("views/{0}/execute.json", id);
+            var resource = $"views/{id}/execute.json";
 
             return await GenericPagedSortedGetAsync<ExecutedViewResponse>(resource, page, perPage, sortCol, ascending);
         }
@@ -122,12 +122,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupViewCountResponse> GetViewCountsAsync(IEnumerable<long> viewIds)
         {
-            return await GenericGetAsync<GroupViewCountResponse>(string.Format("views/count_many.json?ids={0}", viewIds.ToCsv()));
+            return await GenericGetAsync<GroupViewCountResponse>($"views/count_many.json?ids={viewIds.ToCsv()}");
         }
 
         public async Task<IndividualViewCountResponse> GetViewCountAsync(long viewId)
         {
-            return await GenericGetAsync<IndividualViewCountResponse>(string.Format("views/{0}/count.json", viewId));
+            return await GenericGetAsync<IndividualViewCountResponse>($"views/{viewId}/count.json");
         }
 #endif
     }

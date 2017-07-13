@@ -43,12 +43,12 @@ namespace ZendeskApi_v2.Requests
 #if SYNC
         public bool OpenUserProfileInAgentBrowser(long agentId, long userId)
         {
-            return GenericBoolPost(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, users, userId, display));
+            return GenericBoolPost($"{channelsVoiceAgent}/{agentId}/{users}/{userId}/{display}.json");
         }
 
         public bool OpenTicketInAgentBrowser(long agentId, long ticketId)
         {
-            return GenericBoolPost(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, tickets, ticketId, display));
+            return GenericBoolPost($"{channelsVoiceAgent}/{agentId}/{tickets}/{ticketId}/{display}.json");
         }
 
         public GroupAgentActivityResponse GetVoiceAgentActivity()
@@ -66,12 +66,12 @@ namespace ZendeskApi_v2.Requests
 #if ASYNC
         public async Task<bool> OpenUserProfileInAgentBrowserAsync(long agentId, long userId)
         {
-            return await GenericBoolPostAsync(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, users, userId, display));
+            return await GenericBoolPostAsync($"{channelsVoiceAgent}/{agentId}/{users}/{userId}/{display}.json");
         }
 
         public async Task<bool> OpenTicketInAgentBrowserAsync(long agentId, long ticketId)
         {
-            return await GenericBoolPostAsync(string.Format("{0}/{1}/{2}/{3}/{4}.json", channelsVoiceAgent, agentId, tickets, ticketId, display));
+            return await GenericBoolPostAsync($"{channelsVoiceAgent}/{agentId}/{tickets}/{ticketId}/{display}.json");
         }
 
         public async Task<GroupAgentActivityResponse> GetVoiceAgentActivityAsync()

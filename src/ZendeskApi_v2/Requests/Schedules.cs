@@ -52,7 +52,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualScheduleResponse GetSchedule(long id)
         {
-            return GenericGet<IndividualScheduleResponse>(string.Format("business_hours/schedules/{0}.json", id));
+            return GenericGet<IndividualScheduleResponse>($"business_hours/schedules/{id}.json");
         }
 
         public IndividualScheduleResponse CreateSchedule(Schedule schedule)
@@ -64,45 +64,45 @@ namespace ZendeskApi_v2.Requests
         public IndividualScheduleResponse UpdateSchedule(Schedule schedule)
         {
             var body = new { schedule };
-            return GenericPut<IndividualScheduleResponse>(string.Format("business_hours/schedules/{0}.json", schedule.Id), body);
+            return GenericPut<IndividualScheduleResponse>($"business_hours/schedules/{schedule.Id}.json", body);
         }
 
         public bool DeleteSchedule(long id)
         {
-            return GenericDelete(string.Format("business_hours/schedules/{0}.json", id));
+            return GenericDelete($"business_hours/schedules/{id}.json");
         }
 
         public IndividualScheduleWorkWeekResponse UpdateIntervals(long scheduleId, WorkWeek workweek)
         {
             var body = new { workweek };
-            return GenericPut<IndividualScheduleWorkWeekResponse>(string.Format("business_hours/schedules/{0}/workweek.json", scheduleId), body);
+            return GenericPut<IndividualScheduleWorkWeekResponse>($"business_hours/schedules/{scheduleId}/workweek.json", body);
         }
 
         public GroupScheduleHolidayResponse GetHolidaysByScheduleId(long scheduleId)
         {
-            return GenericGet<GroupScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays.json", scheduleId));
+            return GenericGet<GroupScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays.json");
         }
 
         public IndividualScheduleHolidayResponse GetHolidayByIdAndScheduleId(long holidayId, long scheduleId)
         {
-            return GenericGet<IndividualScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holidayId));
+            return GenericGet<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays/{holidayId}.json");
         }
 
         public IndividualScheduleHolidayResponse CreateHoliday(long scheduleId, Holiday holiday)
         {
             var body = new { holiday };
-            return GenericPost<IndividualScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays.json", scheduleId), body);
+            return GenericPost<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays.json", body);
         }
 
         public IndividualScheduleHolidayResponse UpdateHoliday(long scheduleId, Holiday holiday)
         {
             var body = new { holiday };
-            return GenericPut<IndividualScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holiday.Id), body);
+            return GenericPut<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays/{holiday.Id}.json", body);
         }
 
         public bool DeleteHoliday(long scheduleId, long holidayId)
         {
-            return GenericDelete(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holidayId));
+            return GenericDelete($"business_hours/schedules/{scheduleId}/holidays/{holidayId}.json");
         }
 #endif
 
@@ -114,7 +114,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualScheduleResponse> GetScheduleAsync(long id)
         {
-            return await GenericGetAsync<IndividualScheduleResponse>(string.Format("business_hours/schedules/{0}.json", id));
+            return await GenericGetAsync<IndividualScheduleResponse>($"business_hours/schedules/{id}.json");
         }
 
         public async Task<IndividualScheduleResponse> CreateScheduleAsync(Schedule schedule)
@@ -126,45 +126,45 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualScheduleResponse> UpdateScheduleAsync(Schedule schedule)
         {
             var body = new { schedule };
-            return await GenericPutAsync<IndividualScheduleResponse>(string.Format("business_hours/schedules/{0}.json", schedule.Id), body);
+            return await GenericPutAsync<IndividualScheduleResponse>($"business_hours/schedules/{schedule.Id}.json", body);
         }
 
         public async Task<bool> DeleteScheduleAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("business_hours/schedules/{0}.json", id));
+            return await GenericDeleteAsync($"business_hours/schedules/{id}.json");
         }
 
         public async Task<IndividualScheduleWorkWeekResponse> UpdateIntervalsAsync(long scheduleId, WorkWeek workweek)
         {
             var body = new { workweek };
-            return await GenericPutAsync<IndividualScheduleWorkWeekResponse>(string.Format("business_hours/schedules/{0}/workweek.json", scheduleId), body);
+            return await GenericPutAsync<IndividualScheduleWorkWeekResponse>($"business_hours/schedules/{scheduleId}/workweek.json", body);
         }
 
         public async Task<GroupScheduleHolidayResponse> GetHolidaysByScheduleIdAsync(long scheduleId)
         {
-            return await GenericGetAsync<GroupScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays.json", scheduleId));
+            return await GenericGetAsync<GroupScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays.json");
         }
 
         public async Task<IndividualScheduleHolidayResponse> GetHolidayByIdAndScheduleIdAsync(long holidayId, long scheduleId)
         {
-            return await GenericGetAsync<IndividualScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holidayId));
+            return await GenericGetAsync<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays/{holidayId}.json");
         }
 
         public async Task<IndividualScheduleHolidayResponse> CreateHolidayAsync(long scheduleId, Holiday holiday)
         {
             var body = new { holiday };
-            return await GenericPostAsync<IndividualScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays.json", scheduleId), body);
+            return await GenericPostAsync<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays.json", body);
         }
 
         public async Task<IndividualScheduleHolidayResponse> UpdateHolidayAsync(long scheduleId, Holiday holiday)
         {
             var body = new { holiday };
-            return await GenericPutAsync<IndividualScheduleHolidayResponse>(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holiday.Id), body);
+            return await GenericPutAsync<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays/{holiday.Id}.json", body);
         }
 
         public async Task<bool> DeleteHolidayAsync(long scheduleId, long holidayId)
         {
-            return await GenericDeleteAsync(string.Format("business_hours/schedules/{0}/holidays/{1}.json", scheduleId, holidayId));
+            return await GenericDeleteAsync($"business_hours/schedules/{scheduleId}/holidays/{holidayId}.json");
         }
 #endif
     }

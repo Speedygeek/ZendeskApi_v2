@@ -31,15 +31,13 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if SYNC
         public IndividualAccessPolicyResponse UpdateSectionAccessPolicy(Section section)
         {
-            var body = new { access_policy = section.AccessPolicy };
-            return GenericPut<IndividualAccessPolicyResponse>(string.Format("help_center/sections/{0}/access_policy.json", section.Id), body);
+            return GenericPut<IndividualAccessPolicyResponse>($"help_center/sections/{section.Id}/access_policy.json", new { access_policy = section.AccessPolicy });
         }
 #endif
 #if ASYNC
         public async Task<IndividualAccessPolicyResponse> UpdateSectionAccessPolicyAsync(Section section)
         {
-            var body = new { access_policy = section.AccessPolicy };
-            return await GenericPutAsync<IndividualAccessPolicyResponse>(string.Format("help_center/sections/{0}/access_policy.json", section.Id), body);
+            return await GenericPutAsync<IndividualAccessPolicyResponse>($"help_center/sections/{section.Id}/access_policy.json", new { access_policy = section.AccessPolicy });
         }
 #endif
     }
