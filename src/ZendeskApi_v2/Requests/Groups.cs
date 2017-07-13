@@ -82,7 +82,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualGroupResponse GetGroupById(long id)
         {
-            return GenericGet<IndividualGroupResponse>(string.Format("groups/{0}.json", id));
+            return GenericGet<IndividualGroupResponse>($"groups/{id}.json");
         }
 
         public IndividualGroupResponse CreateGroup(string groupName)
@@ -94,12 +94,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualGroupResponse UpdateGroup(Group group)
         {
             var body = new { group };
-            return GenericPut<IndividualGroupResponse>(string.Format("groups/{0}.json", group.Id), body);
+            return GenericPut<IndividualGroupResponse>($"groups/{group.Id}.json", body);
         }
         
         public bool DeleteGroup(long id)
         {            
-            return GenericDelete(string.Format("groups/{0}.json", id));
+            return GenericDelete($"groups/{id}.json");
         }
 
 
@@ -111,12 +111,12 @@ namespace ZendeskApi_v2.Requests
 
         public MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId)
         {
-            return GenericGet<MultipleGroupMembershipResponse>(string.Format("users/{0}/group_memberships.json", userId));
+            return GenericGet<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships.json");
         }
 
         public MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId)
         {
-            return GenericGet<MultipleGroupMembershipResponse>(string.Format("groups/{0}/memberships.json", groupId));
+            return GenericGet<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships.json");
         }
 
         public MultipleGroupMembershipResponse GetAssignableGroupMemberships()
@@ -126,17 +126,17 @@ namespace ZendeskApi_v2.Requests
 
         public MultipleGroupMembershipResponse GetAssignableGroupMembershipsByGroup(long groupId)
         {
-            return GenericGet<MultipleGroupMembershipResponse>(string.Format("groups/{0}/memberships/assignable.json", groupId));
+            return GenericGet<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships/assignable.json");
         }
 
         public IndividualGroupMembershipResponse GetGroupMembershipsByMembershipId(long groupMembershipId)
         {
-            return GenericGet<IndividualGroupMembershipResponse>(string.Format("group_memberships/{0}.json", groupMembershipId));
+            return GenericGet<IndividualGroupMembershipResponse>($"group_memberships/{groupMembershipId}.json");
         }
 
         public IndividualGroupMembershipResponse GetGroupMembershipsByUserAndMembershipId(long userId, long groupMembershipId)
         {
-            return GenericGet<IndividualGroupMembershipResponse>(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
+            return GenericGet<IndividualGroupMembershipResponse>($"users/{userId}/group_memberships/{groupMembershipId}.json");
         }
 
         /// <summary>
@@ -152,17 +152,17 @@ namespace ZendeskApi_v2.Requests
 
         public MultipleGroupMembershipResponse SetGroupMembershipAsDefault(long userId, long groupMembershipId)
         {
-            return GenericPut<MultipleGroupMembershipResponse>(string.Format("users/{0}/group_memberships/{1}/make_default.json", userId, groupMembershipId));
+            return GenericPut<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships/{groupMembershipId}/make_default.json");
         }
 
         public bool DeleteGroupMembership(long groupMembershipId)
         {            
-            return GenericDelete(string.Format("group_memberships/{0}.json", groupMembershipId));
+            return GenericDelete($"group_memberships/{groupMembershipId}.json");
         }
 
         public bool DeleteUserGroupMembership(long userId, long groupMembershipId)
         {
-            return GenericDelete(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
+            return GenericDelete($"users/{userId}/group_memberships/{groupMembershipId}.json");
         }
 #endif
 
@@ -179,7 +179,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualGroupResponse> GetGroupByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualGroupResponse>(string.Format("groups/{0}.json", id));
+            return await GenericGetAsync<IndividualGroupResponse>($"groups/{id}.json");
         }
 
         public async Task<IndividualGroupResponse> CreateGroupAsync(string groupName)
@@ -191,12 +191,12 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualGroupResponse> UpdateGroupAsync(Group group)
         {
             var body = new { group };
-            return await GenericPutAsync<IndividualGroupResponse>(string.Format("groups/{0}.json", group.Id), body);
+            return await GenericPutAsync<IndividualGroupResponse>($"groups/{group.Id}.json", body);
         }
 
         public async Task<bool> DeleteGroupAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("groups/{0}.json", id));
+            return await GenericDeleteAsync($"groups/{id}.json");
         }
 
         public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsAsync()
@@ -206,12 +206,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId)
         {
-            return await GenericGetAsync<MultipleGroupMembershipResponse>(string.Format("users/{0}/group_memberships.json", userId));
+            return await GenericGetAsync<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships.json");
         }
 
         public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId)
         {
-            return await GenericGetAsync<MultipleGroupMembershipResponse>(string.Format("groups/{0}/memberships.json", groupId));
+            return await GenericGetAsync<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships.json");
         }
 
         public async Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync()
@@ -221,17 +221,17 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsByGroupAsync(long groupId)
         {
-            return await GenericGetAsync<MultipleGroupMembershipResponse>(string.Format("groups/{0}/memberships/assignable.json", groupId));
+            return await GenericGetAsync<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships/assignable.json");
         }
 
         public async Task<IndividualGroupMembershipResponse> GetGroupMembershipsByMembershipIdAsync(long groupMembershipId)
         {
-            return await GenericGetAsync<IndividualGroupMembershipResponse>(string.Format("group_memberships/{0}.json", groupMembershipId));
+            return await GenericGetAsync<IndividualGroupMembershipResponse>($"group_memberships/{groupMembershipId}.json");
         }
 
         public async Task<IndividualGroupMembershipResponse> GetGroupMembershipsByUserAndMembershipIdAsync(long userId, long groupMembershipId)
         {
-            return await GenericGetAsync<IndividualGroupMembershipResponse>(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
+            return await GenericGetAsync<IndividualGroupMembershipResponse>($"users/{userId}/group_memberships/{groupMembershipId}.json");
         }
 
         /// <summary>
@@ -247,17 +247,17 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<MultipleGroupMembershipResponse> SetGroupMembershipAsDefaultAsync(long userId, long groupMembershipId)
         {
-            return await GenericPutAsync<MultipleGroupMembershipResponse>(string.Format("users/{0}/group_memberships/{1}/make_default.json", userId, groupMembershipId));
+            return await GenericPutAsync<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships/{groupMembershipId}/make_default.json");
         }
 
         public async Task<bool> DeleteGroupMembershipAsync(long groupMembershipId)
         {
-            return await GenericDeleteAsync(string.Format("group_memberships/{0}.json", groupMembershipId));
+            return await GenericDeleteAsync($"group_memberships/{groupMembershipId}.json");
         }
 
         public async Task<bool> DeleteUserGroupMembershipAsync(long userId, long groupMembershipId)
         {
-            return await GenericDeleteAsync(string.Format("users/{0}/group_memberships/{1}.json", userId, groupMembershipId));
+            return await GenericDeleteAsync($"users/{userId}/group_memberships/{groupMembershipId}.json");
         }
 #endif
     }

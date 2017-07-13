@@ -51,12 +51,12 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualForumResponse GetForumById(long forumId)
         {
-            return GenericGet<IndividualForumResponse>(string.Format("forums/{0}.json", forumId));
+            return GenericGet<IndividualForumResponse>($"forums/{forumId}.json");
         }
 
         public GroupForumResponse GetForumsByCategory(long categoryId)
         {
-            return GenericGet<GroupForumResponse>(string.Format("categories/{0}/forums.json", categoryId));
+            return GenericGet<GroupForumResponse>($"categories/{categoryId}/forums.json");
         }
 
         public IndividualForumResponse CreateForum(Forum forum)
@@ -68,12 +68,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualForumResponse UpdateForum(Forum forum)
         {
             var body = new { forum };
-            return GenericPut<IndividualForumResponse>(string.Format("forums/{0}.json", forum.Id), body);
+            return GenericPut<IndividualForumResponse>($"forums/{forum.Id}.json", body);
         }
 
         public bool DeleteForum(long id)
         {
-            return GenericDelete(string.Format("forums/{0}.json", id));
+            return GenericDelete($"forums/{id}.json");
         }
 
         public GroupForumSubcriptionResponse GetForumSubscriptions()
@@ -83,12 +83,12 @@ namespace ZendeskApi_v2.Requests
 
         public GroupForumSubcriptionResponse GetForumSubscriptionsByForumId(long forumId)
         {
-            return GenericGet<GroupForumSubcriptionResponse>(string.Format("forums/{0}/subscriptions.json", forumId));
+            return GenericGet<GroupForumSubcriptionResponse>($"forums/{forumId}/subscriptions.json");
         }
 
         public IndividualForumSubcriptionResponse GetForumSubscriptionsById(long subscriptionId)
         {
-            return GenericGet<IndividualForumSubcriptionResponse>(string.Format("forum_subscriptions/{0}.json", subscriptionId));
+            return GenericGet<IndividualForumSubcriptionResponse>($"forum_subscriptions/{subscriptionId}.json");
         }
 
         public IndividualForumSubcriptionResponse CreateForumSubscription(ForumSubscription forumSubscription)
@@ -98,7 +98,7 @@ namespace ZendeskApi_v2.Requests
 
         public bool DeleteForumSubscription(long subscriptionId)
         {
-            return GenericDelete(string.Format("forum_subscriptions/{0}.json", subscriptionId));
+            return GenericDelete($"forum_subscriptions/{subscriptionId}.json");
         }
 
 #endif
@@ -110,12 +110,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualForumResponse> GetForumByIdAsync(long forumId)
         {
-            return await GenericGetAsync<IndividualForumResponse>(string.Format("forums/{0}.json", forumId));
+            return await GenericGetAsync<IndividualForumResponse>($"forums/{forumId}.json");
         }
 
         public async Task<GroupForumResponse> GetForumsByCategoryAsync(long categoryId)
         {
-            return await GenericGetAsync<GroupForumResponse>(string.Format("categories/{0}/forums.json", categoryId));
+            return await GenericGetAsync<GroupForumResponse>($"categories/{categoryId}/forums.json");
         }
 
         public async Task<IndividualForumResponse> CreateForumAsync(Forum forum)
@@ -127,12 +127,12 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualForumResponse> UpdateForumAsync(Forum forum)
         {
             var body = new { forum };
-            return await GenericPutAsync<IndividualForumResponse>(string.Format("forums/{0}.json", forum.Id), body);
+            return await GenericPutAsync<IndividualForumResponse>($"forums/{forum.Id}.json", body);
         }
 
         public async Task<bool> DeleteForumAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("forums/{0}.json", id));
+            return await GenericDeleteAsync($"forums/{id}.json");
         }
 
         public async Task<GroupForumSubcriptionResponse> GetForumSubscriptionsAsync()
@@ -142,12 +142,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupForumSubcriptionResponse> GetForumSubscriptionsByForumIdAsync(long forumId)
         {
-            return await GenericGetAsync<GroupForumSubcriptionResponse>(string.Format("forums/{0}/subscriptions.json", forumId));
+            return await GenericGetAsync<GroupForumSubcriptionResponse>($"forums/{forumId}/subscriptions.json");
         }
 
         public async Task<IndividualForumSubcriptionResponse> GetForumSubscriptionsByIdAsync(long subscriptionId)
         {
-            return await GenericGetAsync<IndividualForumSubcriptionResponse>(string.Format("forum_subscriptions/{0}.json", subscriptionId));
+            return await GenericGetAsync<IndividualForumSubcriptionResponse>($"forum_subscriptions/{subscriptionId}.json");
         }
 
         public async Task<IndividualForumSubcriptionResponse> CreateForumSubscriptionAsync(ForumSubscription forumSubscription)
@@ -157,7 +157,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<bool> DeleteForumSubscriptionAsync(long subscriptionId)
         {
-            return await GenericDeleteAsync(string.Format("forum_subscriptions/{0}.json", subscriptionId));
+            return await GenericDeleteAsync($"forum_subscriptions/{subscriptionId}.json");
         }
 #endif
     }

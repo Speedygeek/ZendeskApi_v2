@@ -97,7 +97,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualMacroResponse GetMacroById(long id)
         {
-            return GenericGet<IndividualMacroResponse>(string.Format("macros/{0}.json", id));
+            return GenericGet<IndividualMacroResponse>($"macros/{id}.json");
         }
 
         /// <summary>
@@ -118,12 +118,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualMacroResponse UpdateMacro(Macro macro)
         {
             var body = new { macro };
-            return GenericPut<IndividualMacroResponse>(string.Format("macros/{0}.json", macro.Id), body);
+            return GenericPut<IndividualMacroResponse>($"macros/{macro.Id}.json", body);
         }
 
         public bool DeleteMacro(long id)
         {
-            return GenericDelete(string.Format("macros/{0}.json", id));
+            return GenericDelete($"macros/{id}.json");
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public ApplyMacroResponse ApplyMacro(long macroId)
         {
-            return GenericGet<ApplyMacroResponse>(string.Format("macros/{0}/apply.json", macroId));
+            return GenericGet<ApplyMacroResponse>($"macros/{macroId}/apply.json");
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public ApplyMacroResponse ApplyMacroToTicket(long ticketId, long macroId)
         {
-            return GenericGet<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
+            return GenericGet<ApplyMacroResponse>($"tickets/{ticketId}/macros/{macroId}/apply.json");
         }
 #endif
 
@@ -160,7 +160,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualMacroResponse> GetMacroByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualMacroResponse>(string.Format("macros/{0}.json", id));
+            return await GenericGetAsync<IndividualMacroResponse>($"macros/{id}.json");
         }
 
         /// <summary>
@@ -181,12 +181,12 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualMacroResponse> UpdateMacroAsync(Macro macro)
         {
             var body = new { macro };
-            return await GenericPutAsync<IndividualMacroResponse>(string.Format("macros/{0}.json", macro.Id), body);
+            return await GenericPutAsync<IndividualMacroResponse>($"macros/{macro.Id}.json", body);
         }
 
         public async Task<bool> DeleteMacroAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("macros/{0}.json", id));
+            return await GenericDeleteAsync($"macros/{id}.json");
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<ApplyMacroResponse> ApplyMacroAsync(long macroId)
         {
-            return await GenericGetAsync<ApplyMacroResponse>(string.Format("macros/{0}/apply.json", macroId));
+            return await GenericGetAsync<ApplyMacroResponse>($"macros/{macroId}/apply.json");
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<ApplyMacroResponse> ApplyMacroToTicketAsync(long ticketId, long macroId)
         {
-            return await GenericGetAsync<ApplyMacroResponse>(string.Format("tickets/{0}/macros/{1}/apply.json", ticketId, macroId));
+            return await GenericGetAsync<ApplyMacroResponse>($"tickets/{ticketId}/macros/{macroId}/apply.json");
         }                        
 #endif
     }
