@@ -53,6 +53,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("custom_field_options")]
         public IList<CustomFieldOptions> CustomFieldOptions { get; set; }
 
+        [JsonProperty("system_field_options")]
+        public IList<FieldOptions> SystemFieldOptions { get; set; }
+
     }
 
     public class TicketField : TicketFieldBase
@@ -72,11 +75,14 @@ namespace ZendeskApi_v2.Models.Tickets
         public DateTimeOffset? UpdatedAt { get; set; }
     }
 
-    public  class CustomFieldOptions
+    public class CustomFieldOptions : FieldOptions
     {
         [JsonProperty("id")]
-        public long? Id{ get; set; }
+        public long? Id { get; set; }
+    }
 
+    public class FieldOptions
+    {
         [JsonProperty("name")]
         public string Name { get; set; }
 
