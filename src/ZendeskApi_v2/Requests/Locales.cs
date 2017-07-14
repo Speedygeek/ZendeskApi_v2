@@ -93,7 +93,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualLocaleResponse GetLocaleById(long id, bool translation = false)
         {
-            return GenericGet<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, (translation ? "?include=translations" : null)));
+            return GenericGet<IndividualLocaleResponse>($"locales/{id}.json{(translation ? "?include=translations" : null)}");
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualLocaleResponse GetCurrentLocale(bool translation = false)
         {
-            return GenericGet<IndividualLocaleResponse>(string.Format("locales/current.json{0}", (translation ? "?include=translations" : null)));
+            return GenericGet<IndividualLocaleResponse>($"locales/current.json{(translation ? "?include=translations" : null)}");
         }
 #endif
 
@@ -131,7 +131,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<IndividualLocaleResponse> GetLocaleByIdAsync(long id, bool translation = false)
         {
-            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/{0}.json{1}", id, (translation ? "?include=translations" : null)));
+            return await GenericGetAsync<IndividualLocaleResponse>($"locales/{id}.json{(translation ? "?include=translations" : null)}");
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<IndividualLocaleResponse> GetCurrentLocaleAsync(bool translation = false)
         {
-            return await GenericGetAsync<IndividualLocaleResponse>(string.Format("locales/current.json{0}", (translation ? "?include=translations" : null)));
+            return await GenericGetAsync<IndividualLocaleResponse>($"locales/current.json{(translation ? "?include=translations" : null)}");
         }
 #endif
     }

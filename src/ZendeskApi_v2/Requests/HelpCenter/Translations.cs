@@ -75,21 +75,21 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if SYNC
 		public GroupTranslationResponse ListTranslationsForArticle( long articleId )
 		{
-			var resourceUrl = String.Format( "/help_center/articles/{0}/translations.json", articleId );
+			var resourceUrl = $"/help_center/articles/{articleId}/translations.json";
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public GroupTranslationResponse ListTranslationsForSection( long articleId )
 		{
-			var resourceUrl = String.Format( "/help_center/sections/{0}/translations.json", articleId );
+			var resourceUrl = $"/help_center/sections/{articleId}/translations.json";
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public GroupTranslationResponse ListTranslationsForCategory( long articleId )
 		{
-			var resourceUrl = String.Format( "/help_center/categories/{0}/translations.json", articleId );
+			var resourceUrl = $"/help_center/categories/{articleId}/translations.json";
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
@@ -97,21 +97,21 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public IList<string> ListMissingTranslationsForArticle( long articleId )
 		{
-			var res = RunRequest( String.Format( "help_center/articles/{0}/translations/missing.json", articleId ), "GET" );
+			var res = RunRequest( $"help_center/articles/{articleId}/translations/missing.json", "GET" );
 			var anon_type = new { locales = new List<string>() };
 			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 		public IList<string> ListMissingTranslationsForSection( long articleId )
 		{
-			var res = RunRequest( String.Format( "help_center/sections/{0}/translations/missing.json", articleId ), "GET" );
+			var res = RunRequest( $"help_center/sections/{articleId}/translations/missing.json", "GET" );
 			var anon_type = new { locales = new List<string>() };
 			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 		public IList<string> ListMissingTranslationsForCategory( long articleId )
 		{
-			var res = RunRequest( String.Format( "help_center/categories/{0}/translations/missing.json", articleId ), "GET" );
+			var res = RunRequest( $"help_center/categories/{articleId}/translations/missing.json", "GET" );
 			var anon_type = new { locales = new List<string>() };
 			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
@@ -119,47 +119,47 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public IndividualTranslationResponse ShowTranslationForArticle( long articleId, string locale )
 		{
-			var resourceUrl = String.Format( "/help_center/articles/{0}/translations/{1}.json", articleId, locale );
+			var resourceUrl = $"/help_center/articles/{articleId}/translations/{locale}.json";
 			return GenericGet<IndividualTranslationResponse>( resourceUrl );
 		}
 
 		public IndividualTranslationResponse CreateArticleTranslation( long articleId, Translation translation )
 		{
 			var body = new { translation };
-			return GenericPost<IndividualTranslationResponse>( string.Format( "help_center/articles/{0}/translations.json", articleId ), body );
+			return GenericPost<IndividualTranslationResponse>( $"help_center/articles/{articleId}/translations.json", body );
 		}
 		public IndividualTranslationResponse CreateSectionTranslation( long SectionId, Translation translation )
 		{
 			var body = new { translation };
-			return GenericPost<IndividualTranslationResponse>( string.Format( "help_center/sections/{0}/translations.json", SectionId ), body );
+			return GenericPost<IndividualTranslationResponse>( $"help_center/sections/{SectionId}/translations.json", body );
 		}
 		public IndividualTranslationResponse CreateCategoryTranslation( long CategoryId, Translation translation )
 		{
 			var body = new { translation };
-			return GenericPost<IndividualTranslationResponse>( string.Format( "help_center/categories/{0}/translations.json", CategoryId ), body );
+			return GenericPost<IndividualTranslationResponse>( $"help_center/categories/{CategoryId}/translations.json", body );
 		}
 
 		public IndividualTranslationResponse UpdateArticleTranslation( Translation translation )
 		{
 			var body = new { translation };
-			return GenericPut<IndividualTranslationResponse>( string.Format( "help_center/articles/{0}/translations/{1}.json", translation.SourceId, translation.Locale ), body );
+			return GenericPut<IndividualTranslationResponse>( $"help_center/articles/{translation.SourceId}/translations/{translation.Locale}.json", body );
 		}
 
 		public IndividualTranslationResponse UpdateSectionTranslation( Translation translation )
 		{
 			var body = new { translation };
-			return GenericPut<IndividualTranslationResponse>( string.Format( "help_center/sections/{0}/translations/{1}.json", translation.SourceId, translation.Locale ), body );
+			return GenericPut<IndividualTranslationResponse>( $"help_center/sections/{translation.SourceId}/translations/{translation.Locale}.json", body );
 		}
 
 		public IndividualTranslationResponse UpdateCategoryTranslation( Translation translation )
 		{
 			var body = new { translation };
-			return GenericPut<IndividualTranslationResponse>( string.Format( "help_center/categories/{0}/translations/{1}.json", translation.SourceId, translation.Locale ), body );
+			return GenericPut<IndividualTranslationResponse>( $"help_center/categories/{translation.SourceId}/translations/{translation.Locale}.json", body );
 		}
 
 		public bool DeleteTranslation( long translationId )
 		{
-			return GenericDelete( string.Format( "help_center/translations/{0}.json", translationId ) );
+			return GenericDelete( $"help_center/translations/{translationId}.json" );
 		}
 
 		public IList<string> ListAllEnabledLocalesAndDefaultLocale( out string defaultLocale )
@@ -178,21 +178,21 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<GroupTranslationResponse> ListTranslationsForArticleAsync( long articleId )
 		{
-			var resourceUrl = String.Format( "/help_center/articles/{0}/translations.json", articleId );
+			var resourceUrl = $"/help_center/articles/{articleId}/translations.json";
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public async Task<GroupTranslationResponse> ListTranslationsForSectionAsync( long articleId )
 		{
-			var resourceUrl = String.Format( "/help_center/sections/{0}/translations.json", articleId );
+			var resourceUrl = $"/help_center/sections/{articleId}/translations.json";
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public async Task<GroupTranslationResponse> ListTranslationsForCategoryAsync( long articleId )
 		{
-			var resourceUrl = String.Format( "/help_center/categories/{0}/translations.json", articleId );
+			var resourceUrl = $"/help_center/categories/{articleId}/translations.json";
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
@@ -200,21 +200,21 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<IList<string>> ListMissingTranslationsForArticleAsync( long articleId )
 		{
-			var res = await RunRequestAsync( String.Format( "help_center/articles/{0}/translations/missing.json", articleId ), "GET" );
+			var res = await RunRequestAsync( $"help_center/articles/{articleId}/translations/missing.json", "GET" );
 			var anon_type = new { locales = new List<string>() };
 			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 		public async Task<IList<string>> ListMissingTranslationsForSectionAsync( long articleId )
 		{
-			var res = await RunRequestAsync( String.Format( "help_center/sections/{0}/translations/missing.json", articleId ), "GET" );
+			var res = await RunRequestAsync( $"help_center/sections/{articleId}/translations/missing.json", "GET" );
 			var anon_type = new { locales = new List<string>() };
 			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
 		}
 		public async Task<IList<string>> ListMissingTranslationsForCategoryAsync( long articleId )
 		{
-			var res = await RunRequestAsync( String.Format( "help_center/categories/{0}/translations/missing.json", articleId ), "GET" );
+			var res = await RunRequestAsync( $"help_center/categories/{articleId}/translations/missing.json", "GET" );
 			var anon_type = new { locales = new List<string>() };
 			var locale_info = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType( res.Content, anon_type );
 			return locale_info.locales;
@@ -222,47 +222,47 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<IndividualTranslationResponse> ShowTranslationForArticleAsync( long articleId, string locale )
 		{
-			var resourceUrl = String.Format( "/help_center/articles/{0}/translations/{1}.json", articleId, locale );
+			var resourceUrl = $"/help_center/articles/{articleId}/translations/{locale}.json";
 			return await GenericGetAsync<IndividualTranslationResponse>( resourceUrl );
 		}
 
 		public async Task<IndividualTranslationResponse> CreateArticleTranslationAsync( long articleId, Translation translation )
 		{
 			var body = new { translation };
-			return await GenericPostAsync<IndividualTranslationResponse>( string.Format( "help_center/articles/{0}/translations.json", articleId ), body );
+			return await GenericPostAsync<IndividualTranslationResponse>( $"help_center/articles/{articleId}/translations.json", body );
 		}
 		public async Task<IndividualTranslationResponse> CreateSectionTranslationAsync( long SectionId, Translation translation )
 		{
 			var body = new { translation };
-			return await GenericPostAsync<IndividualTranslationResponse>( string.Format( "help_center/sections/{0}/translations.json", SectionId ), body );
+			return await GenericPostAsync<IndividualTranslationResponse>( $"help_center/sections/{SectionId}/translations.json", body );
 		}
 		public async Task<IndividualTranslationResponse> CreateCategoryTranslationAsync( long CategoryId, Translation translation )
 		{
 			var body = new { translation };
-			return await GenericPostAsync<IndividualTranslationResponse>( string.Format( "help_center/categories/{0}/translations.json", CategoryId ), body );
+			return await GenericPostAsync<IndividualTranslationResponse>( $"help_center/categories/{CategoryId}/translations.json", body );
 		}
 
 		public async Task<IndividualTranslationResponse> UpdateArticleTranslationAsync( Translation translation )
 		{
 			var body = new { translation };
-			return await GenericPutAsync<IndividualTranslationResponse>( string.Format( "help_center/articles/{0}/translations/{1}.json", translation.SourceId, translation.Locale ), body );
+			return await GenericPutAsync<IndividualTranslationResponse>( $"help_center/articles/{translation.SourceId}/translations/{translation.Locale}.json", body );
 		}
 
 		public async Task<IndividualTranslationResponse> UpdateSectionTranslationAsync( Translation translation )
 		{
 			var body = new { translation };
-			return await GenericPutAsync<IndividualTranslationResponse>( string.Format( "help_center/sections/{0}/translations/{1}.json", translation.SourceId, translation.Locale ), body );
+			return await GenericPutAsync<IndividualTranslationResponse>( $"help_center/sections/{translation.SourceId}/translations/{translation.Locale}.json", body );
 		}
 
 		public async Task<IndividualTranslationResponse> UpdateCategoryTranslationAsync( Translation translation )
 		{
 			var body = new { translation };
-			return await GenericPutAsync<IndividualTranslationResponse>( string.Format( "help_center/categories/{0}/translations/{1}.json", translation.SourceId, translation.Locale ), body );
+			return await GenericPutAsync<IndividualTranslationResponse>( $"help_center/categories/{translation.SourceId}/translations/{translation.Locale}.json", body );
 		}
 
 		public async Task<bool> DeleteTranslationAsync( long translationId )
 		{
-			return await GenericDeleteAsync( string.Format( "help_center/translations/{0}.json", translationId ) );
+			return await GenericDeleteAsync( $"help_center/translations/{translationId}.json" );
 		}
 
 		public async Task<Tuple<IList<string>, string>> ListAllEnabledLocalesAndDefaultLocaleAsync( )

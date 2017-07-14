@@ -2,8 +2,6 @@
 {
     internal static class StringExtensions
     {
-
-
         internal static bool IsNullOrWhiteSpace(this string value)
         {
 

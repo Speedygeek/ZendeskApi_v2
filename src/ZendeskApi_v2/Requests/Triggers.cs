@@ -44,7 +44,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTriggerResponse GetTriggerById(long id)
         {
-            return GenericGet<IndividualTriggerResponse>(string.Format("triggers/{0}.json", id));
+            return GenericGet<IndividualTriggerResponse>($"triggers/{id}.json");
         }
 
         public GroupTriggerResponse GetActiveTriggers()
@@ -61,12 +61,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualTriggerResponse UpdateTrigger(Trigger trigger)
         {
             var body = new { trigger };
-            return GenericPut<IndividualTriggerResponse>(string.Format("triggers/{0}.json", trigger.Id), body);
+            return GenericPut<IndividualTriggerResponse>($"triggers/{trigger.Id}.json", body);
         }
 
         public bool DeleteTrigger(long id)
         {
-            return GenericDelete(string.Format("triggers/{0}.json", id));
+            return GenericDelete($"triggers/{id}.json");
         }
 
         public bool ReorderTriggers(IEnumerable<long> trigger_ids)
@@ -84,7 +84,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualTriggerResponse> GetTriggerByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualTriggerResponse>(string.Format("triggers/{0}.json", id));
+            return await GenericGetAsync<IndividualTriggerResponse>($"triggers/{id}.json");
         }
 
         public async Task<GroupTriggerResponse> GetActiveTriggersAsync()
@@ -101,12 +101,12 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTriggerResponse> UpdateTriggerAsync(Trigger trigger)
         {
             var body = new { trigger };
-            return await GenericPutAsync<IndividualTriggerResponse>(string.Format("triggers/{0}.json", trigger.Id), body);
+            return await GenericPutAsync<IndividualTriggerResponse>($"triggers/{trigger.Id}.json", body);
         }
 
         public async Task<bool> DeleteTriggerAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("triggers/{0}.json", id));
+            return await GenericDeleteAsync($"triggers/{id}.json");
         }
 
         public async Task<bool> ReorderTriggersAsync(IEnumerable<long> trigger_ids)

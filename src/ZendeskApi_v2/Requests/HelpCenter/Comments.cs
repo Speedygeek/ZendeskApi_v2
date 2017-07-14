@@ -37,12 +37,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public GroupCommentResponse GetCommentsForArticle(long? articleId, int? perPage = null, int? page = null)
 		{
-			return GenericPagedGet<GroupCommentResponse>(string.Format("help_center/articles/{0}/comments.json", articleId), perPage, page);
+			return GenericPagedGet<GroupCommentResponse>($"help_center/articles/{articleId}/comments.json", perPage, page);
 		}
 
         public GroupCommentResponse GetCommentsForUser(long? userId)
 		{
-			return GenericGet<GroupCommentResponse>(string.Format("help_center/users/{0}/comments.json", userId));
+			return GenericGet<GroupCommentResponse>($"help_center/users/{userId}/comments.json");
 		}
 
         public GroupCommentResponse GetCommentsForCurrentUser()
@@ -54,12 +54,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<GroupCommentResponse> GetCommentsForArticleAsync(long? articleId)
 		{
-			return await GenericGetAsync<GroupCommentResponse>(string.Format("help_center/articles/{0}/comments.json", articleId));
+			return await GenericGetAsync<GroupCommentResponse>($"help_center/articles/{articleId}/comments.json");
 		}
 
         public async Task<GroupCommentResponse> GetCommentsForUserAsync(long? userId)
 		{
-			return await GenericGetAsync<GroupCommentResponse>(string.Format("help_center/users/{0}/comments.json", userId));
+			return await GenericGetAsync<GroupCommentResponse>($"help_center/users/{userId}/comments.json");
 		}
 
         public async Task<GroupCommentResponse> GetCommentsForCurrentUserAsync()

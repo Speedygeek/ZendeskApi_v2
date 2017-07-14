@@ -258,5 +258,21 @@ namespace Tests.HelpCenter
             Assert.That(resp.Page, Is.EqualTo(2));
 
         }
+
+        [Test]
+        public async Task CanSearchForArticlesAsync()
+        {
+            var resp = await api.HelpCenter.Articles.SearchArticlesForAsync("Test", createdBefore: DateTime.Now);
+
+            Assert.That(resp.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void CanSearchForArticles()
+        {
+            var resp = api.HelpCenter.Articles.SearchArticlesFor("Test", createdBefore: DateTime.Now);
+
+            Assert.That(resp.Count, Is.GreaterThan(0));
+        }
     }
 }

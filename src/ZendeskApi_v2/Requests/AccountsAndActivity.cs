@@ -41,7 +41,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualActivityResponse GetActivityById(long activityId)
         {
-            return GenericGet<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
+            return GenericGet<IndividualActivityResponse>($"activities/{activityId}.json");
         }
 #endif
 
@@ -57,7 +57,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualActivityResponse> GetActivityByIdAync(long activityId)
         {
-            return await GenericGetAsync<IndividualActivityResponse>(string.Format("activities/{0}.json", activityId));
+            return await GenericGetAsync<IndividualActivityResponse>($"activities/{activityId}.json");
         }
 #endif
     }

@@ -68,7 +68,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualSatisfactionResponse GetSatisfactionRatingById(long id)
         {
-            return GenericGet<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
+            return GenericGet<IndividualSatisfactionResponse>($"satisfaction_ratings/{id}.json");
         }
 #endif
 
@@ -93,7 +93,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualSatisfactionResponse> GetSatisfactionRatingByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualSatisfactionResponse>(string.Format("satisfaction_ratings/{0}.json", id));
+            return await GenericGetAsync<IndividualSatisfactionResponse>($"satisfaction_ratings/{id}.json");
         }
 #endif
     }

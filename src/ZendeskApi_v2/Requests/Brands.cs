@@ -41,7 +41,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualBrandResponse GetBrand(long id)
         {
-            return GenericGet<IndividualBrandResponse>(string.Format("brands/{0}.json", id));
+            return GenericGet<IndividualBrandResponse>($"brands/{id}.json");
         }
 
         public IndividualBrandResponse CreateBrand(Brand brand)
@@ -53,12 +53,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualBrandResponse UpdateBrand(Brand brand)
         {
             var body = new { brand };
-            return GenericPut<IndividualBrandResponse>(string.Format("brands/{0}.json", brand.Id), body);
+            return GenericPut<IndividualBrandResponse>($"brands/{brand.Id}.json", body);
         }
 
         public bool DeleteBrand(long id)
         {
-            return GenericDelete(string.Format("brands/{0}.json", id));
+            return GenericDelete($"brands/{id}.json");
         }
 #endif
 
@@ -70,7 +70,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualBrandResponse> GetBrandAsync(long id)
         {
-            return await GenericGetAsync<IndividualBrandResponse>(string.Format("brands/{0}.json", id));
+            return await GenericGetAsync<IndividualBrandResponse>($"brands/{id}.json");
         }
 
         public async Task<IndividualBrandResponse> CreateBrandAsync(Brand brand)
@@ -82,12 +82,12 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualBrandResponse> UpdateBrandAsync(Brand brand)
         {
             var body = new { brand };
-            return await GenericPutAsync<IndividualBrandResponse>(string.Format("brands/{0}.json", brand.Id), body);
+            return await GenericPutAsync<IndividualBrandResponse>($"brands/{brand.Id}.json", body);
         }
 
         public async Task<bool> DeleteBrandAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("brands/{0}.json", id));
+            return await GenericDeleteAsync($"brands/{id}.json");
         }
 #endif
     }

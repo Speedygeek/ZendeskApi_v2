@@ -11,17 +11,11 @@ namespace ZendeskApi_v2.Extensions
 {
     public static class RequestExtensions
     {
-        //public static void AddAndSerializeParam(this RestRequest request, object obj, ParameterType parameterType)
-        //{                  
-        //    var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Ignore});
-        //    request.AddParameter("application/json", json, parameterType);
-        //}
-
         public static WebResponse GetWebResponse(this WebRequest request)
         {
-            AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+            var autoResetEvent = new AutoResetEvent(false);
 
-            IAsyncResult asyncResult = request.BeginGetResponse(r => autoResetEvent.Set(), null);
+            var asyncResult = request.BeginGetResponse(r => autoResetEvent.Set(), null);
 
             // Wait until the call is finished
             autoResetEvent.WaitOne();
@@ -31,9 +25,9 @@ namespace ZendeskApi_v2.Extensions
 
         public static Stream GetWebRequestStream(this WebRequest request)
         {
-            AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+            var autoResetEvent = new AutoResetEvent(false);
 
-            IAsyncResult asyncResult = request.BeginGetRequestStream(r => autoResetEvent.Set(), null);
+            var asyncResult = request.BeginGetRequestStream(r => autoResetEvent.Set(), null);
 
             // Wait until the call is finished
             autoResetEvent.WaitOne();
@@ -71,6 +65,12 @@ namespace ZendeskApi_v2.Extensions
                     where match.Contains("=")
                     select match.Split('='))
                         .ToDictionary(x => x.First(), x => x.Last());
+        }
+
+
+        public static string GetQueryString(this Dictionary<string, string> querystringParams)
+        {
+            return string.Join("&", querystringParams.Where(q => !q.Value.IsNullOrWhiteSpace()).Select(q => $"{Uri.EscapeDataString(q.Key)}={Uri.EscapeDataString(q.Value)}").ToArray());
         }
     }
 }
