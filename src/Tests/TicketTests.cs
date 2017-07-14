@@ -1376,5 +1376,16 @@ namespace Tests
             Assert.That(await api.Tickets.DeleteAsync(resp1.Ticket.Id.Value), Is.True);
             Assert.That(await api.Tickets.DeleteAsync(resp2.Ticket.Id.Value), Is.True);
         }
+
+
+        [Test]
+        public async Task CanGetSystemFieldOptions()
+        {
+            var resp = await api.Tickets.GetTicketFieldByIdAsync(21830872);
+
+            Assert.That(resp.TicketField.SystemFieldOptions, Is.Not.Null);
+        }
+
+
     }
 }
