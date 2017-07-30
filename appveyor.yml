@@ -19,7 +19,7 @@ build:
 test:
   assemblies: '.\test\**\bin\**\*test.dll'
 artifacts:
-- path: '.\src\ZendeskApi_v2\bin\Release\*.nupkg'
+- path: .\src\ZendeskApi_v2\bin\**\*.nupkg
   name: Package
 deploy:
 - provider: Environment
