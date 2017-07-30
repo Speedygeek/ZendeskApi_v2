@@ -11,7 +11,7 @@ platform: Any CPU
 nuget:
   disable_publish_on_pr: true
 before_build:
-  - dotnet restore
+  - dotnet restore .\src\ZendeskApi_v2.sln
 build:
   project: \src\ZendeskApi_v2.sln
   parallel: true
