@@ -17,7 +17,7 @@ build:
   parallel: true
   verbosity: minimal
 test_script:
-- dotnet test -c Release .test\ZendeskApi_v2.Test\ZendeskApi_v2.Test.csproj
+- dotnet test -c Release .\test\ZendeskApi_v2.Test\ZendeskApi_v2.Test.csproj
 artifacts:
 - path: '.\src\ZendeskApi_v2\bin\Release\*.nupkg'
   name: Package
