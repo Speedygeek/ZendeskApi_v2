@@ -10,11 +10,12 @@ configuration: Release
 platform: Any CPU
 nuget:
   disable_publish_on_pr: true
+before_build:
+  - dotnet restore
 build:
   project: \src\ZendeskApi_v2.sln
   parallel: true
-  verbosity: minimaL
-clone_depth: 1  
+  verbosity: minimal
 test_script:
 - dotnet test -c Release .test\ZendeskApi_v2.Test\ZendeskApi_v2.Test.csproj
 artifacts:
@@ -40,7 +41,7 @@ notifications:
 install:
 - ps: >-
 
-    choco install gitversion.portable --no-progress -y
+    choco install gitversion.portable --pre --no-progress -y
     
     $output = gitversion
     
