@@ -9,7 +9,7 @@ namespace Tests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
 

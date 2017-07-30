@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Reflection;
+
 namespace ZendeskApi_v2.Serialization
 {
     public class UnixEpochTimeConverter : DateTimeConverterBase
@@ -12,7 +14,11 @@ namespace ZendeskApi_v2.Serialization
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+#if PORTABLE
+            bool nullable = (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+#else
             bool nullable = (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+#endif
 
             Type T = nullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 

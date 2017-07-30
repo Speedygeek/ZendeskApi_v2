@@ -1254,7 +1254,7 @@ namespace Tests
                 }
             };
 
-            var res = api.Tickets.CreateTicketField(tField);
+            var res = await api.Tickets.CreateTicketFieldAsync(tField);
             Assert.That(res.TicketField, Is.Not.Null);
             Assert.That(res.TicketField.Id, Is.Not.Null);
             Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
@@ -1361,7 +1361,7 @@ namespace Tests
             var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
-                Comment = new Comment {  Body= "HELP", Public = true },
+                Comment = new Comment { Body = "HELP", Public = true },
                 Priority = TicketPriorities.Urgent
             };
 
