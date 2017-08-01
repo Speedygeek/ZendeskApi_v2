@@ -209,3 +209,5 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 /src/ZendeskApi_v2_Package/lib
+/docs/_site
+/docs/Gemfile.lock
