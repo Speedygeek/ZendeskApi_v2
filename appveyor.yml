@@ -10,16 +10,18 @@ configuration: Release
 platform: Any CPU
 nuget:
   disable_publish_on_pr: true
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
 before_build:
   - dotnet restore .\src\ZendeskApi_v2.sln
 build:
   project: \src\ZendeskApi_v2.sln
-  parallel: true
-  verbosity: minimal
+  verbosity: detailed
 test:
   assemblies: '.\test\**\bin\**\*test.dll'
 artifacts:
-- path: .\src\ZendeskApi_v2\bin\**\*.nupkg
+- path: src\ZendeskApi_v2\bin\Release\ZendeskApi_v2.*.nupkg
   name: Package
 deploy:
 - provider: Environment

@@ -15,11 +15,8 @@ namespace ZendeskApi_v2.Serialization
 
         public override bool CanConvert(Type objectType)
         {
-#if PORTABLE
-            return typeof(T).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
-#else
             return typeof(T).IsAssignableFrom(objectType);
-#endif
+
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
