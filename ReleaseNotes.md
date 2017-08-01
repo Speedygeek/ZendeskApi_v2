@@ -1,5 +1,24 @@
+# 3.7.0 (31 July 2017)
+
+ - [#294](https://github.com/mozts2005/ZendeskApi_v2/pull/294) - Changed Build to use Microsoft.NET.Sdk project system in VS 2017 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#7](https://github.com/mozts2005/ZendeskApi_v2/issues/7) - Could not load Newtonsoft.json
+ - [#293](https://github.com/mozts2005/ZendeskApi_v2/pull/293) - add system_field_options to ticket field. contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#292](https://github.com/mozts2005/ZendeskApi_v2/pull/292) - added locale to all Help Center article calls that support it. contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#291](https://github.com/mozts2005/ZendeskApi_v2/issues/291) - GetArticlesByCategoryIdAsync - missing locale +Enhancement
+ - [#290](https://github.com/mozts2005/ZendeskApi_v2/issues/290) - system_field_options missing +Enhancement
+ - [#289](https://github.com/mozts2005/ZendeskApi_v2/pull/289) - updated release notes contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#288](https://github.com/mozts2005/ZendeskApi_v2/issues/288) - Error using GetTickets()? +Question +Under-Review
+ - [#252](https://github.com/mozts2005/ZendeskApi_v2/pull/252) - Added style cop contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+
+Commits: 19c1d8f3b0...37f7f046d4
+
+
 # 3.6.2 (08 July 2017)
 
+ - [#287](https://github.com/mozts2005/ZendeskApi_v2/issues/287) - Getting a list of article titles without body +Question
+ - [#283](https://github.com/mozts2005/ZendeskApi_v2/issues/283) - Is_public missing in ticket object +Enhancement +More-Info-Needed
+ - [#281](https://github.com/mozts2005/ZendeskApi_v2/issues/281) - "brand_id" property does not exist in Result object. +More-Info-Needed
+ - [#280](https://github.com/mozts2005/ZendeskApi_v2/issues/280) - How is attachments handled for the new HelpDesk Articles? +Enhancement
  - [#287](https://github.com/mozts2005/ZendeskApi_v2/issues/287) - Getting a list of article titles without body +Question
  - [#286](https://github.com/mozts2005/ZendeskApi_v2/pull/286) - added help-center article attachments for Issue #280 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#285](https://github.com/mozts2005/ZendeskApi_v2/pull/285) - Adding Is_public to the ticket model contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
@@ -14,7 +33,7 @@
  - [#275](https://github.com/mozts2005/ZendeskApi_v2/pull/275) - Added new fields to ticket comments contributed by ([WinDrop](https://github.com/WinDrop))
  - [#274](https://github.com/mozts2005/ZendeskApi_v2/pull/274) - Amendments to Ticket Comments contributed by ([WinDrop](https://github.com/WinDrop))
 
-Commits: 4a6afa4034...b6b4ff86ab
+Commits: 4a6afa4034...406281ed5e
 
 
 # 3.6.1 (07 April 2017)

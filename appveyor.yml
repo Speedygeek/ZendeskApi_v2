@@ -17,7 +17,7 @@ before_build:
   - dotnet restore .\src\ZendeskApi_v2.sln
 build:
   project: \src\ZendeskApi_v2.sln
-  verbosity: detailed
+  verbosity: minimal
 test:
   assemblies: '.\test\**\bin\**\*test.dll'
 artifacts:
