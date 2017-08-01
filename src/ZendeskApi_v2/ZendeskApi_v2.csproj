@@ -1,366 +1,76 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--Nuget-->
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D17BCC22-9561-4FC4-9C52-975808641ECE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZendeskApi_v2</RootNamespace>
-    <AssemblyName>ZendeskApi_v2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <DefineConstants Condition=" '$(TargetFrameworkVersion)' != 'v3.5' ">NotNet35</DefineConstants>
-    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">Net35</DefineConstants>
-    <TargetFrameworkProfile />
+    <PackageId>ZendeskApi_v2</PackageId>
+    <Title>ZendeskApi_v2</Title>
+    <Authors>Elizabeth Schneider</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Copyright>Copyright (c) Elizabeth Schneider 2012-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
+    <PackageTags>zendesk api</PackageTags>
+    <description>A full c# wrapper for Zendesk's api v2.</description>
+    <PackageProjectUrl>https://github.com/mozts2005/ZendeskApi_v2</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/mozts2005/ZendeskApi_v2/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/mozts2005/ZendeskApi_v2/master/tools/icon/lotus.png</PackageIconUrl>
+    <PackageReleaseNotes>https://github.com/mozts2005/ZendeskApi_v2/releases</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/mozts2005/ZendeskApi_v2.git</RepositoryUrl>
+    <IncludeSymbols>false</IncludeSymbols>
+    <IncludeSource>false</IncludeSource>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ASYNC;SYNC</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+   <TargetFrameworks>net40;net35;net45;portable40-net40+sl5+win8+wpa81+wp8</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SYNC ASYNC</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
+    <DefineConstants>$(DefineConstants);SYNC</DefineConstants>
+    <FrameworkPathOverride>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net40'">
+      <Reference Include="mscorlib" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
+    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
+    <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.21" PrivateAssets="all" />
+  </ItemGroup>
+  
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+<PackageReference Include="GitVersionTask" Version="4.0.0-beta0012" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'portable40-net40+sl5+win8+wpa81+wp8' ">
+    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
+    <DefineConstants>$(DefineConstants);portable40;ASYNC</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'portable40-net40+sl5+win8+wpa81+wp8' ">
+    <Reference Include="mscorlib" />
     <Reference Include="System" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Web" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Extensions\RequestExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="HelpCenterApi.cs" />
-    <Compile Include="Models\AccessPolicies\AccessPolicy.cs" />
-    <Compile Include="Models\AccessPolicies\IndividualAccessPolicyResponse.cs" />
-    <Compile Include="Models\AccountsAndActivities\Activity.cs" />
-    <Compile Include="Models\AccountsAndActivities\Actor.cs" />
-    <Compile Include="Models\AccountsAndActivities\GroupActivityResponse.cs" />
-    <Compile Include="Models\AccountsAndActivities\IndividualActivityResponse.cs" />
-    <Compile Include="Models\Articles\Article.cs" />
-    <Compile Include="Models\Articles\ArticleSearchResults.cs" />
-    <Compile Include="Models\Articles\GroupArticleResponse.cs" />
-    <Compile Include="Models\Articles\IndividualArticleResponse.cs" />
-    <Compile Include="Models\Articles\Result.cs" />
-    <Compile Include="Models\Brands\Brand.cs" />
-    <Compile Include="Models\Brands\GroupBrandResponse.cs" />
-    <Compile Include="Models\Brands\IndividualBrandResponse.cs" />
-    <Compile Include="Models\Categories\Category.cs" />
-    <Compile Include="Models\Categories\GroupCategoryResponse.cs" />
-    <Compile Include="Models\Categories\IndividualCategoryResponse.cs" />
-    <Compile Include="Models\Constants\AuditTypes.cs" />
-    <Compile Include="Models\Constants\ForumAccessTypes.cs" />
-    <Compile Include="Models\Constants\ForumTypes.cs" />
-    <Compile Include="Models\Constants\TicketFieldTypes.cs" />
-    <Compile Include="Models\Constants\UserIdentityTypes.cs" />
-    <Compile Include="Models\Constants\UserRoles.cs" />
-    <Compile Include="Models\Constants\ViaTypes.cs" />
-    <Compile Include="Models\Constants\Visibility.cs" />
-    <Compile Include="Models\HelpCenter\Attachments\ArticleAttachment.cs" />
-    <Compile Include="Models\HelpCenter\HelpCenterBase.cs" />
-    <Compile Include="Models\HelpCenter\Post\GroupPostResponse.cs" />
-    <Compile Include="Models\HelpCenter\Post\IndividualPostResponse.cs" />
-    <Compile Include="Models\HelpCenter\Post\Post.cs" />
-    <Compile Include="Models\HelpCenter\Topics\GroupTopicResponse.cs" />
-    <Compile Include="Models\HelpCenter\Topics\IndividualTopicResponse.cs" />
-    <Compile Include="Models\HelpCenter\Topics\Topic.cs" />
-    <Compile Include="Models\HelpCenter\Translations\GroupTranslationResponse.cs" />
-    <Compile Include="Models\HelpCenter\Translations\IndividualTranslationResponse.cs" />
-    <Compile Include="Models\IndividualResponseBase.cs" />
-    <Compile Include="Models\CustomRoles\Configuration.cs" />
-    <Compile Include="Models\CustomRoles\CustomRole.cs" />
-    <Compile Include="Models\CustomRoles\CustomRoles.cs" />
-    <Compile Include="Models\Forums\Forum.cs" />
-    <Compile Include="Models\Forums\ForumSubscription.cs" />
-    <Compile Include="Models\Forums\GroupForumResponse.cs" />
-    <Compile Include="Models\Forums\GroupForumSubcriptionResponse.cs" />
-    <Compile Include="Models\Forums\IndividualForumResponse.cs" />
-    <Compile Include="Models\Forums\IndividualForumSubcriptionResponse.cs" />
-    <Compile Include="Models\GroupResponseBase.cs" />
-    <Compile Include="Models\Groups\Group.cs" />
-    <Compile Include="Models\Groups\GroupMembership.cs" />
-    <Compile Include="Models\Groups\IndividualGroupMembershipResponse.cs" />
-    <Compile Include="Models\Groups\IndividualGroupResponse.cs" />
-    <Compile Include="Models\Groups\MultipleGroupMembershipResponse.cs" />
-    <Compile Include="Models\Groups\MultipleGroupResponse.cs" />
-    <Compile Include="Models\HelpCenter\Attachments\GroupAttachmentResponse.cs" />
-    <Compile Include="Models\HelpCenter\Categories\Category.cs" />
-    <Compile Include="Models\HelpCenter\Categories\GroupCategoryResponse.cs" />
-    <Compile Include="Models\HelpCenter\Categories\IndividualCategoryResponse.cs" />
-    <Compile Include="Models\HelpCenter\Comments\Comment.cs" />
-    <Compile Include="Models\HelpCenter\Comments\GroupCommentResponse.cs" />
-    <Compile Include="Models\HelpCenter\Comments\IndividualCommentResponse.cs" />
-    <Compile Include="Models\HelpCenter\Translations\Translation.cs" />
-    <Compile Include="Models\HelpCenter\Votes\GroupVoteResponse.cs" />
-    <Compile Include="Models\HelpCenter\Votes\IndividualVoteResponse.cs" />
-    <Compile Include="Models\HelpCenter\Votes\Vote.cs" />
-    <Compile Include="Models\Locales\GroupLocaleResponse.cs" />
-    <Compile Include="Models\Locales\IndividualLocaleResponse.cs" />
-    <Compile Include="Models\Locales\Locale.cs" />
-    <Compile Include="Models\Macros\Action.cs" />
-    <Compile Include="Models\Macros\ApplyMacroResponse.cs" />
-    <Compile Include="Models\Macros\GroupMacroResponse.cs" />
-    <Compile Include="Models\Macros\IndividualMacroResponse.cs" />
-    <Compile Include="Models\Macros\Macro.cs" />
-    <Compile Include="Models\Macros\Restriction.cs" />
-    <Compile Include="Models\Macros\Result.cs" />
-    <Compile Include="Models\Schedules\GroupScheduleHolidayResponse.cs" />
-    <Compile Include="Models\Schedules\GroupScheduleResponse.cs" />
-    <Compile Include="Models\Schedules\Holiday.cs" />
-    <Compile Include="Models\Schedules\IndividualScheduleHolidayResponse.cs" />
-    <Compile Include="Models\Schedules\IndividualScheduleResponse.cs" />
-    <Compile Include="Models\Schedules\IndividualScheduleWorkWeekResponse.cs" />
-    <Compile Include="Models\Schedules\Interval.cs" />
-    <Compile Include="Models\Schedules\Schedule.cs" />
-    <Compile Include="Models\Schedules\WorkWeek.cs" />
-    <Compile Include="Models\Organizations\GroupOrganizationMembershipResponse.cs" />
-    <Compile Include="Models\Organizations\IndividualOrganizationMembershipResponse.cs" />
-    <Compile Include="Models\Organizations\OrganizationMembership.cs" />
-    <Compile Include="Models\Sections\GroupSectionResponse.cs" />
-    <Compile Include="Models\Sections\IndividualSectionResponse.cs" />
-    <Compile Include="Models\Sections\Section.cs" />
-    <Compile Include="Models\Shared\Data.cs" />
-    <Compile Include="Models\Targets\BasecampTarget.cs" />
-    <Compile Include="Models\Targets\BaseTarget.cs" />
-    <Compile Include="Models\Targets\CampfireTarget.cs" />
-    <Compile Include="Models\Targets\ClickatellTarget.cs" />
-    <Compile Include="Models\Targets\EmailTarget.cs" />
-    <Compile Include="Models\Targets\FlowdockTarget.cs" />
-    <Compile Include="Models\Targets\GetSatisfactionTarget.cs" />
-    <Compile Include="Models\Targets\GroupTargetResponse.cs" />
-    <Compile Include="Models\Targets\HTTPTarget.cs" />
-    <Compile Include="Models\Targets\IndividualTargetResponse.cs" />
-    <Compile Include="Models\Targets\JiraTarget.cs" />
-    <Compile Include="Models\Targets\PivotalTarget.cs" />
-    <Compile Include="Models\Targets\TwitterTarget.cs" />
-    <Compile Include="Models\Targets\URLTarget.cs" />
-    <Compile Include="Models\Targets\YammerTarget.cs" />
-    <Compile Include="Models\Tickets\GroupTicketExportResponse.cs" />
-    <Compile Include="Models\Tickets\TicketImportComment.cs" />
-    <Compile Include="Models\Tickets\TicketImport.cs" />
-    <Compile Include="Models\Tickets\GroupTicketMetricResponse.cs" />
-    <Compile Include="Models\Tickets\IndividualTicketMetricResponse.cs" />
-    <Compile Include="Models\Tickets\TimeSpanMetric.cs" />
-    <Compile Include="Models\Organizations\GroupOrganizationResponse.cs" />
-    <Compile Include="Models\Organizations\IndividualOrganizationResponse.cs" />
-    <Compile Include="Models\Organizations\Organization.cs" />
-    <Compile Include="Models\Requests\GroupCommentResponse.cs" />
-    <Compile Include="Models\Requests\GroupRequestResponse.cs" />
-    <Compile Include="Models\Requests\IndividualCommentResponse.cs" />
-    <Compile Include="Models\Requests\IndividualRequestResponse.cs" />
-    <Compile Include="Models\Requests\Request.cs" />
-    <Compile Include="Models\SatisfactionRatings\GroupSatisfactionResponse.cs" />
-    <Compile Include="Models\SatisfactionRatings\IndividualSatisfactionResponse.cs" />
-    <Compile Include="Models\SatisfactionRatings\SatisfactionRating.cs" />
-    <Compile Include="Models\Search\Result.cs" />
-    <Compile Include="Models\Search\SearchResults.cs" />
-    <Compile Include="Models\AccountsAndActivities\Apps.cs" />
-    <Compile Include="Models\AccountsAndActivities\Branding.cs" />
-    <Compile Include="Models\AccountsAndActivities\Chat.cs" />
-    <Compile Include="Models\AccountsAndActivities\GooddataIntegration.cs" />
-    <Compile Include="Models\AccountsAndActivities\Lotus.cs" />
-    <Compile Include="Models\AccountsAndActivities\Screencast.cs" />
-    <Compile Include="Models\AccountsAndActivities\Settings.cs" />
-    <Compile Include="Models\AccountsAndActivities\SettingsResponse.cs" />
-    <Compile Include="Models\AccountsAndActivities\Tickets.cs" />
-    <Compile Include="Models\AccountsAndActivities\Twitter.cs" />
-    <Compile Include="Models\AccountsAndActivities\User.cs" />
-    <Compile Include="Models\AccountsAndActivities\Voice.cs" />
-    <Compile Include="Models\Shared\Attachment.cs" />
-    <Compile Include="Models\Shared\Audit.cs" />
-    <Compile Include="Models\Shared\FaceBookPage.cs" />
-    <Compile Include="Models\Shared\GroupAuditResponse.cs" />
-    <Compile Include="Models\Shared\IndividualAuditResponse.cs" />
-    <Compile Include="Models\Shared\JobStatus.cs" />
-    <Compile Include="Models\Shared\JobStatusResponse.cs" />
-    <Compile Include="Models\Shared\Result.cs" />
-    <Compile Include="Models\Shared\Upload.cs" />
-    <Compile Include="Models\Shared\ZenFile.cs" />
-    <Compile Include="Models\SharingAgreements\GroupSharingAgreementResponse.cs" />
-    <Compile Include="Models\SharingAgreements\SharingAgreement.cs" />
-    <Compile Include="Models\Tags\GroupTagResult.cs" />
-    <Compile Include="Models\Tags\Tag.cs" />
-    <Compile Include="Models\Tags\TagAutocompleteResponse.cs" />
-    <Compile Include="Models\Tickets\BaseTicket.cs" />
-    <Compile Include="Models\Tickets\BulkUpdate.cs" />
-    <Compile Include="Models\Tickets\Comment.cs" />
-    <Compile Include="Models\Shared\Event.cs" />
-    <Compile Include="Models\Tickets\Custom.cs" />
-    <Compile Include="Models\Tickets\FieldHeaders.cs" />
-    <Compile Include="Models\Tickets\GroupTicketFormResponse.cs" />
-    <Compile Include="Models\Tickets\IndividualTicketFieldResponse.cs" />
-    <Compile Include="Models\Tickets\IndividualTicketFormResponse.cs" />
-    <Compile Include="Models\Tickets\IndividualTicketResponse.cs" />
-    <Compile Include="Models\Shared\Thumbnail.cs" />
-    <Compile Include="Models\Shared\MetaData.cs" />
-    <Compile Include="Models\Shared\System.cs" />
-    <Compile Include="Models\Tickets\GroupTicketResponse.cs" />
-    <Compile Include="Models\Tickets\CustomField.cs" />
-    <Compile Include="Models\Tickets\Field.cs" />
-    <Compile Include="Models\Tickets\From.cs" />
-    <Compile Include="Models\Tickets\Options.cs" />
-    <Compile Include="Models\Tickets\Requester.cs" />
-    <Compile Include="Models\Tickets\SatisfactionRating.cs" />
-    <Compile Include="Models\Tickets\Source.cs" />
-    <Compile Include="Models\Tickets\Suspended\Author.cs" />
-    <Compile Include="Models\Tickets\Suspended\From.cs" />
-    <Compile Include="Models\Tickets\Suspended\GroupSuspendedTicketResponse.cs" />
-    <Compile Include="Models\Tickets\Suspended\IndividualSuspendedTicketResponse.cs" />
-    <Compile Include="Models\Tickets\Suspended\Source.cs" />
-    <Compile Include="Models\Tickets\Suspended\SuspendedTicket.cs" />
-    <Compile Include="Models\Tickets\Suspended\To.cs" />
-    <Compile Include="Models\Tickets\Suspended\Via.cs" />
-    <Compile Include="Models\Tickets\Ticket.cs" />
-    <Compile Include="Models\Tickets\TicketExportResult.cs" />
-    <Compile Include="Models\Tickets\TicketField.cs" />
-    <Compile Include="Models\Tickets\GroupTicketFieldResponse.cs" />
-    <Compile Include="Models\Tickets\TicketForm.cs" />
-    <Compile Include="Models\Tickets\TicketMetric.cs" />
-    <Compile Include="Models\Tickets\To.cs" />
-    <Compile Include="Models\Shared\Via.cs" />
-    <Compile Include="Models\Topics\GroupTopicCommentResponse.cs" />
-    <Compile Include="Models\Topics\GroupTopicResponse.cs" />
-    <Compile Include="Models\Topics\GroupTopicSubscriptionResponse.cs" />
-    <Compile Include="Models\Topics\GroupTopicVoteResponse.cs" />
-    <Compile Include="Models\Topics\IndividualTopicCommentResponse.cs" />
-    <Compile Include="Models\Topics\IndividualTopicResponse.cs" />
-    <Compile Include="Models\Topics\IndividualTopicSubscriptionResponse.cs" />
-    <Compile Include="Models\Topics\IndividualTopicVoteResponse.cs" />
-    <Compile Include="Models\Topics\Topic.cs" />
-    <Compile Include="Models\Topics\TopicComment.cs" />
-    <Compile Include="Models\Topics\TopicSubscription.cs" />
-    <Compile Include="Models\Topics\TopicVote.cs" />
-    <Compile Include="Models\Triggers\Action.cs" />
-    <Compile Include="Models\Triggers\All.cs" />
-    <Compile Include="Models\Triggers\Conditions.cs" />
-    <Compile Include="Models\Triggers\GroupTriggerResponse.cs" />
-    <Compile Include="Models\Triggers\IndividualTriggerResponse.cs" />
-    <Compile Include="Models\Triggers\Trigger.cs" />
-    <Compile Include="Models\Users\GroupUserIdentityResponse.cs" />
-    <Compile Include="Models\Users\GroupUserResponse.cs" />
-    <Compile Include="Models\Users\IndividualUserIdentityResponse.cs" />
-    <Compile Include="Models\Users\IndividualUserRelatedInformationResponse.cs" />
-    <Compile Include="Models\Users\RelatedInformation.cs" />
-    <Compile Include="Models\Users\UserIdentity.cs" />
-    <Compile Include="Models\Users\IndividualUserResponse.cs" />
-    <Compile Include="Models\Users\Photo.cs" />
-    <Compile Include="Models\Users\User.cs" />
-    <Compile Include="Models\Views\All.cs" />
-    <Compile Include="Models\Views\Conditions.cs" />
-    <Compile Include="Models\Views\Executed\Column.cs" />
-    <Compile Include="Models\Views\Executed\CustomField.cs" />
-    <Compile Include="Models\Views\Executed\ExecutedViewResponse.cs" />
-    <Compile Include="Models\Views\Executed\Field.cs" />
-    <Compile Include="Models\Views\Executed\LastComment.cs" />
-    <Compile Include="Models\Views\Executed\PreviewViewRequest.cs" />
-    <Compile Include="Models\Views\Executed\Row.cs" />
-    <Compile Include="Models\Views\Executed\ExecutedTicket.cs" />
-    <Compile Include="Models\Views\Executed\ExecutedUser.cs" />
-    <Compile Include="Models\Views\Executed\View.cs" />
-    <Compile Include="Models\Views\Execution.cs" />
-    <Compile Include="Models\Views\Field.cs" />
-    <Compile Include="Models\Views\GroupViewResponse.cs" />
-    <Compile Include="Models\Views\IndividualViewCountResponse.cs" />
-    <Compile Include="Models\Views\IndividualViewResponse.cs" />
-    <Compile Include="Models\Views\View.cs" />
-    <Compile Include="Models\Views\ViewCount.cs" />
-    <Compile Include="Models\Views\GroupViewCountResponse.cs" />
-    <Compile Include="Models\Voice\AgentActivity.cs" />
-    <Compile Include="Models\Voice\GroupAgentActivityResponse.cs" />
-    <Compile Include="Models\Voice\HistoricalQueueActivity.cs" />
-    <Compile Include="RequestResult.cs" />
-    <Compile Include="Requests\HelpCenter\AccessPolicies.cs" />
-    <Compile Include="Requests\HelpCenter\ArticleAttachments.cs" />
-    <Compile Include="Requests\HelpCenter\Articles.cs" />
-    <Compile Include="Requests\Attachments.cs" />
-    <Compile Include="Requests\Categories.cs" />
-    <Compile Include="Requests\CustomAgentRoles.cs" />
-    <Compile Include="Requests\Forums.cs" />
-    <Compile Include="Requests\Groups.cs" />
-    <Compile Include="Requests\HelpCenter\ArticleSortingOptions.cs" />
-    <Compile Include="Requests\HelpCenter\Categories.cs" />
-    <Compile Include="Requests\HelpCenter\Comments.cs" />
-    <Compile Include="Requests\HelpCenter\Posts.cs" />
-    <Compile Include="Requests\HelpCenter\Topics.cs" />
-    <Compile Include="Requests\HelpCenter\Translations.cs" />
-    <Compile Include="Requests\HelpCenter\Votes.cs" />
-    <Compile Include="Requests\JobStatuses.cs" />
-    <Compile Include="Requests\Locales.cs" />
-    <Compile Include="Requests\Macros.cs" />
-    <Compile Include="Requests\Organizations.cs" />
-    <Compile Include="Requests\Requests.cs" />
-    <Compile Include="Requests\SatisfactionRatings.cs" />
-    <Compile Include="Requests\Schedules.cs" />
-    <Compile Include="Requests\Search.cs" />
-    <Compile Include="Requests\AccountsAndActivity.cs" />
-    <Compile Include="Requests\HelpCenter\Sections.cs" />
-    <Compile Include="Requests\SharingAgreements.cs" />
-    <Compile Include="Requests\Tags.cs" />
-    <Compile Include="Requests\Targets.cs" />
-    <Compile Include="Requests\Topics.cs" />
-    <Compile Include="Requests\Brands.cs" />
-    <Compile Include="Requests\Triggers.cs" />
-    <Compile Include="Requests\Users.cs" />
-    <Compile Include="Requests\Views.cs" />
-    <Compile Include="Requests\Voice.cs" />
-    <Compile Include="Serialization\BaseJsonConverter.cs" />
-    <Compile Include="Serialization\TargetJsonConverter.cs" />
-    <Compile Include="Serialization\SingleOrArrayConverter.cs" />
-    <Compile Include="Serialization\UnixEpochTimeConverter.cs" />
-    <Compile Include="Serialization\ZendeskContractResolver.cs" />
-    <Compile Include="ZendeskApi.cs" />
-    <Compile Include="Core.cs" />
-    <Compile Include="Models\Constants\TicketPriorities.cs" />
-    <Compile Include="Models\Constants\TicketStatus.cs" />
-    <Compile Include="Models\Constants\TicketTypes.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests\Tickets.cs" />
+
+  <Import Project="..\Microsoft.Bcl.Build.targets" Condition="Exists('..\Microsoft.Bcl.Build.targets') AND '$(TargetFramework)' == 'net40'" />
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+    <None Remove="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!--<Import Project="$(SolutionDir)\.nuget\nuget.targets" />-->
-  <PropertyGroup>
-    <PostBuildEvent>pushd "$(SolutionDir)"
-if not exist "ZendeskApi_v2_Package\lib" mkdir "ZendeskApi_v2_Package\lib"
-if not exist "ZendeskApi_v2_Package\lib\net45" mkdir "ZendeskApi_v2_Package\lib\net45"
-copy "$(ProjectName)\$(OutDir)\$(TargetFileName)" "ZendeskApi_v2_Package\lib\net45\$(TargetFileName)" /Y
-popd</PostBuildEvent>
-  </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Reflection;
+
 namespace ZendeskApi_v2.Serialization
 {
     public class UnixEpochTimeConverter : DateTimeConverterBase

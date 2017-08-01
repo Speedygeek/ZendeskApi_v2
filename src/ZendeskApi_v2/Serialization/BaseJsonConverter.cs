@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Reflection;
 
 namespace ZendeskApi_v2.Serialization
 {
@@ -15,12 +16,13 @@ namespace ZendeskApi_v2.Serialization
         public override bool CanConvert(Type objectType)
         {
             return typeof(T).IsAssignableFrom(objectType);
+
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jsonObject = JObject.Load(reader);
-            var target     = Create(objectType, jsonObject);
+            var target = Create(objectType, jsonObject);
             serializer.Populate(jsonObject.CreateReader(), target);
             return target;
         }
