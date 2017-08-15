@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26724.1
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZendeskApi_v2", "ZendeskApi_v2\ZendeskApi_v2.csproj", "{5E961B79-3175-468E-BFDA-41FE9842D78A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZendeskApi_v2.Test", "..\test\ZendeskApi_v2.Test\ZendeskApi_v2.Test.csproj", "{BE7FB5E8-2B78-435E-B781-F72D4D650902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZendeskApi_v2.Example", "ZendeskApi_v2.Example\ZendeskApi_v2.Example.csproj", "{C1A3D493-49E3-4DEF-ABA9-34EF2153C08B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZendeskApi_v2.Example", "ZendeskApi_v2.Example\ZendeskApi_v2.Example.csproj", "{C1A3D493-49E3-4DEF-ABA9-34EF2153C08B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DC18BBC5-665C-4A9F-8E17-418CBFE2BEB6}"
+	ProjectSection(SolutionItems) = preProject
+		..\GitVersionConfig.yaml = ..\GitVersionConfig.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
