@@ -21,8 +21,8 @@ namespace Tests
     [Category("Tickets")]
     public class TicketTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
 
         [OneTimeTearDown]
         public async Task TestCleanUp()
@@ -108,7 +108,6 @@ namespace Tests
             Assert.AreEqual(nextPage, (page + 1).ToString());
         }
 
-
         [Test]
         public void CanGetTicketById()
         {
@@ -137,7 +136,6 @@ namespace Tests
             var tickets = api.Tickets.GetTicketsByOrganizationID(id);
             Assert.True(tickets.Count > 0);
         }
-
 
         [Test]
         public void CanGetTicketsByOrganizationIdPaged()
@@ -300,7 +298,6 @@ namespace Tests
             Assert.IsTrue(tickets.Organizations.Any());
         }
 
-
         [Test]
         public void CanGetMultipleTicketsSingleTicket()
         {
@@ -354,9 +351,7 @@ namespace Tests
 
             Assert.AreEqual(ticket.CustomFields[1].Value, updateResponse.Ticket.CustomFields[1].Value);
 
-
             Assert.True(api.Tickets.Delete(res.Id.Value));
-
         }
 
         [Test]
@@ -471,7 +466,6 @@ namespace Tests
             Assert.IsNull(comments.Organizations);
         }
 
-
         [Test]
         public void CanGetTicketCommentsPaged()
         {
@@ -494,7 +488,6 @@ namespace Tests
 
             Assert.AreEqual((page + 1).ToString(), nextPageValue);
         }
-
 
         [Test]
         public void CanCreateTicketWithRequester()
@@ -534,7 +527,6 @@ namespace Tests
 
             Assert.True(api.Tickets.Delete(res.Ticket.Id.Value));
         }
-
 
         [Test]
         public void CanCreateTicketWithDueDate()
@@ -601,7 +593,6 @@ namespace Tests
                 CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail },
                 AssigneeId = Settings.UserId
             });
-
 
             Assert.AreEqual(res.JobStatus.Status, "queued");
 
@@ -851,7 +842,6 @@ namespace Tests
             string option2 = "test_value_b";
             string option3 = "test_value_c";
 
-
             var tField = new TicketField()
             {
                 Type = TicketFieldTypes.Tagger,
@@ -915,7 +905,6 @@ namespace Tests
         [Ignore("Need to Create Suspended Ticket Working with Zendesk support Team")]
         public void CanGetSuspendedTickets()
         {
-
             var all = api.Tickets.GetSuspendedTickets();
             Assert.Greater(all.Count, 0);
 
@@ -982,7 +971,6 @@ namespace Tests
             var count = 50;
             var nextPage = api.Tickets.GetByPageUrl<GroupTicketMetricResponse>(metrics.NextPage, count);
             Assert.AreEqual(nextPage.TicketMetrics.Count, count);
-
         }
 
         [Test]
@@ -1116,7 +1104,6 @@ namespace Tests
             api.Tickets.DeleteAsync(res.Id);
         }
 
-
         [Test]
         public void CanBulkImportTicket()
         {
@@ -1145,7 +1132,6 @@ namespace Tests
 
             var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
             Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
-
 
             int count = 0;
             while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
@@ -1186,7 +1172,6 @@ namespace Tests
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
                 ContractResolver = ZendeskApi_v2.Serialization.ZendeskContractResolver.Instance
-
             };
 
             string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
@@ -1352,12 +1337,9 @@ namespace Tests
             Assert.True(await api.Tickets.DeleteAsync(respTicket.Ticket.Id.Value));
         }
 
-
-
         [Test]
         public async Task CanGetIsPublicAsync()
         {
-
             var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
@@ -1377,7 +1359,6 @@ namespace Tests
             Assert.That(await api.Tickets.DeleteAsync(resp2.Ticket.Id.Value), Is.True);
         }
 
-
         [Test]
         public async Task CanGetSystemFieldOptions()
         {
@@ -1386,6 +1367,33 @@ namespace Tests
             Assert.That(resp.TicketField.SystemFieldOptions, Is.Not.Null);
         }
 
+        [Test]
+        public async Task CanSetFollowupID()
+        {
+            var ticket = new Ticket { Comment = new Comment { Body = "This is a Test", Public = false } };
 
+            var resp1 = await api.Tickets.CreateTicketAsync(ticket);
+
+            var closedTicket = resp1.Ticket;
+
+            closedTicket.Status = TicketStatus.Closed;
+
+            var resp2 = await api.Tickets.UpdateTicketAsync(closedTicket, new Comment { Body = "Closing Ticket" });
+
+            var ticket_Followup = new Ticket()
+            {
+                Subject = "This is a Test Follow up",
+                Comment = new Comment { Body = "HELP", Public = true },
+                Priority = TicketPriorities.Urgent,
+                ViaFollowupSourceId = closedTicket.Id.Value
+            };
+
+            var resp3 = await api.Tickets.CreateTicketAsync(ticket_Followup);
+
+            Assert.That(resp3.Ticket.Via.Source.Rel, Is.EqualTo("follow_up"));
+
+            Assert.That(await api.Tickets.DeleteAsync(resp3.Ticket.Id.Value), Is.True);
+            Assert.That(await api.Tickets.DeleteAsync(closedTicket.Id.Value), Is.True);
+        }
     }
 }
