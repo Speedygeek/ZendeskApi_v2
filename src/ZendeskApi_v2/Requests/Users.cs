@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ZendeskApi_v2.Extensions;
 #if ASYNC
@@ -27,6 +27,11 @@ namespace ZendeskApi_v2.Requests
 #if SYNC
         IndividualUserResponse GetCurrentUser();
         GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        GroupUserResponse GetAllAgents(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        GroupUserResponse GetAllAdmins(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        GroupUserResponse GetAllEndUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        GroupUserResponse GetAllUsersInRoles(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None, bool agents = false, bool endUsers = false, bool admins = false);
+        GroupUserResponse GetAllUsersInEnterpriseRole(long enterpriseRoleId, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         IndividualUserResponse GetUser(long id);
         IndividualUserRelatedInformationResponse GetUserRelatedInformation(long id);
         IndividualUserResponse MergeUser(long fromId, long intoId);
@@ -64,6 +69,11 @@ namespace ZendeskApi_v2.Requests
 #if ASYNC
         Task<IndividualUserResponse> GetCurrentUserAsync();
         Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        Task<GroupUserResponse> GetAllAgentsAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        Task<GroupUserResponse> GetAllAdminsAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        Task<GroupUserResponse> GetAllEndUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+        Task<GroupUserResponse> GetAllUsersInRolesAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None, bool agents = false, bool endUsers = false, bool admins = false);
+        Task<GroupUserResponse> GetAllUsersInEnterpriseRoleAsync(long enterpriseRoleId, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
         Task<IndividualUserResponse> GetUserAsync(long id);
         Task<IndividualUserRelatedInformationResponse> GetUserRelatedInformationAsync(long id);
         Task<IndividualUserResponse> MergeUserAsync(long fromId, long intoId);
@@ -115,6 +125,52 @@ namespace ZendeskApi_v2.Requests
         public GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
             string resource = GetResourceStringWithSideLoadOptionsParam("users.json", sideLoadOptions);
+
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
+        }
+
+        public GroupUserResponse GetAllAgents(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=agent", sideLoadOptions);
+
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
+        }
+
+        public GroupUserResponse GetAllAdmins(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=admin", sideLoadOptions);
+
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
+        }
+
+        public GroupUserResponse GetAllEndUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=end-user", sideLoadOptions);
+
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
+        }
+
+        public GroupUserResponse GetAllUsersInRoles(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None, bool agents = false, bool endUsers = false, bool admins = false)
+        {
+            var resourceString = "users.json?";
+
+            if (agents)
+                resourceString += "role[]=agent&";
+            if (endUsers)
+                resourceString += "role[]=end-user&";
+            if (admins)
+                resourceString += "role[]=admin&";
+
+            resourceString = resourceString.TrimEnd('&');
+
+            string resource = GetResourceStringWithSideLoadOptionsParam(resourceString, sideLoadOptions);
+
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
+        }
+
+        public GroupUserResponse GetAllUsersInEnterpriseRole(long enterpriseRoleId, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam($"users.json?permission_set={enterpriseRoleId}", sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
@@ -285,6 +341,42 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
             return await GenericPagedGetAsync<GroupUserResponse>("users.json", perPage, page);
+        }
+
+        public async Task<GroupUserResponse> GetAllAgentsAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            return await GenericPagedGetAsync<GroupUserResponse>("users.json?role=agent", perPage, page);
+        }
+
+        public async Task<GroupUserResponse> GetAllAdminsAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            return await GenericPagedGetAsync<GroupUserResponse>("users.json?role=admin", perPage, page);
+        }
+
+        public async Task<GroupUserResponse> GetAllEndUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            return await GenericPagedGetAsync<GroupUserResponse>("users.json?role=end-user", perPage, page);
+        }
+
+        public async Task<GroupUserResponse> GetAllUsersInRolesAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None, bool agents = false, bool endUsers = false, bool admins = false)
+        {
+            var resourceString = "users.json?";
+
+            if (agents)
+                resourceString += "role[]=agent&";
+            if (endUsers)
+                resourceString += "role[]=end-user&";
+            if (admins)
+                resourceString += "role[]=admin&";
+
+            resourceString = resourceString.TrimEnd('&');
+
+            return await GenericPagedGetAsync<GroupUserResponse>(resourceString, perPage, page);
+        }
+
+        public async Task<GroupUserResponse> GetAllUsersInEnterpriseRoleAsync(long enterpriseRoleId, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            return await GenericPagedGetAsync<GroupUserResponse>($"users.json?permission_set={enterpriseRoleId}", perPage, page);
         }
 
         public async Task<IndividualUserResponse> GetUserAsync(long id)
