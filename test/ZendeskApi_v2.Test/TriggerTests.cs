@@ -25,7 +25,6 @@ namespace Tests
             }
         }
 
-
         [Test]
         public void CanGetTriggers()
         {
@@ -33,7 +32,7 @@ namespace Tests
             Assert.Greater(res.Count, 0);
 
             var ind = api.Triggers.GetTriggerById(res.Triggers[0].Id.Value);
-            Assert.AreEqual(ind.Trigger.Id, res.Triggers[0].Id);            
+            Assert.AreEqual(ind.Trigger.Id, res.Triggers[0].Id);
         }
 
         [Test]
@@ -56,7 +55,7 @@ namespace Tests
             Assert.Greater(res.Trigger.Id, 0);
 
             res.Trigger.Title = "Test Trigger Updated";
-            var update        = api.Triggers.UpdateTrigger(res.Trigger);
+            var update = api.Triggers.UpdateTrigger(res.Trigger);
             Assert.AreEqual(update.Trigger.Title, res.Trigger.Title);
 
             Assert.True(api.Triggers.DeleteTrigger(res.Trigger.Id.Value));
@@ -65,25 +64,25 @@ namespace Tests
         [Test]
         public void CanReorderTriggers()
         {
-            var res          = api.Triggers.GetActiveTriggers().Triggers;
+            var res = api.Triggers.GetActiveTriggers().Triggers;
             Assert.AreEqual(res.Count(), 0);
 
             var trigger = new Trigger()
             {
-                Title      = "Test Trigger1",
-                Active     = true,
+                Title = "Test Trigger1",
+                Active = true,
                 Conditions = new Conditions() { All = new List<All>() { new All() { Field = "status", Operator = "is", Value = "open" } }, Any = new List<All>() },
-                Actions    = new List<Action>() { new Action() { Field = "group_id", Value = "20402842" } },
-                Position   = 5000
+                Actions = new List<Action>() { new Action() { Field = "group_id", Value = "20402842" } },
+                Position = 5000
             };
 
             var trigger2 = new Trigger()
             {
-                Title      = "Test Trigger2",
-                Active     = true,
+                Title = "Test Trigger2",
+                Active = true,
                 Conditions = new Conditions() { All = new List<All>() { new All() { Field = "status", Operator = "is", Value = "open" } }, Any = new List<All>() },
-                Actions    = new List<Action>() { new Action() { Field = "group_id", Value = "20402842" } },
-                Position   = 6000
+                Actions = new List<Action>() { new Action() { Field = "group_id", Value = "20402842" } },
+                Position = 6000
             };
 
             var res2 = api.Triggers.CreateTrigger(trigger);
