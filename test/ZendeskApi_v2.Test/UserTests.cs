@@ -24,6 +24,34 @@ namespace Tests
             var res = api.Users.GetAllUsers();
             Assert.True(res.Count > 0);
         }
+        
+        [Test]
+        public void CanGetAgents()
+        {
+            var res = api.Users.GetAllAgents();
+            Assert.True(res.Count > 0);
+        }
+
+        [Test]
+        public void CanGetAdmins()
+        {
+            var res = api.Users.GetAllAdmins();
+            Assert.True(res.Count > 0);
+        }
+
+        [Test]
+        public void CanGetEndUsers()
+        {
+            var res = api.Users.GetAllEndUsers();
+            Assert.True(res.Count > 0);
+        }
+
+        [Test]
+        public void CanGetAllUsersInRoles()
+        {
+            var res = api.Users.GetAllUsersInRoles(agents: true, admins: true);
+            Assert.True(res.Count > 0);
+        }
 
         [Test]
         public void CanGetUserByCustomField()
