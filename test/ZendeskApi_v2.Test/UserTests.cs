@@ -16,7 +16,7 @@ namespace Tests
     [Category("Users")]
     public class UserTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetUsers()
@@ -24,7 +24,7 @@ namespace Tests
             var res = api.Users.GetAllUsers();
             Assert.True(res.Count > 0);
         }
-        
+
         [Test]
         public void CanGetAgents()
         {
@@ -99,7 +99,7 @@ namespace Tests
             var list = api.Users.GetAllUsers();
             var users = list.Users.Where(x => x.Email == "test772@tester.com");
 
-            foreach(var u in users)
+            foreach (var u in users)
             {
                 api.Users.DeleteUser(u.Id.Value);
             }
@@ -129,7 +129,6 @@ namespace Tests
             var res2 = api.Users.UpdateUser(res1.User);
             var blah = api.Users.GetUser(res1.User.Id.Value);
             Assert.AreEqual(res1.User.Phone, res2.User.Phone);
-
 
             var res3 = api.Users.SuspendUser(res2.User.Id.Value);
             Assert.IsTrue(res3.User.Suspended);
@@ -292,31 +291,34 @@ namespace Tests
         [Test]
         public void CanSetUserPhoto()
         {
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "gracehoppertocat3.jpg");
+
             var file = new ZenFile()
             {
                 ContentType = "image/jpeg",
                 FileName = "gracehoppertocat3.jpg",
-                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\gracehoppertocat3.jpg")
+                FileData = File.ReadAllBytes(path)
             };
 
             var user = api.Users.SetUserPhoto(Settings.UserId, file);
             Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
-            Assert.That(user.User.Photo.Size, Is.EqualTo(6553));
+            Assert.That(user.User.Photo.Size, Is.Not.Zero);
         }
 
         [Test]
         public async Task CanSetUserPhotoAsync()
         {
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "gracehoppertocat3.jpg");
             var file = new ZenFile()
             {
                 ContentType = "image/jpeg",
                 FileName = "gracehoppertocat3.jpg",
-                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\gracehoppertocat3.jpg")
+                FileData = File.ReadAllBytes(path)
             };
 
             var user = await api.Users.SetUserPhotoAsync(Settings.UserId, file);
             Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
-            Assert.That(user.User.Photo.Size, Is.EqualTo(6553));
+            Assert.That(user.User.Photo.Size, Is.Not.Zero);
         }
 
         [Test]
