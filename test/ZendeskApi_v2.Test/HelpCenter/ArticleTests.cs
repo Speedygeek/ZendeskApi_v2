@@ -48,7 +48,6 @@ namespace Tests.HelpCenter
             Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
         }
 
-        #region Sideloaded Content
         public void CanGetArticleSideloadedWith()
         {
             var res = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Users);
@@ -139,7 +138,6 @@ namespace Tests.HelpCenter
 
             Assert.IsTrue(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title);
         }
-        #endregion
 
         [Test]
         public void CanCreateUpdateAndDeleteArticles()
@@ -232,7 +230,7 @@ namespace Tests.HelpCenter
 
             Section section = (await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value)).Section;
 
-            // user 2 is a member of the testing tag so we should get the section 
+            // user 2 is a member of the testing tag so we should get the section
             Assert.That(section, Is.Not.Null);
 
             responsSection.Section.AccessPolicy = new AccessPolicy { ViewableBy = ViewableBy.signed_in_users, RequiredTags = new List<string> { "monkey" } };
@@ -256,7 +254,6 @@ namespace Tests.HelpCenter
 
             var resp = await api.HelpCenter.Articles.GetByPageUrlAsync<GroupArticleResponse>(res.NextPage, pageSize);
             Assert.That(resp.Page, Is.EqualTo(2));
-
         }
 
         [Test]
