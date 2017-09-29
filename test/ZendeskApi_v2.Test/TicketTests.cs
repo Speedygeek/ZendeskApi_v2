@@ -635,11 +635,13 @@ namespace Tests
         [Test]
         public void CanAddAttachmentToTicket()
         {
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "testupload.txt");
+
             var res = api.Attachments.UploadAttachment(new ZenFile()
             {
                 ContentType = "text/plain",
                 FileName = "testupload.txt",
-                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\testupload.txt")
+                FileData = File.ReadAllBytes(path)
             });
 
             var ticket = new Ticket()
