@@ -50,7 +50,10 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public IndividualCategoryResponse CreateCategory(Category category)
         {
             if (string.IsNullOrEmpty(category.Locale))
+            {
                 category.Locale = Locale;
+            }
+
             var body = new { category };
 
             return GenericPost<IndividualCategoryResponse>("help_center/categories.json", body);

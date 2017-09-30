@@ -219,7 +219,9 @@ namespace Tests
 
             var existingUser = api.Users.SearchByEmail(user.Email);
             if (existingUser.Count > 0)
+            {
                 api.Users.DeleteUser(existingUser.Users[0].Id.Value);
+            }
 
             var res1 = api.Users.CreateUser(user);
             var userId = res1.User.Id.Value;
@@ -245,13 +247,17 @@ namespace Tests
         [Test]
         public async Task CanMergeUsersAsync()
         {
-            var user1 = new User();
-            user1.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
-            user1.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
+            var user1 = new User
+            {
+                Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com"
+            };
 
-            var user2 = new User();
-            user2.Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N");
-            user2.Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com";
+            var user2 = new User
+            {
+                Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com"
+            };
 
             var resultUser1 = api.Users.CreateUser(user1);
             var resultUser2 = api.Users.CreateUser(user2);
@@ -347,6 +353,45 @@ namespace Tests
             //Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(IndividualUserRelatedInformationResponse), result);
+        }
+
+        [Test]
+        public async Task CanCreateUpdateAndDeleteIdentitiesAsync()
+        {
+            var user = new User()
+            {
+                Name = "test user10",
+                Email = "test10@test.com",
+            };
+
+            var existingUser = await api.Users.SearchByEmailAsync(user.Email);
+            if (existingUser.Count > 0)
+            {
+                await api.Users.DeleteUserAsync(existingUser.Users[0].Id.Value);
+            }
+
+            var res1 = await api.Users.CreateUserAsync(user);
+            var userId = res1.User.Id.Value;
+
+            var res2 = await api.Users.AddUserIdentityAsync(userId, new UserIdentity
+            {
+                Type = UserIdentityTypes.Email,
+                Value = "moretest@test.com"
+            });
+
+            var identityId = res2.Identity.Id.Value;
+            Assert.That(identityId, Is.GreaterThan(0));
+            res2.Identity.Value = "moretest2@test.com";
+
+            await api.Users.UpdateUserIdentityAsync(userId, res2.Identity);
+
+            var res3 = await api.Users.GetSpecificUserIdentityAsync(userId, identityId);
+
+            Assert.That(res3.Identity.Id, Is.EqualTo(identityId));
+            Assert.That(res3.Identity.Value, Is.EqualTo(res2.Identity.Value));
+
+            Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
+            Assert.True(api.Users.DeleteUser(userId));
         }
     }
 }
