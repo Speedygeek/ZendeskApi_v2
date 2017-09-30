@@ -58,7 +58,9 @@ namespace ZendeskApi_v2.Requests
         {
             var zenFiles = files as IList<ZenFile> ?? files.ToList();
             if (!zenFiles.Any())
+            {
                 return null;
+            }
 
             var res = UploadAttachment(zenFiles.First(), timeout);
 
@@ -66,7 +68,9 @@ namespace ZendeskApi_v2.Requests
             {
                 var otherFiles = zenFiles.Skip(1);
                 foreach (var curFile in otherFiles)
+                {
                     res = UploadAttachment(curFile, res.Token, timeout);
+                }
             }
 
             return res;
@@ -102,7 +106,9 @@ namespace ZendeskApi_v2.Requests
         {
             var zenFiles = files as IList<ZenFile> ?? files.ToList();
             if (!zenFiles.Any())
+            {
                 return null;
+            }
 
             var res = UploadAttachmentAsync(zenFiles.First(), timeout);
 

@@ -50,10 +50,14 @@ namespace ZendeskApi_v2.Models
         private long GetPageFromParameter()
         {
             if (string.IsNullOrEmpty(PreviousPage))
+            {
                 return 1;
+            }
 
             if (string.IsNullOrEmpty(NextPage))
+            {
                 return TotalPages;
+            }
 
             Dictionary<string, string> dict = NextPage.GetQueryStringDict();
             if (dict.ContainsKey("page"))
@@ -68,7 +72,9 @@ namespace ZendeskApi_v2.Models
         {
             var page = NextPage ?? PreviousPage;
             if (page == null)
+            {
                 return 100;
+            }
 
             Dictionary<string, string> dict = page.GetQueryStringDict();
             if (dict.ContainsKey("per_page"))

@@ -107,7 +107,9 @@ namespace ZendeskApi_v2
         public T GetByPageUrl<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
+            {
                 return JsonConvert.DeserializeObject<T>("");
+            }
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return RunRequest<T>(resource, RequestMethod.Get);
@@ -329,13 +331,21 @@ namespace ZendeskApi_v2
         protected string GetPasswordOrTokenAuthHeader()
         {
             if (!ApiToken.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
+            {
                 return GetAuthHeader(User + "/token", ApiToken);
+            }
             else if (!Password.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
+            {
                 return GetAuthHeader(User, Password);
+            }
             else if (!OAuthToken.IsNullOrWhiteSpace())
+            {
                 return GetAuthBearerHeader(OAuthToken);
+            }
             else
+            {
                 return string.Empty;
+            }
         }
 
         protected string GetAuthBearerHeader(string oAuthToken)
@@ -353,7 +363,9 @@ namespace ZendeskApi_v2
         public async Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
+            {
                 return JsonConvert.DeserializeObject<T>("");
+            }
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return await RunRequestAsync<T>(resource, RequestMethod.Get);
