@@ -421,7 +421,10 @@ namespace ZendeskApi_v2.Requests
         public IndividualTicketResponse UpdateTicket(Ticket ticket, Comment comment = null)
         {
             if (comment != null)
+            {
                 ticket.Comment = comment;
+            }
+
             var body = new { ticket };
 
             return GenericPut<IndividualTicketResponse>($"{_tickets}/{ticket.Id}.json", body);
@@ -745,7 +748,10 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTicketResponse> UpdateTicketAsync(Ticket ticket, Comment comment = null)
         {
             if (comment != null)
+            {
                 ticket.Comment = comment;
+            }
+
             var body = new { ticket };
 
             return await GenericPutAsync<IndividualTicketResponse>($"{_tickets}/{ticket.Id}.json", body);
@@ -957,7 +963,9 @@ namespace ZendeskApi_v2.Requests
             if (sideLoadOptions != TicketSideLoadOptionsEnum.None)
             {
                 if (sideLoadOptions.HasFlag(TicketSideLoadOptionsEnum.None))
+                {
                     sideLoadOptions &= ~TicketSideLoadOptionsEnum.None;
+                }
 
                 string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
                 resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
