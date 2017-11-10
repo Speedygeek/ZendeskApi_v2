@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 #endif
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Shared;
 
@@ -50,17 +49,15 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-        
-       JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-            ContractResolver = Serialization.ZendeskContractResolver.Instance,
-        };
+            ContractResolver = Serialization.ZendeskContractResolver.Instance
 
-        
+        };
         protected string OAuthToken;
 
         /// <summary>
