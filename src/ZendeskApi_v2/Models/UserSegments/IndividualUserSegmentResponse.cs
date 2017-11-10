@@ -7,6 +7,5 @@ namespace ZendeskApi_v2.Models.UserSegments
     {
         [JsonProperty("user_segment")]
         public UserSegment UserSegment { get; set; }
-
     }
 }
