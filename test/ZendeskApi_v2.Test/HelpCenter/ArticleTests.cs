@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
-using ZendeskApi_v2.Models.AccessPolicies;
 using ZendeskApi_v2.Models.Articles;
 using ZendeskApi_v2.Models.Sections;
 using ZendeskApi_v2.Models.Users;
@@ -195,53 +194,6 @@ namespace Tests.HelpCenter
             Assert.AreEqual(update.Article.LabelNames, res.Article.LabelNames);
 
             Assert.True(await api.HelpCenter.Articles.DeleteArticleAsync(res.Article.Id.Value));
-        }
-
-        [Test]
-        [Ignore("Test case needs to be changed")]
-        public async Task TestCaseForIssue220()
-        {
-            var resp = await api.HelpCenter.Sections.GetSectionsAsync();
-            foreach (var _section in resp.Sections.Where(x => x.Name == "testing section access" || x.Name == "testing section"))
-            {
-                await api.HelpCenter.Sections.DeleteSectionAsync(_section.Id.Value);
-            }
-
-            var responsSection = await api.HelpCenter.Sections.CreateSectionAsync(new Section
-            {
-                Name = "testing section access",
-                CategoryId = Settings.Category_ID
-            });
-
-            var res = await api.HelpCenter.Articles.CreateArticleAsync(responsSection.Section.Id.Value, new Article
-            {
-                Title = "My Test article",
-                Body = "The body of my article",
-                Locale = "en-us"
-            });
-
-            var tagList = new List<string> { "testing" };
-
-            responsSection.Section.AccessPolicy = new AccessPolicy { ViewableBy = ViewableBy.signed_in_users, RequiredTags = tagList };
-
-            await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
-
-            var apiForUser2 = new ZendeskApi(Settings.Site, Settings.AgentEmail, Settings.AgentPassword);
-
-            Section section = (await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value)).Section;
-
-            // user 2 is a member of the testing tag so we should get the section
-            Assert.That(section, Is.Not.Null);
-
-            responsSection.Section.AccessPolicy = new AccessPolicy { ViewableBy = ViewableBy.signed_in_users, RequiredTags = new List<string> { "monkey" } };
-
-            await api.HelpCenter.AccessPolicies.UpdateSectionAccessPolicyAsync(responsSection.Section);
-
-            Thread.Sleep(10000);
-            Assert.ThrowsAsync<WebException>(async () =>
-            {
-                var sec = await apiForUser2.HelpCenter.Sections.GetSectionByIdAsync(responsSection.Section.Id.Value);
-            });
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -16,10 +17,10 @@ namespace ZendeskApi_v2.Models.UserSegments
         public int? Id { get; set; }
 
         [JsonProperty("name")]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
-        [JsonProperty("user_type")]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))] 
+        [JsonProperty("user_type", DefaultValueHandling = DefaultValueHandling.Include)]
         public UserType UserType { get; set; }
 
         [JsonProperty("group_ids")]

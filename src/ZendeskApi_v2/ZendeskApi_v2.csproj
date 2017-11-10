@@ -27,6 +27,9 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
    <TargetFrameworks>net40;net35;net45;portable40-net40+sl5+win8+wpa81+wp8</TargetFrameworks>
+   <ApplicationIcon />
+   <OutputType>Library</OutputType>
+   <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">

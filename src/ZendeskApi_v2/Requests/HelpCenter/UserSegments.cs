@@ -101,15 +101,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 
 
-        public IndividualUserSegmentResponse UpdateUserSegment(UserSegment userSegment)
+        public IndividualUserSegmentResponse UpdateUserSegment(UserSegment user_segment)
         {
-            return GenericPut<IndividualUserSegmentResponse>($"help_center/user_segments/{userSegment.Id}.json", userSegment);
+            return GenericPut<IndividualUserSegmentResponse>($"help_center/user_segments/{user_segment.Id}.json", user_segment);
         }
 
-        public IndividualUserSegmentResponse CreateUserSegment(UserSegment userSegment)
+        public IndividualUserSegmentResponse CreateUserSegment(UserSegment user_segment)
         {
-            var body = new { userSegment };
-            return GenericPost<IndividualUserSegmentResponse>($"help_center/user_segments.json", body); 
+            return GenericPost<IndividualUserSegmentResponse>($"help_center/user_segments.json", new { user_segment }); 
         }
 
         public bool DeleteUserSegment(int id)
@@ -157,15 +156,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 
 
-        public async Task<IndividualUserSegmentResponse> UpdateUserSegmentAsync(UserSegment userSegment)
+        public async Task<IndividualUserSegmentResponse> UpdateUserSegmentAsync(UserSegment user_segment)
         {
-            return await GenericPutAsync<IndividualUserSegmentResponse>($"help_center/user_segments/{userSegment.Id}.json", userSegment);
+            return await GenericPutAsync<IndividualUserSegmentResponse>($"help_center/user_segments/{user_segment.Id}.json", user_segment);
         }
 
-        public async Task<IndividualUserSegmentResponse> CreateUserSegmentAsync(UserSegment userSegment)
+        public async Task<IndividualUserSegmentResponse> CreateUserSegmentAsync(UserSegment user_segment)
         {
-            var body = new { userSegment };
-            return await GenericPostAsync<IndividualUserSegmentResponse>($"help_center/user_segments.json", body); 
+            return await GenericPostAsync<IndividualUserSegmentResponse>($"help_center/user_segments.json", new { user_segment }); 
         }
 
         public async Task<bool> DeleteUserSegmentAsync(int id)
