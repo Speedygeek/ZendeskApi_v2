@@ -11,7 +11,7 @@ namespace ZendeskApi_v2.HelpCenter
         IPosts Posts { get; }
         IVotes Votes { get; }
         IComments Comments { get; }
-        IAccessPolicies AccessPolicies { get; }
+        IUserSegments UserSegments { get; }
         ITopics Topics { get; }
         string Locale { get; }
     }
@@ -24,7 +24,7 @@ namespace ZendeskApi_v2.HelpCenter
         public ITranslations Translations { get; }
         public IVotes Votes { get; }
         public IComments Comments { get; }
-        public IAccessPolicies AccessPolicies { get; }
+        public IUserSegments UserSegments { get; }
         public ITopics Topics { get; }
         public IPosts Posts { get; }
         public string Locale { get; }
@@ -38,7 +38,7 @@ namespace ZendeskApi_v2.HelpCenter
             Translations = new Translations(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            AccessPolicies = new AccessPolicies(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            UserSegments = new UserSegments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Topics = new Topics(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Posts = new Posts(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
             Locale = locale;
