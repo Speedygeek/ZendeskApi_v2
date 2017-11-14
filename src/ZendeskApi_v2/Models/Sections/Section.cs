@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ZendeskApi_v2.Models.AccessPolicies;
 using ZendeskApi_v2.Models.HelpCenter.Translations;
 
 namespace ZendeskApi_v2.Models.Sections
@@ -52,7 +51,7 @@ namespace ZendeskApi_v2.Models.Sections
         [JsonProperty("translations")]
         public IList<Translation> Translations { get; set; }
 
-        [JsonProperty("access_policy")]
-        public AccessPolicy AccessPolicy { get; set; }
+        [JsonProperty("user_segment_id")]
+        public int? UserSegmentId { get; set; }
     }
 }
