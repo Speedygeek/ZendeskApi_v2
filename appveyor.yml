@@ -7,6 +7,7 @@ image: Previous Visual Studio 2017
 pull_requests:
   do_not_increment_build_number: true
 configuration: Release
+APPVEYOR_BLOCK_Nunit_TESTS_AUTORUN: true 
 nuget:
   disable_publish_on_pr: true
 # scripts that are called at very beginning, before repo cloning
