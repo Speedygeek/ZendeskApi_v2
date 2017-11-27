@@ -88,7 +88,7 @@ namespace Tests
             var res2 = api.Triggers.CreateTrigger(trigger);
             var res3 = api.Triggers.CreateTrigger(trigger2);
 
-            List<long> ids = new List<long>() { res3.Trigger.Id.Value, res2.Trigger.Id.Value };
+            var ids = new List<long>() { res3.Trigger.Id.Value, res2.Trigger.Id.Value };
 
             Assert.True(api.Triggers.ReorderTriggers(ids));
 

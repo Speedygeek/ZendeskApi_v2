@@ -37,7 +37,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanCreatePost()
         {
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = api.HelpCenter.Posts.CreatePost(post);
             Assert.That(res?.Post, Is.Not.Null);
         }
@@ -45,7 +45,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanDeletePost()
         {
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = api.HelpCenter.Posts.CreatePost(post);
             Assert.That(api.HelpCenter.Posts.DeletePost(res.Post.Id.Value), Is.True);
         }
@@ -53,7 +53,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetPost()
         {
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = api.HelpCenter.Posts.CreatePost(post);
             var get = api.HelpCenter.Posts.GetPost(res.Post.Id.Value);
             Assert.That(get.Post.Id, Is.EqualTo(res.Post.Id));
@@ -70,8 +70,8 @@ namespace Tests.HelpCenter
         [Test]
         public void CanUpdatePost()
         {
-            string updatedPostDetails = "This has been updated";
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var updatedPostDetails = "This has been updated";
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = api.HelpCenter.Posts.CreatePost(post);
 
             res.Post.Details = updatedPostDetails;
@@ -91,7 +91,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreatePostAsync()
         {
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = await api.HelpCenter.Posts.CreatePostAsync(post);
             Assert.That(res?.Post, Is.Not.Null);
         }
@@ -99,7 +99,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanDeletePostAsync()
         {
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = await api.HelpCenter.Posts.CreatePostAsync(post);
             Assert.That( await api.HelpCenter.Posts.DeletePostAsync(res.Post.Id.Value), Is.True);
         }
@@ -107,7 +107,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetPostAsync()
         {
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = await api.HelpCenter.Posts.CreatePostAsync(post);
             var get = await api.HelpCenter.Posts.GetPostAsync(res.Post.Id.Value);
             Assert.That(get.Post.Id, Is.EqualTo(res.Post.Id));
@@ -124,8 +124,8 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanUpdatePostAsync()
         {
-            string updatedPostDetails = "This has been updated";
-            Post post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
+            var updatedPostDetails = "This has been updated";
+            var post = new Post { Title = postTitile, Details = postDetails, TopicId = Settings.Topic_ID };
             var res = await api.HelpCenter.Posts.CreatePostAsync(post);
 
             res.Post.Details = updatedPostDetails;

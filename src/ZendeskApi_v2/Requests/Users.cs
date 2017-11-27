@@ -197,28 +197,28 @@ namespace ZendeskApi_v2.Requests
 
         public GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam("users.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam("users.json", sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
 
         public GroupUserResponse GetAllAgents(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=agent", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=agent", sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
 
         public GroupUserResponse GetAllAdmins(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=admin", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=admin", sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
 
         public GroupUserResponse GetAllEndUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=end-user", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam("users.json?role=end-user", sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
@@ -244,14 +244,14 @@ namespace ZendeskApi_v2.Requests
 
             resourceString = resourceString.TrimEnd('&');
 
-            string resource = GetResourceStringWithSideLoadOptionsParam(resourceString, sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam(resourceString, sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
 
         public GroupUserResponse GetAllUsersInEnterpriseRole(long enterpriseRoleId, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users.json?permission_set={enterpriseRoleId}", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users.json?permission_set={enterpriseRoleId}", sideLoadOptions);
 
             return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
@@ -280,7 +280,7 @@ namespace ZendeskApi_v2.Requests
 
         public GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
 
             return GenericGet<GroupUserResponse>(resource);
         }
@@ -637,7 +637,7 @@ namespace ZendeskApi_v2.Requests
                     sideLoadOptions &= ~UserSideLoadOptions.None;
                 }
 
-                string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
+                var sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
                 resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
                 return resource;
             }

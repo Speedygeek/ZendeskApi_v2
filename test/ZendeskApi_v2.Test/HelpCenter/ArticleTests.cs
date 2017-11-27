@@ -172,7 +172,7 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
-            GroupArticleResponse res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(202119686);
+            var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(202119686);
             Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
         }
 
@@ -199,7 +199,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetSecondPageUisngGetByPageUrl()
         {
-            int pageSize = 3;
+            var pageSize = 3;
 
             var res = await api.HelpCenter.Articles.GetArticlesAsync(perPage: pageSize);
             Assert.That(res.PageSize, Is.EqualTo(pageSize));

@@ -14,9 +14,9 @@ namespace ZendeskApi_v2.Serialization
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            bool nullable = (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            var nullable = (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
 
-            Type T = nullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+            var T = nullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
             if (reader.TokenType == JsonToken.Null)
             {
@@ -29,7 +29,7 @@ namespace ZendeskApi_v2.Serialization
 
             if (reader.TokenType == JsonToken.Integer)
             {
-                long epoch = (long)reader.Value;
+                var epoch = (long)reader.Value;
                 return _epoch.AddSeconds(epoch);
             }
 

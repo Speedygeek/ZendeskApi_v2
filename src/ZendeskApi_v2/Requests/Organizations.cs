@@ -183,7 +183,7 @@ namespace ZendeskApi_v2.Requests
 
         public JobStatusResponse DestroyManyOrganizationMemberships(IEnumerable<long> ids)
         {
-            string idList = string.Join(",", ids.Select(i => i.ToString()).ToArray());
+            var idList = string.Join(",", ids.Select(i => i.ToString()).ToArray());
             return GenericDelete<JobStatusResponse>($"organization_memberships/destroy_many.json?ids={idList}");
         }
 
@@ -298,7 +298,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<JobStatusResponse> DestroyManyOrganizationMembershipsAsync(IEnumerable<long> ids)
         {
-            string idList = string.Join(",", ids.Select(i => i.ToString()).ToArray());
+            var idList = string.Join(",", ids.Select(i => i.ToString()).ToArray());
             return await GenericDeleteAsync<JobStatusResponse>($"organization_memberships/destroy_many.json?ids={idList}");
         }
 

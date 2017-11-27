@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 #if ASYNC
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace ZendeskApi_v2.Requests
         GroupAttachmentResponse GetAttachmentsFromArticle(long? articleId);
         Upload UploadAttachment(ZenFile file, int? timeout = null);
         Upload UploadAttachments(IEnumerable<ZenFile> files, int? timeout = null);
+        bool DeleteUpload(Upload upload);
 #endif
 
 #if ASYNC
@@ -33,6 +35,9 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>  
         Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "", int? timeout = null);
         Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files, int? timeout = null);
+        Task<bool> DeleteUploadAsync(Upload upload);
+        Task<ZenFile> DownloadAttachmentAsync(Attachment attachment);
+
 #endif
     }
 
@@ -94,6 +99,11 @@ namespace ZendeskApi_v2.Requests
             var requestResult = RunRequest<UploadResult>(resource, RequestMethod.Post, file, timeout);
             return requestResult.Upload;
         }
+
+        public bool DeleteUpload(Upload upload)
+        {
+            return (upload?.Token == null ? false : GenericDelete($"/uploads/{upload.Token}.json"));
+        }
 #endif
 
 #if ASYNC
@@ -134,19 +144,36 @@ namespace ZendeskApi_v2.Requests
         /// <param name="timeout"></param>
         /// <returns></returns>  
         public async Task<Upload> UploadAttachmentAsync(ZenFile file, string token = "", int? timeout = null)
-        {  
-            string resource = $"uploads.json?filename={file.FileName}";
+        {
+            var resource = $"uploads.json?filename={file.FileName}";
 
             if (!token.IsNullOrWhiteSpace())
             {
                 resource += $"&token={token}";
             }
 
-            UploadResult result = await RunRequestAsync<UploadResult>(resource, RequestMethod.Post, file, timeout);
+            var result = await RunRequestAsync<UploadResult>(resource, RequestMethod.Post, file, timeout);
 
             return result.Upload;
         }
 
+        public async Task<bool> DeleteUploadAsync(Upload upload)
+        {
+            return (upload?.Token == null ? false : await GenericDeleteAsync($"/uploads/{upload.Token}.json"));
+        }
+
+        public async Task<ZenFile> DownloadAttachmentAsync(Attachment attachment)
+        {
+            var file = new ZenFile { FileName = attachment.FileName, ContentType = attachment.ContentType };
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", GetPasswordOrTokenAuthHeader());
+                file.FileData = await client.GetByteArrayAsync(attachment.ContentUrl);
+            }
+
+            return file;
+        }
 
 #endif
 
