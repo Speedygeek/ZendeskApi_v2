@@ -1,5 +1,5 @@
 Param(
-  [string]$Version = "3.7.1",
+  [string]$Version = "3.7.2",
   [string]$gitHubToken = "$env:GitHubToken"
 )
 
