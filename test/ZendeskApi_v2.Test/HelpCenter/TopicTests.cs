@@ -32,7 +32,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanCreateUpdateAndDeleteTopic()
         {
-            Topic topic = new Topic { Name = "This is a Test" };
+            var topic = new Topic { Name = "This is a Test" };
 
             var res = api.HelpCenter.Topics.CreateTopic(topic);
             Assert.That(res?.Topic, Is.Not.Null);

@@ -38,7 +38,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanCreateUpdateAndDeleteUserSegments()
         {
-            UserSegment userSegment = new UserSegment() {
+            var userSegment = new UserSegment() {
                 Name = "My Test User Segment",
                 UserType = UserType.signed_in_users
             };
@@ -54,7 +54,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetSecondPageUisngGetByPageUrl()
         {
-            int pageSize = 3;
+            var pageSize = 3;
 
             var res = api.HelpCenter.UserSegments.GetUserSegments(perPage: pageSize);
             Assert.That(res.PageSize, Is.EqualTo(pageSize));
@@ -126,7 +126,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreateUpdateAndDeleteUserSegmentsAsync()
         {
-            UserSegment userSegment = new UserSegment() {
+            var userSegment = new UserSegment() {
                 Name = "My Test User Segment Async",
                 UserType = UserType.signed_in_users
             };
@@ -142,7 +142,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetSecondPageUisngGetByPageUrlAsync()
         {
-            int pageSize = 3;
+            var pageSize = 3;
 
             var res = await api.HelpCenter.UserSegments.GetUserSegmentsAsync(perPage: pageSize);
             Assert.That(res.PageSize, Is.EqualTo(pageSize));

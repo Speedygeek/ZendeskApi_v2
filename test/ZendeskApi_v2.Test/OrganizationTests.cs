@@ -172,8 +172,8 @@ namespace Tests
 
             var job = api.Organizations.CreateManyOrganizationMemberships(memberships).JobStatus;
 
-            int sleep = 2000;
-            int retries = 0;
+            var sleep = 2000;
+            var retries = 0;
             while (!job.Status.Equals("completed") && retries < 7)
             {
                 System.Threading.Thread.Sleep(sleep);

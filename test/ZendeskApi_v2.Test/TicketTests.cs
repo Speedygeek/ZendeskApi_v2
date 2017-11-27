@@ -657,9 +657,10 @@ namespace Tests
             };
 
             var t1 = api.Tickets.CreateTicket(ticket);
-            Assert.AreEqual(t1.Audit.Events.First().Attachments.Count, 1);
+            Assert.That(t1.Audit.Events.First().Attachments.Count, Is.EqualTo(1));
 
-            Assert.True(api.Tickets.Delete(t1.Ticket.Id.Value));
+            Assert.That(api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
+            Assert.That(api.Attachments.DeleteUpload(res));
         }
 
         [Test]
@@ -839,10 +840,10 @@ namespace Tests
         {
             // https://support.zendesk.com/hc/en-us/articles/204579973--BREAKING-Update-ticket-field-dropdown-fields-by-value-instead-of-id-
 
-            string option1 = "test_value_a";
-            string option1_Update = "test_value_a_newtag";
-            string option2 = "test_value_b";
-            string option3 = "test_value_c";
+            var option1 = "test_value_a";
+            var option1_Update = "test_value_a_newtag";
+            var option2 = "test_value_b";
+            var option3 = "test_value_c";
 
             var tField = new TicketField()
             {
@@ -872,7 +873,7 @@ namespace Tests
             Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
             Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
 
-            long id = res.TicketField.Id.Value;
+            var id = res.TicketField.Id.Value;
 
             var tFieldU = new TicketField()
             {
@@ -1109,9 +1110,9 @@ namespace Tests
         [Test]
         public void CanBulkImportTicket()
         {
-            List<TicketImport> test = new List<TicketImport>();
+            var test = new List<TicketImport>();
 
-            for (int x = 0; x < 2; x++)
+            for (var x = 0; x < 2; x++)
             {
                 var ticket = new TicketImport()
                 {
@@ -1135,7 +1136,7 @@ namespace Tests
             var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
             Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
 
-            int count = 0;
+            var count = 0;
             while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
             {
                 Thread.Sleep(1000);
@@ -1167,7 +1168,7 @@ namespace Tests
         {
             var ticket = new Ticket { Comment = new Comment { Body = "This is a Test", Public = false } };
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+            var jsonSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 DateParseHandling = DateParseHandling.DateTimeOffset,
@@ -1176,7 +1177,7 @@ namespace Tests
                 ContractResolver = ZendeskApi_v2.Serialization.ZendeskContractResolver.Instance
             };
 
-            string json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
+            var json = JsonConvert.SerializeObject(ticket, Formatting.None, jsonSettings);
             Assert.That(json, Contains.Substring("false"));
         }
 
@@ -1250,10 +1251,10 @@ namespace Tests
         [Test]
         public async Task CanCreateUpdateOptionsAndDeleteTaggerTicketFieldAsync()
         {
-            string option1 = "test_value_a";
-            string option1_Update = "test_value_a_newtag";
-            string option2 = "test_value_b";
-            string option3 = "test_value_c";
+            var option1 = "test_value_a";
+            var option1_Update = "test_value_a_newtag";
+            var option2 = "test_value_b";
+            var option3 = "test_value_c";
 
             var tField = new TicketField()
             {
@@ -1283,7 +1284,7 @@ namespace Tests
             Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
             Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
 
-            long id = res.TicketField.Id.Value;
+            var id = res.TicketField.Id.Value;
 
             var tFieldU = new TicketField()
             {

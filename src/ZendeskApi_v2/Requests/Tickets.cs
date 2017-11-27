@@ -320,67 +320,67 @@ namespace ZendeskApi_v2.Requests
 
         public GroupTicketResponse GetAllTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByViewID(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_views}/{viewId}/{_tickets}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_views}/{viewId}/{_tickets}.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
             return GenericGet<GroupTicketResponse>(resource);
         }
 
         public GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
         }
 
         public GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam("tickets/recent.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam("tickets/recent.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetAssignedTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/assigned.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/assigned.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetTicketsWhereUserIsCopied(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/ccd.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/ccd.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
 
         public IndividualTicketResponse GetTicket(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{id}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{id}.json", sideLoadOptions);
             return GenericGet<IndividualTicketResponse>(resource);
         }
 
         public GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{ticketId}/comments.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{ticketId}/comments.json", sideLoadOptions);
             return GenericPagedGet<GroupCommentResponse>(resource, perPage, page);
         }
 
         public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
             return GenericGet<GroupTicketResponse>(resource);
         }
 
@@ -653,61 +653,61 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupTicketResponse> GetAllTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam(_tickets + ".json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsByViewIDAsync(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_views}/{viewId}/{_tickets}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_views}/{viewId}/{_tickets}.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam("tickets/recent.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam("tickets/recent.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/assigned.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/assigned.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/ccd.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/ccd.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
 
         public async Task<IndividualTicketResponse> GetTicketAsync(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{id}.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{id}.json", sideLoadOptions);
             return await GenericGetAsync<IndividualTicketResponse>(resource);
         }
 
         public async Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{ticketId}/comments.json", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{ticketId}/comments.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupCommentResponse>(resource, perPage, page);
         }
 
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
             return await GenericGetAsync<GroupTicketResponse>(resource);
         }
 
@@ -967,7 +967,7 @@ namespace ZendeskApi_v2.Requests
                     sideLoadOptions &= ~TicketSideLoadOptionsEnum.None;
                 }
 
-                string sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
+                var sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
                 resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
                 return resource;
             }

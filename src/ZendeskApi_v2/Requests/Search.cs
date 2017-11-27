@@ -237,7 +237,7 @@ namespace ZendeskApi_v2.Requests
 
         public string AddTypeToSearchTerm<T>(string searchTerm = "")
         {
-            string typeName = typeof(T).Name;
+            var typeName = typeof(T).Name;
 
             return "type:" + typeName + (!(string.IsNullOrEmpty(searchTerm.Trim())) ? " " : "") + searchTerm.Trim();
         }

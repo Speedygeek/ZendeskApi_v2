@@ -59,7 +59,7 @@ namespace ZendeskApi_v2.Models
                 return TotalPages;
             }
 
-            Dictionary<string, string> dict = NextPage.GetQueryStringDict();
+            var dict = NextPage.GetQueryStringDict();
             if (dict.ContainsKey("page"))
             {
                 return int.Parse(dict["page"]) - 1;
@@ -76,7 +76,7 @@ namespace ZendeskApi_v2.Models
                 return 100;
             }
 
-            Dictionary<string, string> dict = page.GetQueryStringDict();
+            var dict = page.GetQueryStringDict();
             if (dict.ContainsKey("per_page"))
             {
                 return int.Parse(dict["per_page"]);
