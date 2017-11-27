@@ -54,13 +54,13 @@ namespace Tests.HelpCenter
                 Body = "The body of my article",
                 Locale = "en-us"
             });
-            long article_id = new_article_res.Article.Id.Value;
+            var article_id = new_article_res.Article.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForArticle(article_id);
             Assert.AreEqual(1, missing_res.Count);
             Assert.AreEqual("fr", missing_res[0]);
 
-            Translation fr_translation = new Translation()
+            var fr_translation = new Translation()
             {
                 Body = "Je ne parle pas français.",
                 Title = "Mon article de test pour les traductions",
@@ -104,13 +104,13 @@ namespace Tests.HelpCenter
                 Locale = "en-us",
                 CategoryId = resCategoies.Categories[0].Id.Value
             });
-            long section_id = new_section_res.Section.Id.Value;
+            var section_id = new_section_res.Section.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForSection(section_id);
             Assert.AreEqual(1, missing_res.Count);
             Assert.AreEqual("fr", missing_res[0]);
 
-            Translation fr_translation = new Translation()
+            var fr_translation = new Translation()
             {
                 Body = "Je ne parle pas français.",
                 Title = "french category here",
@@ -153,13 +153,13 @@ namespace Tests.HelpCenter
                 Description = "The body of my category (en-us)",
                 Locale = "en-us"
             });
-            long category_id = new_category_res.Category.Id.Value;
+            var category_id = new_category_res.Category.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForCategory(category_id);
             Assert.AreEqual(1, missing_res.Count);
             Assert.AreEqual("fr", missing_res[0]);
 
-            Translation fr_translation = new Translation()
+            var fr_translation = new Translation()
             {
                 Body = "Je ne parle pas français.",
                 Title = "french for 'this is a french category'",
@@ -239,13 +239,13 @@ namespace Tests.HelpCenter
                 Body = "The body of my article",
                 Locale = "en-us"
             });
-            long article_id = new_article_res.Article.Id.Value;
+            var article_id = new_article_res.Article.Id.Value;
 
             var missing_res = await api.HelpCenter.Translations.ListMissingTranslationsForArticleAsync(article_id);
             Assert.That(missing_res.Count, Is.EqualTo(1));
             Assert.That(missing_res[0], Is.EqualTo("fr"));
 
-            Translation fr_translation = new Translation()
+            var fr_translation = new Translation()
             {
                 Body = "Je ne parle pas français.",
                 Title = "Mon article de test pour les traductions",
@@ -290,13 +290,13 @@ namespace Tests.HelpCenter
                 CategoryId = resCategoies.Categories[0].Id.Value
             });
 
-            long section_id = new_section_res.Section.Id.Value;
+            var section_id = new_section_res.Section.Id.Value;
 
             var missing_res = await api.HelpCenter.Translations.ListMissingTranslationsForSectionAsync(section_id);
             Assert.That(missing_res.Count, Is.EqualTo(1));
             Assert.That(missing_res[0], Is.EqualTo("fr"));
 
-            Translation fr_translation = new Translation
+            var fr_translation = new Translation
             {
                 Body = "Je ne parle pas français.",
                 Title = "french category here",
@@ -338,13 +338,13 @@ namespace Tests.HelpCenter
                 Description = "The body of my category (en-us)",
                 Locale = "en-us"
             });
-            long category_id = new_category_res.Category.Id.Value;
+            var category_id = new_category_res.Category.Id.Value;
 
             var missing_res = await api.HelpCenter.Translations.ListMissingTranslationsForCategoryAsync(category_id);
             Assert.That(missing_res.Count, Is.EqualTo(1));
             Assert.That(missing_res[0], Is.EqualTo("fr"));
 
-            Translation fr_translation = new Translation()
+            var fr_translation = new Translation()
             {
                 Body = "Je ne parle pas français.",
                 Title = "french for 'this is a french category'",
