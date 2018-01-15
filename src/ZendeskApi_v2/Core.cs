@@ -30,20 +30,21 @@ namespace ZendeskApi_v2
     {
 #if SYNC
         T GetByPageUrl<T>(string pageUrl, int perPage = 100);
-        T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
-        RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
+        T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null);
+        RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null);
 #endif
 
 #if ASYNC
         Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100);
-        Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
-        Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null, string formFile = null);
+        Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null);
+        Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null);
 #endif
     }
 
     public class Core : ICore
     {
         private const string XOnBehalfOfEmail = "X-On-Behalf-Of";
+        private readonly Encoding encoding = Encoding.UTF8;
         protected string User;
         protected string Password;
         protected string ZendeskUrl;
@@ -106,26 +107,28 @@ namespace ZendeskApi_v2
         public T GetByPageUrl<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
+            {
                 return JsonConvert.DeserializeObject<T>("");
+            }
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
             return RunRequest<T>(resource, RequestMethod.Get);
         }
 
-        public T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null, string formKey = null)
+        public T RunRequest<T>(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null)
         {
-            var response = RunRequest(resource, requestMethod, body, timeout, formKey);
+            var response = RunRequest(resource, requestMethod, body, timeout, formParameters);
             var obj = JsonConvert.DeserializeObject<T>(response.Content, jsonSettings);
             return obj;
         }
 
-        public RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null, string formKey = null)
+        public RequestResult RunRequest(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null)
         {
             try
             {
-                string requestUrl = ZendeskUrl + resource;
+                var requestUrl = ZendeskUrl + resource;
 
-                HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
+                var req = WebRequest.Create(requestUrl) as HttpWebRequest;
 
                 if (this.Proxy != null)
                 {
@@ -139,23 +142,26 @@ namespace ZendeskApi_v2
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
                 req.Timeout = timeout ?? req.Timeout;
 
-                if (body != null)
+                byte[] data = null;
+
+                if (formParameters?.Any() ?? false)
                 {
-                    byte[] data = null;
-                    var zenFile = body as ZenFile;
-                    if (zenFile == null)
-                    {
-                        req.ContentType = "application/json";
-                        data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body, jsonSettings));
-                    }
-                    else
-                    {
-                        req.ContentType = zenFile.ContentType;
-                        data = formKey.IsNullOrWhiteSpace() ? zenFile.FileData : GetFromData(zenFile, req, formKey);
-                    }
+                    data = GetFromData(req, formParameters);
+                }
+                else if (body is ZenFile zenFile)
+                {
+                    req.ContentType = zenFile.ContentType;
+                    data = zenFile.FileData;
+                }
+                else if (body != null)
+                {
+                    req.ContentType = "application/json";
+                    data = encoding.GetBytes(JsonConvert.SerializeObject(body, jsonSettings));
+                }
 
+                if (data != null)
+                {
                     req.ContentLength = data.Length;
-
                     using (var dataStream = req.GetRequestStream())
                     {
                         dataStream.Write(data, 0, data.Length);
@@ -164,7 +170,7 @@ namespace ZendeskApi_v2
 
                 var res = req.GetResponse();
                 var response = res as HttpWebResponse;
-                string responseFromServer = string.Empty;
+                var responseFromServer = string.Empty;
                 using (var responseStream = response.GetResponseStream())
                 {
                     using (var reader = new StreamReader(responseStream))
@@ -177,27 +183,42 @@ namespace ZendeskApi_v2
             }
             catch (WebException ex)
             {
-                WebException wException = GetWebException(resource, body, ex);
+                var wException = GetWebException(resource, body, ex);
                 throw wException;
             }
         }
 
-        private byte[] GetFromData(ZenFile zenFile, HttpWebRequest req, string formKey)
+        private byte[] GetFromData(HttpWebRequest req, Dictionary<string, object> formParameters)
         {
-            string boundaryString = "FEF3F395A90B452BB8BFDC878DDBD152";
+            var boundaryString = "FEF3F395A90B452BB8BFDC878DDBD152";
             req.ContentType = "multipart/form-data; boundary=" + boundaryString;
-            MemoryStream postDataStream = new MemoryStream();
-            StreamWriter postDataWriter = new StreamWriter(postDataStream);
+            var postDataStream = new MemoryStream();
+            var postDataWriter = new StreamWriter(postDataStream);
+            var addNewline = false;
+            foreach (var param in formParameters)
+            {
+                if (addNewline)
+                {
+                    postDataWriter.Write("\r\n");
+                }
 
-            // Include the file in the post data
-            postDataWriter.Write("\r\n--" + boundaryString + "\r\n");
-            postDataWriter.Write("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n",
-                                    formKey, zenFile.FileName, zenFile.ContentType);
-            postDataWriter.Flush();
-            postDataStream.Write(zenFile.FileData, 0, zenFile.FileData.Length);
+                addNewline = true;
+                if (param.Value is ZenFile zenFile)
+                {
+                    postDataWriter.Write($"--{boundaryString}\r\nContent-Disposition: form-data; name=\"{param.Key}\"; filename=\"{zenFile.FileName}\"\r\nContent-Type: {zenFile.ContentType}\r\n\r\n");
+                    postDataWriter.Flush();
+                    postDataStream.Write(zenFile.FileData, 0, zenFile.FileData.Length);
+                    postDataWriter.Flush();
+
+                }
+                else
+                {
+                    postDataWriter.Write($"--{boundaryString}\r\nContent-Disposition: form-data; name=\"{param.Key}\"\r\n\r\n{param.Value}");
+                    postDataWriter.Flush();
+                }
+            }
             postDataWriter.Write("\r\n--" + boundaryString + "--\r\n");
             postDataWriter.Flush();
-
             return postDataStream.ToArray();
         }
 
@@ -282,15 +303,21 @@ namespace ZendeskApi_v2
             return res;
         }
 
+        protected T GenericPostForm<T>(string resource, object body = null, Dictionary<string, object> formParameters = null)
+        {
+            var res = RunRequest<T>(resource, RequestMethod.Post, body, formParameters: formParameters);
+            return res;
+        }
+
         protected bool GenericBoolPost(string resource, object body = null)
         {
             var res = RunRequest(resource, RequestMethod.Post, body);
             return res.HttpStatusCode == HttpStatusCode.OK;
         }
 
-        protected T GenericPut<T>(string resource, object body = null, string formKey = null)
+        protected T GenericPut<T>(string resource, object body = null, Dictionary<string, object> formParameters = null)
         {
-            var res = RunRequest<T>(resource, RequestMethod.Put, body, formKey: formKey);
+            var res = RunRequest<T>(resource, RequestMethod.Put, body, formParameters: formParameters);
             return res;
         }
 
@@ -304,83 +331,98 @@ namespace ZendeskApi_v2
         protected string GetPasswordOrTokenAuthHeader()
         {
             if (!ApiToken.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
+            {
                 return GetAuthHeader(User + "/token", ApiToken);
+            }
             else if (!Password.IsNullOrWhiteSpace() && !User.IsNullOrWhiteSpace())
+            {
                 return GetAuthHeader(User, Password);
+            }
             else if (!OAuthToken.IsNullOrWhiteSpace())
+            {
                 return GetAuthBearerHeader(OAuthToken);
+            }
             else
+            {
                 return string.Empty;
+            }
         }
 
         protected string GetAuthBearerHeader(string oAuthToken)
         {
-            return string.Format("Bearer {0}", oAuthToken);
+            return $"Bearer {oAuthToken}";
         }
 
         protected string GetAuthHeader(string userName, string password)
         {
-            string auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", userName, password)));
-            return string.Format("Basic {0}", auth);
+            var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"));
+            return $"Basic {auth}";
         }
 
 #if ASYNC
         public async Task<T> GetByPageUrlAsync<T>(string pageUrl, int perPage = 100)
         {
             if (string.IsNullOrEmpty(pageUrl))
+            {
                 return JsonConvert.DeserializeObject<T>("");
+            }
+            var test = Regex.Split(pageUrl, "api/v2/");
 
-            var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
+            var resource = Regex.Split(pageUrl, "api/v2/").Last() + (perPage != 0 ? $"&per_page={perPage}" : "");
             return await RunRequestAsync<T>(resource, RequestMethod.Get);
         }
 
-        public async Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null, string formKey = null)
+        public async Task<T> RunRequestAsync<T>(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null)
         {
-            var response = await RunRequestAsync(resource, requestMethod, body, timeout, formKey);
-            var obj = Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(response.Content));
+            var response = await RunRequestAsync(resource, requestMethod, body, timeout, formParameters);
+            var obj = Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(response.Content, jsonSettings));
             return await obj;
         }
 
-        public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null, string formKey = null)
+        public async Task<RequestResult> RunRequestAsync(string resource, string requestMethod, object body = null, int? timeout = null, Dictionary<string, object> formParameters = null)
         {
             var requestUrl = ZendeskUrl + resource;
             try
             {
-                HttpWebRequest req = WebRequest.Create(requestUrl) as HttpWebRequest;
+                var req = WebRequest.Create(requestUrl) as HttpWebRequest;
                 req.ContentType = "application/json";
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
 
-                if (body != null)
+                byte[] data = null;
+
+                if (formParameters?.Any() ?? false)
                 {
-                    byte[] data = null;
-                    var zenFile = body as ZenFile;
-                    if (zenFile == null)
-                    {
-                        string json = JsonConvert.SerializeObject(body, jsonSettings);
+                    data = GetFromDataAsync(req, formParameters);
+                }
+                else if (body is ZenFile zenFile)
+                {
+                    req.ContentType = zenFile.ContentType;
+                    data = zenFile.FileData;
+                }
+                else if (body != null)
+                {
+                    var json = JsonConvert.SerializeObject(body, jsonSettings);
+                    data = Encoding.UTF8.GetBytes(json);
+                }
 
-                        data = Encoding.UTF8.GetBytes(json);
-                    }
-                    else
-                    {
-                        req.ContentType = zenFile.ContentType;
-                        data = formKey.IsNullOrWhiteSpace() ? zenFile.FileData : await GetFromDataAsync(zenFile, req, formKey);
-                    }
-
-                    using (Stream requestStream = await req.GetRequestStreamAsync())
+                if (data != null)
+                {
+                    using (var requestStream = await req.GetRequestStreamAsync())
                     {
                         await requestStream.WriteAsync(data, 0, data.Length);
                     }
                 }
 
-                using (HttpWebResponse response = (HttpWebResponse)await req.GetResponseAsync())
+                using (var response = (HttpWebResponse)await req.GetResponseAsync())
                 {
-                    string content = string.Empty;
-                    using (Stream responseStream = response.GetResponseStream())
+                    var content = string.Empty;
+                    using (var responseStream = response.GetResponseStream())
                     {
-                        using (StreamReader sr = new StreamReader(responseStream))
+                        
+                        using (var sr = new StreamReader(responseStream))
                         {
                             content = await sr.ReadToEndAsync();
                         }
@@ -390,27 +432,42 @@ namespace ZendeskApi_v2
             }
             catch (WebException ex)
             {
-                WebException wException = GetWebException(resource, body, ex);
+                var wException = GetWebException(resource, body, ex);
                 throw wException;
             }
         }
 
-        private async Task<byte[]> GetFromDataAsync(ZenFile zenFile, HttpWebRequest req, string formKey)
+        private byte[] GetFromDataAsync(HttpWebRequest req, Dictionary<string, object> formParameters)
         {
-            string boundaryString = "FEF3F395A90B452BB8BFDC878DDBD152";
+            var boundaryString = "FEF3F395A90B452BB8BFDC878DDBD152";
             req.ContentType = "multipart/form-data; boundary=" + boundaryString;
-            MemoryStream postDataStream = new MemoryStream();
-            StreamWriter postDataWriter = new StreamWriter(postDataStream);
+            var postDataStream = new MemoryStream();
+            var postDataWriter = new StreamWriter(postDataStream);
+            var addNewline = false;
+            foreach (var param in formParameters)
+            {
+                if (addNewline)
+                {
+                    postDataWriter.Write("\r\n");
+                }
 
-            // Include the file in the post data
-            await postDataWriter.WriteAsync("\r\n--" + boundaryString + "\r\n");
-            await postDataWriter.WriteAsync(string.Format("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n",
-                                    formKey, zenFile.FileName, zenFile.ContentType));
-            await postDataWriter.FlushAsync();
-            await postDataStream.WriteAsync(zenFile.FileData, 0, zenFile.FileData.Length);
-            await postDataWriter.WriteAsync("\r\n--" + boundaryString + "--\r\n");
-            await postDataWriter.FlushAsync();
+                addNewline = true;
+                if (param.Value is ZenFile zenFile)
+                {
+                    postDataWriter.WriteAsync($"--{boundaryString}\r\nContent-Disposition: form-data; name=\"{param.Key}\"; filename=\"{zenFile.FileName}\"\r\nContent-Type: {zenFile.ContentType}\r\n\r\n");
+                    postDataWriter.FlushAsync();
+                    postDataStream.WriteAsync(zenFile.FileData, 0, zenFile.FileData.Length);
+                    postDataWriter.FlushAsync();
 
+                }
+                else
+                {
+                    postDataWriter.WriteAsync($"--{boundaryString}\r\nContent-Disposition: form-data; name=\"{param.Key}\"\r\n\r\n{param.Value}");
+                    postDataWriter.FlushAsync();
+                }
+            }
+            postDataWriter.WriteAsync("\r\n--" + boundaryString + "--\r\n");
+            postDataWriter.FlushAsync();
             return postDataStream.ToArray();
         }
 
@@ -496,15 +553,21 @@ namespace ZendeskApi_v2
             return await res;
         }
 
+        protected async Task<T> GenericPostFormAsync<T>(string resource, object body = null, Dictionary<string, object> formParameters = null)
+        {
+            var res = RunRequestAsync<T>(resource, RequestMethod.Post, body, formParameters: formParameters);
+            return await res;
+        }
+
         protected async Task<bool> GenericBoolPostAsync(string resource, object body = null)
         {
             var res = RunRequestAsync(resource, RequestMethod.Post, body);
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 
-        protected async Task<T> GenericPutAsync<T>(string resource, object body = null, string formKey = null)
+        protected async Task<T> GenericPutAsync<T>(string resource, object body = null, Dictionary<string, object> formParameters = null)
         {
-            var res = RunRequestAsync<T>(resource, RequestMethod.Put, body, formKey: formKey);
+            var res = RunRequestAsync<T>(resource, RequestMethod.Put, body, formParameters: formParameters);
             return await res;
         }
 
@@ -517,12 +580,12 @@ namespace ZendeskApi_v2
 
         private WebException GetWebException(string resource, object body, WebException originalWebException)
         {
-            string error = string.Empty;
-            WebException innerException = originalWebException.InnerException as WebException;
+            var error = string.Empty;
+            var innerException = originalWebException.InnerException as WebException;
 
             if (originalWebException.Response != null || (innerException != null && innerException.Response != null))
             {
-                using (Stream stream = (originalWebException.Response ?? innerException.Response).GetResponseStream())
+                using (var stream = (originalWebException.Response ?? innerException.Response).GetResponseStream())
                 {
                     if (stream != null && stream.CanRead)
                     {
@@ -540,20 +603,19 @@ namespace ZendeskApi_v2
             Debug.WriteLine(originalWebException.Message);
             Debug.WriteLine(error);
 
-            string headersMessage = string.Format("Error content: {0} \r\n Resource String: {1}  + \r\n", error, resource);
-            string bodyMessage = string.Empty;
+            var headersMessage = $"Error content: {error} \r\n Resource String: {resource}  + \r\n";
+            var bodyMessage = string.Empty;
 
             if (body != null)
             {
-                ZenFile zenFile = body as ZenFile;
+                var zenFile = body as ZenFile;
                 if (zenFile == null)
                 {
-                    bodyMessage = string.Format(" Body: {0}", JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings));
+                    bodyMessage = $" Body: {JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings)}";
                 }
                 else
                 {
-                    bodyMessage = string.Format(" File Name: {0} \r\n File Length: {1}\r\n", zenFile.FileName,
-                        (zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data"));
+                    bodyMessage = $" File Name: {zenFile.FileName} \r\n File Length: {(zenFile.FileData != null ? zenFile.FileData.Length.ToString() : "No Data")}\r\n";
                 }
             }
 

@@ -8,11 +8,14 @@ namespace ZendeskApi_v2.Serialization
     {
         public static readonly ZendeskContractResolver Instance = new ZendeskContractResolver();
 
-
+        public ZendeskContractResolver()
+        {
+            this.NamingStrategy = new SnakeCaseNamingStrategy();
+        }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
+            var property = base.CreateProperty(member, memberSerialization);
 
             if (property.PropertyType == typeof(bool) || property.PropertyType == typeof(bool?))
             {

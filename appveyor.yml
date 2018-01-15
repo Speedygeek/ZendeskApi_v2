@@ -3,11 +3,46 @@ skip_branch_with_pr: true
 
 # Maximum number of concurrent jobs for the project
 max_jobs: 1
+image: Previous Visual Studio 2017
+pull_requests:
+  do_not_increment_build_number: true
+configuration: Release
+nuget:
+  disable_publish_on_pr: true
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+before_build:
+  - dotnet restore .\src\ZendeskApi_v2.sln
+build:
+  project: \src\ZendeskApi_v2.sln
+  verbosity: minimal
+test:
+  assemblies: '.\test\**\bin\**\*test.dll'
+artifacts:
+- path: src\ZendeskApi_v2\bin\Release\ZendeskApi_v2.*.nupkg
+  name: Package
+deploy:
+- provider: Environment
+  name: Public Nuget
+  on:
+    branch: master
+    APPVEYOR_REPO_TAG: true
+- provider: Environment
+  name: PreRelease Nuget Feed
+  on:
+    branch: master
+    APPVEYOR_REPO_TAG: false
+notifications:
+- provider: GitHubPullRequest
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false
 
 install:
 - ps: >-
 
-    choco install gitversion.portable -pre -y
+    choco install gitversion.portable --pre --no-progress -y
     
     $output = gitversion
     
@@ -36,51 +71,4 @@ install:
     {
       $env:Is_Prerelease  = 'false'
     }
-
     Write-Host "Is the build Prerelease: " $env:Is_Prerelease
-pull_requests:
-  do_not_increment_build_number: true
-image: Visual Studio 2015
-configuration: Release
-platform: Any CPU
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: $(APPVEYOR_PATCHING_VERSION)
-  assembly_file_version: $(APPVEYOR_PATCHING_VERSION)
-  assembly_informational_version: $(APPVEYOR_PATCHING_VERSION)
-nuget:
-  disable_publish_on_pr: true
-before_build:
-- ps: >-
-
-    cd C:\projects\zendeskapi-v2\src
-
-    nuget.exe restore
-build:
-  project: C:\projects\zendeskapi-v2\src\ZendeskApi_v2_vs2013.sln
-  verbosity: minimal
-#test: on
-#test_script:
-#- ps: nunit3-console C:\projects\zendeskapi-v2\src\Tests\bin\Release\Tests.dll --result=myresults.xml;format=AppVeyor --framework:net-4.5
-test:
-  assemblies: '**\*tests.dll'
-artifacts:
-- path: '\src\ZendeskApi_v2_Package\*.nupkg'
-  name: Package
-deploy:
-- provider: Environment
-  name: Public Nuget
-  on:
-    branch: master
-    Is_Prerelease: false
-- provider: Environment
-  name: PreRelease Nuget Feed
-  on:
-    branch: master
-    Is_Prerelease: true
-notifications:
-- provider: GitHubPullRequest
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: false

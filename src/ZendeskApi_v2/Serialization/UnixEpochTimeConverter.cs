@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Reflection;
+
 namespace ZendeskApi_v2.Serialization
 {
     public class UnixEpochTimeConverter : DateTimeConverterBase
@@ -12,22 +14,22 @@ namespace ZendeskApi_v2.Serialization
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            bool nullable = (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            var nullable = (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
 
-            Type T = nullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+            var T = nullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
             if (reader.TokenType == JsonToken.Null)
             {
                 if (!nullable)
                 {
-                    throw new JsonSerializationException(string.Format("Cannot convert null value to {0}.", objectType.Name));
+                    throw new JsonSerializationException($"Cannot convert null value to {objectType.Name}.");
                 }
                 return null;
             }
 
             if (reader.TokenType == JsonToken.Integer)
             {
-                long epoch = (long)reader.Value;
+                var epoch = (long)reader.Value;
                 return _epoch.AddSeconds(epoch);
             }
 

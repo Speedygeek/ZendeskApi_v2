@@ -39,7 +39,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualTargetResponse GetTarget(long id)
         {
-            return GenericGet<IndividualTargetResponse>(string.Format("targets/{0}.json", id));
+            return GenericGet<IndividualTargetResponse>($"targets/{id}.json");
         }
 
         public IndividualTargetResponse CreateTarget(BaseTarget target)
@@ -51,12 +51,12 @@ namespace ZendeskApi_v2.Requests
         public IndividualTargetResponse UpdateTarget(BaseTarget target)
         {
             var body = new { target };
-            return GenericPut<IndividualTargetResponse>(string.Format("targets/{0}.json", target.Id), body);
+            return GenericPut<IndividualTargetResponse>($"targets/{target.Id}.json", body);
         }
 
         public bool DeleteTarget(long id)
         {
-            return GenericDelete(string.Format("targets/{0}.json", id));
+            return GenericDelete($"targets/{id}.json");
         }
 #endif
 
@@ -68,7 +68,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualTargetResponse> GetTargetAsync(long id)
         {
-            return await GenericGetAsync<IndividualTargetResponse>(string.Format("targets/{0}.json", id));
+            return await GenericGetAsync<IndividualTargetResponse>($"targets/{id}.json");
         }
 
         public async Task<IndividualTargetResponse> CreateTargetAsync(BaseTarget target)
@@ -80,12 +80,12 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualTargetResponse> UpdateTargetAsync(BaseTarget target)
         {
             var body = new { target };
-            return await GenericPutAsync<IndividualTargetResponse>(string.Format("targets/{0}.json", target.Id), body);
+            return await GenericPutAsync<IndividualTargetResponse>($"targets/{target.Id}.json", body);
         }
 
         public async Task<bool> DeleteTargetAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("targets/{0}.json", id));
+            return await GenericDeleteAsync($"targets/{id}.json");
         }
 #endif
     }

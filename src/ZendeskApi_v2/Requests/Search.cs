@@ -122,7 +122,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public SearchResults SearchFor(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null)
         {
-            var resource = string.Format("search.json?query={0}", searchTerm);
+            var resource = $"search.json?query={searchTerm}";
 
             return GenericPagedSortedGet<SearchResults>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -137,7 +137,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public SearchResults<T> SearchFor<T>(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null) where T : ISearchable
         {
-            var resource = string.Format("search.json?query={0}", AddTypeToSearchTerm<T>(searchTerm));
+            var resource = $"search.json?query={AddTypeToSearchTerm<T>(searchTerm)}";
 
             return GenericPagedSortedGet<SearchResults<T>>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -152,7 +152,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public SearchResults AnonymousSearchFor(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null)
         {
-            var resource = string.Format("portal/search.json?query={0}", searchTerm);
+            var resource = $"portal/search.json?query={searchTerm}";
 
             return GenericPagedSortedGet<SearchResults>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -167,7 +167,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public SearchResults<T> AnonymousSearchFor<T>(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null) where T : ISearchable
         {
-            var resource = string.Format("portal/search.json?query={0}", AddTypeToSearchTerm<T>(searchTerm));
+            var resource = $"portal/search.json?query={AddTypeToSearchTerm<T>(searchTerm)}";
 
             return GenericPagedSortedGet<SearchResults<T>>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -184,7 +184,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<SearchResults> SearchForAsync(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null)
         {
-            var resource = string.Format("search.json?query={0}", searchTerm);
+            var resource = $"search.json?query={searchTerm}";
 
             return await GenericPagedSortedGetAsync<SearchResults>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -199,7 +199,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<SearchResults<T>> SearchForAsync<T>(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null) where T : ISearchable
         {
-            var resource = string.Format("search.json?query={0}", AddTypeToSearchTerm<T>(searchTerm));
+            var resource = $"search.json?query={AddTypeToSearchTerm<T>(searchTerm)}";
 
             return await GenericPagedSortedGetAsync<SearchResults<T>>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -214,7 +214,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<SearchResults> AnonymousSearchForAsync(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null)
         {
-            var resource = string.Format("portal/search.json?query={0}", searchTerm);
+            var resource = $"portal/search.json?query={searchTerm}";
 
             return await GenericPagedSortedGetAsync<SearchResults>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -229,7 +229,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<SearchResults<T>> AnonymousSearchForAsync<T>(string searchTerm, string sortBy = "", string sortOrder = "", int page = 1, int? perPage = null) where T : ISearchable
         {
-            var resource = string.Format("portal/search.json?query={0}", AddTypeToSearchTerm<T>(searchTerm));
+            var resource = $"portal/search.json?query={AddTypeToSearchTerm<T>(searchTerm)}";
 
             return await GenericPagedSortedGetAsync<SearchResults<T>>(resource, perPage, page, sortBy, SortOrderAscending(sortOrder));
         }
@@ -237,7 +237,7 @@ namespace ZendeskApi_v2.Requests
 
         public string AddTypeToSearchTerm<T>(string searchTerm = "")
         {
-            string typeName = typeof(T).Name;
+            var typeName = typeof(T).Name;
 
             return "type:" + typeName + (!(string.IsNullOrEmpty(searchTerm.Trim())) ? " " : "") + searchTerm.Trim();
         }

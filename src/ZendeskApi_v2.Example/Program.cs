@@ -18,18 +18,18 @@ namespace ZendeskApi_v2.Example
         static async Task MainAsync(string email)
         {
 
-            string userEmailToSearchFor = "eneif123@yahoo.com";
+            var userEmailToSearchFor = "eneif123@yahoo.com";
 
-            string userName = "eric.neifert@gmail.com"; // the user that will be logging in the API aka the call center staff 
-            string userPassword = "pa55word";
-            string companySubDomain = "csharpapi"; // sub-domain for the account with Zendesk
-            int pageSize = 5;
+            var userName = "csharpzendeskapi1234@gmail.com"; // the user that will be logging in the API aka the call center staff 
+            var userPassword = "&H3n!0q^3OjDLdm";
+            var companySubDomain = "csharpapi"; // sub-domain for the account with Zendesk
+            var pageSize = 5;
             var api = new ZendeskApi(companySubDomain, userName, userPassword);
 
             var userResponse = api.Search.SearchFor<User>(userEmailToSearchFor);
 
-            long userId = userResponse.Results[0].Id.Value;
-            List<Ticket> tickets = new List<Ticket>();
+            var userId = userResponse.Results[0].Id.Value;
+            var tickets = new List<Ticket>();
 
             var ticketResponse = await api.Tickets.GetTicketsByUserIDAsync(userId, pageSize, sideLoadOptions: Requests.TicketSideLoadOptionsEnum.Users); // default per page is 100
 

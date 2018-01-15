@@ -24,6 +24,8 @@ namespace ZendeskApi_v2.Models.Shared
         [JsonProperty("content_type")]
         public string ContentType { get; set; }
 
+        public string MappedContentUrl { get; set; }
+
         [JsonProperty("size")]
         public long Size { get; set; }
 

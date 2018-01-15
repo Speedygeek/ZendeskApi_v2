@@ -55,7 +55,9 @@ namespace ZendeskApi_v2.Models.Tickets
 
         /// <summary>
         /// This is used only to update tickets and will not be returned.
-        /// NOTE that setting collaborators this way will completely ignore what's already set, so make sure to include existing collaborators in the array if you wish to retain these on the ticket.        
+        /// NOTE that setting collaborators this way will completely ignore what's already set,
+        /// so make sure to include existing collaborators in the array
+        /// if you wish to retain these on the ticket.
         /// </summary>
         [JsonProperty("collaborators")]
         public IList<string> CollaboratorEmails { get; set; }
@@ -106,5 +108,17 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("ticket_form_id")]
         public long? TicketFormId { get; set; }
 
+        /// <summary>
+        /// Is true if any comments are public, false otherwise
+        /// </summary>
+        [JsonProperty("is_public")]
+        public bool IsPublic { get; private set; }
+
+        /// <summary>
+        /// The id of a closed ticket for a follow-up ticket.
+        /// For More info <see href="https://developer.zendesk.com/rest_api/docs/core/tickets#creating-follow-up-tickets"/>
+        /// </summary>
+        [JsonProperty("via_followup_source_id")]
+        public long ViaFollowupSourceId { get; set; }
     }
 }

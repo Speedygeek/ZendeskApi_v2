@@ -44,13 +44,16 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public IndividualCategoryResponse GetCategoryById(long id) 
         {
-            return GenericGet<IndividualCategoryResponse>(string.Format("help_center/categories/{0}.json", id));
+            return GenericGet<IndividualCategoryResponse>($"help_center/categories/{id}.json");
         }
 
         public IndividualCategoryResponse CreateCategory(Category category)
         {
             if (string.IsNullOrEmpty(category.Locale))
+            {
                 category.Locale = Locale;
+            }
+
             var body = new { category };
 
             return GenericPost<IndividualCategoryResponse>("help_center/categories.json", body);
@@ -59,12 +62,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public IndividualCategoryResponse UpdateCategory(Category category)
         {
             var body = new { category };
-            return GenericPut<IndividualCategoryResponse>(string.Format("help_center/categories/{0}.json", category.Id), body);
+            return GenericPut<IndividualCategoryResponse>($"help_center/categories/{category.Id}.json", body);
         }
 
         public bool DeleteCategory(long id)
         {
-            return GenericDelete(string.Format("help_center/categories/{0}.json", id));
+            return GenericDelete($"help_center/categories/{id}.json");
         }
 #endif
 
@@ -76,7 +79,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualCategoryResponse>(string.Format("help_center/categories/{0}.json", id));
+            return await GenericGetAsync<IndividualCategoryResponse>($"help_center/categories/{id}.json");
         }
 
         public async Task<IndividualCategoryResponse> CreateCategoryAsync(Category category)
@@ -88,12 +91,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category)
         {
             var body = new { category };
-            return await GenericPutAsync<IndividualCategoryResponse>(string.Format("help_center/categories/{0}.json", category.Id), body);
+            return await GenericPutAsync<IndividualCategoryResponse>($"help_center/categories/{category.Id}.json", body);
         }
 
         public async Task<bool> DeleteCategoryAsync(long id)
         {
-            return await GenericDeleteAsync(string.Format("help_center/categories/{0}.json", id));
+            return await GenericDeleteAsync($"help_center/categories/{id}.json");
         }
 #endif
     }
