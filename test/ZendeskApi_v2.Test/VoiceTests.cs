@@ -76,7 +76,7 @@ namespace Tests
             Assert.NotNull(agent);
             Assert.AreEqual(2110053086, agent.AgentId); 
         }
-
+      
         [Test]
         public void GetCurrentQueueActivity()
         {
@@ -91,6 +91,7 @@ namespace Tests
             var res = api.Voice.GetCurrentQueueActivityAsync();
             Assert.NotNull(res);
         }
+
 
     }
 }

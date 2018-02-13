@@ -17,6 +17,6 @@ namespace ZendeskApi_v2.Models.HelpCenter.Topics
         public long? FollowerCount { get; set; }
 
         [JsonProperty("user_segment_id")]
-        public int? UserSegmentId { get; set; }
+        public long? UserSegmentId { get; set; }
     }
 }
