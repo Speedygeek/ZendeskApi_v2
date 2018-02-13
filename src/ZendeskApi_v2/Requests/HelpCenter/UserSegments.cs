@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     public interface IUserSegments : ICore
     {
 #if SYNC
-       IndividualUserSegmentResponse GetUserSegment(int userSegmentId);
+       IndividualUserSegmentResponse GetUserSegment(long userSegmentId);
 
        GroupUserSegmentResponse GetUserSegments(int? perPage = null, int? page = null);
 
@@ -20,20 +20,20 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
        GroupUserSegmentResponse GetUserSegmentsByUserId(long userId, int? perPage = null, int? page = null);
 
-       GroupUserSegmentResponse GetSectionsByUserSegmentId(int userSegmentId, int? perPage = null, int? page = null);
+       GroupUserSegmentResponse GetSectionsByUserSegmentId(long userSegmentId, int? perPage = null, int? page = null);
 
-       GroupUserSegmentResponse GetTopicsByUserSegmentId(int userSegmentId, int? perPage = null, int? page = null);
+       GroupUserSegmentResponse GetTopicsByUserSegmentId(long userSegmentId, int? perPage = null, int? page = null);
 
        IndividualUserSegmentResponse UpdateUserSegment(UserSegment userSegment);
 
        IndividualUserSegmentResponse CreateUserSegment(UserSegment userSegment);
 
-       bool DeleteUserSegment(int id);
+       bool DeleteUserSegment(long id);
 
 #endif
 
 #if ASYNC
-        Task<IndividualUserSegmentResponse> GetUserSegmentAsync(int userSegmentId);
+        Task<IndividualUserSegmentResponse> GetUserSegmentAsync(long userSegmentId);
 
         Task<GroupUserSegmentResponse> GetUserSegmentsAsync(int? perPage = null, int? page = null);
 
@@ -41,15 +41,15 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         Task<GroupUserSegmentResponse> GetUserSegmentsByUserIdAsync(long userId, int? perPage = null, int? page = null);
 
-        Task<GroupUserSegmentResponse> GetSectionsByUserSegmentIdAsync(int userSegmentId, int? perPage = null, int? page = null);
+        Task<GroupUserSegmentResponse> GetSectionsByUserSegmentIdAsync(long userSegmentId, int? perPage = null, int? page = null);
 
-        Task<GroupUserSegmentResponse> GetTopicsByUserSegmentIdAsync(int userSegmentId, int? perPage = null, int? page = null);
+        Task<GroupUserSegmentResponse> GetTopicsByUserSegmentIdAsync(long userSegmentId, int? perPage = null, int? page = null);
 
         Task<IndividualUserSegmentResponse> UpdateUserSegmentAsync(UserSegment userSegment);
 
         Task<IndividualUserSegmentResponse> CreateUserSegmentAsync(UserSegment userSegment);
 
-        Task<bool> DeleteUserSegmentAsync(int id);
+        Task<bool> DeleteUserSegmentAsync(long id);
 
 #endif
     }
@@ -62,7 +62,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 
 #if SYNC
-        public IndividualUserSegmentResponse GetUserSegment(int userSegmentId)
+        public IndividualUserSegmentResponse GetUserSegment(long userSegmentId)
         {
             return GenericGet<IndividualUserSegmentResponse>($"help_center/user_segments/{userSegmentId}.json");
         }
@@ -86,14 +86,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericPagedGet<GroupUserSegmentResponse>($"help_center/users/{userId}/user_segments.json", perPage, page);
         }
 
-        public GroupUserSegmentResponse GetSectionsByUserSegmentId(int userSegmentId,
+        public GroupUserSegmentResponse GetSectionsByUserSegmentId(long userSegmentId,
             int? perPage = null,
             int? page = null)
         {
             return GenericPagedGet<GroupUserSegmentResponse>($"help_center/user_segments/{userSegmentId}/sections.json", perPage, page);
         }
 
-        public GroupUserSegmentResponse GetTopicsByUserSegmentId(int userSegmentId,
+        public GroupUserSegmentResponse GetTopicsByUserSegmentId(long userSegmentId,
             int? perPage = null,
             int? page = null)
         {
@@ -111,13 +111,13 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericPost<IndividualUserSegmentResponse>($"help_center/user_segments.json", new IndividualUserSegmentResponse{UserSegment=UserSegment}); 
         }
 
-        public bool DeleteUserSegment(int id)
+        public bool DeleteUserSegment(long id)
         {
             return GenericDelete($"help_center/user_segments/{id}.json");
         }
 #endif
 #if ASYNC
-        public async Task<IndividualUserSegmentResponse> GetUserSegmentAsync(int userSegmentId)
+        public async Task<IndividualUserSegmentResponse> GetUserSegmentAsync(long userSegmentId)
         {
             return await GenericGetAsync<IndividualUserSegmentResponse>($"help_center/user_segments/{userSegmentId}.json");
         }
@@ -141,14 +141,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return await GenericPagedGetAsync<GroupUserSegmentResponse>($"help_center/users/{userId}/user_segments.json", perPage, page);
         }
 
-        public async Task<GroupUserSegmentResponse> GetSectionsByUserSegmentIdAsync(int userSegmentId,
+        public async Task<GroupUserSegmentResponse> GetSectionsByUserSegmentIdAsync(long userSegmentId,
             int? perPage = null,
             int? page = null)
         {
             return await GenericPagedGetAsync<GroupUserSegmentResponse>($"help_center/user_segments/{userSegmentId}/sections.json", perPage, page);
         }
 
-        public async Task<GroupUserSegmentResponse> GetTopicsByUserSegmentIdAsync(int userSegmentId,
+        public async Task<GroupUserSegmentResponse> GetTopicsByUserSegmentIdAsync(long userSegmentId,
             int? perPage = null,
             int? page = null)
         {
@@ -166,7 +166,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return await GenericPostAsync<IndividualUserSegmentResponse>($"help_center/user_segments.json", new IndividualUserSegmentResponse{UserSegment=UserSegment}); 
         }
 
-        public async Task<bool> DeleteUserSegmentAsync(int id)
+        public async Task<bool> DeleteUserSegmentAsync(long id)
         {
             return await GenericDeleteAsync($"help_center/user_segments/{id}.json");
         }
