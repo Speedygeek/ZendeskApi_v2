@@ -83,8 +83,10 @@ namespace Tests
 
             Assert.Greater(res.Schedule.Id, 0);
 
-            var work = new WorkWeek();
-            work.Intervals = res.Schedule.Intervals;
+            var work = new WorkWeek
+            {
+                Intervals = res.Schedule.Intervals
+            };
 
             work.Intervals[0].StartTime = 1860;
             work.Intervals[0].EndTime = 2460;
@@ -108,13 +110,13 @@ namespace Tests
             var res2 = api.Schedules.CreateHoliday(res.Schedule.Id.Value, new Holiday()
             {
                 Name = "Test Holiday",
-                StartDate = DateTimeOffset.Parse("2016-02-05"),
-                EndDate = DateTimeOffset.Parse("2016-02-05")
+                StartDate = DateTimeOffset.UtcNow.AddDays(1).Date,
+                EndDate = DateTimeOffset.UtcNow.AddDays(2).Date
             });
 
             Assert.Greater(res2.Holiday.Id, 0);
 
-            res2.Holiday.EndDate = DateTimeOffset.Parse("2016-02-06");
+            res2.Holiday.EndDate = DateTimeOffset.UtcNow.AddDays(3).Date;
             var update = api.Schedules.UpdateHoliday(res.Schedule.Id.Value, res2.Holiday);
             Assert.AreEqual(update.Holiday.Name, res2.Holiday.Name);
             Assert.AreEqual(update.Holiday.EndDate, res2.Holiday.EndDate);

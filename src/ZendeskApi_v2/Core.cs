@@ -130,9 +130,9 @@ namespace ZendeskApi_v2
 
                 var req = WebRequest.Create(requestUrl) as HttpWebRequest;
 
-                if (this.Proxy != null)
+                if (Proxy != null)
                 {
-                    req.Proxy = this.Proxy;
+                    req.Proxy = Proxy;
                 }
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();

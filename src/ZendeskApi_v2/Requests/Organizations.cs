@@ -228,14 +228,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization)
         {
-            var body = new { organization };
-            return await GenericPostAsync<IndividualOrganizationResponse>("organizations.json", body);
+            return await GenericPostAsync<IndividualOrganizationResponse>("organizations.json", new { organization });
         }
 
         public async Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization)
         {
-            var body = new { organization };
-            return await GenericPutAsync<IndividualOrganizationResponse>($"organizations/{organization.Id}.json", body);
+            return await GenericPutAsync<IndividualOrganizationResponse>($"organizations/{organization.Id}.json", new { organization });
         }
 
         public async Task<bool> DeleteOrganizationAsync(long id)
@@ -270,8 +268,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualOrganizationMembershipResponse> CreateOrganizationMembershipAsync(OrganizationMembership organization_membership)
         {
-            var body = new { organization_membership };
-            return await GenericPostAsync<IndividualOrganizationMembershipResponse>("organization_memberships.json", body);
+            return await GenericPostAsync<IndividualOrganizationMembershipResponse>("organization_memberships.json", new { organization_membership });
         }
 
         public async Task<IndividualOrganizationMembershipResponse> CreateOrganizationMembershipAsync(long userId, OrganizationMembership organization_membership)

@@ -89,14 +89,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public IndividualArticleResponse GetArticle(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None)
         {
-            var resourceUrl = this.GetFormattedArticleUri($"{urlPrefix}/articles/{articleId}.json", sideloadOptions);
+            var resourceUrl = GetFormattedArticleUri($"{urlPrefix}/articles/{articleId}.json", sideloadOptions);
 
             return GenericGet<IndividualArticleResponse>(resourceUrl);
         }
 
         public GroupArticleResponse GetArticles(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
         {
-            var resourceUrl = this.GetFormattedArticlesUri($"{urlPrefix}/articles.json", options, sideloadOptions);
+            var resourceUrl = GetFormattedArticlesUri($"{urlPrefix}/articles.json", options, sideloadOptions);
 
             return GenericPagedGet<GroupArticleResponse>(resourceUrl, perPage, page);
         }
@@ -104,7 +104,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public GroupArticleResponse GetArticlesByCategoryId(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
             var uri = $"{urlPrefix}/categories/{categoryId}/articles.json";
-            var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
+            var resourceUrl = GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return GenericGet<GroupArticleResponse>(resourceUrl);
         }
@@ -112,7 +112,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public GroupArticleResponse GetArticlesBySectionId(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
             var uri = $"{urlPrefix}/sections/{sectionId}/articles.json";
-            var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
+            var resourceUrl = GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return GenericGet<GroupArticleResponse>(resourceUrl);
         }
@@ -156,14 +156,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         public async Task<IndividualArticleResponse> GetArticleAsync(long articleId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None)
         {
-            var resourceUrl = this.GetFormattedArticleUri($"{urlPrefix}/articles/{articleId}.json", sideloadOptions);
+            var resourceUrl = GetFormattedArticleUri($"{urlPrefix}/articles/{articleId}.json", sideloadOptions);
 
             return await GenericGetAsync<IndividualArticleResponse>(resourceUrl);
         }
 
         public async Task<GroupArticleResponse> GetArticlesAsync(ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null, int? perPage = null, int? page = null)
         {
-            var resourceUrl = this.GetFormattedArticlesUri($"{urlPrefix}/articles.json", options, sideloadOptions);
+            var resourceUrl = GetFormattedArticlesUri($"{urlPrefix}/articles.json", options, sideloadOptions);
 
             return await GenericPagedGetAsync<GroupArticleResponse>(resourceUrl, perPage, page);
         }
@@ -171,7 +171,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<GroupArticleResponse> GetArticlesByCategoryIdAsync(long categoryId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
             var uri = $"{urlPrefix}/categories/{categoryId}/articles.json";
-            var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
+            var resourceUrl = GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
         }
@@ -179,7 +179,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<GroupArticleResponse> GetArticlesBySectionIdAsync(long sectionId, ArticleSideLoadOptionsEnum sideloadOptions = ArticleSideLoadOptionsEnum.None, ArticleSortingOptions options = null)
         {
             var uri = $"{urlPrefix}/sections/{sectionId}/articles.json";
-            var resourceUrl = this.GetFormattedArticlesUri(uri, options, sideloadOptions);
+            var resourceUrl = GetFormattedArticlesUri(uri, options, sideloadOptions);
 
             return await GenericGetAsync<GroupArticleResponse>(resourceUrl);
         }
