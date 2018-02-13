@@ -10,7 +10,7 @@ namespace ZendeskApi_v2.Serialization
 
         public ZendeskContractResolver()
         {
-            this.NamingStrategy = new SnakeCaseNamingStrategy();
+            NamingStrategy = new SnakeCaseNamingStrategy();
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)

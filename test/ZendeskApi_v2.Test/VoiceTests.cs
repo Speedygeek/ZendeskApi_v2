@@ -77,21 +77,5 @@ namespace Tests
             Assert.AreEqual(2110053086, agent.AgentId); 
         }
 
-        [Test]
-        public void GetHistoricalQueueActivity()
-        {
-            var res = api.Voice.GetHistoricalQueueActivity();
-
-            Assert.NotNull(res);
-        }
-
-        [Test]
-        public void GetHistoricalQueueActivityAsync()
-        {
-            var res = api.Voice.GetHistoricalQueueActivityAsync();
-
-            Assert.NotNull(res.Result.Details);
-        }
-
     }
 }

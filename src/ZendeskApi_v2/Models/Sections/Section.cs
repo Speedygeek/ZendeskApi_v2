@@ -52,6 +52,6 @@ namespace ZendeskApi_v2.Models.Sections
         public IList<Translation> Translations { get; set; }
 
         [JsonProperty("user_segment_id")]
-        public int? UserSegmentId { get; set; }
+        public long? UserSegmentId { get; set; }
     }
 }

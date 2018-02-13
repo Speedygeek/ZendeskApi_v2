@@ -90,14 +90,12 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualScheduleHolidayResponse CreateHoliday(long scheduleId, Holiday holiday)
         {
-            var body = new { holiday };
-            return GenericPost<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays.json", body);
+            return GenericPost<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays.json", new { holiday });
         }
 
         public IndividualScheduleHolidayResponse UpdateHoliday(long scheduleId, Holiday holiday)
         {
-            var body = new { holiday };
-            return GenericPut<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays/{holiday.Id}.json", body);
+            return GenericPut<IndividualScheduleHolidayResponse>($"business_hours/schedules/{scheduleId}/holidays/{holiday.Id}.json", new { holiday });
         }
 
         public bool DeleteHoliday(long scheduleId, long holidayId)
