@@ -76,6 +76,22 @@ namespace Tests
             Assert.NotNull(agent);
             Assert.AreEqual(2110053086, agent.AgentId); 
         }
+      
+        [Test]
+        public void GetCurrentQueueActivity()
+        {
+            var res = api.Voice.GetCurrentQueueActivity();
+
+            Assert.NotNull(res);
+        }
+
+        [Test]
+        public void GetCurrentQueueActivityAsync()
+        {
+            var res = api.Voice.GetCurrentQueueActivityAsync();
+            Assert.NotNull(res);
+        }
+
 
     }
 }
