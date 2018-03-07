@@ -76,22 +76,22 @@ namespace Tests
             Assert.NotNull(agent);
             Assert.AreEqual(2110053086, agent.AgentId); 
         }
-
+      
         [Test]
-        public void GetHistoricalQueueActivity()
+        public void GetCurrentQueueActivity()
         {
-            var res = api.Voice.GetHistoricalQueueActivity();
+            var res = api.Voice.GetCurrentQueueActivity();
 
             Assert.NotNull(res);
         }
 
         [Test]
-        public void GetHistoricalQueueActivityAsync()
+        public void GetCurrentQueueActivityAsync()
         {
-            var res = api.Voice.GetHistoricalQueueActivityAsync();
-
-            Assert.NotNull(res.Result.Details);
+            var res = api.Voice.GetCurrentQueueActivityAsync();
+            Assert.NotNull(res);
         }
+
 
     }
 }

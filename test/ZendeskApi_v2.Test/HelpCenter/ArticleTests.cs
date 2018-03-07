@@ -97,7 +97,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticleByCategoryWithSideloadedSections()
         {
-            var firstCategory = api.HelpCenter.Categories.GetCategories().Categories[0];
+            var firstCategory = api.HelpCenter.Categories.GetCategoryById(200382245).Category;
             var res = api.HelpCenter.Articles.GetArticlesByCategoryId(firstCategory.Id.Value, ArticleSideLoadOptionsEnum.Sections);
 
             Assert.IsTrue(res.Sections.Count > 0);
@@ -131,7 +131,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticlesSortedInACategory()
         {
-            var category = api.HelpCenter.Categories.GetCategories().Categories[0];
+            var category = api.HelpCenter.Categories.GetCategoryById(200382245).Category;
             var articlesAscending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
             var articlesDescending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 

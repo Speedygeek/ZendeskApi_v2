@@ -28,9 +28,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         /// <param name="sortOrder">The order.</param>
         public ArticleSortingOptions(string locale = "en-us", ArticleSortEnum sortBy = ArticleSortEnum.Default, ArticleSortOrderEnum sortOrder = ArticleSortOrderEnum.Asc)
         {
-            this.Locale = locale;
-            this.SortBy = sortBy;
-            this.SortOrder = sortOrder;
+            Locale = locale;
+            SortBy = sortBy;
+            SortOrder = sortOrder;
         }
 
         public string Locale { get; set; }

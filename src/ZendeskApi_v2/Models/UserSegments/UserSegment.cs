@@ -14,7 +14,7 @@ namespace ZendeskApi_v2.Models.UserSegments
     public class UserSegment
     {
         [JsonProperty("id")]
-        public int? Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -24,10 +24,10 @@ namespace ZendeskApi_v2.Models.UserSegments
         public UserType UserType { get; set; }
 
         [JsonProperty("group_ids")]
-        public IList<int> GroupIds { get; set; }
+        public IList<long> GroupIds { get; set; }
 
         [JsonProperty("organization_ids")]
-        public IList<int> OrganizationIds { get; set; }
+        public IList<long> OrganizationIds { get; set; }
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
