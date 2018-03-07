@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -7,7 +7,6 @@ using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.SharingAgreements;
 using ZendeskApi_v2.Models.Users;
-using ZendeskApi_v2.Serialization;
 
 namespace ZendeskApi_v2.Models.Tickets
 {
@@ -17,7 +16,7 @@ namespace ZendeskApi_v2.Models.Tickets
         public long Count { get; set; }
 
         [JsonProperty("end_time")]
-        [JsonConverter(typeof(UnixEpochTimeConverter))]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime EndTime { get; set; }
 
         [JsonProperty("groups")]
