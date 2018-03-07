@@ -11,6 +11,16 @@ using ZendeskApi_v2.Models.Tickets;
 namespace ZendeskApi_v2.Models.Requests
 {
 
+    public enum RequestType
+    {
+        none,
+        question,
+        incident,
+        problem,
+        task
+    }
+
+
     public class Request
     {
 
@@ -19,6 +29,10 @@ namespace ZendeskApi_v2.Models.Requests
 
         [JsonProperty("id")]
         public long? Id { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonProperty("type")]
+        public RequestType? Type { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
@@ -33,7 +47,7 @@ namespace ZendeskApi_v2.Models.Requests
         public long? OrganizationId { get; set; }
 
         [JsonProperty("via")]
-        public Via Via { get; set; }        
+        public Via Via { get; set; }
 
         [JsonProperty("custom_fields")]
         public IList<CustomField> CustomFields { get; set; }
