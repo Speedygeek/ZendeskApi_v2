@@ -152,6 +152,7 @@ namespace Tests
             var req = new Request
             {
                 Subject = "end user request test",
+                Type = RequestType.incident,
                 Comment = new Comment {Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true}
             };
 
@@ -159,6 +160,7 @@ namespace Tests
             Assert.IsNotNull(res);
             Assert.IsNotNull(res.Request);
             Assert.IsTrue(res.Request.Id.HasValue);
+            Assert.That(res.Request.Type == RequestType.incident);
             Assert.True(res.Request.Id.Value > 0);
 
             var res1 = _api.Requests.GetRequestById(res.Request.Id.Value);
@@ -172,7 +174,6 @@ namespace Tests
             };
 
             var res2 = _api.Requests.UpdateRequest(res1.Request);
-            //var res2 = api.Requests.UpdateRequest(res.Request.Id.Value, new Comment() {Body = "something more to say"});
             var res3 = _api.Requests.GetRequestCommentsById(res.Request.Id.Value);
 
             Assert.AreEqual(res3.Comments.Last().Body.Replace("\n", ""), "something more to say");
