@@ -7,6 +7,8 @@ image: Previous Visual Studio 2017
 pull_requests:
   do_not_increment_build_number: true
 configuration: Release
+environment:
+  APPVEYOR_BLOCK_DOTNETCORE_TESTS_AUTORUN: true
 nuget:
   disable_publish_on_pr: true
 # scripts that are called at very beginning, before repo cloning
@@ -41,6 +43,13 @@ notifications:
 
 install:
 - ps: >-
+
+    # set strong cryptography on 64 bit .Net Framework (version 4 and above)
+    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord
+
+
+    # set strong cryptography on 32 bit .Net Framework (version 4 and above)
+    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord 
 
     choco install gitversion.portable --pre --no-progress -y
     
