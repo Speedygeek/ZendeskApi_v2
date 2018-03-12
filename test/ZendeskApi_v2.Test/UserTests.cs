@@ -96,8 +96,27 @@ namespace Tests
         [Test]
         public void CanGetUsersInOrgPaginated()
         {
-            var res = api.Users.GetUsersInOrganization(Settings.OrganizationId, 100, 0);
-            Assert.True(res.Count > 0);
+            // create users
+            var users = new List<User>();
+            for (int i = 0; i < 5; i++)
+            {
+                var user = new User()
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                    OrganizationId = Settings.OrganizationId
+                };
+
+                var res1 = api.Users.CreateUser(user);
+
+                users.Add(res1.User);
+            }
+
+            var res = api.Users.GetUsersInOrganization(Settings.OrganizationId, 3, 0);
+            Assert.That(res.Users.Count, Is.EqualTo(3));
+            Assert.That(res.NextPage, Is.Not.Null);
+
+            users.ForEach(u => api.Users.DeleteUser(u.Id.Value));
         }
 
         [Test]
