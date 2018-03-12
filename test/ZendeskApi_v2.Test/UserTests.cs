@@ -94,6 +94,13 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetUsersInOrgPaginated()
+        {
+            var res = api.Users.GetUsersInOrganization(Settings.OrganizationId, 100, 0);
+            Assert.True(res.Count > 0);
+        }
+
+        [Test]
         public void CanCreateUpdateSuspendAndDeleteUser()
         {
             var list = api.Users.GetAllUsers();
