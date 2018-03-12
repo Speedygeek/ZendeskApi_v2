@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ZendeskApi_v2.Extensions;
 
@@ -62,7 +62,7 @@ namespace ZendeskApi_v2.Requests
 
         GroupUserResponse GetUsersInGroup(long id);
 
-        GroupUserResponse GetUsersInOrganization(long id);
+        GroupUserResponse GetUsersInOrganization(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 
         IndividualUserResponse CreateUser(User user);
 
@@ -138,7 +138,7 @@ namespace ZendeskApi_v2.Requests
 
         Task<GroupUserResponse> GetUsersInGroupAsync(long id);
 
-        Task<GroupUserResponse> GetUsersInOrganizationAsync(long id);
+        Task<GroupUserResponse> GetUsersInOrganizationAsync(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 
         Task<IndividualUserResponse> CreateUserAsync(User user);
 
@@ -310,9 +310,10 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupUserResponse>($"groups/{id}/users.json");
         }
 
-        public GroupUserResponse GetUsersInOrganization(long id)
+        public GroupUserResponse GetUsersInOrganization(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            return GenericGet<GroupUserResponse>($"organizations/{id}/users.json");
+            var resource = GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions);
+            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
         }
 
         public IndividualUserResponse CreateUser(User user)
@@ -523,9 +524,10 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<GroupUserResponse>($"groups/{id}/users.json");
         }
 
-        public async Task<GroupUserResponse> GetUsersInOrganizationAsync(long id)
+        public async Task<GroupUserResponse> GetUsersInOrganizationAsync(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            return await GenericGetAsync<GroupUserResponse>($"organizations/{id}/users.json");
+            var resource = GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions);
+            return await GenericPagedGetAsync<GroupUserResponse>(resource, perPage, page);
         }
 
         public async Task<IndividualUserResponse> CreateUserAsync(User user)
