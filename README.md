@@ -6,6 +6,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/6ve1ey4x7ctd5029?svg=true)](https://ci.appveyor.com/project/mozts2005/zendeskapi-v2)
 [![NuGet Version](https://img.shields.io/nuget/v/ZendeskApi_v2.svg)](https://www.nuget.org/packages/ZendeskApi_v2/)  
 [![MyGet Prerelease](https://img.shields.io/myget/zendeskapi_v2_prerelease/vpre/ZendeskApi_v2.svg?label=MyGet_Prerelease)](https://www.myget.org/feed/zendeskapi_v2_prerelease/package/nuget/ZendeskApi_v2)
+[![CodeFactor](https://www.codefactor.io/repository/github/mozts2005/zendeskapi_v2/badge)](https://www.codefactor.io/repository/github/mozts2005/zendeskapi_v2)
 
 This is a client for [Zendesk's v2 REST api](http://developer.zendesk.com/documentation/rest_api/introduction.html).
 
