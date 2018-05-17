@@ -28,10 +28,14 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!--;net35-->
-    <TargetFrameworks>net40;net45;portable40-net40+sl5+win8+wpa81+wp8;uap10.0</TargetFrameworks>
+    <TargetFrameworks>net40;net45;portable40-net40+sl5+win8+wpa81+wp8;uap10.0;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
   </PropertyGroup>
 
