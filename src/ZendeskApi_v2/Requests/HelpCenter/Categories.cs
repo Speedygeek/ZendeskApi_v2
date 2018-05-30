@@ -30,6 +30,10 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
         private string Locale { get; set; }
 
+        private string CategoriesPath => string.IsNullOrEmpty(Locale)
+            ? "help_center/categories.json"
+            : $"help_center/{Locale}/categories.json";
+
         public Categories(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
@@ -39,7 +43,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if SYNC
         public GroupCategoryResponse GetCategories()
         {
-            return GenericGet<GroupCategoryResponse>("help_center/categories.json");
+            return GenericGet<GroupCategoryResponse>(CategoriesPath);
         }
 
         public IndividualCategoryResponse GetCategoryById(long id) 
@@ -56,7 +60,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
             var body = new { category };
 
-            return GenericPost<IndividualCategoryResponse>("help_center/categories.json", body);
+            return GenericPost<IndividualCategoryResponse>(CategoriesPath, body);
         }
 
         public IndividualCategoryResponse UpdateCategory(Category category)
@@ -74,7 +78,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if ASYNC
         public async Task<GroupCategoryResponse> GetCategoriesAsync()
         {
-            return await GenericGetAsync<GroupCategoryResponse>("help_center/categories.json");
+            return await GenericGetAsync<GroupCategoryResponse>(CategoriesPath);
         }
 
         public async Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id)
@@ -85,7 +89,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<IndividualCategoryResponse> CreateCategoryAsync(Category category)
         {
             var body = new { category };
-            return await GenericPostAsync<IndividualCategoryResponse>(string.Format("help_center/categories.json"), body);
+            return await GenericPostAsync<IndividualCategoryResponse>(CategoriesPath, body);
         }
 
         public async Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category)
