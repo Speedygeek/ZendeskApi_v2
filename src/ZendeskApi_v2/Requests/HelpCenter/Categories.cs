@@ -30,7 +30,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
         private string Locale { get; set; }
 
-        private string CategoriesPath => string.IsNullOrEmpty(Locale)
+        private string CategoriesPath => string.IsNullOrWhiteSpace(Locale)
             ? "help_center/categories.json"
             : $"help_center/{Locale}/categories.json";
 
