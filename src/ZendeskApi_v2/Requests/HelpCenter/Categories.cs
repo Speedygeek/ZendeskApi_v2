@@ -30,9 +30,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
         private string Locale { get; set; }
 
-        private string CategoriesPath => string.IsNullOrWhiteSpace(Locale)
-            ? "help_center/categories.json"
-            : $"help_center/{Locale}/categories.json";
+        private string GeneralCategoriesPath => string.IsNullOrWhiteSpace(Locale)
+            ? "help_center/categories"
+            : $"help_center/{Locale}/categories";
 
         public Categories(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
@@ -43,12 +43,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if SYNC
         public GroupCategoryResponse GetCategories()
         {
-            return GenericGet<GroupCategoryResponse>(CategoriesPath);
+            return GenericGet<GroupCategoryResponse>($"{GeneralCategoriesPath}.json");
         }
 
         public IndividualCategoryResponse GetCategoryById(long id) 
         {
-            return GenericGet<IndividualCategoryResponse>($"help_center/categories/{id}.json");
+            return GenericGet<IndividualCategoryResponse>($"{GeneralCategoriesPath}/{id}.json");
         }
 
         public IndividualCategoryResponse CreateCategory(Category category)
@@ -60,13 +60,13 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
             var body = new { category };
 
-            return GenericPost<IndividualCategoryResponse>(CategoriesPath, body);
+            return GenericPost<IndividualCategoryResponse>($"{GeneralCategoriesPath}.json", body);
         }
 
         public IndividualCategoryResponse UpdateCategory(Category category)
         {
             var body = new { category };
-            return GenericPut<IndividualCategoryResponse>($"help_center/categories/{category.Id}.json", body);
+            return GenericPut<IndividualCategoryResponse>($"{GeneralCategoriesPath}/{category.Id}.json", body);
         }
 
         public bool DeleteCategory(long id)
@@ -78,29 +78,29 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if ASYNC
         public async Task<GroupCategoryResponse> GetCategoriesAsync()
         {
-            return await GenericGetAsync<GroupCategoryResponse>(CategoriesPath);
+            return await GenericGetAsync<GroupCategoryResponse>($"{GeneralCategoriesPath}.json");
         }
 
         public async Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualCategoryResponse>($"help_center/categories/{id}.json");
+            return await GenericGetAsync<IndividualCategoryResponse>($"{GeneralCategoriesPath}/{id}.json");
         }
 
         public async Task<IndividualCategoryResponse> CreateCategoryAsync(Category category)
         {
             var body = new { category };
-            return await GenericPostAsync<IndividualCategoryResponse>(CategoriesPath, body);
+            return await GenericPostAsync<IndividualCategoryResponse>($"{GeneralCategoriesPath}.json", body);
         }
 
         public async Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category)
         {
             var body = new { category };
-            return await GenericPutAsync<IndividualCategoryResponse>($"help_center/categories/{category.Id}.json", body);
+            return await GenericPutAsync<IndividualCategoryResponse>($"{GeneralCategoriesPath}/{category.Id}.json", body);
         }
 
         public async Task<bool> DeleteCategoryAsync(long id)
         {
-            return await GenericDeleteAsync($"help_center/categories/{id}.json");
+            return await GenericDeleteAsync($"{GeneralCategoriesPath}/{id}.json");
         }
 #endif
     }
