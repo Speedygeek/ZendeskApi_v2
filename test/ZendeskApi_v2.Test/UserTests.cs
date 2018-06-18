@@ -427,7 +427,7 @@ namespace Tests
         }
 
         [Test]
-        public async Task CanBulDeleteUsersAsync()
+        public async Task CanBulkDeleteUsersAsync()
         {
             var users = new List<User>();
 
@@ -463,7 +463,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanBulDeleteUsers()
+        public void CanBulkDeleteUsers()
         {
             var users = new List<User>();
 
