@@ -9,6 +9,8 @@ using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
 using ZendeskApi_v2.Models.Shared;
 using System.IO;
+using System.Net;
+using System.Threading;
 
 namespace Tests
 {
@@ -16,6 +18,8 @@ namespace Tests
     [Category("Users")]
     public class UserTests
     {
+        private const int MaxRetryAttempts = 10;
+
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
@@ -418,6 +422,51 @@ namespace Tests
 
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
+        }
+
+        [Test]
+        public async Task CanBulDeletekUsersAsync()
+        {
+            var users = new List<User>();
+
+            for (var i = 0; i < 2; i++)
+            {
+                var user = new User()
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                    Verified = true
+                };
+
+                var response = await api.Users.CreateUserAsync(user);
+
+                users.Add(response.User);
+            }
+
+            var jobResponse = await api.Users.BulkDeleteUsersAsync(users);
+
+            Assert.AreEqual("queued", jobResponse.JobStatus.Status.ToLower());
+
+            var count = 0;
+
+            while (jobResponse.JobStatus.Status.ToLower() != "completed" && count < 10)
+            {
+                await Task.Delay(1000);
+                jobResponse = api.JobStatuses.GetJobStatus(jobResponse.JobStatus.Id);
+                count++;
+            }
+
+            Assert.AreEqual("completed", jobResponse.JobStatus.Status.ToLower());
+            Assert.AreEqual(users.Count, jobResponse.JobStatus.Total);
+
+            var x = await api.Users.GetUserAsync(users.First().Id.Value);
+            await Task.Delay(100);
+        }
+
+        [Test]
+        public void CanBulDeletekUsers()
+        {
+
         }
     }
 }
