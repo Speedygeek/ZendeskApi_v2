@@ -84,7 +84,7 @@ you provide is on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND
 INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS
 FOR A PARTICULAR PURPOSE.
 
-[cla]: https://www.clahub.com/agreements/mozts2005/ZendeskApi_v2
+[cla]: https://cla-assistant.io/mozts2005/ZendeskApi_v2
 [github]: https://github.com/mozts2005/ZendeskApi_v2
 [stackoverflow]: http://stackoverflow.com/questions/tagged/zendeskapiv2
 [dropbox]: https://www.dropbox.com
