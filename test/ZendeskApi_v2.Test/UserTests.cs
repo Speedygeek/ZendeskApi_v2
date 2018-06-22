@@ -9,6 +9,8 @@ using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Requests;
 using ZendeskApi_v2.Models.Shared;
 using System.IO;
+using System.Net;
+using System.Threading;
 
 namespace Tests
 {
@@ -16,6 +18,10 @@ namespace Tests
     [Category("Users")]
     public class UserTests
     {
+        private const int MaxRetryAttempts = 10;
+        private const string JobStatusCompleted = "completed";
+        private const string JobStatusQueued = "queued";
+
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
@@ -418,6 +424,78 @@ namespace Tests
 
             Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
             Assert.True(api.Users.DeleteUser(userId));
+        }
+
+        [Test]
+        public async Task CanBulkDeleteUsersAsync()
+        {
+            var users = new List<User>();
+
+            for (var i = 0; i < 2; i++)
+            {
+                var user = new User()
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                    Verified = true
+                };
+
+                var response = await api.Users.CreateUserAsync(user);
+
+                users.Add(response.User);
+            }
+
+            var jobResponse = await api.Users.BulkDeleteUsersAsync(users);
+
+            Assert.AreEqual(JobStatusQueued, jobResponse.JobStatus.Status.ToLower());
+
+            var count = 0;
+
+            while (jobResponse.JobStatus.Status.ToLower() != JobStatusCompleted && count < MaxRetryAttempts)
+            {
+                await Task.Delay(1000);
+                jobResponse = api.JobStatuses.GetJobStatus(jobResponse.JobStatus.Id);
+                count++;
+            }
+
+            Assert.AreEqual(JobStatusCompleted, jobResponse.JobStatus.Status.ToLower());
+            Assert.AreEqual(users.Count, jobResponse.JobStatus.Total);
+        }
+
+        [Test]
+        public void CanBulkDeleteUsers()
+        {
+            var users = new List<User>();
+
+            for (var i = 0; i < 2; i++)
+            {
+                var user = new User()
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                    Verified = true
+                };
+
+                var response = api.Users.CreateUser(user);
+
+                users.Add(response.User);
+            }
+
+            var jobResponse = api.Users.BulkDeleteUsers(users);
+
+            Assert.AreEqual(JobStatusQueued, jobResponse.JobStatus.Status.ToLower());
+
+            var count = 0;
+
+            while (jobResponse.JobStatus.Status.ToLower() != JobStatusCompleted && count < MaxRetryAttempts)
+            {
+                Thread.Sleep(1000);
+                jobResponse = api.JobStatuses.GetJobStatus(jobResponse.JobStatus.Id);
+                count++;
+            }
+
+            Assert.AreEqual(JobStatusCompleted, jobResponse.JobStatus.Status.ToLower());
+            Assert.AreEqual(users.Count, jobResponse.JobStatus.Total);
         }
     }
 }
