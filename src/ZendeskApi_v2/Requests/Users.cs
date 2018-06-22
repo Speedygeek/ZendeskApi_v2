@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZendeskApi_v2.Extensions;
 
 #if ASYNC
@@ -73,6 +74,8 @@ namespace ZendeskApi_v2.Requests
         IndividualUserResponse UpdateUser(User user);
 
         bool DeleteUser(long id);
+
+        JobStatusResponse BulkDeleteUsers(IEnumerable<User> users);
 
         bool SetUsersPassword(long userId, string newPassword);
 
@@ -149,6 +152,8 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> UpdateUserAsync(User user);
 
         Task<bool> DeleteUserAsync(long id);
+
+        Task<JobStatusResponse> BulkDeleteUsersAsync(IEnumerable<User> users);
 
         Task<bool> SetUsersPasswordAsync(long userId, string newPassword);
 
@@ -343,6 +348,13 @@ namespace ZendeskApi_v2.Requests
         public bool DeleteUser(long id)
         {
             return GenericDelete($"users/{id}.json");
+        }
+
+        public JobStatusResponse BulkDeleteUsers(IEnumerable<User> users)
+        {
+            var userIdsCommaSeperatedList = CreateCommaSeperatedUserIdString(users);
+
+            return GenericDelete<JobStatusResponse>($"users/destroy_many.json?ids={userIdsCommaSeperatedList}");
         }
 
         public bool SetUsersPassword(long userId, string newPassword)
@@ -559,6 +571,13 @@ namespace ZendeskApi_v2.Requests
             return await GenericDeleteAsync($"users/{id}.json");
         }
 
+        public Task<JobStatusResponse> BulkDeleteUsersAsync(IEnumerable<User> users)
+        {
+            var userIdsCommaSeperatedList = CreateCommaSeperatedUserIdString(users);
+
+            return GenericDeleteAsync<JobStatusResponse>($"users/destroy_many.json?ids={userIdsCommaSeperatedList}");
+        }
+
         public async Task<bool> SetUsersPasswordAsync(long userId, string newPassword)
         {
             var body = new { password = newPassword };
@@ -645,6 +664,14 @@ namespace ZendeskApi_v2.Requests
             }
 
             return resource;
+        }
+
+        private static string CreateCommaSeperatedUserIdString(IEnumerable<User> users)
+        {
+            var userIds = users.Select(user => user.Id);
+            var userIdsCommaSeperatedList = string.Join(",", userIds);
+
+            return userIdsCommaSeperatedList;
         }
     }
 }
