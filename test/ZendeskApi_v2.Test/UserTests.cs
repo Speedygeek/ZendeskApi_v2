@@ -503,15 +503,15 @@ namespace Tests
         {
             var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.IsNull(incrementalUserExport.Organizations);
-            Assert.IsNull(incrementalUserExport.Identities);
-            Assert.IsNull(incrementalUserExport.Groups);
+            Assert.That(incrementalUserExport.Organizations, Is.Null);
+            Assert.That(incrementalUserExport.Identities, Is.Null);
+            Assert.That(incrementalUserExport.Groups, Is.Null);
 
             var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
             Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.IsNull(incrementalUserExportNextPage.Organizations);
-            Assert.IsNull(incrementalUserExportNextPage.Identities);
-            Assert.IsNull(incrementalUserExportNextPage.Groups);
+            Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
+            Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
+            Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
         }
 
         [Test]
@@ -519,15 +519,15 @@ namespace Tests
         {
             var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.NotNull(incrementalUserExport.Organizations);
-            Assert.NotNull(incrementalUserExport.Identities);
-            Assert.NotNull(incrementalUserExport.Groups);
+            Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
+            Assert.That(incrementalUserExport.Identities, Is.Not.Null);
+            Assert.That(incrementalUserExport.Groups, Is.Not.Null);
 
             var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
             Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.NotNull(incrementalUserExportNextPage.Organizations);
-            Assert.NotNull(incrementalUserExportNextPage.Identities);
-            Assert.NotNull(incrementalUserExportNextPage.Groups);
+            Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
+            Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
+            Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
         }
 
         [Test]
@@ -535,15 +535,15 @@ namespace Tests
         {
             var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.IsNull(incrementalUserExport.Organizations);
-            Assert.IsNull(incrementalUserExport.Identities);
-            Assert.IsNull(incrementalUserExport.Groups);
+            Assert.That(incrementalUserExport.Organizations, Is.Null);
+            Assert.That(incrementalUserExport.Identities, Is.Null);
+            Assert.That(incrementalUserExport.Groups, Is.Null);
 
             var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
             Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.IsNull(incrementalUserExportNextPage.Organizations);
-            Assert.IsNull(incrementalUserExportNextPage.Identities);
-            Assert.IsNull(incrementalUserExportNextPage.Groups);
+            Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
+            Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
+            Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
         }
 
         [Test]
@@ -551,15 +551,15 @@ namespace Tests
         {
             var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
             Assert.That(incrementalUserExport.Users.Count > 0);
-            Assert.NotNull(incrementalUserExport.Organizations);
-            Assert.NotNull(incrementalUserExport.Identities);
-            Assert.NotNull(incrementalUserExport.Groups);
+            Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
+            Assert.That(incrementalUserExport.Identities, Is.Not.Null);
+            Assert.That(incrementalUserExport.Groups, Is.Not.Null);
 
             var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
             Assert.That(incrementalUserExportNextPage.Users.Count > 0);
-            Assert.NotNull(incrementalUserExportNextPage.Organizations);
-            Assert.NotNull(incrementalUserExportNextPage.Identities);
-            Assert.NotNull(incrementalUserExportNextPage.Groups);
+            Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
+            Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
+            Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
         }
     }
 }
