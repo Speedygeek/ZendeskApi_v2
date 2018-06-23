@@ -105,6 +105,9 @@ namespace ZendeskApi_v2.Requests
 
         IndividualUserResponse SetUserPhoto(long userId, ZenFile photo);
 
+        GroupUserExportResponse GetIncrementalUserExport(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+
+        GroupUserExportResponse GetIncrementalUserExportNextPage(string nextPage);
 #endif
 
 #if ASYNC
@@ -183,11 +186,17 @@ namespace ZendeskApi_v2.Requests
 
         Task<IndividualUserResponse> SetUserPhotoAsync(long userId, ZenFile photo);
 
+        Task<GroupUserExportResponse> GetIncrementalUserExportAsync(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
+
+        Task<GroupUserExportResponse> GetIncrementalUserExportNextPageAsync(string nextPage);
+
 #endif
     }
 
     public class Users : Core, IUsers
     {
+        private const string _incremental_export = "incremental/users.json?start_time=";
+
         public Users(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
@@ -426,6 +435,22 @@ namespace ZendeskApi_v2.Requests
             return GenericPut<IndividualUserResponse>($"users/{userId}.json", null, new Dictionary<string, object> { { "user[photo][uploaded_data]", photo } });
         }
 
+        public GroupUserExportResponse GetIncrementalUserExport(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            var resource =
+                GetResourceStringWithSideLoadOptionsParam(
+                    _incremental_export + startTime.UtcDateTime.GetEpoch(),
+                    sideLoadOptions);
+
+            return GenericGet<GroupUserExportResponse>(resource);
+        }
+
+        public GroupUserExportResponse GetIncrementalUserExportNextPage(string nextPage)
+        {
+            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
+
+            return GenericGet<GroupUserExportResponse>(resource);
+        }
 #endif
 
 #if ASYNC
@@ -647,6 +672,22 @@ namespace ZendeskApi_v2.Requests
             return GenericPutAsync<IndividualUserResponse>($"users/{userId}.json", null, new Dictionary<string, object> { { "user[photo][uploaded_data]", photo } });
         }
 
+        public async Task<GroupUserExportResponse> GetIncrementalUserExportAsync(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
+        {
+            var resource =
+                GetResourceStringWithSideLoadOptionsParam(
+                    _incremental_export + startTime.UtcDateTime.GetEpoch(),
+                    sideLoadOptions);
+
+            return await GenericGetAsync<GroupUserExportResponse>(resource);
+        }
+
+        public async Task<GroupUserExportResponse> GetIncrementalUserExportNextPageAsync(string nextPage)
+        {
+            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
+
+            return await GenericGetAsync<GroupUserExportResponse>(resource);
+        }
 #endif
 
         private string GetResourceStringWithSideLoadOptionsParam(string resource, UserSideLoadOptions sideLoadOptions)
