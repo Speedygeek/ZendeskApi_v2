@@ -497,5 +497,69 @@ namespace Tests
             Assert.AreEqual(JobStatusCompleted, jobResponse.JobStatus.Status.ToLower());
             Assert.AreEqual(users.Count, jobResponse.JobStatus.Total);
         }
+
+        [Test]
+        public void CanGetIncrementalUserExport()
+        {
+            var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue);
+            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExport.Organizations == null);
+            Assert.IsTrue(incrementalUserExport.Identities == null);
+            Assert.IsTrue(incrementalUserExport.Groups == null);
+
+            var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
+            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExportNextPage.Organizations == null);
+            Assert.IsTrue(incrementalUserExportNextPage.Identities == null);
+            Assert.IsTrue(incrementalUserExportNextPage.Groups == null);
+        }
+        
+        [Test]
+        public void CanGetIncrementalUserExportWithSideLoadOptions()
+        {
+            var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
+            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExport.Organizations != null);
+            Assert.IsTrue(incrementalUserExport.Identities != null);
+            Assert.IsTrue(incrementalUserExport.Groups != null);
+
+            var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
+            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExportNextPage.Organizations != null);
+            Assert.IsTrue(incrementalUserExportNextPage.Identities != null);
+            Assert.IsTrue(incrementalUserExportNextPage.Groups != null);
+        }
+        
+        [Test]
+        public async Task CanGetIncrementalUserExportAsync()
+        {
+            var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue);
+            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExport.Organizations == null);
+            Assert.IsTrue(incrementalUserExport.Identities == null);
+            Assert.IsTrue(incrementalUserExport.Groups == null);
+
+            var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
+            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExportNextPage.Organizations == null);
+            Assert.IsTrue(incrementalUserExportNextPage.Identities == null);
+            Assert.IsTrue(incrementalUserExportNextPage.Groups == null);
+        }
+        
+        [Test]
+        public async Task CanGetIncrementalUserExportAsyncWithSideLoadOptions()
+        {
+            var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
+            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExport.Organizations != null);
+            Assert.IsTrue(incrementalUserExport.Identities != null);
+            Assert.IsTrue(incrementalUserExport.Groups != null);
+
+            var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
+            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
+            Assert.IsTrue(incrementalUserExportNextPage.Organizations != null);
+            Assert.IsTrue(incrementalUserExportNextPage.Identities != null);
+            Assert.IsTrue(incrementalUserExportNextPage.Groups != null);
+        }
     }
 }
