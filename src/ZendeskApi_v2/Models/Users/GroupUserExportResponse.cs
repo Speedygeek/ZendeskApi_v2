@@ -13,7 +13,7 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("end_time")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime EndTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
 
         [JsonProperty("next_page")]
         public string NextPage { get; set; }

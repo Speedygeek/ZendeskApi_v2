@@ -502,64 +502,64 @@ namespace Tests
         public void CanGetIncrementalUserExport()
         {
             var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue);
-            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExport.Organizations == null);
-            Assert.IsTrue(incrementalUserExport.Identities == null);
-            Assert.IsTrue(incrementalUserExport.Groups == null);
+            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+            Assert.IsNull(incrementalUserExport.Organizations);
+            Assert.IsNull(incrementalUserExport.Identities);
+            Assert.IsNull(incrementalUserExport.Groups);
 
             var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
-            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExportNextPage.Organizations == null);
-            Assert.IsTrue(incrementalUserExportNextPage.Identities == null);
-            Assert.IsTrue(incrementalUserExportNextPage.Groups == null);
+            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+            Assert.IsNull(incrementalUserExportNextPage.Organizations);
+            Assert.IsNull(incrementalUserExportNextPage.Identities);
+            Assert.IsNull(incrementalUserExportNextPage.Groups);
         }
-        
+
         [Test]
         public void CanGetIncrementalUserExportWithSideLoadOptions()
         {
             var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
-            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExport.Organizations != null);
-            Assert.IsTrue(incrementalUserExport.Identities != null);
-            Assert.IsTrue(incrementalUserExport.Groups != null);
+            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+            Assert.NotNull(incrementalUserExport.Organizations);
+            Assert.NotNull(incrementalUserExport.Identities);
+            Assert.NotNull(incrementalUserExport.Groups);
 
             var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
-            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExportNextPage.Organizations != null);
-            Assert.IsTrue(incrementalUserExportNextPage.Identities != null);
-            Assert.IsTrue(incrementalUserExportNextPage.Groups != null);
+            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+            Assert.NotNull(incrementalUserExportNextPage.Organizations);
+            Assert.NotNull(incrementalUserExportNextPage.Identities);
+            Assert.NotNull(incrementalUserExportNextPage.Groups);
         }
-        
+
         [Test]
         public async Task CanGetIncrementalUserExportAsync()
         {
             var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue);
-            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExport.Organizations == null);
-            Assert.IsTrue(incrementalUserExport.Identities == null);
-            Assert.IsTrue(incrementalUserExport.Groups == null);
+            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+            Assert.IsNull(incrementalUserExport.Organizations);
+            Assert.IsNull(incrementalUserExport.Identities);
+            Assert.IsNull(incrementalUserExport.Groups);
 
             var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExportNextPage.Organizations == null);
-            Assert.IsTrue(incrementalUserExportNextPage.Identities == null);
-            Assert.IsTrue(incrementalUserExportNextPage.Groups == null);
+            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+            Assert.IsNull(incrementalUserExportNextPage.Organizations);
+            Assert.IsNull(incrementalUserExportNextPage.Identities);
+            Assert.IsNull(incrementalUserExportNextPage.Groups);
         }
-        
+
         [Test]
         public async Task CanGetIncrementalUserExportAsyncWithSideLoadOptions()
         {
             var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
-            Assert.IsTrue(incrementalUserExport.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExport.Organizations != null);
-            Assert.IsTrue(incrementalUserExport.Identities != null);
-            Assert.IsTrue(incrementalUserExport.Groups != null);
+            Assert.That(incrementalUserExport.Users.Count > 0);
+            Assert.NotNull(incrementalUserExport.Organizations);
+            Assert.NotNull(incrementalUserExport.Identities);
+            Assert.NotNull(incrementalUserExport.Groups);
 
             var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-            Assert.IsTrue(incrementalUserExportNextPage.Users.Count > 0);
-            Assert.IsTrue(incrementalUserExportNextPage.Organizations != null);
-            Assert.IsTrue(incrementalUserExportNextPage.Identities != null);
-            Assert.IsTrue(incrementalUserExportNextPage.Groups != null);
+            Assert.That(incrementalUserExportNextPage.Users.Count > 0);
+            Assert.NotNull(incrementalUserExportNextPage.Organizations);
+            Assert.NotNull(incrementalUserExportNextPage.Identities);
+            Assert.NotNull(incrementalUserExportNextPage.Groups);
         }
     }
 }
