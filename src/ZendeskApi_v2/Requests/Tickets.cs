@@ -205,7 +205,11 @@ namespace ZendeskApi_v2.Requests
 
         Task<bool> MarkAuditAsTrustedAsync(long ticketId, long auditId);
 
+        [Obsolete("This has been deprecated due to wrong spelling and sideLoadOptions was ignored. Please use GetIncrementalTicketExportAsync instead")]
         Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        Task<GroupTicketExportResponse> GetIncrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
 
         /// <summary>
         /// Since the other method can only be called once every 5 minutes it is not sutable for Automated tests.
@@ -813,6 +817,15 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             return await GenericPagedGetAsync<GroupTicketExportResponse>(_incremental_export + startTime.UtcDateTime.GetEpoch());
+        }
+
+        public async Task<GroupTicketExportResponse> GetIncrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam(
+                _incremental_export + startTime.UtcDateTime.GetEpoch(),
+                sideLoadOptions
+            );
+            return await GenericPagedGetAsync<GroupTicketExportResponse>(resource);
         }
 
         /// <summary>
