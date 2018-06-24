@@ -814,6 +814,7 @@ namespace ZendeskApi_v2.Requests
             return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
         }
 
+        [Obsolete("This has been deprecated due to wrong spelling and sideLoadOptions was ignored. Please use GetIncrementalTicketExportAsync instead")]
         public async Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             return await GenericPagedGetAsync<GroupTicketExportResponse>(_incremental_export + startTime.UtcDateTime.GetEpoch());
