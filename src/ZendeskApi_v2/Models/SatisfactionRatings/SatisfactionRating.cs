@@ -44,5 +44,8 @@ namespace ZendeskApi_v2.Models.Satisfaction
 
         [JsonProperty("comment")]
         public string Comment { get; set; }
+
+        [JsonProperty("reason")]
+        public string Reason { get; set; }
     }
 }
