@@ -766,6 +766,15 @@ namespace Tests
         }
 
         [Test]
+        public async Task CanGetIncrementalTicketExportAsyncWithSideLoadOptions()
+        {
+            var res = await api.Tickets.GetIncrementalTicketExportAsync(DateTime.Now.AddDays(-31), TicketSideLoadOptionsEnum.Users);
+
+            Assert.That(res.Count, Is.GreaterThan(0));
+            Assert.That(res.Users, Is.Not.Null);
+        }
+
+        [Test]
         public void CanGetTicketFields()
         {
             var res = api.Tickets.GetTicketFields();

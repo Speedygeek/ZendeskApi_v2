@@ -128,10 +128,8 @@ namespace Tests
         [Test]
         public void CanCreateUpdateSuspendAndDeleteUser()
         {
-            var list = api.Users.GetAllUsers();
-            var users = list.Users.Where(x => x.Email == "test772@tester.com");
-
-            foreach (var u in users)
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
             {
                 api.Users.DeleteUser(u.Id.Value);
             }
@@ -550,13 +548,13 @@ namespace Tests
         public async Task CanGetIncrementalUserExportAsyncWithSideLoadOptions()
         {
             var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
-            Assert.That(incrementalUserExport.Users.Count > 0);
+            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
             Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
             Assert.That(incrementalUserExport.Identities, Is.Not.Null);
             Assert.That(incrementalUserExport.Groups, Is.Not.Null);
 
             var incrementalUserExportNextPage = await api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-            Assert.That(incrementalUserExportNextPage.Users.Count > 0);
+            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
             Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
