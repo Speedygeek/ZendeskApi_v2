@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -198,6 +199,26 @@ namespace Tests
         {
             var search = await api.Organizations.SearchForOrganizationsAsync(Settings.DefaultExternalId);
             Assert.Greater(search.Count, 0);
+        }
+
+        [Test]
+        public void CanGetIncrementalOrganizationExport()
+        {
+            var incrementalOrganizationExport = api.Organizations.GetIncrementalOrganizationExport(DateTimeOffset.MinValue);
+            Assert.That(incrementalOrganizationExport.Organizations.Count, Is.GreaterThan(0));
+
+            var incrementalOrganizationExportNextPage = api.Organizations.GetIncrementalOrganizationExportNextPage(incrementalOrganizationExport.NextPage);
+            Assert.That(incrementalOrganizationExportNextPage.Organizations.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanGetIncrementalOrganizationExportAsync()
+        {
+            var incrementalOrganizationExport = await api.Organizations.GetIncrementalOrganizationExportAsync(DateTimeOffset.MinValue);
+            Assert.That(incrementalOrganizationExport.Organizations.Count, Is.GreaterThan(0));
+
+            var incrementalOrganizationExportNextPage = await api.Organizations.GetIncrementalOrganizationExportNextPageAsync(incrementalOrganizationExport.NextPage);
+            Assert.That(incrementalOrganizationExportNextPage.Organizations.Count, Is.GreaterThan(0));
         }
     }
 }

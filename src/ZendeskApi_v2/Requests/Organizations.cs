@@ -1,6 +1,7 @@
 #if ASYNC
 using System.Threading.Tasks;
 #endif
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Extensions;
@@ -40,6 +41,9 @@ namespace ZendeskApi_v2.Requests
         bool DeleteOrganizationMembership(long id, long userId);
         JobStatusResponse DestroyManyOrganizationMemberships(IEnumerable<long> ids);
         GroupOrganizationMembershipResponse SetOrganizationMembershipAsDefault(long id, long userId);
+
+        GroupOrganizationExportResponse GetIncrementalOrganizationExport(DateTimeOffset startTime);
+        GroupOrganizationExportResponse GetIncrementalOrganizationExportNextPage(string nextPage);
 #endif
 
 #if ASYNC
@@ -72,11 +76,16 @@ namespace ZendeskApi_v2.Requests
         Task<bool> DeleteOrganizationMembershipAsync(long id, long userId);
         Task<JobStatusResponse> DestroyManyOrganizationMembershipsAsync(IEnumerable<long> ids);
         Task<GroupOrganizationMembershipResponse> SetOrganizationMembershipAsDefaultAsync(long id, long userId);
+
+        Task<GroupOrganizationExportResponse> GetIncrementalOrganizationExportAsync(DateTimeOffset startTime);
+        Task<GroupOrganizationExportResponse> GetIncrementalOrganizationExportNextPageAsync(string nextPage);
 #endif
     }
 
     public class Organizations : Core, IOrganizations
     {
+        private const string _incremental_export = "incremental/organizations.json?start_time=";
+
         public Organizations(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
@@ -192,6 +201,17 @@ namespace ZendeskApi_v2.Requests
             return GenericPut<GroupOrganizationMembershipResponse>($"users/{userId}/organization_memberships/{id}/make_default.json");
         }
 
+        public GroupOrganizationExportResponse GetIncrementalOrganizationExport(DateTimeOffset startTime)
+        {
+            var resource = _incremental_export + startTime.UtcDateTime.GetEpoch();
+            return GenericGet<GroupOrganizationExportResponse>(resource);
+        }
+
+        public GroupOrganizationExportResponse GetIncrementalOrganizationExportNextPage(string nextPage)
+        {
+            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
+            return GenericGet<GroupOrganizationExportResponse>(resource);
+        }
 #endif
 
 #if ASYNC
@@ -302,6 +322,18 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupOrganizationMembershipResponse> SetOrganizationMembershipAsDefaultAsync(long id, long userId)
         {
             return await GenericPutAsync<GroupOrganizationMembershipResponse>($"users/{userId}/organization_memberships/{id}/make_default.json");
+        }
+
+        public async Task<GroupOrganizationExportResponse> GetIncrementalOrganizationExportAsync(DateTimeOffset startTime)
+        {
+            var resource = _incremental_export + startTime.UtcDateTime.GetEpoch();
+            return await GenericGetAsync<GroupOrganizationExportResponse>(resource);
+        }
+
+        public async Task<GroupOrganizationExportResponse> GetIncrementalOrganizationExportNextPageAsync(string nextPage)
+        {
+            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
+            return await GenericGetAsync<GroupOrganizationExportResponse>(resource);
         }
 #endif
     }
