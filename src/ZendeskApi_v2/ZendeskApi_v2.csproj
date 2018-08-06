@@ -90,7 +90,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.4.1" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.7" />
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.6.46" PrivateAssets="all" />
   </ItemGroup>
 
