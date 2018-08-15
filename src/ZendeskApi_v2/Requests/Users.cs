@@ -332,13 +332,13 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualUserResponse CreateUser(User user)
         {
-            var body = new { user = user };
+            var body = new { user };
             return GenericPost<IndividualUserResponse>("users.json", body);
         }
 
         public JobStatusResponse BulkCreateUsers(IEnumerable<User> users)
         {
-            var body = new { users = users };
+            var body = new { users };
             return GenericPost<JobStatusResponse>("users/create_many.json", body);
         }
 
@@ -350,7 +350,7 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualUserResponse UpdateUser(User user)
         {
-            var body = new { user = user };
+            var body = new { user };
             return GenericPut<IndividualUserResponse>($"users/{user.Id}.json", body);
         }
 
@@ -569,13 +569,13 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualUserResponse> CreateUserAsync(User user)
         {
-            var body = new { user = user };
+            var body = new { user };
             return await GenericPostAsync<IndividualUserResponse>("users.json", body);
         }
 
         public async Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users)
         {
-            var body = new { users = users };
+            var body = new { users };
             return await GenericPostAsync<JobStatusResponse>("users/create_many.json", body);
         }
 
@@ -587,7 +587,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualUserResponse> UpdateUserAsync(User user)
         {
-            var body = new { user = user };
+            var body = new { user };
             return await GenericPutAsync<IndividualUserResponse>($"users/{user.Id}.json", body);
         }
 

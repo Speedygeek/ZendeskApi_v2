@@ -11,7 +11,7 @@ namespace Tests
     public class CommentTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private long _testSectionIdForCommentsTest = 360000205286; //https://csharpapi.zendesk.com/hc/en-us/sections/360000205286-Test-Section-For-Comment-Tests
+        private readonly long _testSectionIdForCommentsTest = 360000205286; //https://csharpapi.zendesk.com/hc/en-us/sections/360000205286-Test-Section-For-Comment-Tests
         private long _testTopicIdForCommentsTest = 360000016546; //https://csharpapi.zendesk.com/hc/en-us/community/topics/360000016546-Test-Topic-For-Comment-Tests
 
         [OneTimeSetUp]

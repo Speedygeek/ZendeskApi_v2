@@ -189,8 +189,7 @@ namespace Tests.HelpCenter
         {
             //the only two locales enabled on the test site are us-en and fr. us-en is the default.
             //note: FR was already enabled in the Zendesk settings, however it had to be enabled again in the help center preferences.
-            string default_locale;
-            var res = api.HelpCenter.Translations.ListAllEnabledLocalesAndDefaultLocale(out default_locale);
+            var res = api.HelpCenter.Translations.ListAllEnabledLocalesAndDefaultLocale(out var default_locale);
 
             Assert.AreEqual(default_locale, "en-us");
             Assert.IsTrue(res.Contains("en-us"));

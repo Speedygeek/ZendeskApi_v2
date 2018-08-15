@@ -49,7 +49,7 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
-        JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             DateParseHandling = DateParseHandling.DateTimeOffset,
@@ -421,7 +421,7 @@ namespace ZendeskApi_v2
                     var content = string.Empty;
                     using (var responseStream = response.GetResponseStream())
                     {
-                        
+
                         using (var sr = new StreamReader(responseStream))
                         {
                             content = await sr.ReadToEndAsync();
@@ -608,8 +608,7 @@ namespace ZendeskApi_v2
 
             if (body != null)
             {
-                var zenFile = body as ZenFile;
-                if (zenFile == null)
+                if (!(body is ZenFile zenFile))
                 {
                     bodyMessage = $" Body: {JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings)}";
                 }
