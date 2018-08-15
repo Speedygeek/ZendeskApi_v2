@@ -1,5 +1,48 @@
-# 3.8.0 (12 March 2018)
+# 3.9.0 (15 August 2018)
 
+ - [#366](https://github.com/mozts2005/ZendeskApi_v2/issues/366) - Do you support the new announced DDoS protection system? +Question
+ - [#364](https://github.com/mozts2005/ZendeskApi_v2/pull/364) - Bump NUnit3TestAdapter from 3.9.0 to 3.10.0 in /src contributed by ([dependabot[bot]](https://github.com/apps/dependabot)) +dependencies
+ - [#363](https://github.com/mozts2005/ZendeskApi_v2/pull/363) - Bump Microsoft.NET.Test.Sdk from 15.5.0 to 15.8.0 in /src contributed by ([dependabot[bot]](https://github.com/apps/dependabot)) +dependencies
+ - [#362](https://github.com/mozts2005/ZendeskApi_v2/pull/362) - Bump MSBuild.Sdk.Extras from 1.0.9 to 1.6.46 in /src contributed by ([dependabot[bot]](https://github.com/apps/dependabot)) +dependencies
+ - [#361](https://github.com/mozts2005/ZendeskApi_v2/pull/361) - Bump Newtonsoft.Json from 11.0.1 to 11.0.2 in /src contributed by ([dependabot[bot]](https://github.com/apps/dependabot)) +dependencies
+ - [#359](https://github.com/mozts2005/ZendeskApi_v2/pull/359) - Bump NUnit from 3.9.0 to 3.10.1 in /src contributed by ([dependabot[bot]](https://github.com/apps/dependabot)) +dependencies
+ - [#360](https://github.com/mozts2005/ZendeskApi_v2/pull/360) - Bump Microsoft.NETCore.UniversalWindowsPlatform from 5.4.1 to 6.1.7 in /src contributed by ([dependabot[bot]](https://github.com/apps/dependabot)) +dependencies
+ - [#357](https://github.com/mozts2005/ZendeskApi_v2/issues/357) - Tickets.GetTicketsByViewID - int required, but must be long +More-Info-Needed
+ - [#356](https://github.com/mozts2005/ZendeskApi_v2/pull/356) - Support incremental organization export contributed by Ben Emmett ([bcemmett](https://github.com/bcemmett)) +Enhancement
+ - [#353](https://github.com/mozts2005/ZendeskApi_v2/issues/353) - Suddently my app stop work +Question
+ - [#352](https://github.com/mozts2005/ZendeskApi_v2/issues/352) - Removal-of-support-for-TLS-protocol-versions-1-0-and-1-1 +Question
+ - [#350](https://github.com/mozts2005/ZendeskApi_v2/issues/350) - TLS/1.0 Error +Question
+ - [#349](https://github.com/mozts2005/ZendeskApi_v2/pull/349) - Fix Issue #345 + #337 + Fix UserTests that failed/was incorrectly implemented contributed by Rasmus Wulff Jensen ([rwjdk](https://github.com/rwjdk))
+ - [#347](https://github.com/mozts2005/ZendeskApi_v2/pull/347) - Implementation of "Users.GetIncrementalUserExport" and "Users.GetIncrementalUserExportNextPage" (+Async versions) contributed by Rasmus Wulff Jensen ([rwjdk](https://github.com/rwjdk))
+ - [#345](https://github.com/mozts2005/ZendeskApi_v2/issues/345) - Tickets.GetInrementalTicketExportAsync is spelled wrong and do not use the side-load options provided +fix
+ - [#344](https://github.com/mozts2005/ZendeskApi_v2/pull/344) - Issue #330 + CRUD operations for Comments contributed by Rasmus Wulff Jensen ([rwjdk](https://github.com/rwjdk))
+ - [#343](https://github.com/mozts2005/ZendeskApi_v2/pull/343) - Test "CanCreateTicketWithDueDate" can't run on PCs that use dd/MM/yyyy format contributed by Rasmus Wulff Jensen ([rwjdk](https://github.com/rwjdk))
+ - [#342](https://github.com/mozts2005/ZendeskApi_v2/issues/342) - Can't sign Contributes Agreement
+ - [#341](https://github.com/mozts2005/ZendeskApi_v2/issues/341) - Error Socket to connect zendesk
+ - [#340](https://github.com/mozts2005/ZendeskApi_v2/issues/340) - Authentication Error +Question
+ - [#338](https://github.com/mozts2005/ZendeskApi_v2/pull/338) - Bulk user delete support contributed by Devin Wall ([dm430](https://github.com/dm430))
+ - [#337](https://github.com/mozts2005/ZendeskApi_v2/issues/337) - Missing field in ZendeskApi_v2.Models.Satisfaction.SatisfactionRating +Enhancement +help-wanted
+ - [#336](https://github.com/mozts2005/ZendeskApi_v2/pull/336) - Add locale to categories contributed by Denis P. ([Lsdenis](https://github.com/Lsdenis))
+ - [#335](https://github.com/mozts2005/ZendeskApi_v2/issues/335) - Issue with Tickets.GetAuditsAsync() +fix +More-Info-Needed
+ - [#334](https://github.com/mozts2005/ZendeskApi_v2/pull/334) - Add netstandard2.0 as target framework contributed by Morten Brix Pedersen ([mbp](https://github.com/mbp)) +Enhancement
+ - [#333](https://github.com/mozts2005/ZendeskApi_v2/issues/333) - Cannot set value for CustomField defined as drop-down type +Question
+ - [#332](https://github.com/mozts2005/ZendeskApi_v2/issues/332) - Request: Get draft article/category/section
+ - [#330](https://github.com/mozts2005/ZendeskApi_v2/issues/330) - Can you add ability to get the post comments ? +Enhancement
+ - [#329](https://github.com/mozts2005/ZendeskApi_v2/issues/329) - Remove Microsoft.Bcl dependency for .net45 +Under-Review
+ - [#328](https://github.com/mozts2005/ZendeskApi_v2/pull/328) - remove Microsoft.Net.Http dependency for .net4.5 contributed by Vlad Kurdzesau ([vlad-kurdesov](https://github.com/vlad-kurdesov))
+ - [#315](https://github.com/mozts2005/ZendeskApi_v2/issues/315) - Dedicated method for user incremental export +Enhancement +help-wanted
+ - [#235](https://github.com/mozts2005/ZendeskApi_v2/issues/235) - .net core support? +Enhancement +In-progress
+
+Commits: 3094b3d604...e6fae0a245
+
+
+# v3.8.0 (12 March 2018)
+
+ - [#327](https://github.com/mozts2005/ZendeskApi_v2/pull/327) - Release v3.8 contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#326](https://github.com/mozts2005/ZendeskApi_v2/pull/326) - updated unit test contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
+ - [#325](https://github.com/mozts2005/ZendeskApi_v2/pull/325) - Adding support for pagination in GetUsersInOrganization in the Users … contributed by Jean-Michel Provencher ([jmprovencher](https://github.com/jmprovencher)) +Enhancement
+ - [#322](https://github.com/mozts2005/ZendeskApi_v2/issues/322) - PlatfromNotSupportedException in UWP Windows 10 app in .NET Native compilation mode +Enhancement
+ - [#317](https://github.com/mozts2005/ZendeskApi_v2/issues/317) - Request Class is missing Type +fix +In-progress
  - [#325](https://github.com/mozts2005/ZendeskApi_v2/pull/325) - Adding support for pagination in GetUsersInOrganization in the Users … contributed by Jean-Michel Provencher ([jmprovencher](https://github.com/jmprovencher)) +Enhancement
  - [#324](https://github.com/mozts2005/ZendeskApi_v2/pull/324) - added UWP Support contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
  - [#323](https://github.com/mozts2005/ZendeskApi_v2/pull/323) - added UWP Support contributed by Elizabeth Schneider ([mozts2005](https://github.com/mozts2005))
@@ -11,7 +54,7 @@
  - [#302](https://github.com/mozts2005/ZendeskApi_v2/issues/302) - Help Center Access Policies will be deprecated +fix
  - [#299](https://github.com/mozts2005/ZendeskApi_v2/issues/299) - GetArticlesBySectionId returns 0 results
 
-Commits: a2af9c43c3...424470954e
+Commits: a2af9c43c3...8ecd5e1d8d
 
 
 # 3.7.2 (27 November 2017)

@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Models.Brands;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Requests;
-using ZendeskApi_v2.Models.Brands;
 
 namespace Tests
 {
@@ -22,7 +22,7 @@ namespace Tests
     public class TicketTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
+        private readonly TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
 
         [OneTimeTearDown]
         public async Task TestCleanUp()
@@ -734,6 +734,7 @@ namespace Tests
         [Test]
         public void CanGetIncrementalTicketExportWithUsersSideLoadPaged()
         {
+            Thread.Sleep(60000);
             const int maxTicketsPerPage = 1000;
 
             var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-365), TicketSideLoadOptionsEnum.Users);
@@ -742,15 +743,19 @@ namespace Tests
             Assert.IsTrue(res.Users.Count > 0);
             Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
 
-            res = this.api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
+            res = api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
 
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Users.Count > 0);
+
+
         }
 
         [Test]
         public void CanGetIncrementalTicketExportWithGroupsSideLoadPaged()
         {
+            Thread.Sleep(60000);
+
             const int maxTicketsPerPage = 1000;
 
             var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-700), TicketSideLoadOptionsEnum.Groups);
@@ -759,10 +764,12 @@ namespace Tests
             Assert.IsTrue(res.Groups.Count > 0);
             Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
 
-            res = this.api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
+            res = api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
 
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Groups.Count > 0);
+
+
         }
 
         [Test]

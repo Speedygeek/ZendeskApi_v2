@@ -515,6 +515,8 @@ namespace Tests
         [Test]
         public void CanGetIncrementalUserExportWithSideLoadOptions()
         {
+            Thread.Sleep(60000);
+
             var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
             Assert.That(incrementalUserExport.Organizations, Is.Not.Null);

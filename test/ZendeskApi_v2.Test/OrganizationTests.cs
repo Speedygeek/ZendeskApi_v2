@@ -167,9 +167,11 @@ namespace Tests
 
             Assert.Greater(res.User.Id, 0);
 
-            var memberships = new List<OrganizationMembership>();
-            memberships.Add(new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id });
-            memberships.Add(new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org2.Organization.Id });
+            var memberships = new List<OrganizationMembership>
+            {
+                new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id },
+                new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org2.Organization.Id }
+            };
 
             var job = api.Organizations.CreateManyOrganizationMemberships(memberships).JobStatus;
 
