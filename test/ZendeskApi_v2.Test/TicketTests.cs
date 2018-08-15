@@ -747,8 +747,6 @@ namespace Tests
 
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Users.Count > 0);
-
-
         }
 
         [Test]
@@ -768,8 +766,6 @@ namespace Tests
 
             Assert.IsTrue(res.Tickets.Count > 0);
             Assert.IsTrue(res.Groups.Count > 0);
-
-
         }
 
         [Test]
