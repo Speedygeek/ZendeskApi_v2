@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!--Nuget-->
   <PropertyGroup>
@@ -23,12 +23,16 @@
     <IncludeSource>false</IncludeSource>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <OutputType>Library</OutputType>
+    <uapPath>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets"</uapPath>
   </PropertyGroup>
 
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!--;net35-->
-    <TargetFrameworks>net40;net45;portable40-net40+sl5+win8+wpa81+wp8;uap10.0;netstandard2.0</TargetFrameworks>
+    
+    <TargetFrameworks Condition="Exists('$(uapPath)')">net40;net45;portable40-net40+sl5+win8+wpa81+wp8;uap10.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="!Exists('$(uapPath)')">net40;net45;portable40-net40+sl5+win8+wpa81+wp8;netstandard2.0</TargetFrameworks>
+
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
