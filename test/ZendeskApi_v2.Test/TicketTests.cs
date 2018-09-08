@@ -35,8 +35,6 @@ namespace Tests
                     await api.Tickets.DeleteTicketFieldAsync(item.Id.Value);
                 }
             }
-
-
         }
 
         [Test]
