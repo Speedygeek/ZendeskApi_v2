@@ -65,7 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0-beta*" PrivateAssets="all" />
+    <PackageReference Include="GitVersionTask" Version="4.0.0-4.0.0-pullrequest1470-1617" PrivateAssets="all" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
