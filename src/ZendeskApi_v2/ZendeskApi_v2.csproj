@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.4.1" />
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.6.47" PrivateAssets="all" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.6.52" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
