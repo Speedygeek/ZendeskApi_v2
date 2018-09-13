@@ -17,6 +17,8 @@ namespace ZendeskApi_v2.Example
 
         static async Task MainAsync(string email)
         {
+            // https://blogs.perficient.com/2016/04/28/tsl-1-2-and-net-support/
+            // ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             var userEmailToSearchFor = "eneif123@yahoo.com";
 

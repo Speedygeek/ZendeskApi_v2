@@ -14,21 +14,34 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
 #if SYNC
         GroupAttachmentResponse GetAttachments(long? articleId);
-        ArticleAttachment UploadAttchment(long? articleId, ZenFile file, bool inline = false);
-        bool DeleteAttchment(long? attchmentId);
+        ArticleAttachment UploadAttachment(long? articleId, ZenFile file, bool inline = false);
+        bool DeleteAttachment(long? attachmentId);
 #endif
 #if ASYNC
         Task<GroupAttachmentResponse> GetAttachmentsAsync(long? articleId);
-        Task<ArticleAttachment> UploadAttchmentAsync(long? articleId, ZenFile file, bool inline = false);
-        Task<bool> DeleteAttchmentAsync(long? attchmentId);
+        Task<ArticleAttachment> UploadAttachmentAsync(long? articleId, ZenFile file, bool inline = false);
+        Task<bool> DeleteAttachmentAsync(long? attachmentId);
 #endif
     }
 
     public class ArticleAttachments : Core, IArticleAttachments
     {
-        public ArticleAttachments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
+        private readonly string _locale;
+
+        private string GeneralAttachmentsPath => string.IsNullOrWhiteSpace(_locale)
+            ? "help_center/articles"
+            : $"help_center/{_locale}/articles";
+
+        public ArticleAttachments(
+            string yourZendeskUrl,
+            string user,
+            string password,
+            string apiToken,
+            string locale,
+            string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
+            _locale = locale;
         }
 
 #if SYNC
@@ -39,10 +52,10 @@ namespace ZendeskApi_v2.Requests.HelpCenter
                 throw new ArgumentNullException(nameof(articleId));
             }
 
-            return GenericGet<GroupAttachmentResponse>($"help_center/articles/{articleId}/attachments.json");
+            return GenericGet<GroupAttachmentResponse>($"{GeneralAttachmentsPath}/{articleId}/attachments.json");
         }
 
-        public ArticleAttachment UploadAttchment(long? articleId, ZenFile file, bool inline = false)
+        public ArticleAttachment UploadAttachment(long? articleId, ZenFile file, bool inline = false)
         {
             if (!articleId.HasValue)
             {
@@ -55,9 +68,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         }
 
-        public bool DeleteAttchment(long? attchmentId)
+        public bool DeleteAttachment(long? attachmentId)
         {
-            return GenericDelete($"help_center/articles/attachments/{attchmentId}.json");
+            return GenericDelete($"help_center/articles/attachments/{attachmentId}.json");
         }
 #endif
 #if ASYNC
@@ -68,10 +81,10 @@ namespace ZendeskApi_v2.Requests.HelpCenter
                 throw new ArgumentNullException(nameof(articleId));
             }
 
-            return GenericGetAsync<GroupAttachmentResponse>($"help_center/articles/{articleId}/attachments.json");
+            return GenericGetAsync<GroupAttachmentResponse>($"{GeneralAttachmentsPath}/{articleId}/attachments.json");
         }
 
-        public Task<ArticleAttachment> UploadAttchmentAsync(long? articleId, ZenFile file, bool inline = false)
+        public Task<ArticleAttachment> UploadAttachmentAsync(long? articleId, ZenFile file, bool inline = false)
         {
             if (!articleId.HasValue)
             {
@@ -84,9 +97,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         }
 
-        public Task<bool> DeleteAttchmentAsync(long? attchmentId)
+        public Task<bool> DeleteAttachmentAsync(long? attachmentId)
         {
-            return GenericDeleteAsync($"help_center/articles/attachments/{attchmentId}.json");
+            return GenericDeleteAsync($"help_center/articles/attachments/{attachmentId}.json");
         }
 
 #endif
