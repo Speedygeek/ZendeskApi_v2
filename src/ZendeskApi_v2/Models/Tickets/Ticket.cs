@@ -120,5 +120,11 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("via_followup_source_id")]
         public long ViaFollowupSourceId { get; set; }
+
+        /// <summary>
+        /// The comment count when sideloaded
+        /// </summary>
+        [JsonProperty("comment_count")]
+        public long? CommentCount { get; set; }
     }
 }

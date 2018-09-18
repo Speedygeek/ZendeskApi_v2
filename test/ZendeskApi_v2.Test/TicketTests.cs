@@ -22,7 +22,7 @@ namespace Tests
     public class TicketTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private readonly TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups;
+        private readonly TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups | TicketSideLoadOptionsEnum.Comment_Count;
 
         [OneTimeTearDown]
         public async Task TestCleanUp()
@@ -1024,6 +1024,7 @@ namespace Tests
 
             Assert.IsTrue(tickets.Result.Users.Any());
             Assert.IsTrue(tickets.Result.Organizations.Any());
+            Assert.AreEqual(tickets.Result.Tickets.Where(t => t.CommentCount.HasValue).Count(), tickets.Result.Tickets.Count);
         }
 
         [Test]
