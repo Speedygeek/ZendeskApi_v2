@@ -42,10 +42,10 @@ namespace Tests.HelpCenter
                 Locale = "en-us"
             });
 
-            var resp = api.HelpCenter.ArticleAttachments.UploadAttchment(articleResponse.Article.Id, file);
+            var resp = api.HelpCenter.ArticleAttachments.UploadAttachment(articleResponse.Article.Id, file);
 
             Assert.That(resp.Attachment, Is.Not.Null);
-            Assert.That(api.HelpCenter.ArticleAttachments.DeleteAttchment(resp.Attachment.Id), Is.True);
+            Assert.That(api.HelpCenter.ArticleAttachments.DeleteAttachment(resp.Attachment.Id), Is.True);
             Assert.That(api.HelpCenter.Articles.DeleteArticle(articleResponse.Article.Id.Value), Is.True);
         }
 
@@ -75,12 +75,12 @@ namespace Tests.HelpCenter
                 Locale = "en-us"
             });
 
-            var resp = await api.HelpCenter.ArticleAttachments.UploadAttchmentAsync(articleResponse.Article.Id, file, true);
+            var resp = await api.HelpCenter.ArticleAttachments.UploadAttachmentAsync(articleResponse.Article.Id, file, true);
 
             Assert.That(resp.Attachment, Is.Not.Null);
             Assert.That(resp.Attachment.Inline, Is.True);
 
-            Assert.That(await api.HelpCenter.ArticleAttachments.DeleteAttchmentAsync(resp.Attachment.Id), Is.True);
+            Assert.That(await api.HelpCenter.ArticleAttachments.DeleteAttachmentAsync(resp.Attachment.Id), Is.True);
             Assert.That(await api.HelpCenter.Articles.DeleteArticleAsync(articleResponse.Article.Id.Value), Is.True);
         }
     }

@@ -76,7 +76,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
         private readonly string urlPrefix = "help_center";
 
-        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string locale)
+        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
         {
             if (!locale.IsNullOrWhiteSpace())
