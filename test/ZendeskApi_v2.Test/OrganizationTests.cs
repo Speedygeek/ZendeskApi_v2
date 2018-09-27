@@ -99,13 +99,13 @@ namespace Tests
         {
             var org = api.Organizations.CreateOrganization(new Organization()
             {
-                Name = "Test Org",
+                Name = "Test Org with externalId",
                 ExternalId = "TestExternalId1"
             });
 
             var org2 = api.Organizations.CreateOrganization(new Organization()
             {
-                Name = "Test Org2",
+                Name = "Test Org2 with externalId",
                 ExternalId = "TestExternalId2"
             });
 

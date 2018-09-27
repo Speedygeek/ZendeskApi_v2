@@ -31,8 +31,7 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> ids);
-
+        GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
         bool DeleteOrganization(long id);
@@ -73,7 +72,7 @@ namespace ZendeskApi_v2.Requests
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> ids);
+        Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
         Task<bool> DeleteOrganizationAsync(long id);
@@ -135,10 +134,12 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericGet<GroupOrganizationResponse>($"organizations/show_many.json?ids={ids.ToCsv()}");
         }
-        public GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> ids)
+
+        public GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds)
         {
-            return GenericGet<GroupOrganizationResponse>($"organizations/show_many.json?external_ids={ids.ToCsv()}");
+            return GenericGet<GroupOrganizationResponse>($"organizations/show_many.json?external_ids={externalIds.ToCsv()}");
         }
+
         public IndividualOrganizationResponse CreateOrganization(Organization organization)
         {
             var body = new { organization };
@@ -263,10 +264,12 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericGetAsync<GroupOrganizationResponse>($"organizations/show_many.json?ids={ids.ToCsv()}");
         }
-        public async Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> ids)
+
+        public async Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds)
         {
-            return await GenericGetAsync<GroupOrganizationResponse>($"organizations/show_many.json?ids={ids.ToCsv()}");
+            return await GenericGetAsync<GroupOrganizationResponse>($"organizations/show_many.json?external_ids={externalIds.ToCsv()}");
         }
+
         public async Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization)
         {
             return await GenericPostAsync<IndividualOrganizationResponse>("organizations.json", new { organization });

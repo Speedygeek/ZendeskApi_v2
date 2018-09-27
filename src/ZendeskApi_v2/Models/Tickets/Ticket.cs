@@ -122,9 +122,9 @@ namespace ZendeskApi_v2.Models.Tickets
         public long ViaFollowupSourceId { get; set; }
 
         /// <summary>
-        /// The comment count when sideloaded
+        /// Comment Count on the ticket when sideloaded
         /// </summary>
         [JsonProperty("comment_count")]
-        public long? CommentCount { get; set; }
+        public int? CommentCount { get; set; }
     }
 }
