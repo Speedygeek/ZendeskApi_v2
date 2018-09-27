@@ -95,6 +95,29 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetMultipleOrganizationsByExternalId()
+        {
+            var org = api.Organizations.CreateOrganization(new Organization()
+            {
+                Name = "Test Org with externalId",
+                ExternalId = "TestExternalId1"
+            });
+
+            var org2 = api.Organizations.CreateOrganization(new Organization()
+            {
+                Name = "Test Org2 with externalId",
+                ExternalId = "TestExternalId2"
+            });
+
+            Assert.Greater(org.Organization.Id, 0);
+            Assert.Greater(org2.Organization.Id, 0);
+
+            var orgs = api.Organizations.GetMultipleOrganizationsByExternalIds(new[] { org.Organization.ExternalId.ToString(), org2.Organization.ExternalId.ToString() });
+
+            Assert.AreEqual(orgs.Organizations.Count, 2);
+        }
+
+        [Test]
         public void CanCreateUpdateAndDeleteOrganizations()
         {
             var res = api.Organizations.CreateOrganization(new Organization()

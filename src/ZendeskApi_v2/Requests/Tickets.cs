@@ -28,7 +28,8 @@ namespace ZendeskApi_v2.Requests
         Metric_Sets = 32,
         Sharing_Agreements = 64,
         Incident_Counts = 128,
-        Ticket_Forms = 256
+        Ticket_Forms = 256,
+        Comment_Count = 512
     }
 
     public interface ITickets : ICore
@@ -56,6 +57,8 @@ namespace ZendeskApi_v2.Requests
         GroupTicketResponse GetTicketsByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         GroupTicketResponse GetTicketsByOrganizationID(long id, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        GroupTicketResponse GetTicketsByOrganizationID(long id, string sortBy, bool sortAscending, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
@@ -151,6 +154,9 @@ namespace ZendeskApi_v2.Requests
         Task<GroupTicketResponse> GetTicketsByViewIDAsync(long viewId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
 
         Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
@@ -325,6 +331,12 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
+        }
+
+        public GroupTicketResponse GetTicketsByOrganizationID(long id, string sortBy, bool sortAscending, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
+            return GenericPagedSortedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber, sortBy, sortAscending);
         }
 
         public GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -564,7 +576,7 @@ namespace ZendeskApi_v2.Requests
 
         public GroupSuspendedTicketResponse GetSuspendedTickets()
         {
-            return GenericGet<GroupSuspendedTicketResponse>(string.Format("suspended_tickets.json"));
+            return GenericGet<GroupSuspendedTicketResponse>("suspended_tickets.json");
         }
 
         public IndividualSuspendedTicketResponse GetSuspendedTicketById(long id)
@@ -630,6 +642,12 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
+        }
+
+        public async Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
+            return await GenericPagedSortedGetAsync<GroupTicketResponse>(resource, perPage, page, sortBy, sortAscending);
         }
 
         public async Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -830,7 +848,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupSuspendedTicketResponse> GetSuspendedTicketsAsync()
         {
-            return await GenericGetAsync<GroupSuspendedTicketResponse>(string.Format("suspended_tickets.json"));
+            return await GenericGetAsync<GroupSuspendedTicketResponse>("suspended_tickets.json");
         }
 
         public async Task<IndividualSuspendedTicketResponse> GetSuspendedTicketByIdAsync(long id)
