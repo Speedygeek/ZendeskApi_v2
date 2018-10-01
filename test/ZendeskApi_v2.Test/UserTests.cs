@@ -259,7 +259,7 @@ namespace Tests
             var res2 = api.Users.AddUserIdentity(userId, new UserIdentity()
             {
                 Type = UserIdentityTypes.Email,
-                Value = "moretest@test.com"
+                Value = "moretest2@test.com"
             });
             var identityId = res2.Identity.Id.Value;
             Assert.Greater(identityId, 0);
@@ -406,7 +406,7 @@ namespace Tests
             var res2 = await api.Users.AddUserIdentityAsync(userId, new UserIdentity
             {
                 Type = UserIdentityTypes.Email,
-                Value = "moretest@test.com"
+                Value = "moretest2@test.com"
             });
 
             var identityId = res2.Identity.Id.Value;

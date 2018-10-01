@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
+  "cloudBuild": {
+    "buildNumber": {
+      "enabled": true,
+      "includeCommitId": {
+        "when": "nonPublicReleaseOnly",
+        "where": "buildMetadata"
+      }
+    }, 
+    "setAllVariables": true,
+    "setVersionVariables": true
+  },
+  "inherit":  true
+}
