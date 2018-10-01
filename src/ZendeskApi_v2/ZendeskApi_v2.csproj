@@ -28,12 +28,12 @@
 
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <TargetFrameworks Condition="Exists('$(uapPath)')">net45;uap10.0;netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="!Exists('$(uapPath)')">net45;netstandard2.0</TargetFrameworks>
-
+    <TargetFrameworks Condition="Exists('$(uapPath)')">net452;uap10.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="!Exists('$(uapPath)')">net452;netstandard2.0</TargetFrameworks>
+    <NoWarn>1701;1702;NU5105;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net452'">
     <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
   </PropertyGroup>
 
@@ -46,11 +46,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0-beta0014" PrivateAssets="all" />
+   <!-- <PackageReference Include="GitVersionTask" Version="4.0.0-beta0014" PrivateAssets="all" />-->
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">
