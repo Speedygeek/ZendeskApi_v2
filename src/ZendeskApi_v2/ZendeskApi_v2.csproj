@@ -28,14 +28,12 @@
 
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <!--;net35-->
-    
-    <TargetFrameworks Condition="Exists('$(uapPath)')">net40;net45;portable40-net40+sl5+win8+wpa81+wp8;uap10.0;netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="!Exists('$(uapPath)')">net40;net45;portable40-net40+sl5+win8+wpa81+wp8;netstandard2.0</TargetFrameworks>
-
+    <TargetFrameworks Condition="Exists('$(uapPath)')">net452;uap10.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="!Exists('$(uapPath)')">net452;netstandard2.0</TargetFrameworks>
+    <NoWarn>1701;1702;NU5105;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net452'">
     <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
   </PropertyGroup>
 
@@ -43,54 +41,20 @@
     <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
-    <DefineConstants>$(DefineConstants);ASYNC;SYNC</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
-    <DefineConstants>$(DefineConstants);SYNC</DefineConstants>
-    <FrameworkPathOverride>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net40'">
-    <Reference Include="mscorlib" />
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
-    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
-    <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.21" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-  </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="Serialization\UnixEpochTimeConverter.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0-beta0014" PrivateAssets="all" />
+   <!-- <PackageReference Include="GitVersionTask" Version="4.0.0-beta0014" PrivateAssets="all" />-->
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'portable40-net40+sl5+win8+wpa81+wp8' ">
-    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
-    <DefineConstants>$(DefineConstants);portable40;ASYNC</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'portable40-net40+sl5+win8+wpa81+wp8' ">
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-  </ItemGroup>
-
-  <Import Project="..\Microsoft.Bcl.Build.targets" Condition="Exists('..\Microsoft.Bcl.Build.targets') AND '$(TargetFramework)' == 'net40'" />
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <None Remove="app.config" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">

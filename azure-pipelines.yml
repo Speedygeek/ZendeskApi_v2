@@ -1,0 +1,36 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+resources:
+- repo: self
+queue:
+  name: Hosted VS2017
+variables:
+  BuildConfiguration: 'Release'
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    projects: 'src/ZendeskApi_v2.sln'
+    arguments: '-c $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: 'test/**/*.csproj'
+    arguments: '--no-build -c $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack'
+  inputs:
+    command: pack
+    packagesToPack: 'src/ZendeskApi_v2/ZendeskApi_v2.csproj'
+    nobuild: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: Nuget_Package'
+  inputs:
+    ArtifactName: 'Nuget_Package'

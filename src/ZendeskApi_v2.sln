@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DC18BBC5
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\GitVersionConfig.yaml = ..\GitVersionConfig.yaml
+		version.json = version.json
 	EndProjectSection
 EndProject
 Global
