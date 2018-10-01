@@ -244,7 +244,7 @@ namespace ZendeskApi_v2.Requests
 
         public bool SortOrderAscending(string sortOrder)
         {
-            return (sortOrder ?? "ascending").ToLower() == "ascending" || sortOrder.ToLower() == "asc";
+            return (sortOrder ?? "ascending").ToLower() == "ascending" || (sortOrder ?? "asc").ToLower() == "asc";
         }
     }
 }
