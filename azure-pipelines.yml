@@ -23,6 +23,9 @@ steps:
     projects: 'src/ZendeskApi_v2.sln'
     arguments: '-c $(BuildConfiguration) --no-restore'
 
+- powershell: 'Write-Host "##vso[task.setvariable variable=Build_BuildNumber]$env:GitVersion_FullSemVer"' 
+  displayName: 'Update Build Number'
+
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
   inputs:
