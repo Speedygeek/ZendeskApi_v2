@@ -11,10 +11,17 @@ variables:
   BuildConfiguration: 'Release'
 steps:
 - task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: 'src/ZendeskApi_v2.sln'
+    vstsFeed: 'b1ae593f-009c-4460-8719-7db8ece78f1c'
+
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     projects: 'src/ZendeskApi_v2.sln'
-    arguments: '-c $(BuildConfiguration)'
+    arguments: '-c $(BuildConfiguration) --no-restore'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
