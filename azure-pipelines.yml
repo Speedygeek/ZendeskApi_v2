@@ -10,7 +10,7 @@ queue:
 variables:
   BuildConfiguration: 'Release'
   System.Debug: true
-
+name: $(GitVersion_FullSemVer)
 steps:
 - task: DotNetCoreCLI@2
   displayName: Restore
