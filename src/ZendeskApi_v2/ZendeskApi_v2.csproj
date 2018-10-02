@@ -24,7 +24,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <OutputType>Library</OutputType>
     <uapPath>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets"</uapPath>
-    <WriteVersionInfoToBuildLog>true</WriteVersionInfoToBuildLog>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -47,8 +46,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0-pullrequest1470-1617" PrivateAssets="all" />
-    <!--<PackageReference Include="Nerdbank.GitVersioning" Version="2.2.13" PrivateAssets="all"/>-->
+    <!--<PackageReference Include="GitVersionTask" Version="4.0.0-pullrequest1470-1617" PrivateAssets="all" />-->
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.13" PrivateAssets="all"/>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 

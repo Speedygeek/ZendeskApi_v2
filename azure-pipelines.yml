@@ -10,23 +10,13 @@ queue:
 variables:
   BuildConfiguration: 'Release'
   System.Debug: true
-name: $(GitVersion_FullSemVer)
-steps:
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: 'src/ZendeskApi_v2.sln'
-    vstsFeed: 'b1ae593f-009c-4460-8719-7db8ece78f1c'
 
+steps:
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     projects: 'src/ZendeskApi_v2.sln'
-    arguments: '-c $(BuildConfiguration) --no-restore'
-
-- powershell: 'Write-Host "##vso[task.setvariable variable=Build_BuildNumber]$env:GitVersion_FullSemVer"' 
-  displayName: 'Update Build Number'
+    arguments: '-c $(BuildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
