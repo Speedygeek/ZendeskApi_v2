@@ -36,7 +36,7 @@ namespace ZendeskApi_v2.Example
                 count++;
             }
 
-            await Task.Run(() => System.Console.ReadKey(true));
+            System.Console.ReadKey();
         }
     }
 }
