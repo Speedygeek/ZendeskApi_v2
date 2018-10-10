@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Models.Users;
@@ -7,51 +8,35 @@ namespace ZendeskApi_v2.Example
 {
     class Program
     {
-
-        static void Main(string[] args)
+        async static Task Main(string[] args)
         {
-            Task.Run(() => MainAsync(null)).Wait();
-
-            System.Console.ReadKey();
-        }
-
-        static async Task MainAsync(string email)
-        {
-            // https://blogs.perficient.com/2016/04/28/tsl-1-2-and-net-support/
-            // ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
             var userEmailToSearchFor = "eneif123@yahoo.com";
 
             var userName = "csharpzendeskapi1234@gmail.com"; // the user that will be logging in the API aka the call center staff 
             var userPassword = "&H3n!0q^3OjDLdm";
             var companySubDomain = "csharpapi"; // sub-domain for the account with Zendesk
-            var pageSize = 5;
             var api = new ZendeskApi(companySubDomain, userName, userPassword);
+            var helper = new ZendeskHelper(api);
 
-            var userResponse = api.Search.SearchFor<User>(userEmailToSearchFor);
+            var tickets = await helper.GetTickets(userEmailToSearchFor);
 
-            var userId = userResponse.Results[0].Id.Value;
-            var tickets = new List<Ticket>();
-
-            var ticketResponse = await api.Tickets.GetTicketsByUserIDAsync(userId, pageSize, sideLoadOptions: Requests.TicketSideLoadOptionsEnum.Users); // default per page is 100
-
-            do
-            {
-                tickets.AddRange(ticketResponse.Tickets);
-
-                if (!string.IsNullOrWhiteSpace(ticketResponse.NextPage))
-                {
-                    ticketResponse = await api.Tickets.GetByPageUrlAsync<GroupTicketResponse>(ticketResponse.NextPage, pageSize);
-                }
-
-
-            } while (tickets.Count != ticketResponse.Count);
-
+            var count = 0;
             foreach (var ticket in tickets)
             {
-                System.Console.WriteLine(string.Format("ticket id: {0 }, Assignee Id: {1}, Requester Id: {2}", ticket.Id, ticket.AssigneeId, ticket.RequesterId ));
+                Console.WriteLine($"{count}: ticket id: {ticket?.Id}, Assignee Id: {ticket?.AssigneeId}, Requester Id: {ticket?.RequesterId}");
+                var comments = await helper.GetComments(ticket);
+                foreach (var comment in comments)
+                {
+                    Console.WriteLine($"commnet ID: {comment.Id}");
+                    foreach (var attachment in comment.Attachments)
+                    {
+                        Console.WriteLine($"attechemnt File Name: {attachment.FileName}");
+                    }
+                }
+                count++;
             }
 
+            await Task.Run(() => System.Console.ReadKey(true));
         }
     }
 }
