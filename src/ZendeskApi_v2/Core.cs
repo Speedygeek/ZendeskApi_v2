@@ -232,12 +232,12 @@ namespace ZendeskApi_v2
             var parameters = new Dictionary<string, string>();
 
             var paramString = "";
-            if (perPage.HasValue)
+            if (perPage.HasValue && perPage > 0)
             {
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (page.HasValue)
+            if (page.HasValue && page > 0)
             {
                 parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
             }
@@ -481,12 +481,12 @@ namespace ZendeskApi_v2
             var parameters = new Dictionary<string, string>();
 
             var paramString = "";
-            if (perPage.HasValue)
+            if (perPage.HasValue && perPage > 0)
             {
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (page.HasValue)
+            if (page.HasValue && perPage > 0)
             {
                 parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
             }
