@@ -264,8 +264,8 @@ namespace Tests
             var identityId = res2.Identity.Id.Value;
             Assert.Greater(identityId, 0);
 
-            var verfified = api.Users.SetUserIdentityAsVerified(userId, identityId);
-            Assert.AreEqual(identityId, verfified.Identity.Id);
+            var verified = api.Users.SetUserIdentityAsVerified(userId, identityId);
+            Assert.AreEqual(identityId, verified.Identity.Id);
 
             var primaries = api.Users.SetUserIdentityAsPrimary(userId, identityId);
             Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);
@@ -294,7 +294,7 @@ namespace Tests
 
             var mergedUser = await api.Users.MergeUserAsync(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
 
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
 
             Assert.That(resultUser2.User.Id, Is.EqualTo(mergedUser.User.Id));
@@ -560,6 +560,18 @@ namespace Tests
             Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
+        }
+        [Test]
+        public void CanGetRolesAndAbilities()
+        {
+            var userList = api.Users.GetAllUsers(10, 1).Users.Select(u => u.Id.Value).ToList();
+            var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Roles | UserSideLoadOptions.Abilities);
+
+            Assert.That(result.Count, Is.EqualTo(userList.Count));
+            var user = result.Users[0];
+            Assert.That(result.Roles, Has.None.Null);
+            Assert.That(user.Abilities, Is.Not.Null);
+            Assert.That(user.Abilities["can_edit"], Is.Not.Null.Or.Empty);
         }
     }
 }

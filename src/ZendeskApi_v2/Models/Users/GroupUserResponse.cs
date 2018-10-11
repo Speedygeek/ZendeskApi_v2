@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using ZendeskApi_v2.Models.CustomRoles;
 using ZendeskApi_v2.Models.Organizations;
 
 namespace ZendeskApi_v2.Models.Users
@@ -10,11 +11,8 @@ namespace ZendeskApi_v2.Models.Users
         [JsonProperty("organizations")]
         public IList<Organization> Organizations { get; set; }
 
-        //[JsonProperty("abilities")]
-        //public IList<Ability> Abilities { get; set; }
-
-        //[JsonProperty("roles")]
-        //public IList<Role> Roles { get; set; }
+        [JsonProperty("roles")]
+        public IList<CustomRole> Roles { get; set; }
 
         [JsonProperty("identities")]
         public IList<UserIdentity> Identities { get; set; }

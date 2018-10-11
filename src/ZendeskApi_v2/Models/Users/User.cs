@@ -84,5 +84,12 @@ namespace ZendeskApi_v2.Models.Users
 
         [JsonProperty("user_fields")]
         public IDictionary<string, object> CustomFields { get; set; }
+
+        [JsonProperty("abilities")]
+        /// <summary>
+        ///  used in sideloading and can not be used to update or change the users
+        ///  abilities
+        /// </summary>
+        public dynamic Abilities { get; set; }
     }
 }
