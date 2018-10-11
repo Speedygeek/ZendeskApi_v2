@@ -17,7 +17,7 @@ namespace ZendeskApi_v2.Models.Tickets
 
         [JsonProperty("end_time")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime EndTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
 
         [JsonProperty("groups")]
         public IList<Group> Groups { get; set; }
