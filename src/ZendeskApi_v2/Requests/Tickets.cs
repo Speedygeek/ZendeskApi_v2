@@ -145,6 +145,8 @@ namespace ZendeskApi_v2.Requests
 
         JobStatusResponse BulkImportTickets(IEnumerable<TicketImport> tickets);
 
+        GroupTicketResponse GetTicketsByExternalId(string externalId, int pageNumber = 0, int itemsPerPage = 0, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
 #endif
 
 #if ASYNC
@@ -157,6 +159,7 @@ namespace ZendeskApi_v2.Requests
 
         Task<GroupTicketResponse> GetTicketsByOrganizationIDAsync(long id, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
+        Task<GroupTicketResponse> GetTicketsByExternalIdAsync(string externalId, int pageNumber = 0, int itemsPerPage = 0, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
@@ -337,6 +340,12 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json", sideLoadOptions);
             return GenericPagedSortedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber, sortBy, sortAscending);
+        }
+
+        public GroupTicketResponse GetTicketsByExternalId(string externalId, int pageNumber = 0, int itemsPerPage = 0, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}.json?external_id={Uri.EscapeDataString(externalId)}", sideLoadOptions);
+            return GenericPagedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
         }
 
         public GroupTicketResponse GetRecentTickets(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
@@ -650,6 +659,11 @@ namespace ZendeskApi_v2.Requests
             return await GenericPagedSortedGetAsync<GroupTicketResponse>(resource, perPage, page, sortBy, sortAscending);
         }
 
+        public async Task<GroupTicketResponse> GetTicketsByExternalIdAsync(string externalId, int pageNumber = 0, int itemsPerPage = 0, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}.json?external_id={Uri.EscapeDataString(externalId)}", sideLoadOptions);
+            return await GenericPagedGetAsync<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
+        }
         public async Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam("tickets/recent.json", sideLoadOptions);

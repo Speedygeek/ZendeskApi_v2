@@ -1188,7 +1188,7 @@ namespace Tests
         }
 
         [Test]
-        public async Task ViaChannel_Set_To_API_Isseue_254()
+        public async Task ViaChannel_Set_To_API_Issue_254()
         {
             // see https://github.com/mozts2005/ZendeskApi_v2/issues/254
 
@@ -1337,9 +1337,9 @@ namespace Tests
 
             Ticket ticket = new Ticket { Comment = new Comment { Body = "This is a Brand id Test", Public = false }, BrandId = brand.Id };
             IndividualTicketResponse respTicket = await api.Tickets.CreateTicketAsync(ticket);
-            GroupTicketResponse respTikets = await api.Tickets.GetMultipleTicketsAsync(new List<long> { respTicket.Ticket.Id.Value });
+            GroupTicketResponse respTickets = await api.Tickets.GetMultipleTicketsAsync(new List<long> { respTicket.Ticket.Id.Value });
 
-            Assert.That(respTikets.Tickets[0].BrandId, Is.EqualTo(brand.Id));
+            Assert.That(respTickets.Tickets[0].BrandId, Is.EqualTo(brand.Id));
 
             // clean up
             Assert.True(api.Brands.DeleteBrand(brand.Id.Value));

@@ -9,7 +9,7 @@ namespace ZendeskApi_v2.Models.Tickets
     public class Ticket : BaseTicket
     {
         [JsonProperty("external_id")]
-        public object ExternalId { get; set; }
+        public string ExternalId { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
