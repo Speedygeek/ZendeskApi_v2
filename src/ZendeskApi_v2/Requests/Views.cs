@@ -112,7 +112,7 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = $"views/{id}/execute.json";
 
-            return await GenericPagedSortedGetAsync<ExecutedViewResponse>(resource, page, perPage, sortCol, ascending);
+            return await GenericPagedSortedGetAsync<ExecutedViewResponse>(resource, perPage, page, sortCol, ascending);
         }
 
         public async Task<ExecutedViewResponse> PreviewViewAsync(PreviewViewRequest preview)
