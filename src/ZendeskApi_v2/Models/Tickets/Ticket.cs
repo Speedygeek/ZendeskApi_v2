@@ -129,7 +129,7 @@ namespace ZendeskApi_v2.Models.Tickets
         /// <summary>
         /// Incident Counts on the ticket when sideloaded
         /// </summary>
-        [JsonProperty("incident_counts")]
-        public int? IncidentCounts { get; set; }
+        [JsonProperty("incident_count")]
+        public int? IncidentCount { get; set; }
     }
 }
