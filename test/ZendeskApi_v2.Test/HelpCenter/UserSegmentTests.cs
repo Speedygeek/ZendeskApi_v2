@@ -11,7 +11,7 @@ namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
-    class UserSegmentTests
+    internal class UserSegmentTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 

@@ -104,7 +104,7 @@ namespace Tests
         {
             // create users
             var users = new List<User>();
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 var user = new User()
                 {

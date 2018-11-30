@@ -8,7 +8,7 @@ namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
-    class SectionTests
+    public class SectionTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 

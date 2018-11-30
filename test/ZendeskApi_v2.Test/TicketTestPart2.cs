@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public async Task CanGetTicketsByExternalIdAsync()
         {
-            Ticket ticket = new Ticket()
+            var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
                 Comment = new Comment { Body = "HELP", Public = true },
@@ -55,7 +55,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByExternalId()
         {
-            Ticket ticket = new Ticket()
+            var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
                 Comment = new Comment { Body = "HELP", Public = true },

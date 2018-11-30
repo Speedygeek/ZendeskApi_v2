@@ -10,14 +10,14 @@ namespace Tests.HelpCenter
     public class VoteTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private readonly long _articleIdWithVotes = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
+        private readonly long _articleIdWithVotes = 360019617932;
 
         [Test]
         public void CanGetArticleVotes()
         {
             var votes = api.HelpCenter.Votes.GetVotesForArticle(_articleIdWithVotes);
 
-            Assert.IsTrue(votes.Count > 0);
+            Assert.That(votes.Count, Is.GreaterThan(0));
         }
     }
 }
