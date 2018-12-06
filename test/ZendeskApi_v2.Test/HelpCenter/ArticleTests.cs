@@ -9,7 +9,7 @@ namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
-    //[Parallelizable(ParallelScope.None)]
+    [Parallelizable(ParallelScope.None)]
     public class ArticleTests
     {
         private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
