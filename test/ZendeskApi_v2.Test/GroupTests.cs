@@ -12,22 +12,18 @@ namespace Tests
     [TestFixture]
     public class GroupTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [OneTimeSetUp]
         public async Task CleanUp()
         {
-
             var resp = await api.Search.SearchForAsync<User>("test133@test.com");
-
 
             foreach (var user in resp.Results)
             {
                 await api.Users.DeleteUserAsync(user.Id.Value);
             }
         }
-
-
 
         [Test]
         public void CanGetGroups()

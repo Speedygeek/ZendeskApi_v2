@@ -11,7 +11,7 @@ namespace Tests
     [TestFixture]
     public class BrandTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [OneTimeSetUp]
         public void Init()

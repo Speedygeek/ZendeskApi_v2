@@ -12,7 +12,7 @@ namespace Tests
     [Category("Voice")]
     public class VoiceTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private long agentid;
         private long ticketid;
         private long userid;

@@ -13,7 +13,7 @@ namespace Tests
     [TestFixture]
     public class OrganizationTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [OneTimeSetUp]
         [OneTimeTearDown]

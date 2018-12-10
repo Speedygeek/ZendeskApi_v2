@@ -15,7 +15,7 @@ namespace Tests
     [TestFixture]
     public class AttachmentTests
     {
-        ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanUploadAttachments()
