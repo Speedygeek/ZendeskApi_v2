@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.HelpCenter.Categories;
 
@@ -8,10 +9,34 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class CategoryTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+
+
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            var categotriesResponse = await api.HelpCenter.Categories.GetCategoriesAsync();
+
+            do
+            {
+                foreach (var category in categotriesResponse.Categories)
+                {
+                    if (category.Name == "My Test category")
+                    {
+                        await api.HelpCenter.Categories.DeleteCategoryAsync(category.Id.Value);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(categotriesResponse.NextPage))
+                {
+                    categotriesResponse = await api.HelpCenter.Articles.GetByPageUrlAsync<GroupCategoryResponse>(categotriesResponse.NextPage, 100);
+                }
+
+            } while (!string.IsNullOrWhiteSpace(categotriesResponse.NextPage));
+        }
+
 
         [Test]
-        //[Timeout(3000)]
         public void CanGetCategories()
         {
             var res = api.HelpCenter.Categories.GetCategories();

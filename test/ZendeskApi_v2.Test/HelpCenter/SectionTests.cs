@@ -8,9 +8,9 @@ namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
-    class SectionTests
+    public class SectionTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetSections()

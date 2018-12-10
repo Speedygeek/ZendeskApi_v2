@@ -1,20 +1,7 @@
-﻿using System.Net;
-using NUnit.Framework;
-
-[SetUpFixture]
-public class InitializeTests
-{
-    [OneTimeSetUp]
-    public void OneTimeSetUp()
-    {
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-    }
-}
-namespace Tests
+﻿namespace Tests
 {
     public class Settings
     {
-
         public const string Site = "https://csharpapi.zendesk.com/api/v2/";
         public const string DefaultOrg = "csharpapi";
         public const string DefaultExternalId = "1234abc";
@@ -56,8 +43,8 @@ namespace Tests
 
         public const long CustomFieldTypeOfFeedbackId = 23999346;
 
-        // Help Center 
+        // Help Center
         public const long Category_ID = 200382245;
-        public const long Topic_ID = 200360263;
+        public const long Topic_ID = 360000971672;
     }
 }

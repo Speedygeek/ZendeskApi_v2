@@ -15,12 +15,13 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class ArticleAttachmentsTest
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly long articleId = 360020742611;
 
         [Test]
         public void CanGetAttachmentsForArticle()
         {
-            var res = api.HelpCenter.ArticleAttachments.GetAttachments(204838115);
+            var res = api.HelpCenter.ArticleAttachments.GetAttachments(articleId);
             Assert.That(res.Attachments, Is.Not.Null);
         }
 
@@ -53,7 +54,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetAttachmentsForArticleAsync()
         {
-            var res = await api.HelpCenter.ArticleAttachments.GetAttachmentsAsync(204838115);
+            var res = await api.HelpCenter.ArticleAttachments.GetAttachmentsAsync(articleId);
             Assert.That(res.Attachments, Is.Not.Null);
         }
 

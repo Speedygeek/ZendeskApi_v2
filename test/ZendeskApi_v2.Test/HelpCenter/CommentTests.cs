@@ -10,9 +10,9 @@ namespace Tests
     [TestFixture]
     public class CommentTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private readonly long _testSectionIdForCommentsTest = 360000205286; //https://csharpapi.zendesk.com/hc/en-us/sections/360000205286-Test-Section-For-Comment-Tests
-        private long _testTopicIdForCommentsTest = 360000016546; //https://csharpapi.zendesk.com/hc/en-us/community/topics/360000016546-Test-Topic-For-Comment-Tests
+        private readonly long _testTopicIdForCommentsTest = Settings.Topic_ID; //https://csharpapi.zendesk.com/hc/en-us/community/topics/360000016546-Test-Topic-For-Comment-Tests
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -33,16 +33,21 @@ namespace Tests
             var articlesBySectionId = api.HelpCenter.Articles.GetArticlesBySectionId(_testSectionIdForCommentsTest);
             foreach (var article in articlesBySectionId.Articles)
             {
+
                 api.HelpCenter.Articles.DeleteArticle(article.Id.Value);
             }
         }
+
 
         private void DeleteAllPostsFromTestTopic()
         {
             var articlesBySectionId = api.HelpCenter.Posts.GetPostsByTopicId(_testTopicIdForCommentsTest);
             foreach (var post in articlesBySectionId.Posts)
             {
-                api.HelpCenter.Posts.DeletePost(post.Id.Value);
+                if (post.Title == "Help me!")
+                {
+                    api.HelpCenter.Posts.DeletePost(post.Id.Value);
+                }
             }
         }
 
