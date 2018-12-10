@@ -18,8 +18,9 @@ namespace Tests.HelpCenter
     [Parallelizable(ParallelScope.None)]
     public class ArticleTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private long _articleIdWithComments = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly long _articleIdWithComments = 360020742371; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
+        private readonly long sectionId = 360002891952;
 
         [Test]
         public void CanGetSingleArticle()
@@ -43,8 +44,8 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = api.HelpCenter.Sections.GetSections();
-            var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(202119686);
-            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
+            var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(sectionId);
+            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(sectionId));
         }
 
         public void CanGetArticleSideloadedWith()
@@ -115,7 +116,7 @@ namespace Tests.HelpCenter
         [Test]
         public void CanGetArticlesSortedInASection()
         {
-            var section = api.HelpCenter.Sections.GetSectionById(201010935).Section;
+            var section = api.HelpCenter.Sections.GetSectionById(sectionId).Section;
 
             var articlesAscending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
                 new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
@@ -172,8 +173,8 @@ namespace Tests.HelpCenter
             Assert.Greater(res.Count, 0);
 
             var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
-            var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(202119686);
-            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(202119686));
+            var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(sectionId);
+            Assert.That(res1.Articles[0].SectionId, Is.EqualTo(sectionId));
         }
 
         [Test]

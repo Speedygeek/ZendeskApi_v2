@@ -12,10 +12,11 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class TranslationTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private long _articleId = 204838115; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
-        private long _sectionId = 201010935;
-        private long _categoryId = 200382245;
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly long _articleId = 360020742371; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
+        private readonly long _sectionId = 201010935;
+        private readonly long _categoryId = 200382245;
+
         [Test]
         public void CanListTranslations()
         {
@@ -48,7 +49,7 @@ namespace Tests.HelpCenter
 
             //prep
             var resSections = api.HelpCenter.Sections.GetSections();
-            var new_article_res = api.HelpCenter.Articles.CreateArticle(resSections.Sections[0].Id.Value, new ZendeskApi_v2.Models.Articles.Article()
+            var new_article_res = api.HelpCenter.Articles.CreateArticle(resSections.Sections[0].Id.Value, new Article()
             {
                 Title = "My Test article for translations",
                 Body = "The body of my article",
@@ -77,11 +78,11 @@ namespace Tests.HelpCenter
             var update_res = api.HelpCenter.Translations.UpdateArticleTranslation(add_res.Translation);
             Assert.AreEqual("insérer plus français ici .", update_res.Translation.Body);
 
-            //delete translation
-            Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
+            // delete translation
+            // Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
 
-            //teardown.
-            Assert.IsTrue(api.HelpCenter.Articles.DeleteArticle(article_id));
+            // teardown.
+            // Assert.IsTrue(api.HelpCenter.Articles.DeleteArticle(article_id));
 
         }
 
@@ -97,7 +98,7 @@ namespace Tests.HelpCenter
 
             //prep
             var resCategoies = api.HelpCenter.Categories.GetCategories();
-            var new_section_res = api.HelpCenter.Sections.CreateSection(new ZendeskApi_v2.Models.Sections.Section()
+            var new_section_res = api.HelpCenter.Sections.CreateSection(new Section()
             {
                 Name = "My Test section for translations",
                 Description = "The body of my section (en-us)",
@@ -147,7 +148,7 @@ namespace Tests.HelpCenter
 
 
             //prep
-            var new_category_res = api.HelpCenter.Categories.CreateCategory(new ZendeskApi_v2.Models.HelpCenter.Categories.Category()
+            var new_category_res = api.HelpCenter.Categories.CreateCategory(new Category()
             {
                 Name = "My Test category for translations",
                 Description = "The body of my category (en-us)",
@@ -187,17 +188,14 @@ namespace Tests.HelpCenter
         [Test]
         public void CanListAllEnabledLocales()
         {
-            //the only two locales enabled on the test site are us-en and fr. us-en is the default.
-            //note: FR was already enabled in the Zendesk settings, however it had to be enabled again in the help center preferences.
+            // the only two locales enabled on the test site are us-en and fr. us-en is the default.
+            // note: FR was already enabled in the Zendesk settings, however it had to be enabled again in the help center preferences.
             var res = api.HelpCenter.Translations.ListAllEnabledLocalesAndDefaultLocale(out var default_locale);
 
             Assert.AreEqual(default_locale, "en-us");
             Assert.IsTrue(res.Contains("en-us"));
             Assert.IsTrue(res.Contains("fr"));
         }
-
-
-        //Async tests:
 
 
         [Test]

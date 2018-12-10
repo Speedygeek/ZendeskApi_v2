@@ -12,6 +12,11 @@ variables:
   System.Debug: true
 
 steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.1.500'
+  inputs:
+    version: 2.1.500
+
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:

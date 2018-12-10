@@ -6,7 +6,7 @@ namespace Tests
     [TestFixture]
     public class CustomRolesTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         //[Test]
         //[Ignore]

@@ -21,7 +21,7 @@ namespace Tests
     [Category("Tickets")]
     public class TicketTestsPart2
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private const string ExternalId = "this is a test";
 
         [OneTimeTearDown]
@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public async Task CanGetTicketsByExternalIdAsync()
         {
-            Ticket ticket = new Ticket()
+            var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
                 Comment = new Comment { Body = "HELP", Public = true },
@@ -55,7 +55,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByExternalId()
         {
-            Ticket ticket = new Ticket()
+            var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
                 Comment = new Comment { Body = "HELP", Public = true },
