@@ -13,11 +13,11 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class PostTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private const string postTitile = "Help me!";
         private const string postDetails = "My printer is on fire!";
 
-        [OneTimeSetUpAttribute]
+        [OneTimeSetUp]
         public void setup()
         {
             var res = api.HelpCenter.Posts.GetPostsByTopicId(Settings.Topic_ID, 100);

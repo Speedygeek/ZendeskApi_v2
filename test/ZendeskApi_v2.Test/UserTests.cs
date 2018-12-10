@@ -22,7 +22,7 @@ namespace Tests
         private const string JobStatusCompleted = "completed";
         private const string JobStatusQueued = "queued";
 
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetUsers()
@@ -104,7 +104,7 @@ namespace Tests
         {
             // create users
             var users = new List<User>();
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 var user = new User()
                 {
