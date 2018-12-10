@@ -21,7 +21,7 @@ namespace Tests
     [Category("Tickets")]
     public class TicketTestsPart2
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private const string ExternalId = "this is a test";
 
         [OneTimeTearDown]

@@ -13,20 +13,21 @@ namespace Tests.HelpCenter
     [Category("HelpCenter")]
     public class TopicTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly long topicId = 360032658531;
 
-        [Test]
-        public void CanGetTopic()
+        [OneTimeSetUp]
+        public async Task CleanUp()
         {
-            var res = api.HelpCenter.Topics.GetTopic(200298245);
-            Assert.That(res?.Topic, Is.Not.Null);
-        }
+            var topics = await api.HelpCenter.Topics.GetTopicsAsync();
 
-        [Test]
-        public void CanGetTopics()
-        {
-            var res = api.HelpCenter.Topics.GetTopics();
-            Assert.That(res.Topics.Count, Is.GreaterThan(0));
+            foreach (var topic in topics.Topics)
+            {
+                if (topic.Id != topicId & topic.Id != Settings.Topic_ID & !topic.Name.Contains("Do Not Delete"))
+                {
+                   await api.HelpCenter.Topics.DeleteTopicAsync(topic.Id.Value);
+                }
+            }
         }
 
         [Test]
@@ -40,6 +41,9 @@ namespace Tests.HelpCenter
             res.Topic.Description = "More Testing";
             var update = api.HelpCenter.Topics.UpdateTopic(res.Topic).Topic;
             Assert.That(update.Description, Is.EqualTo("More Testing"));
+
+            var res2 = api.HelpCenter.Topics.GetTopic(res.Topic.Id.Value);
+            Assert.That(res2.Topic, Is.Not.Null);
 
             Assert.That(api.HelpCenter.Topics.DeleteTopic(res.Topic.Id.Value), Is.True);
         }

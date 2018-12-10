@@ -45,6 +45,6 @@
 
         // Help Center
         public const long Category_ID = 200382245;
-        public const long Topic_ID = 200360263;
+        public const long Topic_ID = 360000971672;
     }
 }

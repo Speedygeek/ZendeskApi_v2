@@ -21,7 +21,7 @@ namespace Tests
     [Category("Tickets")]
     public class TicketTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private readonly TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups | TicketSideLoadOptionsEnum.Comment_Count;
 
         [OneTimeTearDown]
@@ -187,6 +187,7 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("Issue Opened with Zendesk")]
         public void CanTicketsByUserIdPaged()
         {
             var ticketsRes = api.Tickets.GetTicketsByUserID(Settings.UserId, 5, 2);
@@ -206,6 +207,7 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("Issue Opened with Zendesk")]
         public void CanTicketsByUserIdPagedWithSideLoad()
         {
             CanTicketsByUserIdPaged();
@@ -242,6 +244,7 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("Issue Opened with Zendesk")]
         public void CanAssignedTicketsByUserIdPagedWithSideLoad()
         {
             CanTicketsByUserIdPaged();

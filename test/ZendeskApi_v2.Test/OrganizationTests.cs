@@ -13,7 +13,7 @@ namespace Tests
     [TestFixture]
     public class OrganizationTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [OneTimeSetUp]
         [OneTimeTearDown]
@@ -163,60 +163,60 @@ namespace Tests
         }
 
 
-        //[Test]
-        //[Ignore("Support ticket opened will update when I(Elizabeth) have a fix ")]
-        //public void CanCreateManyAndDeleteOrganizationMemberships()
-        //{
-        //    var org = api.Organizations.CreateOrganization(new Organization()
-        //    {
-        //        Name = "Test Org"
-        //    });
+        [Test]
+        [Ignore("Support ticket opend will update when I(Elizabeth) have a fix ")]
+        public void CanCreateManyAndDeleteOrganizationMemberships()
+        {
+            var org = api.Organizations.CreateOrganization(new Organization()
+            {
+                Name = "Test Org"
+            });
 
-        //    Assert.Greater(org.Organization.Id, 0);
+            Assert.Greater(org.Organization.Id, 0);
 
-        //    var org2 = api.Organizations.CreateOrganization(new Organization()
-        //    {
-        //        Name = "Test Org2"
-        //    });
+            var org2 = api.Organizations.CreateOrganization(new Organization()
+            {
+                Name = "Test Org2"
+            });
 
-        //    Assert.Greater(org2.Organization.Id, 0);
+            Assert.Greater(org2.Organization.Id, 0);
 
-        //    var res = api.Users.CreateUser(new User()
-        //    {
-        //        Name = "Test User Org Mem",
-        //        Email = "test_org_mem@test.com",
-        //        Role = "end-user"
-        //    });
+            var res = api.Users.CreateUser(new User()
+            {
+                Name = "Test User Org Mem",
+                Email = "test_org_mem@test.com",
+                Role = "end-user"
+            });
 
-        //    Assert.Greater(res.User.Id, 0);
+            Assert.Greater(res.User.Id, 0);
 
-        //    var memberships = new List<OrganizationMembership>
-        //    {
-        //        new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id },
-        //        new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org2.Organization.Id }
-        //    };
+            var memberships = new List<OrganizationMembership>
+            {
+                new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id },
+                new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org2.Organization.Id }
+            };
 
-        //    var job = api.Organizations.CreateManyOrganizationMemberships(memberships).JobStatus;
+            var job = api.Organizations.CreateManyOrganizationMemberships(memberships).JobStatus;
 
-        //    var sleep = 2000;
-        //    var retries = 0;
-        //    while (!job.Status.Equals("completed") && retries < 7)
-        //    {
-        //        System.Threading.Thread.Sleep(sleep);
-        //        job = api.JobStatuses.GetJobStatus(job.Id).JobStatus;
-        //        sleep = (sleep < 64000 ? sleep *= 2 : 64000);
-        //        retries++;
-        //    }
+            var sleep = 2000;
+            var retries = 0;
+            while (!job.Status.Equals("completed") && retries < 7)
+            {
+                System.Threading.Thread.Sleep(sleep);
+                job = api.JobStatuses.GetJobStatus(job.Id).JobStatus;
+                sleep = (sleep < 64000 ? sleep *= 2 : 64000);
+                retries++;
+            }
 
-        //    Assert.Greater(job.Results.Count(), 0);
+            Assert.Greater(job.Results.Count(), 0);
 
-        //    Assert.True(api.Organizations.DeleteOrganizationMembership(job.Results[0].Id));
-        //    Assert.True(api.Organizations.DeleteOrganizationMembership(job.Results[1].Id));
+            Assert.True(api.Organizations.DeleteOrganizationMembership(job.Results[0].Id));
+            Assert.True(api.Organizations.DeleteOrganizationMembership(job.Results[1].Id));
 
-        //    Assert.True(api.Users.DeleteUser(res.User.Id.Value));
-        //    Assert.True(api.Organizations.DeleteOrganization(org.Organization.Id.Value));
-        //    Assert.True(api.Organizations.DeleteOrganization(org2.Organization.Id.Value));
-        //}
+            Assert.True(api.Users.DeleteUser(res.User.Id.Value));
+            Assert.True(api.Organizations.DeleteOrganization(org.Organization.Id.Value));
+            Assert.True(api.Organizations.DeleteOrganization(org2.Organization.Id.Value));
+        }
 
 
         [Test]
