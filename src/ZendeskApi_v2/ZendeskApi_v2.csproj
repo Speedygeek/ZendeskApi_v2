@@ -10,7 +10,7 @@
     <PackageTags>zendesk api</PackageTags>
     <description>A full c# wrapper for Zendesk's api v2.</description>
     <PackageProjectUrl>https://github.com/mozts2005/ZendeskApi_v2</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/mozts2005/ZendeskApi_v2/blob/master/LICENSE.md</PackageLicenseUrl>
+    <!--<PackageLicenseUrl>https://github.com/mozts2005/ZendeskApi_v2/blob/master/LICENSE.md</PackageLicenseUrl>-->
     <PackageIconUrl>https://raw.githubusercontent.com/mozts2005/ZendeskApi_v2/master/tools/icon/lotus.png</PackageIconUrl>
     <PackageReleaseNotes>https://github.com/mozts2005/ZendeskApi_v2/releases</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

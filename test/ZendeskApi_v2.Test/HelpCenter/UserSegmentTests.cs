@@ -11,9 +11,9 @@ namespace Tests.HelpCenter
 {
     [TestFixture]
     [Category("HelpCenter")]
-    class UserSegmentTests
+    internal class UserSegmentTests
     {
-        private ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+        private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
 
         [Test]
         public void CanGetUserSegments()
@@ -93,6 +93,7 @@ namespace Tests.HelpCenter
             var res1 = api.HelpCenter.UserSegments.GetTopicsByUserSegmentId(res.UserSegments[0].Id.Value);
 
             Assert.That(res1.Topics.Count, Is.GreaterThan(0));
+            Assert.That(api.HelpCenter.Topics.DeleteTopic(topicRes.Topic.Id.Value), Is.True);
         }
 
         [Test]
@@ -181,6 +182,7 @@ namespace Tests.HelpCenter
             var res1 = await api.HelpCenter.UserSegments.GetTopicsByUserSegmentIdAsync(res.UserSegments[0].Id.Value);
 
             Assert.That(res1.Topics.Count, Is.GreaterThan(0));
+            Assert.That(await api.HelpCenter.Topics.DeleteTopicAsync(topicRes.Topic.Id.Value), Is.True);
         }
 
         [Test]
