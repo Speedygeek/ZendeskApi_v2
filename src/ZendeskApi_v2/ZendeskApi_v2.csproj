@@ -46,7 +46,7 @@
   <ItemGroup>
     <!--<PackageReference Include="GitVersionTask" Version="4.0.0-pullrequest1470-1617" PrivateAssets="all" />-->
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.13" PrivateAssets="all"/>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
