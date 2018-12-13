@@ -38,7 +38,5 @@ namespace ZendeskApi_v2.Models.HelpCenter.Subscriptions
         /// </summary>
         [JsonProperty("include_comments")]
         public bool IncludeComments { get; set; }
-
-
     }
 }
