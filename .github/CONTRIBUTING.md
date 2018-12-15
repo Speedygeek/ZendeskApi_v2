@@ -2,26 +2,26 @@
 
 Please read these guidelines before contributing to ZendeskApi_v2:
 
- - [CLA](#CLA)
- - [Question or Problem?](#question)
- - [Issues and Bugs](#issue)
- - [Feature Requests](#feature)
- - [Submitting a Pull Request](#pullrequest)
- - [Contributor License Agreement](#readcla)
- 
-## <a name="CLA"></a> Sign Contributor License Agreement
- [Please sign the Contributor License Agreement][cla].
+- [CLA](#sign-contributor-license-agreement)
+- [Question or Problem?](#got-a-question-or-problem)
+- [Issues and Bugs](#found-an-issue)
+- [Feature Requests](#want-a-feature)
+- [Submitting a Pull Request](#submitting-a-pull-request)
+- [Contributor License Agreement](#contributor-license-agreement)
 
-## <a name="question"></a> Got a Question or Problem?
+## Sign Contributor License Agreement
 
-If you have questions about how to use zendesk client ask on [Stack Overflow][stackoverflow]. 
+[Please sign the Contributor License Agreement][cla].
+
+## Got a Question or Problem?
+
+If you have questions about how to use zendesk client ask on [Stack Overflow][stackoverflow].
 there are questions on Stack Overflow with the [zendeskapiv2][stackoverflow] tag.
 
-GitHub issues are only for [reporting bugs](#issue) and [feature requests](#feature), not
+GitHub issues are only for [reporting bugs](#found-an-issue) and [feature requests](#want-a-feature), not
 questions or help.
 
-
-## <a name="issue"></a> Found an Issue?
+## Found an Issue?
 
 If you find a bug in the source code or a mistake in the documentation, you can help by
 submitting an issue to the [GitHub Repository][github]. Even better you can submit a Pull Request
@@ -33,34 +33,32 @@ When submitting an issue please include the following information:
 - The JSON, classes, and ZendeskApi_v2 code related to the issue
 - The exception message and stacktrace if an error was thrown
 - If possible, please include code that reproduces the issue. [DropBox][dropbox] or GitHub's
-[Gist][gist] can be used to share large code samples, or you could
-[submit a pull request](#pullrequest) with the issue reproduced in a new test.
+  [Gist][gist] can be used to share large code samples, or you could
+  [submit a pull request](#submitting-a-pull-request) with the issue reproduced in a new test.
 
 The more information you include about the issue, the more likely it is to be fixed!
 
-
-## <a name="feature"></a> Want a Feature?
+## Want a Feature?
 
 You can request a new feature by submitting an issue to the [GitHub Repository][github]. Before
 requesting a feature consider the following:
 
 - Extensibility points, it is possible you can implement your feature today without
-modifying ZendeskApi_v2
+  modifying ZendeskApi_v2
 - Stability is important.  Features that require large breaking changes are unlikely to be accepted
 
-## <a name="pullrequest"></a> Submitting a Pull Request
+## Submitting a Pull Request
 
 When submitting a pull request to the [GitHub Repository][github] make sure to do the following:
 
-- Check that new and updated code follows Json.NET's existing code formatting and naming standard
+- Check that new and updated code follows ZendeskApi_v2's existing code formatting and naming standard
 - Run ZendeskApi_v2's unit tests to ensure no existing functionality has been affected
 - Write new unit tests to test your changes. All features and fixed bugs must have tests to verify
-they work
+  they work
 
 Read [GitHub Help][pullrequesthelp] for more details about creating pull requests.
 
-
-## <a name="readcla"></a> Contributor License Agreement
+## Contributor License Agreement
 
 By contributing your code to ZendeskApi_v2 you grant Elizabeth Schneider a non-exclusive, irrevocable, worldwide,
 royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights
