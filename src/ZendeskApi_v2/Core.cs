@@ -43,7 +43,6 @@ namespace ZendeskApi_v2
 
     public class Core : ICore
     {
-        private const string XOnBehalfOfEmail = "X-On-Behalf-Of";
         private readonly Encoding encoding = Encoding.UTF8;
         protected string User;
         protected string Password;

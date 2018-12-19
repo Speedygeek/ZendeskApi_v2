@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.HelpCenter.Subscriptions
 {
-    public class Subscription  : HelpCenterBase
+    public class Subscription : HelpCenterBase
     {
         /// <summary>
         /// The id of the user who has this subscription
@@ -23,14 +19,14 @@ namespace ZendeskApi_v2.Models.HelpCenter.Subscriptions
         /// <summary>
         /// The type of the subscribed item
         /// </summary>
-        [JsonProperty("content_type")] 
-        public string ContentType { get; set; } // TODO: Make Enum
+        [JsonProperty("content_type")]
+        public string ContentType { get; set; }
 
         /// <summary>
         /// The locale of the subscribed item
         /// </summary>
         [JsonProperty("locale")]
-        public string Locale { get; set; }     
+        public string Locale { get; set; }
 
         /// <summary>
         /// Subscribe also to article comments. 
