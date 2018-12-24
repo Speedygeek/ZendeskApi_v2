@@ -2,7 +2,9 @@
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Articles;
+using ZendeskApi_v2.Models.HelpCenter.Post;
 using ZendeskApi_v2.Models.HelpCenter.Subscriptions;
+using ZendeskApi_v2.Models.HelpCenter.Topics;
 using ZendeskApi_v2.Models.Sections;
 
 namespace Tests.HelpCenter
@@ -13,10 +15,14 @@ namespace Tests.HelpCenter
     {
         private const string ARTICLE_TITLE = "Subscription Testing Please Delete";
         private const string SECTION_NAME = "Subscription Test Section";
+        private const string TOPIC_NAME = "Subscription Testing Please Delete";
+        private const string POST_TITLE = "Subscription Testing Please Delete";
         private const string LOCAL = "en-us";
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private Section section;
         private Article article;
+        private Topic topic;
+        private Post post;
 
         [OneTimeSetUp]
         public async Task SetupAsync()
@@ -65,6 +71,9 @@ namespace Tests.HelpCenter
                         case "Section":
                             await api.HelpCenter.Sections.DeleteSubscriptionAsync(subscription.ContentId, subscription.Id.Value);
                             break;
+                        case "Post":
+                            await api.HelpCenter.Posts.DeleteSubscriptionAsync(subscription.ContentId, subscription.Id.Value);
+                            break;
                     }
                 }
 
@@ -79,6 +88,13 @@ namespace Tests.HelpCenter
 
             var articleResp = await api.HelpCenter.Articles.CreateArticleAsync(section.Id.Value, new Article { Title = ARTICLE_TITLE });
             article = articleResp.Article;
+
+            var topicResp = await api.HelpCenter.Topics.CreateTopicAsync(new Topic { Name = TOPIC_NAME });
+            topic = topicResp.Topic;
+
+            var postResp = await api.HelpCenter.Posts.CreatePostAsync(new Post { Title = POST_TITLE, TopicId = topic.Id.Value });
+            post = postResp.Post;
+
         }
 
         [OneTimeTearDown]
@@ -86,6 +102,8 @@ namespace Tests.HelpCenter
         {
             await api.HelpCenter.Articles.DeleteArticleAsync(article.Id.Value);
             await api.HelpCenter.Sections.DeleteSectionAsync(section.Id.Value);
+            await api.HelpCenter.Topics.DeleteTopicAsync(topic.Id.Value);
+            await api.HelpCenter.Posts.DeletePostAsync(post.Id.Value);
         }
 
         [Test]
@@ -162,6 +180,44 @@ namespace Tests.HelpCenter
             var listResp = await api.Users.GetSubscriptionsAsync(Settings.UserId);
 
             Assert.That(listResp.Subscriptions.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanCreatePostSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new SectionSubscription(LOCAL));
+
+            Assert.That(resp.Subscription, Is.Not.Null);
+        }
+
+        [Test]
+        public async Task CanGetPostSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new SectionSubscription(LOCAL));
+
+            var listResp = await api.HelpCenter.Posts.GetSubscriptionAsync(post.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Users);
+
+            Assert.That(resp.Subscription, Is.Not.Null);
+            Assert.That(listResp.Users.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanGetPostSubscriptionsAsync()
+        {
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new SectionSubscription(LOCAL));
+
+            var listResp = await api.HelpCenter.Posts.GetSubscriptionsAsync(post.Id.Value, SubscriptionSideLoadOptions.Users);
+
+            Assert.That(resp.Subscription, Is.Not.Null);
+            Assert.That(listResp.Users.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanDeletePostSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new SectionSubscription(LOCAL));
+
+            Assert.That(await api.HelpCenter.Posts.DeleteSubscriptionAsync(post.Id.Value, resp.Subscription.Id.Value), Is.True);
         }
     }
 }

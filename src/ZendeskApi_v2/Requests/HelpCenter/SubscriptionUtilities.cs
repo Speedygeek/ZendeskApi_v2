@@ -7,7 +7,7 @@ using ZendeskApi_v2.Models.HelpCenter.Subscriptions;
 
 namespace ZendeskApi_v2.Requests.HelpCenter
 {
-    public static class Subscription
+    public static class SubscriptionUtilities
     {
         public static string SubscriptionSideloadUri(this string resourceUrl, SubscriptionSideLoadOptions sideloadOptions)
         {
