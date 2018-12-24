@@ -52,6 +52,28 @@ namespace Tests.HelpCenter
                 }
             } while (!string.IsNullOrWhiteSpace(sectionsResp.NextPage));
 
+            var usersSubscriptions = await api.Users.GetSubscriptionsAsync(Settings.UserId, SubscriptionSideLoadOptions.None, 100, 1);
+            do
+            {
+                foreach (var subscription in usersSubscriptions.Subscriptions)
+                {
+                    switch (subscription.ContentType)
+                    {
+                        case "Article":
+                            await api.HelpCenter.Articles.DeleteSubscriptionAsync(subscription.ContentId, subscription.Id.Value);
+                            break;
+                        case "Section":
+                            await api.HelpCenter.Sections.DeleteSubscriptionAsync(subscription.ContentId, subscription.Id.Value);
+                            break;
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(usersSubscriptions.NextPage))
+                {
+                    usersSubscriptions = await api.Users.GetByPageUrlAsync<GroupSubscriptionsResponse>(usersSubscriptions.NextPage, 100);
+                }
+            } while (!string.IsNullOrWhiteSpace(usersSubscriptions.NextPage));
+
             var sectionResp = await api.HelpCenter.Sections.CreateSectionAsync(new Section { Name = SECTION_NAME, Locale = LOCAL, CategoryId = Settings.Category_ID });
             section = sectionResp.Section;
 
@@ -130,6 +152,16 @@ namespace Tests.HelpCenter
             var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
 
             Assert.That(await api.HelpCenter.Sections.DeleteSubscriptionAsync(section.Id.Value, resp.Subscription.Id.Value), Is.True);
+        }
+
+        [Test]
+        public async Task CanListUserSubscriptionsAsync()
+        {
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL) { UserId = Settings.UserId });
+
+            var listResp = await api.Users.GetSubscriptionsAsync(Settings.UserId);
+
+            Assert.That(listResp.Subscriptions.Count, Is.GreaterThan(0));
         }
     }
 }

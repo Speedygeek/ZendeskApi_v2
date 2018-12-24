@@ -13,6 +13,8 @@ using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Users;
 using User = ZendeskApi_v2.Models.Users.User;
 using System.Text.RegularExpressions;
+using ZendeskApi_v2.Models.HelpCenter.Subscriptions;
+using ZendeskApi_v2.Requests.HelpCenter;
 
 namespace ZendeskApi_v2.Requests
 {
@@ -108,6 +110,8 @@ namespace ZendeskApi_v2.Requests
         GroupUserExportResponse GetIncrementalUserExport(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 
         GroupUserExportResponse GetIncrementalUserExportNextPage(string nextPage);
+
+        GroupSubscriptionsResponse GetSubscriptions(long userId, SubscriptionSideLoadOptions subscriptionSideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null);
 #endif
 
 #if ASYNC
@@ -190,6 +194,7 @@ namespace ZendeskApi_v2.Requests
 
         Task<GroupUserExportResponse> GetIncrementalUserExportNextPageAsync(string nextPage);
 
+        Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long userId, SubscriptionSideLoadOptions subscriptionSideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null);
 #endif
     }
 
@@ -451,6 +456,11 @@ namespace ZendeskApi_v2.Requests
 
             return GenericGet<GroupUserExportResponse>(resource);
         }
+
+        public GroupSubscriptionsResponse GetSubscriptions(long userId, SubscriptionSideLoadOptions subscriptionSideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null)
+        {
+            return GenericPagedGet<GroupSubscriptionsResponse>($"help_center/users/{userId}/subscriptions.json".SubscriptionSideloadUri(subscriptionSideLoadOptions), perPage, page);
+        }
 #endif
 
 #if ASYNC
@@ -675,9 +685,7 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupUserExportResponse> GetIncrementalUserExportAsync(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
             var resource =
-                GetResourceStringWithSideLoadOptionsParam(
-                    _incremental_export + startTime.UtcDateTime.GetEpoch(),
-                    sideLoadOptions);
+                GetResourceStringWithSideLoadOptionsParam(_incremental_export + startTime.UtcDateTime.GetEpoch(),sideLoadOptions);
 
             return await GenericGetAsync<GroupUserExportResponse>(resource);
         }
@@ -687,6 +695,11 @@ namespace ZendeskApi_v2.Requests
             var resource = nextPage.Replace(ZendeskUrl, string.Empty);
 
             return await GenericGetAsync<GroupUserExportResponse>(resource);
+        }
+
+        public Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long userId, SubscriptionSideLoadOptions subscriptionSideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null)
+        {
+            return GenericPagedGetAsync<GroupSubscriptionsResponse>($"help_center/users/{userId}/subscriptions.json".SubscriptionSideloadUri(subscriptionSideLoadOptions), perPage, page);
         }
 #endif
 
