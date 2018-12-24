@@ -16,7 +16,6 @@ using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2
 {
-
     public static class RequestMethod
     {
         public const string Get = "GET";
@@ -24,7 +23,6 @@ namespace ZendeskApi_v2
         public const string Post = "POST";
         public const string Delete = "DELETE";
     }
-
 
     public interface ICore
     {
@@ -246,7 +244,6 @@ namespace ZendeskApi_v2
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
-
             return GenericGet<T>(resource + paramString);
         }
 
@@ -279,7 +276,6 @@ namespace ZendeskApi_v2
             {
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
-
 
             return GenericGet<T>(resource + paramString);
         }
@@ -495,7 +491,6 @@ namespace ZendeskApi_v2
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
-
             return await GenericGetAsync<T>(resource + paramString);
         }
 
@@ -529,15 +524,13 @@ namespace ZendeskApi_v2
                 paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
-
             return await GenericGetAsync<T>(resource + paramString);
         }
 
-
         protected async Task<bool> GenericDeleteAsync(string resource)
         {
-            var res = RunRequestAsync(resource, RequestMethod.Delete);
-            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK || x.Result.HttpStatusCode == HttpStatusCode.NoContent);
+            var res = await RunRequestAsync(resource, RequestMethod.Delete);
+            return res.HttpStatusCode == HttpStatusCode.OK || res.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
         protected async Task<T> GenericDeleteAsync<T>(string resource)
@@ -548,32 +541,29 @@ namespace ZendeskApi_v2
 
         protected async Task<T> GenericPostAsync<T>(string resource, object body = null)
         {
-            var res = RunRequestAsync<T>(resource, RequestMethod.Post, body);
-            return await res;
+            return await RunRequestAsync<T>(resource, RequestMethod.Post, body);
         }
 
         protected async Task<T> GenericPostFormAsync<T>(string resource, object body = null, Dictionary<string, object> formParameters = null)
         {
-            var res = RunRequestAsync<T>(resource, RequestMethod.Post, body, formParameters: formParameters);
-            return await res;
+            return await RunRequestAsync<T>(resource, RequestMethod.Post, body, formParameters: formParameters);
         }
 
         protected async Task<bool> GenericBoolPostAsync(string resource, object body = null)
         {
-            var res = RunRequestAsync(resource, RequestMethod.Post, body);
-            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
+            var res = await RunRequestAsync(resource, RequestMethod.Post, body);
+            return  res.HttpStatusCode == HttpStatusCode.OK;
         }
 
         protected async Task<T> GenericPutAsync<T>(string resource, object body = null, Dictionary<string, object> formParameters = null)
         {
-            var res = RunRequestAsync<T>(resource, RequestMethod.Put, body, formParameters: formParameters);
-            return await res;
+            return await RunRequestAsync<T>(resource, RequestMethod.Put, body, formParameters: formParameters);
         }
 
         protected async Task<bool> GenericBoolPutAsync(string resource, object body = null)
         {
-            var res = RunRequestAsync(resource, RequestMethod.Put, body);
-            return await res.ContinueWith(x => x.Result.HttpStatusCode == HttpStatusCode.OK);
+            var res = await RunRequestAsync(resource, RequestMethod.Put, body);
+            return  res.HttpStatusCode == HttpStatusCode.OK;
         }
 #endif
 

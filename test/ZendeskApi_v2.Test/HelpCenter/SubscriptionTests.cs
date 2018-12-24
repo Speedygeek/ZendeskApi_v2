@@ -13,6 +13,7 @@ namespace Tests.HelpCenter
     {
         private const string ARTICLE_TITLE = "Subscription Testing Please Delete";
         private const string SECTION_NAME = "Subscription Test Section";
+        private const string LOCAL = "en-us";
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private Section section;
         private Article article;
@@ -33,7 +34,7 @@ namespace Tests.HelpCenter
                     articlesResp = await api.HelpCenter.Articles.GetByPageUrlAsync<ArticleSearchResults>(articlesResp.NextPage, 100);
                 }
 
-            } while (articlesResp.Count > 0);
+            } while (articlesResp.Results.Count > 0);
 
             var sectionsResp = await api.HelpCenter.Sections.GetSectionsAsync();
             do
@@ -53,7 +54,7 @@ namespace Tests.HelpCenter
 
             } while (!string.IsNullOrWhiteSpace(sectionsResp.NextPage));
 
-            var sectionResp = await api.HelpCenter.Sections.CreateSectionAsync(new Section { Name = SECTION_NAME, Locale = "en-us", CategoryId = Settings.Category_ID });
+            var sectionResp = await api.HelpCenter.Sections.CreateSectionAsync(new Section { Name = SECTION_NAME, Locale = LOCAL, CategoryId = Settings.Category_ID });
             section = sectionResp.Section;
 
             var articleResp = await api.HelpCenter.Articles.CreateArticleAsync(section.Id.Value, new Article { Title = ARTICLE_TITLE });
@@ -70,7 +71,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreateArticleSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription("en-us"));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
 
             Assert.That(resp.Subscription, Is.Not.Null);
         }
@@ -78,7 +79,19 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetArticleSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription("en-us"));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
+
+            var listResp = await api.HelpCenter.Articles.GetSubscriptionAsync(article.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
+
+            Assert.That(listResp.Subscription, Is.Not.Null);
+            Assert.That(listResp.Articles.Count, Is.GreaterThan(0));
+            Assert.That(listResp.Sections.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanGetArticlesSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
 
             var listResp = await api.HelpCenter.Articles.GetSubscriptionsAsync(article.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
 
@@ -89,9 +102,36 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanDeleteArticleSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription("en-us"));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
 
             Assert.That(await api.HelpCenter.Articles.DeleteSubscriptionAsync(article.Id.Value, resp.Subscription.Id.Value), Is.True);
+        }
+
+        [Test]
+        public async Task CanCreateSectionSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
+
+            Assert.That(resp.Subscription, Is.Not.Null);
+        }
+
+        [Test]
+        public async Task CanGetSectionSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
+
+            var listResp = await api.HelpCenter.Sections.GetSubscriptionAsync(section.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Sections);
+
+            Assert.That(resp.Subscription, Is.Not.Null);
+            Assert.That(listResp.Sections.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanDeleteSectionsSubscriptionAsync()
+        {
+            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
+
+            Assert.That(await api.HelpCenter.Sections.DeleteSubscriptionAsync(section.Id.Value, resp.Subscription.Id.Value), Is.True);
         }
     }
 }

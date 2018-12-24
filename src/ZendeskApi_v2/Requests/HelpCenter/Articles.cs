@@ -48,6 +48,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         bool DeleteArticle(long id);
 
         IndividualSubscriptionResponse CreateSubscription(long articleId, ArticleSubscription subscription);
+
+        IndividualSubscriptionResponse GetSubscription(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
+
         GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
 
         bool DeleteSubscription(long articleId, long subscriptionId);
@@ -76,6 +79,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         Task<bool> DeleteArticleAsync(long id);
 
         Task<IndividualSubscriptionResponse> CreateSubscriptionAsync(long articleId, ArticleSubscription subscription);
+
+        Task<IndividualSubscriptionResponse> GetSubscriptionAsync(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
 
         Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
 
@@ -167,6 +172,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericPost<IndividualSubscriptionResponse>($"help_center/articles/{articleId}/subscriptions.json", new { subscription });
         }
 
+        public IndividualSubscriptionResponse GetSubscription(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None)
+        {
+            return GenericGet<IndividualSubscriptionResponse>($"{urlPrefix}/articles/{articleId}/subscriptions/{subscriptionId}.json".SubscriptionSideloadUri(sideLoadOptions));
+        }
+
         public GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None)
         {
             return GenericGet<GroupSubscriptionsResponse>($"{urlPrefix}/articles/{articleId}/subscriptions.json".SubscriptionSideloadUri(sideLoadOptions));
@@ -247,6 +257,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public Task<IndividualSubscriptionResponse> CreateSubscriptionAsync(long articleId, ArticleSubscription subscription)
         {
             return GenericPostAsync<IndividualSubscriptionResponse>($"help_center/articles/{articleId}/subscriptions.json", new { subscription });
+        }
+
+        public Task<IndividualSubscriptionResponse> GetSubscriptionAsync(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None)
+        {
+            return GenericGetAsync<IndividualSubscriptionResponse>($"{urlPrefix}/articles/{articleId}/subscriptions/{subscriptionId}.json".SubscriptionSideloadUri(sideLoadOptions));
         }
 
         public Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None)
