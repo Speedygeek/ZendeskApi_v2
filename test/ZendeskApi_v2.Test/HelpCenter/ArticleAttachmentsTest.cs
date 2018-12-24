@@ -42,7 +42,6 @@ namespace Tests.HelpCenter
             var res = api.HelpCenter.ArticleAttachments.GetAttachments(articleResponse.Article.Id);
             Assert.That(res.Attachments, Is.Not.Null);
 
-
             Assert.That(api.HelpCenter.ArticleAttachments.DeleteAttachment(resp.Attachment.Id), Is.True);
             Assert.That(api.HelpCenter.Articles.DeleteArticle(articleResponse.Article.Id.Value), Is.True);
         }

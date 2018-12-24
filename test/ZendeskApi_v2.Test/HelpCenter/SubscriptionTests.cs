@@ -33,7 +33,6 @@ namespace Tests.HelpCenter
                 {
                     articlesResp = await api.HelpCenter.Articles.GetByPageUrlAsync<ArticleSearchResults>(articlesResp.NextPage, 100);
                 }
-
             } while (articlesResp.Results.Count > 0);
 
             var sectionsResp = await api.HelpCenter.Sections.GetSectionsAsync();
@@ -51,7 +50,6 @@ namespace Tests.HelpCenter
                 {
                     sectionsResp = await api.HelpCenter.Articles.GetByPageUrlAsync<GroupSectionResponse>(sectionsResp.NextPage, 100);
                 }
-
             } while (!string.IsNullOrWhiteSpace(sectionsResp.NextPage));
 
             var sectionResp = await api.HelpCenter.Sections.CreateSectionAsync(new Section { Name = SECTION_NAME, Locale = LOCAL, CategoryId = Settings.Category_ID });

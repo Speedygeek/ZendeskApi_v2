@@ -32,7 +32,6 @@ namespace Tests.HelpCenter
                 {
                     sectionsResp = await api.HelpCenter.Sections.GetSectionsAsync();
                 }
-
             } while (!string.IsNullOrWhiteSpace(sectionsResp.NextPage));
         }
 
