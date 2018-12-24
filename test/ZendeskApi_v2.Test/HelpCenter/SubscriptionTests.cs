@@ -102,8 +102,8 @@ namespace Tests.HelpCenter
         {
             await api.HelpCenter.Articles.DeleteArticleAsync(article.Id.Value);
             await api.HelpCenter.Sections.DeleteSectionAsync(section.Id.Value);
-            await api.HelpCenter.Topics.DeleteTopicAsync(topic.Id.Value);
             await api.HelpCenter.Posts.DeletePostAsync(post.Id.Value);
+            await api.HelpCenter.Topics.DeleteTopicAsync(topic.Id.Value);
         }
 
         [Test]

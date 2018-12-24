@@ -51,7 +51,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         IndividualSubscriptionResponse GetSubscription(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
 
-        GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
+        GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None,int ? perPage = null, int? page = null);
 
         bool DeleteSubscription(long articleId, long subscriptionId);
 
@@ -82,7 +82,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         Task<IndividualSubscriptionResponse> GetSubscriptionAsync(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
 
-        Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
+        Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null);
 
         Task<bool> DeleteSubscriptionAsync(long articleId, long subscriptionId);
 #endif
@@ -177,9 +177,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericGet<IndividualSubscriptionResponse>($"{urlPrefix}/articles/{articleId}/subscriptions/{subscriptionId}.json".SubscriptionSideloadUri(sideLoadOptions));
         }
 
-        public GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None)
+        public GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupSubscriptionsResponse>($"{urlPrefix}/articles/{articleId}/subscriptions.json".SubscriptionSideloadUri(sideLoadOptions));
+            return GenericPagedGet<GroupSubscriptionsResponse>($"{urlPrefix}/articles/{articleId}/subscriptions.json".SubscriptionSideloadUri(sideLoadOptions), perPage, page);
         }
 
         public bool DeleteSubscription(long articleId, long subscriptionId)
@@ -264,9 +264,9 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericGetAsync<IndividualSubscriptionResponse>($"{urlPrefix}/articles/{articleId}/subscriptions/{subscriptionId}.json".SubscriptionSideloadUri(sideLoadOptions));
         }
 
-        public Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None)
+        public Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null)
         {
-            return GenericGetAsync<GroupSubscriptionsResponse>($"{urlPrefix}/articles/{articleId}/subscriptions.json".SubscriptionSideloadUri(sideLoadOptions));
+            return GenericPagedGetAsync<GroupSubscriptionsResponse>($"{urlPrefix}/articles/{articleId}/subscriptions.json".SubscriptionSideloadUri(sideLoadOptions), perPage, page);
         }
 
         public Task<bool> DeleteSubscriptionAsync(long articleId, long subscriptionId)
