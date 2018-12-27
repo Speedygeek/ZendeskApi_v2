@@ -39,6 +39,15 @@ steps:
     packagesToPack: 'src/ZendeskApi_v2/ZendeskApi_v2.csproj'
     nobuild: true
 
+- task: PowerShell@2
+  inputs:
+    filePath: .\ci\sign-package.ps1
+  env:
+    SignClientUser: $(speedygeek.signClientUser)
+    SignClientSecret: $(speedygeek.signClientSecret)
+  displayName: 'Authenticode sign packages'
+  condition: and(succeeded(), not(eq(variables['speedygeek.signClientUser'], '')), not(eq(variables['speedygeek.signClientSecret'], '')))
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Nuget_Package'
   inputs:
