@@ -13,7 +13,7 @@ namespace Tests.HelpCenter
     public class TranslationTests
     {
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private readonly long _articleId = 360020742371; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
+        private readonly long _articleId = 360021096471; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
         private readonly long _sectionId = 201010935;
         private readonly long _categoryId = 200382245;
 
@@ -48,8 +48,7 @@ namespace Tests.HelpCenter
             //delete new article.
 
             //prep
-            var resSections = api.HelpCenter.Sections.GetSections();
-            var new_article_res = api.HelpCenter.Articles.CreateArticle(resSections.Sections[0].Id.Value, new Article()
+            var new_article_res = api.HelpCenter.Articles.CreateArticle(_sectionId, new Article()
             {
                 Title = "My Test article for translations",
                 Body = "The body of my article",
@@ -79,10 +78,10 @@ namespace Tests.HelpCenter
             Assert.AreEqual("insérer plus français ici .", update_res.Translation.Body);
 
             // delete translation
-            // Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
+             Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
 
             // teardown.
-            // Assert.IsTrue(api.HelpCenter.Articles.DeleteArticle(article_id));
+             Assert.IsTrue(api.HelpCenter.Articles.DeleteArticle(article_id));
 
         }
 
@@ -229,8 +228,7 @@ namespace Tests.HelpCenter
             //delete new article.
 
             //prep
-            var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
-            var new_article_res = await api.HelpCenter.Articles.CreateArticleAsync(resSections.Sections[0].Id.Value, new Article
+            var new_article_res = await api.HelpCenter.Articles.CreateArticleAsync(_sectionId, new Article
             {
                 Title = "My Test article for translations",
                 Body = "The body of my article",

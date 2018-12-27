@@ -12,7 +12,6 @@ namespace Tests.Models.Requests
     [TestFixture]
     public class RequestTests
     {
-        private const string BodyJsonFormat = "{{\"request\":{0}}}";
         private const string RequestJsonFormat = "{{\"url\":\"{0}\",\"id\":{1},\"status\":\"{2}\",\"priority\":null,\"type\":null,\"subject\":\"{3}\",\"description\":\"{4}\",\"organization_id\":{5},\"via\":{6},\"custom_fields\":{7},\"requester_id\":{8},\"collaborator_ids\":[],\"due_at\":null,\"can_be_solved_by_me\":{9},\"created_at\":\"2015-11-09T19:38:40Z\",\"updated_at\":\"2015-11-11T20:02:27Z\",\"assignee_id\":5,\"ticket_form_id\":6,\"fields\":[{{\"id\":2,\"value\":\"custom_1\"}}]}}";
         private const string ToJson = "{}";
         private const string FromJson = "{}";

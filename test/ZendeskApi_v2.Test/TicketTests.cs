@@ -719,6 +719,7 @@ namespace Tests
         [Test]
         public void CanGetIncrementalTicketExportPaged()
         {
+            Thread.Sleep(60000);
             const int maxTicketsPerPage = 1000;
 
             var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-365));
@@ -767,6 +768,7 @@ namespace Tests
         [Test]
         public async Task CanGetIncrementalTicketExportAsyncWithSideLoadOptions()
         {
+            await Task.Delay(60000);
             var res = await api.Tickets.GetIncrementalTicketExportAsync(DateTime.Now.AddDays(-31), TicketSideLoadOptionsEnum.Users);
 
             Assert.That(res.Count, Is.GreaterThan(0));

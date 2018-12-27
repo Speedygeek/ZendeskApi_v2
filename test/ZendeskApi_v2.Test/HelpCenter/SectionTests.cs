@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Sections;
-using ZendeskApi_v2.Requests.HelpCenter;
 
 namespace Tests.HelpCenter
 {
@@ -11,6 +11,29 @@ namespace Tests.HelpCenter
     public class SectionTests
     {
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
+
+        private readonly long[] safeSections = new long[] { 360002891952, 360000205286, 201010935 };
+
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            var sectionsResp = await api.HelpCenter.Sections.GetSectionsAsync();
+            do
+            {
+                foreach (var section in sectionsResp.Sections)
+                {
+                    if (!safeSections.Contains(section.Id.Value))
+                    {
+                        await api.HelpCenter.Sections.DeleteSectionAsync(section.Id.Value);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(sectionsResp.NextPage))
+                {
+                    sectionsResp = await api.HelpCenter.Sections.GetSectionsAsync();
+                }
+            } while (!string.IsNullOrWhiteSpace(sectionsResp.NextPage));
+        }
 
         [Test]
         public void CanGetSections()

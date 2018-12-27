@@ -19,7 +19,7 @@ namespace Tests.HelpCenter
     public class ArticleTests
     {
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private readonly long _articleIdWithComments = 360020742371; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
+        private readonly long _articleIdWithComments = 360021096471; //https://csharpapi.zendesk.com/hc/en-us/articles/204838115-Thing-4?page=1#comment_200486479
         private readonly long sectionId = 360002891952;
 
         [Test]
