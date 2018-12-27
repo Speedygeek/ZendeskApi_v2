@@ -1,5 +1,11 @@
 $currentDirectory = split-path $MyInvocation.MyCommand.Definition
 
+ 
+$path = $env:BUILD_ArtifactStagingDirectory
+if([string]::IsNullOrWhiteSpace($path)){
+    $path = $currentDirectory;
+}
+
 # See if we have the ClientSecret available
 if([string]::IsNullOrEmpty($env:SignClientSecret)){
     Write-Host "Client Secret not found, not signing packages"
@@ -8,7 +14,7 @@ if([string]::IsNullOrEmpty($env:SignClientSecret)){
 
 # Setup Variables we need to pass into the sign client tool
 $appSettings = "$currentDirectory\appsettings.json"
-$nupgks = Get-ChildItem $currentDirectory\..\*.nupkg -Recurse | Select-Object -ExpandProperty FullName
+$nupgks = Get-ChildItem $path\..\*.nupkg -Recurse | Select-Object -ExpandProperty FullName
 
 dotnet tool install --tool-path "$currentDirectory" SignClient
 
