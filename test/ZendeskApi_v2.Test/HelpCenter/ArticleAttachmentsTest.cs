@@ -16,14 +16,7 @@ namespace Tests.HelpCenter
     public class ArticleAttachmentsTest
     {
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
-        private readonly long articleId = 360020742611;
-
-        [Test]
-        public void CanGetAttachmentsForArticle()
-        {
-            var res = api.HelpCenter.ArticleAttachments.GetAttachments(articleId);
-            Assert.That(res.Attachments, Is.Not.Null);
-        }
+        private readonly long _sectionId = 201010935;
 
         [Test]
         public void CanUploadAttachmentsForArticle()
@@ -35,8 +28,7 @@ namespace Tests.HelpCenter
                 FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\testupload.txt")
             };
 
-            var respSections = api.HelpCenter.Sections.GetSections();
-            var articleResponse = api.HelpCenter.Articles.CreateArticle(respSections.Sections[0].Id.Value, new Article
+            var articleResponse = api.HelpCenter.Articles.CreateArticle(_sectionId, new Article
             {
                 Title = "My Test article",
                 Body = "The body of my article",
@@ -46,16 +38,12 @@ namespace Tests.HelpCenter
             var resp = api.HelpCenter.ArticleAttachments.UploadAttachment(articleResponse.Article.Id, file);
 
             Assert.That(resp.Attachment, Is.Not.Null);
+
+            var res = api.HelpCenter.ArticleAttachments.GetAttachments(articleResponse.Article.Id);
+            Assert.That(res.Attachments, Is.Not.Null);
+
             Assert.That(api.HelpCenter.ArticleAttachments.DeleteAttachment(resp.Attachment.Id), Is.True);
             Assert.That(api.HelpCenter.Articles.DeleteArticle(articleResponse.Article.Id.Value), Is.True);
-        }
-
-
-        [Test]
-        public async Task CanGetAttachmentsForArticleAsync()
-        {
-            var res = await api.HelpCenter.ArticleAttachments.GetAttachmentsAsync(articleId);
-            Assert.That(res.Attachments, Is.Not.Null);
         }
 
         [Test]
@@ -68,8 +56,7 @@ namespace Tests.HelpCenter
                 FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\testupload.txt")
             };
 
-            var respSections = await api.HelpCenter.Sections.GetSectionsAsync();
-            var articleResponse = await api.HelpCenter.Articles.CreateArticleAsync(respSections.Sections[0].Id.Value, new Article
+            var articleResponse = await api.HelpCenter.Articles.CreateArticleAsync(_sectionId, new Article
             {
                 Title = "My Test article",
                 Body = "The body of my article",
@@ -80,6 +67,9 @@ namespace Tests.HelpCenter
 
             Assert.That(resp.Attachment, Is.Not.Null);
             Assert.That(resp.Attachment.Inline, Is.True);
+
+            var res = await api.HelpCenter.ArticleAttachments.GetAttachmentsAsync(articleResponse.Article.Id);
+            Assert.That(res.Attachments, Is.Not.Null);
 
             Assert.That(await api.HelpCenter.ArticleAttachments.DeleteAttachmentAsync(resp.Attachment.Id), Is.True);
             Assert.That(await api.HelpCenter.Articles.DeleteArticleAsync(articleResponse.Article.Id.Value), Is.True);
