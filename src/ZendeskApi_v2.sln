@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZendeskApi_v2", "ZendeskApi_v2\ZendeskApi_v2.csproj", "{5E961B79-3175-468E-BFDA-41FE9842D78A}"
 EndProject
@@ -13,6 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DC18BBC5
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\GitVersionConfig.yaml = ..\GitVersionConfig.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{19854E34-D3F5-4F8A-BE8E-7391E2E4FF73}"
+	ProjectSection(SolutionItems) = preProject
+		..\ci\azure-pipelines.yml = ..\ci\azure-pipelines.yml
 	EndProjectSection
 EndProject
 Global
