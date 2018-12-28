@@ -579,8 +579,8 @@ namespace Tests
         public async Task CanBatchUpdateUsers()
         {
             var testDetails = "This is a Test";
-            var users = new List<User> {
-
+            var users = new List<User>
+            {
                 new User
                 {
                      Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
@@ -631,7 +631,6 @@ namespace Tests
         {
             var testDetails = "This is a Test";
             var users = new List<User> {
-
                 new User
                 {
                      Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
