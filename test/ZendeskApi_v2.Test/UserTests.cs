@@ -561,6 +561,7 @@ namespace Tests
             Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
         }
+
         [Test]
         public void CanGetRolesAndAbilities()
         {
@@ -572,6 +573,106 @@ namespace Tests
             Assert.That(result.Roles, Has.None.Null);
             Assert.That(user.Abilities, Is.Not.Null);
             Assert.That(user.Abilities["can_edit"], Is.Not.Null.Or.Empty);
+        }
+
+        [Test]
+        public async Task CanBatchUpdateUsers()
+        {
+            var testDetails = "This is a Test";
+            var users = new List<User> {
+
+                new User
+                {
+                     Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                     Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                     Verified = true
+                },
+
+                new User
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                    Verified = true
+                },
+            };
+
+            var usersToUpdate = new List<User>();
+            foreach (var user in users)
+            {
+                var createResp = await api.Users.CreateUserAsync(user);
+                usersToUpdate.Add(createResp.User);
+            }
+
+            usersToUpdate.ForEach(u=> u.Details = testDetails);
+
+            var updateResp = await api.Users.BatchUpdateAsync(usersToUpdate);
+
+            var job = await api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+            var count = 0;
+            while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+            {
+                await Task.Delay(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+                count++;
+            }
+
+            Assert.That(job.JobStatus.Status.ToLower(), Is.EqualTo("completed"));
+
+            foreach (var r in job.JobStatus.Results)
+            {
+                var user = (await api.Users.GetUserAsync(r.Id)).User;
+                Assert.That(user.Details, Is.EqualTo(testDetails));
+                await api.Users.DeleteUserAsync(r.Id);
+            }
+        }
+
+        [Test]
+        public async Task CanBulkUpdateUsers()
+        {
+            var testDetails = "This is a Test";
+            var users = new List<User> {
+
+                new User
+                {
+                     Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                     Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                     Verified = true
+                },
+
+                new User
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@" + Guid.NewGuid().ToString("N") + ".com",
+                    Verified = true
+                },
+            };
+
+            var usersToUpdate = new List<User>();
+            foreach (var user in users)
+            {
+                var createResp = await api.Users.CreateUserAsync(user);
+                usersToUpdate.Add(createResp.User);
+            }
+
+            var updateResp = await api.Users.BulkUpdateAsync(usersToUpdate.Select(u => u.Id.Value), new User { Details = testDetails });
+
+            var job = await api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+            var count = 0;
+            while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+            {
+                await Task.Delay(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+                count++;
+            }
+
+            Assert.That(job.JobStatus.Status.ToLower(), Is.EqualTo("completed"));
+
+            foreach (var r in job.JobStatus.Results)
+            {
+                var user = (await api.Users.GetUserAsync(r.Id)).User;
+                Assert.That(user.Details, Is.EqualTo(testDetails));
+                await api.Users.DeleteUserAsync(r.Id);
+            }
         }
     }
 }

@@ -71,6 +71,10 @@ namespace ZendeskApi_v2.Requests
 
         JobStatusResponse BulkCreateUsers(IEnumerable<User> users);
 
+        JobStatusResponse BulkUpdate(IEnumerable<long> ids, User user);
+
+        JobStatusResponse BatchUpdate(IEnumerable<User> users);
+
         IndividualUserResponse SuspendUser(long id);
 
         IndividualUserResponse UpdateUser(User user);
@@ -153,6 +157,10 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> CreateUserAsync(User user);
 
         Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users);
+
+        Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User user);
+
+        Task<JobStatusResponse> BatchUpdateAsync(IEnumerable<User> users);
 
         Task<IndividualUserResponse> SuspendUserAsync(long id);
 
@@ -337,26 +345,32 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualUserResponse CreateUser(User user)
         {
-            var body = new { user };
-            return GenericPost<IndividualUserResponse>("users.json", body);
+            return GenericPost<IndividualUserResponse>("users.json", new { user });
         }
 
         public JobStatusResponse BulkCreateUsers(IEnumerable<User> users)
         {
-            var body = new { users };
-            return GenericPost<JobStatusResponse>("users/create_many.json", body);
+            return GenericPost<JobStatusResponse>("users/create_many.json", new { users });
+        }
+
+        public JobStatusResponse BulkUpdate(IEnumerable<long> ids, User userTemplate)
+        {
+            return GenericPut<JobStatusResponse>($"users/update_many.json?ids={ids.ToCsv()}", new { user = userTemplate });
+        }
+
+        public JobStatusResponse BatchUpdate(IEnumerable<User> users)
+        {
+            return GenericPut<JobStatusResponse>($"users/update_many.json", new { users });
         }
 
         public IndividualUserResponse SuspendUser(long id)
         {
-            var body = new { user = new { suspended = true } };
-            return GenericPut<IndividualUserResponse>($"users/{id}.json", body);
+            return GenericPut<IndividualUserResponse>($"users/{id}.json", new { user = new { suspended = true } });
         }
 
         public IndividualUserResponse UpdateUser(User user)
         {
-            var body = new { user };
-            return GenericPut<IndividualUserResponse>($"users/{user.Id}.json", body);
+            return GenericPut<IndividualUserResponse>($"users/{user.Id}.json", new { user });
         }
 
         public bool DeleteUser(long id)
@@ -373,18 +387,16 @@ namespace ZendeskApi_v2.Requests
 
         public bool SetUsersPassword(long userId, string newPassword)
         {
-            var body = new { password = newPassword };
-            return GenericBoolPost($"users/{userId}/password.json", body);
+            return GenericBoolPost($"users/{userId}/password.json", new { password = newPassword });
         }
 
         public bool ChangeUsersPassword(long userId, string oldPassword, string newPassword)
         {
-            var body = new
+            return GenericBoolPost($"users/{userId}/password.json", new
             {
                 previous_password = oldPassword,
                 password = newPassword
-            };
-            return GenericBoolPost($"users/{userId}/password.json", body);
+            });
         }
 
         public GroupUserIdentityResponse GetUserIdentities(long userId)
@@ -399,14 +411,12 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualUserIdentityResponse AddUserIdentity(long userId, UserIdentity identity)
         {
-            var body = new { identity };
-            return GenericPost<IndividualUserIdentityResponse>($"users/{userId}/identities.json", body);
+            return GenericPost<IndividualUserIdentityResponse>($"users/{userId}/identities.json", new { identity });
         }
 
         public IndividualUserIdentityResponse UpdateUserIdentity(long userId, UserIdentity identity)
         {
-            var body = new { identity };
-            return GenericPut<IndividualUserIdentityResponse>($"users/{userId}/identities/{identity.Id}.json", body);
+            return GenericPut<IndividualUserIdentityResponse>($"users/{userId}/identities/{identity.Id}.json", new { identity });
         }
 
         public IndividualUserIdentityResponse SetUserIdentityAsVerified(long userId, long identityId)
@@ -573,20 +583,27 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupUserResponse> GetUsersInOrganizationAsync(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            var resource = GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions);
-            return await GenericPagedGetAsync<GroupUserResponse>(resource, perPage, page);
+            return await GenericPagedGetAsync<GroupUserResponse>(GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions), perPage, page);
         }
 
         public async Task<IndividualUserResponse> CreateUserAsync(User user)
         {
-            var body = new { user };
-            return await GenericPostAsync<IndividualUserResponse>("users.json", body);
+            return await GenericPostAsync<IndividualUserResponse>("users.json", new { user });
         }
 
         public async Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users)
         {
-            var body = new { users };
-            return await GenericPostAsync<JobStatusResponse>("users/create_many.json", body);
+            return await GenericPostAsync<JobStatusResponse>("users/create_many.json", new { users });
+        }
+
+        public Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User userTemplate)
+        {
+            return GenericPutAsync<JobStatusResponse>($"users/update_many.json?ids={ids.ToCsv()}", new { user = userTemplate });
+        }
+
+        public Task<JobStatusResponse> BatchUpdateAsync(IEnumerable<User> users)
+        {
+            return GenericPutAsync<JobStatusResponse>($"users/update_many.json", new { users });
         }
 
         public async Task<IndividualUserResponse> SuspendUserAsync(long id)
