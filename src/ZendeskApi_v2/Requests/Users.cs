@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Extensions;
-
 #if ASYNC
-
 using System.Threading.Tasks;
-
 #endif
-
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Users;
 using User = ZendeskApi_v2.Models.Users.User;
@@ -32,7 +28,6 @@ namespace ZendeskApi_v2.Requests
     public interface IUsers : ICore
     {
 #if SYNC
-
         IndividualUserResponse GetCurrentUser();
 
         GroupUserResponse GetAllUsers(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
@@ -70,6 +65,10 @@ namespace ZendeskApi_v2.Requests
         IndividualUserResponse CreateUser(User user);
 
         JobStatusResponse BulkCreateUsers(IEnumerable<User> users);
+
+        JobStatusResponse BulkUpdate(IEnumerable<long> ids, User user);
+
+        JobStatusResponse BatchUpdate(IEnumerable<User> users);
 
         IndividualUserResponse SuspendUser(long id);
 
@@ -115,7 +114,6 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-
         Task<IndividualUserResponse> GetCurrentUserAsync();
 
         Task<GroupUserResponse> GetAllUsersAsync(int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
@@ -153,6 +151,10 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> CreateUserAsync(User user);
 
         Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users);
+
+        Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User user);
+
+        Task<JobStatusResponse> BatchUpdateAsync(IEnumerable<User> users);
 
         Task<IndividualUserResponse> SuspendUserAsync(long id);
 
@@ -208,7 +210,6 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
-
         public IndividualUserResponse GetCurrentUser()
         {
             return GenericGet<IndividualUserResponse>("users/me.json");
@@ -293,15 +294,13 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public IndividualUserResponse MergeUser(long fromId, long intoId)
         {
-            var body = new { user = new { id = intoId } };
-            return GenericPut<IndividualUserResponse>($"users/{fromId}/merge.json", body);
+            return GenericPut<IndividualUserResponse>($"users/{fromId}/merge.json", new { user = new { id = intoId } });
         }
 
         public GroupUserResponse GetMultipleUsers(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            var resource = GetResourceStringWithSideLoadOptionsParam($"users/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
 
-            return GenericGet<GroupUserResponse>(resource);
+            return GenericGet<GroupUserResponse>(GetResourceStringWithSideLoadOptionsParam($"users/show_many.json?ids={ids.ToCsv()}", sideLoadOptions));
         }
 
         public GroupUserResponse SearchByEmail(string email)
@@ -331,32 +330,37 @@ namespace ZendeskApi_v2.Requests
 
         public GroupUserResponse GetUsersInOrganization(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            var resource = GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions);
-            return GenericPagedGet<GroupUserResponse>(resource, perPage, page);
+            return GenericPagedGet<GroupUserResponse>(GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions), perPage, page);
         }
 
         public IndividualUserResponse CreateUser(User user)
         {
-            var body = new { user };
-            return GenericPost<IndividualUserResponse>("users.json", body);
+            return GenericPost<IndividualUserResponse>("users.json", new { user });
         }
 
         public JobStatusResponse BulkCreateUsers(IEnumerable<User> users)
         {
-            var body = new { users };
-            return GenericPost<JobStatusResponse>("users/create_many.json", body);
+            return GenericPost<JobStatusResponse>("users/create_many.json", new { users });
+        }
+
+        public JobStatusResponse BulkUpdate(IEnumerable<long> ids, User userTemplate)
+        {
+            return GenericPut<JobStatusResponse>($"users/update_many.json?ids={ids.ToCsv()}", new { user = userTemplate });
+        }
+
+        public JobStatusResponse BatchUpdate(IEnumerable<User> users)
+        {
+            return GenericPut<JobStatusResponse>($"users/update_many.json", new { users });
         }
 
         public IndividualUserResponse SuspendUser(long id)
         {
-            var body = new { user = new { suspended = true } };
-            return GenericPut<IndividualUserResponse>($"users/{id}.json", body);
+            return GenericPut<IndividualUserResponse>($"users/{id}.json", new { user = new { suspended = true } });
         }
 
         public IndividualUserResponse UpdateUser(User user)
         {
-            var body = new { user };
-            return GenericPut<IndividualUserResponse>($"users/{user.Id}.json", body);
+            return GenericPut<IndividualUserResponse>($"users/{user.Id}.json", new { user });
         }
 
         public bool DeleteUser(long id)
@@ -366,25 +370,21 @@ namespace ZendeskApi_v2.Requests
 
         public JobStatusResponse BulkDeleteUsers(IEnumerable<User> users)
         {
-            var userIdsCommaSeperatedList = CreateCommaSeperatedUserIdString(users);
-
-            return GenericDelete<JobStatusResponse>($"users/destroy_many.json?ids={userIdsCommaSeperatedList}");
+            return GenericDelete<JobStatusResponse>($"users/destroy_many.json?ids={CreateCommaSeperatedUserIdString(users)}");
         }
 
         public bool SetUsersPassword(long userId, string newPassword)
         {
-            var body = new { password = newPassword };
-            return GenericBoolPost($"users/{userId}/password.json", body);
+            return GenericBoolPost($"users/{userId}/password.json", new { password = newPassword });
         }
 
         public bool ChangeUsersPassword(long userId, string oldPassword, string newPassword)
         {
-            var body = new
+            return GenericBoolPost($"users/{userId}/password.json", new
             {
                 previous_password = oldPassword,
                 password = newPassword
-            };
-            return GenericBoolPost($"users/{userId}/password.json", body);
+            });
         }
 
         public GroupUserIdentityResponse GetUserIdentities(long userId)
@@ -399,14 +399,12 @@ namespace ZendeskApi_v2.Requests
 
         public IndividualUserIdentityResponse AddUserIdentity(long userId, UserIdentity identity)
         {
-            var body = new { identity };
-            return GenericPost<IndividualUserIdentityResponse>($"users/{userId}/identities.json", body);
+            return GenericPost<IndividualUserIdentityResponse>($"users/{userId}/identities.json", new { identity });
         }
 
         public IndividualUserIdentityResponse UpdateUserIdentity(long userId, UserIdentity identity)
         {
-            var body = new { identity };
-            return GenericPut<IndividualUserIdentityResponse>($"users/{userId}/identities/{identity.Id}.json", body);
+            return GenericPut<IndividualUserIdentityResponse>($"users/{userId}/identities/{identity.Id}.json", new { identity });
         }
 
         public IndividualUserIdentityResponse SetUserIdentityAsVerified(long userId, long identityId)
@@ -442,19 +440,13 @@ namespace ZendeskApi_v2.Requests
 
         public GroupUserExportResponse GetIncrementalUserExport(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            var resource =
-                GetResourceStringWithSideLoadOptionsParam(
-                    _incremental_export + startTime.UtcDateTime.GetEpoch(),
-                    sideLoadOptions);
 
-            return GenericGet<GroupUserExportResponse>(resource);
+            return GenericGet<GroupUserExportResponse>(GetResourceStringWithSideLoadOptionsParam(_incremental_export + startTime.UtcDateTime.GetEpoch(), sideLoadOptions));
         }
 
         public GroupUserExportResponse GetIncrementalUserExportNextPage(string nextPage)
         {
-            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
-
-            return GenericGet<GroupUserExportResponse>(resource);
+            return GenericGet<GroupUserExportResponse>(nextPage.Replace(ZendeskUrl, string.Empty));
         }
 
         public GroupSubscriptionsResponse GetSubscriptions(long userId, SubscriptionSideLoadOptions subscriptionSideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null)
@@ -464,7 +456,6 @@ namespace ZendeskApi_v2.Requests
 #endif
 
 #if ASYNC
-
         public async Task<IndividualUserResponse> GetCurrentUserAsync()
         {
             return await GenericGetAsync<IndividualUserResponse>("users/me.json");
@@ -537,8 +528,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public async Task<IndividualUserResponse> MergeUserAsync(long fromId, long intoId)
         {
-            var body = new { user = new { id = intoId } };
-            return await GenericPutAsync<IndividualUserResponse>($"users/{fromId}/merge.json", body);
+            return await GenericPutAsync<IndividualUserResponse>($"users/{fromId}/merge.json", new { user = new { id = intoId } });
         }
 
         public async Task<GroupUserResponse> GetMultipleUsersAsync(IEnumerable<long> ids, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
@@ -573,32 +563,37 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupUserResponse> GetUsersInOrganizationAsync(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            var resource = GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions);
-            return await GenericPagedGetAsync<GroupUserResponse>(resource, perPage, page);
+            return await GenericPagedGetAsync<GroupUserResponse>(GetResourceStringWithSideLoadOptionsParam($"organizations/{id}/users.json", sideLoadOptions), perPage, page);
         }
 
         public async Task<IndividualUserResponse> CreateUserAsync(User user)
         {
-            var body = new { user };
-            return await GenericPostAsync<IndividualUserResponse>("users.json", body);
+            return await GenericPostAsync<IndividualUserResponse>("users.json", new { user });
         }
 
         public async Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users)
         {
-            var body = new { users };
-            return await GenericPostAsync<JobStatusResponse>("users/create_many.json", body);
+            return await GenericPostAsync<JobStatusResponse>("users/create_many.json", new { users });
+        }
+
+        public Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User userTemplate)
+        {
+            return GenericPutAsync<JobStatusResponse>($"users/update_many.json?ids={ids.ToCsv()}", new { user = userTemplate });
+        }
+
+        public Task<JobStatusResponse> BatchUpdateAsync(IEnumerable<User> users)
+        {
+            return GenericPutAsync<JobStatusResponse>($"users/update_many.json", new { users });
         }
 
         public async Task<IndividualUserResponse> SuspendUserAsync(long id)
         {
-            var body = new { user = new { suspended = true } };
-            return await GenericPutAsync<IndividualUserResponse>($"users/{id}.json", body);
+            return await GenericPutAsync<IndividualUserResponse>($"users/{id}.json", new { user = new { suspended = true } });
         }
 
         public async Task<IndividualUserResponse> UpdateUserAsync(User user)
         {
-            var body = new { user };
-            return await GenericPutAsync<IndividualUserResponse>($"users/{user.Id}.json", body);
+            return await GenericPutAsync<IndividualUserResponse>($"users/{user.Id}.json", new { user });
         }
 
         public async Task<bool> DeleteUserAsync(long id)
@@ -608,25 +603,21 @@ namespace ZendeskApi_v2.Requests
 
         public Task<JobStatusResponse> BulkDeleteUsersAsync(IEnumerable<User> users)
         {
-            var userIdsCommaSeperatedList = CreateCommaSeperatedUserIdString(users);
-
-            return GenericDeleteAsync<JobStatusResponse>($"users/destroy_many.json?ids={userIdsCommaSeperatedList}");
+            return GenericDeleteAsync<JobStatusResponse>($"users/destroy_many.json?ids={CreateCommaSeperatedUserIdString(users)}");
         }
 
         public async Task<bool> SetUsersPasswordAsync(long userId, string newPassword)
         {
-            var body = new { password = newPassword };
-            return await GenericBoolPostAsync($"users/{userId}/password.json", body);
+            return await GenericBoolPostAsync($"users/{userId}/password.json", new { password = newPassword });
         }
 
         public async Task<bool> ChangeUsersPasswordAsync(long userId, string oldPassword, string newPassword)
         {
-            var body = new
+            return await GenericBoolPostAsync($"users/{userId}/password.json", new
             {
                 previous_password = oldPassword,
                 password = newPassword
-            };
-            return await GenericBoolPostAsync($"users/{userId}/password.json", body);
+            });
         }
 
         public async Task<GroupUserIdentityResponse> GetUserIdentitiesAsync(long userId)
@@ -641,14 +632,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<IndividualUserIdentityResponse> AddUserIdentityAsync(long userId, UserIdentity identity)
         {
-            var body = new { identity };
-            return await GenericPostAsync<IndividualUserIdentityResponse>($"users/{userId}/identities.json", body);
+            return await GenericPostAsync<IndividualUserIdentityResponse>($"users/{userId}/identities.json", new { identity });
         }
 
         public async Task<IndividualUserIdentityResponse> UpdateUserIdentityAsync(long userId, UserIdentity identity)
         {
-            var body = new { identity };
-            return await GenericPutAsync<IndividualUserIdentityResponse>($"users/{userId}/identities/{identity.Id}.json", body);
+            return await GenericPutAsync<IndividualUserIdentityResponse>($"users/{userId}/identities/{identity.Id}.json", new { identity });
         }
 
         public async Task<IndividualUserIdentityResponse> SetUserIdentityAsVerifiedAsync(long userId, long identityId)
@@ -684,17 +673,12 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<GroupUserExportResponse> GetIncrementalUserExportAsync(DateTimeOffset startTime, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None)
         {
-            var resource =
-                GetResourceStringWithSideLoadOptionsParam(_incremental_export + startTime.UtcDateTime.GetEpoch(),sideLoadOptions);
-
-            return await GenericGetAsync<GroupUserExportResponse>(resource);
+            return await GenericGetAsync<GroupUserExportResponse>(GetResourceStringWithSideLoadOptionsParam(_incremental_export + startTime.UtcDateTime.GetEpoch(), sideLoadOptions));
         }
 
         public async Task<GroupUserExportResponse> GetIncrementalUserExportNextPageAsync(string nextPage)
         {
-            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
-
-            return await GenericGetAsync<GroupUserExportResponse>(resource);
+            return await GenericGetAsync<GroupUserExportResponse>(nextPage.Replace(ZendeskUrl, string.Empty));
         }
 
         public Task<GroupSubscriptionsResponse> GetSubscriptionsAsync(long userId, SubscriptionSideLoadOptions subscriptionSideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null)
@@ -702,7 +686,6 @@ namespace ZendeskApi_v2.Requests
             return GenericPagedGetAsync<GroupSubscriptionsResponse>($"help_center/users/{userId}/subscriptions.json".SubscriptionSideloadUri(subscriptionSideLoadOptions), perPage, page);
         }
 #endif
-
         private string GetResourceStringWithSideLoadOptionsParam(string resource, UserSideLoadOptions sideLoadOptions)
         {
             if (sideLoadOptions != UserSideLoadOptions.None)
