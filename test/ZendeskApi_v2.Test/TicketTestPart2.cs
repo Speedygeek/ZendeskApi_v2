@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public async Task CanGetTicketsByExternalIdAsync()
         {
-            var ticket = new Ticket()
+            var ticket = new Ticket
             {
                 Subject = "my printer is on fire",
                 Comment = new Comment { Body = "HELP", Public = true },
@@ -55,7 +55,7 @@ namespace Tests
         [Test]
         public void CanGetTicketsByExternalId()
         {
-            var ticket = new Ticket()
+            var ticket = new Ticket
             {
                 Subject = "my printer is on fire",
                 Comment = new Comment { Body = "HELP", Public = true },
@@ -70,5 +70,54 @@ namespace Tests
             Assert.That(api.Tickets.Delete(resp1.Ticket.Id.Value), Is.True);
         }
 
+        [Test]
+        public async Task CanBatchUpdateTickets()
+        {
+            string pendingStatus = "pending";
+
+            var tickets = new List<Ticket>{ new Ticket
+            {
+                Subject = "Batch Update Ticket 1",
+                Comment = new Comment { Body = "HELP", Public = true },
+                Priority = TicketPriorities.Urgent,
+                ExternalId = ExternalId
+            },  new Ticket
+            {
+                Subject = "Batch Update Ticket 2",
+                Comment = new Comment { Body = "HELP", Public = true },
+                Priority = TicketPriorities.Urgent,
+                ExternalId = ExternalId
+            }};
+
+            var ticketsToUpdate = new List<Ticket>();
+
+            foreach (var ticket in tickets)
+            {
+                var createResp = await api.Tickets.CreateTicketAsync(ticket);
+                ticketsToUpdate.Add(createResp.Ticket);
+            }
+
+            ticketsToUpdate.ForEach(t => t.Status = pendingStatus);
+
+            var updateResp = await api.Tickets.BatchUpdateAsync(ticketsToUpdate);
+
+            var job = await api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+            var count = 0;
+            while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+            {
+                await Task.Delay(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+                count++;
+            }
+
+            Assert.That(job.JobStatus.Status.ToLower(), Is.EqualTo("completed"));
+
+            foreach (var r in job.JobStatus.Results)
+            {
+                var ticket = (await api.Tickets.GetTicketAsync(r.Id)).Ticket;
+                Assert.That(ticket.Status, Is.EqualTo(pendingStatus));
+                await api.Tickets.DeleteAsync(r.Id);
+            }
+        }
     }
 }
