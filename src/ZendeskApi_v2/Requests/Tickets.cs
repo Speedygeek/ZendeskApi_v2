@@ -88,6 +88,8 @@ namespace ZendeskApi_v2.Requests
 
         JobStatusResponse BulkUpdate(IEnumerable<long> ids, BulkUpdate info);
 
+        JobStatusResponse BatchUpdate(IEnumerable<Ticket> tickets);
+
         bool Delete(long id);
 
         bool DeleteMultiple(IEnumerable<long> ids);
@@ -188,6 +190,8 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualTicketResponse> UpdateTicketAsync(Ticket ticket, Comment comment = null);
 
         Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, BulkUpdate info);
+
+        Task<JobStatusResponse> BatchUpdateAsync(IEnumerable<Ticket> tickets);
 
         Task<bool> DeleteAsync(long id);
 
@@ -439,6 +443,11 @@ namespace ZendeskApi_v2.Requests
         public JobStatusResponse BulkUpdate(IEnumerable<long> ids, BulkUpdate info)
         {
             return GenericPut<JobStatusResponse>($"{_tickets}/update_many.json?ids={ids.ToCsv()}", new { ticket = info });
+        }
+
+        public JobStatusResponse BatchUpdate(IEnumerable<Ticket> tickets)
+        {
+            return GenericPut<JobStatusResponse>($"{_tickets}/update_many.json", new { tickets });
         }
 
         public bool Delete(long id)
@@ -754,6 +763,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, BulkUpdate info)
         {
             return await GenericPutAsync<JobStatusResponse>($"{_tickets}/update_many.json?ids={ids.ToCsv()}", new { ticket = info });
+        }
+
+        public Task<JobStatusResponse> BatchUpdateAsync(IEnumerable<Ticket> tickets)
+        {
+            return GenericPutAsync<JobStatusResponse>($"{_tickets}/update_many.json", new { tickets });
         }
 
         public async Task<bool> DeleteAsync(long id)
