@@ -29,9 +29,9 @@ pr:
 
 steps:
 - task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.1.500'
+  displayName: 'Use .NET Core sdk 2.1.502'
   inputs:
-    version: 2.1.500
+    version: 2.1.502
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'

@@ -10,7 +10,7 @@
     <PackageTags>zendesk api</PackageTags>
     <description>A full c# wrapper for Zendesk's api v2.</description>
     <PackageProjectUrl>https://github.com/mozts2005/ZendeskApi_v2</PackageProjectUrl>
-    <!--<PackageLicenseUrl>https://github.com/mozts2005/ZendeskApi_v2/blob/master/LICENSE.md</PackageLicenseUrl>-->
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/mozts2005/ZendeskApi_v2/master/tools/icon/lotus.png</PackageIconUrl>
     <PackageReleaseNotes>https://github.com/mozts2005/ZendeskApi_v2/releases</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -27,8 +27,8 @@
 
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
-    <NoWarn>1701;1702;NU5105;$(NoWarn)</NoWarn>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+    <NoWarn>1701;1702;NU5105;NU1605;NU1701;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net452'">
@@ -40,7 +40,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.33" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.4-beta" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
