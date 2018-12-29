@@ -23,6 +23,7 @@
     <IncludeSource>false</IncludeSource>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <OutputType>Library</OutputType>
+    <UpdateVersionProperties>true</UpdateVersionProperties>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -12,6 +12,8 @@ variables:
   System.Debug: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  TF_BUILD: true
+
 name: $(GITVERSION_FullSemVer)
 trigger:
   batch: true
