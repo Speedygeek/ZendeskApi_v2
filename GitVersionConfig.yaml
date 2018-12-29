@@ -1,0 +1,8 @@
+next-version: 3.10.0
+assembly-versioning-scheme: MajorMinorPatch
+mode: ContinuousDeployment
+tag-prefix: '[vV]'
+build-metadata-padding: 0
+legacy-semver-padding: 0
+continuous-delivery-fallback-tag: alpha
+commit-message-incrementing: Enabled

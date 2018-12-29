@@ -40,7 +40,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.33" PrivateAssets="all" />
+    <PackageReference Include="GitVersionTask" Version="4.0.0" PrivateAssets="all" />
+     <!--<PackageReference Include="Nerdbank.GitVersioning" Version="2.2.33" PrivateAssets="all" />-->
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
