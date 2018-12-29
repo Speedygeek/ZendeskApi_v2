@@ -23,7 +23,6 @@
     <IncludeSource>false</IncludeSource>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <OutputType>Library</OutputType>
-    <UpdateVersionProperties>true</UpdateVersionProperties>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -41,11 +40,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.4-beta" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
