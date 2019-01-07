@@ -76,6 +76,8 @@ namespace ZendeskApi_v2.Requests
 
         bool DeleteUser(long id);
 
+        bool PermanentlyDeleteUser(long id);
+
         JobStatusResponse BulkDeleteUsers(IEnumerable<User> users);
 
         bool SetUsersPassword(long userId, string newPassword);
@@ -161,6 +163,8 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> UpdateUserAsync(User user);
 
         Task<bool> DeleteUserAsync(long id);
+
+        Task<bool> PermanentlyDeleteUserAsync(long id);
 
         Task<JobStatusResponse> BulkDeleteUsersAsync(IEnumerable<User> users);
 
@@ -366,6 +370,11 @@ namespace ZendeskApi_v2.Requests
         public bool DeleteUser(long id)
         {
             return GenericDelete($"users/{id}.json");
+        }
+
+        public bool PermanentlyDeleteUser(long id)
+        {
+            return GenericDelete($"deleted_users/{id}.json");
         }
 
         public JobStatusResponse BulkDeleteUsers(IEnumerable<User> users)
@@ -599,6 +608,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<bool> DeleteUserAsync(long id)
         {
             return await GenericDeleteAsync($"users/{id}.json");
+        }
+
+        public async Task<bool> PermanentlyDeleteUserAsync(long id)
+        {
+            return await GenericDeleteAsync($"deleted_users/{id}.json");
         }
 
         public Task<JobStatusResponse> BulkDeleteUsersAsync(IEnumerable<User> users)
