@@ -26,10 +26,7 @@ pr:
     - docs/*
     - README.md
 
-jobs:
-- job: Build_Test_Sign_code
-  pool: Hosted VS2017
-  steps:
+steps:
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.1.502'
     inputs:
