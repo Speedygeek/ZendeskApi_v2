@@ -97,8 +97,6 @@ namespace Tests.HelpCenter
 
             var postResp = await api.HelpCenter.Posts.CreatePostAsync(new Post { Title = POST_TITLE, TopicId = topic.Id.Value });
             post = postResp.Post;
-
-            await Task.Delay(100);
         }
 
         [OneTimeTearDown]
@@ -133,7 +131,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetArticlesSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
+            await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
             var listResp = await api.HelpCenter.Articles.GetSubscriptionsAsync(article.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
 
@@ -179,7 +177,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanListUserSubscriptionsAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE) { UserId = Settings.UserId });
+            await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE) { UserId = Settings.UserId });
 
             var listResp = await api.Users.GetSubscriptionsAsync(Settings.UserId);
 

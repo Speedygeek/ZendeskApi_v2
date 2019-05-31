@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Example
         {
             var userEmailToSearchFor = "eneif123@yahoo.com";
 
-            var userName = "csharpzendeskapi1234@gmail.com"; // the user that will be logging in the API aka the call center staff 
+            var userName = "csharpzendeskapi1234@gmail.com"; // the user that will be logging in the API aka the call center staff
             var userPassword = "&H3n!0q^3OjDLdm";
             var companySubDomain = "csharpapi"; // sub-domain for the account with Zendesk
             var api = new ZendeskApi(companySubDomain, userName, userPassword);

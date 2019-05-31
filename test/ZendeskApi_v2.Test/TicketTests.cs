@@ -1392,7 +1392,7 @@ namespace Tests
 
             closedTicket.Status = TicketStatus.Closed;
 
-            var resp2 = await api.Tickets.UpdateTicketAsync(closedTicket, new Comment { Body = "Closing Ticket" });
+            await api.Tickets.UpdateTicketAsync(closedTicket, new Comment { Body = "Closing Ticket" });
 
             var ticket_Followup = new Ticket()
             {

@@ -18,7 +18,7 @@ namespace Tests
             var all = api.Macros.GetAllMacros();
             Assert.Greater(all.Count, 0);
 
-            var ind = api.Macros.GetMacroById(all.Macros[0].Id.Value);
+            api.Macros.GetMacroById(all.Macros[0].Id.Value);
             Assert.Greater(all.Count, 0);
 
             var active = api.Macros.GetActiveMacros();

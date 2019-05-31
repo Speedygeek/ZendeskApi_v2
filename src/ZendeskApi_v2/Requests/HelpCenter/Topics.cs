@@ -92,7 +92,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 #endif
 #if ASYNC
-        public async Task<GroupTopicResponse> GetTopicsAsync(int? perPage = default(int?), int? page = default(int?))
+        public async Task<GroupTopicResponse> GetTopicsAsync(int? perPage = default, int? page = default)
         {
             return await GenericPagedGetAsync<GroupTopicResponse>("community/topics.json", perPage, page);
         }
