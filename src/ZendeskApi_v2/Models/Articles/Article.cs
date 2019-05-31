@@ -70,5 +70,11 @@ namespace ZendeskApi_v2.Models.Articles
 
         [JsonProperty("translations")]
         public IList<Translation> Translations { get; set; }
+
+        [JsonProperty("user_segment_id")]
+        public long? UserSegmentId { get; set; }
+
+        [JsonProperty("permission_group_id")]
+        public long PermissionGroupId { get; set; }
     }
 }

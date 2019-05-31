@@ -51,6 +51,7 @@ namespace ZendeskApi_v2.Models.Sections
         [JsonProperty("translations")]
         public IList<Translation> Translations { get; set; }
 
+        [Obsolete("Deprecated please use options on articles \r\n See: https://develop.zendesk.com/hc/en-us/articles/360001954227 ", true)]
         [JsonProperty("user_segment_id")]
         public long? UserSegmentId { get; set; }
     }

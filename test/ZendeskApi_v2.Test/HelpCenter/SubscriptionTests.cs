@@ -17,7 +17,7 @@ namespace Tests.HelpCenter
         private const string SECTION_NAME = "Subscription Test Section";
         private const string TOPIC_NAME = "Subscription Testing Please Delete";
         private const string POST_TITLE = "Subscription Testing Please Delete";
-        private const string LOCAL = "en-us";
+        private const string LOCALE = "en-us";
         private readonly ZendeskApi api = new ZendeskApi(Settings.Site, Settings.AdminEmail, Settings.AdminPassword);
         private Section section;
         private Article article;
@@ -86,7 +86,7 @@ namespace Tests.HelpCenter
                 }
             } while (!string.IsNullOrWhiteSpace(usersSubscriptions.NextPage));
 
-            var sectionResp = await api.HelpCenter.Sections.CreateSectionAsync(new Section { Name = SECTION_NAME, Locale = LOCAL, CategoryId = Settings.Category_ID });
+            var sectionResp = await api.HelpCenter.Sections.CreateSectionAsync(new Section { Name = SECTION_NAME, Locale = LOCALE, CategoryId = Settings.Category_ID });
             section = sectionResp.Section;
 
             var articleResp = await api.HelpCenter.Articles.CreateArticleAsync(section.Id.Value, new Article { Title = ARTICLE_TITLE });
@@ -97,6 +97,8 @@ namespace Tests.HelpCenter
 
             var postResp = await api.HelpCenter.Posts.CreatePostAsync(new Post { Title = POST_TITLE, TopicId = topic.Id.Value });
             post = postResp.Post;
+
+            await Task.Delay(100);
         }
 
         [OneTimeTearDown]
@@ -111,7 +113,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreateArticleSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
             Assert.That(resp.Subscription, Is.Not.Null);
         }
@@ -119,7 +121,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetArticleSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
             var listResp = await api.HelpCenter.Articles.GetSubscriptionAsync(article.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
 
@@ -131,7 +133,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetArticlesSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
             var listResp = await api.HelpCenter.Articles.GetSubscriptionsAsync(article.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
 
@@ -142,7 +144,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanDeleteArticleSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL));
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
             Assert.That(await api.HelpCenter.Articles.DeleteSubscriptionAsync(article.Id.Value, resp.Subscription.Id.Value), Is.True);
         }
@@ -150,7 +152,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreateSectionSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
+            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCALE));
 
             Assert.That(resp.Subscription, Is.Not.Null);
         }
@@ -158,7 +160,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetSectionSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
+            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCALE));
 
             var listResp = await api.HelpCenter.Sections.GetSubscriptionAsync(section.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Sections);
 
@@ -169,7 +171,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanDeleteSectionsSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCAL));
+            var resp = await api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCALE));
 
             Assert.That(await api.HelpCenter.Sections.DeleteSubscriptionAsync(section.Id.Value, resp.Subscription.Id.Value), Is.True);
         }
@@ -177,7 +179,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanListUserSubscriptionsAsync()
         {
-            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCAL) { UserId = Settings.UserId });
+            var resp = await api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE) { UserId = Settings.UserId });
 
             var listResp = await api.Users.GetSubscriptionsAsync(Settings.UserId);
 
@@ -187,7 +189,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreatePostSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCALE });
 
             Assert.That(resp.Subscription, Is.Not.Null);
         }
@@ -195,7 +197,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetPostSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCALE });
 
             var listResp = await api.HelpCenter.Posts.GetSubscriptionAsync(post.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Users);
 
@@ -206,7 +208,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetPostSubscriptionsAsync()
         {
-            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCALE });
 
             var listResp = await api.HelpCenter.Posts.GetSubscriptionsAsync(post.Id.Value, SubscriptionSideLoadOptions.Users);
 
@@ -217,7 +219,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanDeletePostSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCALE });
 
             Assert.That(await api.HelpCenter.Posts.DeleteSubscriptionAsync(post.Id.Value, resp.Subscription.Id.Value), Is.True);
         }
@@ -225,7 +227,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanCreateTopicSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCAL, IncludeComments = true });
+            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE, IncludeComments = true });
 
             Assert.That(resp.Subscription, Is.Not.Null);
             Assert.That(resp.Subscription.IncludeComments, Is.True);
@@ -234,7 +236,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetTopicSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE });
 
             var listResp = await api.HelpCenter.Topics.GetSubscriptionAsync(topic.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Users);
 
@@ -245,7 +247,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanGetTopicSubscriptionsAsync()
         {
-            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE });
 
             var listResp = await api.HelpCenter.Topics.GetSubscriptionsAsync(topic.Id.Value, SubscriptionSideLoadOptions.Users);
 
@@ -256,7 +258,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanUpdateTopicSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCAL, IncludeComments = true });
+            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE, IncludeComments = true });
             var sub = resp.Subscription;
             sub.IncludeComments = false;
 
@@ -268,7 +270,7 @@ namespace Tests.HelpCenter
         [Test]
         public async Task CanDeleteTopicSubscriptionAsync()
         {
-            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCAL });
+            var resp = await api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE });
 
             Assert.That(await api.HelpCenter.Topics.DeleteSubscriptionAsync(topic.Id.Value, resp.Subscription.Id.Value), Is.True);
         }

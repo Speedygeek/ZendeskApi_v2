@@ -63,22 +63,22 @@ namespace Tests.HelpCenter
             Assert.That(resp.Page, Is.EqualTo(2));
         }
 
-        [Test]
-        public void CanGetSectionsByUserSegment()
-        {
-            var res = api.HelpCenter.UserSegments.GetUserSegments();
-            long category_id = 200382245;
+        //[Test]
+        //public void CanGetSectionsByUserSegment()
+        //{
+        //    var res = api.HelpCenter.UserSegments.GetUserSegments();
+        //    long category_id = 200382245;
 
-            var sectionRes = api.HelpCenter.Sections.CreateSection(new Section {
-                Name = "My Test section",
-                CategoryId = category_id,
-                UserSegmentId = res.UserSegments[0].Id
-            });
+        //    var sectionRes = api.HelpCenter.Sections.CreateSection(new Section {
+        //        Name = "My Test section",
+        //        CategoryId = category_id,
+        //        UserSegmentId = res.UserSegments[0].Id
+        //    });
 
-            var res1 = api.HelpCenter.UserSegments.GetSectionsByUserSegmentId(res.UserSegments[0].Id.Value);
+        //    var res1 = api.HelpCenter.UserSegments.GetSectionsByUserSegmentId(res.UserSegments[0].Id.Value);
 
-            Assert.That(res1.Sections.Count, Is.GreaterThan(0));
-        }
+        //    Assert.That(res1.Sections.Count, Is.GreaterThan(0));
+        //}
 
         [Test]
         public void CanGetTopicsByUserSegment()
@@ -152,22 +152,22 @@ namespace Tests.HelpCenter
             Assert.That(resp.Page, Is.EqualTo(2));
         }
 
-        [Test]
-        public async Task CanGetSectionsByUserSegmentAsync()
-        {
-            var res = await api.HelpCenter.UserSegments.GetUserSegmentsAsync();
-            long category_id = 200382245;
+        //[Test]
+        //public async Task CanGetSectionsByUserSegmentAsync()
+        //{
+        //    var res = await api.HelpCenter.UserSegments.GetUserSegmentsAsync();
+        //    long category_id = 200382245;
 
-            var sectionRes = await api.HelpCenter.Sections.CreateSectionAsync(new Section {
-                Name = "My Test section",
-                CategoryId = category_id,
-                UserSegmentId = res.UserSegments[0].Id
-            });
+        //    var sectionRes = await api.HelpCenter.Sections.CreateSectionAsync(new Section {
+        //        Name = "My Test section",
+        //        CategoryId = category_id,
+        //        UserSegmentId = res.UserSegments[0].Id
+        //    });
 
-            var res1 = await api.HelpCenter.UserSegments.GetSectionsByUserSegmentIdAsync(res.UserSegments[0].Id.Value);
+        //    var res1 = await api.HelpCenter.UserSegments.GetSectionsByUserSegmentIdAsync(res.UserSegments[0].Id.Value);
 
-            Assert.That(res1.Sections.Count, Is.GreaterThan(0));
-        }
+        //    Assert.That(res1.Sections.Count, Is.GreaterThan(0));
+        //}
 
         [Test]
         public async Task CanGetTopicsByUserSegmentAsync()
