@@ -73,7 +73,7 @@ namespace Tests
         [Test]
         public async Task CanBatchUpdateTickets()
         {
-            string pendingStatus = "pending";
+            var pendingStatus = "pending";
 
             var tickets = new List<Ticket>{ new Ticket
             {

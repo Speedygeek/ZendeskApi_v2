@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -19,7 +18,7 @@ namespace ZendeskApi_v2.Models.UserSegments
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))] 
+        [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty("user_type", DefaultValueHandling = DefaultValueHandling.Include)]
         public UserType UserType { get; set; }
 
@@ -31,5 +30,17 @@ namespace ZendeskApi_v2.Models.UserSegments
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
+
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
+        [JsonProperty("updated_at")]
+        public string UpdatedAt { get; set; }
+
+        /// <summary>
+        /// Whether the user segment is built-in. Built-in user segments cannot be modified
+        /// </summary>
+        [JsonProperty("built_in")]
+        public bool BuiltIn { get; set; }
     }
 }

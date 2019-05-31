@@ -157,7 +157,7 @@ namespace Tests
             res1.User.RemotePhotoUrl = "http://i.imgur.com/b2gxj.jpg";
 
             var res2 = api.Users.UpdateUser(res1.User);
-            var blah = api.Users.GetUser(res1.User.Id.Value);
+            api.Users.GetUser(res1.User.Id.Value);
             Assert.AreEqual(res1.User.Phone, res2.User.Phone);
 
             var res3 = api.Users.SuspendUser(res2.User.Id.Value);

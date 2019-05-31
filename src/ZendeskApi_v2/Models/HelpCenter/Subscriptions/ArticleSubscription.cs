@@ -11,15 +11,15 @@ namespace ZendeskApi_v2.Models.HelpCenter.Subscriptions
         [JsonConstructor]
         private ArticleSubscription() { }
 
-        public ArticleSubscription(string local)
+        public ArticleSubscription(string locale)
         {
-            SourceLocal = local ?? throw new ArgumentNullException(nameof(local));
+            SourceLocale = locale ?? throw new ArgumentNullException(nameof(locale));
         }
 
         /// <summary>
         /// only used when create a new article subscription
         /// </summary>
         [JsonProperty("source_locale")]
-        public string SourceLocal { get; }
+        public string SourceLocale { get; }
     }
 }

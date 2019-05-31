@@ -53,7 +53,7 @@ namespace Tests
         [Test]
         public void CanExecuteViews()
         {
-            var views = api.Views.GetAllViews();
+            api.Views.GetAllViews();
             //var res = api.Views.ExecuteView(views.Views.First().Id);
 
             //id for all unsolved tickets

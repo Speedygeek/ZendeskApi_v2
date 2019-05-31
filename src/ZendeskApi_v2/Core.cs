@@ -361,7 +361,8 @@ namespace ZendeskApi_v2
             {
                 return JsonConvert.DeserializeObject<T>("");
             }
-            var test = Regex.Split(pageUrl, "api/v2/");
+
+            _ = Regex.Split(pageUrl, "api/v2/");
 
             var resource = Regex.Split(pageUrl, "api/v2/").Last() + (perPage != 0 ? $"&per_page={perPage}" : "");
             return await RunRequestAsync<T>(resource, RequestMethod.Get);
