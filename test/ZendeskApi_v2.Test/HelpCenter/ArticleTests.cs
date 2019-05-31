@@ -43,7 +43,7 @@ namespace Tests.HelpCenter
             var res = api.HelpCenter.Articles.GetArticles();
             Assert.Greater(res.Count, 0);
 
-            var resSections = api.HelpCenter.Sections.GetSections();
+            api.HelpCenter.Sections.GetSections();
             var res1 = api.HelpCenter.Articles.GetArticlesBySectionId(sectionId);
             Assert.That(res1.Articles[0].SectionId, Is.EqualTo(sectionId));
         }
@@ -172,7 +172,7 @@ namespace Tests.HelpCenter
             var res = await api.HelpCenter.Articles.GetArticlesAsync();
             Assert.Greater(res.Count, 0);
 
-            var resSections = await api.HelpCenter.Sections.GetSectionsAsync();
+           await api.HelpCenter.Sections.GetSectionsAsync();
             var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(sectionId);
             Assert.That(res1.Articles[0].SectionId, Is.EqualTo(sectionId));
         }
