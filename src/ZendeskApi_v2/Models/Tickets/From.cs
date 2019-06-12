@@ -26,6 +26,6 @@ namespace ZendeskApi_v2.Models.Tickets
         /// Will be populated when Ticket is a follow-up. See https://github.com/Speedygeek/ZendeskApi_v2/issues/427.
         /// </summary>
         [JsonProperty("ticket_id")]
-        public string TicketId { get; set; }
+        public long? TicketId { get; set; }
     }
 }
