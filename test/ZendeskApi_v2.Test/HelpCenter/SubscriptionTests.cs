@@ -97,7 +97,7 @@ namespace Tests.HelpCenter
 
             var postResp = await api.HelpCenter.Posts.CreatePostAsync(new Post { Title = POST_TITLE, TopicId = topic.Id.Value });
             post = postResp.Post;
-            await Task.Delay(50);
+            await Task.Delay(10);
         }
 
         [OneTimeTearDown]

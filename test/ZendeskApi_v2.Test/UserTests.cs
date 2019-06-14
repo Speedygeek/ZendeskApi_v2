@@ -294,7 +294,7 @@ namespace Tests
 
             var mergedUser = await api.Users.MergeUserAsync(resultUser1.User.Id.Value, resultUser2.User.Id.Value);
 
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
 
             Assert.That(resultUser2.User.Id, Is.EqualTo(mergedUser.User.Id));
@@ -512,23 +512,23 @@ namespace Tests
             Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
         }
 
-        [Test]
-        public void CanGetIncrementalUserExportWithSideLoadOptions()
-        {
-            Thread.Sleep(60000);
+        //[Test]
+        //public void CanGetIncrementalUserExportWithSideLoadOptions()
+        //{
+        //    Thread.Sleep(60000);
 
-            var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
-            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
-            Assert.That(incrementalUserExport.Identities, Is.Not.Null);
-            Assert.That(incrementalUserExport.Groups, Is.Not.Null);
+        //    var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
+        //    Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+        //    Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
+        //    Assert.That(incrementalUserExport.Identities, Is.Not.Null);
+        //    Assert.That(incrementalUserExport.Groups, Is.Not.Null);
 
-            var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
-            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
-            Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
-            Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
-        }
+        //    var incrementalUserExportNextPage = api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
+        //    Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+        //    Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
+        //    Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
+        //    Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
+        //}
 
         [Test]
         public async Task CanGetIncrementalUserExportAsync()

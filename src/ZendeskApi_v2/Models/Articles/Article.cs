@@ -71,10 +71,11 @@ namespace ZendeskApi_v2.Models.Articles
         [JsonProperty("translations")]
         public IList<Translation> Translations { get; set; }
 
-        [JsonProperty("user_segment_id")]
+        [JsonProperty("user_segment_id", NullValueHandling = NullValueHandling.Include,
+            DefaultValueHandling = DefaultValueHandling.Include )]
         public long? UserSegmentId { get; set; }
 
         [JsonProperty("permission_group_id")]
-        public long PermissionGroupId { get; set; }
+        public long PermissionGroupId { get; set; } = 221866;
     }
 }
