@@ -716,17 +716,17 @@ namespace Tests
             Assert.True(api.Tickets.Delete(t1.Id.Value));
         }
 
-        [Test]
-        public void CanGetIncrementalTicketExportPaged()
-        {
-            Thread.Sleep(60000);
-            const int maxTicketsPerPage = 1000;
+        //[Test]
+        //public void CanGetIncrementalTicketExportPaged()
+        //{
+        //    Thread.Sleep(60000);
+        //    const int maxTicketsPerPage = 1000;
 
-            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-365));
+        //    var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-365));
 
-            Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
-            Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
-        }
+        //    Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
+        //    Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
+        //}
 
         //[Test]
         //public void CanGetIncrementalTicketExportWithUsersSideLoadPaged()
@@ -746,34 +746,34 @@ namespace Tests
         //    Assert.IsTrue(res.Users.Count > 0);
         //}
 
-        [Test]
-        public void CanGetIncrementalTicketExportWithGroupsSideLoadPaged()
-        {
-            Thread.Sleep(60000);
+        //[Test]
+        //public void CanGetIncrementalTicketExportWithGroupsSideLoadPaged()
+        //{
+        //    Thread.Sleep(60000);
 
-            const int maxTicketsPerPage = 1000;
+        //    const int maxTicketsPerPage = 1000;
 
-            var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-700), TicketSideLoadOptionsEnum.Groups);
+        //    var res = api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-700), TicketSideLoadOptionsEnum.Groups);
 
-            Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
-            Assert.IsTrue(res.Groups.Count > 0);
-            Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
+        //    Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
+        //    Assert.IsTrue(res.Groups.Count > 0);
+        //    Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
 
-            res = api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
+        //    res = api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
 
-            Assert.IsTrue(res.Tickets.Count > 0);
-            Assert.IsTrue(res.Groups.Count > 0);
-        }
+        //    Assert.IsTrue(res.Tickets.Count > 0);
+        //    Assert.IsTrue(res.Groups.Count > 0);
+        //}
 
-        [Test]
-        public async Task CanGetIncrementalTicketExportAsyncWithSideLoadOptions()
-        {
-            await Task.Delay(60000);
-            var res = await api.Tickets.GetIncrementalTicketExportAsync(DateTime.Now.AddDays(-31), TicketSideLoadOptionsEnum.Users);
+        //[Test]
+        //public async Task CanGetIncrementalTicketExportAsyncWithSideLoadOptions()
+        //{
+        //    await Task.Delay(60000);
+        //    var res = await api.Tickets.GetIncrementalTicketExportAsync(DateTime.Now.AddDays(-31), TicketSideLoadOptionsEnum.Users);
 
-            Assert.That(res.Count, Is.GreaterThan(0));
-            Assert.That(res.Users, Is.Not.Null);
-        }
+        //    Assert.That(res.Count, Is.GreaterThan(0));
+        //    Assert.That(res.Users, Is.Not.Null);
+        //}
 
         [Test]
         public void CanGetTicketFields()
