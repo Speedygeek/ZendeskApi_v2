@@ -36,6 +36,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
+    command: build
     projects: 'src/ZendeskApi_v2.sln'
     arguments: '-c $(BuildConfiguration)'
 
@@ -43,7 +44,7 @@ steps:
   displayName: 'dotnet test'
   inputs:
     command: test
-    projects: 'test/**/*.csproj'
+    projects: 'test/ZendeskApi_v2.Test/ZendeskApi_v2.Test.csproj'
     arguments: '--no-build -c $(BuildConfiguration)'
 
 - task: DotNetCoreCLI@2
