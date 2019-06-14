@@ -147,7 +147,8 @@ namespace Tests.HelpCenter
             {
                 Title = "My Test article",
                 Body = "The body of my article",
-                Locale = "en-us"
+                Locale = "en-us",
+                PermissionGroupId = 221866,
             });
             Assert.Greater(res.Article.Id, 0);
 
@@ -172,7 +173,7 @@ namespace Tests.HelpCenter
             var res = await api.HelpCenter.Articles.GetArticlesAsync();
             Assert.Greater(res.Count, 0);
 
-           await api.HelpCenter.Sections.GetSectionsAsync();
+            await api.HelpCenter.Sections.GetSectionsAsync();
             var res1 = await api.HelpCenter.Articles.GetArticlesBySectionIdAsync(sectionId);
             Assert.That(res1.Articles[0].SectionId, Is.EqualTo(sectionId));
         }
@@ -185,7 +186,8 @@ namespace Tests.HelpCenter
             {
                 Title = "My Test article",
                 Body = "The body of my article",
-                Locale = "en-us"
+                Locale = "en-us",
+                PermissionGroupId = 221866
             });
 
             Assert.Greater(res.Article.Id, 0);
