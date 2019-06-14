@@ -4,6 +4,6 @@
 // a specific target and scoped to a namespace, type, member, etc.
 
 //[assembly: NUnit.Framework.LevelOfParallelism(0)]
-[assembly: NUnit.Framework.Parallelizable(NUnit.Framework.ParallelScope.Fixtures)]
+//[assembly: NUnit.Framework.Parallelizable(NUnit.Framework.ParallelScope.Fixtures)]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SEC0112:Path Tampering Unvalidated File Path", Justification = "Unit Test", Scope = "type", Target = "Tests.UserTests")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SEC0112:Path Tampering Unvalidated File Path", Justification = "Unit Test", Scope = "type", Target = "Tests.TicketTests")]
