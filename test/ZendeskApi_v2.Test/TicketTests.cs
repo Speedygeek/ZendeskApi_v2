@@ -914,18 +914,15 @@ namespace Tests
             Assert.True(api.Tickets.DeleteTicketField(id));
         }
 
-        //[Test]
-        //[Ignore("Need to Create Suspended Ticket Working with Zendesk support Team")]
-        //public void CanGetSuspendedTickets()
-        //{
-        //    ZendeskApi_v2.Models.Tickets.Suspended.GroupSuspendedTicketResponse all = api.Tickets.GetSuspendedTickets();
-        //    Assert.Greater(all.Count, 0);
+        [Test]
+        public void CanGetSuspendedTickets()
+        {
+            var all = api.Tickets.GetSuspendedTickets();
+            Assert.Greater(all.Count, 0);
 
-        //    ZendeskApi_v2.Models.Tickets.Suspended.IndividualSuspendedTicketResponse ind = api.Tickets.GetSuspendedTicketById(all.SuspendedTickets[0].Id);
-        //    Assert.AreEqual(ind.SuspendedTicket.Id, all.SuspendedTickets[0].Id);
-
-        //    //There is no way to suspend a ticket so I can run a tests for recovering and deleting them
-        //}
+            var ind = api.Tickets.GetSuspendedTicketById(all.SuspendedTickets[0].Id);
+            Assert.AreEqual(ind.SuspendedTicket.Id, all.SuspendedTickets[0].Id);
+        }
 
         [Test]
         public void CanGetTicketForms()
