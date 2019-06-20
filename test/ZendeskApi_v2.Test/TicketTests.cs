@@ -934,9 +934,6 @@ namespace Tests
         [Test]
         public void CanCreateUpdateAndDeleteTicketForms()
         {
-            //api.Tickets.DeleteTicketForm(52523);
-            //return;
-
             var res = api.Tickets.CreateTicketForm(new TicketForm()
             {
                 Name = "Snowboard Problem",
@@ -961,16 +958,6 @@ namespace Tests
             Assert.AreEqual(update.TicketForm.Name, res.TicketForm.Name);
 
             Assert.True(api.Tickets.DeleteTicketForm(res.TicketForm.Id.Value));
-        }
-
-        [Test]
-        public void CanReorderTicketForms()
-        {
-        }
-
-        [Test]
-        public void CanCloneTicketForms()
-        {
         }
 
         [Test]
