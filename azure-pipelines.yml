@@ -31,19 +31,19 @@ steps:
   displayName: 'dotnet build'
   inputs:
     command: build
-    projects: 'src/ZendeskApi_v2.sln'
+    projects: 'src/Speedygeek.ZendeskAPI.sln'
     arguments: '-c $(BuildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
   inputs:
     command: test
-    projects: 'test/ZendeskApi_v2.Test/ZendeskApi_v2.Test.csproj'
+    projects: 'src/Speedygeek.ZendeskAPI.UnitTests/Speedygeek.ZendeskAPI.UnitTests.csproj'
     arguments: '--no-build -c $(BuildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet pack'
   inputs:
     command: pack
-    searchPatternPack: 'src/ZendeskApi_v2/ZendeskApi_v2.csproj'
+    searchPatternPack: 'src/Speedygeek.ZendeskAPI/Speedygeek.ZendeskAPI.csproj'
     nobuild: true
