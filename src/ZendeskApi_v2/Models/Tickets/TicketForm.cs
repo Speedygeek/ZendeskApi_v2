@@ -17,8 +17,14 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("raw_name")]
+        public string RawName { get; set; }
+
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
+
+        [JsonProperty("raw_display_name")]
+        public string RawDisplayName { get; set; }
 
         [JsonProperty("end_user_visible")]
         public bool EndUserVisible { get; set; }
@@ -34,6 +40,18 @@ namespace ZendeskApi_v2.Models.Tickets
 
         [JsonProperty("default")]
         public bool Default { get; set; }
+
+        [JsonProperty("in_all_brands")]
+        public bool InAllBrands { get; set; }
+
+        [JsonProperty("restricted_brand_ids")]
+        public IList<long> RestrictedBrandIds { get; set; }
+
+        [JsonProperty("agent_conditions")]
+        public IList<TicketFormCondition> AgentConditions { get; set; }
+
+        [JsonProperty("end_user_conditions")]
+        public IList<TicketFormCondition> EndUserConditions { get; set; }
 
         [JsonProperty("created_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
