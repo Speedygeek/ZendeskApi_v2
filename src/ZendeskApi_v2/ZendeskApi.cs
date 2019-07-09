@@ -34,6 +34,7 @@ namespace ZendeskApi_v2
         IVoice Voice { get; }
         ISchedules Schedules { get; }
         ITargets Targets { get; }
+        IAutomations Automations { get; }
 
         string ZendeskUrl { get; }
     }
@@ -62,6 +63,7 @@ namespace ZendeskApi_v2
         public IVoice Voice { get; set; }
         public ISchedules Schedules { get; set; }
         public ITargets Targets { get; set; }
+        public IAutomations Automations { get; set; }
 
         public string ZendeskUrl { get; set; }
 
@@ -142,6 +144,7 @@ namespace ZendeskApi_v2
             Voice = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken);
             Schedules = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken);
             Targets = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken);
+            Automations = new Automations(formattedUrl, user, password, apiToken, p_OAuthToken);
 
             ZendeskUrl = formattedUrl;
         }
@@ -181,6 +184,7 @@ namespace ZendeskApi_v2
             ((Voice)Voice).Proxy = proxy;
             ((Schedules)Schedules).Proxy = proxy;
             ((Targets)Targets).Proxy = proxy;
+            ((Automations)Automations).Proxy = proxy;
         }
 #endif
         private Uri GetFormattedZendeskUrl(string yourZendeskUrl)

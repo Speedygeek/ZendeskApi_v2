@@ -16,20 +16,20 @@ namespace ZendeskApi_v2.Requests
         GroupAutomationResponse GetAutomations();
         IndividualAutomationResponse GetAutomationById(long id);
         GroupAutomationResponse GetActiveAutomations();
+        GroupAutomationResponse SearchAutomations(string query);
         IndividualAutomationResponse CreateAutomation(Automation Automation);
         IndividualAutomationResponse UpdateAutomation(Automation Automation);
         bool DeleteAutomation(long id);
-        bool ReorderAutomations(IEnumerable<long> Automation_ids);
 #endif
 
 #if ASYNC
         Task<GroupAutomationResponse> GetAutomationsAsync();
         Task<IndividualAutomationResponse> GetAutomationByIdAsync(long id);
         Task<GroupAutomationResponse> GetActiveAutomationsAsync();
+        Task<GroupAutomationResponse> SearchAutomationsAsync(string query);
         Task<IndividualAutomationResponse> CreateAutomationAsync(Automation Automation);
         Task<IndividualAutomationResponse> UpdateAutomationAsync(Automation Automation);
         Task<bool> DeleteAutomationAsync(long id);
-        Task<bool> ReorderAutomationsAsync(IEnumerable<long> Automation_ids);
 #endif
     }
 
@@ -43,80 +43,78 @@ namespace ZendeskApi_v2.Requests
 #if SYNC
         public GroupAutomationResponse GetAutomations()
         {
-            return GenericGet<GroupAutomationResponse>(string.Format("Automations.json"));
+            return GenericGet<GroupAutomationResponse>(string.Format("automations.json"));
         }
 
         public IndividualAutomationResponse GetAutomationById(long id)
         {
-            return GenericGet<IndividualAutomationResponse>($"Automations/{id}.json");
+            return GenericGet<IndividualAutomationResponse>($"automations/{id}.json");
         }
 
         public GroupAutomationResponse GetActiveAutomations()
         {
-            return GenericGet<GroupAutomationResponse>(string.Format("Automations/active.json"));
+            return GenericGet<GroupAutomationResponse>(string.Format("automations/active.json"));
+        }
+
+        public GroupAutomationResponse SearchAutomations(string query)
+        {
+            return GenericGet<GroupAutomationResponse>(string.Format($"automations/search.json?query={query}"));
         }
 
         public IndividualAutomationResponse CreateAutomation(Automation Automation)
         {
             var body = new { Automation };
-            return GenericPost<IndividualAutomationResponse>("Automations.json", body);
+            return GenericPost<IndividualAutomationResponse>("automations.json", body);
         }
 
         public IndividualAutomationResponse UpdateAutomation(Automation Automation)
         {
             var body = new { Automation };
-            return GenericPut<IndividualAutomationResponse>($"Automations/{Automation.Id}.json", body);
+            return GenericPut<IndividualAutomationResponse>($"automations/{Automation.Id}.json", body);
         }
 
         public bool DeleteAutomation(long id)
         {
-            return GenericDelete($"Automations/{id}.json");
-        }
-
-        public bool ReorderAutomations(IEnumerable<long> Automation_ids)
-        {
-            var body = new { Automation_ids };
-            return GenericBoolPut("Automations/reorder.json", body);
+            return GenericDelete($"automations/{id}.json");
         }
 #endif
 
 #if ASYNC    
         public async Task<GroupAutomationResponse> GetAutomationsAsync()
         {
-            return await GenericGetAsync<GroupAutomationResponse>(string.Format("Automations.json"));
+            return await GenericGetAsync<GroupAutomationResponse>(string.Format("automations.json"));
         }
 
         public async Task<IndividualAutomationResponse> GetAutomationByIdAsync(long id)
         {
-            return await GenericGetAsync<IndividualAutomationResponse>($"Automations/{id}.json");
+            return await GenericGetAsync<IndividualAutomationResponse>($"automations/{id}.json");
         }
 
         public async Task<GroupAutomationResponse> GetActiveAutomationsAsync()
         {
-            return await GenericGetAsync<GroupAutomationResponse>(string.Format("Automations/active.json"));
+            return await GenericGetAsync<GroupAutomationResponse>(string.Format("automations/active.json"));
+        }
+
+        public async Task<GroupAutomationResponse> SearchAutomationsAsync(string query)
+        {
+            return await GenericGetAsync<GroupAutomationResponse>(string.Format($"automations/search.json?query={query}"));
         }
 
         public async Task<IndividualAutomationResponse> CreateAutomationAsync(Automation Automation)
         {
             var body = new { Automation };
-            return await GenericPostAsync<IndividualAutomationResponse>("Automations.json", body);
+            return await GenericPostAsync<IndividualAutomationResponse>("automations.json", body);
         }
 
         public async Task<IndividualAutomationResponse> UpdateAutomationAsync(Automation Automation)
         {
             var body = new { Automation };
-            return await GenericPutAsync<IndividualAutomationResponse>($"Automations/{Automation.Id}.json", body);
+            return await GenericPutAsync<IndividualAutomationResponse>($"automations/{Automation.Id}.json", body);
         }
 
         public async Task<bool> DeleteAutomationAsync(long id)
         {
-            return await GenericDeleteAsync($"Automations/{id}.json");
-        }
-
-        public async Task<bool> ReorderAutomationsAsync(IEnumerable<long> Automation_ids)
-        {
-            var body = new { Automation_ids };
-            return await GenericBoolPutAsync("Automations/reorder.json", body);
+            return await GenericDeleteAsync($"automations/{id}.json");
         }
 #endif
     }

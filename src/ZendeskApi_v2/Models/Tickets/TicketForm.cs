@@ -17,14 +17,8 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("raw_name")]
-        public string RawName { get; set; }
-
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
-
-        [JsonProperty("raw_display_name")]
-        public string RawDisplayName { get; set; }
 
         [JsonProperty("end_user_visible")]
         public bool EndUserVisible { get; set; }
