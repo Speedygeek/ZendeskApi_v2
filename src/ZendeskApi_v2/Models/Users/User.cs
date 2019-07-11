@@ -41,6 +41,9 @@ namespace ZendeskApi_v2.Models.Users
         [JsonProperty("phone")]
         public string Phone { get; set; }
 
+        [JsonProperty("shared_phone_number")]
+        public bool? SharedPhoneNumber { get; set; }
+
         [JsonProperty("signature")]
         public string Signature { get; set; }
 
