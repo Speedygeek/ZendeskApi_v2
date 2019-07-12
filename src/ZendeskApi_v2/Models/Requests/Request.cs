@@ -37,6 +37,9 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("status")]
         public string Status { get; set; }
 
+        [JsonProperty("priority")]
+        public string Priority { get; set; }
+
         [JsonProperty("subject")]
         public string Subject { get; set; }
 
@@ -46,8 +49,24 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("organization_id")]
         public long? OrganizationId { get; set; }
 
+        [JsonProperty("requester_id")]
+        public long? RequesterId { get; set; }
+
+        [JsonProperty("assignee_id")]
+        public long AssigneeId { get; set; }
+
+        [JsonProperty("group_id")]
+        public long GroupId { get; set; }
+
         [JsonProperty("via")]
         public Via Via { get; set; }
+
+        [JsonProperty("is_public")]
+        public bool IsPublic { get; set; }
+
+        [JsonProperty("due_at")]
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset? DueAt { get; set; }
 
         [JsonProperty("custom_fields")]
         public IList<CustomField> CustomFields { get; set; }
@@ -59,9 +78,6 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
-
-        [JsonProperty("requester_id")]
-        public long? RequesterId { get; set; }
 
         /// <summary>
         /// If true, end user can mark request as solved.
@@ -77,6 +93,15 @@ namespace ZendeskApi_v2.Models.Requests
         /// </summary>
         [JsonProperty("solved")]
         public bool? Solved { get; set; }
+
+        [JsonProperty("ticket_form_id")]
+        public long TicketFormId { get; set; }
+
+        [JsonProperty("recipient")]
+        public string recipient { get; set; }
+
+        [JsonProperty("followup_source_id")]
+        public string FollowupSourceId { get; set; }
 
         /// <summary>
         /// This is used for updates only
