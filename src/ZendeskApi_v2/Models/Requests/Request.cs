@@ -55,7 +55,7 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("assignee_id")]
         public long AssigneeId { get; set; }
 
-        [JosnProperty("group_id")]
+        [JsonProperty("group_id")]
         public long GroupId { get; set; }
 
         [JsonProperty("via")]
