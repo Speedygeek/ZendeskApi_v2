@@ -64,7 +64,6 @@ namespace ZendeskApi_v2.Models.Requests
         [JosnProperty("is_public")]
         public bool IsPublic { get; set; }
 
-
         [JsonProperty("due_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? DueAt { get; set; }
