@@ -61,7 +61,7 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("via")]
         public Via Via { get; set; }
 
-        [JosnProperty("is_public")]
+        [JsonProperty("is_public")]
         public bool IsPublic { get; set; }
 
         [JsonProperty("due_at")]
