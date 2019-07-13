@@ -323,10 +323,10 @@ namespace Tests
         public void CanGetMultipleTicketsPaged()
         {
             var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
-            var tickets = api.Tickets.GetMultipleTickets(ids, 1, 2);
+            var tickets = api.Tickets.GetMultipleTickets(ids, 1, 1);
 
-            Assert.AreEqual(2, tickets.PageSize);
-            Assert.AreEqual(2, tickets.Tickets.Count);
+            Assert.AreEqual(1, tickets.PageSize);
+            Assert.AreEqual(1, tickets.Tickets.Count);
             Assert.Greater(tickets.Count, 0);
 
             var nextPage = tickets.NextPage.GetQueryStringDict()
@@ -343,10 +343,10 @@ namespace Tests
         public async Task CanGetMultipleTicketsAsyncPaged()
         {
             var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
-            var tickets = await api.Tickets.GetMultipleTickets(ids, 1, 2);
+            var tickets = await api.Tickets.GetMultipleTickets(ids, 1, 1);
 
-            Assert.AreEqual(2, tickets.PageSize);
-            Assert.AreEqual(2, tickets.Tickets.Count);
+            Assert.AreEqual(1, tickets.PageSize);
+            Assert.AreEqual(1, tickets.Tickets.Count);
             Assert.Greater(tickets.Count, 0);
 
             var nextPage = tickets.NextPage.GetQueryStringDict()
