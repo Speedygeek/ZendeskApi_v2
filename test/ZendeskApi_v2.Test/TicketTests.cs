@@ -320,6 +320,46 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetMultipleTicketsPaged()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var tickets = api.Tickets.GetMultipleTickets(ids, 1, 2);
+
+            Assert.AreEqual(2, tickets.PageSize);
+            Assert.AreEqual(2, tickets.Tickets.Count);
+            Assert.Greater(tickets.Count, 0);
+
+            var nextPage = tickets.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("2", nextPage);
+        }
+
+        [Test]
+        public async Task CanGetMultipleTicketsAsyncPaged()
+        {
+            var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
+            var tickets = await api.Tickets.GetMultipleTickets(ids, 1, 2);
+
+            Assert.AreEqual(2, tickets.PageSize);
+            Assert.AreEqual(2, tickets.Tickets.Count);
+            Assert.Greater(tickets.Count, 0);
+
+            var nextPage = tickets.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+
+            Assert.AreEqual("2", nextPage);
+        }
+
+        [Test]
         public void BooleanCustomFieldValuesArePreservedOnUpdate()
         {
             var ticket = new Ticket()
