@@ -74,6 +74,10 @@ namespace ZendeskApi_v2.Requests
 
         GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
+        GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, string sortBy, bool sortAscending, int pageNumber, int itemsPerPage, TicketS
+
         IndividualTicketResponse CreateTicket(Ticket ticket);
 
         JobStatusResponse CreateManyTickets(IEnumerable<Ticket> tickets);
@@ -176,6 +180,10 @@ namespace ZendeskApi_v2.Requests
         Task<GroupCommentResponse> GetTicketCommentsAsync(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket);
 
@@ -392,6 +400,18 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
             return GenericGet<GroupTicketResponse>(resource);
+        }
+
+        public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            return GenericPagedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
+        }
+
+        public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, string sortBy, bool sortAscending, int pageNumber, int itemsPerPage, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            return GenericPagedSortedGet<GroupTicketResponse>(resource, itemsPerPage, pageNumber, sortBy, sortAscending);
         }
 
         public IndividualTicketResponse CreateTicket(Ticket ticket)
@@ -712,6 +732,18 @@ namespace ZendeskApi_v2.Requests
         public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             return await GenericGetAsync<GroupTicketResponse>(GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions));
+        }
+
+        public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
+        }
+
+        public async Task<GroupTicketResponse> GetMultipleTicketsAsync(IEnumerable<long> ids, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/show_many.json?ids={ids.ToCsv()}", sideLoadOptions);
+            return await GenericPagedSortedGetAsync<GroupTicketResponse>(resource, perPage, page, sortBy, sortAscending);
         }
 
         public async Task<IndividualTicketResponse> CreateTicketAsync(Ticket ticket)
