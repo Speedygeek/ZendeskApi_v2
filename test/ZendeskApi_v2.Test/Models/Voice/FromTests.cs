@@ -15,11 +15,11 @@ namespace Tests.Models.Voice
             var from = JsonConvert.DeserializeObject<CurrentQueueActivityResponse>(AllFieldsJson);
 
             Assert.NotNull(from);
-            Assert.AreEqual(3, from.CurrentQueueActivity.AgentsOnline);
-            Assert.AreEqual(13, from.CurrentQueueActivity.CallsWaiting);
-            Assert.AreEqual(7, from.CurrentQueueActivity.CallbacksWaiting);
-            Assert.AreEqual(142, from.CurrentQueueActivity.AverageWaitTime);
-            Assert.AreEqual(387, from.CurrentQueueActivity.LongestWaitTime);
+            Assert.That(from.CurrentQueueActivity.AgentsOnline, Is.EqualTo(3));
+            Assert.That(from.CurrentQueueActivity.CallsWaiting, Is.EqualTo(13));
+            Assert.That(from.CurrentQueueActivity.CallbacksWaiting, Is.EqualTo(7));
+            Assert.That(from.CurrentQueueActivity.AverageWaitTime, Is.EqualTo(142));
+            Assert.That(from.CurrentQueueActivity.LongestWaitTime, Is.EqualTo(387));
         }
     }
 }
