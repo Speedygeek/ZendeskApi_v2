@@ -13,7 +13,7 @@ namespace ZendeskApi_v2.Requests
         bool OpenUserProfileInAgentBrowser(long agentId, long userId);
         bool OpenTicketInAgentBrowser(long agentId, long ticketId);
         GroupAgentActivityResponse GetVoiceAgentActivity();
-        CurrentQueueActivity GetCurrentQueueActivity();
+        CurrentQueueActivityResponse GetCurrentQueueActivity();
 
 #endif
 
@@ -21,7 +21,7 @@ namespace ZendeskApi_v2.Requests
         Task<bool> OpenUserProfileInAgentBrowserAsync(long agentId, long userId);
         Task<bool> OpenTicketInAgentBrowserAsync(long agentId, long ticketId);
         Task<GroupAgentActivityResponse> GetVoiceAgentActivityAsync();
-        Task<CurrentQueueActivity> GetCurrentQueueActivityAsync();
+        Task<CurrentQueueActivityResponse> GetCurrentQueueActivityAsync();
 #endif
     }
 
@@ -56,9 +56,9 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupAgentActivityResponse>(agentsActivity + ".json");
         }
 
-        public CurrentQueueActivity GetCurrentQueueActivity()
+        public CurrentQueueActivityResponse GetCurrentQueueActivity()
         {
-            return GenericGet<CurrentQueueActivity>(currentQueueActivity + ".json");
+            return GenericGet<CurrentQueueActivityResponse>(currentQueueActivity + ".json");
         }
 
 #endif
@@ -79,9 +79,9 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<GroupAgentActivityResponse>(agentsActivity + ".json");
         }
 
-        public async Task<CurrentQueueActivity> GetCurrentQueueActivityAsync()
+        public async Task<CurrentQueueActivityResponse> GetCurrentQueueActivityAsync()
         {
-            return await GenericGetAsync<CurrentQueueActivity>(currentQueueActivity + ".json");
+            return await GenericGetAsync<CurrentQueueActivityResponse>(currentQueueActivity + ".json");
         }
 #endif
     }
