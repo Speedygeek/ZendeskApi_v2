@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Models.Shared
         public string Type { get; set; }
 
         [JsonProperty("body")]
-        public object Body { get; set; }
+        public dynamic Body { get; set; }
 
         [JsonProperty("public")]
         public bool Public { get; set; }        
