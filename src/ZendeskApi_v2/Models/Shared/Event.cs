@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace ZendeskApi_v2.Models.Shared
@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Models.Shared
         public string Type { get; set; }
 
         [JsonProperty("body")]
-        public string Body { get; set; }
+        public dynamic Body { get; set; }
 
         [JsonProperty("public")]
         public bool Public { get; set; }        
