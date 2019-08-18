@@ -92,6 +92,19 @@ namespace Tests
             Assert.NotNull(res);
         }
 
+        [Test]
+        public void GetAccountOverview()
+        {
+            var res = api.Voice.GetAccountOverview();
+            Assert.That(res, Is.Not.Null);
+        }
+
+        [Test]
+        public void GetAccountOverviewAsync()
+        {
+            var res = api.Voice.GetAccountOverviewAsync();
+            Assert.That(res, Is.Not.Null);
+        }
 
     }
 }
