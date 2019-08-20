@@ -14,6 +14,7 @@ namespace ZendeskApi_v2.Requests
         bool OpenTicketInAgentBrowser(long agentId, long ticketId);
         GroupAgentActivityResponse GetVoiceAgentActivity();
         CurrentQueueActivityResponse GetCurrentQueueActivity();
+        AccountOverviewResponse GetAccountOverview();
 
 #endif
 
@@ -22,6 +23,7 @@ namespace ZendeskApi_v2.Requests
         Task<bool> OpenTicketInAgentBrowserAsync(long agentId, long ticketId);
         Task<GroupAgentActivityResponse> GetVoiceAgentActivityAsync();
         Task<CurrentQueueActivityResponse> GetCurrentQueueActivityAsync();
+        Task<AccountOverviewResponse> GetAccountOverviewAsync();
 #endif
     }
 
@@ -33,7 +35,7 @@ namespace ZendeskApi_v2.Requests
         private const string users = "users";
         private const string agentsActivity = "channels/voice/stats/agents_activity";
         private const string currentQueueActivity = "channels/voice/stats/current_queue_activity";
-
+        private const string accountOverview = "channels/voice/stats/account_overview";
 
         public Voice(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
             : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
@@ -61,6 +63,11 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<CurrentQueueActivityResponse>(currentQueueActivity + ".json");
         }
 
+        public AccountOverviewResponse GetAccountOverview()
+        {
+            return GenericGet<AccountOverviewResponse>(accountOverview + ".json");
+        }
+
 #endif
 
 #if ASYNC
@@ -82,6 +89,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<CurrentQueueActivityResponse> GetCurrentQueueActivityAsync()
         {
             return await GenericGetAsync<CurrentQueueActivityResponse>(currentQueueActivity + ".json");
+        }
+
+        public async Task<AccountOverviewResponse> GetAccountOverviewAsync()
+        {
+            return await GenericGetAsync<AccountOverviewResponse>(accountOverview + ".json");
         }
 #endif
     }
