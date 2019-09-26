@@ -137,7 +137,7 @@ namespace ZendeskApi_v2
 
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
-                req.Timeout = timeout ?? req.Timeout;
+                req.Timeout = 120000; //?? req.Timeout;
 
                 byte[] data = null;
 
@@ -269,7 +269,7 @@ namespace ZendeskApi_v2
 
             if (sortAscending.HasValue)
             {
-                parameters.Add("sort_order", sortAscending.Value ? "" : "desc");
+                parameters.Add("sort_order", sortAscending.Value ? "asc" : "desc");
             }
 
             if (parameters.Any())
@@ -517,7 +517,7 @@ namespace ZendeskApi_v2
 
             if (sortAscending.HasValue)
             {
-                parameters.Add("sort_order", sortAscending.Value ? "" : "desc");
+                parameters.Add("sort_order", sortAscending.Value ? "asc" : "desc");
             }
 
             if (parameters.Any())

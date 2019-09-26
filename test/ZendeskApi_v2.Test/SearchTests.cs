@@ -26,9 +26,10 @@ namespace Tests
         [Test]
         public void BackwardCompatibilitAfterAddingPagination()
         {
-            var res = api.Search.SearchFor("Effective", "created_at", "asc");
+            var res = api.Search.SearchFor("Effective", "updated_at", "asc");
             Assert.IsTrue(res.Count > 0);
         }
+
         [Test]
         public void TotalNumberOftickesShouldbeSameWhenReterivingNextPage()
         {
@@ -39,11 +40,12 @@ namespace Tests
             Assert.IsTrue(res.Count > res.Results.Count); //result has more than one page
             Assert.IsTrue(!string.IsNullOrEmpty(res.NextPage)); //It has next page
 
-            res = api.Search.SearchFor("Effective", "", "", 2); //fetch next page
+            res = api.Search.SearchFor("Effective", page: 2); //fetch next page
             Assert.IsTrue(res.Count > 0);
             Assert.IsTrue(res.Count == total); //number of results should be same as page 1
 
         }
+
         [Test]
         public void TicketHasSubject()
         {
