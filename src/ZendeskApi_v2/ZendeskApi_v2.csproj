@@ -11,7 +11,7 @@
     <description>A full c# wrapper for Zendesk's api v2.</description>
     <PackageProjectUrl>https://github.com/mozts2005/ZendeskApi_v2</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/mozts2005/ZendeskApi_v2/master/tools/icon/lotus.png</PackageIconUrl>
+    <PackageIcon>lotus.png</PackageIcon>
     <PackageReleaseNotes>https://github.com/mozts2005/ZendeskApi_v2/releases</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -41,7 +41,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.0-beta3-4">
+    <PackageReference Include="GitVersionTask" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -51,5 +51,9 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
     <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\tools\icon\lotus.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>
