@@ -1,19 +1,10 @@
-using Newtonsoft.Json;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using ZendeskApi_v2;
-using ZendeskApi_v2.Extensions;
-using ZendeskApi_v2.Models.Brands;
 using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
-using ZendeskApi_v2.Requests;
 
 namespace Tests
 {
@@ -118,6 +109,32 @@ namespace Tests
                 Assert.That(ticket.Status, Is.EqualTo(pendingStatus));
                 await api.Tickets.DeleteAsync(r.Id);
             }
+        }
+
+        [Test]
+        public async Task CustomDropDownFieldSaveAsync()
+        {
+            var ticket = new Ticket()
+            {
+                Subject = "my printer is on fire",
+                Comment = new Comment { Body = "HELP" },
+                Priority = TicketPriorities.Urgent,
+                CustomFields = new List<CustomField> { new CustomField { Id = Settings.CustomDropDownId, Value = "justwork" } }
+            };
+
+            var resp = api.Tickets.CreateTicket(ticket);
+            var newTicket = resp.Ticket;
+            Assert.That(ticket.CustomFields[0].Value, Is.EqualTo(newTicket.CustomFields.FirstOrDefault(x => x.Id == Settings.CustomDropDownId).Value));
+
+            newTicket.CustomFields.FirstOrDefault(x => x.Id == Settings.CustomDropDownId).Value = "brake_fix";
+
+            var resp2 = await api.Tickets.UpdateTicketAsync(newTicket, new Comment { Body = "Update ticket" });
+            var updateTicket = resp2.Ticket;
+
+            Assert.That(newTicket.CustomFields.FirstOrDefault(x => x.Id == Settings.CustomDropDownId).Value,
+                Is.EqualTo(updateTicket.CustomFields.FirstOrDefault(x => x.Id == Settings.CustomDropDownId).Value));
+
+            Assert.True(api.Tickets.Delete(newTicket.Id.Value));
         }
     }
 }
