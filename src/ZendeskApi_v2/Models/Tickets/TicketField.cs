@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -55,6 +55,9 @@ namespace ZendeskApi_v2.Models.Tickets
 
         [JsonProperty("system_field_options")]
         public IList<FieldOptions> SystemFieldOptions { get; set; }
+
+        [JsonProperty("agent_description")]
+        public string AgentDescription { get; set; }
 
     }
 
