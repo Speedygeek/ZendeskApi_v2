@@ -56,6 +56,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("system_field_options")]
         public IList<FieldOptions> SystemFieldOptions { get; set; }
 
+        [JsonProperty("agent_description")]
+        public string AgentDescription { get; set; }
+
     }
 
     public class TicketField : TicketFieldBase
