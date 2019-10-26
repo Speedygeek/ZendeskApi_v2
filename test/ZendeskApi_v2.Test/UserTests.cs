@@ -255,7 +255,6 @@ namespace Tests
             Assert.IsTrue(res2.User.Name.Contains("721"));
         }
 
-
         [Test]
         public async Task CanCreateOrUpdateUserAsync_NewUser()
         {
