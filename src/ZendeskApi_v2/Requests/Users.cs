@@ -153,6 +153,7 @@ namespace ZendeskApi_v2.Requests
         Task<GroupUserResponse> GetUsersInOrganizationAsync(long id, int? perPage = null, int? page = null, UserSideLoadOptions sideLoadOptions = UserSideLoadOptions.None);
 
         Task<IndividualUserResponse> CreateUserAsync(User user);
+        Task<IndividualUserResponse> CreateOrUpdateUserAsync(User user);
 
         Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users);
 
@@ -585,6 +586,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualUserResponse> CreateUserAsync(User user)
         {
             return await GenericPostAsync<IndividualUserResponse>("users.json", new { user });
+        }
+
+        public async Task<IndividualUserResponse> CreateOrUpdateUserAsync(User user)
+        {
+            return await GenericPostAsync<IndividualUserResponse>($"users/create_or_update.json", new { user });
         }
 
         public async Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users)
