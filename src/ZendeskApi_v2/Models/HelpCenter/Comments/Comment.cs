@@ -32,6 +32,9 @@ namespace ZendeskApi_v2.Models.HelpCenter.Comments
         [JsonProperty("source_type")]
         public string SourceType { get; set; }
 
+        [JsonProperty("audit_id")]
+        public long? AuditId { get; set; }
+
         [JsonProperty("locale")]
         public string Locale { get; set; }
 
