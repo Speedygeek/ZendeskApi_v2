@@ -171,7 +171,177 @@ namespace Tests
         }
 
         [Test]
-        public void CanFindUser()
+        public void CanCreateOrUpdateUser_NewUser()
+        {
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
+            var user = new User()
+            {
+                Name = "tester user72",
+                Email = "test772@tester.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
+            };
+
+            var res1 = api.Users.CreateOrUpdateUser(user);
+            Assert.IsTrue(res1.User.Id > 0);
+        }
+        [Test]
+        public void CanCreateOrUpdateUser_CreateSameUserTwice()
+        {
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
+            var user = new User()
+            {
+                Name = "tester user72",
+                Email = "test772@tester.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
+            };
+
+            var res1 = api.Users.CreateOrUpdateUser(user);
+            var res2 = api.Users.CreateOrUpdateUser(user);
+
+            var user72group = api.Users.SearchByEmail("test772@tester.com");
+
+            Assert.IsTrue(user72group.Count == 1);
+        }
+
+        [Test]
+        public void CanCreateOrUpdateUser_UpdateUser()
+        {
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
+            var user = new User()
+            {
+                Name = "tester user72",
+                Email = "test772@tester.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
+            };
+
+            var res1 = api.Users.CreateOrUpdateUser(user);
+
+            user.Name = "tester user721";
+            var res2 = api.Users.CreateOrUpdateUser(user);
+
+            var user72group = api.Users.SearchByEmail("test772@tester.com");
+
+            Assert.IsTrue(user72group.Count == 1);
+            Assert.IsTrue(res2.User.Name.Contains("721"));
+        }
+
+        [Test]
+        public async Task CanCreateOrUpdateUserAsync_NewUser()
+        {
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
+            var user = new User()
+            {
+                Name = "tester user72",
+                Email = "test772@tester.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
+            };
+
+            var res1 = await api.Users.CreateOrUpdateUserAsync(user);
+            Assert.IsTrue(res1.User.Id > 0);
+        }
+        [Test]
+        public async Task CanCreateOrUpdateUserAsync_CreateSameUserTwice()
+        {
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
+            var user = new User()
+            {
+                Name = "tester user72",
+                Email = "test772@tester.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
+            };
+
+            var res1 = await api.Users.CreateOrUpdateUserAsync(user);
+            var res2 = await api.Users.CreateOrUpdateUserAsync(user);
+
+            var user72group = api.Users.SearchByEmail("test772@tester.com");
+
+            Assert.IsTrue(user72group.Count == 1);
+        }
+
+        [Test]
+        public async Task CanCreateOrUpdateUserAsync_UpdateUser()
+        {
+            var groupUserResponse = api.Users.SearchByEmail("test772@tester.com");
+            foreach (var u in groupUserResponse.Users)
+            {
+                api.Users.DeleteUser(u.Id.Value);
+            }
+
+            var user = new User()
+            {
+                Name = "tester user72",
+                Email = "test772@tester.com",
+                Role = "end-user",
+                Verified = true,
+                CustomFields = new Dictionary<string, object>()
+                                  {
+                                      {"user_dropdown", "option_1"}
+                                  }
+            };
+
+            var res1 = await api.Users.CreateOrUpdateUserAsync(user);
+
+            user.Name = "tester user721";
+            var res2 = api.Users.CreateOrUpdateUser(user);
+
+            var user72group = api.Users.SearchByEmail("test772@tester.com");
+
+            Assert.IsTrue(user72group.Count == 1);
+            Assert.IsTrue(res2.User.Name.Contains("721"));
+        }
+
+        [Test]
+        public void  CanFindUser()
         {
             //var res1 = api.Users.SearchByEmail(Settings.Email);
             var res1 = api.Users.SearchByEmail(Settings.ColloboratorEmail);
