@@ -121,9 +121,9 @@ namespace ZendeskApi_v2.Requests
 
         IndividualTicketFieldResponse GetTicketFieldById(long id);
 
-        IndividualTicketFieldResponse CreateTicketField(TicketField ticketField);
+        IndividualTicketFieldResponse CreateTicketField(TicketField ticketField, bool replaceNameSpacesWithUnderscore = true);
 
-        IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField);
+        IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField, bool replaceNameSpacesWithUnderscore = false);
 
         bool DeleteTicketField(long id);
 
@@ -220,9 +220,9 @@ namespace ZendeskApi_v2.Requests
 
         Task<IndividualTicketFieldResponse> GetTicketFieldByIdAsync(long id);
 
-        Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField);
+        Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField, bool replaceNameSpacesWithUnderscore = true);
 
-        Task<IndividualTicketFieldResponse> UpdateTicketFieldAsync(TicketField ticketField);
+        Task<IndividualTicketFieldResponse> UpdateTicketFieldAsync(TicketField ticketField, bool replaceNameSpacesWithUnderscore = false);
 
         Task<bool> DeleteTicketFieldAsync(long id);
 
@@ -561,13 +561,14 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<IndividualTicketFieldResponse>($"ticket_fields/{id}.json");
         }
 
-        public IndividualTicketFieldResponse CreateTicketField(TicketField ticketField)
+        public IndividualTicketFieldResponse CreateTicketField(TicketField ticketField, bool replaceNameSpacesWithUnderscore = true)
         {
             if (ticketField.CustomFieldOptions != null)
             {
                 foreach (var custom in ticketField.CustomFieldOptions)
                 {
-                    custom.Name = custom.Name.Replace(' ', '_');
+                    if (replaceNameSpacesWithUnderscore)
+                        custom.Name = custom.Name.Replace(' ', '_');
                     custom.Value = custom.Value.Replace(' ', '_');
                 }
             }
@@ -579,8 +580,18 @@ namespace ZendeskApi_v2.Requests
             return res;
         }
 
-        public IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField)
+        public IndividualTicketFieldResponse UpdateTicketField(TicketField ticketField, bool replaceNameSpacesWithUnderscore = false)
         {
+            if (ticketField.CustomFieldOptions != null)
+            {
+                foreach (var custom in ticketField.CustomFieldOptions)
+                {
+                    if (replaceNameSpacesWithUnderscore)
+                        custom.Name = custom.Name.Replace(' ', '_');
+                    custom.Value = custom.Value.Replace(' ', '_');
+                }
+            }
+
             return GenericPut<IndividualTicketFieldResponse>($"ticket_fields/{ticketField.Id}.json", new
             {
                 ticket_field = ticketField
@@ -842,13 +853,14 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualTicketFieldResponse>($"ticket_fields/{id}.json");
         }
 
-        public async Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField)
+        public async Task<IndividualTicketFieldResponse> CreateTicketFieldAsync(TicketField ticketField, bool replaceNameSpacesWithUnderscore = true)
         {
             if (ticketField.CustomFieldOptions != null)
             {
                 foreach (var custom in ticketField.CustomFieldOptions)
                 {
-                    custom.Name = custom.Name.Replace(' ', '_');
+                    if (replaceNameSpacesWithUnderscore)
+                        custom.Name = custom.Name.Replace(' ', '_');
                     custom.Value = custom.Value.Replace(' ', '_');
                 }
             }
@@ -860,8 +872,17 @@ namespace ZendeskApi_v2.Requests
             return await res;
         }
 
-        public async Task<IndividualTicketFieldResponse> UpdateTicketFieldAsync(TicketField ticketField)
+        public async Task<IndividualTicketFieldResponse> UpdateTicketFieldAsync(TicketField ticketField, bool replaceNameSpacesWithUnderscore = false)
         {
+            if (ticketField.CustomFieldOptions != null)
+            {
+                foreach (var custom in ticketField.CustomFieldOptions)
+                {
+                    if (replaceNameSpacesWithUnderscore)
+                        custom.Name = custom.Name.Replace(' ', '_');
+                    custom.Value = custom.Value.Replace(' ', '_');
+                }
+            }
 
             return await GenericPutAsync<IndividualTicketFieldResponse>($"ticket_fields/{ticketField.Id}.json", new
             {

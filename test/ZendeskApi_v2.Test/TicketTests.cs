@@ -817,8 +817,9 @@ namespace Tests
             Assert.True(api.Tickets.DeleteTicketField(updatedTF.Id.Value));
         }
 
-        [Test]
-        public void CanCreateAndDeleteTaggerTicketField()
+        [TestCase(true, "test entry", "test_entry")]
+        [TestCase(false, "test entry", "test entry")]
+        public void CanCreateAndDeleteTaggerTicketField(bool replaceNameSpaceWithUnderscore, string name, string expectedName)
         {
             var tField = new TicketField()
             {
@@ -831,23 +832,26 @@ namespace Tests
 
             tField.CustomFieldOptions.Add(new CustomFieldOptions()
             {
-                Name = "test entry",
+                Name = name,
                 Value = "test value"
             });
 
-            var res = api.Tickets.CreateTicketField(tField);
+            var res = api.Tickets.CreateTicketField(tField, replaceNameSpaceWithUnderscore);
             Assert.NotNull(res.TicketField);
+            Assert.AreEqual(res.TicketField.CustomFieldOptions[0].Name, expectedName);
 
             Assert.True(api.Tickets.DeleteTicketField(res.TicketField.Id.Value));
         }
 
-        [Test]
-        public void CanCreateUpdateOptionsAndDeleteTaggerTicketField()
+        [TestCase(true, "test entryA", "test entryA newTitle", "test entryB", "test entryC", "test_entryA", "test_entryA_newTitle", "test_entryB", "test_entryC")]
+        [TestCase(false, "test entryA", "test entryA newTitle", "test entryB", "test entryC", "test entryA", "test entryA newTitle", "test entryB", "test entryC")]
+        public void CanCreateUpdateOptionsAndDeleteTaggerTicketField(bool replaceNameSpaceWithUnderscore, string name1, string name1_Update, string name2, string name3, 
+            string expectedName1, string expectedName1_Update, string expectedName2, string expectedName3)
         {
             // https://support.zendesk.com/hc/en-us/articles/204579973--BREAKING-Update-ticket-field-dropdown-fields-by-value-instead-of-id-
 
             var option1 = "test_value_a";
-            var option1_Update = "test_value_a_newtag";
+            var option1_Update = "test value_a_newtag";
             var option2 = "test_value_b";
             var option3 = "test_value_c";
 
@@ -862,22 +866,24 @@ namespace Tests
 
             tField.CustomFieldOptions.Add(new CustomFieldOptions()
             {
-                Name = "test entryA",
+                Name = name1,
                 Value = option1
             });
 
             tField.CustomFieldOptions.Add(new CustomFieldOptions()
             {
-                Name = "test entryB",
+                Name = name2,
                 Value = option2
             });
 
-            var res = api.Tickets.CreateTicketField(tField);
+            var res = api.Tickets.CreateTicketField(tField, replaceNameSpaceWithUnderscore);
             Assert.That(res.TicketField, Is.Not.Null);
             Assert.That(res.TicketField.Id, Is.Not.Null);
             Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
             Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
             Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
+            Assert.That(res.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1));
+            Assert.That(res.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName2));
 
             var id = res.TicketField.Id.Value;
 
@@ -890,22 +896,24 @@ namespace Tests
             //update CustomFieldOption A
             tFieldU.CustomFieldOptions.Add(new CustomFieldOptions()
             {
-                Name = "test entryA newTitle",
+                Name = name1_Update,
                 Value = option1_Update
             });
             //delete CustomFieldOption B
             //add CustomFieldOption C
             tFieldU.CustomFieldOptions.Add(new CustomFieldOptions()
             {
-                Name = "test entryC",
+                Name = name3,
                 Value = option3
             });
 
-            var resU = api.Tickets.UpdateTicketField(tFieldU);
+            var resU = api.Tickets.UpdateTicketField(tFieldU, replaceNameSpaceWithUnderscore);
 
             Assert.That(resU.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
-            Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update));
-            Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.Not.EqualTo(option2));
+            Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update.Replace(" ", "_")));
+            Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option3));
+            Assert.That(resU.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1_Update));
+            Assert.That(resU.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName3));
 
             Assert.True(api.Tickets.DeleteTicketField(id));
         }
