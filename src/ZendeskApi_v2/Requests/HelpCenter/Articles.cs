@@ -39,7 +39,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         GroupArticleResponse GetArticlesSinceDateTime(DateTime startTime);
 
-        ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null);
+        ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null, int? perPage = null, int? page = null);
 
         IndividualArticleResponse CreateArticle(long sectionId, Article article);
 
@@ -51,7 +51,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         IndividualSubscriptionResponse GetSubscription(long articleId, long subscriptionId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None);
 
-        GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None,int ? perPage = null, int? page = null);
+        GroupSubscriptionsResponse GetSubscriptions(long articleId, SubscriptionSideLoadOptions sideLoadOptions = SubscriptionSideLoadOptions.None, int? perPage = null, int? page = null);
 
         bool DeleteSubscription(long articleId, long subscriptionId);
 
@@ -70,7 +70,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
         Task<GroupArticleResponse> GetArticlesSinceDateTimeAsync(DateTime startTime);
 
-        Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null);
+        Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null, int? perPage = null, int? page = null);
 
         Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article);
 
@@ -143,13 +143,13 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericGet<GroupArticleResponse>($"help_center/incremental/articles.json?start_time={startTime.GetEpoch()}");
         }
 
-        public ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null)
+        public ArticleSearchResults SearchArticlesFor(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null, int? perPage = null, int? page = null)
         {
             var querystringParams = new Dictionary<string, string> { { "category", category }, { "section", section }, { "label_names", labels },
                 { "locale", locale },{ "created_before", $"{createdBefore:yyyy-MM-dd}" }, {"created_after" , $"{createdAfter:yyyy-MM-dd}" },
                 { "created_at", $"{createdAt:yyyy-MM-dd}"}, { "updated_before", $"{updatedBefore:yyyy-MM-dd}"}, {"updated_after" , $"{updatedAfter:yyyy-MM-dd}" },{ "updated_at", $"{updatedAt:yyyy-MM-dd}"} };
 
-            return GenericGet<ArticleSearchResults>($"help_center/articles/search.json?query={query}&{querystringParams.GetQueryString()}");
+            return GenericPagedGet<ArticleSearchResults>($"help_center/articles/search.json?query={query}&{querystringParams.GetQueryString()}", perPage, page);
         }
 
         public IndividualArticleResponse CreateArticle(long sectionId, Article article)
@@ -229,14 +229,14 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return await GenericGetAsync<GroupArticleResponse>($"help_center/incremental/articles.json?start_time={startTime.GetEpoch()}");
         }
 
-        public async Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null)
+        public async Task<ArticleSearchResults> SearchArticlesForAsync(string query, string category = "", string section = "", string labels = "", string locale = "", DateTime? createdBefore = null, DateTime? createdAfter = null, DateTime? createdAt = null, DateTime? updatedBefore = null, DateTime? updatedAfter = null, DateTime? updatedAt = null, int? perPage = null, int? page = null)
         {
             var querystringParams = new Dictionary<string, string> { { "category", category }, { "section", section }, { "label_names", labels },
                 { "locale", locale },{ "created_before", $"{createdBefore:yyyy-MM-dd}" }, {"created_after" , $"{createdAfter:yyyy-MM-dd}" },
                 { "created_at", $"{createdAt:yyyy-MM-dd}"}, { "updated_before", $"{updatedBefore:yyyy-MM-dd}"}, {"updated_after" , $"{updatedAfter:yyyy-MM-dd}" },
                 { "updated_at", $"{updatedAt:yyyy-MM-dd}"} };
 
-            return await GenericGetAsync<ArticleSearchResults>($"help_center/articles/search.json?query={query}&{querystringParams.GetQueryString()}");
+            return await GenericPagedGetAsync<ArticleSearchResults>($"help_center/articles/search.json?query={query}&{querystringParams.GetQueryString()}", perPage, page);
         }
 
         public async Task<IndividualArticleResponse> CreateArticleAsync(long sectionId, Article article)

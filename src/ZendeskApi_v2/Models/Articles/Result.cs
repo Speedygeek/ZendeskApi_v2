@@ -66,5 +66,8 @@ namespace ZendeskApi_v2.Models.Articles
 
         [JsonProperty("result_type")]
         public string ResultType { get; set; }
+
+        [JsonProperty("snippet")]
+        public string Snippet { get; set; }
     }
 }

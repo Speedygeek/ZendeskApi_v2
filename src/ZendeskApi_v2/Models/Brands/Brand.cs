@@ -29,6 +29,9 @@ namespace ZendeskApi_v2.Models.Brands
         [JsonProperty("has_center_state")]
         public bool? HasCenterState { get; set; }
 
+		[JsonProperty("help_center_state")]
+        public string HelpCenterState { get; set; }
+
         [JsonProperty("active")]
         public bool? Active { get; set; }
 
