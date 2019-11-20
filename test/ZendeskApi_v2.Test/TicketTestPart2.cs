@@ -136,5 +136,37 @@ namespace Tests
 
             Assert.True(api.Tickets.Delete(newTicket.Id.Value));
         }
+        
+        [Test]
+        public async Task CanGetFollowUpIds()
+        {
+            var ticket = new Ticket { Comment = new Comment { Body = "Original ticket", Public = false } };
+
+            var resp1 = await api.Tickets.CreateTicketAsync(ticket);
+
+            var closedTicket = resp1.Ticket;
+
+            closedTicket.Status = TicketStatus.Closed;
+
+            await api.Tickets.UpdateTicketAsync(closedTicket, new Comment { Body = "Closing Original Ticket" });
+
+            var ticket_Followup = new Ticket()
+            {
+                Subject = "I am the follow up Ticket",
+                Comment = new Comment { Body = "I will be linked to the closed ticket" },
+                Priority = TicketPriorities.Low,
+                ViaFollowupSourceId = closedTicket.Id.Value
+            };
+
+            var resp3 = await api.Tickets.CreateTicketAsync(ticket_Followup);
+            var resp4 = api.Tickets.GetTicket(closedTicket.Id.Value);
+
+            Assert.That(resp3.Ticket.Via.Source.Rel, Is.EqualTo("follow_up"));
+            Assert.AreEqual(resp4.Ticket.FollowUpIds.Count, 1);
+            Assert.AreEqual(resp4.Ticket.FollowUpIds.ElementAt(0), resp3.Ticket.Id);
+
+            Assert.That(await api.Tickets.DeleteAsync(resp3.Ticket.Id.Value), Is.True);
+            Assert.That(await api.Tickets.DeleteAsync(closedTicket.Id.Value), Is.True);
+        }
     }
 }

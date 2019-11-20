@@ -131,5 +131,11 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("incident_count")]
         public int? IncidentCount { get; set; }
+        
+        /// <summary>
+        /// Any follow-up tickets to this ticket.
+        /// </summary>
+        [JsonProperty("followup_ids")]
+        public IList<long> FollowUpIds { get; set; }
     }
 }
