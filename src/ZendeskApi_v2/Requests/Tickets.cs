@@ -72,6 +72,8 @@ namespace ZendeskApi_v2.Requests
 
         GroupCommentResponse GetTicketComments(long ticketId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
+        GroupCommentResponse GetTicketComments(long ticketId, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         IndividualTicketResponse CreateTicket(Ticket ticket);
@@ -388,6 +390,12 @@ namespace ZendeskApi_v2.Requests
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{ticketId}/comments.json", sideLoadOptions);
             return GenericPagedGet<GroupCommentResponse>(resource, perPage, page);
+        }
+
+        public GroupCommentResponse GetTicketComments(long ticketId, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}/{ticketId}/comments.json", sideLoadOptions);
+            return GenericPagedSortedGet<GroupCommentResponse>(resource, perPage, page, sortAscending: sortAscending);
         }
 
         public GroupTicketResponse GetMultipleTickets(IEnumerable<long> ids, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)

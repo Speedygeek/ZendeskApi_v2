@@ -489,6 +489,18 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetTicketCommentsPagedAndSorted()
+        {
+            const int perPage = 1;
+            const int page = 1;
+            var commentsRes = api.Tickets.GetTicketComments(2, perPage, page);
+            var commentsRes2 = api.Tickets.GetTicketComments(2, false, perPage, page);
+
+            Assert.AreEqual(new DateTimeOffset(2012, 10, 30, 13, 35, 11, TimeSpan.Zero), commentsRes.Comments[0].CreatedAt);
+            Assert.AreEqual(new DateTimeOffset(2014, 01, 24, 03, 29, 30, TimeSpan.Zero), commentsRes2.Comments[0].CreatedAt);
+        }
+
+        [Test]
         public void CanCreateTicketWithRequester()
         {
             var ticket = new Ticket()
