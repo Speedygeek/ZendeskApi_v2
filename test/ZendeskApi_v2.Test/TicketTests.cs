@@ -489,6 +489,18 @@ namespace Tests
         }
 
         [Test]
+        public void CanGetTicketCommentsPagedAndSorted()
+        {
+            const int perPage = 1;
+            const int page = 1;
+            var commentsRes = api.Tickets.GetTicketComments(2, perPage, page);
+            var commentsRes2 = api.Tickets.GetTicketComments(2, false, perPage, page);
+
+            Assert.AreEqual(new DateTimeOffset(2012, 10, 30, 13, 35, 11, TimeSpan.Zero), commentsRes.Comments[0].CreatedAt);
+            Assert.AreEqual(new DateTimeOffset(2014, 01, 24, 03, 29, 30, TimeSpan.Zero), commentsRes2.Comments[0].CreatedAt);
+        }
+
+        [Test]
         public void CanCreateTicketWithRequester()
         {
             var ticket = new Ticket()
@@ -1185,10 +1197,13 @@ namespace Tests
         {
             // see https://github.com/mozts2005/ZendeskApi_v2/issues/254
 
+            var initCommentBody = "HELP";
+            var secondCommentBody = "New comment";
+
             var ticket = new Ticket()
             {
                 Subject = "my printer is on fire",
-                Comment = new Comment() { Body = "HELP" },
+                Comment = new Comment() { Body = initCommentBody },
                 Priority = TicketPriorities.Urgent
             };
 
@@ -1206,12 +1221,15 @@ namespace Tests
 
             Assert.That(newTicket.Via.Channel, Is.EqualTo("api"));
 
-            var comment = new Comment { Body = "New comment", Public = true };
+            var comment = new Comment { Body = secondCommentBody, Public = true };
 
             var resp2 = await api.Tickets.UpdateTicketAsync(newTicket, comment);
             var resp3 = await api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value);
+            var resp4 = await api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value, false);
 
             Assert.That(resp3.Comments.Any(c => c.Via?.Channel != "api"), Is.False);
+            Assert.That(resp3.Comments[0].Body, Is.EqualTo(initCommentBody));
+            Assert.That(resp4.Comments[0].Body, Is.EqualTo(secondCommentBody));
 
             // clean up
             await api.Tickets.DeleteAsync(newTicket.Id.Value);
