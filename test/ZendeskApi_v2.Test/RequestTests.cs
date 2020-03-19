@@ -1,8 +1,11 @@
+using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
+using ZendeskApi_v2.Models.Users;
 
 namespace Tests
 {
@@ -146,49 +149,68 @@ namespace Tests
             });
         }
 
-        //[Test]
-        //[Ignore("")]
-        //public void CanCreateAndUpdateRequests()
-        //{
-        //    var req = new Request
-        //    {
-        //        Subject = "end user request test",
-        //        Type = RequestType.incident,
-        //        Comment = new Comment {Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true}
-        //    };
+        [Test]
+        // [Ignore("")]
+        public void CanCreateAndUpdateRequests()
+        {
+            var req = new Request
+            {
+                Subject = "end user request test",
+                Type = RequestType.incident,
+                Comment = new Comment
+                    {Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true},
+                Requester = new Requester
+                {
+                    Name = "Test Name"
+                },
+                Tags = new List<string> {"tag1", "tag2"}
+            };
 
-        //    var res = _api.Requests.CreateRequest(req);
-        //    Assert.IsNotNull(res);
-        //    Assert.IsNotNull(res.Request);
-        //    Assert.IsTrue(res.Request.Id.HasValue);
-        //    Assert.That(res.Request.Type == RequestType.incident);
-        //    Assert.True(res.Request.Id.Value > 0);
+            var res = _api.Requests.CreateRequest(req);
 
-        //    var res1 = _api.Requests.GetRequestById(res.Request.Id.Value);
-        //    Assert.AreEqual(res1.Request.Id, res.Request.Id);
+            try
+            {
+                Assert.IsNotNull(res);
+                Assert.IsNotNull(res.Request);
+                Assert.IsTrue(res.Request.Id.HasValue);
+                Assert.That(res.Request.Type == RequestType.incident);
+                Assert.True(res.Request.Id.Value > 0);
 
-        //    res1.Request.Subject = "new subject";
-        //    res1.Request.Comment = new Comment
-        //    {
-        //        Body = "something more to say",
-        //        Public = true
-        //    };
 
-        //    var res2 = _api.Requests.UpdateRequest(res1.Request);
-        //    var res3 = _api.Requests.GetRequestCommentsById(res.Request.Id.Value);
+                IndividualUserResponse user = _api.Users.GetUser(res.Request.RequesterId.Value);
+                Assert.AreEqual("Test Name", user.User.Name);
 
-        //    Assert.AreEqual(res3.Comments.Last().Body.Replace("\n", ""), "something more to say");
+                IndividualTicketResponse ticket = _api.Tickets.GetTicket(res.Request.Id.Value);
+                CollectionAssert.AreEquivalent(new[] {"tag1", "tag2"}, ticket.Ticket.Tags);
 
-        //    var res4 = _api.Requests.GetSpecificRequestComment(res.Request.Id.Value, res3.Comments.Last().Id.Value);
+                var res1 = _api.Requests.GetRequestById(res.Request.Id.Value);
+                Assert.AreEqual(res1.Request.Id, res.Request.Id);
 
-        //    res1.Request.RequesterId = 56766413L;
-        //    var res5 = _api.Requests.UpdateRequest(res1.Request);
-        //    var res6 = _api.Requests.GetRequestById(res.Request.Id.Value);
+                res1.Request.Subject = "new subject";
+                res1.Request.Comment = new Comment
+                {
+                    Body = "something more to say",
+                    Public = true
+                };
 
-        //    Assert.AreEqual(res5.Request.RequesterId, res6.Request.RequesterId);
-        //    Assert.AreEqual(res4.Comment.Id, res3.Comments.Last().Id);
+                var res2 = _api.Requests.UpdateRequest(res1.Request);
+                var res3 = _api.Requests.GetRequestCommentsById(res.Request.Id.Value);
 
-        //    Assert.True(_api.Tickets.Delete(res1.Request.Id.Value));
-        //}
+                Assert.AreEqual(res3.Comments.Last().Body.Replace("\n", ""), "something more to say");
+
+                var res4 = _api.Requests.GetSpecificRequestComment(res.Request.Id.Value, res3.Comments.Last().Id.Value);
+
+                res1.Request.RequesterId = 56766413L;
+                var res5 = _api.Requests.UpdateRequest(res1.Request);
+                var res6 = _api.Requests.GetRequestById(res.Request.Id.Value);
+
+                Assert.AreEqual(res5.Request.RequesterId, res6.Request.RequesterId);
+                Assert.AreEqual(res4.Comment.Id, res3.Comments.Last().Id);
+            }
+            finally
+            {
+                Assert.True(_api.Tickets.Delete(res.Request.Id.Value));
+            }
+        }
     }
 }
