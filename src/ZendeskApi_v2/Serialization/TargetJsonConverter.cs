@@ -33,6 +33,8 @@ namespace ZendeskApi_v2.Serialization
                     return new URLTarget();
                 case "http_target":
                     return new HTTPTarget();
+                case "url_target_v2":
+                    return new HTTPTarget();
                 default:
                     return null;
             }
