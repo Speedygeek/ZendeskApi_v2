@@ -931,6 +931,7 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("This test requires an email be sent. A this time that is not automated.")]
         public void CanGetSuspendedTickets()
         {
             var all = api.Tickets.GetSuspendedTickets();
