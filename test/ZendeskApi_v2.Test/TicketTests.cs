@@ -857,7 +857,7 @@ namespace Tests
 
         [TestCase(true, "test entryA", "test entryA newTitle", "test entryB", "test entryC", "test_entryA", "test_entryA_newTitle", "test_entryB", "test_entryC")]
         [TestCase(false, "test entryA", "test entryA newTitle", "test entryB", "test entryC", "test entryA", "test entryA newTitle", "test entryB", "test entryC")]
-        public void CanCreateUpdateOptionsAndDeleteTaggerTicketField(bool replaceNameSpaceWithUnderscore, string name1, string name1_Update, string name2, string name3, 
+        public void CanCreateUpdateOptionsAndDeleteTaggerTicketField(bool replaceNameSpaceWithUnderscore, string name1, string name1_Update, string name2, string name3,
             string expectedName1, string expectedName1_Update, string expectedName2, string expectedName3)
         {
             // https://support.zendesk.com/hc/en-us/articles/204579973--BREAKING-Update-ticket-field-dropdown-fields-by-value-instead-of-id-
@@ -1336,25 +1336,14 @@ namespace Tests
         [Test]
         public async Task CanGetBrandId()
         {
-            var brand = new Brand()
-            {
-                Name = "Test Brand",
-                Active = true,
-                Subdomain = $"test-{Guid.NewGuid()}"
-            };
-
-            var respBrand = api.Brands.CreateBrand(brand);
-
-            brand = respBrand.Brand;
-
+            var respBrand = api.Brands.GetBrands();
+            var brand = respBrand.Brands[0];
             var ticket = new Ticket { Comment = new Comment { Body = "This is a Brand id Test", Public = false }, BrandId = brand.Id };
             var respTicket = await api.Tickets.CreateTicketAsync(ticket);
-            var respTickets = await api.Tickets.GetMultipleTicketsAsync(new List<long> { respTicket.Ticket.Id.Value });
 
-            Assert.That(respTickets.Tickets[0].BrandId, Is.EqualTo(brand.Id));
+            Assert.That(respTicket.Ticket.BrandId, Is.EqualTo(brand.Id));
 
             // clean up
-            Assert.True(api.Brands.DeleteBrand(brand.Id.Value));
             Assert.True(await api.Tickets.DeleteAsync(respTicket.Ticket.Id.Value));
         }
 
