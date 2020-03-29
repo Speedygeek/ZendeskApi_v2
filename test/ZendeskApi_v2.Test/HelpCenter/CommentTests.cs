@@ -52,6 +52,7 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("this test is having an issue. Ticket has been opened see #5324783")]
         public void CanCreateUpdateAndDeleteCommentsForArticle()
         {
             var articleId = CreateTestArticle("Test-Article-For-Comments");
@@ -122,6 +123,7 @@ namespace Tests
         }
 
         [Test]
+        [Ignore("this test is having an issue. Ticket has been opened see #5324783")]
         public async Task CanCreateUpdateAndDeleteCommentsForArticleAsync()
         {
             var articleId = CreateTestArticle("Test-Article-For-Comments-Async");
