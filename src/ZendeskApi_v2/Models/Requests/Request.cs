@@ -52,6 +52,9 @@ namespace ZendeskApi_v2.Models.Requests
         [JsonProperty("requester_id")]
         public long? RequesterId { get; set; }
 
+        [JsonProperty("requester")]
+        public Requester Requester { get; set; }
+
         [JsonProperty("assignee_id")]
         public long AssigneeId { get; set; }
 
@@ -108,5 +111,8 @@ namespace ZendeskApi_v2.Models.Requests
         /// </summary>
         [JsonProperty("comment")]
         public Comment Comment { get; set; }
+
+        [JsonProperty("tags")]
+        public IList<string> Tags { get; set; }
     }
 }
