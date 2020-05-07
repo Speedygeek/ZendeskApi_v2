@@ -56,6 +56,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("system_field_options")]
         public IList<FieldOptions> SystemFieldOptions { get; set; }
 
+        [JsonProperty("removable")]
+        public bool Removable { get; set; }
+
         [JsonProperty("agent_description")]
         public string AgentDescription { get; set; }
 
