@@ -31,6 +31,9 @@ namespace ZendeskApi_v2.Models.UserSegments
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
 
+        [JsonProperty("or_tags")]
+        public IList<string> OrTags { get; set; }
+
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
 
