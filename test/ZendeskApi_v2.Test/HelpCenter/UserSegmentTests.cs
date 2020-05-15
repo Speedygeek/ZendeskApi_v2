@@ -1,11 +1,9 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.HelpCenter.Topics;
-using ZendeskApi_v2.Models.Sections;
 using ZendeskApi_v2.Models.UserSegments;
-using ZendeskApi_v2.Requests.HelpCenter;
 
 namespace Tests.HelpCenter
 {
@@ -102,6 +100,17 @@ namespace Tests.HelpCenter
 
             var res = api.HelpCenter.UserSegments.GetUserSegmentsByUserId(Settings.UserId);
             Assert.That(res.UserSegments.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void CanRetrieveUserSegmentOrTags()
+        {
+            var res = api.HelpCenter.UserSegments.GetUserSegments().UserSegments;
+            var segment = res.First(seg => seg.Name == "Agents and managers (or_tags: tag1, tag2)");
+
+            Assert.That(segment.OrTags.Count == 2);
+            Assert.That(segment.OrTags.Contains("tag1"));
+            Assert.That(segment.OrTags.Contains("tag2"));
         }
 
         [Test]
