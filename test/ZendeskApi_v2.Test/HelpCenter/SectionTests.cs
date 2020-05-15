@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Sections;
 
 namespace Tests.HelpCenter
@@ -43,6 +44,46 @@ namespace Tests.HelpCenter
 
             var res1 = api.HelpCenter.Sections.GetSectionById(res.Sections[0].Id.Value);
             Assert.AreEqual(res1.Section.Id, res.Sections[0].Id.Value);
+        }
+
+        [Test]
+        public void CanGetSectionsPaged()
+        {
+            //https://csharpapi.zendesk.com/hc/en-us/categories/200382245-Category-1
+            long category_id = 200382245;
+
+            var section1 = api.HelpCenter.Sections.CreateSection(new Section {
+                Name = "My Test section 1",
+                Position = 0,
+                CategoryId = category_id
+            });
+
+            var section2 = api.HelpCenter.Sections.CreateSection(new Section {
+                Name = "My Test section 2",
+                Position = 0,
+                CategoryId = category_id
+            });
+
+            const int count = 2;
+            var sections = api.HelpCenter.Sections.GetSections(count);
+
+            Assert.AreEqual(count, sections.Sections.Count);  // 2
+            Assert.AreNotEqual(sections.Count, sections.Sections.Count);   // 2 != total count of sections (assumption)
+
+            const int page = 2;
+            var secondPage = api.HelpCenter.Sections.GetSections(count, page);
+
+            Assert.AreEqual(count, secondPage.Sections.Count);
+
+            var nextPage = secondPage.NextPage.GetQueryStringDict()
+                .Where(x => x.Key == "page")
+                .Select(x => x.Value)
+                .FirstOrDefault();
+
+            Assert.NotNull(nextPage);
+            Assert.AreEqual(nextPage, (page + 1).ToString());
+            api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value);
+            api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value);
         }
 
         [Test]
