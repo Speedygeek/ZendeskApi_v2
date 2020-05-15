@@ -65,7 +65,7 @@ namespace Tests.HelpCenter
             });
 
             const int count = 2;
-            var sections = api.HelpCenter.Sections.GetSections(count);
+            var sections = api.HelpCenter.Sections.GetSections(count, 1);
 
             Assert.AreEqual(count, sections.Sections.Count);  // 2
             Assert.AreNotEqual(sections.Count, sections.Sections.Count);   // 2 != total count of sections (assumption)
@@ -82,8 +82,8 @@ namespace Tests.HelpCenter
 
             Assert.NotNull(nextPage);
             Assert.AreEqual(nextPage, (page + 1).ToString());
-            api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value);
-            api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value);
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
         }
 
         [Test]

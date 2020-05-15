@@ -11,6 +11,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
 #if SYNC
         GroupCategoryResponse GetCategories();
+        GroupCategoryResponse GetCategories(int perPage, int page);
         IndividualCategoryResponse GetCategoryById(long id);
         IndividualCategoryResponse CreateCategory(Category category);
         IndividualCategoryResponse UpdateCategory(Category category);
@@ -46,7 +47,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericGet<GroupCategoryResponse>($"{GeneralCategoriesPath}.json");
         }
 
-        public IndividualCategoryResponse GetCategoryById(long id) 
+        public GroupCategoryResponse GetCategories(int perPage, int page)
+        {
+            return GenericPagedGet<GroupCategoryResponse>($"{GeneralCategoriesPath}.json", perPage, page);
+        }
+
+        public IndividualCategoryResponse GetCategoryById(long id)
         {
             return GenericGet<IndividualCategoryResponse>($"{GeneralCategoriesPath}/{id}.json");
         }

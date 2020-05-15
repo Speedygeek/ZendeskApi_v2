@@ -10,7 +10,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     public interface ISections : ICore
     {
 #if SYNC
-        GroupSectionResponse GetSections(int? perPage = null, int? page = null);
+        GroupSectionResponse GetSections();
+        GroupSectionResponse GetSections(int perPage, int page);
         GroupSectionResponse GetSectionsByCategoryId(long categoryId);
         IndividualSectionResponse GetSectionById(long id);
         IndividualSectionResponse CreateSection(Section section);
@@ -49,10 +50,16 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         }
 
 #if SYNC
-        public GroupSectionResponse GetSections(int? perPage = null, int? page = null)
+        public GroupSectionResponse GetSections()
+        {
+            return GenericGet<GroupSectionResponse>($"{_generalSectionsPath}.json?include=access_policies");
+        }
+
+        public GroupSectionResponse GetSections(int perPage, int page)
         {
             return GenericPagedGet<GroupSectionResponse>($"{_generalSectionsPath}.json?include=access_policies", perPage, page);
         }
+
         public GroupSectionResponse GetSectionsByCategoryId(long categoryId)
         {
             return GenericGet<GroupSectionResponse>(GetSectionPathWithCategory(categoryId));
