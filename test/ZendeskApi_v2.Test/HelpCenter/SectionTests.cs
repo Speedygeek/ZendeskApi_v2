@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Sections;
 
 namespace Tests.HelpCenter
@@ -43,6 +44,91 @@ namespace Tests.HelpCenter
 
             var res1 = api.HelpCenter.Sections.GetSectionById(res.Sections[0].Id.Value);
             Assert.AreEqual(res1.Section.Id, res.Sections[0].Id.Value);
+        }
+
+        [Test]
+        public void CanGetSectionsPaged()
+        {
+            //https://csharpapi.zendesk.com/hc/en-us/categories/200382245-Category-1
+            long category_id = 200382245;
+
+            var section1 = api.HelpCenter.Sections.CreateSection(new Section {
+                Name = "My Test section 1",
+                Position = 0,
+                CategoryId = category_id
+            });
+
+            var section2 = api.HelpCenter.Sections.CreateSection(new Section {
+                Name = "My Test section 2",
+                Position = 0,
+                CategoryId = category_id
+            });
+
+            const int count = 2;
+            var sections = api.HelpCenter.Sections.GetSections(count, 1);
+
+            Assert.That(count, Is.EqualTo(sections.Sections.Count));  // 2
+            Assert.That(sections.Count, Is.Not.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
+
+            const int page = 2;
+            var secondPage = api.HelpCenter.Sections.GetSections(count, page);
+
+            Assert.That(count, Is.EqualTo(secondPage.Sections.Count));
+
+            var nextPage = secondPage.NextPage.GetQueryStringDict()
+                .Where(x => x.Key == "page")
+                .Select(x => x.Value)
+                .FirstOrDefault();
+
+            Assert.That(nextPage, Is.Not.Null);
+            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
+        }
+
+        [Test]
+        public void CanGetSectionsPagedAsync()
+        {
+            //https://csharpapi.zendesk.com/hc/en-us/categories/200382245-Category-1
+            long category_id = 200382245;
+
+            var section1 = api.HelpCenter.Sections.CreateSection(new Section {
+                Name = "My Test section 1",
+                Position = 0,
+                CategoryId = category_id
+            });
+
+            var section2 = api.HelpCenter.Sections.CreateSection(new Section {
+                Name = "My Test section 2",
+                Position = 0,
+                CategoryId = category_id
+            });
+
+            const int count = 2;
+            var sectionsAsync = api.HelpCenter.Sections.GetSectionsAsync(count, 1).Result;
+
+            Assert.That(sectionsAsync.Count, Is.GreaterThan(0));
+
+            var sectionById1 = api.HelpCenter.Sections.GetSectionById(sectionsAsync.Sections[0].Id.Value);
+
+            Assert.That(sectionById1.Section.Id, Is.EqualTo(sectionsAsync.Sections[0].Id.Value));
+
+            const int page = 2;
+            var secondPage = api.HelpCenter.Sections.GetSectionsAsync(count, page).Result;
+            var sectionById2 = api.HelpCenter.Sections.GetSectionById(secondPage.Sections[0].Id.Value);
+
+            Assert.That(count, Is.EqualTo(secondPage.Sections.Count));
+            Assert.That(sectionById2.Section.Id, Is.EqualTo(secondPage.Sections[0].Id.Value));
+
+            var nextPage = secondPage.NextPage.GetQueryStringDict()
+                .Where(x => x.Key == "page")
+                .Select(x => x.Value)
+                .FirstOrDefault();
+
+            Assert.That(nextPage, Is.Not.Null);
+            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
         }
 
         [Test]
