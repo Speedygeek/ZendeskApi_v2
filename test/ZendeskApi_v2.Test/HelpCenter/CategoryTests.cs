@@ -66,23 +66,65 @@ namespace Tests.HelpCenter
             const int count = 2;
             var categories = api.HelpCenter.Categories.GetCategories(count, 1);
 
-            Assert.AreEqual(count, categories.Categories.Count);  // 2
-            Assert.AreNotEqual(categories.Count, categories.Categories.Count);   // 2 != total count of categories (assumption)
+            Assert.That(count, Is.EqualTo(categories.Categories.Count));  // 2
+            Assert.That(categories.Count, !Is.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
 
             const int page = 2;
             var secondPage = api.HelpCenter.Categories.GetCategories(count, page);
 
-            Assert.AreEqual(count, secondPage.Categories.Count);
+            Assert.That(count, Is.EqualTo(secondPage.Categories.Count));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
-            Assert.NotNull(nextPage);
-            Assert.AreEqual(nextPage, (page + 1).ToString());
-            Assert.True(api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value));
-            Assert.True(api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value));
+            Assert.That(nextPage != null);
+            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+            Assert.That(api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
+            Assert.That(api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
+        }
+
+        [Test]
+        public void CanGetCategoriesPagedAsync()
+        {
+            var category1 = api.HelpCenter.Categories.CreateCategory(new Category {
+                Name = "My Test category 1",
+                Position = 0,
+                Description = "First category"
+            });
+
+            var category2 = api.HelpCenter.Categories.CreateCategory(new Category {
+                Name = "My Test category 2",
+                Position = 0,
+                Description = "Second category"
+            });
+
+            const int count = 2;
+            var categoriesAsync = api.HelpCenter.Categories.GetCategoriesAsync(count, 1).Result;
+
+            Assert.That(categoriesAsync.Count > 0);
+
+            var categoryById1 = api.HelpCenter.Categories.GetCategoryById(categoriesAsync.Categories[0].Id.Value);
+
+            Assert.That(categoryById1.Category.Id, Is.EqualTo(categoriesAsync.Categories[0].Id.Value));
+
+            const int page = 2;
+            var secondPage = api.HelpCenter.Categories.GetCategoriesAsync(count, page).Result;
+            var categoryById2 = api.HelpCenter.Categories.GetCategoryById(secondPage.Categories[0].Id.Value);
+
+            Assert.That(count, Is.EqualTo(secondPage.Categories.Count));
+            Assert.That(categoryById2.Category.Id, Is.EqualTo(secondPage.Categories[0].Id.Value));
+
+            var nextPage = secondPage.NextPage.GetQueryStringDict()
+                .Where(x => x.Key == "page")
+                .Select(x => x.Value)
+                .FirstOrDefault();
+
+            Assert.That(nextPage != null);
+            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+            Assert.That(api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
+            Assert.That(api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
         }
 
         [Test]

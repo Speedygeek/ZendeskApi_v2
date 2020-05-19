@@ -20,6 +20,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 #if ASYNC
         Task<GroupCategoryResponse> GetCategoriesAsync();
+        Task<GroupCategoryResponse> GetCategoriesAsync(int perPage, int page);
         Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id);
         Task<IndividualCategoryResponse> CreateCategoryAsync(Category category);
         Task<IndividualCategoryResponse> UpdateCategoryAsync(Category category);
@@ -85,6 +86,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<GroupCategoryResponse> GetCategoriesAsync()
         {
             return await GenericGetAsync<GroupCategoryResponse>($"{GeneralCategoriesPath}.json");
+        }
+
+        public async Task<GroupCategoryResponse> GetCategoriesAsync(int perPage, int page)
+        {
+            return await GenericPagedGetAsync<GroupCategoryResponse>($"{GeneralCategoriesPath}.json", perPage, page);
         }
 
         public async Task<IndividualCategoryResponse> GetCategoryByIdAsync(long id)
