@@ -67,7 +67,7 @@ namespace Tests.HelpCenter
             var categories = api.HelpCenter.Categories.GetCategories(count, 1);
 
             Assert.That(count, Is.EqualTo(categories.Categories.Count));  // 2
-            Assert.That(categories.Count, !Is.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
+            Assert.That(categories.Count, Is.Not.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
 
             const int page = 2;
             var secondPage = api.HelpCenter.Categories.GetCategories(count, page);
@@ -79,7 +79,7 @@ namespace Tests.HelpCenter
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
-            Assert.That(nextPage != null);
+            Assert.That(nextPage, Is.Not.Null);
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
             Assert.That(api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
@@ -103,7 +103,7 @@ namespace Tests.HelpCenter
             const int count = 2;
             var categoriesAsync = api.HelpCenter.Categories.GetCategoriesAsync(count, 1).Result;
 
-            Assert.That(categoriesAsync.Count > 0);
+            Assert.That(categoriesAsync.Count,  Is.GreaterThan(0));
 
             var categoryById1 = api.HelpCenter.Categories.GetCategoryById(categoriesAsync.Categories[0].Id.Value);
 
@@ -121,7 +121,7 @@ namespace Tests.HelpCenter
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
-            Assert.That(nextPage != null);
+            Assert.That(nextPage, Is.Not.Null);
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
             Assert.That(api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);

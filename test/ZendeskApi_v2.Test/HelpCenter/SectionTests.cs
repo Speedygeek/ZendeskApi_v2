@@ -68,7 +68,7 @@ namespace Tests.HelpCenter
             var sections = api.HelpCenter.Sections.GetSections(count, 1);
 
             Assert.That(count, Is.EqualTo(sections.Sections.Count));  // 2
-            Assert.That(sections.Count, !Is.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
+            Assert.That(sections.Count, Is.Not.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
 
             const int page = 2;
             var secondPage = api.HelpCenter.Sections.GetSections(count, page);
@@ -80,7 +80,7 @@ namespace Tests.HelpCenter
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
-            Assert.That(nextPage != null);
+            Assert.That(nextPage, Is.Not.Null);
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
             Assert.That(api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
@@ -107,7 +107,7 @@ namespace Tests.HelpCenter
             const int count = 2;
             var sectionsAsync = api.HelpCenter.Sections.GetSectionsAsync(count, 1).Result;
 
-            Assert.That(sectionsAsync.Count > 0);
+            Assert.That(sectionsAsync.Count, Is.GreaterThan(0));
 
             var sectionById1 = api.HelpCenter.Sections.GetSectionById(sectionsAsync.Sections[0].Id.Value);
 
@@ -125,7 +125,7 @@ namespace Tests.HelpCenter
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
-            Assert.That(nextPage != null);
+            Assert.That(nextPage, Is.Not.Null);
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
             Assert.That(api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
