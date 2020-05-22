@@ -1168,7 +1168,6 @@ namespace Tests
                 Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
 
                 if (job.JobStatus.Status == "completed") break;
-
             } while (true);
 
             var counter = 0;
@@ -1195,9 +1194,7 @@ namespace Tests
             Assert.AreEqual(comments.Comments[0].Body, targetDescription);
             Assert.AreEqual(comments.Comments[1].Body, targetMergeComment);
 
-
             api.Tickets.DeleteAsync(targetTicketId);
-
         }
 
         [Test]
