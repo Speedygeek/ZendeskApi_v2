@@ -1120,6 +1120,87 @@ namespace Tests
         }
 
         [Test]
+        public void CanMergeTickets()
+        {
+            var sourceDescription = new List<string> { "This is a source ticket #1", "This is a source ticket #2" };
+            var targetDescription = "This is a the target ticket";
+
+            var sourceTicket1 = new Ticket
+            {
+                Subject = "Source Ticket 1",
+                Comment = new Comment { Body = sourceDescription[0], Public = true, }
+            };
+            var sourceTicket2 = new Ticket
+            {
+                Subject = "Source Ticket 2",
+                Comment = new Comment { Body = sourceDescription[1], Public=true, }
+            };
+            var targetTicket = new Ticket
+            {
+                Subject = "Target Ticket",
+                Comment = new Comment { Body = targetDescription, Public = true, }
+            };
+
+            var mergeIds = new List<long>();
+
+            var tick = api.Tickets.CreateTicket(sourceTicket1);
+            mergeIds.Add(tick.Ticket.Id.Value);
+            tick = api.Tickets.CreateTicket(sourceTicket2);
+            mergeIds.Add(tick.Ticket.Id.Value);
+            tick = api.Tickets.CreateTicket(targetTicket);
+            var targetTicketId = tick.Ticket.Id.Value;
+
+            var targetMergeComment = $"Merged with tickets {string.Join(", ", mergeIds.ToArray())}";
+            var sourceMergeComment = $"Closing in favor of {targetTicketId}";
+
+            var res = api.Tickets.MergeTickets(
+                targetTicketId, 
+                mergeIds, 
+                targetMergeComment, 
+                sourceMergeComment);
+
+            Assert.AreEqual(res.JobStatus.Status, "queued");
+
+            do
+            {
+                Thread.Sleep(5000);
+                var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
+                Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
+
+                if (job.JobStatus.Status == "completed") break;
+
+            } while (true);
+
+            var counter = 0;
+            foreach (var id in mergeIds)
+            {
+                var oldTicket = api.Tickets.GetTicket(id);
+                Assert.AreEqual(oldTicket.Ticket.Id.Value, id);
+                Assert.AreEqual(oldTicket.Ticket.Status, "closed");
+
+                var oldComments = api.Tickets.GetTicketComments(id);
+                Assert.AreEqual(oldComments.Comments.Count, 2);
+                Assert.AreEqual(oldComments.Comments[0].Body, sourceDescription[counter]);
+                Assert.AreEqual(oldComments.Comments[1].Body, sourceMergeComment);
+
+                api.Tickets.DeleteAsync(id);
+                counter++;
+            }
+
+            var ticket = api.Tickets.GetTicket(targetTicketId);
+            Assert.AreEqual(ticket.Ticket.Id.Value, targetTicketId);
+
+            var comments = api.Tickets.GetTicketComments(targetTicketId);
+            Assert.AreEqual(comments.Comments.Count, 2);
+            Assert.AreEqual(comments.Comments[0].Body, targetDescription);
+            Assert.AreEqual(comments.Comments[1].Body, targetMergeComment);
+
+
+            api.Tickets.DeleteAsync(targetTicketId);
+
+        }
+
+        [Test]
         public void CanBulkImportTicket()
         {
             var test = new List<TicketImport>();

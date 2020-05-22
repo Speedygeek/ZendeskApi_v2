@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 #if ASYNC
@@ -150,6 +151,8 @@ namespace ZendeskApi_v2.Requests
         JobStatusResponse BulkImportTickets(IEnumerable<TicketImport> tickets);
 
         GroupTicketResponse GetTicketsByExternalId(string externalId, int pageNumber = 0, int itemsPerPage = 0, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        JobStatusResponse MergeTickets(long targetTicketId, IEnumerable<long> sourceTicketIds, string targetComment = "", string sourceComment = "", bool targetCommentPublic = false, bool sourceCommentPublic = false);
 
 #endif
 
@@ -469,6 +472,22 @@ namespace ZendeskApi_v2.Requests
         {
             return GenericDelete($"{_tickets}/destroy_many.json?ids={ids.ToCsv()}");
         }
+
+        /// <summary>
+        /// Merges the source tickets in the "ids" list into the target ticket with comments as defined.
+        /// </summary>
+        /// <param name="targetTicketId">Id of ticket to be merged into.</param>
+        /// <param name="sourceTicketIds">List of ids of source tickets to be merged from.</param>
+        /// <param name="targetComment">Private comment to add to the target ticket (optional but recommended)</param>
+        /// <param name="sourceComment">Private comment to add to the source ticket(s) (optional but recommended)</param>
+        /// <param name="targetCommentPublic">Whether comment in target ticket is public or private (default = private)</param>
+        /// <param name="sourceCommentPublic">Whether comment in source ticket is public or private (default = private)</param>
+        /// <returns></returns>
+        public JobStatusResponse MergeTickets(long targetTicketId, IEnumerable<long> sourceTicketIds, string targetComment = "", string sourceComment = "", bool targetCommentPublic = false, bool sourceCommentPublic = false)
+        {
+            return GenericPost<JobStatusResponse>($"{_tickets}/{targetTicketId}/merge.json", new { ids = sourceTicketIds.ToArray(), target_comment = targetComment, source_comment = sourceComment, target_comment_is_public = targetCommentPublic, source_comment_is_public = sourceCommentPublic });
+        }
+
 
         public GroupUserResponse GetCollaborators(long id)
         {
