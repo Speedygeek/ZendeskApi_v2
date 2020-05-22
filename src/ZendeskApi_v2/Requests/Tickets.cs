@@ -266,6 +266,8 @@ namespace ZendeskApi_v2.Requests
 
         Task<JobStatusResponse> BulkImportTicketsAsync(IEnumerable<TicketImport> tickets);
 
+        Task<JobStatusResponse> MergeTicketsAsync(long targetTicketId, IEnumerable<long> sourceTicketIds, string targetComment = "", string sourceComment = "", bool targetCommentPublic = false, bool sourceCommentPublic = false);
+
 #endif
     }
 
@@ -481,10 +483,19 @@ namespace ZendeskApi_v2.Requests
         /// <param name="sourceComment">Private comment to add to the source ticket(s) (optional but recommended)</param>
         /// <param name="targetCommentPublic">Whether comment in target ticket is public or private (default = private)</param>
         /// <param name="sourceCommentPublic">Whether comment in source ticket is public or private (default = private)</param>
-        /// <returns></returns>
+        /// <returns>JobStatusResponse</returns>
         public JobStatusResponse MergeTickets(long targetTicketId, IEnumerable<long> sourceTicketIds, string targetComment = "", string sourceComment = "", bool targetCommentPublic = false, bool sourceCommentPublic = false)
         {
-            return GenericPost<JobStatusResponse>($"{_tickets}/{targetTicketId}/merge.json", new { ids = sourceTicketIds, target_comment = targetComment, source_comment = sourceComment, target_comment_is_public = targetCommentPublic, source_comment_is_public = sourceCommentPublic });
+            return GenericPost<JobStatusResponse>(
+                $"{_tickets}/{targetTicketId}/merge.json",
+                new
+                {
+                    ids = sourceTicketIds,
+                    target_comment = targetComment,
+                    source_comment = sourceComment,
+                    target_comment_is_public = targetCommentPublic,
+                    source_comment_is_public = sourceCommentPublic
+                });
         }
 
 
@@ -997,6 +1008,31 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericDeleteAsync($"{_ticket_forms}/{id}.json");
         }
+
+        /// <summary>
+        /// Merges the source tickets in the "ids" list into the target ticket with comments as defined.
+        /// </summary>
+        /// <param name="targetTicketId">Id of ticket to be merged into.</param>
+        /// <param name="sourceTicketIds">List of ids of source tickets to be merged from.</param>
+        /// <param name="targetComment">Private comment to add to the target ticket (optional but recommended)</param>
+        /// <param name="sourceComment">Private comment to add to the source ticket(s) (optional but recommended)</param>
+        /// <param name="targetCommentPublic">Whether comment in target ticket is public or private (default = private)</param>
+        /// <param name="sourceCommentPublic">Whether comment in source ticket is public or private (default = private)</param>
+        /// <returns>JobStatusResponse</returns>
+        public async Task<JobStatusResponse> MergeTicketsAsync(long targetTicketId, IEnumerable<long> sourceTicketIds, string targetComment = "", string sourceComment = "", bool targetCommentPublic = false, bool sourceCommentPublic = false)
+        {
+            return await GenericPostAsync<JobStatusResponse>(
+                $"{_tickets}/{targetTicketId}/merge.json",
+                new
+                {
+                    ids = sourceTicketIds,
+                    target_comment = targetComment,
+                    source_comment = sourceComment,
+                    target_comment_is_public = targetCommentPublic,
+                    source_comment_is_public = sourceCommentPublic,
+                });
+        }
+
 
         #region TicketMetrics
 
