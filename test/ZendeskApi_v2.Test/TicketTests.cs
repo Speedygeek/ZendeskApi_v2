@@ -1159,13 +1159,13 @@ namespace Tests
                 targetMergeComment, 
                 sourceMergeComment);
 
-            Assert.AreEqual(res.JobStatus.Status, "queued");
+            Assert.That(res.JobStatus.Status, Is.EqualTo("queued"));
 
             do
             {
                 Thread.Sleep(5000);
                 var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
-                Assert.AreEqual(job.JobStatus.Id, res.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(res.JobStatus.Id));
 
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
@@ -1174,25 +1174,25 @@ namespace Tests
             foreach (var id in mergeIds)
             {
                 var oldTicket = api.Tickets.GetTicket(id);
-                Assert.AreEqual(oldTicket.Ticket.Id.Value, id);
-                Assert.AreEqual(oldTicket.Ticket.Status, "closed");
+                Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
+                Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
 
                 var oldComments = api.Tickets.GetTicketComments(id);
-                Assert.AreEqual(oldComments.Comments.Count, 2);
-                Assert.AreEqual(oldComments.Comments[0].Body, sourceDescription[counter]);
-                Assert.AreEqual(oldComments.Comments[1].Body, sourceMergeComment);
+                Assert.That(oldComments.Comments.Count, Is.EqualTo(2));
+                Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
+                Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
 
                 api.Tickets.DeleteAsync(id);
                 counter++;
             }
 
             var ticket = api.Tickets.GetTicket(targetTicketId);
-            Assert.AreEqual(ticket.Ticket.Id.Value, targetTicketId);
+            Assert.That(ticket.Ticket.Id.Value, Is.EqualTo(targetTicketId));
 
             var comments = api.Tickets.GetTicketComments(targetTicketId);
-            Assert.AreEqual(comments.Comments.Count, 2);
-            Assert.AreEqual(comments.Comments[0].Body, targetDescription);
-            Assert.AreEqual(comments.Comments[1].Body, targetMergeComment);
+            Assert.That(comments.Comments.Count, Is.EqualTo(2));
+            Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
+            Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
 
             api.Tickets.DeleteAsync(targetTicketId);
         }

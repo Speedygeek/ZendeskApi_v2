@@ -485,7 +485,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         public JobStatusResponse MergeTickets(long targetTicketId, IEnumerable<long> sourceTicketIds, string targetComment = "", string sourceComment = "", bool targetCommentPublic = false, bool sourceCommentPublic = false)
         {
-            return GenericPost<JobStatusResponse>($"{_tickets}/{targetTicketId}/merge.json", new { ids = sourceTicketIds.ToArray(), target_comment = targetComment, source_comment = sourceComment, target_comment_is_public = targetCommentPublic, source_comment_is_public = sourceCommentPublic });
+            return GenericPost<JobStatusResponse>($"{_tickets}/{targetTicketId}/merge.json", new { ids = sourceTicketIds, target_comment = targetComment, source_comment = sourceComment, target_comment_is_public = targetCommentPublic, source_comment_is_public = sourceCommentPublic });
         }
 
 
