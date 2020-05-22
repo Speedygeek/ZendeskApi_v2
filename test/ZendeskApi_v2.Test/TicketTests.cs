@@ -1120,6 +1120,166 @@ namespace Tests
         }
 
         [Test]
+        public void CanMergeTickets()
+        {
+            var sourceDescription = new List<string> { "This is a source ticket 1", "This is a source ticket 2" };
+            var targetDescription = "This is a the target ticket";
+
+            var sourceTicket1 = new Ticket
+            {
+                Subject = "Source Ticket 1",
+                Comment = new Comment { Body = sourceDescription[0], Public = true, }
+            };
+            var sourceTicket2 = new Ticket
+            {
+                Subject = "Source Ticket 2",
+                Comment = new Comment { Body = sourceDescription[1], Public=true, }
+            };
+            var targetTicket = new Ticket
+            {
+                Subject = "Target Ticket",
+                Comment = new Comment { Body = targetDescription, Public = true, }
+            };
+
+            var mergeIds = new List<long>();
+
+            var tick = api.Tickets.CreateTicket(sourceTicket1);
+            mergeIds.Add(tick.Ticket.Id.Value);
+            tick = api.Tickets.CreateTicket(sourceTicket2);
+            mergeIds.Add(tick.Ticket.Id.Value);
+            tick = api.Tickets.CreateTicket(targetTicket);
+            var targetTicketId = tick.Ticket.Id.Value;
+
+            var targetMergeComment =
+                $"Merged with ticket(s) {string.Join(", ", mergeIds.Select(m => $"#{m}").ToArray())}";
+            var sourceMergeComment = $"Closing in favor of #{targetTicketId}";
+
+            var res = api.Tickets.MergeTickets(
+                targetTicketId, 
+                mergeIds, 
+                targetMergeComment, 
+                sourceMergeComment,
+                true,
+                true);
+
+            Assert.That(res.JobStatus.Status, Is.EqualTo("queued"));
+
+            do
+            {
+                Thread.Sleep(5000);
+                var job = api.JobStatuses.GetJobStatus(res.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(res.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            var counter = 0;
+            foreach (var id in mergeIds)
+            {
+                var oldTicket = api.Tickets.GetTicket(id);
+                Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
+                Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
+
+                var oldComments = api.Tickets.GetTicketComments(id);
+                Assert.That(oldComments.Comments.Count, Is.EqualTo(2));
+                Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
+                Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
+
+                api.Tickets.DeleteAsync(id);
+                counter++;
+            }
+
+            var ticket = api.Tickets.GetTicket(targetTicketId);
+            Assert.That(ticket.Ticket.Id.Value, Is.EqualTo(targetTicketId));
+
+            var comments = api.Tickets.GetTicketComments(targetTicketId);
+            Assert.That(comments.Comments.Count, Is.EqualTo(2));
+            Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
+            Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
+
+            api.Tickets.DeleteAsync(targetTicketId);
+        }
+
+        [Test]
+        public async Task CanMergeTicketsAsync()
+        {
+            var sourceDescription = new List<string> { "This is a source ticket 1", "This is a source ticket 2" };
+            var targetDescription = "This is a the target ticket";
+
+            var sourceTicket1 = new Ticket
+            {
+                Subject = "Source Ticket 1",
+                Comment = new Comment { Body = sourceDescription[0], Public = true, }
+            };
+            var sourceTicket2 = new Ticket
+            {
+                Subject = "Source Ticket 2",
+                Comment = new Comment { Body = sourceDescription[1], Public = true, }
+            };
+            var targetTicket = new Ticket
+            {
+                Subject = "Target Ticket",
+                Comment = new Comment { Body = targetDescription, Public = true, }
+            };
+
+            var mergeIds = new List<long>();
+
+            var tick = await api.Tickets.CreateTicketAsync(sourceTicket1);
+            mergeIds.Add(tick.Ticket.Id.Value);
+            tick = await api.Tickets.CreateTicketAsync(sourceTicket2);
+            mergeIds.Add(tick.Ticket.Id.Value);
+            tick = await api.Tickets.CreateTicketAsync(targetTicket);
+            var targetTicketId = tick.Ticket.Id.Value;
+
+            var targetMergeComment =
+                $"Merged with ticket(s) {string.Join(", ", mergeIds.Select(m => $"#{m}").ToArray())}";
+            var sourceMergeComment = $"Closing in favor of #{targetTicketId}";
+
+            var res = await api.Tickets.MergeTicketsAsync(
+                targetTicketId,
+                mergeIds,
+                targetMergeComment,
+                sourceMergeComment);
+
+            Assert.That(res.JobStatus.Status, Is.EqualTo("queued"));
+
+            do
+            {
+                await Task.Delay(5000);
+                var job = await api.JobStatuses.GetJobStatusAsync(res.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(res.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            var counter = 0;
+            foreach (var id in mergeIds)
+            {
+                var oldTicket = await api.Tickets.GetTicketAsync(id);
+                Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
+                Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
+
+                var oldComments = await api.Tickets.GetTicketCommentsAsync(id);
+                Assert.That(oldComments.Comments.Count, Is.EqualTo(2));
+                Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
+                Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
+
+                await api.Tickets.DeleteAsync(id);
+                counter++;
+            }
+
+            var ticket = await api.Tickets.GetTicketAsync(targetTicketId);
+            Assert.That(ticket.Ticket.Id.Value, Is.EqualTo(targetTicketId));
+
+            var comments = await api.Tickets.GetTicketCommentsAsync(targetTicketId);
+            Assert.That(comments.Comments.Count, Is.EqualTo(2));
+            Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
+            Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
+
+            await api.Tickets.DeleteAsync(targetTicketId);
+        }
+
+        [Test]
         public void CanBulkImportTicket()
         {
             var test = new List<TicketImport>();
