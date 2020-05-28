@@ -1,4 +1,4 @@
-#if ASYNC
+﻿#if ASYNC
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.Groups;
@@ -16,8 +16,10 @@ namespace ZendeskApi_v2.Requests
 		bool DeleteGroup(long id);
 		MultipleGroupMembershipResponse GetGroupMemberships();
 		MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId);
+		MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId, int perPage, int page);
 		MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId);
-		MultipleGroupMembershipResponse GetAssignableGroupMemberships();
+        MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId, int perPage, int page);
+        MultipleGroupMembershipResponse GetAssignableGroupMemberships();
 		MultipleGroupMembershipResponse GetAssignableGroupMembershipsByGroup(long groupId);
 		IndividualGroupMembershipResponse GetGroupMembershipsByMembershipId(long groupMembershipId);
 		IndividualGroupMembershipResponse GetGroupMembershipsByUserAndMembershipId(long userId, long groupMembershipId);
@@ -43,8 +45,10 @@ namespace ZendeskApi_v2.Requests
 		Task<bool> DeleteGroupAsync(long id);
 		Task<MultipleGroupMembershipResponse> GetGroupMembershipsAsync();
 		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId);
+		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId, int perPage, int page);
 		Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId);
-		Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync();
+        Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId, int perPage, int page);
+        Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync();
 		Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsByGroupAsync(long groupId);
 		Task<IndividualGroupMembershipResponse> GetGroupMembershipsByMembershipIdAsync(long groupMembershipId);
 		Task<IndividualGroupMembershipResponse> GetGroupMembershipsByUserAndMembershipIdAsync(long userId, long groupMembershipId);
@@ -96,9 +100,9 @@ namespace ZendeskApi_v2.Requests
             var body = new { group };
             return GenericPut<IndividualGroupResponse>($"groups/{group.Id}.json", body);
         }
-        
+
         public bool DeleteGroup(long id)
-        {            
+        {
             return GenericDelete($"groups/{id}.json");
         }
 
@@ -114,9 +118,20 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships.json");
         }
 
+        public MultipleGroupMembershipResponse GetGroupMembershipsByUser(long userId, int perPage, int page)
+        {
+            return GenericPagedGet<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships.json", perPage, page);
+        }
+
         public MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId)
         {
             return GenericGet<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships.json");
+        }
+
+        public MultipleGroupMembershipResponse GetGroupMembershipsByGroup(long groupId, int perPage, int page)
+        {
+            return GenericPagedGet<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships.json", perPage,
+                page);
         }
 
         public MultipleGroupMembershipResponse GetAssignableGroupMemberships()
@@ -156,7 +171,7 @@ namespace ZendeskApi_v2.Requests
         }
 
         public bool DeleteGroupMembership(long groupMembershipId)
-        {            
+        {
             return GenericDelete($"group_memberships/{groupMembershipId}.json");
         }
 
@@ -209,9 +224,21 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships.json");
         }
 
+        public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByUserAsync(long userId, int perPage, int page)
+        {
+            return await GenericPagedGetAsync<MultipleGroupMembershipResponse>($"users/{userId}/group_memberships.json", perPage,
+                page);
+        }
+
         public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId)
         {
             return await GenericGetAsync<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships.json");
+        }
+
+        public async Task<MultipleGroupMembershipResponse> GetGroupMembershipsByGroupAsync(long groupId, int perPage, int page)
+        {
+            return await GenericPagedGetAsync<MultipleGroupMembershipResponse>($"groups/{groupId}/memberships.json", perPage,
+                page);
         }
 
         public async Task<MultipleGroupMembershipResponse> GetAssignableGroupMembershipsAsync()

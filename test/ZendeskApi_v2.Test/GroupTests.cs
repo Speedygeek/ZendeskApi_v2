@@ -1,11 +1,10 @@
 using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ZendeskApi_v2;
 using ZendeskApi_v2.Models.Constants;
-using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Models.Groups;
-using System.Threading.Tasks;
-using ZendeskApi_v2.Models.Search;
+using ZendeskApi_v2.Models.Users;
 
 namespace Tests
 {
@@ -65,14 +64,27 @@ namespace Tests
         public void CanGetGroupMemberships()
         {
             var res = api.Groups.GetGroupMemberships();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = api.Groups.GetGroupMembershipsByUser(Settings.UserId);
-            Assert.Greater(res1.Count, 0);
+            Assert.That(res1.Count, Is.GreaterThan(0));
 
             var groups = api.Groups.GetGroups();
             var res2 = api.Groups.GetGroupMembershipsByGroup(groups.Groups[0].Id.Value);
-            Assert.Greater(res2.Count, 0);
+            Assert.That(res2.Count, Is.GreaterThan(0));
+
+            int count = 2;
+            int page = 2;
+
+            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
+            var res1Paged = api.Groups.GetGroupMembershipsByUser(Settings.UserId, count, page);
+            Assert.That(res1Paged.Count, Is.GreaterThan(0));
+            Assert.That(res1Paged.GroupMemberships[0].Id, Is.EqualTo(res1.GroupMemberships[2].Id));
+
+            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
+            var res2Paged = api.Groups.GetGroupMembershipsByGroup(groups.Groups[0].Id.Value, count, page);
+            Assert.That(res2Paged.Count, Is.GreaterThan(0));
+            Assert.That(res2Paged.GroupMemberships[0].Id, Is.EqualTo(res2.GroupMemberships[2].Id));
         }
 
         [Test]
@@ -123,6 +135,33 @@ namespace Tests
             Assert.True(api.Groups.DeleteGroupMembership(res.GroupMembership.Id.Value));
             Assert.True(api.Users.DeleteUser(user.Id.Value));
             Assert.True(api.Groups.DeleteGroup(group.Id.Value));
+        }
+
+        [Test]
+        public void CanGetGroupMembershipsAsync()
+        {
+            var res = api.Groups.GetGroupMembershipsAsync().Result;
+            Assert.That(res.Count, Is.GreaterThan(0));
+
+            var res1 = api.Groups.GetGroupMembershipsByUserAsync(Settings.UserId).Result;
+            Assert.That(res1.Count, Is.GreaterThan(0));
+
+            var groups = api.Groups.GetGroupsAsync().Result;
+            var res2 = api.Groups.GetGroupMembershipsByGroupAsync(groups.Groups[0].Id.Value).Result;
+            Assert.That(res2.Count, Is.GreaterThan(0));
+
+            int count = 2;
+            int page = 2;
+
+            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
+            var res1Paged = api.Groups.GetGroupMembershipsByUserAsync(Settings.UserId, count, page).Result;
+            Assert.That(res1Paged.Count, Is.GreaterThan(0));
+            Assert.That(res1Paged.GroupMemberships[0].Id, Is.EqualTo(res1.GroupMemberships[2].Id));
+
+            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
+            var res2Paged = api.Groups.GetGroupMembershipsByGroupAsync(groups.Groups[0].Id.Value, count, page).Result;
+            Assert.That(res2Paged.Count, Is.GreaterThan(0));
+            Assert.That(res2Paged.GroupMemberships[0].Id, Is.EqualTo(res2.GroupMemberships[2].Id));
         }
     }
 }
