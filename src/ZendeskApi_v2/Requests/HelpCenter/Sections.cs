@@ -11,6 +11,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
 #if SYNC
         GroupSectionResponse GetSections();
+        GroupSectionResponse GetSections(int perPage, int page);
         GroupSectionResponse GetSectionsByCategoryId(long categoryId);
         IndividualSectionResponse GetSectionById(long id);
         IndividualSectionResponse CreateSection(Section section);
@@ -24,6 +25,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 #if ASYNC
         Task<GroupSectionResponse> GetSectionsAsync();
+        Task<GroupSectionResponse> GetSectionsAsync(int perPage, int page);
         Task<GroupSectionResponse> GetSectionsByCategoryIdAsync(long categoryId);
         Task<IndividualSectionResponse> GetSectionByIdAsync(long id);
         Task<IndividualSectionResponse> CreateSectionAsync(Section section);
@@ -53,6 +55,12 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         {
             return GenericGet<GroupSectionResponse>($"{_generalSectionsPath}.json?include=access_policies");
         }
+
+        public GroupSectionResponse GetSections(int perPage, int page)
+        {
+            return GenericPagedGet<GroupSectionResponse>($"{_generalSectionsPath}.json?include=access_policies", perPage, page);
+        }
+
         public GroupSectionResponse GetSectionsByCategoryId(long categoryId)
         {
             return GenericGet<GroupSectionResponse>(GetSectionPathWithCategory(categoryId));
@@ -103,6 +111,11 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         public async Task<GroupSectionResponse> GetSectionsAsync()
         {
             return await GenericGetAsync<GroupSectionResponse>($"{_generalSectionsPath}.json?include=access_policies");
+        }
+
+        public async Task<GroupSectionResponse> GetSectionsAsync(int perPage, int page)
+        {
+            return await GenericPagedGetAsync<GroupSectionResponse>($"{_generalSectionsPath}.json?include=access_policies", perPage, page);
         }
 
         public async Task<GroupSectionResponse> GetSectionsByCategoryIdAsync(long categoryId)
