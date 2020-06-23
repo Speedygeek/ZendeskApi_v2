@@ -27,6 +27,9 @@ pr:
     exclude:
     - docs/*
 
+pool:
+  vmImage: 'windows-latest'
+
 jobs:
 - job: Build
   displayName: Build and Test
