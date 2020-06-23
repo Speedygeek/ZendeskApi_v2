@@ -80,8 +80,10 @@ jobs:
   dependsOn: Build
   condition: and(succeeded(),or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/tags/v3.')))
   steps:
+  - checkout: none
   - task: DownloadPipelineArtifact@2
     inputs:
+      path: $(Pipeline.Workspace)/Nuget_Package
       artifact: 'Nuget_Package'
 
   - task: PowerShell@2
@@ -108,7 +110,7 @@ jobs:
     condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
     inputs:
       command: push
-      packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg;!$(System.ArtifactsDirectory)/**/*.symbols.nupkg'
+      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
       nuGetFeedType: external
       publishFeedCredentials: 'Github Nuget Feed'
 
@@ -117,7 +119,7 @@ jobs:
     condition: and(succeeded(), eq(variables['IsPrerelease'] ,'True'))
     inputs:
       command: push
-      packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg;!$(System.ArtifactsDirectory)/**/*.symbols.nupkg'
+      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
       nuGetFeedType: external
       publishFeedCredentials: MyGet
 
@@ -126,7 +128,7 @@ jobs:
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v3.'),eq(variables['IsPrerelease'] ,'False'))
     inputs:
       command: push
-      packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg;!$(System.ArtifactsDirectory)/**/*.symbols.nupkg'
+      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
       nuGetFeedType: external
       publishFeedCredentials: Nuget.org
 
@@ -139,5 +141,5 @@ jobs:
       tagSource: gitTag
       title: '$(Build.BuildNumber) ($(ReleaseDate))'
       releaseNotesSource: inline
-      assets: '$(System.ArtifactsDirectory)/**/*.nupkg'
+      assets: '$(Pipeline.Workspace)/**/*.nupkg'
       isDraft: true
