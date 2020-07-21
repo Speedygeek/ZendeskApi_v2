@@ -114,5 +114,8 @@ namespace ZendeskApi_v2.Models.Requests
 
         [JsonProperty("tags")]
         public IList<string> Tags { get; set; }
+
+        [JsonProperty("email_ccs")]
+        public IList<EmailCC> EmailCCs { get; set; }
     }
 }

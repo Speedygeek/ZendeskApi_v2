@@ -212,5 +212,53 @@ namespace Tests
                 Assert.True(_api.Tickets.Delete(res.Request.Id.Value));
             }
         }
+
+        [Test]
+        public void CanCreateRequestWithEmailCCs()
+        {
+            var emailCCs = new List<EmailCC>
+            {
+                new EmailCC{ UserEmail = "test1@test.com" },
+                new EmailCC{ UserEmail = "test2@test.com" }
+            };
+
+            var req = new Request
+            {
+                Subject = "end user request test",
+                Type = RequestType.incident,
+                Comment = new Comment
+                { Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true },
+                Requester = new Requester
+                {
+                    Name = "Test Name"
+                },
+                Tags = new List<string> { "tag1", "tag2" },
+                EmailCCs = emailCCs
+            };
+
+            var res = _api.Requests.CreateRequest(req);
+
+            try
+            {
+                Assert.IsNotNull(res);
+                Assert.IsNotNull(res.Request);
+                Assert.IsTrue(res.Request.Id.HasValue);
+                Assert.True(res.Request.Id.Value > 0);
+
+                IndividualUserResponse user = _api.Users.GetUser(res.Request.RequesterId.Value);
+                Assert.AreEqual("Test Name", user.User.Name);
+
+                IndividualTicketResponse ticket = _api.Tickets.GetTicket(res.Request.Id.Value);
+                CollectionAssert.AreEquivalent(new[] { "tag1", "tag2" }, ticket.Ticket.Tags);
+
+                IList<long> collaboratorsIds = ticket.Ticket.CollaboratorIds;
+                GroupUserResponse collaborators = _api.Users.GetMultipleUsers(collaboratorsIds.AsEnumerable());
+                CollectionAssert.AreEquivalent(emailCCs.Select(e => e.UserEmail), collaborators.Users.Select(u => u.Email));
+            }
+            finally
+            {
+                Assert.True(_api.Tickets.Delete(res.Request.Id.Value));
+            }
+        }
     }
 }
