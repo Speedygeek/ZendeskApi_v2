@@ -132,8 +132,13 @@ namespace ZendeskApi_v2
                     req.Proxy = Proxy;
                 }
 
-                req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
-                req.PreAuthenticate = true;
+                var authHeaderContent = GetPasswordOrTokenAuthHeader();
+
+                if (!string.IsNullOrEmpty(authHeaderContent))
+                {
+                    req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+                    req.PreAuthenticate = true;
+                }
 
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
@@ -383,7 +388,13 @@ namespace ZendeskApi_v2
                 var req = WebRequest.Create(requestUrl) as HttpWebRequest;
                 req.ContentType = "application/json";
 
-                req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+                var authHeaderContent = GetPasswordOrTokenAuthHeader();
+
+                if (!string.IsNullOrEmpty(authHeaderContent))
+                {
+                    req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
+                }
+
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
 
