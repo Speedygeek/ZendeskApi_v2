@@ -51,6 +51,6 @@ namespace Tests
         public const long Category_ID = 200382245;
         public const long Topic_ID = 360000971672;
 
-        public static DateTimeOffset Epoch = new(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        public static DateTimeOffset Epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
     }
 }
