@@ -217,11 +217,12 @@ namespace Tests
         }
 
         [Test]
-        public void CanTicketsByUserIdPagedAsyncWithSideLoad()
+        public async Task CanTicketsByUserIdPagedAsyncWithSideLoad()
         {
-            var ticketsRes = api.Tickets.GetTicketsByUserIDAsync(Settings.UserId, 5, 2, sideLoadOptions: ticketSideLoadOptions);
-            Assert.IsTrue(ticketsRes.Result.Users.Any());
-            Assert.IsTrue(ticketsRes.Result.Organizations.Any());
+            var ticketsRes = await api.Tickets.GetTicketsByUserIDAsync(Settings.UserId, 50, 2, sideLoadOptions: ticketSideLoadOptions);
+
+            Assert.IsTrue(ticketsRes.Users.Any());
+            Assert.IsTrue(ticketsRes.Organizations.Any());
         }
 
         [Test]
@@ -677,7 +678,7 @@ namespace Tests
         [Test]
         public void CanGetCollaborators()
         {
-            var res = api.Tickets.GetCollaborators(Settings.SampleTicketId);
+            var res = api.Tickets.GetCollaborators(Settings.SampleTicketId3);
             Assert.Greater(res.Users.Count, 0);
         }
 
