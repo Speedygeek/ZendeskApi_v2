@@ -229,7 +229,7 @@ namespace Tests
         [Test]
         public void CanGetIncrementalOrganizationExport()
         {
-            var incrementalOrganizationExport = api.Organizations.GetIncrementalOrganizationExport(DateTimeOffset.MinValue);
+            var incrementalOrganizationExport = api.Organizations.GetIncrementalOrganizationExport(Settings.Epoch);
             Assert.That(incrementalOrganizationExport.Organizations.Count, Is.GreaterThan(0));
 
             var incrementalOrganizationExportNextPage = api.Organizations.GetIncrementalOrganizationExportNextPage(incrementalOrganizationExport.NextPage);
@@ -239,7 +239,7 @@ namespace Tests
         [Test]
         public async Task CanGetIncrementalOrganizationExportAsync()
         {
-            var incrementalOrganizationExport = await api.Organizations.GetIncrementalOrganizationExportAsync(DateTimeOffset.MinValue);
+            var incrementalOrganizationExport = await api.Organizations.GetIncrementalOrganizationExportAsync(Settings.Epoch);
             Assert.That(incrementalOrganizationExport.Organizations.Count, Is.GreaterThan(0));
 
             var incrementalOrganizationExportNextPage = await api.Organizations.GetIncrementalOrganizationExportNextPageAsync(incrementalOrganizationExport.NextPage);

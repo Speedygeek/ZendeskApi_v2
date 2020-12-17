@@ -72,19 +72,6 @@ namespace Tests
             var groups = api.Groups.GetGroups();
             var res2 = api.Groups.GetGroupMembershipsByGroup(groups.Groups[0].Id.Value);
             Assert.That(res2.Count, Is.GreaterThan(0));
-
-            int count = 2;
-            int page = 2;
-
-            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
-            var res1Paged = api.Groups.GetGroupMembershipsByUser(Settings.UserId, count, page);
-            Assert.That(res1Paged.Count, Is.GreaterThan(0));
-            Assert.That(res1Paged.GroupMemberships[0].Id, Is.EqualTo(res1.GroupMemberships[2].Id));
-
-            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
-            var res2Paged = api.Groups.GetGroupMembershipsByGroup(groups.Groups[0].Id.Value, count, page);
-            Assert.That(res2Paged.Count, Is.GreaterThan(0));
-            Assert.That(res2Paged.GroupMemberships[0].Id, Is.EqualTo(res2.GroupMemberships[2].Id));
         }
 
         [Test]
@@ -149,19 +136,6 @@ namespace Tests
             var groups = api.Groups.GetGroupsAsync().Result;
             var res2 = api.Groups.GetGroupMembershipsByGroupAsync(groups.Groups[0].Id.Value).Result;
             Assert.That(res2.Count, Is.GreaterThan(0));
-
-            int count = 2;
-            int page = 2;
-
-            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
-            var res1Paged = api.Groups.GetGroupMembershipsByUserAsync(Settings.UserId, count, page).Result;
-            Assert.That(res1Paged.Count, Is.GreaterThan(0));
-            Assert.That(res1Paged.GroupMemberships[0].Id, Is.EqualTo(res1.GroupMemberships[2].Id));
-
-            // Verify that first entry on page 2 is the same as 3rd entry on non-paginated request.
-            var res2Paged = api.Groups.GetGroupMembershipsByGroupAsync(groups.Groups[0].Id.Value, count, page).Result;
-            Assert.That(res2Paged.Count, Is.GreaterThan(0));
-            Assert.That(res2Paged.GroupMemberships[0].Id, Is.EqualTo(res2.GroupMemberships[2].Id));
         }
     }
 }

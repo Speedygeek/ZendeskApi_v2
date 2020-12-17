@@ -670,7 +670,7 @@ namespace Tests
         [Test]
         public void CanGetIncrementalUserExport()
         {
-            var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue);
+            var incrementalUserExport = api.Users.GetIncrementalUserExport(Settings.Epoch);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
             Assert.That(incrementalUserExport.Organizations, Is.Null);
             Assert.That(incrementalUserExport.Identities, Is.Null);
@@ -688,7 +688,7 @@ namespace Tests
         //{
         //    Thread.Sleep(60000);
 
-        //    var incrementalUserExport = api.Users.GetIncrementalUserExport(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
+        //    var incrementalUserExport = api.Users.GetIncrementalUserExport(Settings.Epoch, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
         //    Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
         //    Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
         //    Assert.That(incrementalUserExport.Identities, Is.Not.Null);
@@ -704,7 +704,7 @@ namespace Tests
         [Test]
         public async Task CanGetIncrementalUserExportAsync()
         {
-            var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue);
+            var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(Settings.Epoch);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
             Assert.That(incrementalUserExport.Organizations, Is.Null);
             Assert.That(incrementalUserExport.Identities, Is.Null);
@@ -720,7 +720,7 @@ namespace Tests
         [Test]
         public async Task CanGetIncrementalUserExportAsyncWithSideLoadOptions()
         {
-            var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(DateTimeOffset.MinValue, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
+            var incrementalUserExport = await api.Users.GetIncrementalUserExportAsync(Settings.Epoch, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
             Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
             Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
             Assert.That(incrementalUserExport.Identities, Is.Not.Null);
