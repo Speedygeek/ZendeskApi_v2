@@ -482,7 +482,7 @@ namespace ZendeskApi_v2
                 parameters.Add("per_page", perPage.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (page.HasValue && perPage > 0)
+            if (page.HasValue && page > 0)
             {
                 parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
             }
