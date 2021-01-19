@@ -105,14 +105,14 @@ jobs:
         $date=$(Get-Date -Format "dd MMMM yyyy");
         Write-Host "##vso[task.setvariable variable=ReleaseDate]$date"
 
-  - task: NuGetCommand@2
-    displayName: 'GitHub Feed (Pre-release)'
-    condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
-    inputs:
-      command: push
-      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
-      nuGetFeedType: external
-      publishFeedCredentials: 'Github Nuget Feed'
+  #- task: NuGetCommand@2
+  #  displayName: 'GitHub Feed (Pre-release)'
+  #  condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
+  #  inputs:
+  #    command: push
+  #    packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
+  #    nuGetFeedType: external
+  #    publishFeedCredentials: 'Github Nuget Feed'
 
   - task: NuGetCommand@2
     displayName: 'MyGet Feed (Pre-release)'
