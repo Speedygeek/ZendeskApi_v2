@@ -6,10 +6,15 @@
 resources:
 - repo: self
 variables:
-  BuildConfiguration: 'Release'
-  System.Debug: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  - name: BuildConfiguration
+    value: 'Release'
+  - name: System.Debug
+    value: true
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: true
+  - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+    value: true
+  - group: GitHub_Feed
 
 trigger:
   batch: true
@@ -113,6 +118,21 @@ jobs:
   #    packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
   #    nuGetFeedType: external
   #    publishFeedCredentials: 'Github Nuget Feed'
+  - task: PowerShell@2
+    displayName: 'GitHub Feed (Pre-release)'
+    condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
+    env:
+      github_feed_apikey: $(github_feed_apikey)
+    inputs:
+      targetType: inline
+      script: |
+        cd $(Pipeline.Workspace)/Nuget_Package
+        ls
+        gci env:* | sort-object name
+        dotnet nuget push "*.nupkg" --no-symbols --api-key $env:github_feed_apikey  --source $env:github_feed_url
+
+      showWarnings: true
+      pwsh: true
 
   - task: NuGetCommand@2
     displayName: 'MyGet Feed (Pre-release)'
