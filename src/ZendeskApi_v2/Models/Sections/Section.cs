@@ -54,5 +54,8 @@ namespace ZendeskApi_v2.Models.Sections
         [Obsolete("Deprecated please use options on articles \r\n See: https://develop.zendesk.com/hc/en-us/articles/360001954227 ", true)]
         [JsonProperty("user_segment_id")]
         public long? UserSegmentId { get; set; }
+
+        [JsonProperty("parent_section_id")]
+        public int? ParentSectionId { get; set; }
     }
 }
