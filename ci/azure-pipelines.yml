@@ -122,14 +122,14 @@ jobs:
     displayName: 'GitHub Feed (Pre-release)'
     condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
     env:
-      github_feed_apikey: $(github_feed_apikey)
+      apikey: $(github_feed_apikey)
     inputs:
       targetType: inline
       script: |
         cd $(Pipeline.Workspace)/Nuget_Package
-        ls
-        gci env:* | sort-object name
-        dotnet nuget push "*.nupkg" --no-symbols --api-key $env:github_feed_apikey  --source $env:github_feed_url
+        $api = $env:apikey
+        Write-Host -ForegroundColor Cyan "api key length is $api.Length
+        dotnet nuget push "*.nupkg" --api-key "$api"  --source $env:github_feed_url --no-symbols
 
       showWarnings: true
       pwsh: true
