@@ -126,10 +126,13 @@ jobs:
     inputs:
       targetType: inline
       script: |
+        Write-Host -ForegroundColor Cyan "starting github push"
         cd $(Pipeline.Workspace)/Nuget_Package
-        $api = $env:apikey
-        Write-Host -ForegroundColor Cyan "api key length is $api.Length
-        dotnet nuget push "*.nupkg" --api-key "$api"  --source $env:github_feed_url --no-symbols
+        $api = "$Env:apikey"
+        $url =  "$Env:github_feed_url"
+        Write-Host -ForegroundColor Cyan "Feed url $url"
+        Write-Host -ForegroundColor Cyan "api key length is " $api.Length
+        dotnet nuget push "*.nupkg" --api-key "$api"  --source $url --no-symbols
 
       showWarnings: true
       pwsh: true
