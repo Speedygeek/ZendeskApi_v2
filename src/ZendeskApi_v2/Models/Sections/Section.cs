@@ -56,6 +56,6 @@ namespace ZendeskApi_v2.Models.Sections
         public long? UserSegmentId { get; set; }
 
         [JsonProperty("parent_section_id")]
-        public int? ParentSectionId { get; set; }
+        public long? ParentSectionId { get; set; }
     }
 }
