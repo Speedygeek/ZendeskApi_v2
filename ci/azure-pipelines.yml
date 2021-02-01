@@ -6,10 +6,15 @@
 resources:
 - repo: self
 variables:
-  BuildConfiguration: 'Release'
-  System.Debug: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  - name: BuildConfiguration
+    value: 'Release'
+  - name: System.Debug
+    value: true
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: true
+  - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+    value: true
+  - group: GitHub_Feed
 
 trigger:
   batch: true
@@ -36,7 +41,7 @@ jobs:
     displayName: 'Use .NET Core sdk'
     inputs:
       packageType: sdk
-      version: 3.0.100
+      version: 3.0.103
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: DotNetCoreCLI@2
@@ -105,14 +110,31 @@ jobs:
         $date=$(Get-Date -Format "dd MMMM yyyy");
         Write-Host "##vso[task.setvariable variable=ReleaseDate]$date"
 
-  - task: NuGetCommand@2
+  #- task: NuGetCommand@2
+  #  displayName: 'GitHub Feed (Pre-release)'
+  #  condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
+  #  inputs:
+  #    command: push
+  #    packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
+  #    nuGetFeedType: external
+  #    publishFeedCredentials: 'Github Nuget Feed'
+  - task: PowerShell@2
     displayName: 'GitHub Feed (Pre-release)'
     condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
+    env:
+      apikey: $(github_feed_apikey)
     inputs:
-      command: push
-      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
-      nuGetFeedType: external
-      publishFeedCredentials: 'Github Nuget Feed'
+      targetType: inline
+      script: |
+        Write-Host -ForegroundColor Cyan "starting github push"
+        $api = "$Env:apikey"
+        $url =  "$Env:github_feed_url"
+        Write-Host -ForegroundColor Cyan "Feed url $url"
+        Write-Host -ForegroundColor Cyan "api key length is " $api.Length
+        dotnet nuget push "$(Pipeline.Workspace)/**/*.nupkg" --no-symbols true --skip-duplicate -k "$api"  -s "$url"
+
+      showWarnings: true
+      pwsh: true
 
   - task: NuGetCommand@2
     displayName: 'MyGet Feed (Pre-release)'
