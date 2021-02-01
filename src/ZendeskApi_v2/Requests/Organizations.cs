@@ -34,6 +34,7 @@ namespace ZendeskApi_v2.Requests
         GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
+        JobStatusResponse UpdateMultipleOrganizations(IEnumerable<Organization> organizations);
         bool DeleteOrganization(long id);
 
         GroupOrganizationMembershipResponse GetOrganizationMemberships(int? perPage = null, int? page = null);
@@ -75,6 +76,7 @@ namespace ZendeskApi_v2.Requests
         Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
+        Task<JobStatusResponse> UpdateMultipleOrganizationsAsync(IEnumerable<Organization> organizations);
         Task<bool> DeleteOrganizationAsync(long id);
 
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsAsync(int? perPage = null, int? page = null);
@@ -150,6 +152,11 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { organization };
             return GenericPut<IndividualOrganizationResponse>($"organizations/{organization.Id}.json", body);
+        }
+
+        public JobStatusResponse UpdateMultipleOrganizations(IEnumerable<Organization> organizations)
+        {
+            return GenericPut<JobStatusResponse>($"organizations/update_many.json", new { organizations });
         }
 
         public bool DeleteOrganization(long id)
@@ -278,6 +285,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization)
         {
             return await GenericPutAsync<IndividualOrganizationResponse>($"organizations/{organization.Id}.json", new { organization });
+        }
+
+        public async Task<JobStatusResponse> UpdateMultipleOrganizationsAsync(IEnumerable<Organization> organizations)
+        {
+            return await GenericPutAsync<JobStatusResponse>($"organizations/update_many.json", new { organizations });
         }
 
         public async Task<bool> DeleteOrganizationAsync(long id)
