@@ -1,8 +1,9 @@
 # Zendesk Api V2
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=LRHN43F4DFLU6&lc=US&item_name=Elizabeth%20Schneider&item_number=ZendeskAPI%20support&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
-[![Join the chat at https://gitter.im/mozts2005/ZendeskApi_v2](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mozts2005/ZendeskApi_v2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![CLA assistant](https://cla-assistant.io/readme/badge/Speedygeek/ZendeskApi_v2)](https://cla-assistant.io/Speedygeek/ZendeskApi_v2)
+
 [![CodeFactor](https://www.codefactor.io/repository/github/speedygeek/zendeskapi_v2/badge)](https://www.codefactor.io/repository/github/speedygeek/zendeskapi_v2)
 
 [![Build Status](https://dev.azure.com/speedygeek/Zendesk/_apis/build/status/Speedygeek.ZendeskApi_v2?branchName=master)](https://dev.azure.com/speedygeek/Zendesk/_build/latest?definitionId=15&branchName=master)
@@ -15,7 +16,7 @@
 This is a client for [Zendesk's v2 REST api](http://developer.zendesk.com/documentation/rest_api/introduction.html).
 
 The client uses the Zendesk api however it is not supported by the zendesk for questions
-about the client please join our gitter room.
+about the client please feel to ask them in our [GitHub Discussions][discussions]
 
 If you have questions about your account or the api its self please contact the zendesk team at [api@zendesk.com](mailto:api@zendesk.com)
 
@@ -31,3 +32,6 @@ Thank you to the team at [Zendesk](https://www.zendesk.com/) for their support. 
 ### License
 
 This code is released under the [Apache Version 2 License](LICENSE.md).
+
+
+[discussions]:https://github.com/Speedygeek/ZendeskApi_v2/discussions

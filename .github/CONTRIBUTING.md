@@ -15,8 +15,7 @@ Please read these guidelines before contributing to ZendeskApi_v2:
 
 ## Got a Question or Problem?
 
-If you have questions about how to use zendesk client ask on [Stack Overflow][stackoverflow].
-there are questions on Stack Overflow with the [zendeskapiv2][stackoverflow] tag.
+If you have questions about how to use zendesk client ask in [GitHub Discussions][discussions].
 
 GitHub issues are only for [reporting bugs](#found-an-issue) and [feature requests](#want-a-feature), not
 questions or help.
@@ -88,3 +87,4 @@ FOR A PARTICULAR PURPOSE.
 [dropbox]: https://www.dropbox.com
 [gist]: https://gist.github.com
 [pullrequesthelp]: https://help.github.com/articles/using-pull-requests
+[discussions]:https://github.com/Speedygeek/ZendeskApi_v2/discussions
