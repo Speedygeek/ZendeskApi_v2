@@ -51,9 +51,9 @@ namespace Tests.HelpCenter
         {
             var file = new ZenFile()
             {
-                ContentType = "text/plain",
-                FileName = "testupload.txt",
-                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\testupload.txt")
+                ContentType = "image/jpeg",
+                FileName = "gracehoppertocat3.jpg",
+                FileData = File.ReadAllBytes(TestContext.CurrentContext.TestDirectory + "\\gracehoppertocat3.jpg")
             };
 
             var articleResponse = await api.HelpCenter.Articles.CreateArticleAsync(_sectionId, new Article
