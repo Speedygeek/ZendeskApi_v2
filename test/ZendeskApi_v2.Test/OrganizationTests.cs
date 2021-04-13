@@ -136,6 +136,42 @@ namespace Tests
         }
 
         [Test]
+        public void CanCreateOrUpdateOrganizations()
+        {
+            var res = api.Organizations.CreateOrUpdateOrganization(new Organization()
+            {
+                Name = "Test Org (original)"
+            });
+
+            Assert.Greater(res.Organization.Id, 0);
+
+            res.Organization.Name = "Test Org (updated)";
+            var update = api.Organizations.CreateOrUpdateOrganization(res.Organization);
+            Assert.AreEqual(update.Organization.Id, res.Organization.Id);
+            Assert.AreEqual(update.Organization.Name, res.Organization.Name);
+
+            Assert.True(api.Organizations.DeleteOrganization(res.Organization.Id.Value));
+        }
+
+        [Test]
+        public async Task CanCreateOrUpdateOrganizationsAsync()
+        {
+            var res = await api.Organizations.CreateOrUpdateOrganizationAsync(new Organization()
+            {
+                Name = "Test Org (original)"
+            });
+
+            Assert.Greater(res.Organization.Id, 0);
+
+            res.Organization.Name = "Test Org (updated)";
+            var update = await api.Organizations.CreateOrUpdateOrganizationAsync(res.Organization);
+            Assert.AreEqual(update.Organization.Id, res.Organization.Id);
+            Assert.AreEqual(update.Organization.Name, res.Organization.Name);
+
+            Assert.True(api.Organizations.DeleteOrganization(res.Organization.Id.Value));
+        }
+
+        [Test]
         public void CanCreateUpdateAndDeleteMultipeOrganizations()
         {
             var res1 = api.Organizations.CreateOrganization(new Organization()
