@@ -143,14 +143,14 @@ namespace Tests
                 Name = "Test Org (original)"
             });
 
-            Assert.Greater(res.Organization.Id, 0);
+            Assert.That(res.Organization.Id, Is.GreaterThan(0));
 
             res.Organization.Name = "Test Org (updated)";
             var update = api.Organizations.CreateOrUpdateOrganization(res.Organization);
-            Assert.AreEqual(update.Organization.Id, res.Organization.Id);
-            Assert.AreEqual(update.Organization.Name, res.Organization.Name);
 
-            Assert.True(api.Organizations.DeleteOrganization(res.Organization.Id.Value));
+            Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
+            Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
+            Assert.That(api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
         }
 
         [Test]
@@ -161,14 +161,14 @@ namespace Tests
                 Name = "Test Org (original)"
             });
 
-            Assert.Greater(res.Organization.Id, 0);
+            Assert.That(res.Organization.Id, Is.GreaterThan(0));
 
             res.Organization.Name = "Test Org (updated)";
             var update = await api.Organizations.CreateOrUpdateOrganizationAsync(res.Organization);
-            Assert.AreEqual(update.Organization.Id, res.Organization.Id);
-            Assert.AreEqual(update.Organization.Name, res.Organization.Name);
 
-            Assert.True(api.Organizations.DeleteOrganization(res.Organization.Id.Value));
+            Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
+            Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
+            Assert.That(api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
         }
 
         [Test]
