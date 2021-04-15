@@ -33,6 +33,8 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
+        IndividualOrganizationResponse CreateOrUpdateOrganization(Organization organization);
+
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
         JobStatusResponse UpdateMultipleOrganizations(IEnumerable<Organization> organizations);
         bool DeleteOrganization(long id);
@@ -75,6 +77,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
+        Task<IndividualOrganizationResponse> CreateOrUpdateOrganizationAsync(Organization organization);
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
         Task<JobStatusResponse> UpdateMultipleOrganizationsAsync(IEnumerable<Organization> organizations);
         Task<bool> DeleteOrganizationAsync(long id);
@@ -146,6 +149,12 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { organization };
             return GenericPost<IndividualOrganizationResponse>("organizations.json", body);
+        }
+
+        public IndividualOrganizationResponse CreateOrUpdateOrganization(Organization organization)
+        {
+            var body = new { organization };
+            return GenericPost<IndividualOrganizationResponse>("organizations/create_or_update.json", body);
         }
 
         public IndividualOrganizationResponse UpdateOrganization(Organization organization)
@@ -280,6 +289,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization)
         {
             return await GenericPostAsync<IndividualOrganizationResponse>("organizations.json", new { organization });
+        }
+
+        public async Task<IndividualOrganizationResponse> CreateOrUpdateOrganizationAsync(Organization organization)
+        {
+            return await GenericPostAsync<IndividualOrganizationResponse>("organizations/create_or_update.json", new { organization });
         }
 
         public async Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization)
