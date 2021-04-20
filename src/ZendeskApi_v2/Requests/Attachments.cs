@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.HelpCenter.Attachments;
+using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Shared;
 
 namespace ZendeskApi_v2.Requests
@@ -22,6 +23,7 @@ namespace ZendeskApi_v2.Requests
         Upload UploadAttachment(ZenFile file, int? timeout = null);
         Upload UploadAttachments(IEnumerable<ZenFile> files, int? timeout = null);
         bool DeleteUpload(Upload upload);
+        IndividualAttachmentResponse RedactCommentAttachment(long attachmentId, long ticketId, long commentId);
 #endif
 
 #if ASYNC
@@ -37,7 +39,7 @@ namespace ZendeskApi_v2.Requests
         Task<Upload> UploadAttachmentsAsync(IEnumerable<ZenFile> files, int? timeout = null);
         Task<bool> DeleteUploadAsync(Upload upload);
         Task<ZenFile> DownloadAttachmentAsync(Attachment attachment);
-
+        Task<IndividualAttachmentResponse> RedactCommentAttachmentAsync(long attachmentId, long ticketId, long commentId);
 #endif
     }
 
@@ -103,6 +105,12 @@ namespace ZendeskApi_v2.Requests
         public bool DeleteUpload(Upload upload)
         {
             return (upload?.Token == null ? false : GenericDelete($"/uploads/{upload.Token}.json"));
+        }
+
+        public IndividualAttachmentResponse RedactCommentAttachment(long attachmentId, long ticketId, long commentId)
+        {
+            var resource = $"/tickets/{ticketId}/comments/{commentId}/attachments/{attachmentId}/redact";
+            return RunRequest<IndividualAttachmentResponse>(resource, RequestMethod.Put);
         }
 #endif
 
@@ -173,6 +181,12 @@ namespace ZendeskApi_v2.Requests
             }
 
             return file;
+        }
+
+        public async Task<IndividualAttachmentResponse> RedactCommentAttachmentAsync(long attachmentId, long ticketId, long commentId)
+        {
+            var resource = $"/tickets/{ticketId}/comments/{commentId}/attachments/{attachmentId}/redact";
+            return await RunRequestAsync<IndividualAttachmentResponse>(resource, RequestMethod.Put);
         }
 
 #endif
