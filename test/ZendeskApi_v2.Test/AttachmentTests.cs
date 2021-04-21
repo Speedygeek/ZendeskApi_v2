@@ -9,6 +9,7 @@ using ZendeskApi_v2.Models.Constants;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Tests
 {
@@ -64,6 +65,45 @@ namespace Tests
 
             Assert.That(api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
             Assert.That(api.Attachments.DeleteUpload(res));
+        }
+
+        [Test]
+        public async Task CanRedactAttachment()
+        {
+            //This could probably be brought into a helper for above two tests perhaps
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "testupload.txt");
+
+            var res = await api.Attachments.UploadAttachmentAsync(new ZenFile()
+            {
+                ContentType = "text/plain",
+                FileName = "testupload.txt",
+                FileData = File.ReadAllBytes(path)
+            });
+
+            var ticket = new Ticket()
+            {
+                Subject = "testing attachments",
+                Priority = TicketPriorities.Normal,
+                Comment = new Comment()
+                {
+                    Body = "comments are required for attachments",
+                    Public = true,
+                    Uploads = new List<string>() { res.Token }
+                },
+            };
+
+            var t1 = await api.Tickets.CreateTicketAsync(ticket);
+
+            var comments = api.Tickets.GetTicketComments(t1.Ticket.Id.Value);
+
+            var attach = comments.Comments[0].Attachments[0];
+
+            var delRes = api.Attachments.RedactCommentAttachment(attach.Id, t1.Ticket.Id.Value, comments.Comments[0].Id.Value);
+            //Returned correct attachment
+            Assert.That(delRes.Attachment.Id, Is.EqualTo(attach.Id));
+
+            //Check the file has been replaced by redacted.txt
+            Assert.That(api.Tickets.GetTicketComments(t1.Ticket.Id.Value).Comments[0].Attachments[0].FileName, Is.EqualTo("redacted.txt"));
         }
     }
 }
