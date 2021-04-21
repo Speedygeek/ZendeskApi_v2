@@ -102,11 +102,8 @@ namespace Tests
             //Returned correct attachment
             Assert.That(delRes.Attachment.Id, Is.EqualTo(attach.Id));
 
-            var ex = Assert.Throws<WebException>(() => api.Attachments.RedactCommentAttachment(attach.Id, t1.Ticket.Id.Value, comments.Comments[0].Id.Value));
-
-            //No longer exists when attempting twice
-            Assert.AreEqual(HttpStatusCode.NotFound, (ex.Response as HttpWebResponse).StatusCode);
+            //Check the file has been replaced by redacted.txt
+            Assert.That(api.Tickets.GetTicketComments(t1.Ticket.Id.Value).Comments[0].Attachments[0].FileName, Is.EqualTo("redacted.txt"));
         }
-
     }
 }
