@@ -31,6 +31,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("next_page")]
         public string NextPage { get; set; }
 
+        [JsonProperty("end_of_stream")]
+        public bool EndOfStream { get; set; }
+
         [JsonProperty("organizations")]
         public IList<Organization> Organizations { get; set; }
 
