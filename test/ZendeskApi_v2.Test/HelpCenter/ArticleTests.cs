@@ -48,6 +48,7 @@ namespace Tests.HelpCenter
             Assert.That(res1.Articles[0].SectionId, Is.EqualTo(sectionId));
         }
 
+        [Test]
         public void CanGetArticleSideloadedWith()
         {
             var res = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Users);
@@ -110,7 +111,7 @@ namespace Tests.HelpCenter
             var articlesAscending = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
             var articlesDescending = api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
-            Assert.That(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title, Is.True);
+            Assert.That(articlesAscending.Articles[0].Title, Is.Not.EqualTo(articlesDescending.Articles[0].Title));
         }
 
         [Test]
@@ -123,7 +124,7 @@ namespace Tests.HelpCenter
             var articlesDescending = api.HelpCenter.Articles.GetArticlesBySectionId(section.Id.Value, ArticleSideLoadOptionsEnum.None,
                 new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
-            Assert.That(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title, Is.True);
+            Assert.That(articlesAscending.Articles[0].Title, Is.Not.EqualTo(articlesDescending.Articles[0].Title));
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace Tests.HelpCenter
             var articlesAscending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title });
             var articlesDescending = api.HelpCenter.Articles.GetArticlesByCategoryId(category.Id.Value, ArticleSideLoadOptionsEnum.None, new ArticleSortingOptions() { SortBy = ArticleSortEnum.Title, SortOrder = ArticleSortOrderEnum.Desc });
 
-            Assert.That(articlesAscending.Articles[0].Title != articlesDescending.Articles[0].Title, Is.True);
+            Assert.That(articlesAscending.Articles[0].Title, Is.Not.EqualTo(articlesDescending.Articles[0].Title));
         }
 
         [Test]

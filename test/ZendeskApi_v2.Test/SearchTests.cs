@@ -51,7 +51,7 @@ namespace Tests
         {
             var res = api.Search.SearchFor("my printer is on fire");
 
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.GreaterThan(0));
             Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
         }
@@ -61,17 +61,17 @@ namespace Tests
         {
             var res = api.Search.SearchFor<Ticket>("my printer is on fire");
 
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.GreaterThan(10));
             Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
 
             var noRes = api.Search.SearchFor<User>("my printer is on fire");
 
-            Assert.That(noRes != null, Is.True);
+            Assert.That(noRes, Is.Not.EqualTo(null));
             Assert.That(noRes.Results.Count, Is.EqualTo(0));
 
             res = api.Search.SearchFor<Ticket>("my printer is on fire", perPage: 10);
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.EqualTo(10));
             Assert.That(res.Page, Is.EqualTo(1));
             Assert.That(res.Results[0] is Ticket, Is.True);
@@ -83,17 +83,17 @@ namespace Tests
         {
             var res = await api.Search.SearchForAsync<Ticket>("my printer is on fire");
 
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.GreaterThan(10));
             Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
 
             var noRes = await api.Search.SearchForAsync<User>("my printer is on fire");
 
-            Assert.That(noRes != null, Is.True);
+            Assert.That(noRes, Is.Not.EqualTo(null));
             Assert.That(noRes.Results.Count, Is.EqualTo(0));
 
             res = await api.Search.SearchForAsync<Ticket>("my printer is on fire", perPage: 10);
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.EqualTo(10));
             Assert.That(res.Page, Is.EqualTo(1));
             Assert.That(res.Results[0] is Ticket, Is.True);
@@ -105,7 +105,7 @@ namespace Tests
         {
             var res = api.Search.SearchFor<User>(Settings.AdminEmail);
 
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.EqualTo(1));
             Assert.That(res.Results[0].Id, Is.EqualTo(Settings.UserId));
             Assert.That(res.Results[0] is User, Is.True);
@@ -116,7 +116,7 @@ namespace Tests
         {
             var res = await api.Search.SearchForAsync<User>(Settings.AdminEmail);
 
-            Assert.That(res != null, Is.True);
+            Assert.That(res, Is.Not.EqualTo(null));
             Assert.That(res.Results.Count, Is.EqualTo(1));
             Assert.That(res.Results[0].Id, Is.EqualTo(Settings.UserId));
             Assert.That(res.Results[0] is User, Is.True);

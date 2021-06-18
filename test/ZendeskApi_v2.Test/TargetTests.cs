@@ -42,13 +42,13 @@ namespace Tests
             var targetResult = (HTTPTarget)api.Targets.CreateTarget(target).Target;
             Assert.That(targetResult, Is.Not.Null);
             Assert.That(targetResult, Is.InstanceOf<HTTPTarget>());
-            Assert.IsFalse(targetResult.Active);
+            Assert.That(targetResult.Active, Is.False);
             Assert.That(targetResult.TargetUrl, Is.EqualTo("https://test.com"));
             Assert.That(targetResult.Type, Is.EqualTo("http_target"));
             Assert.That(targetResult.ContentType, Is.EqualTo("application/json"));
             Assert.That(targetResult.Method, Is.EqualTo("post"));
             Assert.That(targetResult.Username, Is.EqualTo("TestUser"));
-            Assert.IsNull(targetResult.Password);
+            Assert.That(targetResult.Password, Is.Null);
 
             targetResult.Active = true;
 

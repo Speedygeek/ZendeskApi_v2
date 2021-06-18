@@ -19,7 +19,7 @@ namespace Tests
 
             var specific = api.Locales.GetLocaleById(all.Locales[0].Id);
             Assert.That(all.Locales[0].Id, Is.EqualTo(specific.Locale.Id));
-            Assert.IsNull(specific.Locale.Translations);
+            Assert.That(specific.Locale.Translations, Is.Null);
 
             var specificWithTranslation = api.Locales.GetLocaleById(all.Locales[0].Id, true);
             Assert.That(all.Locales[0].Id, Is.EqualTo(specificWithTranslation.Locale.Id));
@@ -27,7 +27,7 @@ namespace Tests
 
             var current = api.Locales.GetCurrentLocale();
             Assert.That(current.Locale.Id, Is.GreaterThan(0));
-            Assert.IsNull(current.Locale.Translations);
+            Assert.That(current.Locale.Translations, Is.Null);
 
             var currentWithTranslation = api.Locales.GetCurrentLocale(true);
             Assert.That(currentWithTranslation.Locale.Id, Is.GreaterThan(0));
