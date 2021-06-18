@@ -8,10 +8,10 @@ namespace Tests
         public const string DefaultOrg = "csharpapi";
         public const string DefaultExternalId = "1234abc";
 
-        public const string AdminPassword = "6uJGi~,>MT6^AuDs3}})";
+        public const string AdminPassword = "wHth9.pEvn2MLE^=}Y*j.v_x";
         public const string AdminEmail = "csharpzendeskapi1234@gmail.com";
 
-        public const string ApiToken = "fLX1vjTqOJam96yDfkvnCFjeatgjicALzdyu8PE5";
+        public const string ApiToken = "sclVCOJERiSCWmTLpkexGXiYeawG2noGxPxnaBuc";
         public const string Phone = "1234567890";
         public const string FormattedPhone = "(111) 222-3333";
         public const string BadPhone = "0987654321";
@@ -38,7 +38,7 @@ namespace Tests
         public const long CustomDropDownId = 360023145351;
 
         public const long GroupId = 20402842;
-        public const long OrganizationId = 361197279572;
+        public const long OrganizationId = 361477412411;
 
         public const string ViewName = "My unsolved tickets";
         public const int ViewId = 31559032;
