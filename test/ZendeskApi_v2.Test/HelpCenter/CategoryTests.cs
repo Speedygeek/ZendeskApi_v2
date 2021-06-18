@@ -42,10 +42,10 @@ namespace Tests.HelpCenter
         public void CanGetCategories()
         {
             var res = api.HelpCenter.Categories.GetCategories();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = api.HelpCenter.Categories.GetCategoryById(res.Categories[0].Id.Value);
-            Assert.AreEqual(res1.Category.Id, res.Categories[0].Id.Value);
+            Assert.That(res.Categories[0].Id.Value, Is.EqualTo(res1.Category.Id));
         }
 
         [Test]
@@ -66,13 +66,13 @@ namespace Tests.HelpCenter
             const int count = 2;
             var categories = api.HelpCenter.Categories.GetCategories(count, 1);
 
-            Assert.That(count, Is.EqualTo(categories.Categories.Count));  // 2
+            Assert.That(categories.Categories.Count, Is.EqualTo(count));  // 2
             Assert.That(categories.Count, Is.Not.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
 
             const int page = 2;
             var secondPage = api.HelpCenter.Categories.GetCategories(count, page);
 
-            Assert.That(count, Is.EqualTo(secondPage.Categories.Count));
+            Assert.That(secondPage.Categories.Count, Is.EqualTo(count));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
@@ -113,7 +113,7 @@ namespace Tests.HelpCenter
             var secondPage = api.HelpCenter.Categories.GetCategoriesAsync(count, page).Result;
             var categoryById2 = api.HelpCenter.Categories.GetCategoryById(secondPage.Categories[0].Id.Value);
 
-            Assert.That(count, Is.EqualTo(secondPage.Categories.Count));
+            Assert.That(secondPage.Categories.Count, Is.EqualTo(count));
             Assert.That(categoryById2.Category.Id, Is.EqualTo(secondPage.Categories[0].Id.Value));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
@@ -137,13 +137,13 @@ namespace Tests.HelpCenter
                 Position = 1
             });
 
-            Assert.Greater(res.Category.Id, 0);
+            Assert.That(res.Category.Id, Is.GreaterThan(0));
 
             res.Category.Position = 2;
             var update = api.HelpCenter.Categories.UpdateCategory(res.Category);
-            Assert.AreEqual(update.Category.Position, res.Category.Position);
+            Assert.That(res.Category.Position, Is.EqualTo(update.Category.Position));
 
-            Assert.True(api.HelpCenter.Categories.DeleteCategory(res.Category.Id.Value));
+            Assert.That(api.HelpCenter.Categories.DeleteCategory(res.Category.Id.Value), Is.True);
         }
     }
 }

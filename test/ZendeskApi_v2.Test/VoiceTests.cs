@@ -24,7 +24,7 @@ namespace Tests
             ticketid = Settings.SampleTicketId;
 
             var result = api.Voice.OpenTicketInAgentBrowser(agentid, ticketid);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Tests
             ticketid = Settings.SampleTicketId;
 
             var result = api.Voice.OpenTicketInAgentBrowserAsync(agentid, ticketid);
-            Assert.IsTrue(result.Result);
+            Assert.That(result.Result, Is.True);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Tests
             userid = Settings.EndUserId;
 
             var result = api.Voice.OpenUserProfileInAgentBrowser(agentid, userid);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Tests
             userid = Settings.EndUserId;
 
             var result = api.Voice.OpenUserProfileInAgentBrowserAsync(agentid, userid);
-            Assert.IsTrue(result.Result);
+            Assert.That(result.Result, Is.True);
         }
 
         [Test]
@@ -63,8 +63,8 @@ namespace Tests
             var res = api.Voice.GetVoiceAgentActivity();
 
             var agent = res.AgentActivity.FirstOrDefault();
-            Assert.NotNull(agent);
-            Assert.AreEqual(2110053086, agent.AgentId); 
+            Assert.That(agent, Is.Not.Null);
+            Assert.That(agent.AgentId, Is.EqualTo(2110053086)); 
         }
 
         [Test]
@@ -73,8 +73,8 @@ namespace Tests
             var res = api.Voice.GetVoiceAgentActivityAsync();
 
             var agent = res.Result.AgentActivity.FirstOrDefault();
-            Assert.NotNull(agent);
-            Assert.AreEqual(2110053086, agent.AgentId); 
+            Assert.That(agent, Is.Not.Null);
+            Assert.That(agent.AgentId, Is.EqualTo(2110053086)); 
         }
       
         [Test]
@@ -82,14 +82,14 @@ namespace Tests
         {
             var res = api.Voice.GetCurrentQueueActivity();
 
-            Assert.NotNull(res);
+            Assert.That(res, Is.Not.Null);
         }
 
         [Test]
         public void GetCurrentQueueActivityAsync()
         {
             var res = api.Voice.GetCurrentQueueActivityAsync();
-            Assert.NotNull(res);
+            Assert.That(res, Is.Not.Null);
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace Tests
         {
             var res = api.SharingAgreements.GetSharingAgreements();
 
-            Assert.NotNull(res);
+            Assert.That(res, Is.Not.Null);
         }
     }
 }

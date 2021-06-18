@@ -28,35 +28,35 @@ namespace Tests
         public void CanGetUsers()
         {
             var res = api.Users.GetAllUsers();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetAgents()
         {
             var res = api.Users.GetAllAgents();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetAdmins()
         {
             var res = api.Users.GetAllAdmins();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetEndUsers()
         {
             var res = api.Users.GetAllEndUsers();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetAllUsersInRoles()
         {
             var res = api.Users.GetAllUsersInRoles(agents: true, admins: true);
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -65,8 +65,8 @@ namespace Tests
             var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.FieldValue);
             var user = res.Users.FirstOrDefault();
 
-            Assert.NotNull(user);
-            Assert.AreEqual(1158278453, user.Id);
+            Assert.That(user, Is.Not.Null);
+            Assert.That(user.Id, Is.EqualTo(1158278453));
         }
 
         [Test]
@@ -74,29 +74,29 @@ namespace Tests
         {
             var res = api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.BadFieldValue);
 
-            Assert.AreEqual(0, res.Users.Count);
-            Assert.Null(res.Users.FirstOrDefault());
+            Assert.That(res.Users.Count, Is.EqualTo(0));
+            Assert.That(res.Users.FirstOrDefault(), Is.Null);
         }
 
         [Test]
         public void CanGetUser()
         {
             var res = api.Users.GetUser(Settings.UserId);
-            Assert.True(res.User.Id == Settings.UserId);
+            Assert.That(res.User.Id, Is.EqualTo(Settings.UserId));
         }
 
         [Test]
         public void CanGetUsersInGroup()
         {
             var res = api.Users.GetUsersInGroup(Settings.GroupId);
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetUsersInOrg()
         {
             var res = api.Users.GetUsersInOrganization(Settings.OrganizationId);
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -148,23 +148,23 @@ namespace Tests
 
             var res1 = api.Users.CreateUser(user);
             var userId = res1.User.Id ?? 0;
-            Assert.IsTrue(res1.User.Id > 0);
+            Assert.That(res1.User.Id, Is.GreaterThan(0));
 
-            Assert.True(api.Users.SetUsersPassword(userId, "t34sssting"));
-            Assert.True(api.Users.ChangeUsersPassword(userId, "t34sssting", "newpassw33rd"));
+            Assert.That(api.Users.SetUsersPassword(userId, "t34sssting"), Is.True);
+            Assert.That(api.Users.ChangeUsersPassword(userId, "t34sssting", "newpassw33rd"), Is.True);
 
             res1.User.Phone = "555-555-5555";
             res1.User.RemotePhotoUrl = "http://i.imgur.com/b2gxj.jpg";
 
             var res2 = api.Users.UpdateUser(res1.User);
             api.Users.GetUser(res1.User.Id.Value);
-            Assert.AreEqual(res1.User.Phone, res2.User.Phone);
+            Assert.That(res2.User.Phone, Is.EqualTo(res1.User.Phone));
 
             var res3 = api.Users.SuspendUser(res2.User.Id.Value);
-            Assert.IsTrue(res3.User.Suspended);
+            Assert.That(res3.User.Suspended, Is.True);
 
             var res4 = api.Users.DeleteUser(res3.User.Id.Value);
-            Assert.True(res4);
+            Assert.That(res4, Is.True);
 
             //check the remote photo url
             //Assert.AreEqual(res1.User.RemotePhotoUrl, res2.User.RemotePhotoUrl);
@@ -192,7 +192,7 @@ namespace Tests
             };
 
             var res1 = api.Users.CreateOrUpdateUser(user);
-            Assert.IsTrue(res1.User.Id > 0);
+            Assert.That(res1.User.Id, Is.GreaterThan(0));
         }
         [Test]
         public void CanCreateOrUpdateUser_CreateSameUserTwice()
@@ -214,13 +214,12 @@ namespace Tests
                                       {"user_dropdown", "option_1"}
                                   }
             };
-
-            var res1 = api.Users.CreateOrUpdateUser(user);
-            var res2 = api.Users.CreateOrUpdateUser(user);
+            _ = api.Users.CreateOrUpdateUser(user);
+            _ = api.Users.CreateOrUpdateUser(user);
 
             var user72group = api.Users.SearchByEmail("test772@tester.com");
 
-            Assert.IsTrue(user72group.Count == 1);
+            Assert.That(user72group.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -243,16 +242,15 @@ namespace Tests
                                       {"user_dropdown", "option_1"}
                                   }
             };
-
-            var res1 = api.Users.CreateOrUpdateUser(user);
+            _ = api.Users.CreateOrUpdateUser(user);
 
             user.Name = "tester user721";
             var res2 = api.Users.CreateOrUpdateUser(user);
 
             var user72group = api.Users.SearchByEmail("test772@tester.com");
 
-            Assert.IsTrue(user72group.Count == 1);
-            Assert.IsTrue(res2.User.Name.Contains("721"));
+            Assert.That(user72group.Count, Is.EqualTo(1));
+            Assert.That(res2.User.Name, Does.Contain("721"));
         }
 
         [Test]
@@ -277,7 +275,7 @@ namespace Tests
             };
 
             var res1 = await api.Users.CreateOrUpdateUserAsync(user);
-            Assert.IsTrue(res1.User.Id > 0);
+            Assert.That(res1.User.Id, Is.GreaterThan(0));
         }
         [Test]
         public async Task CanCreateOrUpdateUserAsync_CreateSameUserTwice()
@@ -299,13 +297,12 @@ namespace Tests
                                       {"user_dropdown", "option_1"}
                                   }
             };
-
-            var res1 = await api.Users.CreateOrUpdateUserAsync(user);
-            var res2 = await api.Users.CreateOrUpdateUserAsync(user);
+            _ = await api.Users.CreateOrUpdateUserAsync(user);
+            _ = await api.Users.CreateOrUpdateUserAsync(user);
 
             var user72group = api.Users.SearchByEmail("test772@tester.com");
 
-            Assert.IsTrue(user72group.Count == 1);
+            Assert.That(user72group.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -328,16 +325,15 @@ namespace Tests
                                       {"user_dropdown", "option_1"}
                                   }
             };
-
-            var res1 = await api.Users.CreateOrUpdateUserAsync(user);
+            _ = await api.Users.CreateOrUpdateUserAsync(user);
 
             user.Name = "tester user721";
             var res2 = api.Users.CreateOrUpdateUser(user);
 
             var user72group = api.Users.SearchByEmail("test772@tester.com");
 
-            Assert.IsTrue(user72group.Count == 1);
-            Assert.IsTrue(res2.User.Name.Contains("721"));
+            Assert.That(user72group.Count, Is.EqualTo(1));
+            Assert.That(res2.User.Name, Does.Contain("721"));
         }
 
         [Test]
@@ -345,55 +341,55 @@ namespace Tests
         {
             //var res1 = api.Users.SearchByEmail(Settings.Email);
             var res1 = api.Users.SearchByEmail(Settings.ColloboratorEmail);
-            Assert.True(res1.Users.Count > 0);
+            Assert.That(res1.Users.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanFindUserByPhone()
         {
             var res1 = api.Users.SearchByPhone(Settings.Phone);
-            Assert.True(res1.Users.Count > 0);
-            Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
-            Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+            Assert.That(res1.Users.Count, Is.GreaterThan(0));
+            Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
+            Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
         }
 
         [Test]
         public void CanFindUserByFormattedPhone()
         {
             var res1 = api.Users.SearchByPhone(Settings.FormattedPhone);
-            Assert.True(res1.Users.Count > 0);
-            Assert.AreEqual(Settings.FormattedPhone, res1.Users.First().Phone);
-            Assert.AreEqual("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5", res1.Users.First().Name);
+            Assert.That(res1.Users.Count, Is.GreaterThan(0));
+            Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.FormattedPhone));
+            Assert.That(res1.Users.First().Name, Is.EqualTo("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5"));
         }
 
         [Test]
         public void CanFindUserByPhoneAsync()
         {
             var res1 = api.Users.SearchByPhoneAsync(Settings.Phone).Result;
-            Assert.True(res1.Users.Count > 0);
-            Assert.AreEqual(Settings.Phone, res1.Users.First().Phone);
-            Assert.AreEqual("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c", res1.Users.First().Name);
+            Assert.That(res1.Users.Count, Is.GreaterThan(0));
+            Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
+            Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
         }
 
         [Test]
         public void CannotFindUserByPhone()
         {
             var res1 = api.Users.SearchByPhone(Settings.BadPhone);
-            Assert.True(res1.Users.Count == 0);
+            Assert.That(res1.Users.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void CannotFindUserByPhoneAsync()
         {
             var res1 = api.Users.SearchByPhoneAsync(Settings.BadPhone).Result;
-            Assert.True(res1.Users.Count == 0);
+            Assert.That(res1.Users.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void CanGetCurrentUser()
         {
             var res1 = api.Users.GetCurrentUser();
-            Assert.True(res1.User.Id > 0);
+            Assert.That(res1.User.Id, Is.GreaterThan(0));
         }
 
         [Test]
@@ -402,10 +398,10 @@ namespace Tests
             var res = api.Users.GetCurrentUser();
 
             var res1 = api.Users.GetUserIdentities(res.User.Id.Value);
-            Assert.Greater(res1.Identities[0].Id, 0);
+            Assert.That(res1.Identities[0].Id, Is.GreaterThan(0));
 
             var res2 = api.Users.GetSpecificUserIdentity(res.User.Id.Value, res1.Identities[0].Id.Value);
-            Assert.Greater(res2.Identity.Id, 0);
+            Assert.That(res2.Identity.Id, Is.GreaterThan(0));
         }
 
         [Test]
@@ -432,16 +428,16 @@ namespace Tests
                 Value = "moretest2@test.com"
             });
             var identityId = res2.Identity.Id.Value;
-            Assert.Greater(identityId, 0);
+            Assert.That(identityId, Is.GreaterThan(0));
 
             var verified = api.Users.SetUserIdentityAsVerified(userId, identityId);
-            Assert.AreEqual(identityId, verified.Identity.Id);
+            Assert.That(verified.Identity.Id, Is.EqualTo(identityId));
 
             var primaries = api.Users.SetUserIdentityAsPrimary(userId, identityId);
-            Assert.AreEqual(identityId, primaries.Identities.First(x => x.Primary).Id);
+            Assert.That(primaries.Identities.First(x => x.Primary).Id, Is.EqualTo(identityId));
 
-            Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
-            Assert.True(api.Users.DeleteUser(userId));
+            Assert.That(api.Users.DeleteUserIdentity(userId, identityId), Is.True);
+            Assert.That(api.Users.DeleteUser(userId), Is.True);
         }
 
         [Test]
@@ -469,8 +465,8 @@ namespace Tests
             var mergedIdentities = await api.Users.GetUserIdentitiesAsync(mergedUser.User.Id.Value);
 
             //Assert.That(resultUser2.User.Id, Is.EqualTo(mergedUser.User.Id));
-            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()));
-            Assert.IsTrue(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user2.Email.ToLower()));
+            Assert.That(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user1.Email.ToLower()), Is.True);
+            Assert.That(mergedIdentities.Identities.Any(i => i.Value.ToLower() == user2.Email.ToLower()), Is.True);
 
             api.Users.DeleteUser(resultUser1.User.Id.Value);
             api.Users.DeleteUser(resultUser2.User.Id.Value);
@@ -482,8 +478,8 @@ namespace Tests
             var userList = api.Users.GetAllUsers(10, 1).Users.Select(u => u.Id.Value).ToList();
             var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities | UserSideLoadOptions.Roles);
 
-            Assert.AreEqual(userList.Count, result.Count);
-            Assert.IsTrue((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()));
+            Assert.That(result.Count, Is.EqualTo(userList.Count));
+            Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
         }
 
         [Test]
@@ -491,8 +487,8 @@ namespace Tests
         {
             var userList = api.Users.GetAllUsersAsync(10, 1).Result.Users.Select(u => u.Id.Value).ToList();
             var result = api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities);
-            Assert.AreEqual(userList.Count, result.Count);
-            Assert.IsTrue((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()));
+            Assert.That(result.Count, Is.EqualTo(userList.Count));
+            Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
         }
 
         [Test]
@@ -538,8 +534,8 @@ namespace Tests
             var result = api.Users.GetUserRelatedInformation(userId);
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf(typeof(IndividualUserRelatedInformationResponse), result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf(typeof(IndividualUserRelatedInformationResponse)));
         }
 
         [Test]
@@ -552,8 +548,8 @@ namespace Tests
             var result = await api.Users.GetUserRelatedInformationAsync(userId);
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf(typeof(IndividualUserRelatedInformationResponse), result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf(typeof(IndividualUserRelatedInformationResponse)));
         }
 
         [Test]
@@ -591,8 +587,8 @@ namespace Tests
             Assert.That(res3.Identity.Id, Is.EqualTo(identityId));
             Assert.That(res3.Identity.Value, Is.EqualTo(res2.Identity.Value));
 
-            Assert.True(api.Users.DeleteUserIdentity(userId, identityId));
-            Assert.True(api.Users.DeleteUser(userId));
+            Assert.That(api.Users.DeleteUserIdentity(userId, identityId), Is.True);
+            Assert.That(api.Users.DeleteUser(userId), Is.True);
         }
 
         [Test]
@@ -616,7 +612,7 @@ namespace Tests
 
             var jobResponse = await api.Users.BulkDeleteUsersAsync(users);
 
-            Assert.AreEqual(JobStatusQueued, jobResponse.JobStatus.Status.ToLower());
+            Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusQueued));
 
             var count = 0;
 
@@ -627,8 +623,8 @@ namespace Tests
                 count++;
             }
 
-            Assert.AreEqual(JobStatusCompleted, jobResponse.JobStatus.Status.ToLower());
-            Assert.AreEqual(users.Count, jobResponse.JobStatus.Total);
+            Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
+            Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
         }
 
         [Test]
@@ -652,7 +648,7 @@ namespace Tests
 
             var jobResponse = api.Users.BulkDeleteUsers(users);
 
-            Assert.AreEqual(JobStatusQueued, jobResponse.JobStatus.Status.ToLower());
+            Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusQueued));
 
             var count = 0;
 
@@ -663,8 +659,8 @@ namespace Tests
                 count++;
             }
 
-            Assert.AreEqual(JobStatusCompleted, jobResponse.JobStatus.Status.ToLower());
-            Assert.AreEqual(users.Count, jobResponse.JobStatus.Total);
+            Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
+            Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
         }
 
         [Test]

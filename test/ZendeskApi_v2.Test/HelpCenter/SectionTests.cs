@@ -40,10 +40,10 @@ namespace Tests.HelpCenter
         public void CanGetSections()
         {
             var res = api.HelpCenter.Sections.GetSections();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = api.HelpCenter.Sections.GetSectionById(res.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Section.Id, res.Sections[0].Id.Value);
+            Assert.That(res.Sections[0].Id.Value, Is.EqualTo(res1.Section.Id));
         }
 
         [Test]
@@ -67,13 +67,13 @@ namespace Tests.HelpCenter
             const int count = 2;
             var sections = api.HelpCenter.Sections.GetSections(count, 1);
 
-            Assert.That(count, Is.EqualTo(sections.Sections.Count));  // 2
+            Assert.That(sections.Sections.Count, Is.EqualTo(count));  // 2
             Assert.That(sections.Count, Is.Not.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
 
             const int page = 2;
             var secondPage = api.HelpCenter.Sections.GetSections(count, page);
 
-            Assert.That(count, Is.EqualTo(secondPage.Sections.Count));
+            Assert.That(secondPage.Sections.Count, Is.EqualTo(count));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
@@ -117,7 +117,7 @@ namespace Tests.HelpCenter
             var secondPage = api.HelpCenter.Sections.GetSectionsAsync(count, page).Result;
             var sectionById2 = api.HelpCenter.Sections.GetSectionById(secondPage.Sections[0].Id.Value);
 
-            Assert.That(count, Is.EqualTo(secondPage.Sections.Count));
+            Assert.That(secondPage.Sections.Count, Is.EqualTo(count));
             Assert.That(sectionById2.Section.Id, Is.EqualTo(secondPage.Sections[0].Id.Value));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
@@ -143,7 +143,7 @@ namespace Tests.HelpCenter
                 Position = 12,
                 CategoryId = category_id
             });
-            Assert.Greater(res.Section.Id, 0);
+            Assert.That(res.Section.Id, Is.GreaterThan(0));
 
             res.Section.Position = 42;
             var update = api.HelpCenter.Sections.UpdateSection(res.Section);
@@ -155,10 +155,10 @@ namespace Tests.HelpCenter
         public void CanGetSectionsAsync()
         {
             var res = api.HelpCenter.Sections.GetSectionsAsync().Result;
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = api.HelpCenter.Sections.GetSectionById(res.Sections[0].Id.Value);
-            Assert.AreEqual(res1.Section.Id, res.Sections[0].Id.Value);
+            Assert.That(res.Sections[0].Id.Value, Is.EqualTo(res1.Section.Id));
         }
 
         [Test]

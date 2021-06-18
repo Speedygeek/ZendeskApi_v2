@@ -29,10 +29,10 @@ namespace Tests
         public void CanGetAutomations()
         {
             var res = api.Automations.GetAutomations();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var ind = api.Automations.GetAutomationById(res.Automations[0].Id.Value);
-            Assert.AreEqual(ind.Automation.Id, res.Automations[0].Id);
+            Assert.That(res.Automations[0].Id, Is.EqualTo(ind.Automation.Id));
         }
 
         [Test]
@@ -54,21 +54,21 @@ namespace Tests
 
             var res = api.Automations.CreateAutomation(automation);
 
-            Assert.Greater(res.Automation.Id, 0);
+            Assert.That(res.Automation.Id, Is.GreaterThan(0));
 
             res.Automation.Title = "Test Automation Updated";
             var update = api.Automations.UpdateAutomation(res.Automation);
-            Assert.AreEqual(update.Automation.Title, res.Automation.Title);
+            Assert.That(res.Automation.Title, Is.EqualTo(update.Automation.Title));
 
-            Assert.True(api.Automations.DeleteAutomation(res.Automation.Id.Value));
+            Assert.That(api.Automations.DeleteAutomation(res.Automation.Id.Value), Is.True);
         }
 
         [Test]
         public void CanSearchAutomations()
         {
             var res = api.Automations.SearchAutomations("Close").Automations;
-            Assert.AreEqual(res.Count(), 1);
-            Assert.AreEqual(res[0].Title, "Close ticket 4 days after status is set to solved");
+            Assert.That(res.Count(), Is.EqualTo(1));
+            Assert.That(res[0].Title, Is.EqualTo("Close ticket 4 days after status is set to solved"));
         }
     }
 }

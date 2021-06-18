@@ -17,20 +17,20 @@ namespace Tests.HelpCenter
         public void CanGetUserSegments()
         {
             var res = api.HelpCenter.UserSegments.GetUserSegments();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = api.HelpCenter.UserSegments.GetUserSegment(res.UserSegments[0].Id.Value);
-            Assert.AreEqual(res1.UserSegment.Id, res.UserSegments[0].Id.Value);
+            Assert.That(res.UserSegments[0].Id.Value, Is.EqualTo(res1.UserSegment.Id));
         }
 
         [Test]
         public void CanGetUserSegmentsApplicable()
         {
             var res = api.HelpCenter.UserSegments.GetUserSegmentsApplicable();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = api.HelpCenter.UserSegments.GetUserSegment(res.UserSegments[0].Id.Value);
-            Assert.AreEqual(res1.UserSegment.Id, res.UserSegments[0].Id.Value);
+            Assert.That(res.UserSegments[0].Id.Value, Is.EqualTo(res1.UserSegment.Id));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Tests.HelpCenter
                 UserType = UserType.signed_in_users
             };
             var res = api.HelpCenter.UserSegments.CreateUserSegment(userSegment);
-            Assert.Greater(res.UserSegment.Id, 0);
+            Assert.That(res.UserSegment.Id, Is.GreaterThan(0));
 
             res.UserSegment.UserType = UserType.staff;
             var update = api.HelpCenter.UserSegments.UpdateUserSegment(res.UserSegment);
@@ -108,7 +108,7 @@ namespace Tests.HelpCenter
             var res = api.HelpCenter.UserSegments.GetUserSegments().UserSegments;
             var segment = res.First(seg => seg.Name == "Agents and managers (or_tags: tag1, tag2)");
 
-            Assert.That(segment.OrTags.Count == 2);
+            Assert.That(segment.OrTags.Count, Is.EqualTo(2));
             Assert.That(segment.OrTags.Contains("tag1"));
             Assert.That(segment.OrTags.Contains("tag2"));
         }
@@ -117,20 +117,20 @@ namespace Tests.HelpCenter
         public async Task CanGetUserSegmentsAsync()
         {
             var res = await api.HelpCenter.UserSegments.GetUserSegmentsAsync();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = await api.HelpCenter.UserSegments.GetUserSegmentAsync(res.UserSegments[0].Id.Value);
-            Assert.AreEqual(res1.UserSegment.Id, res.UserSegments[0].Id.Value);
+            Assert.That(res.UserSegments[0].Id.Value, Is.EqualTo(res1.UserSegment.Id));
         }
 
         [Test]
         public async Task CanGetUserSegmentsApplicableAsync()
         {
             var res = await api.HelpCenter.UserSegments.GetUserSegmentsApplicableAsync();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var res1 = await api.HelpCenter.UserSegments.GetUserSegmentAsync(res.UserSegments[0].Id.Value);
-            Assert.AreEqual(res1.UserSegment.Id, res.UserSegments[0].Id.Value);
+            Assert.That(res.UserSegments[0].Id.Value, Is.EqualTo(res1.UserSegment.Id));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace Tests.HelpCenter
                 UserType = UserType.signed_in_users
             };
             var res = await api.HelpCenter.UserSegments.CreateUserSegmentAsync(userSegment);
-            Assert.Greater(res.UserSegment.Id, 0);
+            Assert.That(res.UserSegment.Id, Is.GreaterThan(0));
 
             res.UserSegment.UserType = UserType.staff;
             var update = await api.HelpCenter.UserSegments.UpdateUserSegmentAsync(res.UserSegment);

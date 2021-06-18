@@ -59,32 +59,32 @@ namespace Tests
 
             //Create 3 Comments
             var individualCommentsResponse1 = api.HelpCenter.Comments.CreateCommentForArticle(articleId, new Comment {Body = "Comment 1", Locale = "en-us"});
-            Assert.NotNull(individualCommentsResponse1.Comment);
-            Assert.Greater(individualCommentsResponse1.Comment.Id, 0);
+            Assert.That(individualCommentsResponse1.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse1.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse2 = api.HelpCenter.Comments.CreateCommentForArticle(articleId, new Comment {Body = "Comment 2", Locale = "en-us" });
-            Assert.NotNull(individualCommentsResponse2.Comment);
-            Assert.Greater(individualCommentsResponse2.Comment.Id, 0);
+            Assert.That(individualCommentsResponse2.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse2.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse3 = api.HelpCenter.Comments.CreateCommentForArticle(articleId, new Comment {Body = "Comment 3", Locale = "en-us" });
-            Assert.NotNull(individualCommentsResponse3.Comment);
-            Assert.Greater(individualCommentsResponse3.Comment.Id, 0);
+            Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
             
-            Assert.AreEqual(3, api.HelpCenter.Comments.GetCommentsForArticle(articleId).Count); //That article have 3 comments
+            Assert.That(api.HelpCenter.Comments.GetCommentsForArticle(articleId).Count, Is.EqualTo(3)); //That article have 3 comments
 
-            Assert.AreEqual("Comment 1", individualCommentsResponse1.Comment.Body);
-            Assert.AreEqual("Comment 2", individualCommentsResponse2.Comment.Body);
-            Assert.AreEqual("Comment 3", individualCommentsResponse3.Comment.Body);
+            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
             individualCommentsResponse2.Comment.Body = updatedCommentBody;
             var updateCommentForArticle = api.HelpCenter.Comments.UpdateCommentForArticle(articleId, individualCommentsResponse2.Comment);
-            Assert.AreEqual(updatedCommentBody, updateCommentForArticle.Comment.Body);
+            Assert.That(updateCommentForArticle.Comment.Body, Is.EqualTo(updatedCommentBody));
 
             //Delete Comment
             api.HelpCenter.Comments.DeleteCommentForArticle(articleId, individualCommentsResponse2.Comment.Id.Value);
-            Assert.AreEqual(2, api.HelpCenter.Comments.GetCommentsForArticle(articleId).Count); //One less comments now
+            Assert.That(api.HelpCenter.Comments.GetCommentsForArticle(articleId).Count, Is.EqualTo(2)); //One less comments now
         }
 
         [Test]
@@ -94,32 +94,32 @@ namespace Tests
 
             //Create 3 Comments
             var individualCommentsResponse1 = api.HelpCenter.Comments.CreateCommentForPost(postId, new Comment { Body = "Comment 1" });
-            Assert.NotNull(individualCommentsResponse1.Comment);
-            Assert.Greater(individualCommentsResponse1.Comment.Id, 0);
+            Assert.That(individualCommentsResponse1.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse1.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse2 = api.HelpCenter.Comments.CreateCommentForPost(postId, new Comment { Body = "Comment 2" });
-            Assert.NotNull(individualCommentsResponse2.Comment);
-            Assert.Greater(individualCommentsResponse2.Comment.Id, 0);
+            Assert.That(individualCommentsResponse2.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse2.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse3 = api.HelpCenter.Comments.CreateCommentForPost(postId, new Comment { Body = "Comment 3" });
-            Assert.NotNull(individualCommentsResponse3.Comment);
-            Assert.Greater(individualCommentsResponse3.Comment.Id, 0);
+            Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
 
-            Assert.AreEqual(3, api.HelpCenter.Comments.GetCommentsForPost(postId).Count); //That post have 3 comments
+            Assert.That(api.HelpCenter.Comments.GetCommentsForPost(postId).Count, Is.EqualTo(3)); //That post have 3 comments
 
-            Assert.AreEqual("Comment 1", individualCommentsResponse1.Comment.Body);
-            Assert.AreEqual("Comment 2", individualCommentsResponse2.Comment.Body);
-            Assert.AreEqual("Comment 3", individualCommentsResponse3.Comment.Body);
+            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
             individualCommentsResponse2.Comment.Body = updatedCommentBody;
             var updateCommentForPost = api.HelpCenter.Comments.UpdateCommentForPost(postId, individualCommentsResponse2.Comment);
-            Assert.AreEqual(updatedCommentBody, updateCommentForPost.Comment.Body);
+            Assert.That(updateCommentForPost.Comment.Body, Is.EqualTo(updatedCommentBody));
 
             //Delete Comment
             api.HelpCenter.Comments.DeleteCommentForPost(postId, individualCommentsResponse2.Comment.Id.Value);
-            Assert.AreEqual(2, api.HelpCenter.Comments.GetCommentsForPost(postId).Count); //One less comments now
+            Assert.That(api.HelpCenter.Comments.GetCommentsForPost(postId).Count, Is.EqualTo(2)); //One less comments now
         }
 
         [Test]
@@ -130,32 +130,32 @@ namespace Tests
 
             //Create 3 Comments
             var individualCommentsResponse1 = await api.HelpCenter.Comments.CreateCommentForArticleAsync(articleId, new Comment {Body = "Comment 1", Locale = "en-us"});
-            Assert.NotNull(individualCommentsResponse1.Comment);
-            Assert.Greater(individualCommentsResponse1.Comment.Id, 0);
+            Assert.That(individualCommentsResponse1.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse1.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse2 = await api.HelpCenter.Comments.CreateCommentForArticleAsync(articleId, new Comment {Body = "Comment 2", Locale = "en-us" });
-            Assert.NotNull(individualCommentsResponse2.Comment);
-            Assert.Greater(individualCommentsResponse2.Comment.Id, 0);
+            Assert.That(individualCommentsResponse2.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse2.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse3 = await api.HelpCenter.Comments.CreateCommentForArticleAsync(articleId, new Comment {Body = "Comment 3", Locale = "en-us" });
-            Assert.NotNull(individualCommentsResponse3.Comment);
-            Assert.Greater(individualCommentsResponse3.Comment.Id, 0);
+            Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
             
-            Assert.AreEqual(3, (await api.HelpCenter.Comments.GetCommentsForArticleAsync(articleId)).Count); //That article have 3 comments
+            Assert.That((await api.HelpCenter.Comments.GetCommentsForArticleAsync(articleId)).Count, Is.EqualTo(3)); //That article have 3 comments
 
-            Assert.AreEqual("Comment 1", individualCommentsResponse1.Comment.Body);
-            Assert.AreEqual("Comment 2", individualCommentsResponse2.Comment.Body);
-            Assert.AreEqual("Comment 3", individualCommentsResponse3.Comment.Body);
+            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
             individualCommentsResponse2.Comment.Body = updatedCommentBody;
             var updateCommentForArticle = await api.HelpCenter.Comments.UpdateCommentForArticleAsync(articleId, individualCommentsResponse2.Comment);
-            Assert.AreEqual(updatedCommentBody, updateCommentForArticle.Comment.Body);
+            Assert.That(updateCommentForArticle.Comment.Body, Is.EqualTo(updatedCommentBody));
 
             //Delete Comment
             await api.HelpCenter.Comments.DeleteCommentForArticleAsync(articleId, individualCommentsResponse2.Comment.Id.Value);
-            Assert.AreEqual(2, (await api.HelpCenter.Comments.GetCommentsForArticleAsync(articleId)).Count); //One less comments now
+            Assert.That((await api.HelpCenter.Comments.GetCommentsForArticleAsync(articleId)).Count, Is.EqualTo(2)); //One less comments now
         }
 
         [Test]
@@ -165,32 +165,32 @@ namespace Tests
 
             //Create 3 Comments
             var individualCommentsResponse1 = await api.HelpCenter.Comments.CreateCommentForPostAsync(postId, new Comment { Body = "Comment 1" });
-            Assert.NotNull(individualCommentsResponse1.Comment);
-            Assert.Greater(individualCommentsResponse1.Comment.Id, 0);
+            Assert.That(individualCommentsResponse1.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse1.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse2 = await api.HelpCenter.Comments.CreateCommentForPostAsync(postId, new Comment { Body = "Comment 2" });
-            Assert.NotNull(individualCommentsResponse2.Comment);
-            Assert.Greater(individualCommentsResponse2.Comment.Id, 0);
+            Assert.That(individualCommentsResponse2.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse2.Comment.Id, Is.GreaterThan(0));
 
             var individualCommentsResponse3 = await api.HelpCenter.Comments.CreateCommentForPostAsync(postId, new Comment { Body = "Comment 3" });
-            Assert.NotNull(individualCommentsResponse3.Comment);
-            Assert.Greater(individualCommentsResponse3.Comment.Id, 0);
+            Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
+            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
 
-            Assert.AreEqual(3, (await api.HelpCenter.Comments.GetCommentsForPostAsync(postId)).Count); //That post have 3 comments
+            Assert.That((await api.HelpCenter.Comments.GetCommentsForPostAsync(postId)).Count, Is.EqualTo(3)); //That post have 3 comments
 
-            Assert.AreEqual("Comment 1", individualCommentsResponse1.Comment.Body);
-            Assert.AreEqual("Comment 2", individualCommentsResponse2.Comment.Body);
-            Assert.AreEqual("Comment 3", individualCommentsResponse3.Comment.Body);
+            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
             individualCommentsResponse2.Comment.Body = updatedCommentBody;
             var updateCommentForPost = await api.HelpCenter.Comments.UpdateCommentForPostAsync(postId, individualCommentsResponse2.Comment);
-            Assert.AreEqual(updatedCommentBody, updateCommentForPost.Comment.Body);
+            Assert.That(updateCommentForPost.Comment.Body, Is.EqualTo(updatedCommentBody));
 
             //Delete Comment
             await api.HelpCenter.Comments.DeleteCommentForPostAsync(postId, individualCommentsResponse2.Comment.Id.Value);
-            Assert.AreEqual(2, (await api.HelpCenter.Comments.GetCommentsForPostAsync(postId)).Count); //One less comments now
+            Assert.That((await api.HelpCenter.Comments.GetCommentsForPostAsync(postId)).Count, Is.EqualTo(2)); //One less comments now
         }
 
         private long CreateTestArticle(string testArticleForComments)

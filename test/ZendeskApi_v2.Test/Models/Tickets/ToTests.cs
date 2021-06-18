@@ -14,11 +14,11 @@ namespace Tests.Models.Tickets
         {
             var to = JsonConvert.DeserializeObject<To>(AllFieldsJson);
 
-            Assert.NotNull(to);
-            Assert.AreEqual("+49 89 555 666777", to.FormattedPhone);
-            Assert.AreEqual("+4989555666777", to.Phone);
-            Assert.AreEqual("Caller +49 89 555 666777", to.Name);
-            Assert.AreEqual("Test", to.Address);
+            Assert.That(to, Is.Not.Null);
+            Assert.That(to.FormattedPhone, Is.EqualTo("+49 89 555 666777"));
+            Assert.That(to.Phone, Is.EqualTo("+4989555666777"));
+            Assert.That(to.Name, Is.EqualTo("Caller +49 89 555 666777"));
+            Assert.That(to.Address, Is.EqualTo("Test"));
         }
 
         [Test]
@@ -34,8 +34,8 @@ namespace Tests.Models.Tickets
 
             var toJson = JsonConvert.SerializeObject(to);
 
-            Assert.NotNull(toJson);
-            Assert.AreEqual(AllFieldsJson, toJson);
+            Assert.That(toJson, Is.Not.Null);
+            Assert.That(toJson, Is.EqualTo(AllFieldsJson));
         }
     }
 }
