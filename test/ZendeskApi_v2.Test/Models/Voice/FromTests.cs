@@ -14,7 +14,7 @@ namespace Tests.Models.Voice
         {
             var from = JsonConvert.DeserializeObject<CurrentQueueActivityResponse>(AllFieldsJson);
 
-            Assert.NotNull(from);
+            Assert.That(from, Is.Not.Null);
             Assert.That(from.CurrentQueueActivity.AgentsOnline, Is.EqualTo(3));
             Assert.That(from.CurrentQueueActivity.CallsWaiting, Is.EqualTo(13));
             Assert.That(from.CurrentQueueActivity.CallbacksWaiting, Is.EqualTo(7));

@@ -28,14 +28,14 @@ namespace Tests
         public void CanGetGroups()
         {
             var res = api.Groups.GetGroups();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetAssignableGroups()
         {
             var res = api.Groups.GetAssignableGroups();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -44,20 +44,20 @@ namespace Tests
             var res = api.Groups.GetGroups();
             var res1 = api.Groups.GetGroupById(res.Groups[0].Id.Value);
 
-            Assert.AreEqual(res1.Group.Id.Value, res.Groups[0].Id.Value);
+            Assert.That(res.Groups[0].Id.Value, Is.EqualTo(res1.Group.Id.Value));
         }
 
         [Test]
         public void CanCreateUpdateAndDeleteGroup()
         {
             var res = api.Groups.CreateGroup("Test Group");
-            Assert.True(res.Group.Id > 0);
+            Assert.That(res.Group.Id, Is.GreaterThan(0));
 
             res.Group.Name = "Updated Test Group";
             var res1 = api.Groups.UpdateGroup(res.Group);
-            Assert.AreEqual(res1.Group.Name, res.Group.Name);
+            Assert.That(res.Group.Name, Is.EqualTo(res1.Group.Name));
 
-            Assert.True(api.Groups.DeleteGroup(res.Group.Id.Value));
+            Assert.That(api.Groups.DeleteGroup(res.Group.Id.Value), Is.True);
         }
 
         [Test]
@@ -78,11 +78,11 @@ namespace Tests
         public void CanGetAssignableGroupMemberships()
         {
             var res = api.Groups.GetAssignableGroupMemberships();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var groups = api.Groups.GetGroups();
             var res1 = api.Groups.GetAssignableGroupMembershipsByGroup(groups.Groups[0].Id.Value);
-            Assert.Greater(res1.Count, 0);
+            Assert.That(res1.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -91,10 +91,10 @@ namespace Tests
             var res = api.Groups.GetGroupMemberships();
 
             var res1 = api.Groups.GetGroupMembershipsByMembershipId(res.GroupMemberships[0].Id.Value);
-            Assert.AreEqual(res1.GroupMembership.Id, res.GroupMemberships[0].Id);
+            Assert.That(res.GroupMemberships[0].Id, Is.EqualTo(res1.GroupMembership.Id));
 
             var res2 = api.Groups.GetGroupMembershipsByUserAndMembershipId(res1.GroupMembership.UserId, res.GroupMemberships[0].Id.Value);
-            Assert.AreEqual(res2.GroupMembership.UserId, res1.GroupMembership.UserId);
+            Assert.That(res1.GroupMembership.UserId, Is.EqualTo(res2.GroupMembership.UserId));
         }
 
         [Test]
@@ -114,14 +114,14 @@ namespace Tests
                 GroupId = group.Id.Value
             });
 
-            Assert.Greater(res.GroupMembership.Id, 0);
+            Assert.That(res.GroupMembership.Id, Is.GreaterThan(0));
 
             var res2 = api.Groups.SetGroupMembershipAsDefault(user.Id.Value, res.GroupMembership.Id.Value);
-            Assert.True(res2.GroupMemberships.First(x => x.Id == res.GroupMembership.Id).Default);
+            Assert.That(res2.GroupMemberships.First(x => x.Id == res.GroupMembership.Id).Default, Is.True);
 
-            Assert.True(api.Groups.DeleteGroupMembership(res.GroupMembership.Id.Value));
-            Assert.True(api.Users.DeleteUser(user.Id.Value));
-            Assert.True(api.Groups.DeleteGroup(group.Id.Value));
+            Assert.That(api.Groups.DeleteGroupMembership(res.GroupMembership.Id.Value), Is.True);
+            Assert.That(api.Users.DeleteUser(user.Id.Value), Is.True);
+            Assert.That(api.Groups.DeleteGroup(group.Id.Value), Is.True);
         }
 
         [Test]

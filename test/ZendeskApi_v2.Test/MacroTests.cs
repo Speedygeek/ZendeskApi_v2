@@ -16,13 +16,13 @@ namespace Tests
         public void CanGetMacros()
         {
             var all = api.Macros.GetAllMacros();
-            Assert.Greater(all.Count, 0);
+            Assert.That(all.Count, Is.GreaterThan(0));
 
             api.Macros.GetMacroById(all.Macros[0].Id.Value);
-            Assert.Greater(all.Count, 0);
+            Assert.That(all.Count, Is.GreaterThan(0));
 
             var active = api.Macros.GetActiveMacros();
-            Assert.Greater(active.Count, 0);
+            Assert.That(active.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -34,11 +34,11 @@ namespace Tests
                 Actions = new List<Action> { new Action { Field = "status", Value = new List<string> { "open" } } }
             });
 
-            Assert.Greater(create.Macro.Id, 0);
+            Assert.That(create.Macro.Id, Is.GreaterThan(0));
 
             create.Macro.Title = "Roger wilco 2";
             var update = api.Macros.UpdateMacro(create.Macro);
-            Assert.AreEqual(update.Macro.Id, create.Macro.Id);
+            Assert.That(create.Macro.Id, Is.EqualTo(update.Macro.Id));
 
             //Test apply macro
             var ticket = api.Tickets.CreateTicket(new Ticket
@@ -49,9 +49,9 @@ namespace Tests
             }).Ticket;
 
             var applyToTicket = api.Macros.ApplyMacroToTicket(ticket.Id.Value, create.Macro.Id.Value);
-            Assert.AreEqual(applyToTicket.Result.Ticket.Id, ticket.Id);
-            Assert.True(api.Tickets.Delete(ticket.Id.Value));
-            Assert.True(api.Macros.DeleteMacro(create.Macro.Id.Value));
+            Assert.That(ticket.Id, Is.EqualTo(applyToTicket.Result.Ticket.Id));
+            Assert.That(api.Tickets.Delete(ticket.Id.Value), Is.True);
+            Assert.That(api.Macros.DeleteMacro(create.Macro.Id.Value), Is.True);
         }
 
 
@@ -60,7 +60,7 @@ namespace Tests
         {
             var macro = api.Macros.GetMacroById(45319945);
 
-            Assert.IsNotNull(macro);
+            Assert.That(macro, Is.Not.Null);
         }
     }
 }

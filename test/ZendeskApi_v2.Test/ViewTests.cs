@@ -25,21 +25,21 @@ namespace Tests
         public void CanGetViews()
         {
             var views = api.Views.GetAllViews();
-            Assert.True(views.Count > 0);
+            Assert.That(views.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetActiveViews()
         {
             var views = api.Views.GetActiveViews();
-            Assert.True(views.Count > 0);
+            Assert.That(views.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void CanGetCompactViews()
         {
             var views = api.Views.GetCompactViews();
-            Assert.True(views.Count > 0);
+            Assert.That(views.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace Tests
         {
             var views = api.Views.GetAllViews();
             var view = api.Views.GetView(views.Views.First().Id);
-            Assert.True(view.View.Id > 0);
+            Assert.That(view.View.Id, Is.GreaterThan(0));
         }
 
         [Test]
@@ -59,8 +59,8 @@ namespace Tests
             //id for all unsolved tickets
             var res = api.Views.ExecuteView(31559032);
 
-            Assert.Greater(res.Rows.Count, 0);
-            Assert.Greater(res.Columns.Count, 0);
+            Assert.That(res.Rows.Count, Is.GreaterThan(0));
+            Assert.That(res.Columns.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -68,16 +68,16 @@ namespace Tests
         {
             var res = api.Views.ExecuteView(Settings.ViewId, "", true, 25, 2);
 
-            Assert.AreEqual(25, res.Rows.Count);
+            Assert.That(res.Rows.Count, Is.EqualTo(25));
 
             var nextPage = res.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
                         .FirstOrDefault();
 
-            Assert.NotNull(nextPage);
+            Assert.That(nextPage, Is.Not.Null);
 
-            Assert.AreEqual("3", nextPage);
+            Assert.That(nextPage, Is.EqualTo("3"));
         }
 
         [Test]
@@ -93,8 +93,8 @@ namespace Tests
             };
 
             var previewRes = api.Views.PreviewView(preview);
-            Assert.Greater(previewRes.Rows.Count, 0);
-            Assert.Greater(previewRes.Columns.Count, 0);
+            Assert.That(previewRes.Rows.Count, Is.GreaterThan(0));
+            Assert.That(previewRes.Columns.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -102,9 +102,9 @@ namespace Tests
         {
             var views = api.Views.GetAllViews();
             var res = api.Views.GetViewCounts(new List<long>() { views.Views[0].Id });
-            Assert.Greater(res.ViewCounts.Count, 0);
+            Assert.That(res.ViewCounts.Count, Is.GreaterThan(0));
 
-            Assert.True(views.Count > 0);
+            Assert.That(views.Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace Tests
             var id = views.Views[0].Id;
             var res = api.Views.GetViewCount(id);
 
-            Assert.True(res.ViewCount.ViewId == id);
+            Assert.That(res.ViewCount.ViewId, Is.EqualTo(id));
         }
     }
 }

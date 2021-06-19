@@ -79,3 +79,49 @@ csharp_new_line_before_catch = true
 csharp_new_line_before_finally = true
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
+csharp_prefer_simple_using_statement=false:error
+
+# IDE0090: Use 'new(...)'
+csharp_style_implicit_object_creation_when_type_is_apparent = false
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = error
+
+# NUnit2027: Consider using Assert.That(actual, Is.GreaterThan(expected)) instead of Assert.Greater(actual, expected)
+dotnet_diagnostic.NUnit2027.severity =error
+
+# NUnit2028: Consider using Assert.That(actual, Is.GreaterThanOrEqualTo(expected)) instead of Assert.GreaterOrEqual(actual, expected)
+dotnet_diagnostic.NUnit2028.severity =error
+dotnet_diagnostic.NUnit2001.severity=error
+dotnet_diagnostic.NUnit2002.severity=error
+dotnet_diagnostic.NUnit2003.severity=error
+dotnet_diagnostic.NUnit2004.severity=error
+dotnet_diagnostic.NUnit2005.severity=error
+dotnet_diagnostic.NUnit2006.severity=error
+dotnet_diagnostic.NUnit2015.severity=error
+dotnet_diagnostic.NUnit2016.severity=error
+dotnet_diagnostic.NUnit2017.severity=error
+dotnet_diagnostic.NUnit2018.severity=error
+dotnet_diagnostic.NUnit2019.severity=error
+dotnet_diagnostic.NUnit2029.severity=error
+dotnet_diagnostic.NUnit2030.severity=error
+dotnet_diagnostic.NUnit2031.severity=error
+dotnet_diagnostic.NUnit2032.severity=error
+dotnet_diagnostic.NUnit2033.severity=error
+dotnet_diagnostic.NUnit2034.severity=error
+dotnet_diagnostic.NUnit2035.severity=error
+dotnet_diagnostic.NUnit2036.severity=error
+dotnet_diagnostic.NUnit2037.severity=error
+dotnet_diagnostic.NUnit2038.severity=error
+dotnet_diagnostic.NUnit2039.severity=error
+dotnet_diagnostic.NUnit2010.severity=error
+dotnet_diagnostic.NUnit2011.severity=error
+dotnet_diagnostic.NUnit2012.severity=error
+dotnet_diagnostic.NUnit2013.severity=error
+dotnet_diagnostic.NUnit2014.severity=error
+dotnet_diagnostic.NUnit2008.severity=error
+dotnet_diagnostic.NUnit2009.severity=error
+dotnet_diagnostic.NUnit2007.severity=error
+dotnet_diagnostic.NUnit1002.severity=error
+dotnet_diagnostic.NUnit1008.severity=error
+dotnet_diagnostic.NUnit1021.severity=error
+dotnet_diagnostic.NUnit1028.severity=error

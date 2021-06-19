@@ -18,7 +18,7 @@ namespace Tests.HelpCenter
         private const string postDetails = "My printer is on fire!";
 
         [OneTimeSetUp]
-        public void setup()
+        public void Setup()
         {
             var res = api.HelpCenter.Posts.GetPostsByTopicId(Settings.Topic_ID, 100);
             foreach (var post in res.Posts?.Where(x => x.Title == "Help me!"))

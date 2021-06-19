@@ -12,7 +12,7 @@ namespace Tests
         public void CanGetSettings()
         {
             var res = api.AccountsAndActivity.GetSettings();
-            Assert.IsNotEmpty(res.Settings.Branding.HeaderColor);
+            Assert.That(res.Settings.Branding.HeaderColor, Is.Not.Empty);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Tests
         public void CanGetAllRequests()
         {
             var res = _api.Requests.GetAllRequests();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [TestCase(1, 1)]
@@ -29,10 +29,10 @@ namespace Tests
             {
                 var res = _api.Requests.GetAllRequests(perPage: perPage, page: page);
 
-                Assert.IsNotNull(res);
-                Assert.IsNotNull(res.Requests);
-                Assert.AreEqual(perPage, res.PageSize);
-                Assert.AreEqual(page, res.Page);
+                Assert.That(res, Is.Not.Null);
+                Assert.That(res.Requests, Is.Not.Null);
+                Assert.That(res.PageSize, Is.EqualTo(perPage));
+                Assert.That(res.Page, Is.EqualTo(page));
             });
         }
 
@@ -43,19 +43,21 @@ namespace Tests
             {
                 var unsorted = _api.Requests.GetAllRequests();
 
-                Assert.IsNotNull(unsorted);
-                Assert.IsNotNull(unsorted.Requests);
-                Assert.AreEqual(unsorted.Requests.AsQueryable(), unsorted.Requests.AsQueryable());
-                Assert.AreNotEqual(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    unsorted.Requests.AsQueryable());
+                Assert.That(unsorted, Is.Not.Null);
+                Assert.That(unsorted.Requests, Is.Not.Null);
+#pragma warning disable NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(unsorted.Requests.AsQueryable(), Is.EqualTo(unsorted.Requests.AsQueryable()));
+#pragma warning restore NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(unsorted.Requests.AsQueryable(), Is.Not.EqualTo(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
 
                 var sorted = _api.Requests.GetAllRequests(sortCol: "updated_at", sortAscending: true);
 
-                Assert.IsNotNull(sorted);
-                Assert.IsNotNull(sorted.Requests);
-                Assert.AreEqual(sorted.Requests.AsQueryable(), sorted.Requests.AsQueryable());
-                Assert.AreEqual(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    sorted.Requests.AsQueryable());
+                Assert.That(sorted, Is.Not.Null);
+                Assert.That(sorted.Requests, Is.Not.Null);
+#pragma warning disable NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.AsQueryable()));
+#pragma warning restore NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
             });
         }
 
@@ -63,7 +65,7 @@ namespace Tests
         public void CanGetOpenRequests()
         {
             var res = _api.Requests.GetAllOpenRequests();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [TestCase(1, 1)]
@@ -74,10 +76,10 @@ namespace Tests
             {
                 var res = _api.Requests.GetAllOpenRequests(perPage: perPage, page: page);
 
-                Assert.IsNotNull(res);
-                Assert.IsNotNull(res.Requests);
-                Assert.AreEqual(perPage, res.PageSize);
-                Assert.AreEqual(page, res.Page);
+                Assert.That(res, Is.Not.Null);
+                Assert.That(res.Requests, Is.Not.Null);
+                Assert.That(res.PageSize, Is.EqualTo(perPage));
+                Assert.That(res.Page, Is.EqualTo(page));
             });
         }
 
@@ -88,19 +90,21 @@ namespace Tests
             {
                 var unsorted = _api.Requests.GetAllOpenRequests();
 
-                Assert.IsNotNull(unsorted);
-                Assert.IsNotNull(unsorted.Requests);
-                Assert.AreEqual(unsorted.Requests.AsQueryable(), unsorted.Requests.AsQueryable());
-                Assert.AreNotEqual(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    unsorted.Requests.AsQueryable());
+                Assert.That(unsorted, Is.Not.Null);
+                Assert.That(unsorted.Requests, Is.Not.Null);
+#pragma warning disable NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(unsorted.Requests.AsQueryable(), Is.EqualTo(unsorted.Requests.AsQueryable()));
+#pragma warning restore NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(unsorted.Requests.AsQueryable(), Is.Not.EqualTo(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
 
                 var sorted = _api.Requests.GetAllOpenRequests(sortCol: "updated_at", sortAscending: true);
 
-                Assert.IsNotNull(sorted);
-                Assert.IsNotNull(sorted.Requests);
-                Assert.AreEqual(sorted.Requests.AsQueryable(), sorted.Requests.AsQueryable());
-                Assert.AreEqual(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    sorted.Requests.AsQueryable());
+                Assert.That(sorted, Is.Not.Null);
+                Assert.That(sorted.Requests, Is.Not.Null);
+#pragma warning disable NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.AsQueryable()));
+#pragma warning restore NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
             });
         }
 
@@ -108,7 +112,7 @@ namespace Tests
         public void CanGetAllSolvedRequests()
         {
             var res = _api.Requests.GetAllSolvedRequests();
-            Assert.True(res.Count > 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
         }
 
         [TestCase(1, 1)]
@@ -119,10 +123,10 @@ namespace Tests
             {
                 var res = _api.Requests.GetAllSolvedRequests(perPage: perPage, page: page);
 
-                Assert.IsNotNull(res);
-                Assert.IsNotNull(res.Requests);
-                Assert.AreEqual(perPage, res.PageSize);
-                Assert.AreEqual(page, res.Page);
+                Assert.That(res, Is.Not.Null);
+                Assert.That(res.Requests, Is.Not.Null);
+                Assert.That(res.PageSize, Is.EqualTo(perPage));
+                Assert.That(res.Page, Is.EqualTo(page));
             });
         }
 
@@ -133,19 +137,21 @@ namespace Tests
             {
                 var unsorted = _api.Requests.GetAllSolvedRequests();
 
-                Assert.IsNotNull(unsorted);
-                Assert.IsNotNull(unsorted.Requests);
-                Assert.AreEqual(unsorted.Requests.AsQueryable(), unsorted.Requests.AsQueryable());
-                Assert.AreNotEqual(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    unsorted.Requests.AsQueryable());
+                Assert.That(unsorted, Is.Not.Null);
+                Assert.That(unsorted.Requests, Is.Not.Null);
+#pragma warning disable NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(unsorted.Requests.AsQueryable(), Is.EqualTo(unsorted.Requests.AsQueryable()));
+#pragma warning restore NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(unsorted.Requests.AsQueryable(), Is.Not.EqualTo(unsorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
 
                 var sorted = _api.Requests.GetAllSolvedRequests(sortCol: "updated_at", sortAscending: true);
 
-                Assert.IsNotNull(sorted);
-                Assert.IsNotNull(sorted.Requests);
-                Assert.AreEqual(sorted.Requests.AsQueryable(), sorted.Requests.AsQueryable());
-                Assert.AreEqual(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable(),
-                    sorted.Requests.AsQueryable());
+                Assert.That(sorted, Is.Not.Null);
+                Assert.That(sorted.Requests, Is.Not.Null);
+#pragma warning disable NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.AsQueryable()));
+#pragma warning restore NUnit2009 // The same value has been provided as both the actual and the expected argument
+                Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
             });
         }
 
@@ -170,21 +176,21 @@ namespace Tests
 
             try
             {
-                Assert.IsNotNull(res);
-                Assert.IsNotNull(res.Request);
-                Assert.IsTrue(res.Request.Id.HasValue);
-                Assert.That(res.Request.Type == RequestType.incident);
-                Assert.True(res.Request.Id.Value > 0);
+                Assert.That(res, Is.Not.Null);
+                Assert.That(res.Request, Is.Not.Null);
+                Assert.That(res.Request.Id.HasValue, Is.True);
+                Assert.That(res.Request.Type, Is.EqualTo(RequestType.incident));
+                Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
 
 
                 IndividualUserResponse user = _api.Users.GetUser(res.Request.RequesterId.Value);
-                Assert.AreEqual("Test Name", user.User.Name);
+                Assert.That(user.User.Name, Is.EqualTo("Test Name"));
 
                 IndividualTicketResponse ticket = _api.Tickets.GetTicket(res.Request.Id.Value);
                 CollectionAssert.AreEquivalent(new[] {"tag1", "tag2"}, ticket.Ticket.Tags);
 
                 var res1 = _api.Requests.GetRequestById(res.Request.Id.Value);
-                Assert.AreEqual(res1.Request.Id, res.Request.Id);
+                Assert.That(res.Request.Id, Is.EqualTo(res1.Request.Id));
 
                 res1.Request.Subject = "new subject";
                 res1.Request.Comment = new Comment
@@ -192,11 +198,10 @@ namespace Tests
                     Body = "something more to say",
                     Public = true
                 };
-
-                var res2 = _api.Requests.UpdateRequest(res1.Request);
+                _ = _api.Requests.UpdateRequest(res1.Request);
                 var res3 = _api.Requests.GetRequestCommentsById(res.Request.Id.Value);
 
-                Assert.AreEqual(res3.Comments.Last().Body.Replace("\n", ""), "something more to say");
+                Assert.That(res3.Comments.Last().Body.Replace("\n", ""), Is.EqualTo("something more to say"));
 
                 var res4 = _api.Requests.GetSpecificRequestComment(res.Request.Id.Value, res3.Comments.Last().Id.Value);
 
@@ -204,12 +209,12 @@ namespace Tests
                 var res5 = _api.Requests.UpdateRequest(res1.Request);
                 var res6 = _api.Requests.GetRequestById(res.Request.Id.Value);
 
-                Assert.AreEqual(res5.Request.RequesterId, res6.Request.RequesterId);
-                Assert.AreEqual(res4.Comment.Id, res3.Comments.Last().Id);
+                Assert.That(res6.Request.RequesterId, Is.EqualTo(res5.Request.RequesterId));
+                Assert.That(res3.Comments.Last().Id, Is.EqualTo(res4.Comment.Id));
             }
             finally
             {
-                Assert.True(_api.Tickets.Delete(res.Request.Id.Value));
+                Assert.That(_api.Tickets.Delete(res.Request.Id.Value), Is.True);
             }
         }
 
@@ -240,13 +245,13 @@ namespace Tests
 
             try
             {
-                Assert.IsNotNull(res);
-                Assert.IsNotNull(res.Request);
-                Assert.IsTrue(res.Request.Id.HasValue);
-                Assert.True(res.Request.Id.Value > 0);
+                Assert.That(res, Is.Not.Null);
+                Assert.That(res.Request, Is.Not.Null);
+                Assert.That(res.Request.Id.HasValue, Is.True);
+                Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
 
                 IndividualUserResponse user = _api.Users.GetUser(res.Request.RequesterId.Value);
-                Assert.AreEqual("Test Name", user.User.Name);
+                Assert.That(user.User.Name, Is.EqualTo("Test Name"));
 
                 IndividualTicketResponse ticket = _api.Tickets.GetTicket(res.Request.Id.Value);
                 CollectionAssert.AreEquivalent(new[] { "tag1", "tag2" }, ticket.Ticket.Tags);
@@ -257,7 +262,7 @@ namespace Tests
             }
             finally
             {
-                Assert.True(_api.Tickets.Delete(res.Request.Id.Value));
+                Assert.That(_api.Tickets.Delete(res.Request.Id.Value), Is.True);
             }
         }
     }

@@ -12,26 +12,26 @@ namespace Tests
         public void CanGetLocales()
         {
             var all = api.Locales.GetAllLocales();
-            Assert.Greater(all.Count, 0);
+            Assert.That(all.Count, Is.GreaterThan(0));
 
             var agent = api.Locales.GetLocalesForAgents();
-            Assert.Greater(agent.Count, 0);
+            Assert.That(agent.Count, Is.GreaterThan(0));
 
             var specific = api.Locales.GetLocaleById(all.Locales[0].Id);
-            Assert.AreEqual(specific.Locale.Id, all.Locales[0].Id);
-            Assert.IsNull(specific.Locale.Translations);
+            Assert.That(all.Locales[0].Id, Is.EqualTo(specific.Locale.Id));
+            Assert.That(specific.Locale.Translations, Is.Null);
 
             var specificWithTranslation = api.Locales.GetLocaleById(all.Locales[0].Id, true);
-            Assert.AreEqual(specificWithTranslation.Locale.Id, all.Locales[0].Id);
-            Assert.IsNotNull(specificWithTranslation.Locale.Translations);
+            Assert.That(all.Locales[0].Id, Is.EqualTo(specificWithTranslation.Locale.Id));
+            Assert.That(specificWithTranslation.Locale.Translations, Is.Not.Null);
 
             var current = api.Locales.GetCurrentLocale();
-            Assert.Greater(current.Locale.Id, 0);
-            Assert.IsNull(current.Locale.Translations);
+            Assert.That(current.Locale.Id, Is.GreaterThan(0));
+            Assert.That(current.Locale.Translations, Is.Null);
 
             var currentWithTranslation = api.Locales.GetCurrentLocale(true);
-            Assert.Greater(currentWithTranslation.Locale.Id, 0);
-            Assert.IsNotNull(currentWithTranslation.Locale.Translations);
+            Assert.That(currentWithTranslation.Locale.Id, Is.GreaterThan(0));
+            Assert.That(currentWithTranslation.Locale.Translations, Is.Not.Null);
         }
     }
 }

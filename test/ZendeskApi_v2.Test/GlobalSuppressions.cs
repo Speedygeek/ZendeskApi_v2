@@ -5,5 +5,5 @@
 
 //[assembly: NUnit.Framework.LevelOfParallelism(0)]
 //[assembly: NUnit.Framework.Parallelizable(NUnit.Framework.ParallelScope.Fixtures)]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SEC0112:Path Tampering Unvalidated File Path", Justification = "Unit Test", Scope = "type", Target = "Tests.UserTests")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SEC0112:Path Tampering Unvalidated File Path", Justification = "Unit Test", Scope = "type", Target = "Tests.TicketTests")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SEC0112:Path Tampering Unvalidated File Path", Justification = "Unit Test", Scope = "type", Target = "~T:Tests.UserTests")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SEC0112:Path Tampering Unvalidated File Path", Justification = "Unit Test", Scope = "type", Target = "~T:Tests.TicketTests")]

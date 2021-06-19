@@ -44,20 +44,20 @@ namespace Tests.Models.Requests
         {
             var openRequest = JsonConvert.DeserializeObject<Request>(OpenRequestJson);
 
-            Assert.NotNull(openRequest);
-            Assert.AreEqual(Url, openRequest.Url);
-            Assert.AreEqual(Id, openRequest.Id);
-            Assert.AreEqual(OpenStatus, openRequest.Status);
-            Assert.AreEqual(Subject, openRequest.Subject);
-            Assert.AreEqual(Description, openRequest.Description);
-            Assert.AreEqual(RequesterId, openRequest.RequesterId);
-            Assert.AreEqual(OpenCanBeSolvedByMe, openRequest.CanBeSolvedByMe);
+            Assert.That(openRequest, Is.Not.Null);
+            Assert.That(openRequest.Url, Is.EqualTo(Url));
+            Assert.That(openRequest.Id, Is.EqualTo(Id));
+            Assert.That(openRequest.Status, Is.EqualTo(OpenStatus));
+            Assert.That(openRequest.Subject, Is.EqualTo(Subject));
+            Assert.That(openRequest.Description, Is.EqualTo(Description));
+            Assert.That(openRequest.RequesterId, Is.EqualTo(RequesterId));
+            Assert.That(openRequest.CanBeSolvedByMe, Is.EqualTo(OpenCanBeSolvedByMe));
 
             var solvedRequest = JsonConvert.DeserializeObject<Request>(SolvedRequestJson);
 
-            Assert.NotNull(solvedRequest);
-            Assert.AreEqual(SolvedStatus, solvedRequest.Status);
-            Assert.AreEqual(SolvedCanBeSolvedByMe, solvedRequest.CanBeSolvedByMe);
+            Assert.That(solvedRequest, Is.Not.Null);
+            Assert.That(solvedRequest.Status, Is.EqualTo(SolvedStatus));
+            Assert.That(solvedRequest.CanBeSolvedByMe, Is.EqualTo(SolvedCanBeSolvedByMe));
         }
     }
 }

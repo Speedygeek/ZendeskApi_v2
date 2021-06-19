@@ -17,19 +17,19 @@ namespace Tests
         public void CreatesUrisCorrectly()
         {
             var res = new ZendeskApi_v2.ZendeskApi("https://csharpapi.zendesk.com/api/v2", Settings.AdminEmail, Settings.AdminPassword);
-            Assert.AreEqual(Settings.Site, res.ZendeskUrl);
+            Assert.That(res.ZendeskUrl, Is.EqualTo(Settings.Site));
 
             var res1 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com/api/v2", Settings.AdminEmail, Settings.AdminPassword);
-            Assert.AreEqual(Settings.Site, res1.ZendeskUrl);
+            Assert.That(res1.ZendeskUrl, Is.EqualTo(Settings.Site));
 
             var res2 = new ZendeskApi_v2.ZendeskApi("csharpapi.zendesk.com", Settings.AdminEmail, Settings.AdminPassword);
-            Assert.AreEqual(Settings.Site, res2.ZendeskUrl);
+            Assert.That(res2.ZendeskUrl, Is.EqualTo(Settings.Site));
 
             var api3 = new ZendeskApi_v2.ZendeskApi("csharpapi", Settings.AdminEmail, Settings.AdminPassword);
-            Assert.AreEqual(Settings.Site, api3.ZendeskUrl);
+            Assert.That(api3.ZendeskUrl, Is.EqualTo(Settings.Site));
 
             var api4 = new ZendeskApi_v2.ZendeskApi("http://csharpapi.zendesk.com/api/v2", Settings.AdminEmail, Settings.AdminPassword);
-            Assert.AreEqual(Settings.Site, api4.ZendeskUrl);
+            Assert.That(api4.ZendeskUrl, Is.EqualTo(Settings.Site));
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace Tests
             var id = Settings.SampleTicketId;
             var ticket = api.Tickets.GetTicket(id).Ticket;
 
-            Assert.NotNull(ticket);
-            Assert.AreEqual(ticket.Id, id);
+            Assert.That(ticket, Is.Not.Null);
+            Assert.That(id, Is.EqualTo(ticket.Id));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace Tests
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"));
+                Assert.That(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"), Is.True);
             }
 
         }

@@ -17,7 +17,7 @@ namespace Tests.HelpCenter
         {
             var votes = api.HelpCenter.Votes.GetVotesForArticle(_articleIdWithVotes);
 
-            Assert.IsTrue(votes.Count > 0);
+            Assert.That(votes.Count, Is.GreaterThan(0));
         }
     }
 }

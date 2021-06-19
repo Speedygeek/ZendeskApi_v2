@@ -48,10 +48,10 @@ namespace Tests
         public void CanGetSchedules()
         {
             var res = api.Schedules.GetAllSchedules();
-            Assert.Greater(res.Schedules.Count, 0);
+            Assert.That(res.Schedules.Count, Is.GreaterThan(0));
 
             var org = api.Schedules.GetSchedule(res.Schedules[0].Id.Value);
-            Assert.AreEqual(org.Schedule.Id, res.Schedules[0].Id);
+            Assert.That(res.Schedules[0].Id, Is.EqualTo(org.Schedule.Id));
         }
 
         [Test]
@@ -63,13 +63,13 @@ namespace Tests
                 TimeZone = "Pacific Time (US & Canada)"
             });
 
-            Assert.Greater(res.Schedule.Id, 0);
+            Assert.That(res.Schedule.Id, Is.GreaterThan(0));
 
             res.Schedule.TimeZone = "Central Time (US & Canada)";
             var update = api.Schedules.UpdateSchedule(res.Schedule);
-            Assert.AreEqual(update.Schedule.TimeZone, res.Schedule.TimeZone);
+            Assert.That(res.Schedule.TimeZone, Is.EqualTo(update.Schedule.TimeZone));
 
-            Assert.True(api.Schedules.DeleteSchedule(res.Schedule.Id.Value));
+            Assert.That(api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Tests
                 TimeZone = "Pacific Time (US & Canada)"
             });
 
-            Assert.Greater(res.Schedule.Id, 0);
+            Assert.That(res.Schedule.Id, Is.GreaterThan(0));
 
             var work = new WorkWeek
             {
@@ -92,10 +92,10 @@ namespace Tests
             work.Intervals[0].EndTime = 2460;
             var update = api.Schedules.UpdateIntervals(res.Schedule.Id.Value, work);
 
-            Assert.Greater(update.WorkWeek.Intervals.Count, 0);
+            Assert.That(update.WorkWeek.Intervals.Count, Is.GreaterThan(0));
 
-            Assert.AreEqual(work.Intervals[0].EndTime, update.WorkWeek.Intervals[0].EndTime);
-            Assert.True(api.Schedules.DeleteSchedule(res.Schedule.Id.Value));
+            Assert.That(update.WorkWeek.Intervals[0].EndTime, Is.EqualTo(work.Intervals[0].EndTime));
+            Assert.That(api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
         }
 
         [Test]
@@ -114,15 +114,15 @@ namespace Tests
                 EndDate = DateTimeOffset.UtcNow.AddDays(2).Date
             });
 
-            Assert.Greater(res2.Holiday.Id, 0);
+            Assert.That(res2.Holiday.Id, Is.GreaterThan(0));
 
             res2.Holiday.EndDate = DateTimeOffset.UtcNow.AddDays(3).Date;
             var update = api.Schedules.UpdateHoliday(res.Schedule.Id.Value, res2.Holiday);
-            Assert.AreEqual(update.Holiday.Name, res2.Holiday.Name);
-            Assert.AreEqual(update.Holiday.EndDate, res2.Holiday.EndDate);
+            Assert.That(res2.Holiday.Name, Is.EqualTo(update.Holiday.Name));
+            Assert.That(res2.Holiday.EndDate, Is.EqualTo(update.Holiday.EndDate));
 
-            Assert.True(api.Schedules.DeleteHoliday(res.Schedule.Id.Value, res2.Holiday.Id.Value));
-            Assert.True(api.Schedules.DeleteSchedule(res.Schedule.Id.Value));
+            Assert.That(api.Schedules.DeleteHoliday(res.Schedule.Id.Value, res2.Holiday.Id.Value), Is.True);
+            Assert.That(api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
         }
     }
 }

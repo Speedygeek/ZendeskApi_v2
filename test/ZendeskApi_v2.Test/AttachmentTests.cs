@@ -27,7 +27,7 @@ namespace Tests
                 FileName = "testupload.txt",
                 FileData = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "testupload.txt"))
             });
-            Assert.True(!string.IsNullOrEmpty(res.Token));
+            Assert.That(!string.IsNullOrEmpty(res.Token), Is.True);
         }
 
 

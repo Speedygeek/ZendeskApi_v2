@@ -29,10 +29,10 @@ namespace Tests
         public void CanGetTriggers()
         {
             var res = api.Triggers.GetTriggers();
-            Assert.Greater(res.Count, 0);
+            Assert.That(res.Count, Is.GreaterThan(0));
 
             var ind = api.Triggers.GetTriggerById(res.Triggers[0].Id.Value);
-            Assert.AreEqual(ind.Trigger.Id, res.Triggers[0].Id);
+            Assert.That(res.Triggers[0].Id, Is.EqualTo(ind.Trigger.Id));
         }
 
         [Test]
@@ -52,20 +52,20 @@ namespace Tests
 
             var res = api.Triggers.CreateTrigger(trigger);
 
-            Assert.Greater(res.Trigger.Id, 0);
+            Assert.That(res.Trigger.Id, Is.GreaterThan(0));
 
             res.Trigger.Title = "Test Trigger Updated";
             var update = api.Triggers.UpdateTrigger(res.Trigger);
-            Assert.AreEqual(update.Trigger.Title, res.Trigger.Title);
+            Assert.That(res.Trigger.Title, Is.EqualTo(update.Trigger.Title));
 
-            Assert.True(api.Triggers.DeleteTrigger(res.Trigger.Id.Value));
+            Assert.That(api.Triggers.DeleteTrigger(res.Trigger.Id.Value), Is.True);
         }
 
         [Test]
         public void CanReorderTriggers()
         {
             var res = api.Triggers.GetActiveTriggers().Triggers;
-            Assert.AreEqual(res.Count(), 0);
+            Assert.That(res.Count(), Is.EqualTo(0));
 
             var trigger = new Trigger()
             {
@@ -90,14 +90,14 @@ namespace Tests
 
             var ids = new List<long>() { res3.Trigger.Id.Value, res2.Trigger.Id.Value };
 
-            Assert.True(api.Triggers.ReorderTriggers(ids));
+            Assert.That(api.Triggers.ReorderTriggers(ids), Is.True);
 
             res = api.Triggers.GetActiveTriggers().Triggers;
 
-            Assert.AreEqual(res[0].Id.Value, res3.Trigger.Id.Value);
+            Assert.That(res3.Trigger.Id.Value, Is.EqualTo(res[0].Id.Value));
 
-            Assert.True(api.Triggers.DeleteTrigger(res2.Trigger.Id.Value));
-            Assert.True(api.Triggers.DeleteTrigger(res3.Trigger.Id.Value));
+            Assert.That(api.Triggers.DeleteTrigger(res2.Trigger.Id.Value), Is.True);
+            Assert.That(api.Triggers.DeleteTrigger(res3.Trigger.Id.Value), Is.True);
         }
     }
 }

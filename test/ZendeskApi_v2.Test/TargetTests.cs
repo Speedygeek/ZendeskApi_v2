@@ -40,22 +40,22 @@ namespace Tests
             };
 
             var targetResult = (HTTPTarget)api.Targets.CreateTarget(target).Target;
-            Assert.IsNotNull(targetResult);
-            Assert.IsInstanceOf<HTTPTarget>(targetResult);
-            Assert.IsFalse(targetResult.Active);
-            Assert.AreEqual("https://test.com", targetResult.TargetUrl);
-            Assert.AreEqual("http_target", targetResult.Type);
-            Assert.AreEqual("application/json", targetResult.ContentType);
-            Assert.AreEqual("post", targetResult.Method);
-            Assert.AreEqual("TestUser", targetResult.Username);
-            Assert.IsNull(targetResult.Password);
+            Assert.That(targetResult, Is.Not.Null);
+            Assert.That(targetResult, Is.InstanceOf<HTTPTarget>());
+            Assert.That(targetResult.Active, Is.False);
+            Assert.That(targetResult.TargetUrl, Is.EqualTo("https://test.com"));
+            Assert.That(targetResult.Type, Is.EqualTo("http_target"));
+            Assert.That(targetResult.ContentType, Is.EqualTo("application/json"));
+            Assert.That(targetResult.Method, Is.EqualTo("post"));
+            Assert.That(targetResult.Username, Is.EqualTo("TestUser"));
+            Assert.That(targetResult.Password, Is.Null);
 
             targetResult.Active = true;
 
             var update = (HTTPTarget)api.Targets.UpdateTarget(targetResult).Target;
-            Assert.AreEqual(targetResult.Active, update.Active);
+            Assert.That(update.Active, Is.EqualTo(targetResult.Active));
 
-            Assert.True(api.Targets.DeleteTarget(update.Id.Value));
+            Assert.That(api.Targets.DeleteTarget(update.Id.Value), Is.True);
         }
 
         [Test]
@@ -70,18 +70,18 @@ namespace Tests
             };
 
             var emailResult = (EmailTarget)api.Targets.CreateTarget(target).Target;
-            Assert.IsNotNull(emailResult);
-            Assert.IsInstanceOf<EmailTarget>(emailResult);
-            Assert.AreEqual("email_target", emailResult.Type);
-            Assert.AreEqual("test@test.com", emailResult.Email);
-            Assert.AreEqual("Test", emailResult.Subject);
+            Assert.That(emailResult, Is.Not.Null);
+            Assert.That(emailResult, Is.InstanceOf<EmailTarget>());
+            Assert.That(emailResult.Type, Is.EqualTo("email_target"));
+            Assert.That(emailResult.Email, Is.EqualTo("test@test.com"));
+            Assert.That(emailResult.Subject, Is.EqualTo("Test"));
 
             emailResult.Subject = "Test Update";
 
             var update = (EmailTarget)api.Targets.UpdateTarget(emailResult).Target;
-            Assert.AreEqual(emailResult.Subject, update.Subject);
+            Assert.That(update.Subject, Is.EqualTo(emailResult.Subject));
 
-            Assert.True(api.Targets.DeleteTarget(emailResult.Id.Value));
+            Assert.That(api.Targets.DeleteTarget(emailResult.Id.Value), Is.True);
         }
 
         [Test]
@@ -97,8 +97,8 @@ namespace Tests
             };
 
             var emailResult = (EmailTarget)api.Targets.CreateTarget(emailTarget).Target;
-            Assert.IsNotNull(emailResult);
-            Assert.IsInstanceOf<EmailTarget>(emailResult);
+            Assert.That(emailResult, Is.Not.Null);
+            Assert.That(emailResult, Is.InstanceOf<EmailTarget>());
 
             var emailTarget2 = new EmailTarget()
             {
@@ -109,13 +109,12 @@ namespace Tests
             };
 
             var emailResult2 = (EmailTarget)api.Targets.CreateTarget(emailTarget2).Target;
-            Assert.IsNotNull(emailResult2);
-            Assert.IsInstanceOf<EmailTarget>(emailResult2);
+            Assert.That(emailResult2, Is.Not.Null);
+            Assert.That(emailResult2, Is.InstanceOf<EmailTarget>());
+            _ = api.Targets.GetAllTargets();
 
-            var targets = api.Targets.GetAllTargets();
-
-            Assert.True(api.Targets.DeleteTarget(emailResult.Id.Value));
-            Assert.True(api.Targets.DeleteTarget(emailResult2.Id.Value));
+            Assert.That(api.Targets.DeleteTarget(emailResult.Id.Value), Is.True);
+            Assert.That(api.Targets.DeleteTarget(emailResult2.Id.Value), Is.True);
         }
     }
 }

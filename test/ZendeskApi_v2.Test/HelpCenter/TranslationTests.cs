@@ -21,20 +21,20 @@ namespace Tests.HelpCenter
         public void CanListTranslations()
         {
             var res = api.HelpCenter.Translations.ListTranslationsForArticle(_articleId);
-            Assert.AreEqual(2, res.Count);
+            Assert.That(res.Count, Is.EqualTo(2));
 
             res = api.HelpCenter.Translations.ListTranslationsForSection(_sectionId);
-            Assert.AreEqual(2, res.Count);
+            Assert.That(res.Count, Is.EqualTo(2));
 
             res = api.HelpCenter.Translations.ListTranslationsForCategory(_categoryId);
-            Assert.AreEqual(2, res.Count);
+            Assert.That(res.Count, Is.EqualTo(2));
         }
 
         [Test]
         public void CanShowTranslationForArticle()
         {
             var res = api.HelpCenter.Translations.ShowTranslationForArticle(_articleId, "en-us");
-            Assert.AreEqual("en-us", res.Translation.Locale);
+            Assert.That(res.Translation.Locale, Is.EqualTo("en-us"));
         }
 
         [Test]
@@ -57,8 +57,8 @@ namespace Tests.HelpCenter
             var article_id = new_article_res.Article.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForArticle(article_id);
-            Assert.AreEqual(1, missing_res.Count);
-            Assert.AreEqual("fr", missing_res[0]);
+            Assert.That(missing_res.Count, Is.EqualTo(1));
+            Assert.That(missing_res[0], Is.EqualTo("fr"));
 
             var fr_translation = new Translation()
             {
@@ -69,19 +69,19 @@ namespace Tests.HelpCenter
 
             //create translation
             var add_res = api.HelpCenter.Translations.CreateArticleTranslation(article_id, fr_translation);
-            Assert.Greater(add_res.Translation.Id, 0);
+            Assert.That(add_res.Translation.Id, Is.GreaterThan(0));
 
             add_res.Translation.Body = "insérer plus français ici .";
 
             //update translation
             var update_res = api.HelpCenter.Translations.UpdateArticleTranslation(add_res.Translation);
-            Assert.AreEqual("insérer plus français ici .", update_res.Translation.Body);
+            Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici ."));
 
             // delete translation
-             Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
+             Assert.That(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value), Is.True);
 
             // teardown.
-             Assert.IsTrue(api.HelpCenter.Articles.DeleteArticle(article_id));
+             Assert.That(api.HelpCenter.Articles.DeleteArticle(article_id), Is.True);
 
         }
 
@@ -107,8 +107,8 @@ namespace Tests.HelpCenter
             var section_id = new_section_res.Section.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForSection(section_id);
-            Assert.AreEqual(1, missing_res.Count);
-            Assert.AreEqual("fr", missing_res[0]);
+            Assert.That(missing_res.Count, Is.EqualTo(1));
+            Assert.That(missing_res[0], Is.EqualTo("fr"));
 
             var fr_translation = new Translation()
             {
@@ -119,19 +119,19 @@ namespace Tests.HelpCenter
 
             //create translation
             var add_res = api.HelpCenter.Translations.CreateSectionTranslation(section_id, fr_translation);
-            Assert.Greater(add_res.Translation.Id, 0);
+            Assert.That(add_res.Translation.Id, Is.GreaterThan(0));
 
             add_res.Translation.Body = "insérer plus français ici .";
 
             //update translation
             var update_res = api.HelpCenter.Translations.UpdateSectionTranslation(add_res.Translation);
-            Assert.AreEqual("insérer plus français ici .", update_res.Translation.Body);
+            Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici ."));
 
             //delete translation
-            Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
+            Assert.That(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value), Is.True);
 
             //teardown.
-            Assert.IsTrue(api.HelpCenter.Sections.DeleteSection(section_id));
+            Assert.That(api.HelpCenter.Sections.DeleteSection(section_id), Is.True);
 
         }
 
@@ -156,8 +156,8 @@ namespace Tests.HelpCenter
             var category_id = new_category_res.Category.Id.Value;
 
             var missing_res = api.HelpCenter.Translations.ListMissingTranslationsForCategory(category_id);
-            Assert.AreEqual(1, missing_res.Count);
-            Assert.AreEqual("fr", missing_res[0]);
+            Assert.That(missing_res.Count, Is.EqualTo(1));
+            Assert.That(missing_res[0], Is.EqualTo("fr"));
 
             var fr_translation = new Translation()
             {
@@ -168,19 +168,19 @@ namespace Tests.HelpCenter
 
             //create translation
             var add_res = api.HelpCenter.Translations.CreateCategoryTranslation(category_id, fr_translation);
-            Assert.Greater(add_res.Translation.Id, 0);
+            Assert.That(add_res.Translation.Id, Is.GreaterThan(0));
 
             add_res.Translation.Body = "insérer plus français ici . (category)";
 
             //update translation
             var update_res = api.HelpCenter.Translations.UpdateCategoryTranslation(add_res.Translation);
-            Assert.AreEqual("insérer plus français ici . (category)", update_res.Translation.Body);
+            Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici . (category)"));
 
             //delete translation
-            Assert.IsTrue(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value));
+            Assert.That(api.HelpCenter.Translations.DeleteTranslation(update_res.Translation.Id.Value), Is.True);
 
             //teardown.
-            Assert.IsTrue(api.HelpCenter.Categories.DeleteCategory(category_id));
+            Assert.That(api.HelpCenter.Categories.DeleteCategory(category_id), Is.True);
 
         }
 
@@ -191,9 +191,9 @@ namespace Tests.HelpCenter
             // note: FR was already enabled in the Zendesk settings, however it had to be enabled again in the help center preferences.
             var res = api.HelpCenter.Translations.ListAllEnabledLocalesAndDefaultLocale(out var default_locale);
 
-            Assert.AreEqual(default_locale, "en-us");
-            Assert.IsTrue(res.Contains("en-us"));
-            Assert.IsTrue(res.Contains("fr"));
+            Assert.That(default_locale, Is.EqualTo("en-us"));
+            Assert.That(res.Contains("en-us"), Is.True);
+            Assert.That(res.Contains("fr"), Is.True);
         }
 
 
