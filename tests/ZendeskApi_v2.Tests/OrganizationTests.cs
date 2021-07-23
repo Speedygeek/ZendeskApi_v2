@@ -152,6 +152,38 @@ namespace ZendeskApi_v2.Tests
         }
 
         [Test]
+        public void CanCreateMultipleOrganizations()
+        {
+            var createJobStatus = api.Organizations.CreateMultipleOrganizations(new[]
+            {
+                new Organization
+                {
+                    Name = "Test Org 1"
+                },
+                new Organization
+                {
+                    Name = "Test Org 2"
+                }
+            });
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
+        }
+
+        [Test]
         public async Task CanCreateOrUpdateOrganizationsAsync()
         {
             var res = await Api.Organizations.CreateOrUpdateOrganizationAsync(new Organization()
@@ -170,7 +202,7 @@ namespace ZendeskApi_v2.Tests
         }
 
         [Test]
-        public void CanCreateUpdateAndDeleteMultipeOrganizations()
+        public void CanCreateUpdateAndDeleteMultipleOrganizations()
         {
             var res1 = Api.Organizations.CreateOrganization(new Organization()
             {
@@ -230,7 +262,7 @@ namespace ZendeskApi_v2.Tests
 
             var res = Api.Users.CreateUser(user);
 
-            var org_membership = new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id };
+            var org_membership = new OrganizationMembership() {UserId = res.User.Id, OrganizationId = org.Organization.Id};
 
             var res2 = Api.Organizations.CreateOrganizationMembership(org_membership);
 
@@ -268,7 +300,7 @@ namespace ZendeskApi_v2.Tests
         }
 
         [Test]
-        public async Task CanCreateUpdateAndDeleteMultipeOrganizationsAsync()
+        public async Task CanCreateUpdateAndDeleteMultipleOrganizationsAsync()
         {
             var res1 = await Api.Organizations.CreateOrganizationAsync(new Organization()
             {
@@ -309,6 +341,38 @@ namespace ZendeskApi_v2.Tests
 
             await Api.Organizations.DeleteOrganizationAsync(res1.Organization.Id.Value);
             await Api.Organizations.DeleteOrganizationAsync(res2.Organization.Id.Value);
+        }
+
+        [Test]
+        public async Task CanCreateMultipleOrganizationsAsync()
+        {
+            var createJobStatus = await api.Organizations.CreateMultipleOrganizationsAsync(new[]
+            {
+                new Organization
+                {
+                    Name = "Test Org 1"
+                },
+                new Organization
+                {
+                    Name = "Test Org 2"
+                }
+            });
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
         }
     }
 }
