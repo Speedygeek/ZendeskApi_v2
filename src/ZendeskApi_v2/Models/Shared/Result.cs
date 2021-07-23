@@ -4,7 +4,6 @@ namespace ZendeskApi_v2.Models.Shared
 {
     public class Result
     {
-
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -22,5 +21,14 @@ namespace ZendeskApi_v2.Models.Shared
 
         [JsonProperty("status")]
         public string Status { get; set; }
+
+        [JsonProperty("index")]
+        public int Index { get; set; }
+
+        [JsonProperty("error")]
+        public string Error { get; set; }
+
+        [JsonProperty("details")]
+        public string Details { get; set; }
     }
 }
