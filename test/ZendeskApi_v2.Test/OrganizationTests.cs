@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
 using NUnit.Framework;
@@ -160,11 +161,11 @@ namespace Tests
             {
                 new Organization
                 {
-                    Name = "Test Org 1"
+                    Name = "Create Multiple Test Org 1"
                 },
                 new Organization
                 {
-                    Name = "Test Org 2"
+                    Name = "Create Multiple Test Org 2"
                 }
             });
 
@@ -174,6 +175,38 @@ namespace Tests
             {
                 Thread.Sleep(1000);
                 job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
+        }
+
+        [Test]
+        public async Task CanCreateMultipleOrganizationsAsync()
+        {
+            var createJobStatus = await api.Organizations.CreateMultipleOrganizationsAsync(new[]
+            {
+                new Organization
+                {
+                    Name = "Create Multiple Async Test Org 1"
+                },
+                new Organization
+                {
+                    Name = "Create Multiple Async Test Org 2"
+                }
+            });
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
                 if (job.JobStatus.Status == "completed") break;
@@ -245,6 +278,114 @@ namespace Tests
 
             api.Organizations.DeleteOrganization(res1.Organization.Id.Value);
             api.Organizations.DeleteOrganization(res2.Organization.Id.Value);
+        }
+
+        [Test]
+        public void CanCreateAndDeleteMultipleOrganizationsUsingBulkApis()
+        {
+            var createJobStatus = api.Organizations.CreateMultipleOrganizations(new[]
+            {
+                new Organization
+                {
+                    Name = "Bulk Create Org 1"
+                },
+                new Organization
+                {
+                    Name = "Bulk Create Org 2"
+                }
+            });
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
+
+            var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
+
+            var deleteJobStatus = api.Organizations.DeleteMultipleOrganizations(createdOrgIds);
+            Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            do
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            //verify they have actually been deleted
+            foreach (var orgId in createdOrgIds)
+            {
+                var exception = Assert.Throws<WebException>(() => api.Organizations.GetOrganization(orgId));
+                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            }
+        }
+
+        [Test]
+        public void CanDeleteMultipleOrganizationsByExternalIds()
+        {
+            var orgs = new[]
+            {
+                new Organization
+                {
+                    Name = "Bulk Create Org 1",
+                    ExternalId = "Test Id 1"
+                },
+                new Organization
+                {
+                    Name = "Bulk Create Org 2",
+                    ExternalId = "External Id 1"
+                }
+            };
+            var createJobStatus = api.Organizations.CreateMultipleOrganizations(orgs);
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
+
+            var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
+            var externalIds = orgs.Select(o => o.ExternalId.ToString()).ToList();
+
+            var deleteJobStatus = api.Organizations.DeleteMultipleOrganizationsByExternalIds(externalIds);
+            Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            do
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            //verify they have actually been deleted
+            foreach (var orgId in createdOrgIds)
+            {
+                var exception = Assert.Throws<WebException>(() => api.Organizations.GetOrganization(orgId));
+                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            }
         }
 
         [Test]
@@ -364,12 +505,12 @@ namespace Tests
         {
             var res1 = await api.Organizations.CreateOrganizationAsync(new Organization()
             {
-                Name = "Test Org 1"
+                Name = "Test Org 1 Async"
             });
 
             var res2 = await api.Organizations.CreateOrganizationAsync(new Organization()
             {
-                Name = "Test Org 2"
+                Name = "Test Org 2 Async"
             });
 
             Assert.That(res1.Organization.Id, Is.GreaterThan(0));
@@ -404,7 +545,7 @@ namespace Tests
         }
 
         [Test]
-        public async Task CanCreateMultipleOrganizationsAndBulkDeleteAsync()
+        public async Task CanCreateAndDeleteMultipleOrganizationsUsingBulkApisAsync()
         {
             var createJobStatus = await api.Organizations.CreateMultipleOrganizationsAsync(new[]
             {
@@ -434,8 +575,81 @@ namespace Tests
             foreach (var result in job.JobStatus.Results)
                 Assert.That(result.Id, Is.Not.EqualTo(0));
 
+            var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
 
-            var deleteJobStatus = await api.Organizations.Delete
+            var deleteJobStatus = await api.Organizations.DeleteMultipleOrganizationsAsync(createdOrgIds);
+            Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            do
+            {
+                Thread.Sleep(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            //verify they have actually been deleted
+            foreach (var orgId in createdOrgIds)
+            {
+                var exception = Assert.ThrowsAsync<WebException>(async () => await api.Organizations.GetOrganizationAsync(orgId));
+                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            }
+        }
+
+        [Test]
+        public async Task CanDeleteMultipleOrganizationsByExternalIdsAsync()
+        {
+            var orgs = new[]
+            {
+                new Organization
+                {
+                    Name = "Bulk Create Org 1",
+                    ExternalId = "Test Id 1"
+                },
+                new Organization
+                {
+                    Name = "Bulk Create Org 2",
+                    ExternalId = "External Id 1"
+                }
+            };
+            var createJobStatus = await api.Organizations.CreateMultipleOrganizationsAsync(orgs);
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
+
+            var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
+            var externalIds = orgs.Select(o => o.ExternalId.ToString()).ToList();
+
+            var deleteJobStatus = await api.Organizations.DeleteMultipleOrganizationsByExternalIdsAsync(externalIds);
+            Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            do
+            {
+                Thread.Sleep(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            //verify they have actually been deleted
+            foreach (var orgId in createdOrgIds)
+            {
+                var exception = Assert.ThrowsAsync<WebException>(async () => await api.Organizations.GetOrganizationAsync(orgId));
+                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            }
         }
     }
 }
