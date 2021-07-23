@@ -404,17 +404,17 @@ namespace Tests
         }
 
         [Test]
-        public async Task CanCreateMultipleOrganizationsAsync()
+        public async Task CanCreateMultipleOrganizationsAndBulkDeleteAsync()
         {
             var createJobStatus = await api.Organizations.CreateMultipleOrganizationsAsync(new[]
             {
                 new Organization
                 {
-                    Name = "Test Org 1"
+                    Name = "Bulk Create Org 1"
                 },
                 new Organization
                 {
-                    Name = "Test Org 2"
+                    Name = "Bulk Create Org 2"
                 }
             });
 
@@ -433,6 +433,9 @@ namespace Tests
 
             foreach (var result in job.JobStatus.Results)
                 Assert.That(result.Id, Is.Not.EqualTo(0));
+
+
+            var deleteJobStatus = await api.Organizations.Delete
         }
     }
 }
