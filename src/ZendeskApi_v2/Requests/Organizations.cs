@@ -33,6 +33,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
+        JobStatusResponse CreateMultipleOrganizations(IEnumerable<Organization> organizations);
         IndividualOrganizationResponse CreateOrUpdateOrganization(Organization organization);
 
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
@@ -77,6 +78,7 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
+        Task<JobStatusResponse> CreateMultipleOrganizationsAsync(IEnumerable<Organization> organizations);
         Task<IndividualOrganizationResponse> CreateOrUpdateOrganizationAsync(Organization organization);
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
         Task<JobStatusResponse> UpdateMultipleOrganizationsAsync(IEnumerable<Organization> organizations);
@@ -149,6 +151,11 @@ namespace ZendeskApi_v2.Requests
         {
             var body = new { organization };
             return GenericPost<IndividualOrganizationResponse>("organizations.json", body);
+        }
+
+        public JobStatusResponse CreateMultipleOrganizations(IEnumerable<Organization> organizations)
+        {
+            return GenericPost<JobStatusResponse>("organizations/create_many.json", new { organizations });
         }
 
         public IndividualOrganizationResponse CreateOrUpdateOrganization(Organization organization)
@@ -274,6 +281,11 @@ namespace ZendeskApi_v2.Requests
         public async Task<IndividualOrganizationResponse> GetOrganizationAsync(long id)
         {
             return await GenericGetAsync<IndividualOrganizationResponse>($"organizations/{id}.json");
+        }
+
+        public async Task<JobStatusResponse> CreateMultipleOrganizationsAsync(IEnumerable<Organization> organizations)
+        {
+            return await GenericPostAsync<JobStatusResponse>("organizations/create_many.json", new { organizations });
         }
 
         public async Task<GroupOrganizationResponse> GetMultipleOrganizationsAsync(IEnumerable<long> ids)

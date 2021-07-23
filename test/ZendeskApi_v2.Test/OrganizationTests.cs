@@ -91,7 +91,7 @@ namespace Tests
                 Name = "Test Org2"
             });
 
-            var orgs = api.Organizations.GetMultipleOrganizations(new[] { org.Organization.Id.Value, org2.Organization.Id.Value });
+            var orgs = api.Organizations.GetMultipleOrganizations(new[] {org.Organization.Id.Value, org2.Organization.Id.Value});
             Assert.That(orgs.Organizations.Count, Is.EqualTo(2));
         }
 
@@ -113,7 +113,7 @@ namespace Tests
             Assert.That(org.Organization.Id, Is.GreaterThan(0));
             Assert.That(org2.Organization.Id, Is.GreaterThan(0));
 
-            var orgs = api.Organizations.GetMultipleOrganizationsByExternalIds(new[] { org.Organization.ExternalId.ToString(), org2.Organization.ExternalId.ToString() });
+            var orgs = api.Organizations.GetMultipleOrganizationsByExternalIds(new[] {org.Organization.ExternalId.ToString(), org2.Organization.ExternalId.ToString()});
 
             Assert.That(orgs.Organizations.Count, Is.EqualTo(2));
         }
@@ -154,6 +154,38 @@ namespace Tests
         }
 
         [Test]
+        public void CanCreateMultipleOrganizations()
+        {
+            var createJobStatus = api.Organizations.CreateMultipleOrganizations(new[]
+            {
+                new Organization
+                {
+                    Name = "Test Org 1"
+                },
+                new Organization
+                {
+                    Name = "Test Org 2"
+                }
+            });
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = api.JobStatuses.GetJobStatus(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
+        }
+
+        [Test]
         public async Task CanCreateOrUpdateOrganizationsAsync()
         {
             var res = await api.Organizations.CreateOrUpdateOrganizationAsync(new Organization()
@@ -172,7 +204,7 @@ namespace Tests
         }
 
         [Test]
-        public void CanCreateUpdateAndDeleteMultipeOrganizations()
+        public void CanCreateUpdateAndDeleteMultipleOrganizations()
         {
             var res1 = api.Organizations.CreateOrganization(new Organization()
             {
@@ -190,7 +222,7 @@ namespace Tests
             res1.Organization.Notes = "Here is a sample note 1";
             res2.Organization.Notes = "Here is a sample note 2";
 
-            var organisations = new List<Organization> { res1.Organization, res2.Organization };
+            var organisations = new List<Organization> {res1.Organization, res2.Organization};
             var updateJobStatus = api.Organizations.UpdateMultipleOrganizations(organisations);
 
             Assert.That(updateJobStatus.JobStatus.Status, Is.EqualTo("queued"));
@@ -205,7 +237,7 @@ namespace Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            var updatedOrganizationIds = new List<long> { res1.Organization.Id.Value, res2.Organization.Id.Value };
+            var updatedOrganizationIds = new List<long> {res1.Organization.Id.Value, res2.Organization.Id.Value};
             var updatedOrganizations = api.Organizations.GetMultipleOrganizations(updatedOrganizationIds);
 
             Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
@@ -233,7 +265,7 @@ namespace Tests
 
             var res = api.Users.CreateUser(user);
 
-            var org_membership = new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id };
+            var org_membership = new OrganizationMembership() {UserId = res.User.Id, OrganizationId = org.Organization.Id};
 
             var res2 = api.Organizations.CreateOrganizationMembership(org_membership);
 
@@ -273,8 +305,8 @@ namespace Tests
 
             var memberships = new List<OrganizationMembership>
             {
-                new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id },
-                new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org2.Organization.Id }
+                new OrganizationMembership() {UserId = res.User.Id, OrganizationId = org.Organization.Id},
+                new OrganizationMembership() {UserId = res.User.Id, OrganizationId = org2.Organization.Id}
             };
 
             var job = api.Organizations.CreateManyOrganizationMemberships(memberships).JobStatus;
@@ -328,7 +360,7 @@ namespace Tests
         }
 
         [Test]
-        public async Task CanCreateUpdateAndDeleteMultipeOrganizationsAsync()
+        public async Task CanCreateUpdateAndDeleteMultipleOrganizationsAsync()
         {
             var res1 = await api.Organizations.CreateOrganizationAsync(new Organization()
             {
@@ -346,7 +378,7 @@ namespace Tests
             res1.Organization.Notes = "Here is a sample note 1";
             res2.Organization.Notes = "Here is a sample note 2";
 
-            var organisations = new List<Organization> { res1.Organization, res2.Organization };
+            var organisations = new List<Organization> {res1.Organization, res2.Organization};
             var updateJobStatus = await api.Organizations.UpdateMultipleOrganizationsAsync(organisations);
 
             Assert.That(updateJobStatus.JobStatus.Status, Is.EqualTo("queued"));
@@ -361,7 +393,7 @@ namespace Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            var updatedOrganizationIds = new List<long> { res1.Organization.Id.Value, res2.Organization.Id.Value };
+            var updatedOrganizationIds = new List<long> {res1.Organization.Id.Value, res2.Organization.Id.Value};
             var updatedOrganizations = await api.Organizations.GetMultipleOrganizationsAsync(updatedOrganizationIds);
 
             Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
@@ -369,6 +401,38 @@ namespace Tests
 
             await api.Organizations.DeleteOrganizationAsync(res1.Organization.Id.Value);
             await api.Organizations.DeleteOrganizationAsync(res2.Organization.Id.Value);
+        }
+
+        [Test]
+        public async Task CanCreateMultipleOrganizationsAsync()
+        {
+            var createJobStatus = await api.Organizations.CreateMultipleOrganizationsAsync(new[]
+            {
+                new Organization
+                {
+                    Name = "Test Org 1"
+                },
+                new Organization
+                {
+                    Name = "Test Org 2"
+                }
+            });
+
+            Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
+            JobStatusResponse job;
+            do
+            {
+                Thread.Sleep(1000);
+                job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
+                Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
+
+                if (job.JobStatus.Status == "completed") break;
+            } while (true);
+
+            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+
+            foreach (var result in job.JobStatus.Results)
+                Assert.That(result.Id, Is.Not.EqualTo(0));
         }
     }
 }
