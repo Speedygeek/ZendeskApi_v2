@@ -205,7 +205,7 @@ namespace Tests
             JobStatusResponse job;
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -456,7 +456,7 @@ namespace Tests
             var retries = 0;
             while (!job.Status.Equals("completed") && retries < 7)
             {
-                System.Threading.Thread.Sleep(sleep);
+                Thread.Sleep(sleep);
                 job = api.JobStatuses.GetJobStatus(job.Id).JobStatus;
                 sleep = (sleep < 64000 ? sleep *= 2 : 64000);
                 retries++;
@@ -527,7 +527,7 @@ namespace Tests
 
             do
             {
-                Thread.Sleep(5000);
+                await Task.Delay(5000);
                 job = await api.JobStatuses.GetJobStatusAsync(updateJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(updateJobStatus.JobStatus.Id));
 
@@ -563,7 +563,7 @@ namespace Tests
             JobStatusResponse job;
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -581,7 +581,7 @@ namespace Tests
             Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -618,7 +618,7 @@ namespace Tests
             JobStatusResponse job;
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -637,7 +637,7 @@ namespace Tests
             Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
