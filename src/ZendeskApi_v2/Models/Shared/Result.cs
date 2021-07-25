@@ -23,7 +23,7 @@ namespace ZendeskApi_v2.Models.Shared
         public string Status { get; set; }
 
         [JsonProperty("index")]
-        public int Index { get; set; }
+        public long Index { get; set; }
 
         [JsonProperty("error")]
         public string Error { get; set; }
