@@ -371,6 +371,12 @@ namespace ZendeskApi_v2.Requests
             var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
             return GenericPagedGet<GroupTicketResponse>(resource, perPage, page);
         }
+        //overload for getting ticket by userId that takes sortBy and sortAscending
+        public GroupTicketResponse GetTicketsByUserID(long userId, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
+            return GenericPagedSortedGet<GroupTicketResponse>(resource, perPage, page, sortBy, sortAscending);
+        }
 
         public GroupTicketResponse GetAssignedTicketsByUserID(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
