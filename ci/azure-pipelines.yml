@@ -15,6 +15,7 @@ variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
     value: true
   - group: GitHub_Feed
+  - group: Zendesk_Creds
 
 trigger:
   batch: true
@@ -55,8 +56,13 @@ jobs:
     displayName: 'dotnet test'
     inputs:
       command: test
-      projects: 'test/ZendeskApi_v2.Test/ZendeskApi_v2.Test.csproj'
-      arguments: '--no-build -c $(BuildConfiguration)'
+      projects: 'tests/ZendeskApi_v2.Tests/ZendeskApi_v2.Tests.csproj'
+      arguments: '--no-build -c $(BuildConfiguration) -- NUnit.StopOnError=true'
+    env:
+      admin__id: $(Admin.ID)
+      admin__email: $(Admin.Email)
+      admin__password: $(Admin.Password)
+      admin__apiToken: $(Admin.ApiToken)
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet pack'

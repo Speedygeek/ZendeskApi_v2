@@ -171,6 +171,7 @@ namespace ZendeskApi_v2.Requests
 
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
+        Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
         Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
@@ -740,7 +741,12 @@ namespace ZendeskApi_v2.Requests
             var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/assigned.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
-
+        //overload for getting ticket by userId that takes sortBy and sortAscending
+        public async Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        {
+            var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
+            return await GenericPagedSortedGetAsync<GroupTicketResponse>(resource, perPage, page, sortBy, sortAscending);
+        }
         public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/ccd.json", sideLoadOptions);
