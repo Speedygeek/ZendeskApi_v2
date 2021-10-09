@@ -60,7 +60,7 @@ namespace ZendeskApi_v2.Models.Users
         public string Role { get; set; }
 
         [JsonProperty("role_type")]
-        public int? RoleType { get; set; }
+        public long? RoleType { get; set; }
 
         [JsonProperty("custom_role_id")]
         public long? CustomRoleId { get; set; }
