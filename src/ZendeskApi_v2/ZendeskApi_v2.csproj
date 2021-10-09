@@ -28,7 +28,7 @@
 
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <TargetFrameworks>netstandard2.1;net462</TargetFrameworks> <!---->
+    <TargetFrameworks>netstandard2.1;net462</TargetFrameworks>
     <NoWarn>1701;1702;NU5105;NU1605;NU1701;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
@@ -45,7 +45,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <!--<PackageReference Include="Nerdbank.GitVersioning" Version="3.0.4-beta" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />-->
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
