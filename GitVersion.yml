@@ -4,5 +4,5 @@ mode: ContinuousDeployment
 tag-prefix: '[vV]'
 build-metadata-padding: 0
 legacy-semver-padding: 0
-continuous-delivery-fallback-tag: alpha
+continuous-delivery-fallback-tag: rc
 commit-message-incrementing: Enabled
