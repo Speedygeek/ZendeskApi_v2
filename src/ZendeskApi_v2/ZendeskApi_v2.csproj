@@ -41,10 +41,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.1">
+    <PackageReference Include="GitVersion.MsBuild" Version="5.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+
+    <!--<PackageReference Include="GitVersionTask" Version="5.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>-->
     <!--<PackageReference Include="Nerdbank.GitVersioning" Version="3.0.4-beta" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />-->
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
