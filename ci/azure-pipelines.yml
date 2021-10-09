@@ -8,8 +8,10 @@ resources:
 variables:
   - name: BuildConfiguration
     value: 'Release'
-  - name: System.Debug
-    value: true
+  - name: TF_BUILD
+    value: 'true'
+  #- name: System.Debug
+  #  value: true
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
     value: true
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
@@ -57,7 +59,7 @@ jobs:
     inputs:
       command: test
       projects: 'tests/ZendeskApi_v2.Tests/ZendeskApi_v2.Tests.csproj'
-      arguments: '--no-build -c $(BuildConfiguration) -- NUnit.StopOnError=true'
+      arguments: '--no-build -c $(BuildConfiguration)'
     env:
       admin__id: $(Admin.ID)
       admin__email: $(Admin.Email)
