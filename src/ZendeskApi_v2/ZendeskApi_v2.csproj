@@ -41,7 +41,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.1">
+    <PackageReference Include="GitVersion.MsBuild" Version="5.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -55,4 +55,9 @@
   <ItemGroup>
     <None Include="..\..\tools\icon\lotus.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
+  
+  <Target Name="Update Version" AfterTargets="GetVersion" Condition="'$(TF_BUILD)' == 'true' And '$(TargetFramework)'=='netstandard2.1'">
+    <Message Text="Version = $(GITVERSION_FullSemVer)" Importance="High" />
+    <Message Text="##vso[build.updatebuildnumber]$(GITVERSION_FullSemVer)" Importance="High" />
+  </Target>
 </Project>
