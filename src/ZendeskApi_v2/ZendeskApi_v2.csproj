@@ -45,11 +45,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-
-    <!--<PackageReference Include="GitVersionTask" Version="5.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>-->
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
@@ -60,4 +55,9 @@
   <ItemGroup>
     <None Include="..\..\tools\icon\lotus.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
+  
+  <Target Name="Update Version" AfterTargets="GetVersion" Condition="'$(TF_BUILD)' == 'true' And '$(TargetFramework)'=='netstandard2.1'">
+    <Message Text="Version = $(GITVERSION_FullSemVer)" Importance="High" />
+    <Message Text="##vso[build.updatebuildnumber]$(GITVERSION_FullSemVer)" Importance="High" />
+  </Target>
 </Project>
