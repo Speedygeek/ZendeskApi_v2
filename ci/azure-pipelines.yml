@@ -53,6 +53,8 @@ jobs:
       command: build
       projects: 'src/ZendeskApi_v2.sln'
       arguments: '-c $(BuildConfiguration)'
+    env:
+      TF_BUILD: true
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet test'
