@@ -111,7 +111,7 @@ namespace ZendeskApi_v2.Tests
             Assert.That(org.Organization.Id, Is.GreaterThan(0));
             Assert.That(org2.Organization.Id, Is.GreaterThan(0));
 
-            var orgs = Api.Organizations.GetMultipleOrganizationsByExternalIds(new[] { org.Organization.ExternalId.ToString(), org2.Organization.ExternalId.ToString() });
+            var orgs = Api.Organizations.GetMultipleOrganizationsByExternalIds(new[] { org.Organization.ExternalId, org2.Organization.ExternalId });
 
             Assert.That(orgs.Organizations.Count, Is.EqualTo(2));
         }

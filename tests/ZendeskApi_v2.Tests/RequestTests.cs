@@ -153,13 +153,12 @@ namespace ZendeskApi_v2.Tests
         }
 
         [Test]
-        // [Ignore("")]
         public void CanCreateAndUpdateRequests()
         {
             var req = new Request
             {
                 Subject = "end user request test",
-                Type = RequestType.incident,
+                Type = RequestType.Incident,
                 Comment = new Comment
                 { Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true },
                 Requester = new Requester
@@ -176,7 +175,7 @@ namespace ZendeskApi_v2.Tests
                 Assert.That(res, Is.Not.Null);
                 Assert.That(res.Request, Is.Not.Null);
                 Assert.That(res.Request.Id.HasValue, Is.True);
-                Assert.That(res.Request.Type, Is.EqualTo(RequestType.incident));
+                Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
                 Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
 
                 IndividualUserResponse user = Api.Users.GetUser(res.Request.RequesterId.Value);
@@ -226,7 +225,7 @@ namespace ZendeskApi_v2.Tests
             var req = new Request
             {
                 Subject = "end user request test",
-                Type = RequestType.incident,
+                Type = RequestType.Incident,
                 Comment = new Comment
                 { Body = "end user test", HtmlBody = "end user test with </br> new line", Public = true },
                 Requester = new Requester
@@ -245,6 +244,7 @@ namespace ZendeskApi_v2.Tests
                 Assert.That(res.Request, Is.Not.Null);
                 Assert.That(res.Request.Id.HasValue, Is.True);
                 Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
+                Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
 
                 IndividualUserResponse user = Api.Users.GetUser(res.Request.RequesterId.Value);
                 Assert.That(user.User.Name, Is.EqualTo("Test Name"));

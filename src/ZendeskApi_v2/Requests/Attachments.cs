@@ -104,7 +104,7 @@ namespace ZendeskApi_v2.Requests
 
         public bool DeleteUpload(Upload upload)
         {
-            return (upload?.Token == null ? false : GenericDelete($"/uploads/{upload.Token}.json"));
+            return (upload?.Token) != null && GenericDelete($"/uploads/{upload.Token}.json");
         }
 
         public IndividualAttachmentResponse RedactCommentAttachment(long attachmentId, long ticketId, long commentId)
@@ -167,7 +167,7 @@ namespace ZendeskApi_v2.Requests
 
         public async Task<bool> DeleteUploadAsync(Upload upload)
         {
-            return (upload?.Token == null ? false : await GenericDeleteAsync($"/uploads/{upload.Token}.json"));
+            return (upload?.Token) != null && await GenericDeleteAsync($"/uploads/{upload.Token}.json");
         }
 
         public async Task<ZenFile> DownloadAttachmentAsync(Attachment attachment)
