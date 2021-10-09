@@ -13,22 +13,22 @@ namespace ZendeskApi_v2.Models.Organizations
     public class Organization : IndividualSearchableResponseBase
     {
         [JsonProperty("external_id")]
-        public object ExternalId { get; set; }
+        public string ExternalId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("domain_names")]
-        public IList<object> DomainNames { get; set; }
+        public IList<string> DomainNames { get; set; }
 
         [JsonProperty("details")]
-        public object Details { get; set; }
+        public string Details { get; set; }
 
         [JsonProperty("notes")]
-        public object Notes { get; set; }
+        public string Notes { get; set; }
 
         [JsonProperty("group_id")]
-        public object GroupId { get; set; }
+        public long? GroupId { get; set; }
 
         [JsonProperty("shared_tickets")]
         public bool SharedTickets { get; set; }

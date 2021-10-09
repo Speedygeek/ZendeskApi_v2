@@ -5,25 +5,28 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using ZendeskApi_v2.Models.Shared;
 using ZendeskApi_v2.Models.Tickets;
 
 namespace ZendeskApi_v2.Models.Requests
 {
-
     public enum RequestType
     {
-        none,
-        question,
-        incident,
-        problem,
-        task
+        [EnumMember(Value = "none")]
+        None,
+        [EnumMember(Value = "question")]
+        Question,
+        [EnumMember(Value = "incident")]
+        Incident,
+        [EnumMember(Value = "problem")]
+        Problem,
+        [EnumMember(Value = "task")]
+        Task
     }
-
 
     public class Request
     {
-
         [JsonProperty("url")]
         public string Url { get; set; }
 
@@ -101,7 +104,7 @@ namespace ZendeskApi_v2.Models.Requests
         public long TicketFormId { get; set; }
 
         [JsonProperty("recipient")]
-        public string recipient { get; set; }
+        public string Recipient { get; set; }
 
         [JsonProperty("followup_source_id")]
         public string FollowupSourceId { get; set; }
