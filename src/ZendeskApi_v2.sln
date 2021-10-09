@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28407.52
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZendeskApi_v2", "ZendeskApi_v2\ZendeskApi_v2.csproj", "{5E961B79-3175-468E-BFDA-41FE9842D78A}"
 EndProject
@@ -10,7 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{DC18BBC5-665C-4A9F-8E17-418CBFE2BEB6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\GitVersionConfig.yaml = ..\GitVersionConfig.yaml
+		..\GitVersion.yml = ..\GitVersion.yml
 		global.json = global.json
 	EndProjectSection
 EndProject
