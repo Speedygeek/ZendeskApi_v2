@@ -213,3 +213,5 @@ FakesAssemblies/
 /docs/Gemfile.lock
 /ci/SignClient.exe
 /ci/.store/
+/dbgmd-00002.unknown
+/dbgmd-00001.sign
