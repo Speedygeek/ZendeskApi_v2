@@ -220,5 +220,16 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             Assert.That(resp.Count, Is.GreaterThan(0));
         }
+
+        [Test]
+        public void CanDeserializeDatesCorrectly()
+        {
+            var defaultDate = new DateTimeOffset();
+            
+            var res = Api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
+            Assert.That(res.Article.CreatedAt, Is.Not.EqualTo(defaultDate));
+            Assert.That(res.Article.EditedAt, Is.Not.EqualTo(defaultDate));
+            Assert.That(res.Article.UpdatedAt, Is.Not.EqualTo(defaultDate));
+        }
     }
 }
