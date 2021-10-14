@@ -64,6 +64,10 @@ namespace ZendeskApi_v2.Models.Articles
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset CreatedAt { get; set; }
 
+        [JsonProperty("edited_at")]
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTimeOffset EditedAt { get; set; }
+
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset UpdatedAt { get; set; }
