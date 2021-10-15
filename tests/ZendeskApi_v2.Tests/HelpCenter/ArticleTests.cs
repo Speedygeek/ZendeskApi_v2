@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Articles;
 using ZendeskApi_v2.Requests.HelpCenter;
@@ -219,6 +220,19 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             var resp = Api.HelpCenter.Articles.SearchArticlesFor("Test", createdBefore: DateTime.Now);
 
             Assert.That(resp.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void CanGetDateStringWhenSearchingArticle()
+        {
+            var response = Api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
+            var expectedArticle = response.Article;
+            var searchRes = Api.HelpCenter.Articles.SearchArticlesFor("Test", createdBefore: DateTime.Now);
+            var resultArticle = searchRes.Results.First(res => res.Id == _articleIdWithComments);
+            
+            Assert.That(expectedArticle.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.CreatedAt));
+            Assert.That(expectedArticle.EditedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.EditedAt));
+            Assert.That(expectedArticle.UpdatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.UpdatedAt));
         }
 
         [Test]
