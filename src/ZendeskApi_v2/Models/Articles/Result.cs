@@ -43,6 +43,9 @@ namespace ZendeskApi_v2.Models.Articles
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
 
+        [JsonProperty("edited_at")]
+        public string EditedAt { get; set; }
+
         [JsonProperty("updated_at")]
         public string UpdatedAt { get; set; }
 
