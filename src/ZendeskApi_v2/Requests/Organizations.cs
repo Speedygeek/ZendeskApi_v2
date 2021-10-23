@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Organizations;
 using ZendeskApi_v2.Models.Shared;
@@ -33,11 +34,14 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         GroupOrganizationResponse GetMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds);
         IndividualOrganizationResponse CreateOrganization(Organization organization);
+        JobStatusResponse CreateMultipleOrganizations(IEnumerable<Organization> organizations);
         IndividualOrganizationResponse CreateOrUpdateOrganization(Organization organization);
 
         IndividualOrganizationResponse UpdateOrganization(Organization organization);
         JobStatusResponse UpdateMultipleOrganizations(IEnumerable<Organization> organizations);
         bool DeleteOrganization(long id);
+        JobStatusResponse DeleteMultipleOrganizations(IEnumerable<long> ids);
+        JobStatusResponse DeleteMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds);
 
         GroupOrganizationMembershipResponse GetOrganizationMemberships(int? perPage = null, int? page = null);
         GroupOrganizationMembershipResponse GetOrganizationMembershipsByUserId(long userId, int? perPage = null, int? page = null);
@@ -77,10 +81,13 @@ namespace ZendeskApi_v2.Requests
         /// <returns></returns>
         Task<GroupOrganizationResponse> GetMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds);
         Task<IndividualOrganizationResponse> CreateOrganizationAsync(Organization organization);
+        Task<JobStatusResponse> CreateMultipleOrganizationsAsync(IEnumerable<Organization> organizations);
         Task<IndividualOrganizationResponse> CreateOrUpdateOrganizationAsync(Organization organization);
         Task<IndividualOrganizationResponse> UpdateOrganizationAsync(Organization organization);
         Task<JobStatusResponse> UpdateMultipleOrganizationsAsync(IEnumerable<Organization> organizations);
         Task<bool> DeleteOrganizationAsync(long id);
+        Task<JobStatusResponse> DeleteMultipleOrganizationsAsync(IEnumerable<long> ids);
+        Task<JobStatusResponse> DeleteMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds);
 
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsAsync(int? perPage = null, int? page = null);
         Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsByUserIdAsync(long userId, int? perPage = null, int? page = null);
@@ -151,6 +158,11 @@ namespace ZendeskApi_v2.Requests
             return GenericPost<IndividualOrganizationResponse>("organizations.json", body);
         }
 
+        public JobStatusResponse CreateMultipleOrganizations(IEnumerable<Organization> organizations)
+        {
+            return GenericPost<JobStatusResponse>("organizations/create_many.json", new { organizations });
+        }
+
         public IndividualOrganizationResponse CreateOrUpdateOrganization(Organization organization)
         {
             var body = new { organization };
@@ -171,6 +183,17 @@ namespace ZendeskApi_v2.Requests
         public bool DeleteOrganization(long id)
         {
             return GenericDelete($"organizations/{id}.json");
+        }
+
+        public JobStatusResponse DeleteMultipleOrganizations(IEnumerable<long> ids)
+        {
+            return GenericDelete<JobStatusResponse>($"organizations/destroy_many.json?ids={string.Join(",", ids)}");
+        }
+
+        public JobStatusResponse DeleteMultipleOrganizationsByExternalIds(IEnumerable<string> externalIds)
+        {
+            var encodedIds =  WebUtility.UrlEncode(string.Join(",", externalIds));
+            return GenericDelete<JobStatusResponse>($"organizations/destroy_many.json?external_ids={encodedIds}");
         }
 
         public GroupOrganizationMembershipResponse GetOrganizationMemberships(int? perPage = null, int? page = null)
@@ -276,6 +299,11 @@ namespace ZendeskApi_v2.Requests
             return await GenericGetAsync<IndividualOrganizationResponse>($"organizations/{id}.json");
         }
 
+        public async Task<JobStatusResponse> CreateMultipleOrganizationsAsync(IEnumerable<Organization> organizations)
+        {
+            return await GenericPostAsync<JobStatusResponse>("organizations/create_many.json", new { organizations });
+        }
+
         public async Task<GroupOrganizationResponse> GetMultipleOrganizationsAsync(IEnumerable<long> ids)
         {
             return await GenericGetAsync<GroupOrganizationResponse>($"organizations/show_many.json?ids={ids.ToCsv()}");
@@ -309,6 +337,17 @@ namespace ZendeskApi_v2.Requests
         public async Task<bool> DeleteOrganizationAsync(long id)
         {
             return await GenericDeleteAsync($"organizations/{id}.json");
+        }
+
+        public async Task<JobStatusResponse> DeleteMultipleOrganizationsAsync(IEnumerable<long> ids)
+        {
+            return await GenericDeleteAsync<JobStatusResponse>($"organizations/destroy_many.json?ids={string.Join(",", ids)}");
+        }
+
+        public async Task<JobStatusResponse> DeleteMultipleOrganizationsByExternalIdsAsync(IEnumerable<string> externalIds)
+        {
+            var encodedIds =  WebUtility.UrlEncode(string.Join(",", externalIds));
+            return await GenericDeleteAsync<JobStatusResponse>($"organizations/destroy_many.json?external_ids={encodedIds}");
         }
 
         public async Task<GroupOrganizationMembershipResponse> GetOrganizationMembershipsAsync(int? perPage = null, int? page = null)
