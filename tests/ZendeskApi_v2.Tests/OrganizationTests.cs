@@ -69,7 +69,6 @@ namespace ZendeskApi_v2.Tests
         {
             var res = Api.Organizations.GetOrganizationsStartingWith(Organization.Name.Substring(0, 3));
             Assert.That(res.Count, Is.GreaterThan(0));
-
             var search = Api.Organizations.SearchForOrganizationsByExternalId(Organization.ExternalID);
             Assert.That(search.Count, Is.GreaterThan(0));
         }
@@ -502,7 +501,7 @@ namespace ZendeskApi_v2.Tests
             JobStatusResponse job;
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await Api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -520,7 +519,7 @@ namespace ZendeskApi_v2.Tests
             Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await Api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -557,7 +556,7 @@ namespace ZendeskApi_v2.Tests
             JobStatusResponse job;
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await Api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
@@ -576,7 +575,7 @@ namespace ZendeskApi_v2.Tests
             Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             do
             {
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 job = await Api.JobStatuses.GetJobStatusAsync(createJobStatus.JobStatus.Id);
                 Assert.That(job.JobStatus.Id, Is.EqualTo(createJobStatus.JobStatus.Id));
 
