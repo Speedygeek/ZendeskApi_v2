@@ -360,6 +360,11 @@ namespace ZendeskApi_v2.Requests
             return GenericPut<JobStatusResponse>($"users/update_many.json?ids={ids.ToCsv()}", new { user = userTemplate });
         }
 
+        public JobStatusResponse BulkCreateOrUpdateUsers(IEnumerable<User> users)
+        {
+            return GenericPost<JobStatusResponse>("users/create_or_update_many.json", new { users });
+        }
+
         public JobStatusResponse BatchUpdate(IEnumerable<User> users)
         {
             return GenericPut<JobStatusResponse>($"users/update_many.json", new { users });
