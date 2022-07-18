@@ -172,6 +172,7 @@ namespace ZendeskApi_v2.Requests
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
         Task<GroupTicketResponse> GetAssignedTicketsByUserIDAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
@@ -222,6 +223,8 @@ namespace ZendeskApi_v2.Requests
         Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<GroupTicketExportResponse> GetIncrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
+
+        Task<GroupTicketExportResponse> GetIncrementalTicketExportNextPageAsync(string nextPage);
 
         Task<GroupTicketFieldResponse> GetTicketFieldsAsync();
 
@@ -499,7 +502,6 @@ namespace ZendeskApi_v2.Requests
                 });
         }
 
-
         public GroupUserResponse GetCollaborators(long id)
         {
             return GenericGet<GroupUserResponse>($"{_tickets}/{id}/collaborators.json");
@@ -724,6 +726,7 @@ namespace ZendeskApi_v2.Requests
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_tickets}.json?external_id={Uri.EscapeDataString(externalId)}", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, itemsPerPage, pageNumber);
         }
+
         public async Task<GroupTicketResponse> GetRecentTicketsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam("tickets/recent.json", sideLoadOptions);
@@ -741,12 +744,14 @@ namespace ZendeskApi_v2.Requests
             var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/assigned.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketResponse>(resource, perPage, page);
         }
+
         //overload for getting ticket by userId that takes sortBy and sortAscending
         public async Task<GroupTicketResponse> GetTicketsByUserIDAsync(long userId, string sortBy, bool sortAscending, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/requested.json", sideLoadOptions);
             return await GenericPagedSortedGetAsync<GroupTicketResponse>(resource, perPage, page, sortBy, sortAscending);
         }
+
         public async Task<GroupTicketResponse> GetTicketsWhereUserIsCopiedAsync(long userId, int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"users/{userId}/tickets/ccd.json", sideLoadOptions);
@@ -882,16 +887,23 @@ namespace ZendeskApi_v2.Requests
         [Obsolete("This has been deprecated due to wrong spelling and sideLoadOptions was ignored. Please use GetIncrementalTicketExportAsync instead")]
         public async Task<GroupTicketExportResponse> GetInrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return await GenericPagedGetAsync<GroupTicketExportResponse>($"{ _incremental_export}{ startTime.UtcDateTime.GetEpoch()}");
+            return await GenericPagedGetAsync<GroupTicketExportResponse>($"{_incremental_export}{startTime.UtcDateTime.GetEpoch()}");
         }
 
         public async Task<GroupTicketExportResponse> GetIncrementalTicketExportAsync(DateTimeOffset startTime, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam(
-                $"{ _incremental_export}{ startTime.UtcDateTime.GetEpoch()}",
+                $"{_incremental_export}{startTime.UtcDateTime.GetEpoch()}",
                 sideLoadOptions
             );
             return await GenericPagedGetAsync<GroupTicketExportResponse>(resource);
+        }
+
+        public async Task<GroupTicketExportResponse> GetIncrementalTicketExportNextPageAsync(string nextPage)
+        {
+            var resource = nextPage.Replace(ZendeskUrl, string.Empty);
+
+            return await GenericGetAsync<GroupTicketExportResponse>(resource);
         }
 
         public async Task<GroupTicketFieldResponse> GetTicketFieldsAsync()
@@ -1038,7 +1050,6 @@ namespace ZendeskApi_v2.Requests
                     source_comment_is_public = sourceCommentPublic,
                 });
         }
-
 
         #region TicketMetrics
 
