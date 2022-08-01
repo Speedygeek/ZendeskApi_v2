@@ -141,7 +141,7 @@ jobs:
         $url =  "$Env:github_feed_url"
         Write-Host -ForegroundColor Cyan "Feed url $url"
         Write-Host -ForegroundColor Cyan "api key length is " $api.Length
-        dotnet nuget push "$(Pipeline.Workspace)/**/*.nupkg" --no-symbols true --skip-duplicate -k "$api"  -s "$url"
+        dotnet nuget push "$(Pipeline.Workspace)/**/*.nupkg" --no-symbols --skip-duplicate -k "$api"  -s "$url"
 
       showWarnings: true
       pwsh: true
