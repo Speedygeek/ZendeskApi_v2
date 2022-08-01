@@ -52,8 +52,8 @@ namespace ZendeskApi_v2
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-            ContractResolver = Serialization.ZendeskContractResolver.Instance
-
+            ContractResolver = Serialization.ZendeskContractResolver.Instance,
+            MaxDepth = 128
         };
         protected string OAuthToken;
 
