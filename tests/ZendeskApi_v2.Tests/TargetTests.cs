@@ -22,7 +22,7 @@ namespace ZendeskApi_v2.Tests
             }
         }
 
-        [Test]
+        [Test, Ignore("DeprecatedTargetType")]
         public void CanCreateUpdateAndDeleteHttpTargets()
         {
             var target = new HTTPTarget()
