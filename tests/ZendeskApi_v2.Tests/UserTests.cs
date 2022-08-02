@@ -802,5 +802,38 @@ namespace ZendeskApi_v2.Tests
                 await Api.Users.DeleteUserAsync(r.Id);
             }
         }
+
+
+        public async Task CanBulkCreateUpdateUsersAsync()
+        {
+            var users = new List<User> {
+                new User
+                {
+                     Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                     Email = Guid.NewGuid().ToString("N") + "@test.com",
+                     Verified = true
+                },
+                new User
+                {
+                    Name = Guid.NewGuid().ToString("N") + " " + Guid.NewGuid().ToString("N"),
+                    Email = Guid.NewGuid().ToString("N") + "@test.com",
+                    Verified = true
+                },
+            };
+            var updateResp = await Api.Users.BulkCreateUpdateUsersAsync(users);
+            var job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+            var count = 0;
+            while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+            {
+                await Task.Delay(1000);
+                job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
+                count++;
+            }
+            Assert.That(job.JobStatus.Status.ToLower(), Is.EqualTo("completed"));
+        }
+
     }
+
+
 }
+  
