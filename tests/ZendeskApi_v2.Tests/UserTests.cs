@@ -803,7 +803,7 @@ namespace ZendeskApi_v2.Tests
             }
         }
 
-
+        [Test]
         public async Task CanBulkCreateUpdateUsersAsync()
         {
             var users = new List<User> {
@@ -830,10 +830,19 @@ namespace ZendeskApi_v2.Tests
                 count++;
             }
             Assert.That(job.JobStatus.Status.ToLower(), Is.EqualTo("completed"));
+
+            foreach (var u in users)
+            {
+                var rsp = await Api.Users.SearchByEmailAsync(u.Email);
+                if (rsp.Users.Any())
+                {
+                    await Api.Users.DeleteUserAsync(rsp.Users[0].Id.Value);
+                }
+            }
         }
-
     }
-
-
 }
-  
+
+
+
+
