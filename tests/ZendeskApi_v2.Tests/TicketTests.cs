@@ -1589,5 +1589,25 @@ namespace ZendeskApi_v2.Tests
                 await Api.Tickets.DeleteAsync(r.Id);
             }
         }
+
+        [Test]
+        public async Task CanGetIncrementalTicketExportAsync()
+        {
+            var res = await Api.Tickets.GetIncrementalTicketExportAsync(DateTime.MinValue);
+
+            Assert.That(res.Tickets.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public async Task CanGetIncrementalTicketExportNextPageAsync()
+        {
+            var baseRes = await Api.Tickets.GetIncrementalTicketExportAsync(DateTime.MinValue);
+
+            Assert.That(baseRes.NextPage, Is.Not.Null.Or.Empty);
+
+            var res = await Api.Tickets.GetIncrementalTicketExportNextPageAsync(baseRes.NextPage);
+
+            Assert.That(res.Tickets.Count, Is.GreaterThan(0));
+        }
     }
 }

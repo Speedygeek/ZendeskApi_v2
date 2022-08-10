@@ -67,6 +67,7 @@ namespace ZendeskApi_v2.Requests
         IndividualUserResponse CreateOrUpdateUser(User user);
 
         JobStatusResponse BulkCreateUsers(IEnumerable<User> users);
+        JobStatusResponse BulkCreateUpdateUsers(IEnumerable<User> users);
 
         JobStatusResponse BulkUpdate(IEnumerable<long> ids, User user);
 
@@ -156,6 +157,8 @@ namespace ZendeskApi_v2.Requests
         Task<IndividualUserResponse> CreateOrUpdateUserAsync(User user);
 
         Task<JobStatusResponse> BulkCreateUsersAsync(IEnumerable<User> users);
+
+        Task<JobStatusResponse> BulkCreateUpdateUsersAsync(IEnumerable<User> users);
 
         Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User user);
 
@@ -353,6 +356,11 @@ namespace ZendeskApi_v2.Requests
         public JobStatusResponse BulkCreateUsers(IEnumerable<User> users)
         {
             return GenericPost<JobStatusResponse>("users/create_many.json", new { users });
+        }
+
+        public JobStatusResponse BulkCreateUpdateUsers(IEnumerable<User> users)
+        {
+            return GenericPost<JobStatusResponse>("users/create_or_update_many.json", new { users });
         }
 
         public JobStatusResponse BulkUpdate(IEnumerable<long> ids, User userTemplate)
@@ -597,6 +605,12 @@ namespace ZendeskApi_v2.Requests
         {
             return await GenericPostAsync<JobStatusResponse>("users/create_many.json", new { users });
         }
+
+        public async Task<JobStatusResponse> BulkCreateUpdateUsersAsync(IEnumerable<User> users)
+        {
+            return await GenericPostAsync<JobStatusResponse>("users/create_or_update_many.json", new { users });
+        }
+
 
         public Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User userTemplate)
         {
