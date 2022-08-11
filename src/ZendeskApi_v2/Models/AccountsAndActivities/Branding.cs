@@ -23,5 +23,11 @@ namespace ZendeskApi_v2.Models.AccountsAndActivities
 
         [JsonProperty("text_color")]
         public string TextColor { get; set; }
+        
+        [JsonProperty("header_logo_url")]
+        public string HeaderLogoUrl { get; set; }
+        
+        [JsonProperty("favicon_url")]
+        public string FaviconUrl { get; set; }
     }
 }
