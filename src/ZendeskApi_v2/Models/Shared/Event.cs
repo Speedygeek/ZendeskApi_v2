@@ -181,5 +181,23 @@ namespace ZendeskApi_v2.Models.Shared
         /// </summary>
         [JsonProperty("action")]
         public string Action { get; set; }
+
+        /// <summary>
+        /// Used when event is AgentMacroReference
+        /// </summary>
+        [JsonProperty("macro_id")]
+        public long? MacroId { get; set; }
+
+        /// <summary>
+        /// Used when event is AgentMacroReference
+        /// </summary>
+        [JsonProperty("macro_title")]
+        public string MacroTitle { get; set; }
+
+        /// <summary>
+        /// Used when event is AgentMacroReference
+        /// </summary>
+        [JsonProperty("macro_deleted")]
+        public bool? MacroDeleted { get; set; }
     }
 }

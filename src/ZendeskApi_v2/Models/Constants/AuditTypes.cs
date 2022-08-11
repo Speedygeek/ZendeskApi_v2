@@ -18,5 +18,6 @@ namespace ZendeskApi_v2.Models.Constants
         public const string Tweet = "Tweet";
         public const string SMS = "SMS";
         public const string TicketSharingEvent = "TicketSharingEvent";
+        public const string AgentMacroReference = "AgentMacroReference";
     }
 }
