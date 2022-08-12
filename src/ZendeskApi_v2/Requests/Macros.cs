@@ -12,7 +12,7 @@ namespace ZendeskApi_v2.Requests
 		/// Lists all shared and personal macros available to the current user
 		/// </summary>
 		/// <returns></returns>
-		GroupMacroResponse GetAllMacros();
+		GroupMacroResponse GetAllMacros(int? perPage = null, int? page = null);
 
 		IndividualMacroResponse GetMacroById(long id);
 
@@ -47,7 +47,7 @@ namespace ZendeskApi_v2.Requests
 		/// Lists all shared and personal macros available to the current user
 		/// </summary>
 		/// <returns></returns>
-		Task<GroupMacroResponse> GetAllMacrosAsync();
+		Task<GroupMacroResponse> GetAllMacrosAsync(int? perPage = null, int? page = null);
 
 		Task<IndividualMacroResponse> GetMacroByIdAsync(long id);
 
@@ -90,9 +90,9 @@ namespace ZendeskApi_v2.Requests
         /// Lists all shared and personal macros available to the current user
         /// </summary>
         /// <returns></returns>
-        public GroupMacroResponse GetAllMacros()
+        public GroupMacroResponse GetAllMacros(int? perPage = null, int? page = null)
         {
-            return GenericGet<GroupMacroResponse>(string.Format("macros.json"));
+            return GenericPagedGet<GroupMacroResponse>(string.Format("macros.json"), perPage, page);
         }
 
         public IndividualMacroResponse GetMacroById(long id)
@@ -153,9 +153,9 @@ namespace ZendeskApi_v2.Requests
         /// Lists all shared and personal macros available to the current user
         /// </summary>
         /// <returns></returns>
-        public async Task<GroupMacroResponse> GetAllMacrosAsync()
+        public async Task<GroupMacroResponse> GetAllMacrosAsync(int? perPage = null, int? page = null)
         {
-            return await GenericGetAsync<GroupMacroResponse>(string.Format("macros.json"));
+            return await GenericPagedGetAsync<GroupMacroResponse>(string.Format("macros.json"), perPage, page);
         }
 
         public async Task<IndividualMacroResponse> GetMacroByIdAsync(long id)
