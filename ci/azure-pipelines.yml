@@ -23,12 +23,12 @@ trigger:
   batch: true
   branches:
     include:
-      - master
+      - main
       - refs/tags/*
 pr:
   branches:
     include:
-    - master
+    - main
   paths:
     exclude:
     - docs/*
@@ -93,7 +93,7 @@ jobs:
 - job: Publish
   displayName: Publish Nuget packages
   dependsOn: Build
-  condition: and(succeeded(),or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/tags/v3.')))
+  condition: and(succeeded(),or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/tags/v3.')))
   steps:
   - checkout: none
   - task: DownloadPipelineArtifact@2

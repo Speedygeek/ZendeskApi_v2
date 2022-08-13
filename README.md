@@ -6,7 +6,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/speedygeek/zendeskapi_v2/badge)](https://www.codefactor.io/repository/github/speedygeek/zendeskapi_v2)
 
-[![Build Status](https://dev.azure.com/speedygeek/Zendesk/_apis/build/status/Speedygeek.ZendeskApi_v2?branchName=master)](https://dev.azure.com/speedygeek/Zendesk/_build/latest?definitionId=15&branchName=master)
+[![Build Status](https://dev.azure.com/speedygeek/Zendesk/_apis/build/status/Speedygeek.ZendeskApi_v2?branchName=main)](https://dev.azure.com/speedygeek/Zendesk/_build/latest?definitionId=15&branchName=main)
 
 | Prerelease  |  Stable |
 |---|---|
