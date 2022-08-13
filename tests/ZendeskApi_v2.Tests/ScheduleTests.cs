@@ -23,7 +23,7 @@ namespace ZendeskApi_v2.Tests
 
             var res = Api.Schedules.CreateSchedule(new Schedule()
             {
-                Name = "Master Test Schedule",
+                Name = "Root Test Schedule",
                 TimeZone = "Pacific Time (US & Canada)"
             });
         }
@@ -34,7 +34,7 @@ namespace ZendeskApi_v2.Tests
             var schedules = Api.Schedules.GetAllSchedules();
             if (schedules != null)
             {
-                foreach (var schedule in schedules.Schedules.Where(o => o.Name.Contains("Master Test Schedule")))
+                foreach (var schedule in schedules.Schedules.Where(o => o.Name.Contains("Root Test Schedule")))
                 {
                     Api.Schedules.DeleteSchedule(schedule.Id.Value);
                 }

@@ -5,7 +5,7 @@ param (
 
 )
 
-git checkout master
+git checkout main
 git pull
 git tag -s "v$($VersionNumber)" -m "v$($VersionNumber)"
 git push --tags
