@@ -1,9 +1,12 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Macros;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
+using ZendeskApi_v2.Extensions;
+using ZendeskApi_v2.Requests;
 
 namespace ZendeskApi_v2.Tests
 {
@@ -21,6 +24,30 @@ namespace ZendeskApi_v2.Tests
 
             var active = Api.Macros.GetActiveMacros();
             Assert.That(active.Count, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void CanGetMacrosPaginated()
+        {
+            const int count = 50;
+            var all = Api.Macros.GetAllMacros(count);
+
+            Assert.That(all.Macros.Count, Is.EqualTo(count));  // 50
+            Assert.That(all.Macros.Count, Is.Not.EqualTo(all.Count));   // 50 != total count of macros (assumption)
+
+            const int page = 3;
+            var thirdPage = Api.Macros.GetAllMacros(count, page);
+
+            Assert.That(thirdPage.Macros.Count, Is.EqualTo(count));
+
+            var nextPage = thirdPage.NextPage.GetQueryStringDict()
+                    .Where(x => x.Key == "page")
+                        .Select(x => x.Value)
+                        .FirstOrDefault();
+
+            Assert.That(nextPage, Is.Not.Null);
+
+            Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
         }
 
         [Test]
