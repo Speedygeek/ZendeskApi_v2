@@ -1341,6 +1341,7 @@ namespace ZendeskApi_v2.Tests
             var comment = new Comment { Body = secondCommentBody, Public = true };
 
             var resp2 = await Api.Tickets.UpdateTicketAsync(newTicket, comment);
+            await Task.Delay(2000);
             var resp3 = await Api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value);
             var resp4 = await Api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value, false);
 
