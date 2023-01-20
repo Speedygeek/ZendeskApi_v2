@@ -1054,7 +1054,7 @@ namespace ZendeskApi_v2.Requests
 
         #region TicketMetrics
 
-        public Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
+        public async Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
             var resource = GetResourceStringWithSideLoadOptionsParam($"{_ticket_metrics}.json", sideLoadOptions);
             return await GenericPagedGetAsync<GroupTicketMetricResponse>(resource, perPage, page);
