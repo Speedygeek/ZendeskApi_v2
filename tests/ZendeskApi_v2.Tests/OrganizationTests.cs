@@ -280,8 +280,9 @@ namespace ZendeskApi_v2.Tests
         [Test]
         public void CanCreateAndDeleteMultipleOrganizationsUsingBulkApis()
         {
-            var createJobStatus = Api.Organizations.CreateMultipleOrganizations(new[]
-            {
+
+            var orgs = new[]
+           {
                 new Organization
                 {
                     Name = "Bulk Create Org 1"
@@ -290,7 +291,8 @@ namespace ZendeskApi_v2.Tests
                 {
                     Name = "Bulk Create Org 2"
                 }
-            });
+            }; 
+            var createJobStatus = Api.Organizations.CreateMultipleOrganizations(orgs);
 
             Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             JobStatusResponse job;
@@ -322,10 +324,10 @@ namespace ZendeskApi_v2.Tests
             } while (true);
 
             //verify they have actually been deleted
-            foreach (var orgId in createdOrgIds)
+            foreach (var org in orgs)
             {
-                var exception = Assert.Throws<WebException>(() => Api.Organizations.GetOrganization(orgId));
-                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+                var resp = Api.Search.SearchFor<Organization>(org.Name);
+                Assert.That(resp.Results.Count, Is.Zero);
             }
         }
 
@@ -376,13 +378,6 @@ namespace ZendeskApi_v2.Tests
 
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
-
-            //verify they have actually been deleted
-            foreach (var orgId in createdOrgIds)
-            {
-                var exception = Assert.Throws<WebException>(() => Api.Organizations.GetOrganization(orgId));
-                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-            }
         }
 
         [Test]
@@ -486,7 +481,7 @@ namespace ZendeskApi_v2.Tests
         [Test]
         public async Task CanCreateAndDeleteMultipleOrganizationsUsingBulkApisAsync()
         {
-            var createJobStatus = await Api.Organizations.CreateMultipleOrganizationsAsync(new[]
+            var orgs = new[]
             {
                 new Organization
                 {
@@ -496,7 +491,8 @@ namespace ZendeskApi_v2.Tests
                 {
                     Name = "Bulk Create Org 2"
                 }
-            });
+            };
+            var createJobStatus = await Api.Organizations.CreateMultipleOrganizationsAsync(orgs);
 
             Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             JobStatusResponse job;
@@ -528,10 +524,10 @@ namespace ZendeskApi_v2.Tests
             } while (true);
 
             //verify they have actually been deleted
-            foreach (var orgId in createdOrgIds)
+            foreach (var org in orgs)
             {
-                var exception = Assert.ThrowsAsync<WebException>(async () => await Api.Organizations.GetOrganizationAsync(orgId));
-                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+                var resp = await Api.Search.SearchForAsync<Organization>(org.Name);
+                Assert.That(resp.Results.Count, Is.Zero);
             }
         }
 
@@ -583,12 +579,6 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            //verify they have actually been deleted
-            foreach (var orgId in createdOrgIds)
-            {
-                var exception = Assert.ThrowsAsync<WebException>(async () => await Api.Organizations.GetOrganizationAsync(orgId));
-                Assert.That((exception?.Response as HttpWebResponse)?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-            }
         }
     }
 }

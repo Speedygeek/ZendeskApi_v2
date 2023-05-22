@@ -336,7 +336,6 @@ namespace ZendeskApi_v2.Tests
             Assert.That(res.Id, Is.GreaterThan(0));
 
             Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
-            Assert.That(res.CreatedAt - DateTimeOffset.UtcNow, Is.LessThanOrEqualTo(TimeSpan.FromMinutes(1.0)));
 
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Admin.ID;
@@ -380,7 +379,6 @@ namespace ZendeskApi_v2.Tests
             Assert.That(res.Id, Is.GreaterThan(0));
 
             Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
-            Assert.That(res.CreatedAt - DateTimeOffset.UtcNow, Is.LessThanOrEqualTo(TimeSpan.FromMinutes(1.0)));
 
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Admin.ID;

@@ -20,6 +20,12 @@ namespace ZendeskApi_v2.Tests
             {
                 await Api.Users.DeleteUserAsync(user.Id.Value);
             }
+
+            var resp2 = await Api.Search.SearchForAsync<Group>("Test Group");
+            foreach (var group in resp2.Results)
+            {
+                await Api.Groups.DeleteGroupAsync(group.Id.Value);
+            }
         }
 
         [Test]

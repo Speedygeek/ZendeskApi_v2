@@ -75,21 +75,21 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 #if SYNC
 		public GroupTranslationResponse ListTranslationsForArticle( long articleId )
 		{
-			var resourceUrl = $"/help_center/articles/{articleId}/translations.json";
+			var resourceUrl = $"help_center/articles/{articleId}/translations";
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public GroupTranslationResponse ListTranslationsForSection( long articleId )
 		{
-			var resourceUrl = $"/help_center/sections/{articleId}/translations.json";
+			var resourceUrl = $"help_center/sections/{articleId}/translations";
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public GroupTranslationResponse ListTranslationsForCategory( long articleId )
 		{
-			var resourceUrl = $"/help_center/categories/{articleId}/translations.json";
+			var resourceUrl = $"help_center/categories/{articleId}/translations";
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
@@ -119,7 +119,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public IndividualTranslationResponse ShowTranslationForArticle( long articleId, string locale )
 		{
-			var resourceUrl = $"/help_center/articles/{articleId}/translations/{locale}.json";
+			var resourceUrl = $"help_center/articles/{articleId}/translations/{locale}.json";
 			return GenericGet<IndividualTranslationResponse>( resourceUrl );
 		}
 
@@ -178,21 +178,21 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<GroupTranslationResponse> ListTranslationsForArticleAsync( long articleId )
 		{
-			var resourceUrl = $"/help_center/articles/{articleId}/translations.json";
+			var resourceUrl = $"help_center/articles/{articleId}/translations.json";
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public async Task<GroupTranslationResponse> ListTranslationsForSectionAsync( long articleId )
 		{
-			var resourceUrl = $"/help_center/sections/{articleId}/translations.json";
+			var resourceUrl = $"help_center/sections/{articleId}/translations.json";
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
 
 		public async Task<GroupTranslationResponse> ListTranslationsForCategoryAsync( long articleId )
 		{
-			var resourceUrl = $"/help_center/categories/{articleId}/translations.json";
+			var resourceUrl = $"help_center/categories/{articleId}/translations.json";
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
@@ -222,7 +222,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		public async Task<IndividualTranslationResponse> ShowTranslationForArticleAsync( long articleId, string locale )
 		{
-			var resourceUrl = $"/help_center/articles/{articleId}/translations/{locale}.json";
+			var resourceUrl = $"help_center/articles/{articleId}/translations/{locale}.json";
 			return await GenericGetAsync<IndividualTranslationResponse>( resourceUrl );
 		}
 
