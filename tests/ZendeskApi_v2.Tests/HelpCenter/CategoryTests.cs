@@ -62,14 +62,15 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             const int count = 2;
             var categories = Api.HelpCenter.Categories.GetCategories(count, 1);
-
-            Assert.That(categories.Categories.Count, Is.EqualTo(count));  // 2
-            Assert.That(categories.Count, Is.Not.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(categories.Categories, Has.Count.EqualTo(count));  // 2
+                Assert.That(categories.Count, Is.Not.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
+            });
             const int page = 2;
             var secondPage = Api.HelpCenter.Categories.GetCategories(count, page);
 
-            Assert.That(secondPage.Categories.Count, Is.EqualTo(count));
+            Assert.That(secondPage.Categories, Has.Count.EqualTo(count));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
@@ -77,9 +78,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
                 .FirstOrDefault();
 
             Assert.That(nextPage, Is.Not.Null);
-            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
-            Assert.That(Api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
-            Assert.That(Api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+                Assert.That(Api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -111,19 +115,23 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             const int page = 2;
             var secondPage = Api.HelpCenter.Categories.GetCategoriesAsync(count, page).Result;
             var categoryById2 = Api.HelpCenter.Categories.GetCategoryById(secondPage.Categories[0].Id.Value);
-
-            Assert.That(secondPage.Categories.Count, Is.EqualTo(count));
-            Assert.That(categoryById2.Category.Id, Is.EqualTo(secondPage.Categories[0].Id.Value));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(secondPage.Categories, Has.Count.EqualTo(count));
+                Assert.That(categoryById2.Category.Id, Is.EqualTo(secondPage.Categories[0].Id.Value));
+            });
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
             Assert.That(nextPage, Is.Not.Null);
-            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
-            Assert.That(Api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
-            Assert.That(Api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+                Assert.That(Api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -140,9 +148,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Category.Position = 2;
             var update = Api.HelpCenter.Categories.UpdateCategory(res.Category);
-            Assert.That(res.Category.Position, Is.EqualTo(update.Category.Position));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Category.Position, Is.EqualTo(update.Category.Position));
 
-            Assert.That(Api.HelpCenter.Categories.DeleteCategory(res.Category.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Categories.DeleteCategory(res.Category.Id.Value), Is.True);
+            });
         }
     }
 }

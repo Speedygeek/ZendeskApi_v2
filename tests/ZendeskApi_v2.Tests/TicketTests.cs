@@ -47,8 +47,11 @@ namespace ZendeskApi_v2.Tests
         {
             var tickets = Api.Tickets.GetAllTicketsAsync(sideLoadOptions: ticketSideLoadOptions);
             Assert.That(tickets.Result.Count, Is.GreaterThan(0));
-            Assert.That(tickets.Result.Users.Any(), Is.True);
-            Assert.That(tickets.Result.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Result.Users.Any(), Is.True);
+                Assert.That(tickets.Result.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -77,8 +80,11 @@ namespace ZendeskApi_v2.Tests
         {
             var tickets = Api.Tickets.GetAllTickets(sideLoadOptions: ticketSideLoadOptions);
             Assert.That(tickets.Count, Is.GreaterThan(0));
-            Assert.That(tickets.Users.Any(), Is.True);
-            Assert.That(tickets.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Users.Any(), Is.True);
+                Assert.That(tickets.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -87,22 +93,24 @@ namespace ZendeskApi_v2.Tests
             const int count = 50;
             var tickets = Api.Tickets.GetAllTickets(count);
 
-            Assert.That(tickets.Tickets.Count, Is.EqualTo(count));  // 50
-            Assert.That(tickets.Tickets.Count, Is.Not.EqualTo(tickets.Count));   // 50 != total count of tickets (assumption)
+            Assert.That(tickets.Tickets, Has.Count.EqualTo(count));  // 50
+            Assert.That(tickets.Tickets, Has.Count.Not.EqualTo(tickets.Count));   // 50 != total count of tickets (assumption)
 
             const int page = 3;
             var thirdPage = Api.Tickets.GetAllTickets(count, page);
 
-            Assert.That(thirdPage.Tickets.Count, Is.EqualTo(count));
+            Assert.That(thirdPage.Tickets, Has.Count.EqualTo(count));
 
             var nextPage = thirdPage.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
                         .FirstOrDefault();
+            Assert.Multiple(() =>
+            {
+                Assert.That(nextPage, Is.Not.Null);
 
-            Assert.That(nextPage, Is.Not.Null);
-
-            Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
+                Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
+            });
         }
 
         [Test]
@@ -110,8 +118,11 @@ namespace ZendeskApi_v2.Tests
         {
             var id = Settings.SampleTicketId;
             var ticket = Api.Tickets.GetTicket(id).Ticket;
-            Assert.That(ticket, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(ticket.Id));
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticket, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(ticket.Id));
+            });
         }
 
         [Test]
@@ -120,10 +131,13 @@ namespace ZendeskApi_v2.Tests
             var id = Settings.SampleTicketId;
             var ticket = Api.Tickets.GetTicket(id, sideLoadOptions: ticketSideLoadOptions);
             Assert.That(ticket, Is.Not.Null);
-            Assert.That(ticket.Ticket, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(ticket.Ticket.Id));
-            Assert.That(ticket.Users.Any(), Is.True);
-            Assert.That(ticket.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticket.Ticket, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(ticket.Ticket.Id));
+                Assert.That(ticket.Users.Any(), Is.True);
+                Assert.That(ticket.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -139,11 +153,12 @@ namespace ZendeskApi_v2.Tests
         {
             var id = Organization.ID;
             var ticketsRes = Api.Tickets.GetTicketsByOrganizationID(id, 2, 3);
-
-            Assert.That(ticketsRes.PageSize, Is.EqualTo(3));
-            Assert.That(ticketsRes.Tickets.Count, Is.EqualTo(3));
-            Assert.That(ticketsRes.Count, Is.GreaterThan(0));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketsRes.PageSize, Is.EqualTo(3));
+                Assert.That(ticketsRes.Tickets, Has.Count.EqualTo(3));
+                Assert.That(ticketsRes.Count, Is.GreaterThan(0));
+            });
             var nextPage = ticketsRes.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
@@ -158,11 +173,12 @@ namespace ZendeskApi_v2.Tests
         public void CanGetTicketsByViewIdPaged()
         {
             var ticketsRes = Api.Tickets.GetTicketsByViewID(Settings.ViewId, 10, 2);
-
-            Assert.That(ticketsRes.PageSize, Is.EqualTo(10));
-            Assert.That(ticketsRes.Tickets.Count, Is.EqualTo(10));
-            Assert.That(ticketsRes.Count, Is.GreaterThan(0));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketsRes.PageSize, Is.EqualTo(10));
+                Assert.That(ticketsRes.Tickets, Has.Count.EqualTo(10));
+                Assert.That(ticketsRes.Count, Is.GreaterThan(0));
+            });
             var nextPage = ticketsRes.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
@@ -187,20 +203,23 @@ namespace ZendeskApi_v2.Tests
         public async Task CanTicketsByUserIdPagedAsyncWithSideLoad()
         {
             var ticketsRes = await Api.Tickets.GetTicketsByUserIDAsync(Admin.ID, 50, 2, sideLoadOptions: ticketSideLoadOptions);
-
-            Assert.That(ticketsRes.Users.Any(), Is.True);
-            Assert.That(ticketsRes.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketsRes.Users.Any(), Is.True);
+                Assert.That(ticketsRes.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
         public void CanAssignedTicketsByUserIdPaged()
         {
             var ticketsRes = Api.Tickets.GetAssignedTicketsByUserID(Admin.ID, 5, 2);
-
-            Assert.That(ticketsRes.PageSize, Is.EqualTo(5));
-            Assert.That(ticketsRes.Tickets.Count, Is.EqualTo(5));
-            Assert.That(ticketsRes.Count, Is.GreaterThan(0));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketsRes.PageSize, Is.EqualTo(5));
+                Assert.That(ticketsRes.Tickets, Has.Count.EqualTo(5));
+                Assert.That(ticketsRes.Count, Is.GreaterThan(0));
+            });
             var nextPage = ticketsRes.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
@@ -215,8 +234,11 @@ namespace ZendeskApi_v2.Tests
         public void CanAssignedTicketsByUserIdPagedAsyncWithSideLoad()
         {
             var ticketsRes = Api.Tickets.GetAssignedTicketsByUserIDAsync(Admin.ID, 5, 2, sideLoadOptions: ticketSideLoadOptions);
-            Assert.That(ticketsRes.Result.Users.Any(), Is.True);
-            Assert.That(ticketsRes.Result.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketsRes.Result.Users.Any(), Is.True);
+                Assert.That(ticketsRes.Result.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -224,8 +246,11 @@ namespace ZendeskApi_v2.Tests
         {
             var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
             var tickets = Api.Tickets.GetMultipleTickets(ids);
-            Assert.That(tickets, Is.Not.Null);
-            Assert.That(ids.Count, Is.EqualTo(tickets.Count));
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets, Is.Not.Null);
+                Assert.That(ids, Has.Count.EqualTo(tickets.Count));
+            });
         }
 
         [Test]
@@ -233,8 +258,11 @@ namespace ZendeskApi_v2.Tests
         {
             var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
             var tickets = await Api.Tickets.GetMultipleTicketsAsync(ids);
-            Assert.That(tickets, Is.Not.Null);
-            Assert.That(ids.Count, Is.EqualTo(tickets.Count));
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets, Is.Not.Null);
+                Assert.That(ids, Has.Count.EqualTo(tickets.Count));
+            });
         }
 
         [Test]
@@ -242,10 +270,16 @@ namespace ZendeskApi_v2.Tests
         {
             var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
             var tickets = Api.Tickets.GetMultipleTickets(ids, sideLoadOptions: ticketSideLoadOptions);
-            Assert.That(tickets, Is.Not.Null);
-            Assert.That(ids.Count, Is.EqualTo(tickets.Count));
-            Assert.That(tickets.Users.Any(), Is.True);
-            Assert.That(tickets.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets, Is.Not.Null);
+                Assert.That(ids, Has.Count.EqualTo(tickets.Count));
+            });
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Users.Any(), Is.True);
+                Assert.That(tickets.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -253,10 +287,16 @@ namespace ZendeskApi_v2.Tests
         {
             var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
             var tickets = await Api.Tickets.GetMultipleTicketsAsync(ids, sideLoadOptions: ticketSideLoadOptions);
-            Assert.That(tickets, Is.Not.Null);
-            Assert.That(ids.Count, Is.EqualTo(tickets.Count));
-            Assert.That(tickets.Users.Any(), Is.True);
-            Assert.That(tickets.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets, Is.Not.Null);
+                Assert.That(ids, Has.Count.EqualTo(tickets.Count));
+            });
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Users.Any(), Is.True);
+                Assert.That(tickets.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -264,8 +304,11 @@ namespace ZendeskApi_v2.Tests
         {
             var ids = new List<long>() { Settings.SampleTicketId };
             var tickets = Api.Tickets.GetMultipleTickets(ids);
-            Assert.That(tickets, Is.Not.Null);
-            Assert.That(ids.Count, Is.EqualTo(tickets.Count));
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets, Is.Not.Null);
+                Assert.That(ids, Has.Count.EqualTo(tickets.Count));
+            });
         }
 
         [Test]
@@ -273,8 +316,11 @@ namespace ZendeskApi_v2.Tests
         {
             var ids = new List<long>() { Settings.SampleTicketId };
             var tickets = await Api.Tickets.GetMultipleTicketsAsync(ids);
-            Assert.That(tickets, Is.Not.Null);
-            Assert.That(ids.Count, Is.EqualTo(tickets.Count));
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets, Is.Not.Null);
+                Assert.That(ids, Has.Count.EqualTo(tickets.Count));
+            });
         }
 
         [Test]
@@ -305,10 +351,12 @@ namespace ZendeskApi_v2.Tests
             Assert.That(res.CustomFields.Where(f => f.Id == Settings.CustomBoolFieldId).FirstOrDefault().Value, Is.EqualTo(ticket.CustomFields[1].Value));
 
             var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { Body = "Just trying to update it!", Public = true });
+            Assert.Multiple(() =>
+            {
+                Assert.That(updateResponse.Ticket.CustomFields[1].Value, Is.EqualTo(ticket.CustomFields[1].Value));
 
-            Assert.That(updateResponse.Ticket.CustomFields[1].Value, Is.EqualTo(ticket.CustomFields[1].Value));
-
-            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -333,10 +381,12 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.That(res, Is.Not.Null);
-            Assert.That(res.Id, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Id, Is.GreaterThan(0));
 
-            Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
-
+                Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
+            });
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Admin.ID;
 
@@ -348,10 +398,13 @@ namespace ZendeskApi_v2.Tests
             var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { Body = body, Public = true, Uploads = new List<string>() });
 
             Assert.That(updateResponse, Is.Not.Null);
-            Assert.That(updateResponse.Ticket.CollaboratorIds.Count, Is.GreaterThan(0));
-            Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
+            Assert.Multiple(() =>
+            {
+                Assert.That(updateResponse.Ticket.CollaboratorIds.Count, Is.GreaterThan(0));
+                Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
 
-            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -376,10 +429,12 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.That(res, Is.Not.Null);
-            Assert.That(res.Id, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Id, Is.GreaterThan(0));
 
-            Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
-
+                Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
+            });
             res.Status = TicketStatus.Solved;
             res.AssigneeId = Admin.ID;
 
@@ -391,11 +446,14 @@ namespace ZendeskApi_v2.Tests
             var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { HtmlBody = htmlBody, Public = true, Uploads = new List<string>() });
 
             Assert.That(updateResponse, Is.Not.Null);
-            //Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
-            Assert.That(updateResponse.Ticket.CollaboratorIds.Count, Is.GreaterThan(0));
-            Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
+            Assert.Multiple(() =>
+            {
+                //Assert.AreEqual(updateResponse.Audit.Events.First().Body, body);
+                Assert.That(updateResponse.Ticket.CollaboratorIds.Count, Is.GreaterThan(0));
+                Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
 
-            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -416,8 +474,11 @@ namespace ZendeskApi_v2.Tests
         public void CanGetTicketCommentsWithSideLoading()
         {
             var comments = Api.Tickets.GetTicketComments(2, sideLoadOptions: ticketSideLoadOptions);
-            Assert.That(comments.Users, Is.Not.Empty);
-            Assert.That(comments.Organizations, Is.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(comments.Users, Is.Not.Empty);
+                Assert.That(comments.Organizations, Is.Null);
+            });
         }
 
         [Test]
@@ -426,11 +487,12 @@ namespace ZendeskApi_v2.Tests
             const int perPage = 5;
             const int page = 2;
             var commentsRes = Api.Tickets.GetTicketComments(2, perPage, page);
-
-            Assert.That(commentsRes.Comments.Count, Is.EqualTo(perPage));
-            Assert.That(commentsRes.PageSize, Is.EqualTo(perPage));
-            Assert.That(commentsRes.Page, Is.EqualTo(page));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(commentsRes.Comments, Has.Count.EqualTo(perPage));
+                Assert.That(commentsRes.PageSize, Is.EqualTo(perPage));
+                Assert.That(commentsRes.Page, Is.EqualTo(page));
+            });
             Assert.That(commentsRes.Comments[1].Body, Is.Not.Empty);
 
             var nextPageValue = commentsRes.NextPage.GetQueryStringDict()
@@ -450,9 +512,11 @@ namespace ZendeskApi_v2.Tests
             const int page = 1;
             var commentsRes = Api.Tickets.GetTicketComments(2, perPage, page);
             var commentsRes2 = Api.Tickets.GetTicketComments(2, false, perPage, page);
-
-            Assert.That(commentsRes.Comments[0].CreatedAt, Is.EqualTo(new DateTimeOffset(2012, 10, 30, 13, 35, 11, TimeSpan.Zero)));
-            Assert.That(commentsRes2.Comments[0].CreatedAt, Is.EqualTo(new DateTimeOffset(2014, 01, 24, 03, 29, 30, TimeSpan.Zero)));
+            Assert.Multiple(() =>
+            {
+                Assert.That(commentsRes.Comments[0].CreatedAt, Is.EqualTo(new DateTimeOffset(2012, 10, 30, 13, 35, 11, TimeSpan.Zero)));
+                Assert.That(commentsRes2.Comments[0].CreatedAt, Is.EqualTo(new DateTimeOffset(2014, 01, 24, 03, 29, 30, TimeSpan.Zero)));
+            });
         }
 
         [Test]
@@ -469,9 +533,12 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.That(res, Is.Not.Null);
-            Assert.That(res.RequesterId, Is.EqualTo(Settings.CollaboratorId));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.RequesterId, Is.EqualTo(Settings.CollaboratorId));
 
-            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -489,9 +556,12 @@ namespace ZendeskApi_v2.Tests
 
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Ticket, Is.Not.Null);
-            Assert.That(res.Ticket.RequesterId, Is.EqualTo(Settings.CollaboratorId));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Ticket.RequesterId, Is.EqualTo(Settings.CollaboratorId));
 
-            Assert.That(Api.Tickets.Delete(res.Ticket.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Ticket.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -512,9 +582,12 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.That(res, Is.Not.Null);
-            Assert.That(res.DueAt, Is.EqualTo(dueAt));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.DueAt, Is.EqualTo(dueAt));
 
-            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -531,9 +604,12 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
             Assert.That(res, Is.Not.Null);
-            Assert.That(res.TicketFormId, Is.EqualTo(Settings.TicketFormId));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketFormId, Is.EqualTo(Settings.TicketFormId));
 
-            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -564,9 +640,12 @@ namespace ZendeskApi_v2.Tests
 
             //also test JobStatuses while we have a job here
             var job = Api.JobStatuses.GetJobStatus(res.JobStatus.Id);
-            Assert.That(res.JobStatus.Id, Is.EqualTo(job.JobStatus.Id));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.JobStatus.Id, Is.EqualTo(job.JobStatus.Id));
 
-            Assert.That(Api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }), Is.True);
+                Assert.That(Api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }), Is.True);
+            });
         }
 
         [Test]
@@ -592,10 +671,12 @@ namespace ZendeskApi_v2.Tests
             };
 
             var t1 = await Api.Tickets.CreateTicketAsync(ticket);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(t1.Audit.Events.First().Attachments.Count, Is.EqualTo(1));
 
-            Assert.That(t1.Audit.Events.First().Attachments.Count, Is.EqualTo(1));
-
-            Assert.That(await Api.Tickets.DeleteAsync(t1.Ticket.Id.Value), Is.True);
+                Assert.That(await Api.Tickets.DeleteAsync(t1.Ticket.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -624,9 +705,11 @@ namespace ZendeskApi_v2.Tests
 
             var t1 = Api.Tickets.CreateTicket(ticket);
             Assert.That(t1.Audit.Events.First().Attachments.Count, Is.EqualTo(1));
-
-            Assert.That(Api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
-            Assert.That(Api.Attachments.DeleteUpload(res));
+            Assert.Multiple(() =>
+            {
+                Assert.That(Api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
+                Assert.That(Api.Attachments.DeleteUpload(res));
+            });
         }
 
         [Test]
@@ -657,9 +740,12 @@ namespace ZendeskApi_v2.Tests
             }).Ticket;
 
             var res = Api.Tickets.GetIncidents(t1.Id.Value);
-            Assert.That(res.Tickets.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Tickets.Count, Is.GreaterThan(0));
 
-            Assert.That(Api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }), Is.True);
+                Assert.That(Api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }), Is.True);
+            });
         }
 
         [Test]
@@ -674,9 +760,12 @@ namespace ZendeskApi_v2.Tests
             }).Ticket;
 
             var res = Api.Tickets.GetProblems();
-            Assert.That(res.Tickets.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Tickets.Count, Is.GreaterThan(0));
 
-            Assert.That(Api.Tickets.Delete(t1.Id.Value), Is.True);
+                Assert.That(Api.Tickets.Delete(t1.Id.Value), Is.True);
+            });
         }
 
         //[Test]
@@ -750,8 +839,11 @@ namespace ZendeskApi_v2.Tests
         {
             var id = Settings.CustomFieldId;
             var ticketField = Api.Tickets.GetTicketFieldById(id).TicketField;
-            Assert.That(ticketField, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(ticketField.Id));
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketField, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(ticketField.Id));
+            });
         }
 
         [Test]
@@ -759,8 +851,11 @@ namespace ZendeskApi_v2.Tests
         {
             var id = Settings.CustomFieldId;
             var ticketField = Api.Tickets.GetTicketFieldByIdAsync(id).Result.TicketField;
-            Assert.That(ticketField, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(ticketField.Id));
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticketField, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(ticketField.Id));
+            });
         }
 
         [Test]
@@ -779,9 +874,12 @@ namespace ZendeskApi_v2.Tests
             updatedTF.Title = "My Custom Field";
 
             var updatedRes = Api.Tickets.UpdateTicketField(updatedTF);
-            Assert.That(updatedTF.Title, Is.EqualTo(updatedRes.TicketField.Title));
+            Assert.Multiple(() =>
+            {
+                Assert.That(updatedTF.Title, Is.EqualTo(updatedRes.TicketField.Title));
 
-            Assert.That(Api.Tickets.DeleteTicketField(updatedTF.Id.Value), Is.True);
+                Assert.That(Api.Tickets.DeleteTicketField(updatedTF.Id.Value), Is.True);
+            });
         }
 
         [TestCase(true, "test entry", "test_entry")]
@@ -804,10 +902,13 @@ namespace ZendeskApi_v2.Tests
             });
 
             var res = Api.Tickets.CreateTicketField(tField, replaceNameSpaceWithUnderscore);
-            Assert.That(res.TicketField, Is.Not.Null);
-            Assert.That(expectedName, Is.EqualTo(res.TicketField.CustomFieldOptions[0].Name));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketField, Is.Not.Null);
+                Assert.That(expectedName, Is.EqualTo(res.TicketField.CustomFieldOptions[0].Name));
 
-            Assert.That(Api.Tickets.DeleteTicketField(res.TicketField.Id.Value), Is.True);
+                Assert.That(Api.Tickets.DeleteTicketField(res.TicketField.Id.Value), Is.True);
+            });
         }
 
         [TestCase(true, "test entryA", "test entryA newTitle", "test entryB", "test entryC", "test_entryA", "test_entryA_newTitle", "test_entryB", "test_entryC")]
@@ -845,13 +946,18 @@ namespace ZendeskApi_v2.Tests
 
             var res = Api.Tickets.CreateTicketField(tField, replaceNameSpaceWithUnderscore);
             Assert.That(res.TicketField, Is.Not.Null);
-            Assert.That(res.TicketField.Id, Is.Not.Null);
-            Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketField.Id, Is.Not.Null);
+                Assert.That(res.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
+            });
             Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
-            Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
-            Assert.That(res.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1));
-            Assert.That(res.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName2));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
+                Assert.That(res.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1));
+                Assert.That(res.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName2));
+            });
             var id = res.TicketField.Id.Value;
 
             var tFieldU = new TicketField()
@@ -876,13 +982,16 @@ namespace ZendeskApi_v2.Tests
 
             var resU = Api.Tickets.UpdateTicketField(tFieldU, replaceNameSpaceWithUnderscore);
 
-            Assert.That(resU.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
-            Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update.Replace(" ", "_")));
-            Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option3));
-            Assert.That(resU.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1_Update));
-            Assert.That(resU.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName3));
+            Assert.That(resU.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update.Replace(" ", "_")));
+                Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option3));
+                Assert.That(resU.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1_Update));
+                Assert.That(resU.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName3));
 
-            Assert.That(Api.Tickets.DeleteTicketField(id), Is.True);
+                Assert.That(Api.Tickets.DeleteTicketField(id), Is.True);
+            });
         }
 
         [Test]
@@ -927,9 +1036,12 @@ namespace ZendeskApi_v2.Tests
             res.TicketForm.Active = false;
 
             var update = Api.Tickets.UpdateTicketForm(res.TicketForm);
-            Assert.That(res.TicketForm.Name, Is.EqualTo(update.TicketForm.Name));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketForm.Name, Is.EqualTo(update.TicketForm.Name));
 
-            Assert.That(Api.Tickets.DeleteTicketForm(res.TicketForm.Id.Value), Is.True);
+                Assert.That(Api.Tickets.DeleteTicketForm(res.TicketForm.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -954,8 +1066,11 @@ namespace ZendeskApi_v2.Tests
         {
             var id = Settings.SampleTicketId;
             var metric = Api.Tickets.GetTicketMetricsForTicket(id).TicketMetric;
-            Assert.That(metric, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(metric.TicketId));
+            Assert.Multiple(() =>
+            {
+                Assert.That(metric, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(metric.TicketId));
+            });
         }
 
         [Test]
@@ -963,8 +1078,11 @@ namespace ZendeskApi_v2.Tests
         {
             var id = Settings.SampleTicketId;
             var metric = Api.Tickets.GetTicketMetricsForTicketAsync(id).Result.TicketMetric;
-            Assert.That(metric, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(metric.TicketId));
+            Assert.Multiple(() =>
+            {
+                Assert.That(metric, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(metric.TicketId));
+            });
         }
 
         [Test]
@@ -972,9 +1090,11 @@ namespace ZendeskApi_v2.Tests
         {
             var tickets =
                 Api.Tickets.GetAllTickets(sideLoadOptions: ticketSideLoadOptions);
-
-            Assert.That(tickets.Users.Any(), Is.True);
-            Assert.That(tickets.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Users.Any(), Is.True);
+                Assert.That(tickets.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -982,10 +1102,12 @@ namespace ZendeskApi_v2.Tests
         {
             var tickets =
                 Api.Tickets.GetAllTicketsAsync(sideLoadOptions: ticketSideLoadOptions);
-
-            Assert.That(tickets.Result.Users.Any(), Is.True);
-            Assert.That(tickets.Result.Organizations.Any(), Is.True);
-            Assert.That(tickets.Result.Tickets.Count, Is.EqualTo(tickets.Result.Tickets.Where(t => t.CommentCount.HasValue).Count()));
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Result.Users.Any(), Is.True);
+                Assert.That(tickets.Result.Organizations.Any(), Is.True);
+                Assert.That(tickets.Result.Tickets.Count, Is.EqualTo(tickets.Result.Tickets.Where(t => t.CommentCount.HasValue).Count()));
+            });
         }
 
         [Test]
@@ -994,8 +1116,11 @@ namespace ZendeskApi_v2.Tests
             var id = Organization.ID;
             var tickets = Api.Tickets.GetTicketsByOrganizationIDAsync(id, sideLoadOptions: ticketSideLoadOptions);
             Assert.That(tickets.Result.Count, Is.GreaterThan(0));
-            Assert.That(tickets.Result.Users.Any(), Is.True);
-            Assert.That(tickets.Result.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Result.Users.Any(), Is.True);
+                Assert.That(tickets.Result.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -1004,8 +1129,11 @@ namespace ZendeskApi_v2.Tests
             var id = Organization.ID;
             var tickets = Api.Tickets.GetTicketsByOrganizationID(id, sideLoadOptions: ticketSideLoadOptions);
             Assert.That(tickets.Count, Is.GreaterThan(0));
-            Assert.That(tickets.Users.Any(), Is.True);
-            Assert.That(tickets.Organizations.Any(), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(tickets.Users.Any(), Is.True);
+                Assert.That(tickets.Organizations.Any(), Is.True);
+            });
         }
 
         [Test]
@@ -1027,13 +1155,15 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.ImportTicket(ticket).Ticket;
 
             Assert.That(res, Is.Not.Null);
-            Assert.That(res.Id.HasValue, Is.True);
-            Assert.That(res.Id.Value, Is.GreaterThan(0));
-            Assert.That(res.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-4)));
-            Assert.That(res.UpdatedAt.Value.LocalDateTime, Is.GreaterThan(res.CreatedAt.Value.LocalDateTime));
-            Assert.That(res.Status, Is.EqualTo(TicketStatus.Solved));
-            Assert.That(res.Description, Is.EqualTo("test description"));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Id.HasValue, Is.True);
+                Assert.That(res.Id.Value, Is.GreaterThan(0));
+                Assert.That(res.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-4)));
+                Assert.That(res.UpdatedAt.Value.LocalDateTime, Is.GreaterThan(res.CreatedAt.Value.LocalDateTime));
+                Assert.That(res.Status, Is.EqualTo(TicketStatus.Solved));
+                Assert.That(res.Description, Is.EqualTo("test description"));
+            });
             var resComments = Api.Tickets.GetTicketComments(res.Id.Value);
             Assert.That(resComments, Is.Not.Null);
             Assert.That(resComments.Count, Is.EqualTo(3));
@@ -1060,12 +1190,14 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Tickets.ImportTicketAsync(ticket);
 
             Assert.That(res.Result, Is.Not.Null);
-            Assert.That(res.Result.Ticket.Id.Value, Is.GreaterThan(0));
-            Assert.That(res.Result.Ticket.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-4)));
-            Assert.That(res.Result.Ticket.UpdatedAt.Value.LocalDateTime, Is.GreaterThan(res.Result.Ticket.CreatedAt.Value.LocalDateTime));
-            Assert.That(res.Result.Ticket.Status, Is.EqualTo(TicketStatus.Solved));
-            Assert.That(res.Result.Ticket.Description, Is.EqualTo("test description"));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Result.Ticket.Id.Value, Is.GreaterThan(0));
+                Assert.That(res.Result.Ticket.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-4)));
+                Assert.That(res.Result.Ticket.UpdatedAt.Value.LocalDateTime, Is.GreaterThan(res.Result.Ticket.CreatedAt.Value.LocalDateTime));
+                Assert.That(res.Result.Ticket.Status, Is.EqualTo(TicketStatus.Solved));
+                Assert.That(res.Result.Ticket.Description, Is.EqualTo("test description"));
+            });
             var resComments = Api.Tickets.GetTicketComments(res.Result.Ticket.Id.Value);
             Assert.That(resComments, Is.Not.Null);
             Assert.That(resComments.Count, Is.EqualTo(3));
@@ -1131,14 +1263,18 @@ namespace ZendeskApi_v2.Tests
             foreach (var id in mergeIds)
             {
                 var oldTicket = Api.Tickets.GetTicket(id);
-                Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
-                Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
-
+                Assert.Multiple(() =>
+                {
+                    Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
+                    Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
+                });
                 var oldComments = Api.Tickets.GetTicketComments(id);
-                Assert.That(oldComments.Comments.Count, Is.EqualTo(2));
-                Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
-                Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
-
+                Assert.That(oldComments.Comments, Has.Count.EqualTo(2));
+                Assert.Multiple(() =>
+                {
+                    Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
+                    Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
+                });
                 Api.Tickets.DeleteAsync(id);
                 counter++;
             }
@@ -1147,10 +1283,12 @@ namespace ZendeskApi_v2.Tests
             Assert.That(ticket.Ticket.Id.Value, Is.EqualTo(targetTicketId));
 
             var comments = Api.Tickets.GetTicketComments(targetTicketId);
-            Assert.That(comments.Comments.Count, Is.EqualTo(2));
-            Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
-            Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
-
+            Assert.That(comments.Comments, Has.Count.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
+                Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
+            });
             Api.Tickets.DeleteAsync(targetTicketId);
         }
 
@@ -1210,14 +1348,18 @@ namespace ZendeskApi_v2.Tests
             foreach (var id in mergeIds)
             {
                 var oldTicket = await Api.Tickets.GetTicketAsync(id);
-                Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
-                Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
-
+                Assert.Multiple(() =>
+                {
+                    Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
+                    Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
+                });
                 var oldComments = await Api.Tickets.GetTicketCommentsAsync(id);
-                Assert.That(oldComments.Comments.Count, Is.EqualTo(2));
-                Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
-                Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
-
+                Assert.That(oldComments.Comments, Has.Count.EqualTo(2));
+                Assert.Multiple(() =>
+                {
+                    Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
+                    Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
+                });
                 await Api.Tickets.DeleteAsync(id);
                 counter++;
             }
@@ -1226,10 +1368,12 @@ namespace ZendeskApi_v2.Tests
             Assert.That(ticket.Ticket.Id.Value, Is.EqualTo(targetTicketId));
 
             var comments = await Api.Tickets.GetTicketCommentsAsync(targetTicketId);
-            Assert.That(comments.Comments.Count, Is.EqualTo(2));
-            Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
-            Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
-
+            Assert.That(comments.Comments, Has.Count.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
+                Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
+            });
             await Api.Tickets.DeleteAsync(targetTicketId);
         }
 
@@ -1281,8 +1425,11 @@ namespace ZendeskApi_v2.Tests
                 Assert.That(resComments.Count, Is.EqualTo(3));
                 foreach (var c in resComments.Comments)
                 {
-                    Assert.That(c.CreatedAt.HasValue, Is.True);
-                    Assert.That(c.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-1)));
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(c.CreatedAt.HasValue, Is.True);
+                        Assert.That(c.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-1)));
+                    });
                 }
 
                 Api.Tickets.DeleteAsync(r.Id);
@@ -1344,8 +1491,11 @@ namespace ZendeskApi_v2.Tests
             var resp4 = await Api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value, false);
 
             Assert.That(resp3.Comments.Any(c => c.Via?.Channel != "api"), Is.False);
-            Assert.That(resp3.Comments[0].Body, Is.EqualTo(initCommentBody));
-            Assert.That(resp4.Comments[0].Body, Is.EqualTo(secondCommentBody));
+            Assert.Multiple(() =>
+            {
+                Assert.That(resp3.Comments[0].Body, Is.EqualTo(initCommentBody));
+                Assert.That(resp4.Comments[0].Body, Is.EqualTo(secondCommentBody));
+            });
 
             // clean up
             await Api.Tickets.DeleteAsync(newTicket.Id.Value);
@@ -1377,8 +1527,11 @@ namespace ZendeskApi_v2.Tests
 
             var res = await Api.Tickets.CreateTicketFieldAsync(tField);
             Assert.That(res.TicketField, Is.Not.Null);
-            Assert.That(res.TicketField.Id, Is.Not.Null);
-            Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketField.Id, Is.Not.Null);
+                Assert.That(res.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
+            });
         }
 
         [Test]
@@ -1412,11 +1565,16 @@ namespace ZendeskApi_v2.Tests
 
             var res = await Api.Tickets.CreateTicketFieldAsync(tField);
             Assert.That(res.TicketField, Is.Not.Null);
-            Assert.That(res.TicketField.Id, Is.Not.Null);
-            Assert.That(res.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
-            Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
-            Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketField.Id, Is.Not.Null);
+                Assert.That(res.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
+            });
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
+                Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
+            });
             var id = res.TicketField.Id.Value;
 
             var tFieldU = new TicketField()
@@ -1441,11 +1599,14 @@ namespace ZendeskApi_v2.Tests
 
             var resU = await Api.Tickets.UpdateTicketFieldAsync(tFieldU);
 
-            Assert.That(resU.TicketField.CustomFieldOptions.Count, Is.EqualTo(2));
-            Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update));
-            Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.Not.EqualTo(option2));
+            Assert.That(resU.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
+            Assert.Multiple(async () =>
+            {
+                Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update));
+                Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.Not.EqualTo(option2));
 
-            Assert.That(await Api.Tickets.DeleteTicketFieldAsync(id), Is.True);
+                Assert.That(await Api.Tickets.DeleteTicketFieldAsync(id), Is.True);
+            });
         }
 
         [Test]
@@ -1455,11 +1616,13 @@ namespace ZendeskApi_v2.Tests
             var brand = respBrand.Brands[0];
             var ticket = new Ticket { Comment = new Comment { Body = "This is a Brand id Test", Public = false }, BrandId = brand.Id };
             var respTicket = await Api.Tickets.CreateTicketAsync(ticket);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(respTicket.Ticket.BrandId, Is.EqualTo(brand.Id));
 
-            Assert.That(respTicket.Ticket.BrandId, Is.EqualTo(brand.Id));
-
-            // clean up
-            Assert.That(await Api.Tickets.DeleteAsync(respTicket.Ticket.Id.Value), Is.True);
+                // clean up
+                Assert.That(await Api.Tickets.DeleteAsync(respTicket.Ticket.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -1477,11 +1640,13 @@ namespace ZendeskApi_v2.Tests
 
             ticket.Comment.Public = false;
             var resp2 = await Api.Tickets.CreateTicketAsync(ticket);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(resp2.Ticket.IsPublic, Is.False);
 
-            Assert.That(resp2.Ticket.IsPublic, Is.False);
-
-            Assert.That(await Api.Tickets.DeleteAsync(resp1.Ticket.Id.Value), Is.True);
-            Assert.That(await Api.Tickets.DeleteAsync(resp2.Ticket.Id.Value), Is.True);
+                Assert.That(await Api.Tickets.DeleteAsync(resp1.Ticket.Id.Value), Is.True);
+                Assert.That(await Api.Tickets.DeleteAsync(resp2.Ticket.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -1514,11 +1679,13 @@ namespace ZendeskApi_v2.Tests
             };
 
             var resp3 = await Api.Tickets.CreateTicketAsync(ticket_Followup);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(resp3.Ticket.Via.Source.Rel, Is.EqualTo("follow_up"));
 
-            Assert.That(resp3.Ticket.Via.Source.Rel, Is.EqualTo("follow_up"));
-
-            Assert.That(await Api.Tickets.DeleteAsync(resp3.Ticket.Id.Value), Is.True);
-            Assert.That(await Api.Tickets.DeleteAsync(closedTicket.Id.Value), Is.True);
+                Assert.That(await Api.Tickets.DeleteAsync(resp3.Ticket.Id.Value), Is.True);
+                Assert.That(await Api.Tickets.DeleteAsync(closedTicket.Id.Value), Is.True);
+            });
         }
 
         [Test]

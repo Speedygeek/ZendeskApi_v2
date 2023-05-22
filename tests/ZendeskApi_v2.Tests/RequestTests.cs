@@ -22,15 +22,17 @@ namespace ZendeskApi_v2.Tests
         [TestCase(1, 2)]
         public void CanGetAllRequestsPaged(int perPage, int page)
         {
-            Assert.DoesNotThrow(() =>
-            {
+            Assert.DoesNotThrow(() => {
                 var res = Api.Requests.GetAllRequests(perPage: perPage, page: page);
 
                 Assert.That(res, Is.Not.Null);
-                Assert.That(res.Requests, Is.Not.Null);
-                Assert.That(res.PageSize, Is.EqualTo(perPage));
-                Assert.That(res.Page, Is.EqualTo(page));
-            });
+    Assert.Multiple(() =>
+    {
+        Assert.That(res.Requests, Is.Not.Null);
+        Assert.That(res.PageSize, Is.EqualTo(perPage));
+        Assert.That(res.Page, Is.EqualTo(page));
+    });
+});
         }
 
         [Test]
@@ -69,15 +71,17 @@ namespace ZendeskApi_v2.Tests
         [TestCase(1, 2)]
         public void CanGetAllOpenRequestsPaged(int perPage, int page)
         {
-            Assert.DoesNotThrow(() =>
-            {
+            Assert.DoesNotThrow(() => {
                 var res = Api.Requests.GetAllOpenRequests(perPage: perPage, page: page);
 
                 Assert.That(res, Is.Not.Null);
-                Assert.That(res.Requests, Is.Not.Null);
-                Assert.That(res.PageSize, Is.EqualTo(perPage));
-                Assert.That(res.Page, Is.EqualTo(page));
-            });
+    Assert.Multiple(() =>
+    {
+        Assert.That(res.Requests, Is.Not.Null);
+        Assert.That(res.PageSize, Is.EqualTo(perPage));
+        Assert.That(res.Page, Is.EqualTo(page));
+    });
+});
         }
 
         [Test]
@@ -116,15 +120,17 @@ namespace ZendeskApi_v2.Tests
         [TestCase(1, 2)]
         public void CanGetAllSolvedRequestsPaged(int perPage, int page)
         {
-            Assert.DoesNotThrow(() =>
-            {
+            Assert.DoesNotThrow(() => {
                 var res = Api.Requests.GetAllSolvedRequests(perPage: perPage, page: page);
 
                 Assert.That(res, Is.Not.Null);
-                Assert.That(res.Requests, Is.Not.Null);
-                Assert.That(res.PageSize, Is.EqualTo(perPage));
-                Assert.That(res.Page, Is.EqualTo(page));
-            });
+    Assert.Multiple(() =>
+    {
+        Assert.That(res.Requests, Is.Not.Null);
+        Assert.That(res.PageSize, Is.EqualTo(perPage));
+        Assert.That(res.Page, Is.EqualTo(page));
+    });
+});
         }
 
         [Test]
@@ -174,10 +180,12 @@ namespace ZendeskApi_v2.Tests
             {
                 Assert.That(res, Is.Not.Null);
                 Assert.That(res.Request, Is.Not.Null);
-                Assert.That(res.Request.Id.HasValue, Is.True);
-                Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
-                Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
-
+                Assert.Multiple(() =>
+                {
+                    Assert.That(res.Request.Id.HasValue, Is.True);
+                    Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
+                    Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
+                });
                 IndividualUserResponse user = Api.Users.GetUser(res.Request.RequesterId.Value);
                 Assert.That(user.User.Name, Is.EqualTo("Test Name"));
 
@@ -203,9 +211,11 @@ namespace ZendeskApi_v2.Tests
                 res1.Request.RequesterId = 56766413L;
                 var res5 = Api.Requests.UpdateRequest(res1.Request);
                 var res6 = Api.Requests.GetRequestById(res.Request.Id.Value);
-
-                Assert.That(res6.Request.RequesterId, Is.EqualTo(res5.Request.RequesterId));
-                Assert.That(res3.Comments.Last().Id, Is.EqualTo(res4.Comment.Id));
+                Assert.Multiple(() =>
+                {
+                    Assert.That(res6.Request.RequesterId, Is.EqualTo(res5.Request.RequesterId));
+                    Assert.That(res3.Comments.Last().Id, Is.EqualTo(res4.Comment.Id));
+                });
             }
             finally
             {
@@ -242,10 +252,12 @@ namespace ZendeskApi_v2.Tests
             {
                 Assert.That(res, Is.Not.Null);
                 Assert.That(res.Request, Is.Not.Null);
-                Assert.That(res.Request.Id.HasValue, Is.True);
-                Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
-                Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
-
+                Assert.Multiple(() =>
+                {
+                    Assert.That(res.Request.Id.HasValue, Is.True);
+                    Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
+                    Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
+                });
                 IndividualUserResponse user = Api.Users.GetUser(res.Request.RequesterId.Value);
                 Assert.That(user.User.Name, Is.EqualTo("Test Name"));
 

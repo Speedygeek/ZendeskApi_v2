@@ -56,9 +56,11 @@ namespace ZendeskApi_v2.Tests
             var file = await Api.Attachments.DownloadAttachmentAsync(test);
 
             Assert.That(file.FileData, Is.Not.Null);
-
-            Assert.That(Api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
-            Assert.That(Api.Attachments.DeleteUpload(res));
+            Assert.Multiple(() =>
+            {
+                Assert.That(Api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
+                Assert.That(Api.Attachments.DeleteUpload(res));
+            });
         }
 
         [Test]
@@ -93,11 +95,14 @@ namespace ZendeskApi_v2.Tests
             var attach = comments.Comments[0].Attachments[0];
 
             var delRes = Api.Attachments.RedactCommentAttachment(attach.Id, t1.Ticket.Id.Value, comments.Comments[0].Id.Value);
-            //Returned correct attachment
-            Assert.That(delRes.Attachment.Id, Is.EqualTo(attach.Id));
+            Assert.Multiple(() =>
+            {
+                //Returned correct attachment
+                Assert.That(delRes.Attachment.Id, Is.EqualTo(attach.Id));
 
-            //Check the file has been replaced by redacted.txt
-            Assert.That(Api.Tickets.GetTicketComments(t1.Ticket.Id.Value).Comments[0].Attachments[0].FileName, Is.EqualTo("redacted.txt"));
+                //Check the file has been replaced by redacted.txt
+                Assert.That(Api.Tickets.GetTicketComments(t1.Ticket.Id.Value).Comments[0].Attachments[0].FileName, Is.EqualTo("redacted.txt"));
+            });
         }
     }
 }

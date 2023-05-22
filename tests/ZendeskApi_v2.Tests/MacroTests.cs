@@ -32,22 +32,24 @@ namespace ZendeskApi_v2.Tests
             const int count = 5;
             var all = Api.Macros.GetAllMacros(count);
 
-            Assert.That(all.Macros.Count, Is.EqualTo(count));  // 5
-            Assert.That(all.Macros.Count, Is.Not.EqualTo(all.Count));   // 5 != total count of macros (assumption)
+            Assert.That(all.Macros, Has.Count.EqualTo(count));  // 5
+            Assert.That(all.Macros, Has.Count.Not.EqualTo(all.Count));   // 5 != total count of macros (assumption)
 
             const int page = 3;
             var thirdPage = Api.Macros.GetAllMacros(count, page);
 
-            Assert.That(thirdPage.Macros.Count, Is.EqualTo(count));
+            Assert.That(thirdPage.Macros, Has.Count.EqualTo(count));
 
             var nextPage = thirdPage.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
                         .Select(x => x.Value)
                         .FirstOrDefault();
+            Assert.Multiple(() =>
+            {
+                Assert.That(nextPage, Is.Not.Null);
 
-            Assert.That(nextPage, Is.Not.Null);
-
-            Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
+                Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
+            });
         }
 
         [Test]
@@ -74,9 +76,12 @@ namespace ZendeskApi_v2.Tests
             }).Ticket;
 
             var applyToTicket = Api.Macros.ApplyMacroToTicket(ticket.Id.Value, create.Macro.Id.Value);
-            Assert.That(ticket.Id, Is.EqualTo(applyToTicket.Result.Ticket.Id));
-            Assert.That(Api.Tickets.Delete(ticket.Id.Value), Is.True);
-            Assert.That(Api.Macros.DeleteMacro(create.Macro.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticket.Id, Is.EqualTo(applyToTicket.Result.Ticket.Id));
+                Assert.That(Api.Tickets.Delete(ticket.Id.Value), Is.True);
+                Assert.That(Api.Macros.DeleteMacro(create.Macro.Id.Value), Is.True);
+            });
         }
 
         [Test]

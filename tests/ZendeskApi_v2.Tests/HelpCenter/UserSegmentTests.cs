@@ -44,8 +44,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.UserSegment.UserType = UserType.staff;
             var update = Api.HelpCenter.UserSegments.UpdateUserSegment(res.UserSegment);
-            Assert.That(update.UserSegment.UserType, Is.EqualTo(res.UserSegment.UserType));
-            Assert.That(Api.HelpCenter.UserSegments.DeleteUserSegment(res.UserSegment.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(update.UserSegment.UserType, Is.EqualTo(res.UserSegment.UserType));
+                Assert.That(Api.HelpCenter.UserSegments.DeleteUserSegment(res.UserSegment.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -72,9 +75,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             });
 
             var res1 = Api.HelpCenter.UserSegments.GetTopicsByUserSegmentId(res.UserSegments[0].Id.Value);
-
-            Assert.That(res1.Topics.Count, Is.GreaterThan(0));
-            Assert.That(Api.HelpCenter.Topics.DeleteTopic(topicRes.Topic.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.Topics.Count, Is.GreaterThan(0));
+                Assert.That(Api.HelpCenter.Topics.DeleteTopic(topicRes.Topic.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -92,8 +97,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             var segment = res.First(seg => seg.Name == "Agents and managers (or_tags: tag1, tag2)");
 
             Assert.That(segment.OrTags.Count, Is.EqualTo(2));
-            Assert.That(segment.OrTags.Contains("tag1"));
-            Assert.That(segment.OrTags.Contains("tag2"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(segment.OrTags.Contains("tag1"));
+                Assert.That(segment.OrTags.Contains("tag2"));
+            });
         }
 
         [Test]
@@ -129,8 +137,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.UserSegment.UserType = UserType.staff;
             var update = await Api.HelpCenter.UserSegments.UpdateUserSegmentAsync(res.UserSegment);
-            Assert.That(update.UserSegment.UserType, Is.EqualTo(res.UserSegment.UserType));
-            Assert.That(await Api.HelpCenter.UserSegments.DeleteUserSegmentAsync(res.UserSegment.Id.Value), Is.True);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(update.UserSegment.UserType, Is.EqualTo(res.UserSegment.UserType));
+                Assert.That(await Api.HelpCenter.UserSegments.DeleteUserSegmentAsync(res.UserSegment.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -157,9 +168,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             });
 
             var res1 = await Api.HelpCenter.UserSegments.GetTopicsByUserSegmentIdAsync(res.UserSegments[0].Id.Value);
-
-            Assert.That(res1.Topics.Count, Is.GreaterThan(0));
-            Assert.That(await Api.HelpCenter.Topics.DeleteTopicAsync(topicRes.Topic.Id.Value), Is.True);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(res1.Topics.Count, Is.GreaterThan(0));
+                Assert.That(await Api.HelpCenter.Topics.DeleteTopicAsync(topicRes.Topic.Id.Value), Is.True);
+            });
         }
 
         [Test]

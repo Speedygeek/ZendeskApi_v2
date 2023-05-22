@@ -66,14 +66,15 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             const int count = 2;
             var sections = Api.HelpCenter.Sections.GetSections(count, 1);
-
-            Assert.That(sections.Sections.Count, Is.EqualTo(count));  // 2
-            Assert.That(sections.Count, Is.Not.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(sections.Sections, Has.Count.EqualTo(count));  // 2
+                Assert.That(sections.Count, Is.Not.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
+            });
             const int page = 2;
             var secondPage = Api.HelpCenter.Sections.GetSections(count, page);
 
-            Assert.That(secondPage.Sections.Count, Is.EqualTo(count));
+            Assert.That(secondPage.Sections, Has.Count.EqualTo(count));
 
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
@@ -81,9 +82,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
                 .FirstOrDefault();
 
             Assert.That(nextPage, Is.Not.Null);
-            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
-            Assert.That(Api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
-            Assert.That(Api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+                Assert.That(Api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -118,19 +122,23 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             const int page = 2;
             var secondPage = Api.HelpCenter.Sections.GetSectionsAsync(count, page).Result;
             var sectionById2 = Api.HelpCenter.Sections.GetSectionById(secondPage.Sections[0].Id.Value);
-
-            Assert.That(secondPage.Sections.Count, Is.EqualTo(count));
-            Assert.That(sectionById2.Section.Id, Is.EqualTo(secondPage.Sections[0].Id.Value));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(secondPage.Sections, Has.Count.EqualTo(count));
+                Assert.That(sectionById2.Section.Id, Is.EqualTo(secondPage.Sections[0].Id.Value));
+            });
             var nextPage = secondPage.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
                 .Select(x => x.Value)
                 .FirstOrDefault();
 
             Assert.That(nextPage, Is.Not.Null);
-            Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
-            Assert.That(Api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
-            Assert.That(Api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
+                Assert.That(Api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -149,8 +157,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Section.Position = 42;
             var update = Api.HelpCenter.Sections.UpdateSection(res.Section);
-            Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
-            Assert.That(Api.HelpCenter.Sections.DeleteSection(res.Section.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
+                Assert.That(Api.HelpCenter.Sections.DeleteSection(res.Section.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -180,8 +191,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Section.Position = 42;
             var update = await Api.HelpCenter.Sections.UpdateSectionAsync(res.Section);
-            Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
-            Assert.That(await Api.HelpCenter.Sections.DeleteSectionAsync(res.Section.Id.Value), Is.True);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
+                Assert.That(await Api.HelpCenter.Sections.DeleteSectionAsync(res.Section.Id.Value), Is.True);
+            });
         }
     }
 }

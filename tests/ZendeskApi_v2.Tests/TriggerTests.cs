@@ -53,9 +53,12 @@ namespace ZendeskApi_v2.Tests
 
             res.Trigger.Title = "Test Trigger Updated";
             var update = Api.Triggers.UpdateTrigger(res.Trigger);
-            Assert.That(res.Trigger.Title, Is.EqualTo(update.Trigger.Title));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Trigger.Title, Is.EqualTo(update.Trigger.Title));
 
-            Assert.That(Api.Triggers.DeleteTrigger(res.Trigger.Id.Value), Is.True);
+                Assert.That(Api.Triggers.DeleteTrigger(res.Trigger.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -90,11 +93,13 @@ namespace ZendeskApi_v2.Tests
             Assert.That(Api.Triggers.ReorderTriggers(ids), Is.True);
 
             res = Api.Triggers.GetActiveTriggers().Triggers;
+            Assert.Multiple(() =>
+            {
+                Assert.That(res3.Trigger.Id.Value, Is.EqualTo(res[0].Id.Value));
 
-            Assert.That(res3.Trigger.Id.Value, Is.EqualTo(res[0].Id.Value));
-
-            Assert.That(Api.Triggers.DeleteTrigger(res2.Trigger.Id.Value), Is.True);
-            Assert.That(Api.Triggers.DeleteTrigger(res3.Trigger.Id.Value), Is.True);
+                Assert.That(Api.Triggers.DeleteTrigger(res2.Trigger.Id.Value), Is.True);
+                Assert.That(Api.Triggers.DeleteTrigger(res3.Trigger.Id.Value), Is.True);
+            });
         }
     }
 }

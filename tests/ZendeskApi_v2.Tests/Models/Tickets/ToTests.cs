@@ -15,10 +15,13 @@ namespace ZendeskApi_v2.Tests.Models.Tickets
             var to = JsonConvert.DeserializeObject<To>(AllFieldsJson);
 
             Assert.That(to, Is.Not.Null);
-            Assert.That(to.FormattedPhone, Is.EqualTo("+49 89 555 666777"));
-            Assert.That(to.Phone, Is.EqualTo("+4989555666777"));
-            Assert.That(to.Name, Is.EqualTo("Caller +49 89 555 666777"));
-            Assert.That(to.Address, Is.EqualTo("Test"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(to.FormattedPhone, Is.EqualTo("+49 89 555 666777"));
+                Assert.That(to.Phone, Is.EqualTo("+4989555666777"));
+                Assert.That(to.Name, Is.EqualTo("Caller +49 89 555 666777"));
+                Assert.That(to.Address, Is.EqualTo("Test"));
+            });
         }
 
         [Test]

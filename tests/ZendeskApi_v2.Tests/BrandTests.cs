@@ -48,9 +48,12 @@ namespace ZendeskApi_v2.Tests
 
             res.Brand.Name = "Test Brand Updated";
             var update = Api.Brands.UpdateBrand(res.Brand);
-            Assert.That(res.Brand.Name, Is.EqualTo(update.Brand.Name));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Brand.Name, Is.EqualTo(update.Brand.Name));
 
-            Assert.That(Api.Brands.DeleteBrand(res.Brand.Id.Value), Is.True);
+                Assert.That(Api.Brands.DeleteBrand(res.Brand.Id.Value), Is.True);
+            });
         }
     }
 }

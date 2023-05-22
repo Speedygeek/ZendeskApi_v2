@@ -116,9 +116,11 @@ namespace ZendeskApi_v2.Tests
             }
 
             var res = Api.Users.GetUsersInOrganization(Organization.ID, 3, 0);
-            Assert.That(res.Users.Count, Is.EqualTo(3));
-            Assert.That(res.NextPage, Is.Not.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Users, Has.Count.EqualTo(3));
+                Assert.That(res.NextPage, Is.Not.Null);
+            });
             users.ForEach(u => Api.Users.DeleteUser(u.Id.Value));
         }
 
@@ -145,11 +147,13 @@ namespace ZendeskApi_v2.Tests
 
             var res1 = Api.Users.CreateUser(user);
             var userId = res1.User.Id ?? 0;
-            Assert.That(res1.User.Id, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.User.Id, Is.GreaterThan(0));
 
-            Assert.That(Api.Users.SetUsersPassword(userId, "t34sssting"), Is.True);
-            Assert.That(Api.Users.ChangeUsersPassword(userId, "t34sssting", "newpassw33rd"), Is.True);
-
+                Assert.That(Api.Users.SetUsersPassword(userId, "t34sssting"), Is.True);
+                Assert.That(Api.Users.ChangeUsersPassword(userId, "t34sssting", "newpassw33rd"), Is.True);
+            });
             res1.User.Phone = "555-555-5555";
             res1.User.RemotePhotoUrl = "http://i.imgur.com/b2gxj.jpg";
 
@@ -242,9 +246,11 @@ namespace ZendeskApi_v2.Tests
             var res2 = Api.Users.CreateOrUpdateUser(user);
 
             var user72group = Api.Users.SearchByEmail("test772@tester.com");
-
-            Assert.That(user72group.Count, Is.EqualTo(1));
-            Assert.That(res2.User.Name, Does.Contain("721"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(user72group.Count, Is.EqualTo(1));
+                Assert.That(res2.User.Name, Does.Contain("721"));
+            });
         }
 
         [Test]
@@ -325,9 +331,11 @@ namespace ZendeskApi_v2.Tests
             var res2 = Api.Users.CreateOrUpdateUser(user);
 
             var user72group = Api.Users.SearchByEmail("test772@tester.com");
-
-            Assert.That(user72group.Count, Is.EqualTo(1));
-            Assert.That(res2.User.Name, Does.Contain("721"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(user72group.Count, Is.EqualTo(1));
+                Assert.That(res2.User.Name, Does.Contain("721"));
+            });
         }
 
         [Test]
@@ -343,8 +351,11 @@ namespace ZendeskApi_v2.Tests
         {
             var res1 = Api.Users.SearchByPhone(Settings.Phone);
             Assert.That(res1.Users.Count, Is.GreaterThan(0));
-            Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
-            Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
+                Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
+            });
         }
 
         [Test]
@@ -352,8 +363,11 @@ namespace ZendeskApi_v2.Tests
         {
             var res1 = Api.Users.SearchByPhone(Settings.FormattedPhone);
             Assert.That(res1.Users.Count, Is.GreaterThan(0));
-            Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.FormattedPhone));
-            Assert.That(res1.Users.First().Name, Is.EqualTo("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.FormattedPhone));
+                Assert.That(res1.Users.First().Name, Is.EqualTo("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5"));
+            });
         }
 
         [Test]
@@ -361,8 +375,11 @@ namespace ZendeskApi_v2.Tests
         {
             var res1 = Api.Users.SearchByPhoneAsync(Settings.Phone).Result;
             Assert.That(res1.Users.Count, Is.GreaterThan(0));
-            Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
-            Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
+                Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
+            });
         }
 
         [Test]
@@ -429,9 +446,11 @@ namespace ZendeskApi_v2.Tests
 
             var primaries = Api.Users.SetUserIdentityAsPrimary(userId, identityId);
             Assert.That(primaries.Identities.First(x => x.Primary).Id, Is.EqualTo(identityId));
-
-            Assert.That(Api.Users.DeleteUserIdentity(userId, identityId), Is.True);
-            Assert.That(Api.Users.DeleteUser(userId), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(Api.Users.DeleteUserIdentity(userId, identityId), Is.True);
+                Assert.That(Api.Users.DeleteUser(userId), Is.True);
+            });
         }
 
         [Test]
@@ -439,9 +458,11 @@ namespace ZendeskApi_v2.Tests
         {
             var userList = Api.Users.GetAllUsers(10, 1).Users.Select(u => u.Id.Value).ToList();
             var result = Api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities | UserSideLoadOptions.Roles);
-
-            Assert.That(result.Count, Is.EqualTo(userList.Count));
-            Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Count, Is.EqualTo(userList.Count));
+                Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
+            });
         }
 
         [Test]
@@ -449,8 +470,11 @@ namespace ZendeskApi_v2.Tests
         {
             var userList = Api.Users.GetAllUsersAsync(10, 1).Result.Users.Select(u => u.Id.Value).ToList();
             var result = Api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities);
-            Assert.That(result.Count, Is.EqualTo(userList.Count));
-            Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Count, Is.EqualTo(userList.Count));
+                Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
+            });
         }
 
         [Test]
@@ -466,8 +490,11 @@ namespace ZendeskApi_v2.Tests
             };
 
             var user = Api.Users.SetUserPhoto(Admin.ID, file);
-            Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
-            Assert.That(user.User.Photo.Size, Is.Not.Zero);
+            Assert.Multiple(() =>
+            {
+                Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
+                Assert.That(user.User.Photo.Size, Is.Not.Zero);
+            });
         }
 
         [Test]
@@ -482,8 +509,11 @@ namespace ZendeskApi_v2.Tests
             };
 
             var user = await Api.Users.SetUserPhotoAsync(Admin.ID, file);
-            Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
-            Assert.That(user.User.Photo.Size, Is.Not.Zero);
+            Assert.Multiple(() =>
+            {
+                Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
+                Assert.That(user.User.Photo.Size, Is.Not.Zero);
+            });
         }
 
         [Test]
@@ -545,12 +575,14 @@ namespace ZendeskApi_v2.Tests
             await Api.Users.UpdateUserIdentityAsync(userId, res2.Identity);
 
             var res3 = await Api.Users.GetSpecificUserIdentityAsync(userId, identityId);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res3.Identity.Id, Is.EqualTo(identityId));
+                Assert.That(res3.Identity.Value, Is.EqualTo(res2.Identity.Value));
 
-            Assert.That(res3.Identity.Id, Is.EqualTo(identityId));
-            Assert.That(res3.Identity.Value, Is.EqualTo(res2.Identity.Value));
-
-            Assert.That(Api.Users.DeleteUserIdentity(userId, identityId), Is.True);
-            Assert.That(Api.Users.DeleteUser(userId), Is.True);
+                Assert.That(Api.Users.DeleteUserIdentity(userId, identityId), Is.True);
+                Assert.That(Api.Users.DeleteUser(userId), Is.True);
+            });
         }
 
         [Test]
@@ -585,8 +617,11 @@ namespace ZendeskApi_v2.Tests
                 count++;
             }
 
-            Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
-            Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
+            Assert.Multiple(() =>
+            {
+                Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
+                Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
+            });
         }
 
         [Test]
@@ -621,24 +656,32 @@ namespace ZendeskApi_v2.Tests
                 count++;
             }
 
-            Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
-            Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
+            Assert.Multiple(() =>
+            {
+                Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
+                Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
+            });
         }
 
         [Test]
         public void CanGetIncrementalUserExport()
         {
             var incrementalUserExport = Api.Users.GetIncrementalUserExport(Settings.Epoch);
-            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExport.Organizations, Is.Null);
-            Assert.That(incrementalUserExport.Identities, Is.Null);
-            Assert.That(incrementalUserExport.Groups, Is.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+                Assert.That(incrementalUserExport.Organizations, Is.Null);
+                Assert.That(incrementalUserExport.Identities, Is.Null);
+                Assert.That(incrementalUserExport.Groups, Is.Null);
+            });
             var incrementalUserExportNextPage = Api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
-            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
-            Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
-            Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+                Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
+                Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
+                Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
+            });
         }
 
         //[Test]
@@ -663,32 +706,42 @@ namespace ZendeskApi_v2.Tests
         public async Task CanGetIncrementalUserExportAsync()
         {
             var incrementalUserExport = await Api.Users.GetIncrementalUserExportAsync(Settings.Epoch);
-            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExport.Organizations, Is.Null);
-            Assert.That(incrementalUserExport.Identities, Is.Null);
-            Assert.That(incrementalUserExport.Groups, Is.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+                Assert.That(incrementalUserExport.Organizations, Is.Null);
+                Assert.That(incrementalUserExport.Identities, Is.Null);
+                Assert.That(incrementalUserExport.Groups, Is.Null);
+            });
             var incrementalUserExportNextPage = await Api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
-            Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
-            Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+                Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
+                Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
+                Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
+            });
         }
 
         [Test]
         public async Task CanGetIncrementalUserExportAsyncWithSideLoadOptions()
         {
             var incrementalUserExport = await Api.Users.GetIncrementalUserExportAsync(Settings.Epoch, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
-            Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
-            Assert.That(incrementalUserExport.Identities, Is.Not.Null);
-            Assert.That(incrementalUserExport.Groups, Is.Not.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(incrementalUserExport.Users.Count, Is.GreaterThan(0));
+                Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
+                Assert.That(incrementalUserExport.Identities, Is.Not.Null);
+                Assert.That(incrementalUserExport.Groups, Is.Not.Null);
+            });
             var incrementalUserExportNextPage = await Api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-            Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
-            Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
-            Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
-            Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(incrementalUserExportNextPage.Users.Count, Is.GreaterThan(0));
+                Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
+                Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
+                Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
+            });
         }
 
         [Test]

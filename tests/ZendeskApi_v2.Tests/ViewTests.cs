@@ -46,9 +46,11 @@ namespace ZendeskApi_v2.Tests
         {
             Api.Views.GetAllViews();
             var res = Api.Views.ExecuteView(31559032);
-
-            Assert.That(res.Rows.Count, Is.GreaterThan(0));
-            Assert.That(res.Columns.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Rows.Count, Is.GreaterThan(0));
+                Assert.That(res.Columns.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
@@ -56,7 +58,7 @@ namespace ZendeskApi_v2.Tests
         {
             var res = Api.Views.ExecuteView(Settings.ViewId, "", true, 25, 2);
 
-            Assert.That(res.Rows.Count, Is.EqualTo(25));
+            Assert.That(res.Rows, Has.Count.EqualTo(25));
 
             var nextPage = res.NextPage.GetQueryStringDict()
                     .Where(x => x.Key == "page")
@@ -81,8 +83,11 @@ namespace ZendeskApi_v2.Tests
             };
 
             var previewRes = Api.Views.PreviewView(preview);
-            Assert.That(previewRes.Rows.Count, Is.GreaterThan(0));
-            Assert.That(previewRes.Columns.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(previewRes.Rows.Count, Is.GreaterThan(0));
+                Assert.That(previewRes.Columns.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
@@ -90,9 +95,12 @@ namespace ZendeskApi_v2.Tests
         {
             var views = Api.Views.GetAllViews();
             var res = Api.Views.GetViewCounts(new List<long>() { views.Views[0].Id });
-            Assert.That(res.ViewCounts.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.ViewCounts.Count, Is.GreaterThan(0));
 
-            Assert.That(views.Count, Is.GreaterThan(0));
+                Assert.That(views.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]

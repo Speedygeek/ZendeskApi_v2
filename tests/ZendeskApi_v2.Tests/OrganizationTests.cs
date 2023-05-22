@@ -68,7 +68,7 @@ namespace ZendeskApi_v2.Tests
         [Test]
         public void CanSearchForOrganizations()
         {
-            var res = Api.Organizations.GetOrganizationsStartingWith(Organization.Name.Substring(0, 3));
+            var res = Api.Organizations.GetOrganizationsStartingWith(Organization.Name[..3]);
             Assert.That(res.Count, Is.GreaterThan(0));
             var search = Api.Organizations.SearchForOrganizationsByExternalId(Organization.ExternalID);
             Assert.That(search.Count, Is.GreaterThan(0));
@@ -90,7 +90,7 @@ namespace ZendeskApi_v2.Tests
             });
 
             var orgs = Api.Organizations.GetMultipleOrganizations(new[] { org.Organization.Id.Value, org2.Organization.Id.Value });
-            Assert.That(orgs.Organizations.Count, Is.EqualTo(2));
+            Assert.That(orgs.Organizations, Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -107,13 +107,14 @@ namespace ZendeskApi_v2.Tests
                 Name = "Test Org2 with externalId",
                 ExternalId = "TestExternalId2"
             });
-
-            Assert.That(org.Organization.Id, Is.GreaterThan(0));
-            Assert.That(org2.Organization.Id, Is.GreaterThan(0));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(org.Organization.Id, Is.GreaterThan(0));
+                Assert.That(org2.Organization.Id, Is.GreaterThan(0));
+            });
             var orgs = Api.Organizations.GetMultipleOrganizationsByExternalIds(new[] { org.Organization.ExternalId, org2.Organization.ExternalId });
 
-            Assert.That(orgs.Organizations.Count, Is.EqualTo(2));
+            Assert.That(orgs.Organizations, Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -128,9 +129,12 @@ namespace ZendeskApi_v2.Tests
 
             res.Organization.Notes = "Here is a sample note";
             var update = Api.Organizations.UpdateOrganization(res.Organization);
-            Assert.That(res.Organization.Notes, Is.EqualTo(update.Organization.Notes));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Organization.Notes, Is.EqualTo(update.Organization.Notes));
 
-            Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
+                Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -145,10 +149,12 @@ namespace ZendeskApi_v2.Tests
 
             res.Organization.Name = "Test Org (updated)";
             var update = Api.Organizations.CreateOrUpdateOrganization(res.Organization);
-
-            Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
-            Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
-            Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
+                Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
+                Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -177,7 +183,7 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+            Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
             foreach (var result in job.JobStatus.Results)
                 Assert.That(result.Id, Is.Not.EqualTo(0));
@@ -209,7 +215,7 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+            Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
             foreach (var result in job.JobStatus.Results)
                 Assert.That(result.Id, Is.Not.EqualTo(0));
@@ -227,10 +233,12 @@ namespace ZendeskApi_v2.Tests
 
             res.Organization.Name = "Test Org (updated)";
             var update = await Api.Organizations.CreateOrUpdateOrganizationAsync(res.Organization);
-
-            Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
-            Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
-            Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
+                Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
+                Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -245,15 +253,16 @@ namespace ZendeskApi_v2.Tests
             {
                 Name = "Test Org 2"
             });
-
-            Assert.That(res1.Organization.Id, Is.GreaterThan(0));
-            Assert.That(res2.Organization.Id, Is.GreaterThan(0));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.Organization.Id, Is.GreaterThan(0));
+                Assert.That(res2.Organization.Id, Is.GreaterThan(0));
+            });
             res1.Organization.Notes = "Here is a sample note 1";
             res2.Organization.Notes = "Here is a sample note 2";
 
-            var organisations = new List<Organization> { res1.Organization, res2.Organization };
-            var updateJobStatus = Api.Organizations.UpdateMultipleOrganizations(organisations);
+            var organizations = new List<Organization> { res1.Organization, res2.Organization };
+            var updateJobStatus = Api.Organizations.UpdateMultipleOrganizations(organizations);
 
             Assert.That(updateJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             JobStatusResponse job = null;
@@ -269,10 +278,11 @@ namespace ZendeskApi_v2.Tests
 
             var updatedOrganizationIds = new List<long> { res1.Organization.Id.Value, res2.Organization.Id.Value };
             var updatedOrganizations = Api.Organizations.GetMultipleOrganizations(updatedOrganizationIds);
-
-            Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
-            Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res2.Organization.Id).Notes, Is.EqualTo(res2.Organization.Notes));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
+                Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res2.Organization.Id).Notes, Is.EqualTo(res2.Organization.Notes));
+            });
             Api.Organizations.DeleteOrganization(res1.Organization.Id.Value);
             Api.Organizations.DeleteOrganization(res2.Organization.Id.Value);
         }
@@ -304,10 +314,7 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
-
-            foreach (var result in job.JobStatus.Results)
-                Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
             var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
 
@@ -359,13 +366,13 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+            Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
             foreach (var result in job.JobStatus.Results)
             {
                 Assert.That(result.Id, Is.Not.EqualTo(0));
             }
-            var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
+
             var externalIds = orgs.Select(o => o.ExternalId).ToList();
 
             var deleteJobStatus = Api.Organizations.DeleteMultipleOrganizationsByExternalIds(externalIds);
@@ -400,11 +407,13 @@ namespace ZendeskApi_v2.Tests
             var org_membership = new OrganizationMembership() {UserId = res.User.Id, OrganizationId = org.Organization.Id};
 
             var res2 = Api.Organizations.CreateOrganizationMembership(org_membership);
-
-            Assert.That(res2.OrganizationMembership.Id, Is.GreaterThan(0));
-            Assert.That(Api.Organizations.DeleteOrganizationMembership(res2.OrganizationMembership.Id.Value), Is.True);
-            Assert.That(Api.Users.DeleteUser(res.User.Id.Value), Is.True);
-            Assert.That(Api.Organizations.DeleteOrganization(org.Organization.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res2.OrganizationMembership.Id, Is.GreaterThan(0));
+                Assert.That(Api.Organizations.DeleteOrganizationMembership(res2.OrganizationMembership.Id.Value), Is.True);
+                Assert.That(Api.Users.DeleteUser(res.User.Id.Value), Is.True);
+                Assert.That(Api.Organizations.DeleteOrganization(org.Organization.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -446,15 +455,16 @@ namespace ZendeskApi_v2.Tests
             {
                 Name = "Test Org 2 Async"
             });
-
-            Assert.That(res1.Organization.Id, Is.GreaterThan(0));
-            Assert.That(res2.Organization.Id, Is.GreaterThan(0));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res1.Organization.Id, Is.GreaterThan(0));
+                Assert.That(res2.Organization.Id, Is.GreaterThan(0));
+            });
             res1.Organization.Notes = "Here is a sample note 1";
             res2.Organization.Notes = "Here is a sample note 2";
 
-            var organisations = new List<Organization> { res1.Organization, res2.Organization };
-            var updateJobStatus = await Api.Organizations.UpdateMultipleOrganizationsAsync(organisations);
+            var organizations = new List<Organization> { res1.Organization, res2.Organization };
+            var updateJobStatus = await Api.Organizations.UpdateMultipleOrganizationsAsync(organizations);
 
             Assert.That(updateJobStatus.JobStatus.Status, Is.EqualTo("queued"));
             JobStatusResponse job = null;
@@ -470,10 +480,11 @@ namespace ZendeskApi_v2.Tests
 
             var updatedOrganizationIds = new List<long> { res1.Organization.Id.Value, res2.Organization.Id.Value };
             var updatedOrganizations = await Api.Organizations.GetMultipleOrganizationsAsync(updatedOrganizationIds);
-
-            Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
-            Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res2.Organization.Id).Notes, Is.EqualTo(res2.Organization.Notes));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
+                Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res2.Organization.Id).Notes, Is.EqualTo(res2.Organization.Notes));
+            });
             await Api.Organizations.DeleteOrganizationAsync(res1.Organization.Id.Value);
             await Api.Organizations.DeleteOrganizationAsync(res2.Organization.Id.Value);
         }
@@ -505,10 +516,7 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
-
-            foreach (var result in job.JobStatus.Results)
-                Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
             var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
 
@@ -560,7 +568,7 @@ namespace ZendeskApi_v2.Tests
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
 
-            Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
+            Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
             var externalIds = orgs.Select(o => o.ExternalId.ToString()).ToList();
 

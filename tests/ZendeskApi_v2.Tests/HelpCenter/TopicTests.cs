@@ -38,9 +38,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             Assert.That(update.Description, Is.EqualTo("More Testing"));
 
             var res2 = Api.HelpCenter.Topics.GetTopic(res.Topic.Id.Value);
-            Assert.That(res2.Topic, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res2.Topic, Is.Not.Null);
 
-            Assert.That(Api.HelpCenter.Topics.DeleteTopic(res.Topic.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Topics.DeleteTopic(res.Topic.Id.Value), Is.True);
+            });
         }
     }
 }

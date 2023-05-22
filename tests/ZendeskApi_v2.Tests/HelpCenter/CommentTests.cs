@@ -65,13 +65,16 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             var individualCommentsResponse3 = Api.HelpCenter.Comments.CreateCommentForArticle(articleId, new Comment { Body = "Comment 3", Locale = "en-us" });
             Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
-            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
 
-            Assert.That(Api.HelpCenter.Comments.GetCommentsForArticle(articleId).Count, Is.EqualTo(3)); //That article have 3 comments
+                Assert.That(Api.HelpCenter.Comments.GetCommentsForArticle(articleId).Count, Is.EqualTo(3)); //That article have 3 comments
 
-            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
-            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
-            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+                Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+                Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+                Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+            });
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
@@ -100,13 +103,16 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             var individualCommentsResponse3 = Api.HelpCenter.Comments.CreateCommentForPost(postId, new Comment { Body = "Comment 3" });
             Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
-            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
 
-            Assert.That(Api.HelpCenter.Comments.GetCommentsForPost(postId).Count, Is.EqualTo(3)); //That post have 3 comments
+                Assert.That(Api.HelpCenter.Comments.GetCommentsForPost(postId).Count, Is.EqualTo(3)); //That post have 3 comments
 
-            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
-            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
-            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+                Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+                Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+                Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+            });
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
@@ -135,13 +141,16 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             var individualCommentsResponse3 = await Api.HelpCenter.Comments.CreateCommentForArticleAsync(articleId, new Comment { Body = "Comment 3", Locale = "en-us" });
             Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
-            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
+            Assert.Multiple(async () =>
+            {
+                Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
 
-            Assert.That((await Api.HelpCenter.Comments.GetCommentsForArticleAsync(articleId)).Count, Is.EqualTo(3)); //That article have 3 comments
+                Assert.That((await Api.HelpCenter.Comments.GetCommentsForArticleAsync(articleId)).Count, Is.EqualTo(3)); //That article have 3 comments
 
-            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
-            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
-            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+                Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+                Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+                Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+            });
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";
@@ -170,13 +179,16 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             var individualCommentsResponse3 = await Api.HelpCenter.Comments.CreateCommentForPostAsync(postId, new Comment { Body = "Comment 3" });
             Assert.That(individualCommentsResponse3.Comment, Is.Not.Null);
-            Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
+            Assert.Multiple(async () =>
+            {
+                Assert.That(individualCommentsResponse3.Comment.Id, Is.GreaterThan(0));
 
-            Assert.That((await Api.HelpCenter.Comments.GetCommentsForPostAsync(postId)).Count, Is.EqualTo(3)); //That post have 3 comments
+                Assert.That((await Api.HelpCenter.Comments.GetCommentsForPostAsync(postId)).Count, Is.EqualTo(3)); //That post have 3 comments
 
-            Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
-            Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
-            Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+                Assert.That(individualCommentsResponse1.Comment.Body, Is.EqualTo("Comment 1"));
+                Assert.That(individualCommentsResponse2.Comment.Body, Is.EqualTo("Comment 2"));
+                Assert.That(individualCommentsResponse3.Comment.Body, Is.EqualTo("Comment 3"));
+            });
 
             //Update Comment
             var updatedCommentBody = "Comment 2 Updated";

@@ -40,19 +40,24 @@ namespace ZendeskApi_v2.Tests.Models.Requests
             var openRequest = JsonConvert.DeserializeObject<Request>(OpenRequestJson);
 
             Assert.That(openRequest, Is.Not.Null);
-            Assert.That(openRequest.Url, Is.EqualTo(Url));
-            Assert.That(openRequest.Id, Is.EqualTo(Id));
-            Assert.That(openRequest.Status, Is.EqualTo(OpenStatus));
-            Assert.That(openRequest.Subject, Is.EqualTo(Subject));
-            Assert.That(openRequest.Description, Is.EqualTo(Description));
-            Assert.That(openRequest.RequesterId, Is.EqualTo(RequesterId));
-            Assert.That(openRequest.CanBeSolvedByMe, Is.EqualTo(OpenCanBeSolvedByMe));
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(openRequest.Url, Is.EqualTo(Url));
+                Assert.That(openRequest.Id, Is.EqualTo(Id));
+                Assert.That(openRequest.Status, Is.EqualTo(OpenStatus));
+                Assert.That(openRequest.Subject, Is.EqualTo(Subject));
+                Assert.That(openRequest.Description, Is.EqualTo(Description));
+                Assert.That(openRequest.RequesterId, Is.EqualTo(RequesterId));
+                Assert.That(openRequest.CanBeSolvedByMe, Is.EqualTo(OpenCanBeSolvedByMe));
+            });
             var solvedRequest = JsonConvert.DeserializeObject<Request>(SolvedRequestJson);
 
             Assert.That(solvedRequest, Is.Not.Null);
-            Assert.That(solvedRequest.Status, Is.EqualTo(SolvedStatus));
-            Assert.That(solvedRequest.CanBeSolvedByMe, Is.EqualTo(SolvedCanBeSolvedByMe));
+            Assert.Multiple(() =>
+            {
+                Assert.That(solvedRequest.Status, Is.EqualTo(SolvedStatus));
+                Assert.That(solvedRequest.CanBeSolvedByMe, Is.EqualTo(SolvedCanBeSolvedByMe));
+            });
         }
     }
 }

@@ -64,9 +64,12 @@ namespace ZendeskApi_v2.Tests
 
             res.Schedule.TimeZone = "Central Time (US & Canada)";
             var update = Api.Schedules.UpdateSchedule(res.Schedule);
-            Assert.That(res.Schedule.TimeZone, Is.EqualTo(update.Schedule.TimeZone));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Schedule.TimeZone, Is.EqualTo(update.Schedule.TimeZone));
 
-            Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
+                Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -90,9 +93,11 @@ namespace ZendeskApi_v2.Tests
             var update = Api.Schedules.UpdateIntervals(res.Schedule.Id.Value, work);
 
             Assert.That(update.WorkWeek.Intervals.Count, Is.GreaterThan(0));
-
-            Assert.That(update.WorkWeek.Intervals[0].EndTime, Is.EqualTo(work.Intervals[0].EndTime));
-            Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(update.WorkWeek.Intervals[0].EndTime, Is.EqualTo(work.Intervals[0].EndTime));
+                Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -115,11 +120,14 @@ namespace ZendeskApi_v2.Tests
 
             res2.Holiday.EndDate = DateTimeOffset.UtcNow.AddDays(3).Date;
             var update = Api.Schedules.UpdateHoliday(res.Schedule.Id.Value, res2.Holiday);
-            Assert.That(res2.Holiday.Name, Is.EqualTo(update.Holiday.Name));
-            Assert.That(res2.Holiday.EndDate, Is.EqualTo(update.Holiday.EndDate));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res2.Holiday.Name, Is.EqualTo(update.Holiday.Name));
+                Assert.That(res2.Holiday.EndDate, Is.EqualTo(update.Holiday.EndDate));
 
-            Assert.That(Api.Schedules.DeleteHoliday(res.Schedule.Id.Value, res2.Holiday.Id.Value), Is.True);
-            Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
+                Assert.That(Api.Schedules.DeleteHoliday(res.Schedule.Id.Value, res2.Holiday.Id.Value), Is.True);
+                Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
+            });
         }
     }
 }

@@ -35,10 +35,13 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             Assert.That(resp.Attachment, Is.Not.Null);
 
             var res = Api.HelpCenter.ArticleAttachments.GetAttachments(articleResponse.Article.Id);
-            Assert.That(res.Attachments, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Attachments, Is.Not.Null);
 
-            Assert.That(Api.HelpCenter.ArticleAttachments.DeleteAttachment(resp.Attachment.Id), Is.True);
-            Assert.That(Api.HelpCenter.Articles.DeleteArticle(articleResponse.Article.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.ArticleAttachments.DeleteAttachment(resp.Attachment.Id), Is.True);
+                Assert.That(Api.HelpCenter.Articles.DeleteArticle(articleResponse.Article.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -64,10 +67,13 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             Assert.That(resp.Attachment.Inline, Is.True);
 
             var res = await Api.HelpCenter.ArticleAttachments.GetAttachmentsAsync(articleResponse.Article.Id);
-            Assert.That(res.Attachments, Is.Not.Null);
+            Assert.Multiple(async () =>
+            {
+                Assert.That(res.Attachments, Is.Not.Null);
 
-            Assert.That(await Api.HelpCenter.ArticleAttachments.DeleteAttachmentAsync(resp.Attachment.Id), Is.True);
-            Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(articleResponse.Article.Id.Value), Is.True);
+                Assert.That(await Api.HelpCenter.ArticleAttachments.DeleteAttachmentAsync(resp.Attachment.Id), Is.True);
+                Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(articleResponse.Article.Id.Value), Is.True);
+            });
         }
     }
 }

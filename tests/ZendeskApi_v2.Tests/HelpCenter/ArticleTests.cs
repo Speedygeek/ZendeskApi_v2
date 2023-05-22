@@ -46,48 +46,58 @@ namespace ZendeskApi_v2.Tests.HelpCenter
         public void CanGetArticleSideloadedWith()
         {
             var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Users);
-
-            Assert.That(res.Articles.Count, Is.GreaterThan(0));
-            Assert.That(res.Categories.Count, Is.GreaterThan(0));
-            Assert.That(res.Sections.Count, Is.GreaterThan(0));
-            Assert.That(res.Users.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Articles.Count, Is.GreaterThan(0));
+                Assert.That(res.Categories.Count, Is.GreaterThan(0));
+                Assert.That(res.Sections.Count, Is.GreaterThan(0));
+                Assert.That(res.Users.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
         public void CanGetArticleSideloadedWithUsers()
         {
             var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Users);
-
-            Assert.That(res.Articles.Count, Is.GreaterThan(0));
-            Assert.That(res.Users.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Articles.Count, Is.GreaterThan(0));
+                Assert.That(res.Users.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
         public void CanGetArticleSideloadedWithSections()
         {
             var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections);
-
-            Assert.That(res.Articles.Count, Is.GreaterThan(0));
-            Assert.That(res.Sections.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Articles.Count, Is.GreaterThan(0));
+                Assert.That(res.Sections.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
         public void CanGetArticleSideloadedWithCategories()
         {
             var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Categories);
-
-            Assert.That(res.Articles.Count, Is.GreaterThan(0));
-            Assert.That(res.Categories.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Articles.Count, Is.GreaterThan(0));
+                Assert.That(res.Categories.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
         public void CanGetArticleSideloadedWithTranslations()
         {
             var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Users | ArticleSideLoadOptionsEnum.Translations);
-
-            Assert.That(res.Categories[0].Translations.Count, Is.GreaterThan(0));
-            Assert.That(res.Articles[0].Translations.Count, Is.GreaterThan(0));
-            Assert.That(res.Sections[0].Translations.Count, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Categories[0].Translations.Count, Is.GreaterThan(0));
+                Assert.That(res.Articles[0].Translations.Count, Is.GreaterThan(0));
+                Assert.That(res.Sections[0].Translations.Count, Is.GreaterThan(0));
+            });
         }
 
         [Test]
@@ -149,9 +159,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Article.LabelNames = new string[] { "updated" };
             var update = Api.HelpCenter.Articles.UpdateArticleAsync(res.Article).Result;
-            Assert.That(update.Article.LabelNames, Is.EqualTo(res.Article.LabelNames));
+            Assert.Multiple(() =>
+            {
+                Assert.That(update.Article.LabelNames, Is.EqualTo(res.Article.LabelNames));
 
-            Assert.That(Api.HelpCenter.Articles.DeleteArticle(res.Article.Id.Value), Is.True);
+                Assert.That(Api.HelpCenter.Articles.DeleteArticle(res.Article.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -189,9 +202,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Article.LabelNames = new string[] { "photo", "tripod" };
             var update = await Api.HelpCenter.Articles.UpdateArticleAsync(res.Article);
-            Assert.That(res.Article.LabelNames, Is.EqualTo(update.Article.LabelNames));
+            Assert.Multiple(async () =>
+            {
+                Assert.That(res.Article.LabelNames, Is.EqualTo(update.Article.LabelNames));
 
-            Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(res.Article.Id.Value), Is.True);
+                Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(res.Article.Id.Value), Is.True);
+            });
         }
 
         [Test]
@@ -229,10 +245,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             var expectedArticle = response.Article;
             var searchRes = Api.HelpCenter.Articles.SearchArticlesFor("Test", createdBefore: DateTime.Now);
             var resultArticle = searchRes.Results.First(res => res.Id == _articleIdWithComments);
-            
-            Assert.That(expectedArticle.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.CreatedAt));
-            Assert.That(expectedArticle.EditedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.EditedAt));
-            Assert.That(expectedArticle.UpdatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.UpdatedAt));
+            Assert.Multiple(() =>
+            {
+                Assert.That(expectedArticle.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.CreatedAt));
+                Assert.That(expectedArticle.EditedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.EditedAt));
+                Assert.That(expectedArticle.UpdatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.UpdatedAt));
+            });
         }
 
         [Test]
@@ -241,9 +259,12 @@ namespace ZendeskApi_v2.Tests.HelpCenter
             var defaultDate = new DateTimeOffset();
             
             var res = Api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
-            Assert.That(res.Article.CreatedAt, Is.Not.EqualTo(defaultDate));
-            Assert.That(res.Article.EditedAt, Is.Not.EqualTo(defaultDate));
-            Assert.That(res.Article.UpdatedAt, Is.Not.EqualTo(defaultDate));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Article.CreatedAt, Is.Not.EqualTo(defaultDate));
+                Assert.That(res.Article.EditedAt, Is.Not.EqualTo(defaultDate));
+                Assert.That(res.Article.UpdatedAt, Is.Not.EqualTo(defaultDate));
+            });
         }
     }
 }

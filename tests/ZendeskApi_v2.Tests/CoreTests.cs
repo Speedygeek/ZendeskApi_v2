@@ -34,9 +34,11 @@ namespace ZendeskApi_v2.Tests
             var api = new ZendeskApi("https://csharpapi.zendesk.com/Api/v2", Admin.Email, "", Admin.ApiToken, "en-us", null);
             var id = Settings.SampleTicketId;
             var ticket = api.Tickets.GetTicket(id).Ticket;
-
-            Assert.That(ticket, Is.Not.Null);
-            Assert.That(id, Is.EqualTo(ticket.Id));
+            Assert.Multiple(() =>
+            {
+                Assert.That(ticket, Is.Not.Null);
+                Assert.That(id, Is.EqualTo(ticket.Id));
+            });
         }
 
         [Test]

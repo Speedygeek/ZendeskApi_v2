@@ -72,9 +72,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Post.Details = updatedPostDetails;
             var updated = Api.HelpCenter.Posts.UpdatePost(res.Post);
-
-            Assert.That(updated?.Post, Is.Not.Null);
-            Assert.That(updated.Post.Details, Is.EqualTo(updatedPostDetails));
+            Assert.Multiple(() =>
+            {
+                Assert.That(updated?.Post, Is.Not.Null);
+                Assert.That(updated.Post.Details, Is.EqualTo(updatedPostDetails));
+            });
         }
 
         [Test]
@@ -126,9 +128,11 @@ namespace ZendeskApi_v2.Tests.HelpCenter
 
             res.Post.Details = updatedPostDetails;
             var updated = await Api.HelpCenter.Posts.UpdatePostAsync(res.Post);
-
-            Assert.That(updated?.Post, Is.Not.Null);
-            Assert.That(updated.Post.Details, Is.EqualTo(updatedPostDetails));
+            Assert.Multiple(() =>
+            {
+                Assert.That(updated?.Post, Is.Not.Null);
+                Assert.That(updated.Post.Details, Is.EqualTo(updatedPostDetails));
+            });
         }
     }
 }

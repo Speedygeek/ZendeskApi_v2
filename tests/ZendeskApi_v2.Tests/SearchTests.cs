@@ -14,8 +14,11 @@ namespace ZendeskApi_v2.Tests
         public void CanSearch()
         {
             var res = Api.Search.SearchFor(Admin.Email);
-            Assert.That(res.Results[0].ResultType, Is.EqualTo("user"));
-            Assert.That(res.Results[0].Id, Is.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results[0].ResultType, Is.EqualTo("user"));
+                Assert.That(res.Results[0].Id, Is.GreaterThan(0));
+            });
         }
 
         [Test]
@@ -32,9 +35,11 @@ namespace ZendeskApi_v2.Tests
             var total = res.Count;
 
             Assert.That(res.Count, Is.GreaterThan(0));
-            Assert.That(res.Count, Is.GreaterThan(res.Results.Count)); //result has more than one page
-            Assert.That(!string.IsNullOrEmpty(res.NextPage), Is.True); //It has next page
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Count, Is.GreaterThan(res.Results.Count)); //result has more than one page
+                Assert.That(!string.IsNullOrEmpty(res.NextPage), Is.True); //It has next page
+            });
             res = Api.Search.SearchFor("Effective", page: 2); //fetch next page
             Assert.That(res.Count, Is.GreaterThan(0));
             Assert.That(res.Count, Is.EqualTo(total)); //number of results should be same as page 1
@@ -46,8 +51,11 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Search.SearchFor("my printer is on fire");
 
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.GreaterThan(0));
-            Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results.Count, Is.GreaterThan(0));
+                Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
+            });
         }
 
         [Test]
@@ -56,9 +64,11 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Search.SearchFor<Ticket>("my printer is on fire");
 
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.GreaterThan(10));
-            Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results, Has.Count.GreaterThan(10));
+                Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
+            });
             var noRes = Api.Search.SearchFor<User>("my printer is on fire");
 
             Assert.That(noRes, Is.Not.EqualTo(null));
@@ -66,8 +76,11 @@ namespace ZendeskApi_v2.Tests
 
             res = Api.Search.SearchFor<Ticket>("my printer is on fire", perPage: 10);
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.EqualTo(10));
-            Assert.That(res.Page, Is.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results, Has.Count.EqualTo(10));
+                Assert.That(res.Page, Is.EqualTo(1));
+            });
             Assert.That(res.Results[0] is Ticket, Is.True);
         }
 
@@ -77,9 +90,11 @@ namespace ZendeskApi_v2.Tests
             var res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire");
 
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.GreaterThan(10));
-            Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results, Has.Count.GreaterThan(10));
+                Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
+            });
             var noRes = await Api.Search.SearchForAsync<User>("my printer is on fire");
 
             Assert.That(noRes, Is.Not.EqualTo(null));
@@ -87,8 +102,11 @@ namespace ZendeskApi_v2.Tests
 
             res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire", perPage: 10);
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.EqualTo(10));
-            Assert.That(res.Page, Is.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results, Has.Count.EqualTo(10));
+                Assert.That(res.Page, Is.EqualTo(1));
+            });
             Assert.That(res.Results[0] is Ticket, Is.True);
         }
 
@@ -98,9 +116,12 @@ namespace ZendeskApi_v2.Tests
             var res = Api.Search.SearchFor<User>(Admin.Email);
 
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.EqualTo(1));
-            Assert.That(res.Results[0].Id, Is.EqualTo(Admin.ID));
-            Assert.That(res.Results[0] is User, Is.True);
+            Assert.That(res.Results, Has.Count.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results[0].Id, Is.EqualTo(Admin.ID));
+                Assert.That(res.Results[0] is User, Is.True);
+            });
         }
 
         [Test]
@@ -109,9 +130,12 @@ namespace ZendeskApi_v2.Tests
             var res = await Api.Search.SearchForAsync<User>(Admin.Email);
 
             Assert.That(res, Is.Not.EqualTo(null));
-            Assert.That(res.Results.Count, Is.EqualTo(1));
-            Assert.That(res.Results[0].Id, Is.EqualTo(Admin.ID));
-            Assert.That(res.Results[0] is User, Is.True);
+            Assert.That(res.Results, Has.Count.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Results[0].Id, Is.EqualTo(Admin.ID));
+                Assert.That(res.Results[0] is User, Is.True);
+            });
         }
 
         [Test]

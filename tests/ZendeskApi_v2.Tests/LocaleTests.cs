@@ -7,7 +7,7 @@ namespace ZendeskApi_v2.Tests
     public class LocaleTests : TestBase
     {
         [Test, Ignore("working on issue")]
-        
+
         public void CanGetLocales()
         {
             var all = Api.Locales.GetAllLocales();
@@ -17,20 +17,29 @@ namespace ZendeskApi_v2.Tests
             Assert.That(agent.Count, Is.GreaterThan(0));
 
             var specific = Api.Locales.GetLocaleById(all.Locales[0].Id);
-            Assert.That(all.Locales[0].Id, Is.EqualTo(specific.Locale.Id));
-            Assert.That(specific.Locale.Translations, Is.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(all.Locales[0].Id, Is.EqualTo(specific.Locale.Id));
+                Assert.That(specific.Locale.Translations, Is.Null);
+            });
             var specificWithTranslation = Api.Locales.GetLocaleById(all.Locales[0].Id, true);
-            Assert.That(all.Locales[0].Id, Is.EqualTo(specificWithTranslation.Locale.Id));
-            Assert.That(specificWithTranslation.Locale.Translations, Is.Not.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(all.Locales[0].Id, Is.EqualTo(specificWithTranslation.Locale.Id));
+                Assert.That(specificWithTranslation.Locale.Translations, Is.Not.Null);
+            });
             var current = Api.Locales.GetCurrentLocale();
-            Assert.That(current.Locale.Id, Is.GreaterThan(0));
-            Assert.That(current.Locale.Translations, Is.Null);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(current.Locale.Id, Is.GreaterThan(0));
+                Assert.That(current.Locale.Translations, Is.Null);
+            });
             var currentWithTranslation = Api.Locales.GetCurrentLocale(true);
-            Assert.That(currentWithTranslation.Locale.Id, Is.GreaterThan(0));
-            Assert.That(currentWithTranslation.Locale.Translations, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(currentWithTranslation.Locale.Id, Is.GreaterThan(0));
+                Assert.That(currentWithTranslation.Locale.Translations, Is.Not.Null);
+            });
         }
     }
 }

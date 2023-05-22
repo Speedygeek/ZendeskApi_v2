@@ -55,17 +55,23 @@ namespace ZendeskApi_v2.Tests
 
             res.Automation.Title = "Test Automation Updated";
             var update = Api.Automations.UpdateAutomation(res.Automation);
-            Assert.That(res.Automation.Title, Is.EqualTo(update.Automation.Title));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Automation.Title, Is.EqualTo(update.Automation.Title));
 
-            Assert.That(Api.Automations.DeleteAutomation(res.Automation.Id.Value), Is.True);
+                Assert.That(Api.Automations.DeleteAutomation(res.Automation.Id.Value), Is.True);
+            });
         }
 
         [Test]
         public void CanSearchAutomations()
         {
             var res = Api.Automations.SearchAutomations("Close").Automations;
-            Assert.That(res.Count(), Is.EqualTo(1));
-            Assert.That(res[0].Title, Is.EqualTo("Close ticket 4 days after status is set to solved"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Count(), Is.EqualTo(1));
+                Assert.That(res[0].Title, Is.EqualTo("Close ticket 4 days after status is set to solved"));
+            });
         }
     }
 }
