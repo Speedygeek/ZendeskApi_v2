@@ -280,7 +280,6 @@ namespace ZendeskApi_v2.Tests
         [Test]
         public void CanCreateAndDeleteMultipleOrganizationsUsingBulkApis()
         {
-
             var orgs = new[]
            {
                 new Organization
@@ -578,7 +577,6 @@ namespace ZendeskApi_v2.Tests
 
                 if (job.JobStatus.Status == "completed") break;
             } while (true);
-
         }
     }
 }
