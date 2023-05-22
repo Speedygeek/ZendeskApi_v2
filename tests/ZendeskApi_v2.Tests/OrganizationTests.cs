@@ -362,10 +362,11 @@ namespace ZendeskApi_v2.Tests
             Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
 
             foreach (var result in job.JobStatus.Results)
+            {
                 Assert.That(result.Id, Is.Not.EqualTo(0));
-
+            }
             var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
-            var externalIds = orgs.Select(o => o.ExternalId.ToString()).ToList();
+            var externalIds = orgs.Select(o => o.ExternalId).ToList();
 
             var deleteJobStatus = Api.Organizations.DeleteMultipleOrganizationsByExternalIds(externalIds);
             Assert.That(deleteJobStatus.JobStatus.Status, Is.EqualTo("queued"));
@@ -561,10 +562,6 @@ namespace ZendeskApi_v2.Tests
 
             Assert.That(job.JobStatus.Results.Count, Is.EqualTo(2));
 
-            foreach (var result in job.JobStatus.Results)
-                Assert.That(result.Id, Is.Not.EqualTo(0));
-
-            var createdOrgIds = job.JobStatus.Results.Select(r => r.Id).ToList();
             var externalIds = orgs.Select(o => o.ExternalId.ToString()).ToList();
 
             var deleteJobStatus = await Api.Organizations.DeleteMultipleOrganizationsByExternalIdsAsync(externalIds);
