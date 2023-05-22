@@ -6,7 +6,6 @@ using ZendeskApi_v2.Models.Macros;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
 using ZendeskApi_v2.Extensions;
-using ZendeskApi_v2.Requests;
 
 namespace ZendeskApi_v2.Tests
 {

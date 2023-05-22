@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Organizations;
@@ -16,7 +15,6 @@ namespace ZendeskApi_v2.Tests
     public class OrganizationTests : TestBase
     {
         [OneTimeSetUp]
-        [OneTimeTearDown]
         public void Init()
         {
             var orgs = Api.Organizations.GetOrganizations();
