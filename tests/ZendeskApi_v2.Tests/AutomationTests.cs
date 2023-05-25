@@ -69,7 +69,7 @@ public class AutomationTests : TestBase
         var res = Api.Automations.SearchAutomations("Close").Automations;
         Assert.Multiple(() =>
         {
-            Assert.That(res.Count(), Is.EqualTo(1));
+            Assert.That(res, Has.Count.EqualTo(1));
             Assert.That(res[0].Title, Is.EqualTo("Close ticket 4 days after status is set to solved"));
         });
     }

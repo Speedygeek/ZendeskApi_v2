@@ -1,11 +1,11 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Constants;
 using ZendeskApi_v2.Models.Macros;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
-using ZendeskApi_v2.Extensions;
 
 namespace ZendeskApi_v2.Tests;
 

@@ -71,7 +71,7 @@ public class UserTests : TestBase
     {
         var res = Api.Users.SearchByCustomUserField(Settings.FieldKey, Settings.BadFieldValue);
 
-        Assert.That(res.Users.Count, Is.EqualTo(0));
+        Assert.That(res.Users, Is.Empty);
         Assert.That(res.Users.FirstOrDefault(), Is.Null);
     }
 
@@ -386,14 +386,14 @@ public class UserTests : TestBase
     public void CannotFindUserByPhone()
     {
         var res1 = Api.Users.SearchByPhone(Settings.BadPhone);
-        Assert.That(res1.Users.Count, Is.EqualTo(0));
+        Assert.That(res1.Users, Is.Empty);
     }
 
     [Test]
     public void CannotFindUserByPhoneAsync()
     {
         var res1 = Api.Users.SearchByPhoneAsync(Settings.BadPhone).Result;
-        Assert.That(res1.Users.Count, Is.EqualTo(0));
+        Assert.That(res1.Users, Is.Empty);
     }
 
     [Test]

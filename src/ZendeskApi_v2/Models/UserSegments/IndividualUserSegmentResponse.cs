@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-
 namespace ZendeskApi_v2.Models.UserSegments
 {
     public class IndividualUserSegmentResponse

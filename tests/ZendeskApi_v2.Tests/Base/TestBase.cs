@@ -36,5 +36,4 @@ public class TestBase
             await Api.Tickets.DeleteMultipleAsync(ids);
         }
     }
-
 }

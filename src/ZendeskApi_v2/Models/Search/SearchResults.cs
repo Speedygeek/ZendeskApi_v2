@@ -27,7 +27,6 @@ namespace ZendeskApi_v2.Models.Search
         public object Description { get; set; }
     }
 
-
     public class SearchResults : GroupResponseBase
     {
         [JsonProperty("prev_page")]

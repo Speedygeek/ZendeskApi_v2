@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #if ASYNC
 
@@ -290,7 +291,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             var sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
             if (sideloadOptions != ArticleSideLoadOptionsEnum.None)
             {
-                resourceUrl += resourceUrl.Contains("?") ? "&include=" : "?include=";
+                resourceUrl += resourceUrl.Contains('?') ? "&include=" : "?include=";
 
                 //Categories flag REQUIRES sections to be added as well, or nothing will be returned
                 if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections))
@@ -308,7 +309,7 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             var sideLoads = sideloadOptions.ToString().ToLower().Replace(" ", "");
             if (sideloadOptions != ArticleSideLoadOptionsEnum.None)
             {
-                resourceUrl += resourceUrl.Contains("?") ? "&include=" : "?include=";
+                resourceUrl += resourceUrl.Contains('?') ? "&include=" : "?include=";
 
                 //Categories flag REQUIRES sections to be added as well, or nothing will be returned
                 if (sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Categories) && !sideloadOptions.HasFlag(ArticleSideLoadOptionsEnum.Sections))

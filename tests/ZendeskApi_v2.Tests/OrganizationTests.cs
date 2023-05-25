@@ -298,7 +298,7 @@ public class OrganizationTests : TestBase
             {
                 Name = "Bulk Create Org 2"
             }
-        }; 
+        };
         var createJobStatus = Api.Organizations.CreateMultipleOrganizations(orgs);
 
         Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
@@ -331,7 +331,7 @@ public class OrganizationTests : TestBase
         foreach (var org in orgs)
         {
             var resp = Api.Search.SearchFor<Organization>(org.Name);
-            Assert.That(resp.Results.Count, Is.Zero);
+            Assert.That(resp.Results, Is.Empty);
         }
     }
 
@@ -402,7 +402,7 @@ public class OrganizationTests : TestBase
 
         var res = Api.Users.CreateUser(user);
 
-        var org_membership = new OrganizationMembership() {UserId = res.User.Id, OrganizationId = org.Organization.Id};
+        var org_membership = new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id };
 
         var res2 = Api.Organizations.CreateOrganizationMembership(org_membership);
         Assert.Multiple(() =>
@@ -533,7 +533,7 @@ public class OrganizationTests : TestBase
         foreach (var org in orgs)
         {
             var resp = await Api.Search.SearchForAsync<Organization>(org.Name);
-            Assert.That(resp.Results.Count, Is.Zero);
+            Assert.That(resp.Results, Is.Empty);
         }
     }
 

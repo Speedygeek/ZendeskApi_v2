@@ -52,7 +52,7 @@ internal class UserSegmentTests : TestBase
     }
 
     [Test]
-    public void CanGetSecondPageUisngGetByPageUrl()
+    public void CanGetSecondPageUsingGetByPageUrl()
     {
         var pageSize = 3;
 
@@ -85,7 +85,6 @@ internal class UserSegmentTests : TestBase
     [Test]
     public void CanGetUserSegmentsByUserId()
     {
-
         var res = Api.HelpCenter.UserSegments.GetUserSegmentsByUserId(Admin.ID);
         Assert.That(res.UserSegments, Is.Not.Empty);
     }
@@ -145,7 +144,7 @@ internal class UserSegmentTests : TestBase
     }
 
     [Test]
-    public async Task CanGetSecondPageUisngGetByPageUrlAsync()
+    public async Task CanGetSecondPageUsingGetByPageUrlAsync()
     {
         var pageSize = 3;
 

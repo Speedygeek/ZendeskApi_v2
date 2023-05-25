@@ -70,7 +70,7 @@ namespace ZendeskApi_v2
         /// <summary>
         /// Constructor that takes 2 params.
         /// </summary>
-        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="yourZendeskUrl">Will be formatted to "https://yoursite.zendesk.com/api/v2"</param>
         /// <param name="oauthToken">Access token</param>
         public ZendeskApi(string yourZendeskUrl,
             string p_OauthToken) : this(yourZendeskUrl, null, null, null, "en-us", p_OauthToken)
@@ -80,8 +80,8 @@ namespace ZendeskApi_v2
         /// <summary>
         /// Constructor that takes 3 params.
         /// </summary>
-        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
-        /// <param name="user">Email adress of the user.</param>
+        /// <param name="yourZendeskUrl">Will be formatted to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user">Email address of the user.</param>
         /// <param name="password">Password of the user.</param>
         public ZendeskApi(string yourZendeskUrl,
             string user,
@@ -92,8 +92,8 @@ namespace ZendeskApi_v2
         /// <summary>
         /// Constructor that takes 4 params.
         /// </summary>
-        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
-        /// <param name="user">Email adress of the user</param>
+        /// <param name="yourZendeskUrl">Will be formatted to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user">Email address of the user</param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Used if specified instead of the password</param>
         /// <param name="locale">Locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
@@ -108,8 +108,8 @@ namespace ZendeskApi_v2
         /// <summary>
         /// Constructor that takes 6 params.
         /// </summary>
-        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
-        /// <param name="user">Email adress of the user</param>
+        /// <param name="yourZendeskUrl">Will be formatted to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="user">Email address of the user</param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Used if specified instead of the password</param>
         /// <param name="locale">Locale to use for Help Center requests. Defaults to "en-us" if no value is provided.</param>
@@ -155,7 +155,7 @@ namespace ZendeskApi_v2
         /// Constructor that takes 3 params.
         /// </summary>
         /// <param name="proxy"></param>
-        /// <param name="yourZendeskUrl">Will be formated to "https://yoursite.zendesk.com/api/v2"</param>
+        /// <param name="yourZendeskUrl">Will be formatted to "https://yoursite.zendesk.com/api/v2"</param>
         /// <param name="user"></param>
         /// <param name="password"></param>
         public ZendeskApi(IWebProxy proxy, string yourZendeskUrl, string user, string password)

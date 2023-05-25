@@ -14,6 +14,5 @@ namespace ZendeskApi_v2.Models.UserSegments
 
         [JsonProperty("topics")]
         public IList<Topic> Topics { get; set; }
-
     }
 }

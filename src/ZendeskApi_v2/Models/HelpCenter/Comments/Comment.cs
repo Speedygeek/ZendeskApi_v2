@@ -44,5 +44,4 @@ namespace ZendeskApi_v2.Models.HelpCenter.Comments
         [JsonProperty("updated_at")]
         public string UpdatedAt { get; set; }
     }
-
 }

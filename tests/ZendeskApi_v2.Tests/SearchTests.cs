@@ -72,7 +72,7 @@ public class SearchTests : TestBase
         var noRes = Api.Search.SearchFor<User>("my printer is on fire");
 
         Assert.That(noRes, Is.Not.EqualTo(null));
-        Assert.That(noRes.Results.Count, Is.EqualTo(0));
+        Assert.That(noRes.Results, Is.Empty);
 
         res = Api.Search.SearchFor<Ticket>("my printer is on fire", perPage: 10);
         Assert.That(res, Is.Not.EqualTo(null));
@@ -98,7 +98,7 @@ public class SearchTests : TestBase
         var noRes = await Api.Search.SearchForAsync<User>("my printer is on fire");
 
         Assert.That(noRes, Is.Not.EqualTo(null));
-        Assert.That(noRes.Results.Count, Is.EqualTo(0));
+        Assert.That(noRes.Results, Is.Empty);
 
         res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire", perPage: 10);
         Assert.That(res, Is.Not.EqualTo(null));

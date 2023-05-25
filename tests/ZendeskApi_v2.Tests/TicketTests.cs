@@ -423,13 +423,13 @@ public class TicketTests : TestBase
 
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
-        
         Assert.Multiple(() =>
         {
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Id, Is.GreaterThan(0));
             Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
         });
+
         res.Status = TicketStatus.Solved;
         res.AssigneeId = Admin.ID;
 
@@ -440,13 +440,11 @@ public class TicketTests : TestBase
 
         var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { HtmlBody = htmlBody, Public = true, Uploads = new List<string>() });
 
-        
         Assert.Multiple(() =>
         {
             Assert.That(updateResponse, Is.Not.Null);
             Assert.That(updateResponse.Ticket.CollaboratorIds, Is.Not.Empty);
             Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
-
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
         });
     }

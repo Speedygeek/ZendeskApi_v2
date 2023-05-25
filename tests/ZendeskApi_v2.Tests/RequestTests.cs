@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
-using ZendeskApi_v2.Models.Users;
 using ZendeskApi_v2.Tests.Base;
 
 namespace ZendeskApi_v2.Tests;
@@ -22,17 +21,18 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() => {
+        Assert.DoesNotThrow(() =>
+        {
             var res = Api.Requests.GetAllRequests(perPage: perPage, page: page);
 
             Assert.That(res, Is.Not.Null);
-Assert.Multiple(() =>
-{
-    Assert.That(res.Requests, Is.Not.Null);
-    Assert.That(res.PageSize, Is.EqualTo(perPage));
-    Assert.That(res.Page, Is.EqualTo(page));
-});
-});
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Requests, Is.Not.Null);
+                Assert.That(res.PageSize, Is.EqualTo(perPage));
+                Assert.That(res.Page, Is.EqualTo(page));
+            });
+        });
     }
 
     [Test]
@@ -65,17 +65,18 @@ Assert.Multiple(() =>
     [TestCase(1, 2)]
     public void CanGetAllOpenRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() => {
+        Assert.DoesNotThrow(() =>
+        {
             var res = Api.Requests.GetAllOpenRequests(perPage: perPage, page: page);
 
             Assert.That(res, Is.Not.Null);
-Assert.Multiple(() =>
-{
-    Assert.That(res.Requests, Is.Not.Null);
-    Assert.That(res.PageSize, Is.EqualTo(perPage));
-    Assert.That(res.Page, Is.EqualTo(page));
-});
-});
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Requests, Is.Not.Null);
+                Assert.That(res.PageSize, Is.EqualTo(perPage));
+                Assert.That(res.Page, Is.EqualTo(page));
+            });
+        });
     }
 
     [Test]
@@ -108,17 +109,18 @@ Assert.Multiple(() =>
     [TestCase(1, 2)]
     public void CanGetAllSolvedRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() => {
+        Assert.DoesNotThrow(() =>
+        {
             var res = Api.Requests.GetAllSolvedRequests(perPage: perPage, page: page);
 
             Assert.That(res, Is.Not.Null);
-Assert.Multiple(() =>
-{
-    Assert.That(res.Requests, Is.Not.Null);
-    Assert.That(res.PageSize, Is.EqualTo(perPage));
-    Assert.That(res.Page, Is.EqualTo(page));
-});
-});
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.Requests, Is.Not.Null);
+                Assert.That(res.PageSize, Is.EqualTo(perPage));
+                Assert.That(res.Page, Is.EqualTo(page));
+            });
+        });
     }
 
     [Test]

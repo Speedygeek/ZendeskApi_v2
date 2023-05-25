@@ -65,7 +65,7 @@ public class TriggerTests : TestBase
     public void CanReorderTriggers()
     {
         var res = Api.Triggers.GetActiveTriggers().Triggers;
-        Assert.That(res.Count(), Is.EqualTo(0));
+        Assert.That(res, Is.Empty);
 
         var trigger = new Trigger()
         {

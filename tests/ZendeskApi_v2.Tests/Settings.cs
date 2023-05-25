@@ -36,5 +36,6 @@ public class Settings
     public const long Category_ID = 200382245;
     public const long Topic_ID = 360000971672;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "<Pending>")]
     public static DateTimeOffset Epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
 }

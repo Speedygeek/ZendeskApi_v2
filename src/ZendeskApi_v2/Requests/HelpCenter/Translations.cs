@@ -61,7 +61,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 		Task<Tuple<IList<string>, string>> ListAllEnabledLocalesAndDefaultLocaleAsync();
 
-
 #endif
 	}
 
@@ -93,7 +92,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 			return GenericGet<GroupTranslationResponse>( resourceUrl );
 		}
-
 
 		public IList<string> ListMissingTranslationsForArticle( long articleId )
 		{
@@ -175,7 +173,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 #if ASYNC
 
-
 		public async Task<GroupTranslationResponse> ListTranslationsForArticleAsync( long articleId )
 		{
 			var resourceUrl = $"help_center/articles/{articleId}/translations.json";
@@ -196,7 +193,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 			return await GenericGetAsync<GroupTranslationResponse>( resourceUrl );
 		}
-
 
 		public async Task<IList<string>> ListMissingTranslationsForArticleAsync( long articleId )
 		{
@@ -273,7 +269,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 			return new Tuple<IList<string>, string>( locale_info.locales, locale_info.default_locale );
 		}
 #endif
-
 
 	}
 }

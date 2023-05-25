@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Net;
 
+
 [SetUpFixture]
 public class InitializeTests
 {

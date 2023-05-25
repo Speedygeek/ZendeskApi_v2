@@ -17,7 +17,7 @@ public class TagTests : TestBase
     public void CanAutocompleteTags()
     {
         var res = Api.Tags.GetTags();
-        var auto = Api.Tags.AutocompleteTags(res.Tags[0].Name.Substring(0, 3));
+        var auto = Api.Tags.AutocompleteTags(res.Tags[0].Name[..3]);
 
         Assert.That(auto.Tags, Is.Not.Empty);
     }

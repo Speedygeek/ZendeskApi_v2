@@ -55,7 +55,6 @@ namespace ZendeskApi_v2.Requests
             return GenericGet<GroupAttachmentResponse>($"help_center/articles/{articleId}/attachments.json");
         }
 
-
         public Upload UploadAttachment(ZenFile file, int? timeout = null)
         {
             return UploadAttachment(file, "", timeout);
@@ -71,7 +70,7 @@ namespace ZendeskApi_v2.Requests
 
             var res = UploadAttachment(zenFiles.First(), timeout);
 
-            if (zenFiles.Count() > 1)
+            if (zenFiles.Count > 1)
             {
                 var otherFiles = zenFiles.Skip(1);
                 foreach (var curFile in otherFiles)
@@ -130,7 +129,7 @@ namespace ZendeskApi_v2.Requests
 
             var res = UploadAttachmentAsync(zenFiles.First(), timeout);
 
-            if (zenFiles.Count() > 1)
+            if (zenFiles.Count > 1)
             {
                 var otherFiles = zenFiles.Skip(1);
                 foreach (var curFile in otherFiles)
@@ -190,7 +189,6 @@ namespace ZendeskApi_v2.Requests
         }
 
 #endif
-
 
     }
 }

@@ -257,7 +257,7 @@ public class ArticleTests : TestBase
     public void CanDeserializeDatesCorrectly()
     {
         var defaultDate = new DateTimeOffset();
-        
+
         var res = Api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
         Assert.Multiple(() =>
         {

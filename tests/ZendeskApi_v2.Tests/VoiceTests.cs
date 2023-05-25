@@ -49,7 +49,7 @@ public class VoiceTests : TestBase
         var groupUserResponse = await Api.Users.SearchByEmailAsync("testvoice@tester.com");
         foreach (var u in groupUserResponse.Users)
         {
-          await Api.Users.DeleteUserAsync(u.Id.Value);
+            await Api.Users.DeleteUserAsync(u.Id.Value);
         }
     }
 
