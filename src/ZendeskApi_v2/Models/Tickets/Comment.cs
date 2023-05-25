@@ -54,7 +54,5 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("created_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? CreatedAt { get; set; }
-
     }
-
 }

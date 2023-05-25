@@ -25,6 +25,5 @@ namespace ZendeskApi_v2.Models.HelpCenter
         [JsonProperty("updated_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset UpdatedAt { get; set; }
-
     }
 }

@@ -44,7 +44,7 @@ jobs:
     displayName: 'Use .NET Core sdk'
     inputs:
       packageType: sdk
-      version: 3.1.413
+      useGlobalJson: true
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: DotNetCoreCLI@2
@@ -120,14 +120,6 @@ jobs:
         $date=$(Get-Date -Format "dd MMMM yyyy");
         Write-Host "##vso[task.setvariable variable=ReleaseDate]$date"
 
-  #- task: NuGetCommand@2
-  #  displayName: 'GitHub Feed (Pre-release)'
-  #  condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
-  #  inputs:
-  #    command: push
-  #    packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
-  #    nuGetFeedType: external
-  #    publishFeedCredentials: 'Github Nuget Feed'
   - task: PowerShell@2
     displayName: 'GitHub Feed (Pre-release)'
     condition: and(succeeded(),eq(variables['IsPrerelease'] ,'True'))
@@ -141,7 +133,7 @@ jobs:
         $url =  "$Env:github_feed_url"
         Write-Host -ForegroundColor Cyan "Feed url $url"
         Write-Host -ForegroundColor Cyan "api key length is " $api.Length
-        dotnet nuget push "$(Pipeline.Workspace)/**/*.nupkg" --no-symbols --skip-duplicate -k "$api"  -s "$url"
+        dotnet nuget push "$(Pipeline.Workspace)/**/*.nupkg" --skip-duplicate -k "$api"  -s "$url"
 
       showWarnings: true
       pwsh: true
@@ -151,7 +143,7 @@ jobs:
     condition: and(succeeded(), eq(variables['IsPrerelease'] ,'True'))
     inputs:
       command: push
-      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
+      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
       nuGetFeedType: external
       publishFeedCredentials: MyGet
 
@@ -160,7 +152,7 @@ jobs:
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v3.'),eq(variables['IsPrerelease'] ,'False'))
     inputs:
       command: push
-      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
+      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
       nuGetFeedType: external
       publishFeedCredentials: Nuget.org
 

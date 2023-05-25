@@ -4,7 +4,6 @@ using ZendeskApi_v2.Models.HelpCenter.Subscriptions;
 #endif
 using ZendeskApi_v2.Models.Sections;
 
-
 namespace ZendeskApi_v2.Requests.HelpCenter
 {
     public interface ISections : ICore

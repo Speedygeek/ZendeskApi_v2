@@ -6,6 +6,6 @@ param (
 )
 
 git checkout main
-git pull
+git pull --prune
 git tag -s "v$($VersionNumber)" -m "v$($VersionNumber)"
 git push --tags

@@ -106,8 +106,6 @@ namespace ZendeskApi_v2.Requests
             return GenericDelete($"groups/{id}.json");
         }
 
-
-
         public MultipleGroupMembershipResponse GetGroupMemberships()
         {
             return GenericGet<MultipleGroupMembershipResponse>("group_memberships.json");

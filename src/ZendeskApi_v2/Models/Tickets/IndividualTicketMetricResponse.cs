@@ -6,6 +6,5 @@ namespace ZendeskApi_v2.Models.Tickets
     {
         [JsonProperty("ticket_metric")]
         public TicketMetric TicketMetric{ get; set; }
-
     }
 }

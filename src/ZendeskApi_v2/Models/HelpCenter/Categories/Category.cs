@@ -49,5 +49,4 @@ namespace ZendeskApi_v2.Models.HelpCenter.Categories
         [JsonProperty("translations")]
         public IList<Translation> Translations { get; set; }
     }
-
 }

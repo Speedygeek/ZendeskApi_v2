@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.AccountsAndActivities;
 
-
 namespace ZendeskApi_v2.Requests
 {
 	public interface IAccountsAndActivity : ICore

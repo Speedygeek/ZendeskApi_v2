@@ -59,14 +59,13 @@ namespace ZendeskApi_v2.Extensions
 
         public static Dictionary<string, string> GetQueryStringDict(this string url)
         {
-            var queryPart = !url.Contains("?") ? url : url.Split('?')[1];
+            var queryPart = !url.Contains('?') ? url : url.Split('?')[1];
 
             return (from match in queryPart.Split('&')
-                    where match.Contains("=")
+                    where match.Contains('=')
                     select match.Split('='))
                         .ToDictionary(x => x.First(), x => x.Last());
         }
-
 
         public static string GetQueryString(this Dictionary<string, string> querystringParams)
         {

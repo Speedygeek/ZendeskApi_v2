@@ -57,6 +57,5 @@ namespace ZendeskApi_v2.Models.Brands
 
         [JsonProperty("signature_template")]
         public string SignatureTemplate { get; set; }
-
     }
 }

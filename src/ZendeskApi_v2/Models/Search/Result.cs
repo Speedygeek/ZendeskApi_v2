@@ -103,7 +103,5 @@ namespace ZendeskApi_v2.Models.Search
 
         [JsonProperty("status")]
         public string Status { get; set; }
-
-
     }
 }
