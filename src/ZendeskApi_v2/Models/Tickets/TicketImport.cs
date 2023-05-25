@@ -29,6 +29,5 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("solved_at")]
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? SolvedAt { get; set; }
-        
     }
 }

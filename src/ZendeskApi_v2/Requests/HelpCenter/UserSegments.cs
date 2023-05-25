@@ -100,7 +100,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             return GenericPagedGet<GroupUserSegmentResponse>($"help_center/user_segments/{userSegmentId}/topics.json", perPage, page);
         }
 
-
         public IndividualUserSegmentResponse UpdateUserSegment(UserSegment UserSegment)
         {
             return GenericPut<IndividualUserSegmentResponse>($"help_center/user_segments/{UserSegment.Id}.json", new IndividualUserSegmentResponse{UserSegment=UserSegment});
@@ -154,7 +153,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         {
             return await GenericPagedGetAsync<GroupUserSegmentResponse>($"help_center/user_segments/{userSegmentId}/topics.json", perPage, page);
         }
-
 
         public async Task<IndividualUserSegmentResponse> UpdateUserSegmentAsync(UserSegment UserSegment)
         {

@@ -241,7 +241,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
+                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
             return GenericGet<T>(resource + paramString);
@@ -274,7 +274,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
+                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
             }
 
             return GenericGet<T>(resource + paramString);
@@ -489,7 +489,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
             return await GenericGetAsync<T>(resource + paramString);
@@ -522,7 +522,7 @@ namespace ZendeskApi_v2
 
             if (parameters.Any())
             {
-                paramString = (resource.Contains("?") ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
+                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
 
             return await GenericGetAsync<T>(resource + paramString);

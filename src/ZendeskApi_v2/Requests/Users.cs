@@ -611,7 +611,6 @@ namespace ZendeskApi_v2.Requests
             return await GenericPostAsync<JobStatusResponse>("users/create_or_update_many.json", new { users });
         }
 
-
         public Task<JobStatusResponse> BulkUpdateAsync(IEnumerable<long> ids, User userTemplate)
         {
             return GenericPutAsync<JobStatusResponse>($"users/update_many.json?ids={ids.ToCsv()}", new { user = userTemplate });
@@ -737,7 +736,7 @@ namespace ZendeskApi_v2.Requests
                 }
 
                 var sideLoads = sideLoadOptions.ToString().ToLower().Replace(" ", "");
-                resource += (resource.Contains("?") ? "&" : "?") + "include=" + sideLoads;
+                resource += (resource.Contains('?') ? "&" : "?") + "include=" + sideLoads;
                 return resource;
             }
 

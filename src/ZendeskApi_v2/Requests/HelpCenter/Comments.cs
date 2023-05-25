@@ -33,7 +33,6 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 	    Task<bool> DeleteCommentForPostAsync(long postId, long commentId);
 #endif
 
-
     }
 
     /// <summary>
