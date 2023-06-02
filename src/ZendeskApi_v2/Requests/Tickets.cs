@@ -141,7 +141,7 @@ namespace ZendeskApi_v2.Requests
 
         bool DeleteManySuspendedTickets(IEnumerable<long> ids);
 
-        GroupTicketMetricResponse GetAllTicketMetrics();
+        GroupTicketMetricResponse GetAllTicketMetrics(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id);
 
@@ -262,7 +262,7 @@ namespace ZendeskApi_v2.Requests
 
         Task<bool> DeleteTicketFormAsync(long id);
 
-        Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync();
+        Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None);
 
         Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id);
 
@@ -681,9 +681,10 @@ namespace ZendeskApi_v2.Requests
 
         #region TicketMetrics
 
-        public GroupTicketMetricResponse GetAllTicketMetrics()
+        public GroupTicketMetricResponse GetAllTicketMetrics(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGet<GroupTicketMetricResponse>($"{_ticket_metrics}.json");
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_ticket_metrics}.json", sideLoadOptions);
+            return GenericPagedGet<GroupTicketMetricResponse>(resource, perPage, page);
         }
 
         public IndividualTicketMetricResponse GetTicketMetricsForTicket(long ticket_id)
@@ -1053,9 +1054,10 @@ namespace ZendeskApi_v2.Requests
 
         #region TicketMetrics
 
-        public Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync()
+        public async Task<GroupTicketMetricResponse> GetAllTicketMetricsAsync(int? perPage = null, int? page = null, TicketSideLoadOptionsEnum sideLoadOptions = TicketSideLoadOptionsEnum.None)
         {
-            return GenericGetAsync<GroupTicketMetricResponse>($"{_ticket_metrics}.json");
+            var resource = GetResourceStringWithSideLoadOptionsParam($"{_ticket_metrics}.json", sideLoadOptions);
+            return await GenericPagedGetAsync<GroupTicketMetricResponse>(resource, perPage, page);
         }
 
         public Task<IndividualTicketMetricResponse> GetTicketMetricsForTicketAsync(long ticket_id)
