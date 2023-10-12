@@ -404,6 +404,36 @@ public class TicketTests : TestBase
     }
 
     [Test]
+    public void CanPermanentlyDeleteTicket()
+    {
+        var ticket = new Ticket
+        {
+            Subject = "my printer is on fire",
+            Comment = new Comment() { Body = "HELP" },
+            Priority = TicketPriorities.Urgent,
+            CustomFields = new List<CustomField>()
+            {
+                new CustomField()
+                    {
+                        Id = Settings.CustomFieldId,
+                        Value = "testing"
+                    }
+            }
+        };
+
+        var res = Api.Tickets.CreateTicket(ticket).Ticket;
+
+        Assert.That(res, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(res.Id, Is.GreaterThan(0));
+            Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
+            Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
+            Assert.That(Api.Tickets.DeleteTicketPermanently(res.Id.Value), Is.True);
+        });
+    }
+
+    [Test]
     public void CanCreateUpdateAndDeleteHTMLTicket()
     {
         var ticket = new Ticket
@@ -1766,5 +1796,28 @@ public class TicketTests : TestBase
         var res = await Api.Tickets.GetIncrementalTicketExportNextPageAsync(baseRes.NextPage);
 
         Assert.That(res.Tickets, Is.Not.Empty);
+    }
+
+    [Test]
+    public async Task CanPermanentlyDeleteTicketAsync()
+    {
+        var ticket = new Ticket
+        {
+            Subject = "my printer is on fire",
+            Comment = new Comment() { Body = "HELP" },
+            Priority = TicketPriorities.Urgent,
+        };
+
+        var res = await Api.Tickets.CreateTicketAsync(ticket);
+        var deleteRes = await Api.Tickets.DeleteAsync(res.Ticket.Id.Value);
+        var deleteAsyncRes = await Api.Tickets.DeleteTicketPermanentlyAsync(res.Ticket.Id.Value);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Ticket, Is.Not.Null);
+            Assert.That(deleteRes, Is.True);
+            Assert.That(deleteAsyncRes, Is.True);
+        });
     }
 }
