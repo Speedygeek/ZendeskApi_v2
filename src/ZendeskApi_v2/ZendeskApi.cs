@@ -122,6 +122,7 @@ namespace ZendeskApi_v2
         {
            
         }
+
         /// <summary>
         ///  Constructor that takes 8 params.
         /// </summary>
