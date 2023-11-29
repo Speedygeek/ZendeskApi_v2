@@ -39,8 +39,8 @@ namespace ZendeskApi_v2.Requests
     }
     public class Schedules : Core, ISchedules
     {
-        public Schedules(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Schedules(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 

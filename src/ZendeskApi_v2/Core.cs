@@ -46,6 +46,8 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
+        protected Dictionary<string, string> CustomHeaders;
+
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
@@ -63,7 +65,7 @@ namespace ZendeskApi_v2
         /// <param name="zendeskApiUrl"></param>
         /// <param name="p_OAuthToken"></param>
         public Core(string zendeskApiUrl, string p_OAuthToken) :
-            this(zendeskApiUrl, null, null, null, p_OAuthToken)
+            this(zendeskApiUrl, null, null, null, p_OAuthToken, null)
         {
         }
 
@@ -73,7 +75,7 @@ namespace ZendeskApi_v2
         /// <param name="zendeskApiUrl"></param>
         /// <param name="p_OAuthToken"></param>
         public Core(string zendeskApiUrl, string user, string password, string apiToken) :
-            this(zendeskApiUrl, user, password, apiToken, null)
+            this(zendeskApiUrl, user, password, apiToken, null, null)
         {
         }
 
@@ -84,7 +86,8 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken)
+        /// <param name="customHeaders">Optional Dictionary of custom headers that adds these headers to the request</param>
+        public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
         {
             User = user;
             Password = password;
@@ -96,6 +99,7 @@ namespace ZendeskApi_v2
             ZendeskUrl = zendeskApiUrl;
             ApiToken = apiToken;
             OAuthToken = p_OAuthToken;
+            CustomHeaders = customHeaders;
         }
 
 #if SYNC
@@ -134,6 +138,7 @@ namespace ZendeskApi_v2
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.PreAuthenticate = true;
+                AddCustomHeaders(req);
 
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
@@ -386,6 +391,7 @@ namespace ZendeskApi_v2
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
+                AddCustomHeaders(req);
 
                 byte[] data = null;
 
@@ -619,6 +625,22 @@ namespace ZendeskApi_v2
             wException.Data.Add("jsonException", error);
 
             return wException;
+        }
+
+        /// <summary>
+        /// If the CustomHeaders Dictionary contains records then add them to the headers
+        /// of the passed in request
+        /// </summary>
+        /// <param name="request"></param>
+        private void AddCustomHeaders(HttpWebRequest request)
+        {
+            if (CustomHeaders != null)
+            {
+                foreach (var key in CustomHeaders.Keys)
+                {
+                    request.Headers.Add(key, CustomHeaders[key]);
+                }
+            }
         }
     }
 }

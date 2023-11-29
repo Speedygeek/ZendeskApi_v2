@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ZendeskApi_v2.Models.Requests;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
@@ -159,6 +160,7 @@ public class RequestTests : TestBase
         };
 
         var res = Api.Requests.CreateRequest(req);
+        Thread.Sleep(500); // delay after create  or update
 
         try
         {
@@ -186,6 +188,8 @@ public class RequestTests : TestBase
                 Public = true
             };
             _ = Api.Requests.UpdateRequest(res1.Request);
+            Thread.Sleep(500); // delay after create  or update
+
             var res3 = Api.Requests.GetRequestCommentsById(res.Request.Id.Value);
 
             var comment = res3.Comments.OrderBy(c => c.CreatedAt).Last();

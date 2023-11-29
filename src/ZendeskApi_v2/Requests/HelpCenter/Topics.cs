@@ -1,4 +1,5 @@
 ﻿#if ASYNC
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.HelpCenter.Subscriptions;
 #endif
@@ -36,8 +37,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
     public class Topics : Core, ITopics
     {
-        public Topics(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Topics(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 #if SYNC

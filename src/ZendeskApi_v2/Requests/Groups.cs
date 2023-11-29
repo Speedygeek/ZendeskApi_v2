@@ -1,4 +1,5 @@
 ﻿#if ASYNC
+using System.Collections.Generic;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.Groups;
@@ -68,8 +69,8 @@ namespace ZendeskApi_v2.Requests
 
     public class Groups : Core, IGroups
     {
-        public Groups(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Groups(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 

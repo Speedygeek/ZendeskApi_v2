@@ -1,4 +1,5 @@
 ﻿#if ASYNC
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.HelpCenter.Subscriptions;
 #endif
@@ -42,8 +43,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
         private readonly string _locale;
         private readonly string _generalSectionsPath;
 
-        public Sections(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Sections(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
             _locale = locale;
             _generalSectionsPath = string.IsNullOrWhiteSpace(_locale) ? "help_center/sections" : $"help_center/{_locale}/sections";

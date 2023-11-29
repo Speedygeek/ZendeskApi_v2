@@ -38,8 +38,8 @@ namespace ZendeskApi_v2.Requests
 	public class Views : Core, IViews
 	{
         
-        public Views(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Views(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 

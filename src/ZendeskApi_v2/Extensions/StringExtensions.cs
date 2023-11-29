@@ -1,4 +1,6 @@
-﻿namespace ZendeskApi_v2.Extensions
+﻿using ZendeskApi_v2.Models.Shared;
+
+namespace ZendeskApi_v2.Extensions
 {
     internal static class StringExtensions
     {
@@ -22,5 +24,7 @@
 
             return true;
         }
+
+        internal static bool IsNotNullOrWhiteSpace(this string value) => !IsNullOrWhiteSpace(value);
     }
 }

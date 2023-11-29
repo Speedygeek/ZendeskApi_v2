@@ -56,8 +56,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
     public class UserSegments : Core, IUserSegments
     {
-        public UserSegments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public UserSegments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 

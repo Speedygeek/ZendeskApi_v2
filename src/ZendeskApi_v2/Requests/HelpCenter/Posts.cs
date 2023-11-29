@@ -1,4 +1,5 @@
 ﻿#if ASYNC
+using System.Collections.Generic;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.HelpCenter.Post;
@@ -38,8 +39,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
     public class Posts : Core, IPosts
     {
-        public Posts(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Posts(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 #if SYNC

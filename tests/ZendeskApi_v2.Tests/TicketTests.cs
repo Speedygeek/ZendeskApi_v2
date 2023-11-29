@@ -1506,7 +1506,7 @@ public class TicketTests : TestBase
         Assert.That(newTicket.Via.Channel, Is.EqualTo("api"));
 
         var comment = new Comment { Body = secondCommentBody, Public = true };
-
+        await Task.Delay(1000);
         var resp2 = await Api.Tickets.UpdateTicketAsync(newTicket, comment);
         await Task.Delay(2000);
         var resp3 = await Api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value);

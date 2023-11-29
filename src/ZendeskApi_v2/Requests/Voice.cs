@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 #if ASYNC
 using System.Threading.Tasks;
@@ -37,8 +38,8 @@ namespace ZendeskApi_v2.Requests
         private const string currentQueueActivity = "channels/voice/stats/current_queue_activity";
         private const string accountOverview = "channels/voice/stats/account_overview";
 
-        public Voice(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Voice(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 
