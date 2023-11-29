@@ -66,8 +66,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
 
 	public class Translations : Core, ITranslations
 	{
-		public Translations( string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
-			: base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
+		public Translations( string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+			: base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
 		{
 		}
 

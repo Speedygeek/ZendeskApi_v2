@@ -45,8 +45,8 @@ namespace ZendeskApi_v2.Requests
 
     public class Attachments : Core, IAttachments
     {
-        public Attachments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
+        public Attachments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         { }
 #if SYNC
 

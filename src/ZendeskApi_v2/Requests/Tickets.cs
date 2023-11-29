@@ -291,8 +291,8 @@ namespace ZendeskApi_v2.Requests
         private const string _ticket_metrics = "ticket_metrics";
         private const string _incremental_export = "incremental/tickets.json?start_time=";
 
-        public Tickets(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
+        public Tickets(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 

@@ -39,9 +39,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
             string apiToken,
             string locale,
             string p_OAuthToken,
-            string customHeaderName,
-            string customHeaderValue)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
+            Dictionary<string, string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
             _locale = locale;
         }

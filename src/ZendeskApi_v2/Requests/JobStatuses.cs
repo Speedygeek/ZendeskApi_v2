@@ -1,4 +1,5 @@
 ﻿#if ASYNC
+using System.Collections.Generic;
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.Shared;
@@ -19,8 +20,8 @@ namespace ZendeskApi_v2.Requests
 	public class JobStatuses : Core, IJobStatuses
 	{
 
-        public JobStatuses(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
+        public JobStatuses(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, Dictionary<string,string> customHeaders)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaders)
         {
         }
 

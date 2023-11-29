@@ -2,6 +2,7 @@
 using ZendeskApi_v2.Requests;
 using System.Net;
 using ZendeskApi_v2.HelpCenter;
+using System.Collections.Generic;
 
 #if Net35
 using System.Web;
@@ -118,12 +119,12 @@ namespace ZendeskApi_v2
                           string password,
                           string apiToken,
                           string locale,
-                          string p_OAuthToken) : this(yourZendeskUrl,user,password, apiToken,locale, p_OAuthToken, null, null)
+                          string p_OAuthToken) : this(yourZendeskUrl,user,password, apiToken,locale, p_OAuthToken, null)
         {
         }
 
         /// <summary>
-        ///  Constructor that takes 8 params.
+        ///  Constructor that takes 7 params.
         /// </summary>
         /// <param name="yourZendeskUrl">Will be formatted to "https://yoursite.zendesk.com/api/v2"</param>
         /// <param name="user">Email address of the user</param>
@@ -139,34 +140,33 @@ namespace ZendeskApi_v2
                           string apiToken,
                           string locale,
                           string p_OAuthToken,
-                          string customHeaderName,
-                          string customHeaderValue)
+                          Dictionary<string, string> customHeaders)
         {
             var formattedUrl = GetFormattedZendeskUrl(yourZendeskUrl).AbsoluteUri;
 
-            Tickets = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Attachments = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Brands = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Views = new Views(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Users = new Users(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Requests = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Groups = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Organizations = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Search = new Search(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Tags = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Locales = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Macros = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Triggers = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken, customHeaderName, customHeaderValue);
-            Voice = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Schedules = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Targets = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
-            Automations = new Automations(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
+            Tickets = new Tickets(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Attachments = new Attachments(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Brands = new Brands(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Views = new Views(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Users = new Users(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Requests = new Requests.Requests(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Groups = new Groups(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            CustomAgentRoles = new CustomAgentRoles(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Organizations = new Organizations(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Search = new Search(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Tags = new Tags(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            AccountsAndActivity = new AccountsAndActivity(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            JobStatuses = new JobStatuses(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Locales = new Locales(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Macros = new Macros(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            SatisfactionRatings = new SatisfactionRatings(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            SharingAgreements = new SharingAgreements(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Triggers = new Triggers(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            HelpCenter = new HelpCenterApi(formattedUrl, user, password, apiToken, locale, p_OAuthToken, customHeaders);
+            Voice = new Voice(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Schedules = new Schedules(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Targets = new Targets(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
+            Automations = new Automations(formattedUrl, user, password, apiToken, p_OAuthToken, customHeaders);
 
             ZendeskUrl = formattedUrl;
         }
