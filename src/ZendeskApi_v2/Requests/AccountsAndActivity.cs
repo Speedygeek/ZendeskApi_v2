@@ -1,4 +1,4 @@
-#if ASYNC
+﻿#if ASYNC
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.AccountsAndActivities;
@@ -23,8 +23,8 @@ namespace ZendeskApi_v2.Requests
 	public class AccountsAndActivity : Core, IAccountsAndActivity
 	{
 
-        public AccountsAndActivity(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public AccountsAndActivity(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
         {
         }
 #if SYNC

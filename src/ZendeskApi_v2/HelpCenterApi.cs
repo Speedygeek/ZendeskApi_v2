@@ -25,19 +25,21 @@ namespace ZendeskApi_v2.HelpCenter
             string password,
             string apiToken,
             string locale,
-            string p_OAuthToken)
+            string p_OAuthToken,
+            string customHeaderName,
+            string customHeaderValue)
         {
-            Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
-            Sections = new Sections(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
-            Articles = new Articles(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
-            Translations = new Translations(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            UserSegments = new UserSegments(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Topics = new Topics(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
-            Posts = new Posts(yourZendeskUrl, user, password, apiToken, p_OAuthToken);
+            Categories = new Categories(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken, customHeaderName, customHeaderValue);
+            Sections = new Sections(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken, customHeaderName, customHeaderValue);
+            Articles = new Articles(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken, customHeaderName, customHeaderValue);
+            Translations = new Translations(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
+            Votes = new Votes(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
+            Comments = new Comments(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
+            UserSegments = new UserSegments(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
+            Topics = new Topics(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
+            Posts = new Posts(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue);
             Locale = locale;
-            ArticleAttachments = new ArticleAttachments(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken);
+            ArticleAttachments = new ArticleAttachments(yourZendeskUrl, user, password, apiToken, locale, p_OAuthToken, customHeaderName, customHeaderValue);
         }
 
         public ICategories Categories { get; }

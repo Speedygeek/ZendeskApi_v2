@@ -40,8 +40,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     /// </summary>
 	public class Comments : Core, IComments
 	{
-		public Comments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+		public Comments(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
 		{
 		}
 

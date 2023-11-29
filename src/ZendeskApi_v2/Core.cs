@@ -46,6 +46,9 @@ namespace ZendeskApi_v2
         protected string Password;
         protected string ZendeskUrl;
         protected string ApiToken;
+        protected string CustomHeaderName;
+        protected string CustomHeaderValue;
+
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
@@ -63,7 +66,7 @@ namespace ZendeskApi_v2
         /// <param name="zendeskApiUrl"></param>
         /// <param name="p_OAuthToken"></param>
         public Core(string zendeskApiUrl, string p_OAuthToken) :
-            this(zendeskApiUrl, null, null, null, p_OAuthToken)
+            this(zendeskApiUrl, null, null, null, p_OAuthToken, null, null)
         {
         }
 
@@ -73,7 +76,7 @@ namespace ZendeskApi_v2
         /// <param name="zendeskApiUrl"></param>
         /// <param name="p_OAuthToken"></param>
         public Core(string zendeskApiUrl, string user, string password, string apiToken) :
-            this(zendeskApiUrl, user, password, apiToken, null)
+            this(zendeskApiUrl, user, password, apiToken, null, null, null)
         {
         }
 
@@ -84,7 +87,7 @@ namespace ZendeskApi_v2
         /// <param name="user"></param>
         /// <param name="password">LEAVE BLANK IF USING TOKEN</param>
         /// <param name="apiToken">Optional Param which is used if specified instead of the password</param>
-        public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken)
+        public Core(string zendeskApiUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
         {
             User = user;
             Password = password;
@@ -96,6 +99,8 @@ namespace ZendeskApi_v2
             ZendeskUrl = zendeskApiUrl;
             ApiToken = apiToken;
             OAuthToken = p_OAuthToken;
+            CustomHeaderName = customHeaderName;
+            CustomHeaderValue = customHeaderValue;
         }
 
 #if SYNC
@@ -134,6 +139,9 @@ namespace ZendeskApi_v2
 
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.PreAuthenticate = true;
+
+                if(CustomHeaderName.IsNotNullOrWhiteSpace() && CustomHeaderValue.IsNotNullOrWhiteSpace())
+                    req.Headers[CustomHeaderName] = CustomHeaderValue;
 
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
@@ -386,6 +394,9 @@ namespace ZendeskApi_v2
                 req.Headers["Authorization"] = GetPasswordOrTokenAuthHeader();
                 req.Method = requestMethod; //GET POST PUT DELETE
                 req.Accept = "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml";
+
+                if (CustomHeaderName.IsNotNullOrWhiteSpace() && CustomHeaderValue.IsNotNullOrWhiteSpace())
+                    req.Headers[CustomHeaderName] = CustomHeaderValue;
 
                 byte[] data = null;
 

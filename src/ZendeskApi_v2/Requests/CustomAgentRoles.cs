@@ -1,4 +1,4 @@
-#if ASYNC
+﻿#if ASYNC
 using System.Threading.Tasks;
 #endif
 using ZendeskApi_v2.Models.CustomRoles;
@@ -18,8 +18,8 @@ namespace ZendeskApi_v2.Requests
 
 	public class CustomAgentRoles : Core, ICustomAgentRoles
 	{
-        public CustomAgentRoles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public CustomAgentRoles(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
         {
         }
 

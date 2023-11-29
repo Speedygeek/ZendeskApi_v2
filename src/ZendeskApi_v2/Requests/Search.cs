@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.Linq;
 using ZendeskApi_v2.Models;
@@ -106,8 +106,8 @@ namespace ZendeskApi_v2.Requests
     /// </summary>
     public class Search : Core, ISearch
     {
-        public Search(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Search(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
         {
         }
 

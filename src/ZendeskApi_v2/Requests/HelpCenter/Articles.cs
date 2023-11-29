@@ -93,8 +93,8 @@ namespace ZendeskApi_v2.Requests.HelpCenter
     {
         private readonly string urlPrefix = "help_center";
 
-        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Articles(string yourZendeskUrl, string user, string password, string apiToken, string locale, string p_OAuthToken, string customHeaderName, string customHeaderValue)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
         {
             if (!locale.IsNullOrWhiteSpace())
             {

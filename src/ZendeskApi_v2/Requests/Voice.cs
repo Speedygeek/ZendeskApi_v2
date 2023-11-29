@@ -37,8 +37,8 @@ namespace ZendeskApi_v2.Requests
         private const string currentQueueActivity = "channels/voice/stats/current_queue_activity";
         private const string accountOverview = "channels/voice/stats/account_overview";
 
-        public Voice(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken)
-            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken)
+        public Voice(string yourZendeskUrl, string user, string password, string apiToken, string p_OAuthToken, string customHeaderName, string customHeaderValue)
+            : base(yourZendeskUrl, user, password, apiToken, p_OAuthToken, customHeaderName, customHeaderValue)
         {
         }
 
