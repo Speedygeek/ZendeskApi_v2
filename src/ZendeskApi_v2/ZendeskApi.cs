@@ -120,7 +120,6 @@ namespace ZendeskApi_v2
                           string locale,
                           string p_OAuthToken) : this(yourZendeskUrl,user,password, apiToken,locale, p_OAuthToken, null, null)
         {
-           
         }
 
         /// <summary>
