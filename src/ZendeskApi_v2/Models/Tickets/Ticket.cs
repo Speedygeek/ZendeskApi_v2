@@ -38,6 +38,9 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonProperty("submitter_id")]
         public long? SubmitterId { get; set; }
 
+        [JsonProperty("assignee_email")]
+        public string AssigneeEmail { get; set; }
+
         [JsonProperty("assignee_id")]
         public long? AssigneeId { get; set; }
 
@@ -131,7 +134,7 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("incident_count")]
         public int? IncidentCount { get; set; }
-        
+
         /// <summary>
         /// Any follow-up tickets to this ticket.
         /// </summary>
