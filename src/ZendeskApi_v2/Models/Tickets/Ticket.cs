@@ -140,5 +140,11 @@ namespace ZendeskApi_v2.Models.Tickets
         /// </summary>
         [JsonProperty("followup_ids")]
         public IList<long> FollowUpIds { get; set; }
+
+        /// <summary>
+        /// Dates on the ticket when sideloaded
+        /// </summary>
+        [JsonProperty("dates")]
+        public object? Dates { get; set; }
     }
 }
