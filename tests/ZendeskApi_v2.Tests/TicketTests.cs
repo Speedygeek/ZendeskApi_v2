@@ -20,7 +20,7 @@ namespace ZendeskApi_v2.Tests;
 [Category("Tickets")]
 public class TicketTests : TestBase
 {
-    private readonly TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups | TicketSideLoadOptionsEnum.Comment_Count;
+    private readonly TicketSideLoadOptionsEnum ticketSideLoadOptions = TicketSideLoadOptionsEnum.Users | TicketSideLoadOptionsEnum.Organizations | TicketSideLoadOptionsEnum.Groups | TicketSideLoadOptionsEnum.Comment_Count | TicketSideLoadOptionsEnum.Dates;
 
     [OneTimeTearDown]
     public async Task TestCleanUp()
@@ -137,6 +137,7 @@ public class TicketTests : TestBase
             Assert.That(id, Is.EqualTo(ticket.Ticket.Id));
             Assert.That(ticket.Users.Any(), Is.True);
             Assert.That(ticket.Organizations.Any(), Is.True);
+            Assert.That(ticket.Ticket.Dates, Is.Not.Null);
         });
     }
 

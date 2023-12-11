@@ -29,7 +29,8 @@ namespace ZendeskApi_v2.Requests
         Sharing_Agreements = 64,
         Incident_Counts = 128,
         Ticket_Forms = 256,
-        Comment_Count = 512
+        Comment_Count = 512,
+        Dates = 1024
     }
 
     public interface ITickets : ICore
