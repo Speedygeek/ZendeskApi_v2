@@ -25,6 +25,9 @@ namespace ZendeskApi_v2.Models.Users
         [JsonProperty("shared")]
         public bool? Shared { get; set; }
 
+        [JsonProperty("locale")]
+        public string Locale { get; set; }
+
         [JsonProperty("locale_id")]
         public long? LocaleId { get; set; }
 
