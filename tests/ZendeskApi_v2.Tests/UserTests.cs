@@ -268,6 +268,7 @@ public class UserTests : TestBase
             Email = "test772@tester.com",
             Role = "end-user",
             Verified = true,
+            Locale = "en-US",
             CustomFields = new Dictionary<string, object>()
                               {
                                   {"user_dropdown", "option_1"}
@@ -291,6 +292,7 @@ public class UserTests : TestBase
             Name = "tester user72",
             Email = "test772@tester.com",
             Role = "end-user",
+            Locale = "en-US",
             Verified = true,
             CustomFields = new Dictionary<string, object>()
                               {
