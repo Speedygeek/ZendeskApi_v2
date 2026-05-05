@@ -23,7 +23,8 @@ public class TestBase
 
         Admin = configuration.GetSection("admin").Get<UserSettings>();
         Organization = configuration.GetSection("organization").Get<OrganizationSettings>();
-        Api = new ZendeskApi(Organization.SiteURL, Admin.Email, Admin.Password);
+        // Api = new ZendeskApi(Organization.SiteURL, Admin.Email, Admin.Password);
+        Api = new ZendeskApi("https://csharpapi.zendesk.com/Api/v2", Admin.Email, "", Admin.ApiToken, "en-us", null);
     }
 
     [OneTimeTearDown]

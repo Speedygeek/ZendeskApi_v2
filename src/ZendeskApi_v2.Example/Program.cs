@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using ZendeskApi_v2.Models.Tickets;
-using ZendeskApi_v2.Models.Users;
 
 namespace ZendeskApi_v2.Example
 {
@@ -13,9 +10,9 @@ namespace ZendeskApi_v2.Example
             var userEmailToSearchFor = "eneif123@yahoo.com";
 
             var userName = "csharpzendeskapi1234@gmail.com"; // the user that will be logging in the API aka the call center staff
-            var userPassword = "&H3n!0q^3OjDLdm";
+
             var companySubDomain = "csharpapi"; // sub-domain for the account with Zendesk
-            var api = new ZendeskApi(companySubDomain, userName, userPassword);
+            var api = new ZendeskApi(companySubDomain, userName, string.Empty, "en-us");
             var helper = new ZendeskHelper(api);
 
             var tickets = await helper.GetTickets(userEmailToSearchFor);

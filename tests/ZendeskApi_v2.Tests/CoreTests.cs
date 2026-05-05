@@ -77,7 +77,7 @@ public class CoreTests : TestBase
         api = new ZendeskApi(
             Organization.SiteURL,
             Admin.Email,
-            Admin.Password);
+            "", Admin.ApiToken, "en-us", null);
 
         try
         {

@@ -65,7 +65,7 @@ jobs:
     env:
       admin__id: $(Admin.ID)
       admin__email: $(Admin.Email)
-      admin__password: $(Admin.Password)
+      admin__password: "not used nay more"
       admin__apiToken: $(Admin.ApiToken)
 
   - task: DotNetCoreCLI@2
