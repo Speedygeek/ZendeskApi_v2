@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Models.Automations;
 using ZendeskApi_v2.Tests.Base;

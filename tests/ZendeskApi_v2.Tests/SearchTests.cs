@@ -50,7 +50,7 @@ public class SearchTests : TestBase
     {
         var res = Api.Search.SearchFor("my printer is on fire");
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Is.Not.Empty);
@@ -63,7 +63,7 @@ public class SearchTests : TestBase
     {
         var res = Api.Search.SearchFor<Ticket>("my printer is on fire");
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.GreaterThan(10));
@@ -71,11 +71,11 @@ public class SearchTests : TestBase
         }
         var noRes = Api.Search.SearchFor<User>("my printer is on fire");
 
-        Assert.That(noRes, Is.Not.EqualTo(null));
+        Assert.That(noRes, Is.Not.Null);
         Assert.That(noRes.Results, Is.Empty);
 
         res = Api.Search.SearchFor<Ticket>("my printer is on fire", perPage: 10);
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.EqualTo(10));
@@ -89,7 +89,7 @@ public class SearchTests : TestBase
     {
         var res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire");
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.GreaterThan(10));
@@ -97,11 +97,11 @@ public class SearchTests : TestBase
         }
         var noRes = await Api.Search.SearchForAsync<User>("my printer is on fire");
 
-        Assert.That(noRes, Is.Not.EqualTo(null));
+        Assert.That(noRes, Is.Not.Null);
         Assert.That(noRes.Results, Is.Empty);
 
         res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire", perPage: 10);
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.EqualTo(10));
@@ -115,7 +115,7 @@ public class SearchTests : TestBase
     {
         var res = Api.Search.SearchFor<User>(Admin.Email);
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         Assert.That(res.Results, Has.Count.EqualTo(1));
         using (Assert.EnterMultipleScope())
         {
@@ -129,7 +129,7 @@ public class SearchTests : TestBase
     {
         var res = await Api.Search.SearchForAsync<User>(Admin.Email);
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         Assert.That(res.Results, Has.Count.EqualTo(1));
         using (Assert.EnterMultipleScope())
         {

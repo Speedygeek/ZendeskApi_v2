@@ -32,7 +32,7 @@ public class TestBase
     {
         var response = await Api.Tickets.GetTicketsByExternalIdAsync(TEST_EXTERNAL_ID);
         var ids = response.Tickets.Select(t => t.Id.Value).ToList();
-        if (ids.Any())
+        if (ids.Count != 0)
         {
             await Api.Tickets.DeleteMultipleAsync(ids);
         }

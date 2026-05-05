@@ -184,7 +184,7 @@ public class OrganizationTests : TestBase
         Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
         foreach (var result in job.JobStatus.Results)
-            Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(result.Id, Is.Not.Zero);
     }
 
     [Test]
@@ -216,7 +216,7 @@ public class OrganizationTests : TestBase
         Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
         foreach (var result in job.JobStatus.Results)
-            Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(result.Id, Is.Not.Zero);
     }
 
     [Test]
@@ -368,7 +368,7 @@ public class OrganizationTests : TestBase
 
         foreach (var result in job.JobStatus.Results)
         {
-            Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(result.Id, Is.Not.Zero);
         }
 
         var externalIds = orgs.Select(o => o.ExternalId).ToList();
