@@ -23,7 +23,7 @@ public class TicketTestsPart2 : TestBase
             Title = "testing",
             Description = "test description",
             TitleInPortal = "Test Tagger",
-            CustomFieldOptions = new List<CustomFieldOptions>(),
+            CustomFieldOptions = [],
             Active = true
         };
 
@@ -62,11 +62,11 @@ public class TicketTestsPart2 : TestBase
 
         var resp1 = await Api.Tickets.CreateTicketAsync(ticket);
         var response = await Api.Tickets.GetTicketsByExternalIdAsync(ticket.ExternalId);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(response.Tickets, Is.Not.Empty);
             Assert.That(await Api.Tickets.DeleteAsync(resp1.Ticket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -82,11 +82,11 @@ public class TicketTestsPart2 : TestBase
 
         var resp1 = Api.Tickets.CreateTicket(ticket);
         var response = Api.Tickets.GetTicketsByExternalId(ticket.ExternalId);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(response.Tickets, Is.Not.Empty);
             Assert.That(Api.Tickets.Delete(resp1.Ticket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -122,7 +122,7 @@ public class TicketTestsPart2 : TestBase
 
         var job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", System.StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             await Task.Delay(1000);
             job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
@@ -147,7 +147,7 @@ public class TicketTestsPart2 : TestBase
             Subject = "my printer is on fire",
             Comment = new Comment { Body = "HELP" },
             Priority = TicketPriorities.Urgent,
-            CustomFields = new List<CustomField> { new CustomField { Id = customDropDownId, Value = "mywork" } },
+            CustomFields = [new CustomField { Id = customDropDownId, Value = "mywork" }],
             ExternalId = TEST_EXTERNAL_ID
         };
 
@@ -159,13 +159,13 @@ public class TicketTestsPart2 : TestBase
 
         var resp2 = await Api.Tickets.UpdateTicketAsync(newTicket, new Comment { Body = "Update ticket" });
         var updateTicket = resp2.Ticket;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(newTicket.CustomFields.FirstOrDefault(x => x.Id == customDropDownId).Value,
                 Is.EqualTo(updateTicket.CustomFields.FirstOrDefault(x => x.Id == customDropDownId).Value));
 
             Assert.That(Api.Tickets.Delete(newTicket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -191,7 +191,7 @@ public class TicketTestsPart2 : TestBase
 
         var resp3 = await Api.Tickets.CreateTicketAsync(ticket_Followup);
         var resp4 = Api.Tickets.GetTicket(closedTicket.Id.Value);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp3.Ticket.Via.Source.Rel, Is.EqualTo("follow_up"));
             Assert.That(resp4.Ticket.FollowUpIds, Has.Count.EqualTo(1));
@@ -199,6 +199,6 @@ public class TicketTestsPart2 : TestBase
 
             Assert.That(await Api.Tickets.DeleteAsync(resp3.Ticket.Id.Value), Is.True);
             Assert.That(await Api.Tickets.DeleteAsync(closedTicket.Id.Value), Is.True);
-        });
+        }
     }
 }

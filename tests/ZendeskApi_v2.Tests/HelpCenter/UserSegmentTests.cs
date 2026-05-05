@@ -31,25 +31,26 @@ internal class UserSegmentTests : TestBase
         Assert.That(res.UserSegments[0].Id.Value, Is.EqualTo(res1.UserSegment.Id));
     }
 
-    [Test, Ignore("TODO")]
+    //[Test, Ignore("TODO")]
+    [Test]
     public void CanCreateUpdateAndDeleteUserSegments()
     {
         var userSegment = new UserSegment()
         {
-            Name = "My Test User Segment",
+            Name = "My Test User Segment 4",
             UserType = UserType.signed_in_users
         };
         var res = Api.HelpCenter.UserSegments.CreateUserSegment(userSegment);
         Assert.That(res.UserSegment.Id, Is.GreaterThan(0));
 
-        res.UserSegment.UserType = UserType.staff;
+        res.UserSegment.Tags.Add("vip");
         var update = Api.HelpCenter.UserSegments.UpdateUserSegment(res.UserSegment);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
-            Assert.That(update.UserSegment.UserType, Is.EqualTo(res.UserSegment.UserType));
+            Assert.That(update.UserSegment.Tags, Contains.Item("vip"));
             Assert.That(Api.HelpCenter.UserSegments.DeleteUserSegment(res.UserSegment.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -76,11 +77,11 @@ internal class UserSegmentTests : TestBase
         });
 
         var res1 = Api.HelpCenter.UserSegments.GetTopicsByUserSegmentId(res.UserSegments[0].Id.Value);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Topics, Is.Not.Empty);
             Assert.That(Api.HelpCenter.Topics.DeleteTopic(topicRes.Topic.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -97,11 +98,11 @@ internal class UserSegmentTests : TestBase
         var segment = res.First(seg => seg.Name == "Agents and managers (or_tags: tag1, tag2)");
 
         Assert.That(segment.OrTags, Has.Count.EqualTo(2));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(segment.OrTags.Contains("tag1"));
             Assert.That(segment.OrTags.Contains("tag2"));
-        });
+        }
     }
 
     [Test]
@@ -124,7 +125,7 @@ internal class UserSegmentTests : TestBase
         Assert.That(res.UserSegments[0].Id.Value, Is.EqualTo(res1.UserSegment.Id));
     }
 
-    [Test, Ignore("TODO")]
+    [Test]
     public async Task CanCreateUpdateAndDeleteUserSegmentsAsync()
     {
         var userSegment = new UserSegment()
@@ -135,13 +136,13 @@ internal class UserSegmentTests : TestBase
         var res = await Api.HelpCenter.UserSegments.CreateUserSegmentAsync(userSegment);
         Assert.That(res.UserSegment.Id, Is.GreaterThan(0));
 
-        res.UserSegment.UserType = UserType.staff;
+        res.UserSegment.Tags.Add("vip");
         var update = await Api.HelpCenter.UserSegments.UpdateUserSegmentAsync(res.UserSegment);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
-            Assert.That(update.UserSegment.UserType, Is.EqualTo(res.UserSegment.UserType));
+            Assert.That(update.UserSegment.Tags, Contains.Item("vip"));
             Assert.That(await Api.HelpCenter.UserSegments.DeleteUserSegmentAsync(res.UserSegment.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -168,11 +169,11 @@ internal class UserSegmentTests : TestBase
         });
 
         var res1 = await Api.HelpCenter.UserSegments.GetTopicsByUserSegmentIdAsync(res.UserSegments[0].Id.Value);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Topics, Is.Not.Empty);
             Assert.That(await Api.HelpCenter.Topics.DeleteTopicAsync(topicRes.Topic.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]

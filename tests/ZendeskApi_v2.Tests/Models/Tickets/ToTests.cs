@@ -15,13 +15,13 @@ public class ToTests
         var to = JsonConvert.DeserializeObject<To>(AllFieldsJson);
 
         Assert.That(to, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(to.FormattedPhone, Is.EqualTo("+49 89 555 666777"));
             Assert.That(to.Phone, Is.EqualTo("+4989555666777"));
             Assert.That(to.Name, Is.EqualTo("Caller +49 89 555 666777"));
             Assert.That(to.Address, Is.EqualTo("Test"));
-        });
+        }
     }
 
     [Test]

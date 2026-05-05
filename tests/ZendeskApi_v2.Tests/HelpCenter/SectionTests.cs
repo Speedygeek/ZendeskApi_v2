@@ -11,7 +11,7 @@ namespace ZendeskApi_v2.Tests.HelpCenter;
 [Category("HelpCenter")]
 public class SectionTests : TestBase
 {
-    private readonly long[] safeSections = new long[] { 360002891952, 360000205286, 201010935 };
+    private readonly long[] safeSections = [360002891952, 360000205286, 201010935];
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -66,11 +66,11 @@ public class SectionTests : TestBase
 
         const int count = 2;
         var sections = Api.HelpCenter.Sections.GetSections(count, 1);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(sections.Sections, Has.Count.EqualTo(count));  // 2
             Assert.That(sections.Count, Is.Not.EqualTo(sections.Sections.Count));   // 2 != total count of sections (assumption)
-        });
+        }
         const int page = 2;
         var secondPage = Api.HelpCenter.Sections.GetSections(count, page);
 
@@ -82,12 +82,12 @@ public class SectionTests : TestBase
             .FirstOrDefault();
 
         Assert.That(nextPage, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(Api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
             Assert.That(Api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -122,23 +122,23 @@ public class SectionTests : TestBase
         const int page = 2;
         var secondPage = Api.HelpCenter.Sections.GetSectionsAsync(count, page).Result;
         var sectionById2 = Api.HelpCenter.Sections.GetSectionById(secondPage.Sections[0].Id.Value);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(secondPage.Sections, Has.Count.EqualTo(count));
             Assert.That(sectionById2.Section.Id, Is.EqualTo(secondPage.Sections[0].Id.Value));
-        });
+        }
         var nextPage = secondPage.NextPage.GetQueryStringDict()
             .Where(x => x.Key == "page")
             .Select(x => x.Value)
             .FirstOrDefault();
 
         Assert.That(nextPage, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(Api.HelpCenter.Sections.DeleteSection(section1.Section.Id.Value), Is.True);
             Assert.That(Api.HelpCenter.Sections.DeleteSection(section2.Section.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -157,11 +157,11 @@ public class SectionTests : TestBase
 
         res.Section.Position = 42;
         var update = Api.HelpCenter.Sections.UpdateSection(res.Section);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
             Assert.That(Api.HelpCenter.Sections.DeleteSection(res.Section.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -191,10 +191,10 @@ public class SectionTests : TestBase
 
         res.Section.Position = 42;
         var update = await Api.HelpCenter.Sections.UpdateSectionAsync(res.Section);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update.Section.Position, Is.EqualTo(res.Section.Position));
             Assert.That(await Api.HelpCenter.Sections.DeleteSectionAsync(res.Section.Id.Value), Is.True);
-        });
+        }
     }
 }

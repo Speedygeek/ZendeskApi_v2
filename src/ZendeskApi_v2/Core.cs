@@ -39,7 +39,7 @@ namespace ZendeskApi_v2
 #endif
     }
 
-    public class Core : ICore
+    public partial class Core : ICore
     {
         private readonly Encoding encoding = Encoding.UTF8;
         protected string User;
@@ -112,7 +112,7 @@ namespace ZendeskApi_v2
                 return JsonConvert.DeserializeObject<T>("");
             }
 
-            var resource = Regex.Split(pageUrl, "api/v2/").Last() + "&per_page=" + perPage;
+            var resource = $"{PathPrefixRegex().Split(pageUrl).Last()}&per_page={perPage}";
             return RunRequest<T>(resource, RequestMethod.Get);
         }
 
@@ -146,7 +146,7 @@ namespace ZendeskApi_v2
 
                 byte[] data = null;
 
-                if (formParameters?.Any() ?? false)
+                if (formParameters?.Count > 0)
                 {
                     data = GetFromData(req, formParameters);
                 }
@@ -190,7 +190,7 @@ namespace ZendeskApi_v2
             }
         }
 
-        private byte[] GetFromData(HttpWebRequest req, Dictionary<string, object> formParameters)
+        private static byte[] GetFromData(HttpWebRequest req, Dictionary<string, object> formParameters)
         {
             var boundaryString = "FEF3F395A90B452BB8BFDC878DDBD152";
             req.ContentType = "multipart/form-data; boundary=" + boundaryString;
@@ -244,9 +244,9 @@ namespace ZendeskApi_v2
                 parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (parameters.Any())
+            if (parameters.Count != 0)
             {
-                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
+                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", [.. parameters.Select(x => x.Key + "=" + x.Value)]);
             }
 
             return GenericGet<T>(resource + paramString);
@@ -277,9 +277,9 @@ namespace ZendeskApi_v2
                 parameters.Add("sort_order", sortAscending.Value ? "asc" : "desc");
             }
 
-            if (parameters.Any())
+            if (parameters.Count != 0)
             {
-                paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value).ToArray());
+                paramString = $"{(resource.Contains('?') ? "&" : "?")}{string.Join("&", [.. parameters.Select(x => x.Key + "=" + x.Value)])}";
             }
 
             return GenericGet<T>(resource + paramString);
@@ -348,12 +348,9 @@ namespace ZendeskApi_v2
             }
         }
 
-        protected string GetAuthBearerHeader(string oAuthToken)
-        {
-            return $"Bearer {oAuthToken}";
-        }
+        protected static string GetAuthBearerHeader(string oAuthToken) => $"Bearer {oAuthToken}";
 
-        protected string GetAuthHeader(string userName, string password)
+        protected static string GetAuthHeader(string userName, string password)
         {
             var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"));
             return $"Basic {auth}";
@@ -367,9 +364,7 @@ namespace ZendeskApi_v2
                 return JsonConvert.DeserializeObject<T>("");
             }
 
-            _ = Regex.Split(pageUrl, "api/v2/");
-
-            var resource = Regex.Split(pageUrl, "api/v2/").Last() + (perPage != 0 ? $"&per_page={perPage}" : "");
+            var resource = $"{PathPrefixRegex().Split(pageUrl).Last()}{(perPage != 0 ? $"&per_page={perPage}" : "")}";
             return await RunRequestAsync<T>(resource, RequestMethod.Get);
         }
 
@@ -395,7 +390,7 @@ namespace ZendeskApi_v2
 
                 byte[] data = null;
 
-                if (formParameters?.Any() ?? false)
+                if (formParameters?.Count > 0)
                 {
                     data = GetFromDataAsync(req, formParameters);
                 }
@@ -414,7 +409,7 @@ namespace ZendeskApi_v2
                 {
                     using (var requestStream = await req.GetRequestStreamAsync())
                     {
-                        await requestStream.WriteAsync(data, 0, data.Length);
+                        await requestStream.WriteAsync(data);
                     }
                 }
 
@@ -439,7 +434,7 @@ namespace ZendeskApi_v2
             }
         }
 
-        private byte[] GetFromDataAsync(HttpWebRequest req, Dictionary<string, object> formParameters)
+        private static byte[] GetFromDataAsync(HttpWebRequest req, Dictionary<string, object> formParameters)
         {
             var boundaryString = "FEF3F395A90B452BB8BFDC878DDBD152";
             req.ContentType = "multipart/form-data; boundary=" + boundaryString;
@@ -493,7 +488,7 @@ namespace ZendeskApi_v2
                 parameters.Add("page", page.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (parameters.Any())
+            if (parameters.Count != 0)
             {
                 paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
@@ -526,7 +521,7 @@ namespace ZendeskApi_v2
                 parameters.Add("sort_order", sortAscending.Value ? "asc" : "desc");
             }
 
-            if (parameters.Any())
+            if (parameters.Count != 0)
             {
                 paramString = (resource.Contains('?') ? "&" : "?") + string.Join("&", parameters.Select(x => x.Key + "=" + x.Value));
             }
@@ -604,7 +599,7 @@ namespace ZendeskApi_v2
 
             if (body != null)
             {
-                if (!(body is ZenFile zenFile))
+                if (body is not ZenFile zenFile)
                 {
                     bodyMessage = $" Body: {JsonConvert.SerializeObject(body, Formatting.Indented, jsonSettings)}";
                 }
@@ -642,5 +637,8 @@ namespace ZendeskApi_v2
                 }
             }
         }
+
+        [GeneratedRegex("api/v2/")]
+        private static partial Regex PathPrefixRegex();
     }
 }

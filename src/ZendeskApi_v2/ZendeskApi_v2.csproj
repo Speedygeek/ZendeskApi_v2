@@ -47,7 +47,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\tools\icon\lotus.png" Pack="true" PackagePath="\"/>
+    <None Include="..\..\tools\icon\lotus.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   
   

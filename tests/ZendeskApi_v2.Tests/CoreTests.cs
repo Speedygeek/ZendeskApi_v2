@@ -34,11 +34,11 @@ public class CoreTests : TestBase
         var api = new ZendeskApi("https://csharpapi.zendesk.com/Api/v2", Admin.Email, "", Admin.ApiToken, "en-us", null);
         var id = Settings.SampleTicketId;
         var ticket = api.Tickets.GetTicket(id).Ticket;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticket, Is.Not.Null);
             Assert.That(id, Is.EqualTo(ticket.Id));
-        });
+        }
     }
 
     [Test]

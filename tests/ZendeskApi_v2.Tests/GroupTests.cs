@@ -59,12 +59,12 @@ public class GroupTests : TestBase
 
         res.Group.Name = "Updated Test Group";
         var res1 = Api.Groups.UpdateGroup(res.Group);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Group.Name, Is.EqualTo(res1.Group.Name));
 
             Assert.That(Api.Groups.DeleteGroup(res.Group.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -125,12 +125,12 @@ public class GroupTests : TestBase
 
         var res2 = Api.Groups.SetGroupMembershipAsDefault(user.Id.Value, res.GroupMembership.Id.Value);
         Assert.That(res2.GroupMemberships.First(x => x.Id == res.GroupMembership.Id).Default, Is.True);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(Api.Groups.DeleteGroupMembership(res.GroupMembership.Id.Value), Is.True);
             Assert.That(Api.Users.DeleteUser(user.Id.Value), Is.True);
             Assert.That(Api.Groups.DeleteGroup(group.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]

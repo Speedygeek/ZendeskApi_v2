@@ -74,7 +74,7 @@ public class TranslationTests : TestBase
 
         //update translation
         var update_res = Api.HelpCenter.Translations.UpdateArticleTranslation(add_res.Translation);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici ."));
 
@@ -83,7 +83,7 @@ public class TranslationTests : TestBase
 
             // teardown.
             Assert.That(Api.HelpCenter.Articles.DeleteArticle(article_id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -126,7 +126,7 @@ public class TranslationTests : TestBase
 
         //update translation
         var update_res = Api.HelpCenter.Translations.UpdateSectionTranslation(add_res.Translation);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici ."));
 
@@ -135,7 +135,7 @@ public class TranslationTests : TestBase
 
             //teardown.
             Assert.That(Api.HelpCenter.Sections.DeleteSection(section_id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -176,7 +176,7 @@ public class TranslationTests : TestBase
 
         //update translation
         var update_res = Api.HelpCenter.Translations.UpdateCategoryTranslation(add_res.Translation);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici . (category)"));
 
@@ -185,7 +185,7 @@ public class TranslationTests : TestBase
 
             //teardown.
             Assert.That(Api.HelpCenter.Categories.DeleteCategory(category_id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -194,12 +194,12 @@ public class TranslationTests : TestBase
         // the only two locales enabled on the test site are us-en and fr. us-en is the default.
         // note: FR was already enabled in the Zendesk settings, however it had to be enabled again in the help center preferences.
         var res = Api.HelpCenter.Translations.ListAllEnabledLocalesAndDefaultLocale(out var default_locale);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(default_locale, Is.EqualTo("en-us"));
             Assert.That(res.Contains("en-us"), Is.True);
             Assert.That(res.Contains("fr"), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -260,7 +260,7 @@ public class TranslationTests : TestBase
 
         //update translation
         var update_res = await Api.HelpCenter.Translations.UpdateArticleTranslationAsync(add_res.Translation);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici ."));
 
@@ -269,7 +269,7 @@ public class TranslationTests : TestBase
 
             //tear-down.
             Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(article_id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -313,7 +313,7 @@ public class TranslationTests : TestBase
 
         //update translation
         var update_res = await Api.HelpCenter.Translations.UpdateSectionTranslationAsync(add_res.Translation);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici ."));
 
@@ -322,7 +322,7 @@ public class TranslationTests : TestBase
 
             //tear-down.
             Assert.That(await Api.HelpCenter.Sections.DeleteSectionAsync(section_id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -363,7 +363,7 @@ public class TranslationTests : TestBase
 
         //update translation
         var update_res = await Api.HelpCenter.Translations.UpdateCategoryTranslationAsync(add_res.Translation);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update_res.Translation.Body, Is.EqualTo("insérer plus français ici . (category)"));
 
@@ -372,7 +372,7 @@ public class TranslationTests : TestBase
 
             //tear-down.
             Assert.That(await Api.HelpCenter.Categories.DeleteCategoryAsync(category_id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -381,11 +381,11 @@ public class TranslationTests : TestBase
         //the only two locales enabled on the test site are us-en and fr. us-en is the default.
         //note: FR was already enabled in the Zendesk settings, however it had to be enabled again in the help center preferences.
         var res = await Api.HelpCenter.Translations.ListAllEnabledLocalesAndDefaultLocaleAsync();
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Item2, Is.EqualTo("en-us"));
             Assert.That(res.Item1.Contains("en-us"), Is.True);
             Assert.That(res.Item1.Contains("fr"), Is.True);
-        });
+        }
     }
 }

@@ -43,12 +43,12 @@ public class MacroTests : TestBase
                 .Where(x => x.Key == "page")
                     .Select(x => x.Value)
                     .FirstOrDefault();
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(nextPage, Is.Not.Null);
 
             Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
-        });
+        }
     }
 
     [Test]
@@ -57,7 +57,7 @@ public class MacroTests : TestBase
         var create = Api.Macros.CreateMacro(new Macro
         {
             Title = "Roger Wilco",
-            Actions = new List<Action> { new Action { Field = "status", Value = new List<string> { "open" } } }
+            Actions = [new Action { Field = "status", Value = ["open"] }]
         });
 
         Assert.That(create.Macro.Id, Is.GreaterThan(0));
@@ -75,12 +75,12 @@ public class MacroTests : TestBase
         }).Ticket;
 
         var applyToTicket = Api.Macros.ApplyMacroToTicket(ticket.Id.Value, create.Macro.Id.Value);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticket.Id, Is.EqualTo(applyToTicket.Result.Ticket.Id));
             Assert.That(Api.Tickets.Delete(ticket.Id.Value), Is.True);
             Assert.That(Api.Macros.DeleteMacro(create.Macro.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]

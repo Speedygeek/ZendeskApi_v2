@@ -64,12 +64,12 @@ public class ScheduleTests : TestBase
 
         res.Schedule.TimeZone = "Central Time (US & Canada)";
         var update = Api.Schedules.UpdateSchedule(res.Schedule);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Schedule.TimeZone, Is.EqualTo(update.Schedule.TimeZone));
 
             Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -93,11 +93,11 @@ public class ScheduleTests : TestBase
         var update = Api.Schedules.UpdateIntervals(res.Schedule.Id.Value, work);
 
         Assert.That(update.WorkWeek.Intervals, Is.Not.Empty);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update.WorkWeek.Intervals[0].EndTime, Is.EqualTo(work.Intervals[0].EndTime));
             Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -120,13 +120,13 @@ public class ScheduleTests : TestBase
 
         res2.Holiday.EndDate = DateTimeOffset.UtcNow.AddDays(3).Date;
         var update = Api.Schedules.UpdateHoliday(res.Schedule.Id.Value, res2.Holiday);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res2.Holiday.Name, Is.EqualTo(update.Holiday.Name));
             Assert.That(res2.Holiday.EndDate, Is.EqualTo(update.Holiday.EndDate));
 
             Assert.That(Api.Schedules.DeleteHoliday(res.Schedule.Id.Value, res2.Holiday.Id.Value), Is.True);
             Assert.That(Api.Schedules.DeleteSchedule(res.Schedule.Id.Value), Is.True);
-        });
+        }
     }
 }
