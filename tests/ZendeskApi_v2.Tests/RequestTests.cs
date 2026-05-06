@@ -39,8 +39,6 @@ public class RequestTests : TestBase
     [Test]
     public void CanGetAllRequestsSorted()
     {
-        Assert.DoesNotThrow(() =>
-        {
             var unsorted = Api.Requests.GetAllRequests();
 
             Assert.That(unsorted, Is.Not.Null);
@@ -52,7 +50,6 @@ public class RequestTests : TestBase
             Assert.That(sorted, Is.Not.Null);
             Assert.That(sorted.Requests, Is.Not.Null);
             Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
-        });
     }
 
     [Test]
@@ -66,8 +63,6 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllOpenRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() =>
-        {
             var res = Api.Requests.GetAllOpenRequests(perPage: perPage, page: page);
 
             Assert.That(res, Is.Not.Null);
@@ -77,14 +72,11 @@ public class RequestTests : TestBase
                 Assert.That(res.PageSize, Is.EqualTo(perPage));
                 Assert.That(res.Page, Is.EqualTo(page));
             }
-        });
     }
 
     [Test]
     public void CanGetAllOpenRequestsSorted()
     {
-        Assert.DoesNotThrow(() =>
-        {
             var unsorted = Api.Requests.GetAllOpenRequests();
 
             Assert.That(unsorted, Is.Not.Null);
@@ -96,7 +88,6 @@ public class RequestTests : TestBase
             Assert.That(sorted, Is.Not.Null);
             Assert.That(sorted.Requests, Is.Not.Null);
             Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
-        });
     }
 
     [Test]
@@ -110,8 +101,6 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllSolvedRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() =>
-        {
             var res = Api.Requests.GetAllSolvedRequests(perPage: perPage, page: page);
 
             using (Assert.EnterMultipleScope())
@@ -121,14 +110,11 @@ public class RequestTests : TestBase
                 Assert.That(res.PageSize, Is.EqualTo(perPage));
                 Assert.That(res.Page, Is.EqualTo(page));
             }
-        });
     }
 
     [Test]
     public void CanGetAllSolvedRequestsSorted()
     {
-        Assert.DoesNotThrow(() =>
-        {
             var unsorted = Api.Requests.GetAllSolvedRequests();
 
             Assert.That(unsorted, Is.Not.Null);
@@ -140,7 +126,6 @@ public class RequestTests : TestBase
             Assert.That(sorted, Is.Not.Null);
             Assert.That(sorted.Requests, Is.Not.Null);
             Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
-        });
     }
 
     [Test]

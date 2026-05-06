@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Net;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
@@ -61,10 +60,7 @@ public class CoreTests : TestBase
     [Test]
     public void GivesCorrectException()
     {
-        var api = new ZendeskApi(
-            Organization.SiteURL,
-            Admin.Email,
-            "Incorrect password");
+        var api = new ZendeskApi(Organization.SiteURL, Admin.Email, "Incorrect password");
 
         Assert.Throws<WebException>(() =>
         {
@@ -74,18 +70,9 @@ public class CoreTests : TestBase
             });
         });
 
-        api = new ZendeskApi(
-            Organization.SiteURL,
-            Admin.Email,
-            "", Admin.ApiToken, "en-us", null);
+        api = new ZendeskApi(Organization.SiteURL, Admin.Email, "", Admin.ApiToken, "en-us", null);
 
-        try
-        {
-            api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "sdfsd sadfs", Email = "" });
-        }
-        catch (Exception e)
-        {
-            Assert.That(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"), Is.True);
-        }
+        Assert.That(() => { api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "", Email = "asdfasf@test.com" }); }, Throws.InstanceOf<WebException>().With.Message.Contains("Name: is too short (minimum one character)"));
+
     }
 }
