@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Tickets;
@@ -49,13 +50,13 @@ public class CoreTests : TestBase
             Admin.Email,
             "Incorrect password");
 
-        _ = Assert.ThatAsync(async () =>
+        await Assert.ThatAsync((Func<Task>)(async () =>
         {
             await api.Tickets.CreateTicketAsync(new Ticket
             {
                 Subject = "subject"
             });
-        }, Throws.Exception);
+        }), Throws.Exception);
     }
 
     [Test]
@@ -65,7 +66,7 @@ public class CoreTests : TestBase
 
         api = new ZendeskApi(Organization.SiteURL, Admin.Email, "", Admin.ApiToken, "en-us", null);
 
-        Assert.That(() => { api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "", Email = "asdfasf@test.com" }); }, Throws.InstanceOf<WebException>().With.Message.Contains("Name: is too short (minimum one character)"));
+        Assert.That((Action)(() => { api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "", Email = "asdfasf@test.com" }); }), Throws.InstanceOf<WebException>().With.Message.Contains("Name: is too short (minimum one character)"));
 
     }
 }
