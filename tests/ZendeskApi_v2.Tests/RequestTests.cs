@@ -22,8 +22,6 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() =>
-        {
             var res = Api.Requests.GetAllRequests(perPage: perPage, page: page);
 
             using (Assert.EnterMultipleScope())
@@ -33,7 +31,6 @@ public class RequestTests : TestBase
                 Assert.That(res.PageSize, Is.EqualTo(perPage));
                 Assert.That(res.Page, Is.EqualTo(page));
             }
-        });
     }
 
     [Test]

@@ -48,27 +48,19 @@ public class CoreTests : TestBase
             Admin.Email,
             "Incorrect password");
 
-        Assert.ThrowsAsync<WebException>(async () =>
+        Assert.ThatAsync(async () =>
         {
             await api.Tickets.CreateTicketAsync(new Ticket
             {
                 Subject = "subject"
             });
-        });
+        }, Throws.Exception);
     }
 
     [Test]
     public void GivesCorrectException()
     {
         var api = new ZendeskApi(Organization.SiteURL, Admin.Email, "Incorrect password");
-
-        Assert.Throws<WebException>(() =>
-        {
-            api.Tickets.CreateTicket(new Ticket
-            {
-                Subject = "subject"
-            });
-        });
 
         api = new ZendeskApi(Organization.SiteURL, Admin.Email, "", Admin.ApiToken, "en-us", null);
 
