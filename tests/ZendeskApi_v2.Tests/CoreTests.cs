@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Net;
+using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
 
@@ -41,14 +42,14 @@ public class CoreTests : TestBase
     }
 
     [Test]
-    public void AsyncGivesCorrectException()
+    public async Task AsyncGivesCorrectException()
     {
         var api = new ZendeskApi(
             "http://csharpapi.zendesk.com/Api/v2",
             Admin.Email,
             "Incorrect password");
 
-        Assert.ThatAsync(async () =>
+        _ = Assert.ThatAsync(async () =>
         {
             await api.Tickets.CreateTicketAsync(new Ticket
             {
