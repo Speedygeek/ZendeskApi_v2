@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -67,6 +67,5 @@ public class CoreTests : TestBase
         api = new ZendeskApi(Organization.SiteURL, Admin.Email, "", Admin.ApiToken, "en-us", null);
 
         Assert.That((Action)(() => { api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "", Email = "asdfasf@test.com" }); }), Throws.InstanceOf<WebException>().With.Message.Contains("Name: is too short (minimum one character)"));
-
     }
 }
