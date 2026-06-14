@@ -1,0 +1,92 @@
+name: Deploy Infrastructure (Prod)
+
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: Deployment phase (bootstrap creates RG/account, finalize creates certificate profile)
+        required: true
+        default: bootstrap
+        type: choice
+        options:
+          - bootstrap
+          - finalize
+          - full
+      deployment_location:
+        description: Azure region for subscription deployment metadata
+        required: true
+        default: eastus
+        type: string
+      identity_validation_id:
+        description: Identity validation ID required for finalize/full phase certificate profile creation
+        required: false
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Register Azure Artifact Signing provider
+        shell: bash
+        run: az provider register --namespace Microsoft.CodeSigning --wait
+
+      - name: Resolve phase parameters
+        id: phase
+        shell: bash
+        run: |
+          phase="${{ inputs.phase }}"
+          identityValidationId="${{ inputs.identity_validation_id }}"
+
+          if [[ "$phase" == "bootstrap" ]]; then
+            echo "create_certificate_profile=false" >> "$GITHUB_OUTPUT"
+            echo "identity_validation_id=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ -z "$identityValidationId" ]]; then
+            echo "identity_validation_id input is required for '$phase' phase" >&2
+            exit 1
+          fi
+
+          echo "create_certificate_profile=true" >> "$GITHUB_OUTPUT"
+          echo "identity_validation_id=$identityValidationId" >> "$GITHUB_OUTPUT"
+
+      - name: Validate template with what-if
+        shell: bash
+        run: |
+          az deployment sub what-if \
+            --name "zendeskapi-prod-${{ github.run_id }}" \
+            --location "${{ inputs.deployment_location }}" \
+            --template-file infra/main.bicep \
+            --parameters @infra/parameters/prod.parameters.json \
+              location="${{ inputs.deployment_location }}" \
+              createCertificateProfile=${{ steps.phase.outputs.create_certificate_profile }} \
+              identityValidationId="${{ steps.phase.outputs.identity_validation_id }}"
+
+      - name: Deploy template
+        shell: bash
+        run: |
+          az deployment sub create \
+            --name "zendeskapi-prod-${{ github.run_id }}" \
+            --location "${{ inputs.deployment_location }}" \
+            --template-file infra/main.bicep \
+            --parameters @infra/parameters/prod.parameters.json \
+              location="${{ inputs.deployment_location }}" \
+              createCertificateProfile=${{ steps.phase.outputs.create_certificate_profile }} \
+              identityValidationId="${{ steps.phase.outputs.identity_validation_id }}"

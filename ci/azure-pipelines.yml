@@ -5,7 +5,7 @@
 
 resources:
 - repo: self
-  
+
 variables:
   - name: BuildConfiguration
     value: 'Release'
@@ -20,19 +20,9 @@ variables:
   - group: GitHub_Feed
   - group: Zendesk_Creds
 
-trigger:
-  batch: true
-  branches:
-    include:
-      - main
-      - refs/tags/*
-pr:
-  branches:
-    include:
-    - main
-  paths:
-    exclude:
-    - docs/*
+# Disabled: CI/CD moved to GitHub Actions workflows under .github/workflows.
+trigger: none
+pr: none
 
 pool:
   vmImage: 'windows-latest'
