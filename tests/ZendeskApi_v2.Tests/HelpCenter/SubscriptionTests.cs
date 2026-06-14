@@ -122,12 +122,12 @@ public class SubscriptionTests : TestBase
         var resp = await Api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
         var listResp = await Api.HelpCenter.Articles.GetSubscriptionAsync(article.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(listResp.Subscription, Is.Not.Null);
             Assert.That(listResp.Articles, Is.Not.Empty);
             Assert.That(listResp.Sections, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -136,11 +136,11 @@ public class SubscriptionTests : TestBase
         await Api.HelpCenter.Articles.CreateSubscriptionAsync(article.Id.Value, new ArticleSubscription(LOCALE));
 
         var listResp = await Api.HelpCenter.Articles.GetSubscriptionsAsync(article.Id.Value, SubscriptionSideLoadOptions.Articles | SubscriptionSideLoadOptions.Sections);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(listResp.Subscriptions, Is.Not.Null);
             Assert.That(listResp.Articles, Is.Not.Null);
-        });
+        }
     }
 
     [Test]
@@ -165,11 +165,11 @@ public class SubscriptionTests : TestBase
         var resp = await Api.HelpCenter.Sections.CreateSubscriptionAsync(section.Id.Value, new SectionSubscription(LOCALE));
 
         var listResp = await Api.HelpCenter.Sections.GetSubscriptionAsync(section.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Sections);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp.Subscription, Is.Not.Null);
             Assert.That(listResp.Sections, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -204,11 +204,11 @@ public class SubscriptionTests : TestBase
         var resp = await Api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCALE });
 
         var listResp = await Api.HelpCenter.Posts.GetSubscriptionAsync(post.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Users);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp.Subscription, Is.Not.Null);
             Assert.That(listResp.Users, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -217,11 +217,11 @@ public class SubscriptionTests : TestBase
         var resp = await Api.HelpCenter.Posts.CreateSubscriptionAsync(post.Id.Value, new Subscription { Locale = LOCALE });
 
         var listResp = await Api.HelpCenter.Posts.GetSubscriptionsAsync(post.Id.Value, SubscriptionSideLoadOptions.Users);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp.Subscription, Is.Not.Null);
             Assert.That(listResp.Users, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -247,11 +247,11 @@ public class SubscriptionTests : TestBase
         var resp = await Api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE });
 
         var listResp = await Api.HelpCenter.Topics.GetSubscriptionAsync(topic.Id.Value, resp.Subscription.Id.Value, SubscriptionSideLoadOptions.Users);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp.Subscription, Is.Not.Null);
             Assert.That(listResp.Users, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -260,11 +260,11 @@ public class SubscriptionTests : TestBase
         var resp = await Api.HelpCenter.Topics.CreateSubscriptionAsync(topic.Id.Value, new Subscription { Locale = LOCALE });
 
         var listResp = await Api.HelpCenter.Topics.GetSubscriptionsAsync(topic.Id.Value, SubscriptionSideLoadOptions.Users);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp.Subscription, Is.Not.Null);
             Assert.That(listResp.Users, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]

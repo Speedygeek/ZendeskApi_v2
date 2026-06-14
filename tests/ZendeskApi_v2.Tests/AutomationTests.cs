@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Models.Automations;
 using ZendeskApi_v2.Tests.Base;
@@ -39,8 +38,8 @@ public class AutomationTests : TestBase
         {
             Title = "Test Automation",
             Active = true,
-            Conditions = new Conditions() { All = new List<All>(), Any = new List<All>() },
-            Actions = new List<Action>(),
+            Conditions = new Conditions() { All = [], Any = [] },
+            Actions = [],
             Position = 9999
         };
 
@@ -55,22 +54,22 @@ public class AutomationTests : TestBase
 
         res.Automation.Title = "Test Automation Updated";
         var update = Api.Automations.UpdateAutomation(res.Automation);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Automation.Title, Is.EqualTo(update.Automation.Title));
 
             Assert.That(Api.Automations.DeleteAutomation(res.Automation.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
     public void CanSearchAutomations()
     {
         var res = Api.Automations.SearchAutomations("Close").Automations;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res, Has.Count.EqualTo(1));
             Assert.That(res[0].Title, Is.EqualTo("Close ticket 4 days after status is set to solved"));
-        });
+        }
     }
 }

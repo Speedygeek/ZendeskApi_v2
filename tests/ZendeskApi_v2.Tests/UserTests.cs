@@ -116,11 +116,11 @@ public class UserTests : TestBase
         }
 
         var res = Api.Users.GetUsersInOrganization(Organization.ID, 3, 0);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Users, Has.Count.EqualTo(3));
             Assert.That(res.NextPage, Is.Not.Null);
-        });
+        }
         users.ForEach(u => Api.Users.DeleteUser(u.Id.Value));
     }
 
@@ -147,13 +147,13 @@ public class UserTests : TestBase
 
         var res1 = Api.Users.CreateUser(user);
         var userId = res1.User.Id ?? 0;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.User.Id, Is.GreaterThan(0));
 
             Assert.That(Api.Users.SetUsersPassword(userId, "t34sssting"), Is.True);
             Assert.That(Api.Users.ChangeUsersPassword(userId, "t34sssting", "newpassw33rd"), Is.True);
-        });
+        }
         res1.User.Phone = "555-555-5555";
         res1.User.RemotePhotoUrl = "http://i.imgur.com/b2gxj.jpg";
 
@@ -246,11 +246,11 @@ public class UserTests : TestBase
         var res2 = Api.Users.CreateOrUpdateUser(user);
 
         var user72group = Api.Users.SearchByEmail("test772@tester.com");
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(user72group.Count, Is.EqualTo(1));
             Assert.That(res2.User.Name, Does.Contain("721"));
-        });
+        }
     }
 
     [Test]
@@ -333,11 +333,11 @@ public class UserTests : TestBase
         var res2 = Api.Users.CreateOrUpdateUser(user);
 
         var user72group = Api.Users.SearchByEmail("test772@tester.com");
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(user72group.Count, Is.EqualTo(1));
             Assert.That(res2.User.Name, Does.Contain("721"));
-        });
+        }
     }
 
     [Test]
@@ -353,11 +353,11 @@ public class UserTests : TestBase
     {
         var res1 = Api.Users.SearchByPhone(Settings.Phone);
         Assert.That(res1.Users, Is.Not.Empty);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
             Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
-        });
+        }
     }
 
     [Test]
@@ -365,11 +365,11 @@ public class UserTests : TestBase
     {
         var res1 = Api.Users.SearchByPhone(Settings.FormattedPhone);
         Assert.That(res1.Users, Is.Not.Empty);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.FormattedPhone));
             Assert.That(res1.Users.First().Name, Is.EqualTo("dc4d7cf57d0c435cbbb91b1d4be952fe 504b509b0b1e48dda2c8471a88f068a5"));
-        });
+        }
     }
 
     [Test]
@@ -377,11 +377,11 @@ public class UserTests : TestBase
     {
         var res1 = Api.Users.SearchByPhoneAsync(Settings.Phone).Result;
         Assert.That(res1.Users, Is.Not.Empty);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Users.First().Phone, Is.EqualTo(Settings.Phone));
             Assert.That(res1.Users.First().Name, Is.EqualTo("0897c9c1f80646118a8194c942aa84cf 162a3d865f194ef8b7a2ad3525ea6d7c"));
-        });
+        }
     }
 
     [Test]
@@ -448,11 +448,11 @@ public class UserTests : TestBase
 
         var primaries = Api.Users.SetUserIdentityAsPrimary(userId, identityId);
         Assert.That(primaries.Identities.First(x => x.Primary).Id, Is.EqualTo(identityId));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(Api.Users.DeleteUserIdentity(userId, identityId), Is.True);
             Assert.That(Api.Users.DeleteUser(userId), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -460,11 +460,11 @@ public class UserTests : TestBase
     {
         var userList = Api.Users.GetAllUsers(10, 1).Users.Select(u => u.Id.Value).ToList();
         var result = Api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities | UserSideLoadOptions.Roles);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result.Count, Is.EqualTo(userList.Count));
             Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -472,11 +472,11 @@ public class UserTests : TestBase
     {
         var userList = Api.Users.GetAllUsersAsync(10, 1).Result.Users.Select(u => u.Id.Value).ToList();
         var result = Api.Users.GetMultipleUsers(userList, UserSideLoadOptions.Organizations | UserSideLoadOptions.Identities);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result.Count, Is.EqualTo(userList.Count));
             Assert.That((result.Organizations != null && result.Organizations.Any()) || (result.Identities != null && result.Identities.Any()), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -492,11 +492,11 @@ public class UserTests : TestBase
         };
 
         var user = Api.Users.SetUserPhoto(Admin.ID, file);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
             Assert.That(user.User.Photo.Size, Is.Not.Zero);
-        });
+        }
     }
 
     [Test]
@@ -511,11 +511,11 @@ public class UserTests : TestBase
         };
 
         var user = await Api.Users.SetUserPhotoAsync(Admin.ID, file);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(user.User.Photo.ContentUrl, Is.Not.Null);
             Assert.That(user.User.Photo.Size, Is.Not.Zero);
-        });
+        }
     }
 
     [Test]
@@ -577,14 +577,14 @@ public class UserTests : TestBase
         await Api.Users.UpdateUserIdentityAsync(userId, res2.Identity);
 
         var res3 = await Api.Users.GetSpecificUserIdentityAsync(userId, identityId);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res3.Identity.Id, Is.EqualTo(identityId));
             Assert.That(res3.Identity.Value, Is.EqualTo(res2.Identity.Value));
 
             Assert.That(Api.Users.DeleteUserIdentity(userId, identityId), Is.True);
             Assert.That(Api.Users.DeleteUser(userId), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -612,18 +612,18 @@ public class UserTests : TestBase
 
         var count = 0;
 
-        while (jobResponse.JobStatus.Status.ToLower() != JobStatusCompleted && count < MaxRetryAttempts)
+        while (!jobResponse.JobStatus.Status.Equals(JobStatusCompleted, StringComparison.CurrentCultureIgnoreCase) && count < MaxRetryAttempts)
         {
             await Task.Delay(1000);
             jobResponse = Api.JobStatuses.GetJobStatus(jobResponse.JobStatus.Id);
             count++;
         }
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
             Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
-        });
+        }
     }
 
     [Test]
@@ -651,39 +651,39 @@ public class UserTests : TestBase
 
         var count = 0;
 
-        while (jobResponse.JobStatus.Status.ToLower() != JobStatusCompleted && count < MaxRetryAttempts)
+        while (!jobResponse.JobStatus.Status.Equals(JobStatusCompleted, StringComparison.CurrentCultureIgnoreCase) && count < MaxRetryAttempts)
         {
             Thread.Sleep(1000);
             jobResponse = Api.JobStatuses.GetJobStatus(jobResponse.JobStatus.Id);
             count++;
         }
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(jobResponse.JobStatus.Status.ToLower(), Is.EqualTo(JobStatusCompleted));
             Assert.That(jobResponse.JobStatus.Total, Is.EqualTo(users.Count));
-        });
+        }
     }
 
     [Test]
     public void CanGetIncrementalUserExport()
     {
         var incrementalUserExport = Api.Users.GetIncrementalUserExport(Settings.Epoch);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(incrementalUserExport.Users, Is.Not.Empty);
             Assert.That(incrementalUserExport.Organizations, Is.Null);
             Assert.That(incrementalUserExport.Identities, Is.Null);
             Assert.That(incrementalUserExport.Groups, Is.Null);
-        });
+        }
         var incrementalUserExportNextPage = Api.Users.GetIncrementalUserExportNextPage(incrementalUserExport.NextPage);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(incrementalUserExportNextPage.Users, Is.Not.Empty);
             Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
             Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
             Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
-        });
+        }
     }
 
     //[Test]
@@ -708,42 +708,42 @@ public class UserTests : TestBase
     public async Task CanGetIncrementalUserExportAsync()
     {
         var incrementalUserExport = await Api.Users.GetIncrementalUserExportAsync(Settings.Epoch);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(incrementalUserExport.Users, Is.Not.Empty);
             Assert.That(incrementalUserExport.Organizations, Is.Null);
             Assert.That(incrementalUserExport.Identities, Is.Null);
             Assert.That(incrementalUserExport.Groups, Is.Null);
-        });
+        }
         var incrementalUserExportNextPage = await Api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(incrementalUserExportNextPage.Users, Is.Not.Empty);
             Assert.That(incrementalUserExportNextPage.Organizations, Is.Null);
             Assert.That(incrementalUserExportNextPage.Identities, Is.Null);
             Assert.That(incrementalUserExportNextPage.Groups, Is.Null);
-        });
+        }
     }
 
     [Test]
     public async Task CanGetIncrementalUserExportAsyncWithSideLoadOptions()
     {
         var incrementalUserExport = await Api.Users.GetIncrementalUserExportAsync(Settings.Epoch, UserSideLoadOptions.Organizations | UserSideLoadOptions.Groups | UserSideLoadOptions.Identities);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(incrementalUserExport.Users, Is.Not.Empty);
             Assert.That(incrementalUserExport.Organizations, Is.Not.Null);
             Assert.That(incrementalUserExport.Identities, Is.Not.Null);
             Assert.That(incrementalUserExport.Groups, Is.Not.Null);
-        });
+        }
         var incrementalUserExportNextPage = await Api.Users.GetIncrementalUserExportNextPageAsync(incrementalUserExport.NextPage);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(incrementalUserExportNextPage.Users, Is.Not.Empty);
             Assert.That(incrementalUserExportNextPage.Organizations, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Identities, Is.Not.Null);
             Assert.That(incrementalUserExportNextPage.Groups, Is.Not.Null);
-        });
+        }
     }
 
     [Test]
@@ -793,7 +793,7 @@ public class UserTests : TestBase
 
         var job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             await Task.Delay(1000);
             job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
@@ -841,7 +841,7 @@ public class UserTests : TestBase
 
         var job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             await Task.Delay(1000);
             job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
@@ -878,7 +878,7 @@ public class UserTests : TestBase
         var updateResp = await Api.Users.BulkCreateUpdateUsersAsync(users);
         var job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             await Task.Delay(1000);
             job = await Api.JobStatuses.GetJobStatusAsync(updateResp.JobStatus.Id);

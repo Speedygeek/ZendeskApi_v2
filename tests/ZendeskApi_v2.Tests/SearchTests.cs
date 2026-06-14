@@ -14,11 +14,11 @@ public class SearchTests : TestBase
     public void CanSearch()
     {
         var res = Api.Search.SearchFor(Admin.Email);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results[0].ResultType, Is.EqualTo("user"));
             Assert.That(res.Results[0].Id, Is.GreaterThan(0));
-        });
+        }
     }
 
     [Test]
@@ -35,11 +35,11 @@ public class SearchTests : TestBase
         var total = res.Count;
 
         Assert.That(res.Count, Is.GreaterThan(0));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Count, Is.GreaterThan(res.Results.Count)); //result has more than one page
             Assert.That(!string.IsNullOrEmpty(res.NextPage), Is.True); //It has next page
-        });
+        }
         res = Api.Search.SearchFor("Effective", page: 2); //fetch next page
         Assert.That(res.Count, Is.GreaterThan(0));
         Assert.That(res.Count, Is.EqualTo(total)); //number of results should be same as page 1
@@ -50,12 +50,12 @@ public class SearchTests : TestBase
     {
         var res = Api.Search.SearchFor("my printer is on fire");
 
-        Assert.That(res, Is.Not.EqualTo(null));
-        Assert.Multiple(() =>
+        Assert.That(res, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Is.Not.Empty);
             Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -63,24 +63,24 @@ public class SearchTests : TestBase
     {
         var res = Api.Search.SearchFor<Ticket>("my printer is on fire");
 
-        Assert.That(res, Is.Not.EqualTo(null));
-        Assert.Multiple(() =>
+        Assert.That(res, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.GreaterThan(10));
             Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
-        });
+        }
         var noRes = Api.Search.SearchFor<User>("my printer is on fire");
 
-        Assert.That(noRes, Is.Not.EqualTo(null));
+        Assert.That(noRes, Is.Not.Null);
         Assert.That(noRes.Results, Is.Empty);
 
         res = Api.Search.SearchFor<Ticket>("my printer is on fire", perPage: 10);
-        Assert.That(res, Is.Not.EqualTo(null));
-        Assert.Multiple(() =>
+        Assert.That(res, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.EqualTo(10));
             Assert.That(res.Page, Is.EqualTo(1));
-        });
+        }
         Assert.That(res.Results[0] is Ticket, Is.True);
     }
 
@@ -89,24 +89,24 @@ public class SearchTests : TestBase
     {
         var res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire");
 
-        Assert.That(res, Is.Not.EqualTo(null));
-        Assert.Multiple(() =>
+        Assert.That(res, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.GreaterThan(10));
             Assert.That(!string.IsNullOrEmpty(res.Results[0].Subject), Is.True);
-        });
+        }
         var noRes = await Api.Search.SearchForAsync<User>("my printer is on fire");
 
-        Assert.That(noRes, Is.Not.EqualTo(null));
+        Assert.That(noRes, Is.Not.Null);
         Assert.That(noRes.Results, Is.Empty);
 
         res = await Api.Search.SearchForAsync<Ticket>("my printer is on fire", perPage: 10);
-        Assert.That(res, Is.Not.EqualTo(null));
-        Assert.Multiple(() =>
+        Assert.That(res, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results, Has.Count.EqualTo(10));
             Assert.That(res.Page, Is.EqualTo(1));
-        });
+        }
         Assert.That(res.Results[0] is Ticket, Is.True);
     }
 
@@ -115,13 +115,13 @@ public class SearchTests : TestBase
     {
         var res = Api.Search.SearchFor<User>(Admin.Email);
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         Assert.That(res.Results, Has.Count.EqualTo(1));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results[0].Id, Is.EqualTo(Admin.ID));
             Assert.That(res.Results[0] is User, Is.True);
-        });
+        }
     }
 
     [Test]
@@ -129,13 +129,13 @@ public class SearchTests : TestBase
     {
         var res = await Api.Search.SearchForAsync<User>(Admin.Email);
 
-        Assert.That(res, Is.Not.EqualTo(null));
+        Assert.That(res, Is.Not.Null);
         Assert.That(res.Results, Has.Count.EqualTo(1));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Results[0].Id, Is.EqualTo(Admin.ID));
             Assert.That(res.Results[0] is User, Is.True);
-        });
+        }
     }
 
     [Test]

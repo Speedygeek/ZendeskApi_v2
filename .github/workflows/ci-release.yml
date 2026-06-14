@@ -1,0 +1,165 @@
+name: CI and Release
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - docs/**
+  push:
+    branches:
+      - main
+    tags:
+      - v3.*
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  BUILD_CONFIGURATION: Release
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  NUGET_OUTPUT_DIR: artifacts/nuget
+
+jobs:
+  build-test-pack:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK from global.json
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: src/global.json
+
+      - name: Restore
+        run: dotnet restore src/ZendeskApi_v2.sln
+
+      - name: Build
+        run: dotnet build src/ZendeskApi_v2.sln --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+        env:
+          TF_BUILD: true
+
+      - name: Test (with Zendesk credentials)
+        if: ${{ secrets.ADMIN_ID != '' && secrets.ADMIN_EMAIL != '' && secrets.ADMIN_API_TOKEN != '' }}
+        run: dotnet test tests/ZendeskApi_v2.Tests/ZendeskApi_v2.Tests.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --no-build
+        env:
+          admin__id: ${{ secrets.ADMIN_ID }}
+          admin__email: ${{ secrets.ADMIN_EMAIL }}
+          admin__password: not-used
+          admin__apiToken: ${{ secrets.ADMIN_API_TOKEN }}
+
+      - name: Test skipped notice
+        if: ${{ secrets.ADMIN_ID == '' || secrets.ADMIN_EMAIL == '' || secrets.ADMIN_API_TOKEN == '' }}
+        shell: pwsh
+        run: |
+          Write-Host "Zendesk integration tests were skipped because required secrets are missing."
+          Write-Host "Set ADMIN_ID, ADMIN_EMAIL, and ADMIN_API_TOKEN to enable test execution in CI."
+
+      - name: Pack
+        run: dotnet pack src/ZendeskApi_v2/ZendeskApi_v2.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --output ${{ env.NUGET_OUTPUT_DIR }}
+        env:
+          TF_BUILD: true
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: |
+            ${{ env.NUGET_OUTPUT_DIR }}/*.nupkg
+            ${{ env.NUGET_OUTPUT_DIR }}/*.snupkg
+
+  publish:
+    needs: build-test-pack
+    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v3.')) }}
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-packages
+          path: artifacts/nuget
+
+      - name: Determine prerelease
+        id: prerelease
+        shell: pwsh
+        run: |
+          $packages = Get-ChildItem "artifacts/nuget/*.nupkg" | Where-Object { -not $_.Name.EndsWith(".symbols.nupkg") }
+          if (-not $packages) {
+            throw "No NuGet package found to publish."
+          }
+
+          $packageName = $packages[0].Name
+          $versionMatch = [regex]::Match($packageName, '\\d+\\.\\d+\\.\\d+(?:\\.\\d+)?(?:[-+][^\\.]+(?:\\.[^\\.]+)*)?')
+          if (-not $versionMatch.Success) {
+            throw "Unable to parse package version from $packageName"
+          }
+
+          $version = $versionMatch.Value
+          $isPrerelease = $version.Contains("-") -or $version.Contains("+")
+
+          "package_version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "is_prerelease=$($isPrerelease.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "release_date=$(Get-Date -Format 'dd MMMM yyyy')" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Azure login (OIDC federated identity)
+        if: ${{ secrets.AZURE_TENANT_ID != '' && secrets.AZURE_CLIENT_ID != '' && secrets.AZURE_SUBSCRIPTION_ID != '' && secrets.AZURE_TRUSTED_SIGNING_ENDPOINT != '' && secrets.AZURE_TRUSTED_SIGNING_ACCOUNT != '' && secrets.AZURE_TRUSTED_SIGNING_PROFILE != '' }}
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Sign packages with Azure Artifact Signing
+        if: ${{ secrets.AZURE_TENANT_ID != '' && secrets.AZURE_CLIENT_ID != '' && secrets.AZURE_SUBSCRIPTION_ID != '' && secrets.AZURE_TRUSTED_SIGNING_ENDPOINT != '' && secrets.AZURE_TRUSTED_SIGNING_ACCOUNT != '' && secrets.AZURE_TRUSTED_SIGNING_PROFILE != '' }}
+        uses: azure/trusted-signing-action@v0
+        with:
+          endpoint: ${{ secrets.AZURE_TRUSTED_SIGNING_ENDPOINT }}
+          signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ secrets.AZURE_TRUSTED_SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\artifacts\nuget
+          files-folder-filter: nupkg
+
+      - name: Fail publish when signing config is missing
+        if: ${{ secrets.AZURE_TENANT_ID == '' || secrets.AZURE_CLIENT_ID == '' || secrets.AZURE_SUBSCRIPTION_ID == '' || secrets.AZURE_TRUSTED_SIGNING_ENDPOINT == '' || secrets.AZURE_TRUSTED_SIGNING_ACCOUNT == '' || secrets.AZURE_TRUSTED_SIGNING_PROFILE == '' }}
+        shell: pwsh
+        run: |
+          throw "Azure Artifact Signing federated identity configuration is incomplete. Set AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_SUBSCRIPTION_ID, AZURE_TRUSTED_SIGNING_ENDPOINT, AZURE_TRUSTED_SIGNING_ACCOUNT, and AZURE_TRUSTED_SIGNING_PROFILE."
+
+      - name: Publish prerelease to GitHub Packages
+        if: ${{ steps.prerelease.outputs.is_prerelease == 'true' && secrets.GITHUB_FEED_URL != '' && secrets.GITHUB_FEED_API_KEY != '' }}
+        shell: pwsh
+        run: dotnet nuget push "artifacts/nuget/*.nupkg" --skip-duplicate --api-key "${{ secrets.GITHUB_FEED_API_KEY }}" --source "${{ secrets.GITHUB_FEED_URL }}"
+
+      - name: Publish prerelease to MyGet
+        if: ${{ steps.prerelease.outputs.is_prerelease == 'true' && secrets.MYGET_FEED_URL != '' && secrets.MYGET_API_KEY != '' }}
+        shell: pwsh
+        run: dotnet nuget push "artifacts/nuget/*.nupkg" --skip-duplicate --api-key "${{ secrets.MYGET_API_KEY }}" --source "${{ secrets.MYGET_FEED_URL }}"
+
+      - name: Publish stable to NuGet.org
+        if: ${{ startsWith(github.ref, 'refs/tags/v3.') && steps.prerelease.outputs.is_prerelease == 'false' && secrets.NUGET_API_KEY != '' }}
+        shell: pwsh
+        run: dotnet nuget push "artifacts/nuget/*.nupkg" --skip-duplicate --api-key "${{ secrets.NUGET_API_KEY }}" --source "https://api.nuget.org/v3/index.json"
+
+      - name: Create GitHub Release (draft)
+        if: ${{ startsWith(github.ref, 'refs/tags/v3.') && steps.prerelease.outputs.is_prerelease == 'false' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: ${{ steps.prerelease.outputs.package_version }} (${{ steps.prerelease.outputs.release_date }})
+          files: |
+            artifacts/nuget/*.nupkg
+            artifacts/nuget/*.snupkg

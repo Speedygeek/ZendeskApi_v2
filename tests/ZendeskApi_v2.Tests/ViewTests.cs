@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 using ZendeskApi_v2.Extensions;
 using ZendeskApi_v2.Models.Views;
@@ -46,11 +45,11 @@ public class ViewTests : TestBase
     {
         Api.Views.GetAllViews();
         var res = Api.Views.ExecuteView(31559032);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Rows, Is.Not.Empty);
             Assert.That(res.Columns, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -77,30 +76,30 @@ public class ViewTests : TestBase
         {
             View = new PreviewView()
             {
-                All = new List<All> { new All { Field = "status", Value = "open", Operator = "is" } },
-                Output = new PreviewViewOutput { Columns = new List<string> { "subject" } }
+                All = [new All { Field = "status", Value = "open", Operator = "is" }],
+                Output = new PreviewViewOutput { Columns = ["subject"] }
             }
         };
 
         var previewRes = Api.Views.PreviewView(preview);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(previewRes.Rows, Is.Not.Empty);
             Assert.That(previewRes.Columns, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
     public void CanGetViewCounts()
     {
         var views = Api.Views.GetAllViews();
-        var res = Api.Views.GetViewCounts(new List<long>() { views.Views[0].Id });
-        Assert.Multiple(() =>
+        var res = Api.Views.GetViewCounts([views.Views[0].Id]);
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.ViewCounts, Is.Not.Empty);
 
             Assert.That(views.Count, Is.GreaterThan(0));
-        });
+        }
     }
 
     [Test]

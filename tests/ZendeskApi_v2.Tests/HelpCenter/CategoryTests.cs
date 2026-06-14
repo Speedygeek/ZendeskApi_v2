@@ -62,11 +62,11 @@ public class CategoryTests : TestBase
 
         const int count = 2;
         var categories = Api.HelpCenter.Categories.GetCategories(count, 1);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(categories.Categories, Has.Count.EqualTo(count));  // 2
             Assert.That(categories.Count, Is.Not.EqualTo(categories.Categories.Count));   // 2 != total count of categories (assumption)
-        });
+        }
         const int page = 2;
         var secondPage = Api.HelpCenter.Categories.GetCategories(count, page);
 
@@ -78,12 +78,12 @@ public class CategoryTests : TestBase
             .FirstOrDefault();
 
         Assert.That(nextPage, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(Api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
             Assert.That(Api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -115,23 +115,23 @@ public class CategoryTests : TestBase
         const int page = 2;
         var secondPage = Api.HelpCenter.Categories.GetCategoriesAsync(count, page).Result;
         var categoryById2 = Api.HelpCenter.Categories.GetCategoryById(secondPage.Categories[0].Id.Value);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(secondPage.Categories, Has.Count.EqualTo(count));
             Assert.That(categoryById2.Category.Id, Is.EqualTo(secondPage.Categories[0].Id.Value));
-        });
+        }
         var nextPage = secondPage.NextPage.GetQueryStringDict()
             .Where(x => x.Key == "page")
             .Select(x => x.Value)
             .FirstOrDefault();
 
         Assert.That(nextPage, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(nextPage, Is.EqualTo((page + 1).ToString()));
             Assert.That(Api.HelpCenter.Categories.DeleteCategory(category1.Category.Id.Value), Is.True);
             Assert.That(Api.HelpCenter.Categories.DeleteCategory(category2.Category.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -148,11 +148,11 @@ public class CategoryTests : TestBase
 
         res.Category.Position = 2;
         var update = Api.HelpCenter.Categories.UpdateCategory(res.Category);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Category.Position, Is.EqualTo(update.Category.Position));
 
             Assert.That(Api.HelpCenter.Categories.DeleteCategory(res.Category.Id.Value), Is.True);
-        });
+        }
     }
 }

@@ -15,13 +15,13 @@ public class FromTests
         var from = JsonConvert.DeserializeObject<CurrentQueueActivityResponse>(AllFieldsJson);
 
         Assert.That(from, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(from.CurrentQueueActivity.AgentsOnline, Is.EqualTo(3));
             Assert.That(from.CurrentQueueActivity.CallsWaiting, Is.EqualTo(13));
             Assert.That(from.CurrentQueueActivity.CallbacksWaiting, Is.EqualTo(7));
             Assert.That(from.CurrentQueueActivity.AverageWaitTime, Is.EqualTo(142));
             Assert.That(from.CurrentQueueActivity.LongestWaitTime, Is.EqualTo(387));
-        });
+        }
     }
 }

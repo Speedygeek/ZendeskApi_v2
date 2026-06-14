@@ -23,7 +23,8 @@ public class TestBase
 
         Admin = configuration.GetSection("admin").Get<UserSettings>();
         Organization = configuration.GetSection("organization").Get<OrganizationSettings>();
-        Api = new ZendeskApi(Organization.SiteURL, Admin.Email, Admin.Password);
+        // Api = new ZendeskApi(Organization.SiteURL, Admin.Email, Admin.Password);
+        Api = new ZendeskApi("https://csharpapi.zendesk.com/Api/v2", Admin.Email, "", Admin.ApiToken, "en-us", null);
     }
 
     [OneTimeTearDown]
@@ -31,7 +32,7 @@ public class TestBase
     {
         var response = await Api.Tickets.GetTicketsByExternalIdAsync(TEST_EXTERNAL_ID);
         var ids = response.Tickets.Select(t => t.Id.Value).ToList();
-        if (ids.Any())
+        if (ids.Count != 0)
         {
             await Api.Tickets.DeleteMultipleAsync(ids);
         }

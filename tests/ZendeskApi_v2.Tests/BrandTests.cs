@@ -48,11 +48,11 @@ public class BrandTests : TestBase
 
         res.Brand.Name = "Test Brand Updated";
         var update = Api.Brands.UpdateBrand(res.Brand);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Brand.Name, Is.EqualTo(update.Brand.Name));
 
             Assert.That(Api.Brands.DeleteBrand(res.Brand.Id.Value), Is.True);
-        });
+        }
     }
 }

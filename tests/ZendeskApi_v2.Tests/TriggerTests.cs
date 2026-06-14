@@ -39,8 +39,8 @@ public class TriggerTests : TestBase
         {
             Title = "Test Trigger",
             Active = true,
-            Conditions = new Conditions() { All = new List<All>(), Any = new List<All>() },
-            Actions = new List<Action>(),
+            Conditions = new Conditions() { All = [], Any = [] },
+            Actions = [],
             Position = 9999
         };
 
@@ -53,12 +53,12 @@ public class TriggerTests : TestBase
 
         res.Trigger.Title = "Test Trigger Updated";
         var update = Api.Triggers.UpdateTrigger(res.Trigger);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Trigger.Title, Is.EqualTo(update.Trigger.Title));
 
             Assert.That(Api.Triggers.DeleteTrigger(res.Trigger.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -71,8 +71,8 @@ public class TriggerTests : TestBase
         {
             Title = "Test Trigger1",
             Active = true,
-            Conditions = new Conditions() { All = new List<All>() { new All() { Field = "status", Operator = "is", Value = "open" } }, Any = new List<All>() },
-            Actions = new List<Action>() { new Action() { Field = "group_id", Value = "20402842" } },
+            Conditions = new Conditions() { All = [new All() { Field = "status", Operator = "is", Value = "open" }], Any = [] },
+            Actions = [new Action() { Field = "group_id", Value = "20402842" }],
             Position = 5000
         };
 
@@ -80,8 +80,8 @@ public class TriggerTests : TestBase
         {
             Title = "Test Trigger2",
             Active = true,
-            Conditions = new Conditions() { All = new List<All>() { new All() { Field = "status", Operator = "is", Value = "open" } }, Any = new List<All>() },
-            Actions = new List<Action>() { new Action() { Field = "group_id", Value = "20402842" } },
+            Conditions = new Conditions() { All = [new All() { Field = "status", Operator = "is", Value = "open" }], Any = [] },
+            Actions = [new Action() { Field = "group_id", Value = "20402842" }],
             Position = 6000
         };
 
@@ -93,12 +93,12 @@ public class TriggerTests : TestBase
         Assert.That(Api.Triggers.ReorderTriggers(ids), Is.True);
 
         res = Api.Triggers.GetActiveTriggers().Triggers;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res3.Trigger.Id.Value, Is.EqualTo(res[0].Id.Value));
 
             Assert.That(Api.Triggers.DeleteTrigger(res2.Trigger.Id.Value), Is.True);
             Assert.That(Api.Triggers.DeleteTrigger(res3.Trigger.Id.Value), Is.True);
-        });
+        }
     }
 }

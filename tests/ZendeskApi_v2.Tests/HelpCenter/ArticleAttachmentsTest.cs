@@ -35,13 +35,13 @@ public class ArticleAttachmentsTest : TestBase
         Assert.That(resp.Attachment, Is.Not.Null);
 
         var res = Api.HelpCenter.ArticleAttachments.GetAttachments(articleResponse.Article.Id);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Attachments, Is.Not.Null);
 
             Assert.That(Api.HelpCenter.ArticleAttachments.DeleteAttachment(resp.Attachment.Id), Is.True);
             Assert.That(Api.HelpCenter.Articles.DeleteArticle(articleResponse.Article.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -67,12 +67,12 @@ public class ArticleAttachmentsTest : TestBase
         Assert.That(resp.Attachment.Inline, Is.True);
 
         var res = await Api.HelpCenter.ArticleAttachments.GetAttachmentsAsync(articleResponse.Article.Id);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Attachments, Is.Not.Null);
 
             Assert.That(await Api.HelpCenter.ArticleAttachments.DeleteAttachmentAsync(resp.Attachment.Id), Is.True);
             Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(articleResponse.Article.Id.Value), Is.True);
-        });
+        }
     }
 }

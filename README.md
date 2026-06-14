@@ -7,6 +7,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/speedygeek/zendeskapi_v2/badge)](https://www.codefactor.io/repository/github/speedygeek/zendeskapi_v2)
 
 [![Build Status](https://dev.azure.com/speedygeek/Zendesk/_apis/build/status/Speedygeek.ZendeskApi_v2?branchName=main)](https://dev.azure.com/speedygeek/Zendesk/_build/latest?definitionId=15&branchName=main)
+[![CI and Release](https://github.com/Speedygeek/ZendeskApi_v2/actions/workflows/ci-release.yml/badge.svg?branch=main)](https://github.com/Speedygeek/ZendeskApi_v2/actions/workflows/ci-release.yml)
 
 | Prerelease  |  Stable |
 |---|---|
@@ -19,6 +20,10 @@ The client uses the Zendesk api however it is not supported by the zendesk for q
 about the client please feel to ask them in our [GitHub Discussions][discussions]
 
 If you have questions about your account or the api its self please contact the zendesk team at [api@zendesk.com](mailto:api@zendesk.com)
+
+## CI/CD Documentation
+
+CI/CD and signing documentation has moved to `docs/ci-cd.md`.
 
 ## Contributing
 

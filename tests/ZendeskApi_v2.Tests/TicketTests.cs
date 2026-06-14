@@ -47,11 +47,11 @@ public class TicketTests : TestBase
     {
         var tickets = Api.Tickets.GetAllTicketsAsync(sideLoadOptions: ticketSideLoadOptions);
         Assert.That(tickets.Result.Count, Is.GreaterThan(0));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Result.Users.Any(), Is.True);
             Assert.That(tickets.Result.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -80,11 +80,11 @@ public class TicketTests : TestBase
     {
         var tickets = Api.Tickets.GetAllTickets(sideLoadOptions: ticketSideLoadOptions);
         Assert.That(tickets.Count, Is.GreaterThan(0));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Users.Any(), Is.True);
             Assert.That(tickets.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -105,12 +105,12 @@ public class TicketTests : TestBase
                 .Where(x => x.Key == "page")
                     .Select(x => x.Value)
                     .FirstOrDefault();
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(nextPage, Is.Not.Null);
 
             Assert.That((page + 1).ToString(), Is.EqualTo(nextPage));
-        });
+        }
     }
 
     [Test]
@@ -118,11 +118,11 @@ public class TicketTests : TestBase
     {
         var id = Settings.SampleTicketId;
         var ticket = Api.Tickets.GetTicket(id).Ticket;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticket, Is.Not.Null);
             Assert.That(id, Is.EqualTo(ticket.Id));
-        });
+        }
     }
 
     [Test]
@@ -131,14 +131,14 @@ public class TicketTests : TestBase
         var id = Settings.SampleTicketId;
         var ticket = Api.Tickets.GetTicket(id, sideLoadOptions: ticketSideLoadOptions);
         Assert.That(ticket, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticket.Ticket, Is.Not.Null);
             Assert.That(id, Is.EqualTo(ticket.Ticket.Id));
             Assert.That(ticket.Users.Any(), Is.True);
             Assert.That(ticket.Organizations.Any(), Is.True);
             Assert.That(ticket.Ticket.Dates, Is.Not.Null);
-        });
+        }
     }
 
     [Test]
@@ -154,12 +154,12 @@ public class TicketTests : TestBase
     {
         var id = Organization.ID;
         var ticketsRes = Api.Tickets.GetTicketsByOrganizationID(id, 2, 3);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketsRes.PageSize, Is.EqualTo(3));
             Assert.That(ticketsRes.Tickets, Has.Count.EqualTo(3));
             Assert.That(ticketsRes.Count, Is.GreaterThan(0));
-        });
+        }
         var nextPage = ticketsRes.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
                     .Select(x => x.Value)
@@ -174,12 +174,12 @@ public class TicketTests : TestBase
     public void CanGetTicketsByViewIdPaged()
     {
         var ticketsRes = Api.Tickets.GetTicketsByViewID(Settings.ViewId, 10, 2);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketsRes.PageSize, Is.EqualTo(10));
             Assert.That(ticketsRes.Tickets, Has.Count.EqualTo(10));
             Assert.That(ticketsRes.Count, Is.GreaterThan(0));
-        });
+        }
         var nextPage = ticketsRes.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
                     .Select(x => x.Value)
@@ -204,23 +204,23 @@ public class TicketTests : TestBase
     public async Task CanTicketsByUserIdPagedAsyncWithSideLoad()
     {
         var ticketsRes = await Api.Tickets.GetTicketsByUserIDAsync(Admin.ID, 50, 2, sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketsRes.Users.Any(), Is.True);
             Assert.That(ticketsRes.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
     public void CanAssignedTicketsByUserIdPaged()
     {
         var ticketsRes = Api.Tickets.GetAssignedTicketsByUserID(Admin.ID, 5, 2);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketsRes.PageSize, Is.EqualTo(5));
             Assert.That(ticketsRes.Tickets, Has.Count.EqualTo(5));
             Assert.That(ticketsRes.Count, Is.GreaterThan(0));
-        });
+        }
         var nextPage = ticketsRes.NextPage.GetQueryStringDict()
                 .Where(x => x.Key == "page")
                     .Select(x => x.Value)
@@ -235,11 +235,11 @@ public class TicketTests : TestBase
     public void CanAssignedTicketsByUserIdPagedAsyncWithSideLoad()
     {
         var ticketsRes = Api.Tickets.GetAssignedTicketsByUserIDAsync(Admin.ID, 5, 2, sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketsRes.Result.Users.Any(), Is.True);
             Assert.That(ticketsRes.Result.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -247,11 +247,11 @@ public class TicketTests : TestBase
     {
         var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
         var tickets = Api.Tickets.GetMultipleTickets(ids);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets, Is.Not.Null);
             Assert.That(ids, Has.Count.EqualTo(tickets.Count));
-        });
+        }
     }
 
     [Test]
@@ -259,11 +259,11 @@ public class TicketTests : TestBase
     {
         var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
         var tickets = await Api.Tickets.GetMultipleTicketsAsync(ids);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets, Is.Not.Null);
             Assert.That(ids, Has.Count.EqualTo(tickets.Count));
-        });
+        }
     }
 
     [Test]
@@ -271,16 +271,16 @@ public class TicketTests : TestBase
     {
         var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
         var tickets = Api.Tickets.GetMultipleTickets(ids, sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets, Is.Not.Null);
             Assert.That(ids, Has.Count.EqualTo(tickets.Count));
-        });
-        Assert.Multiple(() =>
+        }
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Users.Any(), Is.True);
             Assert.That(tickets.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -288,16 +288,16 @@ public class TicketTests : TestBase
     {
         var ids = new List<long>() { Settings.SampleTicketId, Settings.SampleTicketId2 };
         var tickets = await Api.Tickets.GetMultipleTicketsAsync(ids, sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets, Is.Not.Null);
             Assert.That(ids, Has.Count.EqualTo(tickets.Count));
-        });
-        Assert.Multiple(() =>
+        }
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Users.Any(), Is.True);
             Assert.That(tickets.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -305,11 +305,11 @@ public class TicketTests : TestBase
     {
         var ids = new List<long>() { Settings.SampleTicketId };
         var tickets = Api.Tickets.GetMultipleTickets(ids);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets, Is.Not.Null);
             Assert.That(ids, Has.Count.EqualTo(tickets.Count));
-        });
+        }
     }
 
     [Test]
@@ -317,11 +317,11 @@ public class TicketTests : TestBase
     {
         var ids = new List<long>() { Settings.SampleTicketId };
         var tickets = await Api.Tickets.GetMultipleTicketsAsync(ids);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets, Is.Not.Null);
             Assert.That(ids, Has.Count.EqualTo(tickets.Count));
-        });
+        }
     }
 
     [Test]
@@ -332,8 +332,8 @@ public class TicketTests : TestBase
             Subject = "my printer is on fire",
             Comment = new Comment() { Body = "HELP" },
             Priority = TicketPriorities.Urgent,
-            CustomFields = new List<CustomField>()
-            {
+            CustomFields =
+            [
                 new CustomField()
                     {
                         Id = Settings.CustomFieldId,
@@ -344,19 +344,19 @@ public class TicketTests : TestBase
                         Id = Settings.CustomBoolFieldId,
                         Value = true
                     }
-            }
+            ]
         };
 
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
-        Assert.That(res.CustomFields.Where(f => f.Id == Settings.CustomBoolFieldId).FirstOrDefault().Value, Is.EqualTo(ticket.CustomFields[1].Value));
+        Assert.That(res.CustomFields.FirstOrDefault(f => f.Id == Settings.CustomBoolFieldId).Value, Is.EqualTo(ticket.CustomFields[1].Value));
 
         var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { Body = "Just trying to update it!", Public = true });
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updateResponse.Ticket.CustomFields[1].Value, Is.EqualTo(ticket.CustomFields[1].Value));
 
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -367,25 +367,25 @@ public class TicketTests : TestBase
             Subject = "my printer is on fire",
             Comment = new Comment() { Body = "HELP" },
             Priority = TicketPriorities.Urgent,
-            CustomFields = new List<CustomField>()
-            {
+            CustomFields =
+            [
                 new CustomField()
                     {
                         Id = Settings.CustomFieldId,
                         Value = "testing"
                     }
-            }
+            ]
         };
 
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
         Assert.That(res, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Id, Is.GreaterThan(0));
 
             Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
-        });
+        }
         res.Status = TicketStatus.Solved;
         res.AssigneeId = Admin.ID;
 
@@ -394,14 +394,14 @@ public class TicketTests : TestBase
 
         res.CustomFields[0].Value = "updated";
 
-        var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { Body = body, Public = true, Uploads = new List<string>() });
-        Assert.Multiple(() =>
+        var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { Body = body, Public = true, Uploads = [] });
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updateResponse, Is.Not.Null);
             Assert.That(updateResponse.Ticket.CollaboratorIds, Is.Not.Empty);
             Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -412,26 +412,26 @@ public class TicketTests : TestBase
             Subject = "my printer is on fire",
             Comment = new Comment() { Body = "HELP" },
             Priority = TicketPriorities.Urgent,
-            CustomFields = new List<CustomField>()
-            {
+            CustomFields =
+            [
                 new CustomField()
                     {
                         Id = Settings.CustomFieldId,
                         Value = "testing"
                     }
-            }
+            ]
         };
 
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
         Assert.That(res, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Id, Is.GreaterThan(0));
             Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
             Assert.That(Api.Tickets.DeleteTicketPermanently(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -442,24 +442,24 @@ public class TicketTests : TestBase
             Subject = "my printer is on fire",
             Comment = new Comment() { HtmlBody = "HELP</br>HELP On a New line." },
             Priority = TicketPriorities.Urgent,
-            CustomFields = new List<CustomField>()
-            {
+            CustomFields =
+            [
                 new CustomField()
                     {
                         Id = Settings.CustomFieldId,
                         Value = "testing"
                     }
-            }
+            ]
         };
 
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Id, Is.GreaterThan(0));
             Assert.That(res.UpdatedAt, Is.EqualTo(res.CreatedAt));
-        });
+        }
 
         res.Status = TicketStatus.Solved;
         res.AssigneeId = Admin.ID;
@@ -469,15 +469,15 @@ public class TicketTests : TestBase
 
         res.CustomFields[0].Value = "updated";
 
-        var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { HtmlBody = htmlBody, Public = true, Uploads = new List<string>() });
+        var updateResponse = Api.Tickets.UpdateTicket(res, new Comment() { HtmlBody = htmlBody, Public = true, Uploads = [] });
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updateResponse, Is.Not.Null);
             Assert.That(updateResponse.Ticket.CollaboratorIds, Is.Not.Empty);
             Assert.That(updateResponse.Ticket.UpdatedAt, Is.GreaterThanOrEqualTo(updateResponse.Ticket.CreatedAt));
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -498,11 +498,11 @@ public class TicketTests : TestBase
     public void CanGetTicketCommentsWithSideLoading()
     {
         var comments = Api.Tickets.GetTicketComments(2, sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(comments.Users, Is.Not.Empty);
             Assert.That(comments.Organizations, Is.Null);
-        });
+        }
     }
 
     [Test]
@@ -511,12 +511,12 @@ public class TicketTests : TestBase
         const int perPage = 5;
         const int page = 2;
         var commentsRes = Api.Tickets.GetTicketComments(2, perPage, page);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(commentsRes.Comments, Has.Count.EqualTo(perPage));
             Assert.That(commentsRes.PageSize, Is.EqualTo(perPage));
             Assert.That(commentsRes.Page, Is.EqualTo(page));
-        });
+        }
         Assert.That(commentsRes.Comments[1].Body, Is.Not.Empty);
 
         var nextPageValue = commentsRes.NextPage.GetQueryStringDict()
@@ -536,11 +536,11 @@ public class TicketTests : TestBase
         const int page = 1;
         var commentsRes = Api.Tickets.GetTicketComments(2, perPage, page);
         var commentsRes2 = Api.Tickets.GetTicketComments(2, false, perPage, page);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(commentsRes.Comments[0].CreatedAt, Is.EqualTo(new DateTimeOffset(2012, 10, 30, 13, 35, 11, TimeSpan.Zero)));
             Assert.That(commentsRes2.Comments[0].CreatedAt, Is.EqualTo(new DateTimeOffset(2014, 01, 24, 03, 29, 30, TimeSpan.Zero)));
-        });
+        }
     }
 
     [Test]
@@ -557,12 +557,12 @@ public class TicketTests : TestBase
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
         Assert.That(res, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.RequesterId, Is.EqualTo(Settings.CollaboratorId));
 
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -580,12 +580,12 @@ public class TicketTests : TestBase
 
         Assert.That(res, Is.Not.Null);
         Assert.That(res.Ticket, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Ticket.RequesterId, Is.EqualTo(Settings.CollaboratorId));
 
             Assert.That(Api.Tickets.Delete(res.Ticket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -606,12 +606,12 @@ public class TicketTests : TestBase
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
         Assert.That(res, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.DueAt, Is.EqualTo(dueAt));
 
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -628,12 +628,12 @@ public class TicketTests : TestBase
         var res = Api.Tickets.CreateTicket(ticket).Ticket;
 
         Assert.That(res, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketFormId, Is.EqualTo(Settings.TicketFormId));
 
             Assert.That(Api.Tickets.Delete(res.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -652,11 +652,11 @@ public class TicketTests : TestBase
             Priority = TicketPriorities.Normal
         }).Ticket;
 
-        var res = Api.Tickets.BulkUpdate(new List<long>() { t1.Id.Value, t2.Id.Value }, new BulkUpdate()
+        var res = Api.Tickets.BulkUpdate([t1.Id.Value, t2.Id.Value], new BulkUpdate()
         {
             Status = TicketStatus.Solved,
             Comment = new Comment() { Public = true, Body = "check your email" },
-            CollaboratorEmails = new List<string>() { Settings.ColloboratorEmail },
+            CollaboratorEmails = [Settings.ColloboratorEmail],
             AssigneeId = Admin.ID
         });
 
@@ -664,12 +664,12 @@ public class TicketTests : TestBase
 
         //also test JobStatuses while we have a job here
         var job = Api.JobStatuses.GetJobStatus(res.JobStatus.Id);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.JobStatus.Id, Is.EqualTo(job.JobStatus.Id));
 
-            Assert.That(Api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }), Is.True);
-        });
+            Assert.That(Api.Tickets.DeleteMultiple([t1.Id.Value, t2.Id.Value]), Is.True);
+        }
     }
 
     [Test]
@@ -690,17 +690,17 @@ public class TicketTests : TestBase
             {
                 Body = "comments are required for attachments",
                 Public = true,
-                Uploads = new List<string>() { res.Token }
+                Uploads = [res.Token]
             },
         };
 
         var t1 = await Api.Tickets.CreateTicketAsync(ticket);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(t1.Audit.Events.First().Attachments, Has.Count.EqualTo(1));
 
             Assert.That(await Api.Tickets.DeleteAsync(t1.Ticket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -723,17 +723,17 @@ public class TicketTests : TestBase
             {
                 Body = "comments are required for attachments",
                 Public = true,
-                Uploads = new List<string>() { res.Token }
+                Uploads = [res.Token]
             },
         };
 
         var t1 = Api.Tickets.CreateTicket(ticket);
         Assert.That(t1.Audit.Events.First().Attachments, Has.Count.EqualTo(1));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(Api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
             Assert.That(Api.Attachments.DeleteUpload(res));
-        });
+        }
     }
 
     [Test]
@@ -764,12 +764,12 @@ public class TicketTests : TestBase
         }).Ticket;
 
         var res = Api.Tickets.GetIncidents(t1.Id.Value);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Tickets, Is.Not.Empty);
 
-            Assert.That(Api.Tickets.DeleteMultiple(new List<long>() { t1.Id.Value, t2.Id.Value }), Is.True);
-        });
+            Assert.That(Api.Tickets.DeleteMultiple([t1.Id.Value, t2.Id.Value]), Is.True);
+        }
     }
 
     [Test]
@@ -784,72 +784,13 @@ public class TicketTests : TestBase
         }).Ticket;
 
         var res = Api.Tickets.GetProblems();
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Tickets, Is.Not.Empty);
 
             Assert.That(Api.Tickets.Delete(t1.Id.Value), Is.True);
-        });
+        }
     }
-
-    //[Test]
-    //public void CanGetIncrementalTicketExportPaged()
-    //{
-    //    Thread.Sleep(60000);
-    //    const int maxTicketsPerPage = 1000;
-
-    //    var res = Api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-365));
-
-    //    Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
-    //    Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
-    //}
-
-    //[Test]
-    //public void CanGetIncrementalTicketExportWithUsersSideLoadPaged()
-    //{
-    //    Thread.Sleep(60000);
-    //    const int maxTicketsPerPage = 1000;
-
-    //    GroupTicketExportResponse res = Api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-365), TicketSideLoadOptionsEnum.Users);
-
-    //    Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
-    //    Assert.IsTrue(res.Users.Count > 0);
-    //    Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
-
-    //    res = Api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
-
-    //    Assert.IsTrue(res.Tickets.Count > 0);
-    //    Assert.IsTrue(res.Users.Count > 0);
-    //}
-
-    //[Test]
-    //public void CanGetIncrementalTicketExportWithGroupsSideLoadPaged()
-    //{
-    //    Thread.Sleep(60000);
-
-    //    const int maxTicketsPerPage = 1000;
-
-    //    var res = Api.Tickets.GetIncrementalTicketExport(DateTime.Now.AddDays(-700), TicketSideLoadOptionsEnum.Groups);
-
-    //    Assert.AreEqual(maxTicketsPerPage, res.Tickets.Count);
-    //    Assert.IsTrue(res.Groups.Count > 0);
-    //    Assert.That(res.NextPage, Is.Not.Null.Or.Empty);
-
-    //    res = Api.Tickets.GetIncrementalTicketExportNextPage(res.NextPage);
-
-    //    Assert.IsTrue(res.Tickets.Count > 0);
-    //    Assert.IsTrue(res.Groups.Count > 0);
-    //}
-
-    //[Test]
-    //public async Task CanGetIncrementalTicketExportAsyncWithSideLoadOptions()
-    //{
-    //    await Task.Delay(60000);
-    //    var res = await Api.Tickets.GetIncrementalTicketExportAsync(DateTime.Now.AddDays(-31), TicketSideLoadOptionsEnum.Users);
-
-    //    Assert.That(res.Count, Is.GreaterThan(0));
-    //    Assert.That(res.Users, Is.Not.Null);
-    //}
 
     [Test]
     public void CanGetTicketFields()
@@ -863,11 +804,11 @@ public class TicketTests : TestBase
     {
         var id = Settings.CustomFieldId;
         var ticketField = Api.Tickets.GetTicketFieldById(id).TicketField;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketField, Is.Not.Null);
             Assert.That(id, Is.EqualTo(ticketField.Id));
-        });
+        }
     }
 
     [Test]
@@ -875,11 +816,11 @@ public class TicketTests : TestBase
     {
         var id = Settings.CustomFieldId;
         var ticketField = Api.Tickets.GetTicketFieldByIdAsync(id).Result.TicketField;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticketField, Is.Not.Null);
             Assert.That(id, Is.EqualTo(ticketField.Id));
-        });
+        }
     }
 
     [Test]
@@ -898,12 +839,12 @@ public class TicketTests : TestBase
         updatedTF.Title = "My Custom Field";
 
         var updatedRes = Api.Tickets.UpdateTicketField(updatedTF);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updatedTF.Title, Is.EqualTo(updatedRes.TicketField.Title));
 
             Assert.That(Api.Tickets.DeleteTicketField(updatedTF.Id.Value), Is.True);
-        });
+        }
     }
 
     [TestCase(true, "test entry", "test_entry")]
@@ -916,7 +857,7 @@ public class TicketTests : TestBase
             Title = "My Tagger",
             Description = "test description",
             TitleInPortal = "Test Tagger",
-            CustomFieldOptions = new List<CustomFieldOptions>()
+            CustomFieldOptions = []
         };
 
         tField.CustomFieldOptions.Add(new CustomFieldOptions()
@@ -926,13 +867,13 @@ public class TicketTests : TestBase
         });
 
         var res = Api.Tickets.CreateTicketField(tField, replaceNameSpaceWithUnderscore);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketField, Is.Not.Null);
             Assert.That(expectedName, Is.EqualTo(res.TicketField.CustomFieldOptions[0].Name));
 
             Assert.That(Api.Tickets.DeleteTicketField(res.TicketField.Id.Value), Is.True);
-        });
+        }
     }
 
     [TestCase(true, "test entryA", "test entryA newTitle", "test entryB", "test entryC", "test_entryA", "test_entryA_newTitle", "test_entryB", "test_entryC")]
@@ -953,7 +894,7 @@ public class TicketTests : TestBase
             Title = "My Tagger 2",
             Description = "test description",
             TitleInPortal = "Test Tagger",
-            CustomFieldOptions = new List<CustomFieldOptions>()
+            CustomFieldOptions = []
         };
 
         tField.CustomFieldOptions.Add(new CustomFieldOptions()
@@ -970,24 +911,24 @@ public class TicketTests : TestBase
 
         var res = Api.Tickets.CreateTicketField(tField, replaceNameSpaceWithUnderscore);
         Assert.That(res.TicketField, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketField.Id, Is.Not.Null);
             Assert.That(res.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
-        });
+        }
         Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
             Assert.That(res.TicketField.CustomFieldOptions[0].Name, Is.EqualTo(expectedName1));
             Assert.That(res.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName2));
-        });
+        }
         var id = res.TicketField.Id.Value;
 
         var tFieldU = new TicketField()
         {
             Id = id,
-            CustomFieldOptions = new List<CustomFieldOptions>()
+            CustomFieldOptions = []
         };
 
         //update CustomFieldOption A
@@ -1007,7 +948,7 @@ public class TicketTests : TestBase
         var resU = Api.Tickets.UpdateTicketField(tFieldU, replaceNameSpaceWithUnderscore);
 
         Assert.That(resU.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update.Replace(" ", "_")));
             Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option3));
@@ -1015,7 +956,7 @@ public class TicketTests : TestBase
             Assert.That(resU.TicketField.CustomFieldOptions[1].Name, Is.EqualTo(expectedName3));
 
             Assert.That(Api.Tickets.DeleteTicketField(id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1060,12 +1001,12 @@ public class TicketTests : TestBase
         res.TicketForm.Active = false;
 
         var update = Api.Tickets.UpdateTicketForm(res.TicketForm);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketForm.Name, Is.EqualTo(update.TicketForm.Name));
 
             Assert.That(Api.Tickets.DeleteTicketForm(res.TicketForm.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1090,11 +1031,11 @@ public class TicketTests : TestBase
     {
         var id = Settings.SampleTicketId;
         var metric = Api.Tickets.GetTicketMetricsForTicket(id).TicketMetric;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(metric, Is.Not.Null);
             Assert.That(id, Is.EqualTo(metric.TicketId));
-        });
+        }
     }
 
     [Test]
@@ -1102,11 +1043,11 @@ public class TicketTests : TestBase
     {
         var id = Settings.SampleTicketId;
         var metric = Api.Tickets.GetTicketMetricsForTicketAsync(id).Result.TicketMetric;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(metric, Is.Not.Null);
             Assert.That(id, Is.EqualTo(metric.TicketId));
-        });
+        }
     }
 
     [Test]
@@ -1114,11 +1055,11 @@ public class TicketTests : TestBase
     {
         var tickets =
             Api.Tickets.GetAllTickets(sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Users.Any(), Is.True);
             Assert.That(tickets.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1126,12 +1067,12 @@ public class TicketTests : TestBase
     {
         var tickets =
             Api.Tickets.GetAllTicketsAsync(sideLoadOptions: ticketSideLoadOptions);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Result.Users.Any(), Is.True);
             Assert.That(tickets.Result.Organizations.Any(), Is.True);
             Assert.That(tickets.Result.Tickets, Has.Count.EqualTo(tickets.Result.Tickets.Where(t => t.CommentCount.HasValue).Count()));
-        });
+        }
     }
 
     [Test]
@@ -1140,11 +1081,11 @@ public class TicketTests : TestBase
         var id = Organization.ID;
         var tickets = Api.Tickets.GetTicketsByOrganizationIDAsync(id, sideLoadOptions: ticketSideLoadOptions);
         Assert.That(tickets.Result.Count, Is.GreaterThan(0));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Result.Users.Any(), Is.True);
             Assert.That(tickets.Result.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1153,11 +1094,11 @@ public class TicketTests : TestBase
         var id = Organization.ID;
         var tickets = Api.Tickets.GetTicketsByOrganizationID(id, sideLoadOptions: ticketSideLoadOptions);
         Assert.That(tickets.Count, Is.GreaterThan(0));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(tickets.Users.Any(), Is.True);
             Assert.That(tickets.Organizations.Any(), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1166,7 +1107,7 @@ public class TicketTests : TestBase
         var ticket = new TicketImport()
         {
             Subject = "my printer is on fire",
-            Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
+            Comments = [new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) }],
             Priority = TicketPriorities.Urgent,
             CreatedAt = DateTime.Now.AddDays(-5),
             UpdatedAt = DateTime.Now.AddDays(-4),
@@ -1179,7 +1120,7 @@ public class TicketTests : TestBase
         var res = Api.Tickets.ImportTicket(ticket).Ticket;
 
         Assert.That(res, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Id.HasValue, Is.True);
             Assert.That(res.Id.Value, Is.GreaterThan(0));
@@ -1187,7 +1128,7 @@ public class TicketTests : TestBase
             Assert.That(res.UpdatedAt.Value.LocalDateTime, Is.GreaterThan(res.CreatedAt.Value.LocalDateTime));
             Assert.That(res.Status, Is.EqualTo(TicketStatus.Solved));
             Assert.That(res.Description, Is.EqualTo("test description"));
-        });
+        }
         var resComments = Api.Tickets.GetTicketComments(res.Id.Value);
         Assert.That(resComments, Is.Not.Null);
         Assert.That(resComments.Count, Is.EqualTo(3));
@@ -1201,7 +1142,7 @@ public class TicketTests : TestBase
         var ticket = new TicketImport()
         {
             Subject = "my printer is on fire",
-            Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) } },
+            Comments = [new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 1", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-2) }, new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 2", Public = false, CreatedAt = DateTime.UtcNow.AddDays(-3) }],
             Priority = TicketPriorities.Urgent,
             CreatedAt = DateTime.Now.AddDays(-5),
             UpdatedAt = DateTime.Now.AddDays(-4),
@@ -1214,14 +1155,14 @@ public class TicketTests : TestBase
         var res = Api.Tickets.ImportTicketAsync(ticket);
 
         Assert.That(res.Result, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Result.Ticket.Id.Value, Is.GreaterThan(0));
             Assert.That(res.Result.Ticket.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-4)));
             Assert.That(res.Result.Ticket.UpdatedAt.Value.LocalDateTime, Is.GreaterThan(res.Result.Ticket.CreatedAt.Value.LocalDateTime));
             Assert.That(res.Result.Ticket.Status, Is.EqualTo(TicketStatus.Solved));
             Assert.That(res.Result.Ticket.Description, Is.EqualTo("test description"));
-        });
+        }
         var resComments = Api.Tickets.GetTicketComments(res.Result.Ticket.Id.Value);
         Assert.That(resComments, Is.Not.Null);
         Assert.That(resComments.Count, Is.EqualTo(3));
@@ -1261,7 +1202,7 @@ public class TicketTests : TestBase
         var targetTicketId = tick.Ticket.Id.Value;
 
         var targetMergeComment =
-            $"Merged with ticket(s) {string.Join(", ", mergeIds.Select(m => $"#{m}").ToArray())}";
+            $"Merged with ticket(s) {string.Join(", ", [.. mergeIds.Select(m => $"#{m}")])}";
         var sourceMergeComment = $"Closing in favor of #{targetTicketId}";
 
         var res = Api.Tickets.MergeTickets(
@@ -1287,18 +1228,18 @@ public class TicketTests : TestBase
         foreach (var id in mergeIds)
         {
             var oldTicket = Api.Tickets.GetTicket(id);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
                 Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
-            });
+            }
             var oldComments = Api.Tickets.GetTicketComments(id);
             Assert.That(oldComments.Comments, Has.Count.EqualTo(2));
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
                 Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
-            });
+            }
             Api.Tickets.DeleteAsync(id);
             counter++;
         }
@@ -1308,11 +1249,11 @@ public class TicketTests : TestBase
 
         var comments = Api.Tickets.GetTicketComments(targetTicketId);
         Assert.That(comments.Comments, Has.Count.EqualTo(2));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
             Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
-        });
+        }
         Api.Tickets.DeleteAsync(targetTicketId);
     }
 
@@ -1348,7 +1289,7 @@ public class TicketTests : TestBase
         var targetTicketId = tick.Ticket.Id.Value;
 
         var targetMergeComment =
-            $"Merged with ticket(s) {string.Join(", ", mergeIds.Select(m => $"#{m}").ToArray())}";
+            $"Merged with ticket(s) {string.Join(", ", [.. mergeIds.Select(m => $"#{m}")])}";
         var sourceMergeComment = $"Closing in favor of #{targetTicketId}";
 
         var res = await Api.Tickets.MergeTicketsAsync(
@@ -1372,18 +1313,18 @@ public class TicketTests : TestBase
         foreach (var id in mergeIds)
         {
             var oldTicket = await Api.Tickets.GetTicketAsync(id);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(oldTicket.Ticket.Id.Value, Is.EqualTo(id));
                 Assert.That(oldTicket.Ticket.Status, Is.EqualTo("closed"));
-            });
+            }
             var oldComments = await Api.Tickets.GetTicketCommentsAsync(id);
             Assert.That(oldComments.Comments, Has.Count.EqualTo(2));
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(oldComments.Comments[0].Body, Is.EqualTo(sourceDescription[counter]));
                 Assert.That(oldComments.Comments[1].Body, Is.EqualTo(sourceMergeComment));
-            });
+            }
             await Api.Tickets.DeleteAsync(id);
             counter++;
         }
@@ -1393,11 +1334,11 @@ public class TicketTests : TestBase
 
         var comments = await Api.Tickets.GetTicketCommentsAsync(targetTicketId);
         Assert.That(comments.Comments, Has.Count.EqualTo(2));
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(comments.Comments[0].Body, Is.EqualTo(targetDescription));
             Assert.That(comments.Comments[1].Body, Is.EqualTo(targetMergeComment));
-        });
+        }
         await Api.Tickets.DeleteAsync(targetTicketId);
     }
 
@@ -1411,7 +1352,7 @@ public class TicketTests : TestBase
             var ticket = new TicketImport()
             {
                 Subject = "my printer is on fire",
-                Comments = new List<TicketImportComment> { new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 1", CreatedAt = DateTime.UtcNow.AddDays(-2), Public = false }, new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 2", CreatedAt = DateTime.UtcNow.AddDays(-3), Public = false } },
+                Comments = [new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 1", CreatedAt = DateTime.UtcNow.AddDays(-2), Public = false }, new TicketImportComment { AuthorId = Admin.ID, Value = "HELP comment created in Import 2", CreatedAt = DateTime.UtcNow.AddDays(-3), Public = false }],
                 Priority = TicketPriorities.Urgent,
                 CreatedAt = DateTime.Now.AddDays(-5),
                 UpdatedAt = DateTime.Now.AddDays(-4),
@@ -1431,7 +1372,7 @@ public class TicketTests : TestBase
         Assert.That(res.JobStatus.Id, Is.EqualTo(job.JobStatus.Id));
 
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             Thread.Sleep(1000);
             job = Api.JobStatuses.GetJobStatus(res.JobStatus.Id);
@@ -1449,11 +1390,11 @@ public class TicketTests : TestBase
             Assert.That(resComments.Count, Is.EqualTo(3));
             foreach (var c in resComments.Comments)
             {
-                Assert.Multiple(() =>
+                using (Assert.EnterMultipleScope())
                 {
                     Assert.That(c.CreatedAt.HasValue, Is.True);
                     Assert.That(c.CreatedAt.Value.LocalDateTime, Is.LessThan(DateTime.Now.AddDays(-1)));
-                });
+                }
             }
 
             Api.Tickets.DeleteAsync(r.Id);
@@ -1491,14 +1432,14 @@ public class TicketTests : TestBase
             Subject = "my printer is on fire",
             Comment = new Comment() { Body = initCommentBody },
             Priority = TicketPriorities.Urgent,
-            CustomFields = new List<CustomField>()
-            {
+            CustomFields =
+            [
                 new CustomField()
                     {
                         Id = Settings.CustomFieldId,
                         Value = "testing"
                     }
-            }
+            ]
         };
 
         var resp = await Api.Tickets.CreateTicketAsync(ticket);
@@ -1514,11 +1455,11 @@ public class TicketTests : TestBase
         var resp4 = await Api.Tickets.GetTicketCommentsAsync(newTicket.Id.Value, false);
 
         Assert.That(resp3.Comments.Any(c => c.Via?.Channel != "api"), Is.False);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp3.Comments[0].Body, Is.EqualTo(initCommentBody));
             Assert.That(resp4.Comments[0].Body, Is.EqualTo(secondCommentBody));
-        });
+        }
 
         // clean up
         await Api.Tickets.DeleteAsync(newTicket.Id.Value);
@@ -1533,8 +1474,8 @@ public class TicketTests : TestBase
             Title = "My Tagger 2",
             Description = "test description",
             TitleInPortal = "Test Tagger",
-            CustomFieldOptions = new List<CustomFieldOptions>
-            {
+            CustomFieldOptions =
+            [
                 new CustomFieldOptions
                 {
                     Name = "test entryA",
@@ -1545,16 +1486,16 @@ public class TicketTests : TestBase
                     Name = "test entryB",
                     Value = "test3"
                 }
-            }
+            ]
         };
 
         var res = await Api.Tickets.CreateTicketFieldAsync(tField);
         Assert.That(res.TicketField, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketField.Id, Is.Not.Null);
             Assert.That(res.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
-        });
+        }
     }
 
     [Test]
@@ -1571,7 +1512,7 @@ public class TicketTests : TestBase
             Title = "My Tagger 2",
             Description = "test description",
             TitleInPortal = "Test Tagger",
-            CustomFieldOptions = new List<CustomFieldOptions>()
+            CustomFieldOptions = []
         };
 
         tField.CustomFieldOptions.Add(new CustomFieldOptions()
@@ -1588,22 +1529,22 @@ public class TicketTests : TestBase
 
         var res = await Api.Tickets.CreateTicketFieldAsync(tField);
         Assert.That(res.TicketField, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketField.Id, Is.Not.Null);
             Assert.That(res.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
-        });
-        Assert.Multiple(() =>
+        }
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1));
             Assert.That(res.TicketField.CustomFieldOptions[1].Value, Is.EqualTo(option2));
-        });
+        }
         var id = res.TicketField.Id.Value;
 
         var tFieldU = new TicketField()
         {
             Id = id,
-            CustomFieldOptions = new List<CustomFieldOptions>()
+            CustomFieldOptions = []
         };
 
         //update CustomFieldOption A
@@ -1623,13 +1564,13 @@ public class TicketTests : TestBase
         var resU = await Api.Tickets.UpdateTicketFieldAsync(tFieldU);
 
         Assert.That(resU.TicketField.CustomFieldOptions, Has.Count.EqualTo(2));
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resU.TicketField.CustomFieldOptions[0].Value, Is.EqualTo(option1_Update));
             Assert.That(resU.TicketField.CustomFieldOptions[1].Value, Is.Not.EqualTo(option2));
 
             Assert.That(await Api.Tickets.DeleteTicketFieldAsync(id), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1639,13 +1580,13 @@ public class TicketTests : TestBase
         var brand = respBrand.Brands[0];
         var ticket = new Ticket { Comment = new Comment { Body = "This is a Brand id Test", Public = false }, BrandId = brand.Id };
         var respTicket = await Api.Tickets.CreateTicketAsync(ticket);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(respTicket.Ticket.BrandId, Is.EqualTo(brand.Id));
 
             // clean up
             Assert.That(await Api.Tickets.DeleteAsync(respTicket.Ticket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1663,13 +1604,13 @@ public class TicketTests : TestBase
 
         ticket.Comment.Public = false;
         var resp2 = await Api.Tickets.CreateTicketAsync(ticket);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp2.Ticket.IsPublic, Is.False);
 
             Assert.That(await Api.Tickets.DeleteAsync(resp1.Ticket.Id.Value), Is.True);
             Assert.That(await Api.Tickets.DeleteAsync(resp2.Ticket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1702,13 +1643,13 @@ public class TicketTests : TestBase
         };
 
         var resp3 = await Api.Tickets.CreateTicketAsync(ticket_Followup);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(resp3.Ticket.Via.Source.Rel, Is.EqualTo("follow_up"));
 
             Assert.That(await Api.Tickets.DeleteAsync(resp3.Ticket.Id.Value), Is.True);
             Assert.That(await Api.Tickets.DeleteAsync(closedTicket.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -1728,7 +1669,7 @@ public class TicketTests : TestBase
         Assert.That(job.JobStatus.Id, Is.EqualTo(res.JobStatus.Id));
 
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             Thread.Sleep(1000);
             job = Api.JobStatuses.GetJobStatus(res.JobStatus.Id);
@@ -1762,7 +1703,7 @@ public class TicketTests : TestBase
         Assert.That(job.JobStatus.Id, Is.EqualTo(res.JobStatus.Id));
 
         var count = 0;
-        while (job.JobStatus.Status.ToLower() != "completed" && count < 10)
+        while (!job.JobStatus.Status.Equals("completed", StringComparison.CurrentCultureIgnoreCase) && count < 10)
         {
             await Task.Delay(1000);
             job = await Api.JobStatuses.GetJobStatusAsync(res.JobStatus.Id);
@@ -1792,7 +1733,7 @@ public class TicketTests : TestBase
     {
         var baseRes = await Api.Tickets.GetIncrementalTicketExportAsync(DateTime.MinValue);
 
-        Assert.That(baseRes.NextPage, Is.Not.Null.Or.Empty);
+        Assert.That(baseRes.NextPage, Is.Not.Null.And.Not.Empty);
 
         var res = await Api.Tickets.GetIncrementalTicketExportNextPageAsync(baseRes.NextPage);
 
@@ -1813,12 +1754,12 @@ public class TicketTests : TestBase
         var deleteRes = await Api.Tickets.DeleteAsync(res.Ticket.Id.Value);
         var deleteAsyncRes = await Api.Tickets.DeleteTicketPermanentlyAsync(res.Ticket.Id.Value);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Ticket, Is.Not.Null);
             Assert.That(deleteRes, Is.True);
             Assert.That(deleteAsyncRes, Is.True);
-        });
+        }
     }
 }

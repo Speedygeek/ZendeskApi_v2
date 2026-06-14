@@ -22,25 +22,20 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() =>
-        {
             var res = Api.Requests.GetAllRequests(perPage: perPage, page: page);
 
-            Assert.That(res, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
+                Assert.That(res, Is.Not.Null);
                 Assert.That(res.Requests, Is.Not.Null);
                 Assert.That(res.PageSize, Is.EqualTo(perPage));
                 Assert.That(res.Page, Is.EqualTo(page));
-            });
-        });
+            }
     }
 
     [Test]
     public void CanGetAllRequestsSorted()
     {
-        Assert.DoesNotThrow(() =>
-        {
             var unsorted = Api.Requests.GetAllRequests();
 
             Assert.That(unsorted, Is.Not.Null);
@@ -52,7 +47,6 @@ public class RequestTests : TestBase
             Assert.That(sorted, Is.Not.Null);
             Assert.That(sorted.Requests, Is.Not.Null);
             Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
-        });
     }
 
     [Test]
@@ -66,25 +60,20 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllOpenRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() =>
-        {
             var res = Api.Requests.GetAllOpenRequests(perPage: perPage, page: page);
 
             Assert.That(res, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(res.Requests, Is.Not.Null);
                 Assert.That(res.PageSize, Is.EqualTo(perPage));
                 Assert.That(res.Page, Is.EqualTo(page));
-            });
-        });
+            }
     }
 
     [Test]
     public void CanGetAllOpenRequestsSorted()
     {
-        Assert.DoesNotThrow(() =>
-        {
             var unsorted = Api.Requests.GetAllOpenRequests();
 
             Assert.That(unsorted, Is.Not.Null);
@@ -96,7 +85,6 @@ public class RequestTests : TestBase
             Assert.That(sorted, Is.Not.Null);
             Assert.That(sorted.Requests, Is.Not.Null);
             Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
-        });
     }
 
     [Test]
@@ -110,25 +98,20 @@ public class RequestTests : TestBase
     [TestCase(1, 2)]
     public void CanGetAllSolvedRequestsPaged(int perPage, int page)
     {
-        Assert.DoesNotThrow(() =>
-        {
             var res = Api.Requests.GetAllSolvedRequests(perPage: perPage, page: page);
 
-            Assert.That(res, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
+                Assert.That(res, Is.Not.Null);
                 Assert.That(res.Requests, Is.Not.Null);
                 Assert.That(res.PageSize, Is.EqualTo(perPage));
                 Assert.That(res.Page, Is.EqualTo(page));
-            });
-        });
+            }
     }
 
     [Test]
     public void CanGetAllSolvedRequestsSorted()
     {
-        Assert.DoesNotThrow(() =>
-        {
             var unsorted = Api.Requests.GetAllSolvedRequests();
 
             Assert.That(unsorted, Is.Not.Null);
@@ -140,7 +123,6 @@ public class RequestTests : TestBase
             Assert.That(sorted, Is.Not.Null);
             Assert.That(sorted.Requests, Is.Not.Null);
             Assert.That(sorted.Requests.AsQueryable(), Is.EqualTo(sorted.Requests.OrderBy(request => request.UpdatedAt).AsQueryable()));
-        });
     }
 
     [Test]
@@ -156,7 +138,7 @@ public class RequestTests : TestBase
             {
                 Name = "Test Name"
             },
-            Tags = new List<string> { "tag1", "tag2" }
+            Tags = ["tag1", "tag2"]
         };
 
         var res = Api.Requests.CreateRequest(req);
@@ -166,17 +148,17 @@ public class RequestTests : TestBase
         {
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Request, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(res.Request.Id.HasValue, Is.True);
                 Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
                 Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
-            });
+            }
             var user = Api.Users.GetUser(res.Request.RequesterId.Value);
             Assert.That(user.User.Name, Is.EqualTo("Test Name"));
 
             var ticket = Api.Tickets.GetTicket(res.Request.Id.Value);
-            CollectionAssert.AreEquivalent(new[] { "tag1", "tag2" }, ticket.Ticket.Tags);
+            Assert.That(ticket.Ticket.Tags, Is.EquivalentTo(["tag1", "tag2"]));
 
             var res1 = Api.Requests.GetRequestById(res.Request.Id.Value);
             Assert.That(res.Request.Id, Is.EqualTo(res1.Request.Id));
@@ -200,11 +182,11 @@ public class RequestTests : TestBase
             res1.Request.RequesterId = 56766413L;
             var res5 = Api.Requests.UpdateRequest(res1.Request);
             var res6 = Api.Requests.GetRequestById(res.Request.Id.Value);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(res6.Request.RequesterId, Is.EqualTo(res5.Request.RequesterId));
                 Assert.That(res3.Comments.Last().Id, Is.EqualTo(res4.Comment.Id));
-            });
+            }
         }
         finally
         {
@@ -231,7 +213,7 @@ public class RequestTests : TestBase
             {
                 Name = "Test Name"
             },
-            Tags = new List<string> { "tag1", "tag2" },
+            Tags = ["tag1", "tag2"],
             EmailCCs = emailCCs
         };
 
@@ -241,21 +223,21 @@ public class RequestTests : TestBase
         {
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Request, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(res.Request.Id.HasValue, Is.True);
                 Assert.That(res.Request.Id.Value, Is.GreaterThan(0));
                 Assert.That(res.Request.Type, Is.EqualTo(RequestType.Incident));
-            });
+            }
             var user = Api.Users.GetUser(res.Request.RequesterId.Value);
             Assert.That(user.User.Name, Is.EqualTo("Test Name"));
 
             var ticket = Api.Tickets.GetTicket(res.Request.Id.Value);
-            CollectionAssert.AreEquivalent(new[] { "tag1", "tag2" }, ticket.Ticket.Tags);
+            Assert.That(ticket.Ticket.Tags, Is.EquivalentTo(["tag1", "tag2"]));
 
             var collaboratorsIds = ticket.Ticket.CollaboratorIds;
             var collaborators = Api.Users.GetMultipleUsers(collaboratorsIds.AsEnumerable());
-            CollectionAssert.AreEquivalent(emailCCs.Select(e => e.UserEmail), collaborators.Users.Select(u => u.Email));
+            Assert.That(collaborators.Users.Select(u => u.Email), Is.EquivalentTo(emailCCs.Select(e => e.UserEmail)));
         }
         finally
         {

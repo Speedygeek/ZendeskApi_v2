@@ -87,7 +87,7 @@ public class OrganizationTests : TestBase
             Name = "Test Org2"
         });
 
-        var orgs = Api.Organizations.GetMultipleOrganizations(new[] { org.Organization.Id.Value, org2.Organization.Id.Value });
+        var orgs = Api.Organizations.GetMultipleOrganizations([org.Organization.Id.Value, org2.Organization.Id.Value]);
         Assert.That(orgs.Organizations, Has.Count.EqualTo(2));
     }
 
@@ -105,12 +105,12 @@ public class OrganizationTests : TestBase
             Name = "Test Org2 with externalId",
             ExternalId = "TestExternalId2"
         });
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(org.Organization.Id, Is.GreaterThan(0));
             Assert.That(org2.Organization.Id, Is.GreaterThan(0));
-        });
-        var orgs = Api.Organizations.GetMultipleOrganizationsByExternalIds(new[] { org.Organization.ExternalId, org2.Organization.ExternalId });
+        }
+        var orgs = Api.Organizations.GetMultipleOrganizationsByExternalIds([org.Organization.ExternalId, org2.Organization.ExternalId]);
 
         Assert.That(orgs.Organizations, Has.Count.EqualTo(2));
     }
@@ -127,12 +127,12 @@ public class OrganizationTests : TestBase
 
         res.Organization.Notes = "Here is a sample note";
         var update = Api.Organizations.UpdateOrganization(res.Organization);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Organization.Notes, Is.EqualTo(update.Organization.Notes));
 
             Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -147,19 +147,19 @@ public class OrganizationTests : TestBase
 
         res.Organization.Name = "Test Org (updated)";
         var update = Api.Organizations.CreateOrUpdateOrganization(res.Organization);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
             Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
             Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
     public void CanCreateMultipleOrganizations()
     {
-        var createJobStatus = Api.Organizations.CreateMultipleOrganizations(new[]
-        {
+        var createJobStatus = Api.Organizations.CreateMultipleOrganizations(
+        [
             new Organization
             {
                 Name = "Create Multiple Test Org 1"
@@ -168,7 +168,7 @@ public class OrganizationTests : TestBase
             {
                 Name = "Create Multiple Test Org 2"
             }
-        });
+        ]);
 
         Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
         JobStatusResponse job;
@@ -184,14 +184,14 @@ public class OrganizationTests : TestBase
         Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
         foreach (var result in job.JobStatus.Results)
-            Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(result.Id, Is.Not.Zero);
     }
 
     [Test]
     public async Task CanCreateMultipleOrganizationsAsync()
     {
-        var createJobStatus = await Api.Organizations.CreateMultipleOrganizationsAsync(new[]
-        {
+        var createJobStatus = await Api.Organizations.CreateMultipleOrganizationsAsync(
+        [
             new Organization
             {
                 Name = "Create Multiple Async Test Org 1"
@@ -200,7 +200,7 @@ public class OrganizationTests : TestBase
             {
                 Name = "Create Multiple Async Test Org 2"
             }
-        });
+        ]);
 
         Assert.That(createJobStatus.JobStatus.Status, Is.EqualTo("queued"));
         JobStatusResponse job;
@@ -216,7 +216,7 @@ public class OrganizationTests : TestBase
         Assert.That(job.JobStatus.Results, Has.Count.EqualTo(2));
 
         foreach (var result in job.JobStatus.Results)
-            Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(result.Id, Is.Not.Zero);
     }
 
     [Test]
@@ -231,12 +231,12 @@ public class OrganizationTests : TestBase
 
         res.Organization.Name = "Test Org (updated)";
         var update = await Api.Organizations.CreateOrUpdateOrganizationAsync(res.Organization);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update.Organization.Id, Is.EqualTo(res.Organization.Id));
             Assert.That(update.Organization.Name, Is.EqualTo(res.Organization.Name));
             Assert.That(Api.Organizations.DeleteOrganization(res.Organization.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -251,11 +251,11 @@ public class OrganizationTests : TestBase
         {
             Name = "Test Org 2"
         });
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Organization.Id, Is.GreaterThan(0));
             Assert.That(res2.Organization.Id, Is.GreaterThan(0));
-        });
+        }
         res1.Organization.Notes = "Here is a sample note 1";
         res2.Organization.Notes = "Here is a sample note 2";
 
@@ -276,11 +276,11 @@ public class OrganizationTests : TestBase
 
         var updatedOrganizationIds = new List<long> { res1.Organization.Id.Value, res2.Organization.Id.Value };
         var updatedOrganizations = Api.Organizations.GetMultipleOrganizations(updatedOrganizationIds);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
             Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res2.Organization.Id).Notes, Is.EqualTo(res2.Organization.Notes));
-        });
+        }
         Api.Organizations.DeleteOrganization(res1.Organization.Id.Value);
         Api.Organizations.DeleteOrganization(res2.Organization.Id.Value);
     }
@@ -368,7 +368,7 @@ public class OrganizationTests : TestBase
 
         foreach (var result in job.JobStatus.Results)
         {
-            Assert.That(result.Id, Is.Not.EqualTo(0));
+            Assert.That(result.Id, Is.Not.Zero);
         }
 
         var externalIds = orgs.Select(o => o.ExternalId).ToList();
@@ -405,13 +405,13 @@ public class OrganizationTests : TestBase
         var org_membership = new OrganizationMembership() { UserId = res.User.Id, OrganizationId = org.Organization.Id };
 
         var res2 = Api.Organizations.CreateOrganizationMembership(org_membership);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res2.OrganizationMembership.Id, Is.GreaterThan(0));
             Assert.That(Api.Organizations.DeleteOrganizationMembership(res2.OrganizationMembership.Id.Value), Is.True);
             Assert.That(Api.Users.DeleteUser(res.User.Id.Value), Is.True);
             Assert.That(Api.Organizations.DeleteOrganization(org.Organization.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -453,11 +453,11 @@ public class OrganizationTests : TestBase
         {
             Name = "Test Org 2 Async"
         });
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res1.Organization.Id, Is.GreaterThan(0));
             Assert.That(res2.Organization.Id, Is.GreaterThan(0));
-        });
+        }
         res1.Organization.Notes = "Here is a sample note 1";
         res2.Organization.Notes = "Here is a sample note 2";
 
@@ -478,11 +478,11 @@ public class OrganizationTests : TestBase
 
         var updatedOrganizationIds = new List<long> { res1.Organization.Id.Value, res2.Organization.Id.Value };
         var updatedOrganizations = await Api.Organizations.GetMultipleOrganizationsAsync(updatedOrganizationIds);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res1.Organization.Id).Notes, Is.EqualTo(res1.Organization.Notes));
             Assert.That(updatedOrganizations.Organizations.FirstOrDefault(o => o.Id == res2.Organization.Id).Notes, Is.EqualTo(res2.Organization.Notes));
-        });
+        }
         await Api.Organizations.DeleteOrganizationAsync(res1.Organization.Id.Value);
         await Api.Organizations.DeleteOrganizationAsync(res2.Organization.Id.Value);
     }

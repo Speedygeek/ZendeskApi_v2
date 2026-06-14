@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +44,7 @@ public class AttachmentTests : TestBase
             {
                 Body = "comments are required for attachments",
                 Public = true,
-                Uploads = new List<string>() { res.Token }
+                Uploads = [res.Token]
             },
         };
 
@@ -56,11 +55,11 @@ public class AttachmentTests : TestBase
         var file = await Api.Attachments.DownloadAttachmentAsync(test);
 
         Assert.That(file.FileData, Is.Not.Null);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(Api.Tickets.Delete(t1.Ticket.Id.Value), Is.True);
             Assert.That(Api.Attachments.DeleteUpload(res));
-        });
+        }
     }
 
     [Test]
@@ -84,7 +83,7 @@ public class AttachmentTests : TestBase
             {
                 Body = "comments are required for attachments",
                 Public = true,
-                Uploads = new List<string>() { res.Token }
+                Uploads = [res.Token]
             },
         };
 
@@ -95,13 +94,13 @@ public class AttachmentTests : TestBase
         var attach = comments.Comments[0].Attachments[0];
 
         var delRes = Api.Attachments.RedactCommentAttachment(attach.Id, t1.Ticket.Id.Value, comments.Comments[0].Id.Value);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             //Returned correct attachment
             Assert.That(delRes.Attachment.Id, Is.EqualTo(attach.Id));
 
             //Check the file has been replaced by redacted.txt
             Assert.That(Api.Tickets.GetTicketComments(t1.Ticket.Id.Value).Comments[0].Attachments[0].FileName, Is.EqualTo("redacted.txt"));
-        });
+        }
     }
 }

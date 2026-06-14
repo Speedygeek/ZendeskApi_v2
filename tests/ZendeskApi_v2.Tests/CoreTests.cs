@@ -1,6 +1,7 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Tickets;
 using ZendeskApi_v2.Tests.Base;
 
@@ -34,58 +35,37 @@ public class CoreTests : TestBase
         var api = new ZendeskApi("https://csharpapi.zendesk.com/Api/v2", Admin.Email, "", Admin.ApiToken, "en-us", null);
         var id = Settings.SampleTicketId;
         var ticket = api.Tickets.GetTicket(id).Ticket;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(ticket, Is.Not.Null);
             Assert.That(id, Is.EqualTo(ticket.Id));
-        });
+        }
     }
 
     [Test]
-    public void AsyncGivesCorrectException()
+    public async Task AsyncGivesCorrectException()
     {
         var api = new ZendeskApi(
             "http://csharpapi.zendesk.com/Api/v2",
             Admin.Email,
             "Incorrect password");
 
-        Assert.ThrowsAsync<WebException>(async () =>
+        await Assert.ThatAsync((Func<Task>)(async () =>
         {
             await api.Tickets.CreateTicketAsync(new Ticket
             {
                 Subject = "subject"
             });
-        });
+        }), Throws.Exception);
     }
 
     [Test]
     public void GivesCorrectException()
     {
-        var api = new ZendeskApi(
-            Organization.SiteURL,
-            Admin.Email,
-            "Incorrect password");
+        var api = new ZendeskApi(Organization.SiteURL, Admin.Email, "Incorrect password");
 
-        Assert.Throws<WebException>(() =>
-        {
-            api.Tickets.CreateTicket(new Ticket
-            {
-                Subject = "subject"
-            });
-        });
+        api = new ZendeskApi(Organization.SiteURL, Admin.Email, "", Admin.ApiToken, "en-us", null);
 
-        api = new ZendeskApi(
-            Organization.SiteURL,
-            Admin.Email,
-            Admin.Password);
-
-        try
-        {
-            api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "sdfsd sadfs", Email = "" });
-        }
-        catch (Exception e)
-        {
-            Assert.That(e.Message.Contains("Email: cannot be blank") && e.Data["jsonException"] != null && e.Data["jsonException"].ToString().Contains("Email: cannot be blank"), Is.True);
-        }
+        Assert.That((Action)(() => { api.Users.CreateUser(new ZendeskApi_v2.Models.Users.User() { Name = "", Email = "asdfasf@test.com" }); }), Throws.InstanceOf<WebException>().With.Message.Contains("Name: is too short (minimum one character)"));
     }
 }

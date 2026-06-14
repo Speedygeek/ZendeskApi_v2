@@ -46,58 +46,58 @@ public class ArticleTests : TestBase
     public void CanGetArticleSideloadedWith()
     {
         var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Users);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Articles, Is.Not.Empty);
             Assert.That(res.Categories, Is.Not.Empty);
             Assert.That(res.Sections, Is.Not.Empty);
             Assert.That(res.Users, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
     public void CanGetArticleSideloadedWithUsers()
     {
         var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Users);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Articles, Is.Not.Empty);
             Assert.That(res.Users, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
     public void CanGetArticleSideloadedWithSections()
     {
         var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Sections);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Articles, Is.Not.Empty);
             Assert.That(res.Sections, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
     public void CanGetArticleSideloadedWithCategories()
     {
         var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Categories);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Articles, Is.Not.Empty);
             Assert.That(res.Categories, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
     public void CanGetArticleSideloadedWithTranslations()
     {
         var res = Api.HelpCenter.Articles.GetArticles(ArticleSideLoadOptionsEnum.Categories | ArticleSideLoadOptionsEnum.Sections | ArticleSideLoadOptionsEnum.Users | ArticleSideLoadOptionsEnum.Translations);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Categories[0].Translations, Is.Not.Empty);
             Assert.That(res.Articles[0].Translations, Is.Not.Empty);
             Assert.That(res.Sections[0].Translations, Is.Not.Empty);
-        });
+        }
     }
 
     [Test]
@@ -157,14 +157,14 @@ public class ArticleTests : TestBase
         });
         Assert.That(res.Article.Id, Is.GreaterThan(0));
 
-        res.Article.LabelNames = new string[] { "updated" };
+        res.Article.LabelNames = ["updated"];
         var update = Api.HelpCenter.Articles.UpdateArticleAsync(res.Article).Result;
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(update.Article.LabelNames, Is.EqualTo(res.Article.LabelNames));
 
             Assert.That(Api.HelpCenter.Articles.DeleteArticle(res.Article.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -200,14 +200,14 @@ public class ArticleTests : TestBase
 
         Assert.That(res.Article.Id, Is.GreaterThan(0));
 
-        res.Article.LabelNames = new string[] { "photo", "tripod" };
+        res.Article.LabelNames = ["photo", "tripod"];
         var update = await Api.HelpCenter.Articles.UpdateArticleAsync(res.Article);
-        Assert.Multiple(async () =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Article.LabelNames, Is.EqualTo(update.Article.LabelNames));
 
             Assert.That(await Api.HelpCenter.Articles.DeleteArticleAsync(res.Article.Id.Value), Is.True);
-        });
+        }
     }
 
     [Test]
@@ -245,12 +245,12 @@ public class ArticleTests : TestBase
         var expectedArticle = response.Article;
         var searchRes = Api.HelpCenter.Articles.SearchArticlesFor("Test", createdBefore: DateTime.Now);
         var resultArticle = searchRes.Results.First(res => res.Id == _articleIdWithComments);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(expectedArticle.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.CreatedAt));
             Assert.That(expectedArticle.EditedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.EditedAt));
             Assert.That(expectedArticle.UpdatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"), Is.EqualTo(resultArticle.UpdatedAt));
-        });
+        }
     }
 
     [Test]
@@ -259,11 +259,11 @@ public class ArticleTests : TestBase
         var defaultDate = new DateTimeOffset();
 
         var res = Api.HelpCenter.Articles.GetArticle(_articleIdWithComments);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(res.Article.CreatedAt, Is.Not.EqualTo(defaultDate));
             Assert.That(res.Article.EditedAt, Is.Not.EqualTo(defaultDate));
             Assert.That(res.Article.UpdatedAt, Is.Not.EqualTo(defaultDate));
-        });
+        }
     }
 }

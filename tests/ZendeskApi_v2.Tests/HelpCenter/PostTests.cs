@@ -72,11 +72,11 @@ public class PostTests : TestBase
 
         res.Post.Details = updatedPostDetails;
         var updated = Api.HelpCenter.Posts.UpdatePost(res.Post);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updated?.Post, Is.Not.Null);
             Assert.That(updated.Post.Details, Is.EqualTo(updatedPostDetails));
-        });
+        }
     }
 
     [Test]
@@ -128,10 +128,10 @@ public class PostTests : TestBase
 
         res.Post.Details = updatedPostDetails;
         var updated = await Api.HelpCenter.Posts.UpdatePostAsync(res.Post);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(updated?.Post, Is.Not.Null);
             Assert.That(updated.Post.Details, Is.EqualTo(updatedPostDetails));
-        });
+        }
     }
 }
